@@ -30,7 +30,7 @@ public class FileTypeUtils {
      */
     @SneakyThrows
     public static String getMineType(byte[] data) {
-        return TIKA.detect(data);
+        return normalizeMimeType(TIKA.detect(data));
     }
 
     /**
@@ -40,7 +40,7 @@ public class FileTypeUtils {
      * @return mineType 无法识别时会返回“application/octet-stream”
      */
     public static String getMineType(String name) {
-        return TIKA.detect(name);
+        return normalizeMimeType(TIKA.detect(name));
     }
 
     /**
@@ -51,7 +51,13 @@ public class FileTypeUtils {
      * @return mineType 无法识别时会返回“application/octet-stream”
      */
     public static String getMineType(byte[] data, String name) {
-        return TIKA.detect(data, name);
+        return normalizeMimeType(TIKA.detect(data, name));
+    }
+
+    private static String normalizeMimeType(String mimeType) {
+        // Tika 2.x uses the legacy Markdown name; expose the registered MIME type
+        // consistently to upload validation and persisted file metadata.
+        return "text/x-web-markdown".equals(mimeType) ? "text/markdown" : mimeType;
     }
 
     /**
@@ -64,7 +70,8 @@ public class FileTypeUtils {
      */
     public static String getExtension(String mineType) {
         try {
-            return MimeTypes.getDefaultMimeTypes().forName(mineType).getExtension();
+            String tikaMimeType = "text/markdown".equals(mineType) ? "text/x-web-markdown" : mineType;
+            return MimeTypes.getDefaultMimeTypes().forName(tikaMimeType).getExtension();
         } catch (MimeTypeException e) {
             log.warn("[getExtension][获取文件后缀({}) 失败]", mineType, e);
             return null;
