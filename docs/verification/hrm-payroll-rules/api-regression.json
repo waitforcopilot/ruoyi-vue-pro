@@ -1,0 +1,138 @@
+[
+  {
+    "check": "anonymous query denied",
+    "result": "PASS"
+  },
+  {
+    "check": "ungranted identity denied",
+    "result": "PASS"
+  },
+  {
+    "check": "reader cannot initialize",
+    "result": "PASS"
+  },
+  {
+    "check": "fifteen PRD rule questions initialized as undecided",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent catalog initialization idempotent",
+    "result": "PASS"
+  },
+  {
+    "check": "initialization preserves business draft edits",
+    "result": "PASS"
+  },
+  {
+    "check": "reader cannot create",
+    "result": "PASS"
+  },
+  {
+    "check": "reserved question codes cannot be preempted",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent same code creation has one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "new rule version and revision allocated by server",
+    "result": "PASS"
+  },
+  {
+    "check": "editor cannot review",
+    "result": "PASS"
+  },
+  {
+    "check": "reviewer cannot edit",
+    "result": "PASS"
+  },
+  {
+    "check": "stale update and review rejected",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent same revision edits have one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "authorized reviewer confirms complete evidence",
+    "result": "PASS"
+  },
+  {
+    "check": "actor stamped by server and values normalized",
+    "result": "PASS"
+  },
+  {
+    "check": "effective dates use ISO strings",
+    "result": "PASS"
+  },
+  {
+    "check": "confirmed rule cannot be edited",
+    "result": "PASS"
+  },
+  {
+    "check": "new version retains inputs but no old confirmation",
+    "result": "PASS"
+  },
+  {
+    "check": "overlap with existing confirmed interval rejected",
+    "result": "PASS"
+  },
+  {
+    "check": "adjacent nonoverlapping rule interval confirms",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent new versions allocated sequentially",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent overlapping confirmations have one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "business expected case required for confirmation",
+    "result": "PASS"
+  },
+  {
+    "check": "nonobject business input rejected",
+    "result": "PASS"
+  },
+  {
+    "check": "confirmation rejects precision excess without rounding",
+    "result": "PASS"
+  },
+  {
+    "check": "metadata list omits parameter and case payload",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B denied /get",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B denied /history",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B denied edit review and version allocation",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B list remains empty",
+    "result": "PASS"
+  },
+  {
+    "check": "successful revision history freezes original business sample",
+    "result": "PASS"
+  },
+  {
+    "check": "retire preserves old confirmed evidence",
+    "result": "PASS"
+  },
+  {
+    "check": "legacy calculation tax configuration unchanged",
+    "result": "PASS"
+  }
+]

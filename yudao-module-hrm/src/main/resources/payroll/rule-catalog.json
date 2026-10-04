@@ -1,0 +1,92 @@
+[
+  {
+    "code": "RULE-Q02",
+    "questionCode": "Q-02",
+    "title": "工资、考勤和加班周期及截止时间",
+    "category": "PERIOD"
+  },
+  {
+    "code": "RULE-Q03",
+    "questionCode": "Q-03",
+    "title": "薪资项、绩效、补贴与调薪口径",
+    "category": "PAYROLL"
+  },
+  {
+    "code": "RULE-Q04",
+    "questionCode": "Q-04",
+    "title": "加班认定、补休与计薪口径",
+    "category": "OVERTIME"
+  },
+  {
+    "code": "RULE-Q05",
+    "questionCode": "Q-05",
+    "title": "考勤、入离职及不足月折算",
+    "category": "ATTENDANCE"
+  },
+  {
+    "code": "RULE-Q06",
+    "questionCode": "Q-06",
+    "title": "核算、复核、冻结与发布顺序",
+    "category": "LIFECYCLE"
+  },
+  {
+    "code": "RULE-Q07",
+    "questionCode": "Q-07",
+    "title": "社保公积金政策及有效期",
+    "category": "INSURANCE"
+  },
+  {
+    "code": "RULE-Q08",
+    "questionCode": "Q-08",
+    "title": "累计个税与历史承接口径",
+    "category": "TAX"
+  },
+  {
+    "code": "RULE-Q10",
+    "questionCode": "Q-10",
+    "title": "工资条可见、投递、异议与撤回",
+    "category": "SLIP"
+  },
+  {
+    "code": "RULE-Q11",
+    "questionCode": "Q-11",
+    "title": "金额、时长精度与舍入顺序",
+    "category": "ROUNDING"
+  },
+  {
+    "code": "RULE-Q12",
+    "questionCode": "Q-12",
+    "title": "授权、保留与性能口径",
+    "category": "ACCESS"
+  },
+  {
+    "code": "RULE-Q14",
+    "questionCode": "Q-14",
+    "title": "工时制度、周期与排班核对",
+    "category": "HOURS"
+  },
+  {
+    "code": "RULE-Q15",
+    "questionCode": "Q-15",
+    "title": "薪级、岗位系数与绩效来源",
+    "category": "PAYROLL"
+  },
+  {
+    "code": "RULE-Q16",
+    "questionCode": "Q-16",
+    "title": "银行代发与回盘处理口径",
+    "category": "PAYMENT"
+  },
+  {
+    "code": "RULE-Q17",
+    "questionCode": "Q-17",
+    "title": "年终奖计税适用条件",
+    "category": "TAX"
+  },
+  {
+    "code": "RULE-Q18",
+    "questionCode": "Q-18",
+    "title": "预算、成本中心与分摊口径",
+    "category": "COST"
+  }
+]
