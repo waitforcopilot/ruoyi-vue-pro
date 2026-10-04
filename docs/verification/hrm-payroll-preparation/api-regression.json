@@ -1,0 +1,78 @@
+[
+  {
+    "check": "anonymous overview denied",
+    "result": "PASS"
+  },
+  {
+    "check": "identity without overview permission denied",
+    "result": "PASS"
+  },
+  {
+    "check": "authorized overview sections available",
+    "result": "PASS"
+  },
+  {
+    "check": "requirement review and scope counts agree with collection API",
+    "result": "PASS"
+  },
+  {
+    "check": "in-scope unconfirmed is not inferred from global pending count",
+    "result": "PASS"
+  },
+  {
+    "check": "module totals reconcile with tenant requirement total",
+    "result": "PASS"
+  },
+  {
+    "check": "module counts match individually filtered API queries",
+    "result": "PASS"
+  },
+  {
+    "check": "source readiness remains independent from contract confirmation",
+    "result": "PASS"
+  },
+  {
+    "check": "source table metadata matches authorized source catalogue",
+    "result": "PASS"
+  },
+  {
+    "check": "contracts counts include all draft confirmed and retired versions",
+    "result": "PASS"
+  },
+  {
+    "check": "rules counts include all draft confirmed and retired versions",
+    "result": "PASS"
+  },
+  {
+    "check": "admin only sees own batch count and recent five",
+    "result": "PASS"
+  },
+  {
+    "check": "reader only sees own batch count and recent five",
+    "result": "PASS"
+  },
+  {
+    "check": "tenantb only sees own batch count and recent five",
+    "result": "PASS"
+  },
+  {
+    "check": "batch dates use ISO strings without personal payload",
+    "result": "PASS"
+  },
+  {
+    "check": "overview-only identity sees authorization flags without counts or rows",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B counts match its own APIs instead of tenant A",
+    "result": "PASS"
+  },
+  {
+    "check": "refresh returns stable unchanged metadata",
+    "result": "PASS"
+  },
+  {
+    "check": "response never exposes input rules amounts or assessment snapshots",
+    "result": "PASS"
+  }
+]

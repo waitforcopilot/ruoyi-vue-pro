@@ -1,0 +1,29 @@
+{
+  "verifiedAt": "2026-10-04T21:18:15.645237+00:00",
+  "environment": "isolated MySQL/Redis with synthetic verification records",
+  "backend": {
+    "tests": 1504,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 24
+  },
+  "hrmTests": 636,
+  "newPreparationTests": 9,
+  "apiChecks": 19,
+  "browserChecks": 12,
+  "foundationSmokeChecks": 13,
+  "frontendTypeCheck": "PASS (complete vue-tsc)",
+  "frontendBuild": "PASS (Vite production build)",
+  "mysqlMigration": "PASS (isolated menu repeatability and unchanged records)",
+  "overviewWritesBusinessData": false,
+  "frontendPort": 3000,
+  "backendPort": 48081,
+  "screenshots": [
+    "payroll-preparation-batches.png",
+    "payroll-preparation-desktop.png",
+    "payroll-preparation-empty-tenant.png",
+    "payroll-preparation-mobile-batches.png",
+    "payroll-preparation-mobile.png",
+    "payroll-preparation-restricted.png"
+  ]
+}
