@@ -46,3 +46,8 @@ DELETE FROM "hrm_recruit_candidate";
 DELETE FROM "hrm_recruit_post";
 DELETE FROM "hrm_recruit_channel";
 DELETE FROM "hrm_recruit_post_type";
+
+DELETE FROM "hrm_payroll_requirement";
+DELETE FROM "hrm_payroll_source";
+DELETE FROM "hrm_payroll_review";
+DELETE FROM "hrm_payroll_baseline";

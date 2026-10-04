@@ -1,0 +1,644 @@
+{
+  "requirements": [
+    {
+      "code": "OV-01",
+      "moduleCode": "overview",
+      "title": "总览层汇总指标（应发/实发/法定成本/个税）的统计口径定义",
+      "origin": "业务原型 #overview reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-03",
+        "DS-04",
+        "DS-05",
+        "DS-06",
+        "DS-07"
+      ]
+    },
+    {
+      "code": "OV-02",
+      "moduleCode": "overview",
+      "title": "核算期间切换与历史批次查询",
+      "origin": "业务原型 #overview reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-03",
+        "DS-04",
+        "DS-05",
+        "DS-06",
+        "DS-07"
+      ]
+    },
+    {
+      "code": "OV-03",
+      "moduleCode": "overview",
+      "title": "各数据要素(考勤/加班/工时/社保)归集完成度看板",
+      "origin": "业务原型 #overview reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-03",
+        "DS-04",
+        "DS-05",
+        "DS-06",
+        "DS-07"
+      ]
+    },
+    {
+      "code": "OV-04",
+      "moduleCode": "overview",
+      "title": "异常数据触发核对的规则与提醒",
+      "origin": "业务原型 #overview reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-03",
+        "DS-04",
+        "DS-05",
+        "DS-06",
+        "DS-07"
+      ]
+    },
+    {
+      "code": "PLAN-01",
+      "moduleCode": "plan",
+      "title": "薪酬结构与各项目的规则可配置化",
+      "origin": "业务原型 #plan reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-05",
+        "DS-09"
+      ]
+    },
+    {
+      "code": "PLAN-02",
+      "moduleCode": "plan",
+      "title": "薪级薪档表的维护与批量导入",
+      "origin": "业务原型 #plan reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-05",
+        "DS-09"
+      ]
+    },
+    {
+      "code": "PLAN-03",
+      "moduleCode": "plan",
+      "title": "定薪/调薪流程（含审批链与生效追溯）",
+      "origin": "业务原型 #plan reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-05",
+        "DS-09"
+      ]
+    },
+    {
+      "code": "PLAN-04",
+      "moduleCode": "plan",
+      "title": "薪酬方案版本管理与历史对比",
+      "origin": "业务原型 #plan reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-05",
+        "DS-09"
+      ]
+    },
+    {
+      "code": "CALC-01",
+      "moduleCode": "calc",
+      "title": "核算批次生命周期（草稿→试算→审批→发放→归档）",
+      "origin": "业务原型 #calc reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-03",
+        "DS-04",
+        "DS-05",
+        "DS-06",
+        "DS-07",
+        "DS-09",
+        "DS-12"
+      ]
+    },
+    {
+      "code": "CALC-02",
+      "moduleCode": "calc",
+      "title": "算薪公式引擎（各薪酬项目自动计算与调整）",
+      "origin": "业务原型 #calc reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-03",
+        "DS-04",
+        "DS-05",
+        "DS-06",
+        "DS-07",
+        "DS-09",
+        "DS-12"
+      ]
+    },
+    {
+      "code": "CALC-03",
+      "moduleCode": "calc",
+      "title": "异常数据拦截与人工核对",
+      "origin": "业务原型 #calc reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-03",
+        "DS-04",
+        "DS-05",
+        "DS-06",
+        "DS-07",
+        "DS-09",
+        "DS-12"
+      ]
+    },
+    {
+      "code": "CALC-04",
+      "moduleCode": "calc",
+      "title": "银行代发文件生成与回盘核对",
+      "origin": "业务原型 #calc reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-03",
+        "DS-04",
+        "DS-05",
+        "DS-06",
+        "DS-07",
+        "DS-09",
+        "DS-12"
+      ]
+    },
+    {
+      "code": "CALC-05",
+      "moduleCode": "calc",
+      "title": "工资条生成与员工自助查看",
+      "origin": "业务原型 #calc reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-03",
+        "DS-04",
+        "DS-05",
+        "DS-06",
+        "DS-07",
+        "DS-09",
+        "DS-12"
+      ]
+    },
+    {
+      "code": "TAX-01",
+      "moduleCode": "tax",
+      "title": "个税累计预扣法自动计算",
+      "origin": "业务原型 #tax reqPanel",
+      "sourceCodes": [
+        "DS-05",
+        "DS-06",
+        "DS-07",
+        "DS-11",
+        "DS-12"
+      ]
+    },
+    {
+      "code": "TAX-02",
+      "moduleCode": "tax",
+      "title": "专项附加扣除采集与同步",
+      "origin": "业务原型 #tax reqPanel",
+      "sourceCodes": [
+        "DS-05",
+        "DS-06",
+        "DS-07",
+        "DS-11",
+        "DS-12"
+      ]
+    },
+    {
+      "code": "TAX-03",
+      "moduleCode": "tax",
+      "title": "工资条模板配置与多渠道推送(自助端/邮件/短信)",
+      "origin": "业务原型 #tax reqPanel",
+      "sourceCodes": [
+        "DS-05",
+        "DS-06",
+        "DS-07",
+        "DS-11",
+        "DS-12"
+      ]
+    },
+    {
+      "code": "TAX-04",
+      "moduleCode": "tax",
+      "title": "个税申报表与完税数据导出",
+      "origin": "业务原型 #tax reqPanel",
+      "sourceCodes": [
+        "DS-05",
+        "DS-06",
+        "DS-07",
+        "DS-11",
+        "DS-12"
+      ]
+    },
+    {
+      "code": "TAX-05",
+      "moduleCode": "tax",
+      "title": "年终奖单独计税处理",
+      "origin": "业务原型 #tax reqPanel",
+      "sourceCodes": [
+        "DS-05",
+        "DS-06",
+        "DS-07",
+        "DS-11",
+        "DS-12"
+      ]
+    },
+    {
+      "code": "ATT-01",
+      "moduleCode": "attendance",
+      "title": "考勤数据按日/按月归集与汇总",
+      "origin": "业务原型 #attendance reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-03"
+      ]
+    },
+    {
+      "code": "ATT-02",
+      "moduleCode": "attendance",
+      "title": "请假/出差/外出单据与打卡数据自动关联",
+      "origin": "业务原型 #attendance reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-03"
+      ]
+    },
+    {
+      "code": "ATT-03",
+      "moduleCode": "attendance",
+      "title": "迟到/早退/缺勤/旷工规则判定",
+      "origin": "业务原型 #attendance reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-03"
+      ]
+    },
+    {
+      "code": "ATT-04",
+      "moduleCode": "attendance",
+      "title": "异常考勤提醒与人工处理闭环",
+      "origin": "业务原型 #attendance reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-03"
+      ]
+    },
+    {
+      "code": "ATT-05",
+      "moduleCode": "attendance",
+      "title": "考勤结果与薪酬计算的联动",
+      "origin": "业务原型 #attendance reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-03"
+      ]
+    },
+    {
+      "code": "OT-01",
+      "moduleCode": "overtime",
+      "title": "加班申请与审批流（关联考勤打卡时长）",
+      "origin": "业务原型 #overtime reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-03",
+        "DS-04",
+        "DS-05"
+      ]
+    },
+    {
+      "code": "OT-02",
+      "moduleCode": "overtime",
+      "title": "加班时长统计与倍率规则计算",
+      "origin": "业务原型 #overtime reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-03",
+        "DS-04",
+        "DS-05"
+      ]
+    },
+    {
+      "code": "OT-03",
+      "moduleCode": "overtime",
+      "title": "加班费自动生成并进入工资核算",
+      "origin": "业务原型 #overtime reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-03",
+        "DS-04",
+        "DS-05"
+      ]
+    },
+    {
+      "code": "OT-04",
+      "moduleCode": "overtime",
+      "title": "调休/补休管理",
+      "origin": "业务原型 #overtime reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-03",
+        "DS-04",
+        "DS-05"
+      ]
+    },
+    {
+      "code": "OT-05",
+      "moduleCode": "overtime",
+      "title": "加班合规上限提醒",
+      "origin": "业务原型 #overtime reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-03",
+        "DS-04",
+        "DS-05"
+      ]
+    },
+    {
+      "code": "HOUR-01",
+      "moduleCode": "hours",
+      "title": "不同工时制度的员工适用维护",
+      "origin": "业务原型 #hours reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-04"
+      ]
+    },
+    {
+      "code": "HOUR-02",
+      "moduleCode": "hours",
+      "title": "综合/不定时工时周期结算",
+      "origin": "业务原型 #hours reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-04"
+      ]
+    },
+    {
+      "code": "HOUR-03",
+      "moduleCode": "hours",
+      "title": "工时报表生成与异常提醒",
+      "origin": "业务原型 #hours reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-04"
+      ]
+    },
+    {
+      "code": "HOUR-04",
+      "moduleCode": "hours",
+      "title": "工时数据与加班费/考勤扣款的联动",
+      "origin": "业务原型 #hours reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-04"
+      ]
+    },
+    {
+      "code": "HOUR-05",
+      "moduleCode": "hours",
+      "title": "工时与排班表关联核对",
+      "origin": "业务原型 #hours reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-02",
+        "DS-04"
+      ]
+    },
+    {
+      "code": "INS-01",
+      "moduleCode": "insurance",
+      "title": "缴存基数申报与年度调基",
+      "origin": "业务原型 #insurance reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-06"
+      ]
+    },
+    {
+      "code": "INS-02",
+      "moduleCode": "insurance",
+      "title": "比例与基数按城市/政策配置",
+      "origin": "业务原型 #insurance reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-06"
+      ]
+    },
+    {
+      "code": "INS-03",
+      "moduleCode": "insurance",
+      "title": "个人扣款自动进入工资核算",
+      "origin": "业务原型 #insurance reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-06"
+      ]
+    },
+    {
+      "code": "INS-04",
+      "moduleCode": "insurance",
+      "title": "单位缴费计入用工成本报表",
+      "origin": "业务原型 #insurance reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-06"
+      ]
+    },
+    {
+      "code": "INS-05",
+      "moduleCode": "insurance",
+      "title": "社保公积金月度缴纳台账与对账",
+      "origin": "业务原型 #insurance reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-06"
+      ]
+    },
+    {
+      "code": "RPT-01",
+      "moduleCode": "report",
+      "title": "薪酬成本按部门/成本中心/项目分摊",
+      "origin": "业务原型 #report reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-05",
+        "DS-06",
+        "DS-10"
+      ]
+    },
+    {
+      "code": "RPT-02",
+      "moduleCode": "report",
+      "title": "人力成本率与人均指标计算",
+      "origin": "业务原型 #report reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-05",
+        "DS-06",
+        "DS-10"
+      ]
+    },
+    {
+      "code": "RPT-03",
+      "moduleCode": "report",
+      "title": "薪酬结构多维分析(占比/变动)",
+      "origin": "业务原型 #report reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-05",
+        "DS-06",
+        "DS-10"
+      ]
+    },
+    {
+      "code": "RPT-04",
+      "moduleCode": "report",
+      "title": "工资总额预算与实际对比",
+      "origin": "业务原型 #report reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-05",
+        "DS-06",
+        "DS-10"
+      ]
+    },
+    {
+      "code": "RPT-05",
+      "moduleCode": "report",
+      "title": "报表口径与导出格式",
+      "origin": "业务原型 #report reqPanel",
+      "sourceCodes": [
+        "DS-01",
+        "DS-05",
+        "DS-06",
+        "DS-10"
+      ]
+    },
+    {
+      "code": "COL-01",
+      "moduleCode": "req",
+      "title": "按模块汇总功能及数据源，关联原型功能编号",
+      "origin": "PRD 征集功能建议",
+      "sourceCodes": [
+        "DS-08"
+      ]
+    },
+    {
+      "code": "COL-02",
+      "moduleCode": "req",
+      "title": "维护确认、待确认与异议，记录确认人、时间与依据",
+      "origin": "PRD 征集功能建议",
+      "sourceCodes": [
+        "DS-08"
+      ]
+    },
+    {
+      "code": "COL-03",
+      "moduleCode": "req",
+      "title": "补充字段映射、负责人、优先级与导出评审清单",
+      "origin": "PRD 征集功能建议",
+      "sourceCodes": [
+        "DS-08"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "code": "DS-01",
+      "name": "HR 员工与组织档案",
+      "requiredFields": "员工唯一编号、主体、部门、入离职日期、计薪资格",
+      "description": "已有 HRM 数据或经授权导入；按有效期取档案；唯一编号不重复"
+    },
+    {
+      "code": "DS-02",
+      "name": "考勤系统",
+      "requiredFields": "员工编号、周期、班次、应出勤、实出勤、请假、缺勤、异常状态",
+      "description": "HRM 统计接口或模板导入；明确截止时间；单位一致；异常可定位"
+    },
+    {
+      "code": "DS-03",
+      "name": "OA 加班 / 请假审批",
+      "requiredFields": "单据编号、员工、起止时间、审批状态、认可时长、补休状态",
+      "description": "审批接口或确认清单；仅纳入符合确认条件的单据；可去重"
+    },
+    {
+      "code": "DS-04",
+      "name": "工时制度与排班系统",
+      "requiredFields": "员工制度类型、适用有效期、结算周期、排班、实际工时、差异",
+      "description": "制度档案、排班 / 考勤接口或模板导入；标准 / 综合 / 不定时工时分别校验；与加班及考勤对账"
+    },
+    {
+      "code": "DS-05",
+      "name": "薪酬方案与员工薪资档案",
+      "requiredFields": "方案版本、适用人员、薪资项、金额 / 单价、有效期",
+      "description": "HRM 薪资配置或确认清单；核算取对应版本；变更留痕"
+    },
+    {
+      "code": "DS-06",
+      "name": "社保公积金政策与缴费台账",
+      "requiredFields": "地区、项目、有效期、基数上下限、个人 / 单位比例、实际缴费额",
+      "description": "业务维护、台账导入；标准有出处及确认人；历史版本可追溯"
+    },
+    {
+      "code": "DS-07",
+      "name": "税务及扣除资料",
+      "requiredFields": "纳税主体、年度、本年累计应税收入、已扣税额、专项扣除",
+      "description": "经授权申报资料或模板导入；明确累计起点、员工匹配与缺失处理"
+    },
+    {
+      "code": "DS-08",
+      "name": "业务需求征集",
+      "requiredFields": "需求编号、模块、功能、字段、来源、负责人、优先级、状态、备注",
+      "description": "评审人员录入；可版本化导出；正式确认附评审依据"
+    },
+    {
+      "code": "DS-09",
+      "name": "绩效考核与薪级标准",
+      "requiredFields": "绩效周期、基数、系数、职级 / 薪档、岗位系数、补贴标准",
+      "description": "薪级表及绩效确认结果；周期与生效版本明确；金额 / 系数含业务确认依据"
+    },
+    {
+      "code": "DS-10",
+      "name": "财务预算与成本数据",
+      "requiredFields": "部门 / 成本中心 / 项目、营收、预算、编制人数、分摊比例",
+      "description": "财务确认台账或接口；报表维度、期间与分摊比例一致；总额可对账"
+    },
+    {
+      "code": "DS-11",
+      "name": "员工自助与联系方式",
+      "requiredFields": "员工编号、接收渠道、邮箱 / 手机、工资条可见字段、投递结果",
+      "description": "已授权员工档案及消息服务；员工匹配、渠道授权、失败与重发规则明确"
+    },
+    {
+      "code": "DS-12",
+      "name": "银行代发与回盘",
+      "requiredFields": "批次、员工、账户、应付金额、文件格式、回盘状态、失败原因",
+      "description": "银行代发文件与回盘模板；数据范围和脱敏有授权；账户匹配、金额及回盘可对账"
+    }
+  ]
+}

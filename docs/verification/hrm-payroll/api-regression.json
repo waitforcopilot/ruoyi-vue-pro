@@ -1,0 +1,110 @@
+[
+  {
+    "check": "candidate catalog initialized",
+    "result": "PASS"
+  },
+  {
+    "check": "anonymous query denied",
+    "result": "PASS"
+  },
+  {
+    "check": "ungranted account denied",
+    "result": "PASS"
+  },
+  {
+    "check": "reader can query",
+    "result": "PASS"
+  },
+  {
+    "check": "reader cannot create",
+    "result": "PASS"
+  },
+  {
+    "check": "reader cannot update",
+    "result": "PASS"
+  },
+  {
+    "check": "editor cannot review",
+    "result": "PASS"
+  },
+  {
+    "check": "editor cannot export",
+    "result": "PASS"
+  },
+  {
+    "check": "review records authorized actor and time",
+    "result": "PASS"
+  },
+  {
+    "check": "confirmation does not mark data ready",
+    "result": "PASS"
+  },
+  {
+    "check": "edit invalidates previous confirmation",
+    "result": "PASS"
+  },
+  {
+    "check": "stale update rejected",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent same-version saves: exactly one succeeds",
+    "result": "PASS"
+  },
+  {
+    "check": "audit retains old conclusion and before/after versions",
+    "result": "PASS"
+  },
+  {
+    "check": "baseline list does not expose snapshots",
+    "result": "PASS"
+  },
+  {
+    "check": "export has three sheets and frozen pre-edit title",
+    "result": "PASS"
+  },
+  {
+    "check": "export covers the complete catalog plus the new requirement",
+    "result": "PASS"
+  },
+  {
+    "check": "source-to-requirement query uses exact stable code",
+    "result": "PASS"
+  },
+  {
+    "check": "editor cannot update data source",
+    "result": "PASS"
+  },
+  {
+    "check": "source readiness independently persists",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B cannot read tenant A detail",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B cannot read tenant A history",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B cannot export tenant A baseline",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B list remains empty",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B cannot modify tenant A record",
+    "result": "PASS"
+  },
+  {
+    "check": "prototype candidate cannot be deleted",
+    "result": "PASS"
+  },
+  {
+    "check": "deleted custom detail is hidden, code reserved, audit remains tenant-owned",
+    "result": "PASS"
+  }
+]

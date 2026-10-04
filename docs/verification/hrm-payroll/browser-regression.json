@@ -1,0 +1,50 @@
+[
+  {
+    "check": "authenticated collection page loads with real API data",
+    "result": "PASS"
+  },
+  {
+    "check": "form saves and persisted owner survives a full browser reload",
+    "result": "PASS"
+  },
+  {
+    "check": "review through UI persists confirmation",
+    "result": "PASS"
+  },
+  {
+    "check": "history shows actual actor, timestamp, basis and previous versions",
+    "result": "PASS"
+  },
+  {
+    "check": "source gap can be maintained independently of confirmed functions",
+    "result": "PASS"
+  },
+  {
+    "check": "source link filters real requirements; closing the filter restores the full query",
+    "result": "PASS"
+  },
+  {
+    "check": "UI creates a baseline and downloads an old immutable Excel snapshot",
+    "result": "PASS"
+  },
+  {
+    "check": "failed query renders a clear error and retry restores persisted data",
+    "result": "PASS"
+  },
+  {
+    "check": "foundation HRM employee page remains available after collection integration",
+    "result": "PASS"
+  },
+  {
+    "check": "mobile layout renders summary and module collection without page overflow",
+    "result": "PASS"
+  },
+  {
+    "check": "mobile edit form accepts input within the screen width",
+    "result": "PASS"
+  },
+  {
+    "check": "read-only role hides create, edit, review and export actions",
+    "result": "PASS"
+  }
+]
