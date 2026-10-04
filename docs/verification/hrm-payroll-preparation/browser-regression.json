@@ -1,0 +1,50 @@
+[
+  {
+    "check": "overview cards show actual server counts with independent source and rule states",
+    "result": "PASS"
+  },
+  {
+    "check": "recent batches show owned IDs ISO periods and original quality status",
+    "result": "PASS"
+  },
+  {
+    "check": "refresh obtains a new server snapshot",
+    "result": "PASS"
+  },
+  {
+    "check": "internal page scrolling exposes all source rows and the owned recent batch section",
+    "result": "PASS"
+  },
+  {
+    "check": "module navigation filters the real requirements page",
+    "result": "PASS"
+  },
+  {
+    "check": "source navigation filters actual linked requirements",
+    "result": "PASS"
+  },
+  {
+    "check": "rule and contract links reach the implemented modules",
+    "result": "PASS"
+  },
+  {
+    "check": "failed refresh clears stale data and recovers from a real successful response",
+    "result": "PASS"
+  },
+  {
+    "check": "overview-only identity shows permission gaps without zeros hidden counts or navigation",
+    "result": "PASS"
+  },
+  {
+    "check": "empty tenant shows actual zero metadata and actionable empty states",
+    "result": "PASS"
+  },
+  {
+    "check": "390px mobile overview stacks cards and contains table scrolling",
+    "result": "PASS"
+  },
+  {
+    "check": "no uncaught browser page errors",
+    "result": "PASS"
+  }
+]
