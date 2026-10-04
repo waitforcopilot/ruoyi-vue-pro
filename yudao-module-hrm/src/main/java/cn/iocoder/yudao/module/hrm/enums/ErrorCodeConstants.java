@@ -327,4 +327,12 @@ public interface ErrorCodeConstants {
     ErrorCode PAYROLL_MAPPING_OVERLAP = new ErrorCode(1_050_940_005, "该编号存在有效期重叠的已确认映射");
     ErrorCode PAYROLL_MAPPING_PERSON_CHANGED = new ErrorCode(1_050_940_006, "人员主档已变化，请编辑草稿刷新快照并重新核对");
     ErrorCode PAYROLL_MAPPING_PERMISSION = new ErrorCode(1_050_940_007, "编号映射需要员工档案查询权限及相应人员数据范围");
+    ErrorCode PAYROLL_SCHEME_NOT_EXISTS = new ErrorCode(1_050_950_000, "方案配置版本不存在");
+    ErrorCode PAYROLL_SCHEME_INVALID = new ErrorCode(1_050_950_001, "方案配置资料不合法：{}");
+    ErrorCode PAYROLL_SCHEME_STALE = new ErrorCode(1_050_950_002, "方案版本已修改，请刷新后重试");
+    ErrorCode PAYROLL_SCHEME_IMMUTABLE = new ErrorCode(1_050_950_003, "已确认或停用方案不能编辑，请另建版本");
+    ErrorCode PAYROLL_SCHEME_DUPLICATE = new ErrorCode(1_050_950_004, "该薪资组已登记方案，请从现有方案另建版本");
+    ErrorCode PAYROLL_SCHEME_OVERLAP = new ErrorCode(1_050_950_005, "该薪资组存在有效期重叠的已确认方案");
+    ErrorCode PAYROLL_SCHEME_SOURCE_CHANGED = new ErrorCode(1_050_950_006, "源配置已变化，请重新抓取草稿并核对");
+    ErrorCode PAYROLL_SCHEME_PERMISSION = new ErrorCode(1_050_950_007, "方案版本还需要薪资组、薪资项及计税规则查询权限");
 }

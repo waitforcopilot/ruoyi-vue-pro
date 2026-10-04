@@ -1,0 +1,58 @@
+[
+  {
+    "check": "scheme route renders actual source group versions statuses and ISO periods",
+    "result": "PASS"
+  },
+  {
+    "check": "historical comparison renders actual values while separating zero false and missing",
+    "result": "PASS"
+  },
+  {
+    "check": "equal configuration comparison has an explicit empty state",
+    "result": "PASS"
+  },
+  {
+    "check": "detail keeps the reviewed standard tax settings and shared catalogue after sources change",
+    "result": "PASS"
+  },
+  {
+    "check": "native drawer scrolling exposes the exact retained configuration review snapshot",
+    "result": "PASS"
+  },
+  {
+    "check": "new version captures current source configuration and saves a separate draft",
+    "result": "PASS"
+  },
+  {
+    "check": "browser requires evidence and rejects an overlapping confirmation",
+    "result": "PASS"
+  },
+  {
+    "check": "recaptured nonoverlapping version confirms and locks edits",
+    "result": "PASS"
+  },
+  {
+    "check": "period lookup uses one actual confirmed configuration version",
+    "result": "PASS"
+  },
+  {
+    "check": "retirement preserves the version while removing its period availability",
+    "result": "PASS"
+  },
+  {
+    "check": "read-only role keeps configuration views without mutation controls",
+    "result": "PASS"
+  },
+  {
+    "check": "scheme-only permission cannot expose saved source tax or catalogue data",
+    "result": "PASS"
+  },
+  {
+    "check": "390px mobile stacks forms and contains table scrolling",
+    "result": "PASS"
+  },
+  {
+    "check": "browser has no uncaught page errors",
+    "result": "PASS"
+  }
+]

@@ -1,0 +1,166 @@
+[
+  {
+    "check": "anonymous scheme access denied",
+    "result": "PASS"
+  },
+  {
+    "check": "ungranted scheme access denied",
+    "result": "PASS"
+  },
+  {
+    "check": "scheme query alone cannot read underlying configuration",
+    "result": "PASS"
+  },
+  {
+    "check": "partial legacy queries cannot read tax settings through schemes",
+    "result": "PASS"
+  },
+  {
+    "check": "source selector returns filtered tenant-only metadata without personnel lists",
+    "result": "PASS"
+  },
+  {
+    "check": "capture preserves explicit source values with no financial defaults",
+    "result": "PASS"
+  },
+  {
+    "check": "capture timestamps are nonempty ISO and fingerprint is stable",
+    "result": "PASS"
+  },
+  {
+    "check": "capture excludes employee memberships amounts and other tenant settings",
+    "result": "PASS"
+  },
+  {
+    "check": "foreign tenant source groups cannot be captured",
+    "result": "PASS"
+  },
+  {
+    "check": "read-only role cannot register a scheme",
+    "result": "PASS"
+  },
+  {
+    "check": "server owns version status tenant and captured configuration",
+    "result": "PASS"
+  },
+  {
+    "check": "initial version cannot be registered twice",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent initial registrations have one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent same-revision edits have one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "review and maintenance permissions are separate",
+    "result": "PASS"
+  },
+  {
+    "check": "source group cannot change on edit",
+    "result": "PASS"
+  },
+  {
+    "check": "confirmation requires responsible person",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent same-revision reviews have one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "confirmation stamps real actor and ISO review time",
+    "result": "PASS"
+  },
+  {
+    "check": "confirmed scheme cannot be edited",
+    "result": "PASS"
+  },
+  {
+    "check": "list omits large snapshots and freeform evidence",
+    "result": "PASS"
+  },
+  {
+    "check": "audit retains exact actor and configuration snapshots",
+    "result": "PASS"
+  },
+  {
+    "check": "saved history also requires all underlying configuration queries",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B cannot read edit review version or compare tenant A IDs",
+    "result": "PASS"
+  },
+  {
+    "check": "new version is draft without inherited review conclusion",
+    "result": "PASS"
+  },
+  {
+    "check": "inclusive overlapping effective interval is rejected",
+    "result": "PASS"
+  },
+  {
+    "check": "group source changes block confirming a stale snapshot",
+    "result": "PASS"
+  },
+  {
+    "check": "stale preview hash blocks replacing a draft source snapshot",
+    "result": "PASS"
+  },
+  {
+    "check": "tax source changes block confirmation until explicitly recaptured",
+    "result": "PASS"
+  },
+  {
+    "check": "shared catalogue changes block confirmation until explicitly recaptured",
+    "result": "PASS"
+  },
+  {
+    "check": "confirmed previous version preserves all original configuration",
+    "result": "PASS"
+  },
+  {
+    "check": "comparison exposes actual standard zero threshold and false flag changes",
+    "result": "PASS"
+  },
+  {
+    "check": "comparison labels are readable and do not contain employee inputs",
+    "result": "PASS"
+  },
+  {
+    "check": "equal version comparison has no artificial capture-time differences",
+    "result": "PASS"
+  },
+  {
+    "check": "single period chooses its own retained configuration version",
+    "result": "PASS"
+  },
+  {
+    "check": "period resolution does not stitch adjacent versions",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent version allocation is sequential and never changes older snapshots",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent overlapping confirmations have one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "cross-group comparison is rejected",
+    "result": "PASS"
+  },
+  {
+    "check": "retired version remains readable but no longer resolves a period",
+    "result": "PASS"
+  },
+  {
+    "check": "existing employee payroll and payment table checksums are unchanged",
+    "result": "PASS"
+  }
+]

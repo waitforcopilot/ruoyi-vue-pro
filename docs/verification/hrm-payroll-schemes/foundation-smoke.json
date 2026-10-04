@@ -1,0 +1,54 @@
+[
+  {
+    "group": "hrm",
+    "routes": 368
+  },
+  {
+    "group": "bpm",
+    "routes": 80
+  },
+  {
+    "path": "/admin-api/hrm/employee/page",
+    "code": 0
+  },
+  {
+    "path": "/admin-api/hrm/salary/month-record/page",
+    "code": 0
+  },
+  {
+    "path": "/admin-api/hrm/salary/tax-rule/list",
+    "code": 0
+  },
+  {
+    "path": "/admin-api/hrm/salary/slip-send-record/page",
+    "code": 0
+  },
+  {
+    "path": "/admin-api/hrm/attendance/statistics/month-record-page",
+    "code": 0
+  },
+  {
+    "path": "/admin-api/hrm/insurance/month-record/list",
+    "code": 0
+  },
+  {
+    "path": "/admin-api/bpm/category/page",
+    "code": 0
+  },
+  {
+    "path": "/admin-api/bpm/model/list",
+    "code": 0
+  },
+  {
+    "path": "/admin-api/system/user/page",
+    "code": 0
+  },
+  {
+    "path": "/admin-api/infra/config/page",
+    "code": 0
+  },
+  {
+    "check": "anonymous payroll access denied",
+    "code": 401
+  }
+]
