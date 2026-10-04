@@ -54,3 +54,5 @@ DELETE FROM "hrm_payroll_baseline";
 DELETE FROM "hrm_payroll_import_batch";
 DELETE FROM "hrm_payroll_source_contract";
 DELETE FROM "hrm_payroll_rule";
+
+DELETE FROM "hrm_payroll_employee_mapping";

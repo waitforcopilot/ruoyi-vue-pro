@@ -7,6 +7,8 @@ import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX;
 import cn.iocoder.yudao.framework.tenant.core.context.TenantContextHolder;
 import cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.intake.*;
+import cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.identity.HrmPayrollMappingLookupVO;
+import cn.iocoder.yudao.module.hrm.service.payroll.identity.HrmPayrollEmployeeMappingService;
 import cn.iocoder.yudao.module.hrm.dal.dataobject.employee.info.HrmEmployeeDO;
 import cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.*;
 import cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.intake.*;
@@ -43,6 +45,7 @@ public class HrmPayrollIntakeServiceImpl implements HrmPayrollIntakeService {
     @Resource private HrmEmployeeMapper employeeMapper;
     @Resource private PermissionApi permissionApi;
     @Resource private AdminUserApi adminUserApi;
+    @Resource private HrmPayrollEmployeeMappingService mappingService;
 
     private Long tenant() { return TenantContextHolder.getRequiredTenantId(); }
 
@@ -113,6 +116,11 @@ public class HrmPayrollIntakeServiceImpl implements HrmPayrollIntakeService {
         schema.setPeriodField(StrUtil.trimToNull(schema.getPeriodField()));
         schema.setSubjectField(StrUtil.trimToNull(schema.getSubjectField()));
         schema.setEmployeeField(StrUtil.trimToNull(schema.getEmployeeField()));
+        schema.setExternalEmployeeField(StrUtil.trimToNull(schema.getExternalEmployeeField()));
+        schema.setEmployeeNamespace(StrUtil.trimToNull(schema.getEmployeeNamespace()));
+        check(schema.getEmployeeField()==null||schema.getExternalEmployeeField()==null,"HRM 工号和外部编号匹配模式不能同时启用");
+        check((schema.getExternalEmployeeField()==null)==(schema.getEmployeeNamespace()==null),"外部编号字段和命名空间须同时登记");
+        check(schema.getEmployeeNamespace()==null||schema.getEmployeeNamespace().matches("[A-Z][A-Z0-9_-]{0,63}"),"人员编号命名空间不合法");
         Map<String, HrmPayrollContractSchemaVO.Field> fields = new LinkedHashMap<>();
         for (HrmPayrollContractSchemaVO.Field field : schema.getFields()) {
             check(field != null, "字段不能为 null");
@@ -135,6 +143,7 @@ public class HrmPayrollIntakeServiceImpl implements HrmPayrollIntakeService {
         reference(fields, schema.getPeriodField(), "DATE", "期间校验字段必须引用必填日期字段");
         reference(fields, schema.getSubjectField(), "TEXT", "主体校验字段必须引用必填文本字段");
         reference(fields, schema.getEmployeeField(), "TEXT", "工号校验字段必须引用必填文本字段");
+        reference(fields, schema.getExternalEmployeeField(), "TEXT", "外部编号字段必须引用必填文本字段");
     }
 
     private void reference(Map<String, HrmPayrollContractSchemaVO.Field> fields, String key, String type, String message) {
@@ -202,14 +211,25 @@ public class HrmPayrollIntakeServiceImpl implements HrmPayrollIntakeService {
         HrmPayrollContractDO contract = confirmed(request.getContractId(), true);
         HrmPayrollContractSchemaVO schema = schema(contract);
         boolean matchEmployees = StrUtil.isNotBlank(schema.getEmployeeField());
-        if (matchEmployees && !permissionApi.hasAnyPermissions(getLoginUserId(), "hrm:employee:query"))
+        boolean mappedEmployees=StrUtil.isNotBlank(schema.getExternalEmployeeField());
+        if ((matchEmployees||mappedEmployees) && !permissionApi.hasAnyPermissions(getLoginUserId(), "hrm:employee:query"))
             throw exception(PAYROLL_INTAKE_EMPLOYEE_PERMISSION);
+        if(mappedEmployees&&!permissionApi.hasAnyPermissions(getLoginUserId(),"hrm:payroll:identity:query"))throw exception(PAYROLL_MAPPING_PERMISSION);
         String fileHash = sha256(bytes);
         String key = sha256(JsonUtils.toJsonString(Arrays.asList(getLoginUserId(), contract.getId(),
                 request.getDeclaredScope(), request.getPeriodStart(), request.getPeriodEnd(), fileHash)).getBytes(StandardCharsets.UTF_8));
+        HrmPayrollPreviewResultVO result=null;
+        if(mappedEmployees) {
+            result=HrmPayrollCsvValidator.validate(bytes,schema,contract.getId(),contract.getContractVersion(),request);
+            matchMappedEmployees(result,schema,contract,request);
+            // Changes to visible mapping versions or outcomes produce a new immutable inspection; retries remain idempotent.
+            key=sha256(JsonUtils.toJsonString(Arrays.asList(key,result.getRows().stream()
+                    .map(r->Arrays.asList(r.getEmployeeMapping(),r.getIssues().stream().map(i->i.getCode()).collect(Collectors.toList())))
+                    .collect(Collectors.toList()))).getBytes(StandardCharsets.UTF_8));
+        }
         HrmPayrollImportBatchDO existing = batchMapper.selectIdempotent(key, tenant(), getLoginUserId());
         if (existing != null) return existing.getId();
-        HrmPayrollPreviewResultVO result = HrmPayrollCsvValidator.validate(bytes, schema, contract.getId(), contract.getContractVersion(), request);
+        if(result==null)result = HrmPayrollCsvValidator.validate(bytes, schema, contract.getId(), contract.getContractVersion(), request);
         if (matchEmployees) matchEmployees(result, schema.getEmployeeField());
         HrmPayrollCsvValidator.finish(result);
         HrmPayrollBatchDetailRespVO snapshot = new HrmPayrollBatchDetailRespVO().setContractSnapshot(response(contract)).setResult(result);
@@ -223,6 +243,25 @@ public class HrmPayrollIntakeServiceImpl implements HrmPayrollIntakeService {
         batch.setTenantId(tenant());
         batchMapper.insert(batch);
         return batch.getId();
+    }
+
+    private void matchMappedEmployees(HrmPayrollPreviewResultVO result,HrmPayrollContractSchemaVO schema,
+            HrmPayrollContractDO contract,HrmPayrollPreviewReqVO request) {
+        List<HrmPayrollPreviewResultVO.Row> rows=new ArrayList<>();List<HrmPayrollMappingLookupVO> lookups=new ArrayList<>();
+        for(HrmPayrollPreviewResultVO.Row row:result.getRows()) {
+            String external=row.getValues().get(schema.getExternalEmployeeField());if(external==null)continue;
+            String date=schema.getPeriodField()==null?null:row.getValues().get(schema.getPeriodField());
+            if(schema.getPeriodField()!=null&&date==null)continue;
+            rows.add(row);lookups.add(new HrmPayrollMappingLookupVO().setExternalCode(external)
+                    .setStart(date==null?request.getPeriodStart():java.time.LocalDate.parse(date))
+                    .setEnd(date==null?request.getPeriodEnd():java.time.LocalDate.parse(date)));
+        }
+        List<HrmPayrollMappingLookupVO.Match> matches=mappingService.resolve(contract.getSourceId(),schema.getEmployeeNamespace(),lookups);
+        for(int i=0;i<rows.size();i++) {
+            HrmPayrollMappingLookupVO.Match match=matches.get(i);HrmPayrollPreviewResultVO.Row row=rows.get(i);
+            if(match.getEmployeeId()!=null)row.setEmployeeId(match.getEmployeeId()).setEmployeeMapping(match);
+            else row.getIssues().add(HrmPayrollCsvValidator.issue(row.getLine(),schema.getExternalEmployeeField(),match.getIssueCode(),match.getMessage()));
+        }
     }
 
     private void matchEmployees(HrmPayrollPreviewResultVO result, String field) {

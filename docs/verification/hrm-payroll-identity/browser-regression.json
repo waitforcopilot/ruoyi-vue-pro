@@ -1,0 +1,58 @@
+[
+  {
+    "check": "identity route shows real source exact external code version status and captured person",
+    "result": "PASS"
+  },
+  {
+    "check": "detail exposes retained minimal snapshot ISO capture time and original audit",
+    "result": "PASS"
+  },
+  {
+    "check": "registration requires explicit person verification and persists a server-created draft",
+    "result": "PASS"
+  },
+  {
+    "check": "confirmation requires evidence and confirmed mapping locks edits",
+    "result": "PASS"
+  },
+  {
+    "check": "new version preserves immutable identity but explicitly rechecks another target person",
+    "result": "PASS"
+  },
+  {
+    "check": "overlapping confirmation is rejected in the real browser",
+    "result": "PASS"
+  },
+  {
+    "check": "nonoverlapping version confirms without changing the earlier reviewed period",
+    "result": "PASS"
+  },
+  {
+    "check": "manual period lookup resolves the actual newer version and captured time",
+    "result": "PASS"
+  },
+  {
+    "check": "actual CSV upload reuses its frozen batch and shows mapped version with unresolved row errors",
+    "result": "PASS"
+  },
+  {
+    "check": "mapped CSV problem filter excludes the valid mapped row",
+    "result": "PASS"
+  },
+  {
+    "check": "read-only identity permits details and lookup without maintenance or review controls",
+    "result": "PASS"
+  },
+  {
+    "check": "department UI excludes other persons and hides every historical personal snapshot",
+    "result": "PASS"
+  },
+  {
+    "check": "390px mobile contains horizontal table scrolling and stacks registration fields",
+    "result": "PASS"
+  },
+  {
+    "check": "no uncaught browser page errors",
+    "result": "PASS"
+  }
+]

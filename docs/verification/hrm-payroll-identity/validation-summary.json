@@ -1,0 +1,32 @@
+{
+  "verifiedAt": "2026-10-04T23:02:52.398598+00:00",
+  "environment": "isolated MySQL/Redis with synthetic employees and QA-only roles",
+  "backend": {
+    "tests": 1524,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 24
+  },
+  "hrmTests": 656,
+  "newIdentityTests": 20,
+  "apiChecks": 52,
+  "browserChecks": 14,
+  "legacyIntakeApiChecks": 46,
+  "legacyIntakeBrowserChecks": 13,
+  "foundationSmokeChecks": 13,
+  "frontendTypeCheck": "PASS (complete vue-tsc)",
+  "frontendBuild": "PASS (Vite production build)",
+  "mysqlMigration": "PASS (isolated repeatability, retained snapshot, tenant/version uniqueness, case and leading zeros, Unicode)",
+  "existingPayrollTableChecksumsUnchanged": true,
+  "frontendPort": 3000,
+  "backendPort": 48081,
+  "snapshotMeaning": "captured current HRM master record; does not establish historical employment or payroll eligibility",
+  "screenshots": [
+    "payroll-identity-csv-precheck.png",
+    "payroll-identity-desktop.png",
+    "payroll-identity-mobile.png",
+    "payroll-identity-period-lookup.png",
+    "payroll-identity-scoped-history.png",
+    "payroll-identity-snapshot.png"
+  ]
+}

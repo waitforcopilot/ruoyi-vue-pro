@@ -130,9 +130,26 @@
               :value="f.key"
               :label="f.label + ' · ' + f.key" /></el-select
         ></el-form-item>
+        <el-form-item label="外部人员编号字段（可选）"
+          ><el-select
+            v-model="form.schema.externalEmployeeField"
+            clearable
+            placeholder="使用已确认的编号映射"
+            ><el-option
+              v-for="f in textFields"
+              :key="f.key"
+              :value="f.key"
+              :label="f.label + ' · ' + f.key" /></el-select
+        ></el-form-item>
+        <el-form-item v-if="form.schema.externalEmployeeField" label="人员编号命名空间 *"
+          ><el-input
+            v-model="form.schema.employeeNamespace"
+            maxlength="64"
+            placeholder="与人员编号映射台账一致"
+        /></el-form-item>
       </div>
       <p class="note"
-        >工号核对按当前租户 HRM 主档匹配，需人员查询权限。员工适用资格和历史人员映射需另行核定。</p
+        >工号与外部编号模式只能选一个。外部编号模式须有映射查询及员工查询权限；配置日期列时按该行日期匹配，否则须一个映射版本覆盖整个声明期间。计薪资格仍需另行核定。</p
       >
       <el-form-item label="草稿备注"
         ><el-input v-model="form.evidence" type="textarea" :rows="2" maxlength="2000"
@@ -182,7 +199,12 @@ const removeField = (index: number) => {
   const key = form.value.schema.fields[index].key
   form.value.schema.fields.splice(index, 1)
   form.value.schema.keyFields = form.value.schema.keyFields.filter((k) => k !== key)
-  for (const name of ['periodField', 'subjectField', 'employeeField'] as const)
+  for (const name of [
+    'periodField',
+    'subjectField',
+    'employeeField',
+    'externalEmployeeField'
+  ] as const)
     if (form.value.schema[name] === key) form.value.schema[name] = undefined
 }
 const save = async () => {
@@ -192,6 +214,7 @@ const save = async () => {
     return
   }
   saving.value = true
+  if (!form.value.schema.externalEmployeeField) form.value.schema.employeeNamespace = undefined
   try {
     if (form.value.id) await Api.updateContract(form.value)
     else await Api.createContract(form.value)

@@ -319,4 +319,12 @@ public interface ErrorCodeConstants {
     ErrorCode PAYROLL_RULE_IMMUTABLE = new ErrorCode(1_050_930_003, "已确认或停用规则不可编辑，请另建版本");
     ErrorCode PAYROLL_RULE_CODE_DUPLICATE = new ErrorCode(1_050_930_004, "规则编号已登记，请从现有台账另建版本");
     ErrorCode PAYROLL_RULE_PERIOD_OVERLAP = new ErrorCode(1_050_930_005, "同编号、同范围已有生效期间重叠的确认版本");
+    ErrorCode PAYROLL_MAPPING_NOT_EXISTS = new ErrorCode(1_050_940_000, "人员或编号映射不存在或不可访问");
+    ErrorCode PAYROLL_MAPPING_INVALID = new ErrorCode(1_050_940_001, "人员映射资料不合法：{}");
+    ErrorCode PAYROLL_MAPPING_STALE = new ErrorCode(1_050_940_002, "映射已修改，请刷新后重试");
+    ErrorCode PAYROLL_MAPPING_IMMUTABLE = new ErrorCode(1_050_940_003, "确认或停用的映射不能编辑，请另建版本");
+    ErrorCode PAYROLL_MAPPING_DUPLICATE = new ErrorCode(1_050_940_004, "该来源、命名空间和外部编号已登记，请另建版本");
+    ErrorCode PAYROLL_MAPPING_OVERLAP = new ErrorCode(1_050_940_005, "该编号存在有效期重叠的已确认映射");
+    ErrorCode PAYROLL_MAPPING_PERSON_CHANGED = new ErrorCode(1_050_940_006, "人员主档已变化，请编辑草稿刷新快照并重新核对");
+    ErrorCode PAYROLL_MAPPING_PERMISSION = new ErrorCode(1_050_940_007, "编号映射需要员工档案查询权限及相应人员数据范围");
 }

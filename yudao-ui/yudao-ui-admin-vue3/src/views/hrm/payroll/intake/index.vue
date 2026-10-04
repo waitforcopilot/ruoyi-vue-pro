@@ -168,9 +168,14 @@
           >
           <p v-if="selectedContract" class="hint"
             >人员核对：{{
-              selectedContract.schema.employeeField
-                ? '按 HRM 工号字段 ' + selectedContract.schema.employeeField
-                : '未启用，人员映射待核定'
+              selectedContract.schema.externalEmployeeField
+                ? '按外部编号字段 ' +
+                  selectedContract.schema.externalEmployeeField +
+                  '，命名空间 ' +
+                  selectedContract.schema.employeeNamespace
+                : selectedContract.schema.employeeField
+                  ? '按 HRM 工号字段 ' + selectedContract.schema.employeeField
+                  : '未启用，人员映射待核定'
             }}；期间列核对：{{ selectedContract.schema.periodField || '未启用' }}；主体列核对：{{
               selectedContract.schema.subjectField || '未启用'
             }}。</p
@@ -299,10 +304,17 @@
           >
           <p>唯一键：{{ detail.schema.keyFields.join(' + ') }}</p
           ><p
-            >人员核对：{{ detail.schema.employeeField || '未启用' }} · 期间列：{{
-              detail.schema.periodField || '未启用'
+            >人员核对：{{
+              detail.schema.externalEmployeeField
+                ? '外部编号 ' +
+                  detail.schema.externalEmployeeField +
+                  ' / ' +
+                  detail.schema.employeeNamespace
+                : detail.schema.employeeField || '未启用'
             }}
-            · 主体列：{{ detail.schema.subjectField || '未启用' }}</p
+            · 期间列：{{ detail.schema.periodField || '未启用' }} · 主体列：{{
+              detail.schema.subjectField || '未启用'
+            }}</p
           >
           <el-button v-if="detail.status === 1" @click="downloadContractTemplate(detail)"
             >下载模板</el-button

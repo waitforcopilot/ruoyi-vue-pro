@@ -16,6 +16,8 @@ export interface ContractSchema {
   periodField?: string
   subjectField?: string
   employeeField?: string
+  externalEmployeeField?: string
+  employeeNamespace?: string
 }
 export interface Contract {
   id?: number
@@ -51,6 +53,7 @@ export interface PreviewRow {
   line: number
   values: Record<string, string | null>
   employeeId?: number
+  employeeMapping?: import('@/api/hrm/payroll/identity').Match
   issues: Issue[]
 }
 export interface PreviewResult {
@@ -58,6 +61,7 @@ export interface PreviewResult {
   validCount: number
   errorCount: number
   employeeMatchEnabled: boolean
+  employeeMatchMode?: 'NONE' | 'HRM_JOB_NUMBER' | 'EXTERNAL_MAPPING'
   globalIssues: Issue[]
   rows: PreviewRow[]
 }
