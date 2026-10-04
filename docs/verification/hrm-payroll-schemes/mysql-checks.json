@@ -1,0 +1,12 @@
+{
+  "command": "bash script/hrm/verify-scheme-mysql.sh",
+  "engine": "MySQL 8.0.46",
+  "result": "PASS",
+  "checks": [
+    "repeat migration",
+    "three permissions",
+    "existing snapshot retained",
+    "tenant/group/version uniqueness",
+    "Unicode MEDIUMTEXT snapshot"
+  ]
+}
