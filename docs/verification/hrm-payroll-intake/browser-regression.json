@@ -1,0 +1,54 @@
+[
+  {
+    "check": "authenticated intake page uses actual contract API",
+    "result": "PASS"
+  },
+  {
+    "check": "contract detail audit and real CSV template download",
+    "result": "PASS"
+  },
+  {
+    "check": "copying confirmed contract creates separate draft version through UI",
+    "result": "PASS"
+  },
+  {
+    "check": "draft field contract edits persist via backend",
+    "result": "PASS"
+  },
+  {
+    "check": "review requires evidence then locks confirmed contract in UI",
+    "result": "PASS"
+  },
+  {
+    "check": "validation remains retryable and valid zero upload passes without implying payroll readiness",
+    "result": "PASS"
+  },
+  {
+    "check": "UI shows zero missing precision period and duplicate errors from original owned batch",
+    "result": "PASS"
+  },
+  {
+    "check": "problem-only filter excludes the valid zero row",
+    "result": "PASS"
+  },
+  {
+    "check": "own batch history lists persisted uploads",
+    "result": "PASS"
+  },
+  {
+    "check": "retirement removes new upload action but preserved batch remains viewable",
+    "result": "PASS"
+  },
+  {
+    "check": "reader sees permitted metadata and no mutation controls or other owners batches",
+    "result": "PASS"
+  },
+  {
+    "check": "mobile page and stacked field editor fit a 390px viewport",
+    "result": "PASS"
+  },
+  {
+    "check": "browser runtime has no uncaught page errors",
+    "result": "PASS"
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "verifiedAt": "2026-10-04T19:51:43.456038+00:00",
+  "environment": "isolated MySQL/Redis with synthetic fixtures; no production migration",
+  "backend": {
+    "tests": 1481,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 24
+  },
+  "hrmTests": 613,
+  "newTests": 24,
+  "apiChecks": 46,
+  "browserChecks": 13,
+  "foundationSmokeChecks": 13,
+  "frontendTypeCheck": "PASS (complete vue-tsc, no errors)",
+  "frontendBuild": "PASS (Vite production build)",
+  "mysqlMigration": "PASS (isolated Docker, repeatability, four permissions, tenant/version/owner uniqueness, Unicode LONGTEXT)",
+  "frontendPort": 3000,
+  "backendPort": 48081,
+  "formalPayrollEnabled": false
+}
