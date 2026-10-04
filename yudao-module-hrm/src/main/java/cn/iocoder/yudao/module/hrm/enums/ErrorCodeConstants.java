@@ -312,4 +312,11 @@ public interface ErrorCodeConstants {
     ErrorCode PAYROLL_CONTRACT_NOT_CONFIRMED = new ErrorCode(1_050_920_004, "请选择已确认且未停用的契约进行预检");
     ErrorCode PAYROLL_IMPORT_BATCH_NOT_EXISTS = new ErrorCode(1_050_920_005, "预检批次不存在或不属于当前用户");
     ErrorCode PAYROLL_INTAKE_EMPLOYEE_PERMISSION = new ErrorCode(1_050_920_006, "人员匹配还需要员工档案查询权限");
+
+    ErrorCode PAYROLL_RULE_NOT_EXISTS = new ErrorCode(1_050_930_000, "规则台账不存在");
+    ErrorCode PAYROLL_RULE_INVALID = new ErrorCode(1_050_930_001, "规则资料不完整或不合法：{}");
+    ErrorCode PAYROLL_RULE_STALE = new ErrorCode(1_050_930_002, "规则已被修改，请重新读取后操作");
+    ErrorCode PAYROLL_RULE_IMMUTABLE = new ErrorCode(1_050_930_003, "已确认或停用规则不可编辑，请另建版本");
+    ErrorCode PAYROLL_RULE_CODE_DUPLICATE = new ErrorCode(1_050_930_004, "规则编号已登记，请从现有台账另建版本");
+    ErrorCode PAYROLL_RULE_PERIOD_OVERLAP = new ErrorCode(1_050_930_005, "同编号、同范围已有生效期间重叠的确认版本");
 }

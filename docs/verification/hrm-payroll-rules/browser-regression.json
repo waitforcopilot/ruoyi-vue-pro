@@ -1,0 +1,42 @@
+[
+  {
+    "check": "ledger route renders real API versions statuses and ISO dates",
+    "result": "PASS"
+  },
+  {
+    "check": "detail displays canonical zero false business evidence and audit history",
+    "result": "PASS"
+  },
+  {
+    "check": "new version copies reviewed inputs as draft and UI edits persist",
+    "result": "PASS"
+  },
+  {
+    "check": "confirmation requires evidence and interval overlap remains blocked in browser",
+    "result": "PASS"
+  },
+  {
+    "check": "reviewed nonoverlapping scope locks edits after successful confirmation",
+    "result": "PASS"
+  },
+  {
+    "check": "saved expected example reloads from frozen reviewed version",
+    "result": "PASS"
+  },
+  {
+    "check": "retired rule preserves original parameters examples and audit",
+    "result": "PASS"
+  },
+  {
+    "check": "reader sees ledger metadata without mutation buttons",
+    "result": "PASS"
+  },
+  {
+    "check": "mobile ledger and rule form fit a 390px viewport",
+    "result": "PASS"
+  },
+  {
+    "check": "no uncaught browser page errors",
+    "result": "PASS"
+  }
+]
