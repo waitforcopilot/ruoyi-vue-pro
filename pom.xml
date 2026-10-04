@@ -161,4 +161,14 @@
         </repository>
     </repositories>
 
+    <!-- HRM includes BPM for leave and payroll approval integration. -->
+    <profiles>
+        <profile>
+            <id>hrm</id>
+            <modules>
+                <module>yudao-module-bpm</module>
+                <module>yudao-module-hrm</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>
