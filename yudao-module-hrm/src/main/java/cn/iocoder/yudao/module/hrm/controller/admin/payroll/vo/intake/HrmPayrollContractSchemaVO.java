@@ -15,6 +15,8 @@ public class HrmPayrollContractSchemaVO {
     @Size(max = 64) private String periodField;
     @Size(max = 64) private String subjectField;
     @Size(max = 64) private String employeeField;
+    @Size(max = 64) private String externalEmployeeField;
+    @Size(max = 64) private String employeeNamespace;
 
     @Data
     public static class Field {

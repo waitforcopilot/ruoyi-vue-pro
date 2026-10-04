@@ -18,7 +18,10 @@ public final class HrmPayrollCsvValidator {
     public static HrmPayrollPreviewResultVO validate(byte[] bytes, HrmPayrollContractSchemaVO schema,
             Long contractId, Integer version, HrmPayrollPreviewReqVO context) {
         HrmPayrollPreviewResultVO result = new HrmPayrollPreviewResultVO()
-                .setEmployeeMatchEnabled(schema.getEmployeeField() != null && !schema.getEmployeeField().isEmpty());
+                .setEmployeeMatchEnabled((schema.getEmployeeField() != null && !schema.getEmployeeField().isEmpty())
+                        || (schema.getExternalEmployeeField()!=null&&!schema.getExternalEmployeeField().isEmpty()))
+                .setEmployeeMatchMode(schema.getExternalEmployeeField()!=null&&!schema.getExternalEmployeeField().isEmpty()?"EXTERNAL_MAPPING"
+                        :schema.getEmployeeField()!=null&&!schema.getEmployeeField().isEmpty()?"HRM_JOB_NUMBER":"NONE");
         List<Record> records;
         try {
             String text = StandardCharsets.UTF_8.newDecoder().onMalformedInput(CodingErrorAction.REPORT)

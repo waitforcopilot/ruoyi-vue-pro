@@ -11,12 +11,14 @@ public class HrmPayrollPreviewResultVO {
     private Integer validCount;
     private Integer errorCount;
     private Boolean employeeMatchEnabled;
+    private String employeeMatchMode;
 
     @Data
     public static class Row {
         private Integer line;
         private Map<String, String> values = new LinkedHashMap<>();
         private Long employeeId;
+        private cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.identity.HrmPayrollMappingLookupVO.Match employeeMapping;
         private List<Issue> issues = new ArrayList<>();
     }
     @Data

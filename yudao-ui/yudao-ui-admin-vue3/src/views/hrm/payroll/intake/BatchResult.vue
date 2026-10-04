@@ -21,9 +21,11 @@
       type="info"
       :closable="false"
       :title="
-        batch.result.employeeMatchEnabled
-          ? '已按当前 HRM 工号核对。期间人员资格、来源完整性和薪酬规则仍需确认。'
-          : '人员映射未启用。格式预检通过后，仍需确认人员映射、来源完整性和薪酬规则。'
+        batch.result.employeeMatchMode === 'EXTERNAL_MAPPING'
+          ? '已按所保存的外部编号映射版本核对。计薪资格、来源完整性和薪酬规则仍需确认。'
+          : batch.result.employeeMatchEnabled
+            ? '已按当前 HRM 工号核对。期间人员资格、来源完整性和薪酬规则仍需确认。'
+            : '人员映射未启用。格式预检通过后，仍需确认人员映射、来源完整性和薪酬规则。'
       "
     />
     <p class="context"
@@ -56,6 +58,18 @@
           }}</span></template
         >
       </el-table-column>
+      <el-table-column
+        v-if="batch.result.employeeMatchMode === 'EXTERNAL_MAPPING'"
+        label="人员映射版本"
+        min-width="195"
+        ><template #default="{ row }"
+          ><span v-if="row.employeeMapping"
+            >HRM #{{ row.employeeId }}<br />映射 #{{ row.employeeMapping.mappingId }} · V{{
+              row.employeeMapping.mappingVersion
+            }}</span
+          ><span v-else>未匹配</span></template
+        ></el-table-column
+      >
       <el-table-column label="检查结果" min-width="300"
         ><template #default="{ row }"
           ><span v-if="!row.issues.length" class="passed">该行无问题</span
@@ -71,7 +85,9 @@
       description="文件结构未通过检查，暂无可展示的数据行"
     />
     <p class="hash">文件 SHA-256：{{ batch.fileHash }}</p>
-    <p class="hash">本批次保留提交时的契约与结果，再次上传相同内容及声明会返回原批次。</p>
+    <p class="hash"
+      >本批次保留当时的契约与结果。相同内容、声明和映射结果返回原批次；外部映射版本或可访问的核对结果变化时生成新批次，旧结果不覆盖。</p
+    >
   </div>
 </template>
 <script setup lang="ts">

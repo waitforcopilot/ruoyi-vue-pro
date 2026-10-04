@@ -35,6 +35,7 @@ class HrmPayrollIntakeServiceImplTest extends BaseDbUnitTest {
     @Resource private javax.sql.DataSource dataSource;
     @MockBean private AdminUserApi adminUserApi;
     @MockBean private PermissionApi permissionApi;
+    @MockBean private cn.iocoder.yudao.module.hrm.service.payroll.identity.HrmPayrollEmployeeMappingService mappingService;
 
     @BeforeEach void actor() { login(1L, 10L); }
     private void login(Long tenant, Long id) {

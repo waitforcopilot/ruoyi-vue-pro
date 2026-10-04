@@ -1,0 +1,186 @@
+[
+  {
+    "check": "anonymous denied",
+    "result": "PASS"
+  },
+  {
+    "check": "ungranted account denied",
+    "result": "PASS"
+  },
+  {
+    "check": "intake source options available with query permission",
+    "result": "PASS"
+  },
+  {
+    "check": "reader cannot create contract",
+    "result": "PASS"
+  },
+  {
+    "check": "new contract is draft and server allocates version",
+    "result": "PASS"
+  },
+  {
+    "check": "draft template blocked",
+    "result": "PASS"
+  },
+  {
+    "check": "editor cannot confirm contract",
+    "result": "PASS"
+  },
+  {
+    "check": "stale draft edit rejected",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent same-revision edits have one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "reviewer cannot edit contract",
+    "result": "PASS"
+  },
+  {
+    "check": "authorized reviewer confirms",
+    "result": "PASS"
+  },
+  {
+    "check": "review actor is server stamped",
+    "result": "PASS"
+  },
+  {
+    "check": "confirmed contract immutable",
+    "result": "PASS"
+  },
+  {
+    "check": "template has UTF8 BOM exact contract marker and download headers",
+    "result": "PASS"
+  },
+  {
+    "check": "reader cannot upload",
+    "result": "PASS"
+  },
+  {
+    "check": "batch dates use ISO strings for frontend clients",
+    "result": "PASS"
+  },
+  {
+    "check": "row errors include missing precision period and both duplicates",
+    "result": "PASS"
+  },
+  {
+    "check": "zero differs from missing and personnel match is explicit",
+    "result": "PASS"
+  },
+  {
+    "check": "reupload returns frozen original despite different filename",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent identical uploads return one batch",
+    "result": "PASS"
+  },
+  {
+    "check": "idempotency includes submitting owner",
+    "result": "PASS"
+  },
+  {
+    "check": "same-tenant reader cannot read other owner batch",
+    "result": "PASS"
+  },
+  {
+    "check": "super administrator also cannot read other owner batch",
+    "result": "PASS"
+  },
+  {
+    "check": "owned batch list excludes payload and foreign batches",
+    "result": "PASS"
+  },
+  {
+    "check": "scope mismatch retained as row error",
+    "result": "PASS"
+  },
+  {
+    "check": "reversed period rejected",
+    "result": "PASS"
+  },
+  {
+    "check": "oversized file rejected",
+    "result": "PASS"
+  },
+  {
+    "check": "wrong header saved as failed batch",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid encoding saved as failed batch",
+    "result": "PASS"
+  },
+  {
+    "check": "malformed quotes saved as failed batch",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent versions allocated sequentially under source lock",
+    "result": "PASS"
+  },
+  {
+    "check": "new version requires its own confirmation",
+    "result": "PASS"
+  },
+  {
+    "check": "old template rejected for new contract version",
+    "result": "PASS"
+  },
+  {
+    "check": "confirm requires explicit decimal precision",
+    "result": "PASS"
+  },
+  {
+    "check": "employee lookup requires separate HRM query permission",
+    "result": "PASS"
+  },
+  {
+    "check": "employee matching rejects missing ambiguous and foreign-tenant identities",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B denied /contracts/get",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B denied /contracts/history",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B denied /contracts/template",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B denied contract modification",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B denied other tenant source contract creation",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B denied batch and upload",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B lists contain no tenant A data",
+    "result": "PASS"
+  },
+  {
+    "check": "retirement succeeds and blocks new preview",
+    "result": "PASS"
+  },
+  {
+    "check": "retired contract batch retains confirmed snapshot",
+    "result": "PASS"
+  },
+  {
+    "check": "contract history contains only successful authorized revisions",
+    "result": "PASS"
+  }
+]

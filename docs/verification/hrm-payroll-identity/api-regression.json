@@ -1,0 +1,210 @@
+[
+  {
+    "check": "anonymous identity APIs denied",
+    "result": "PASS"
+  },
+  {
+    "check": "ungranted identity denied",
+    "result": "PASS"
+  },
+  {
+    "check": "mapping query alone cannot read people or mappings",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant sources return only narrow metadata",
+    "result": "PASS"
+  },
+  {
+    "check": "exact person lookup returns ISO snapshot and fingerprint without unrelated PII",
+    "result": "PASS"
+  },
+  {
+    "check": "foreign tenant person cannot be selected",
+    "result": "PASS"
+  },
+  {
+    "check": "department scope cannot select another department person",
+    "result": "PASS"
+  },
+  {
+    "check": "reader cannot maintain mappings",
+    "result": "PASS"
+  },
+  {
+    "check": "server allocates draft ID version and personal snapshot",
+    "result": "PASS"
+  },
+  {
+    "check": "same identity requires a new version rather than duplicate registration",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent first registrations have exactly one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "stale draft edits rejected",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent same-revision edits have one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "source namespace and external identity cannot change on edit",
+    "result": "PASS"
+  },
+  {
+    "check": "review and maintenance permissions are separated",
+    "result": "PASS"
+  },
+  {
+    "check": "confirmation requires responsible person reference and effective dates",
+    "result": "PASS"
+  },
+  {
+    "check": "confirmation requires review evidence",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent same-revision reviews have one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "confirmed mapping stamps real actor and freezes edits",
+    "result": "PASS"
+  },
+  {
+    "check": "leading-zero external code resolves an exact confirmed version despite duplicate HRM job numbers",
+    "result": "PASS"
+  },
+  {
+    "check": "audit preserves server actor and before-after snapshots",
+    "result": "PASS"
+  },
+  {
+    "check": "department reader audit redacts reasons and all personal snapshots",
+    "result": "PASS"
+  },
+  {
+    "check": "self scope uses bound HRM person rather than job number",
+    "result": "PASS"
+  },
+  {
+    "check": "external codes preserve case and leading zeros in MySQL lookup",
+    "result": "PASS"
+  },
+  {
+    "check": "same external code can belong to a distinct namespace",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent new versions are sequential and leave review conclusion empty",
+    "result": "PASS"
+  },
+  {
+    "check": "inclusive effective boundary overlap blocks confirmation",
+    "result": "PASS"
+  },
+  {
+    "check": "adjacent periods resolve their own versions but do not stitch a whole interval",
+    "result": "PASS"
+  },
+  {
+    "check": "open-ended periods are explicit and resolve future dates",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent overlapping confirmations have one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "department pagination totals and resolution exclude unauthorized people",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B cannot read update review or version tenant A identities",
+    "result": "PASS"
+  },
+  {
+    "check": "master-record drift blocks confirmation",
+    "result": "PASS"
+  },
+  {
+    "check": "stale employee picker fingerprint blocks saving a changed main record",
+    "result": "PASS"
+  },
+  {
+    "check": "confirmed name department and capture time stay frozen after main record changes",
+    "result": "PASS"
+  },
+  {
+    "check": "both captured and current department must be visible",
+    "result": "PASS"
+  },
+  {
+    "check": "deleted main record cannot resolve but all-scope history remains readable",
+    "result": "PASS"
+  },
+  {
+    "check": "deleted main record also disappears from scoped count",
+    "result": "PASS"
+  },
+  {
+    "check": "contract cannot combine external mapping and direct HRM job matching",
+    "result": "PASS"
+  },
+  {
+    "check": "external matching requires explicit namespace",
+    "result": "PASS"
+  },
+  {
+    "check": "CSV uses mapping identity even when HRM job numbers are duplicated",
+    "result": "PASS"
+  },
+  {
+    "check": "CSV unknown mappings return row issues without HRM fallback",
+    "result": "PASS"
+  },
+  {
+    "check": "same file and visible mapping outcomes reuse the same immutable batch",
+    "result": "PASS"
+  },
+  {
+    "check": "retirement produces a new batch with unresolved identity",
+    "result": "PASS"
+  },
+  {
+    "check": "publishing a replacement mapping produces a new batch with its version reference",
+    "result": "PASS"
+  },
+  {
+    "check": "old CSV result retains its original frozen person and mapping version",
+    "result": "PASS"
+  },
+  {
+    "check": "unknown mapped row contains no target employee or mapping reference",
+    "result": "PASS"
+  },
+  {
+    "check": "mapped CSV applies department scope before choosing a target",
+    "result": "PASS"
+  },
+  {
+    "check": "CSV without date matching requires one version for the entire declared interval",
+    "result": "PASS"
+  },
+  {
+    "check": "CSV date matching retains the different period versions per row",
+    "result": "PASS"
+  },
+  {
+    "check": "retired mapping history is retained and never physically deleted",
+    "result": "PASS"
+  },
+  {
+    "check": "identity and preview operations leave existing payroll data unchanged",
+    "result": "PASS"
+  }
+]
