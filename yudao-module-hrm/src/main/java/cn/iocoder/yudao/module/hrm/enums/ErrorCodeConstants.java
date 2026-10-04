@@ -303,4 +303,13 @@ public interface ErrorCodeConstants {
     ErrorCode PAYROLL_COLLECTION_BUILTIN_DELETE = new ErrorCode(1_050_910_004, "原型候选需求不能删除，请维护范围决定");
     ErrorCode PAYROLL_BASELINE_NOT_EXISTS = new ErrorCode(1_050_910_005, "评审基线不存在");
     ErrorCode PAYROLL_BASELINE_TOO_LARGE = new ErrorCode(1_050_910_006, "评审基线超过导出规模限制");
+
+    // ========== 薪酬数据接入准备 1-050-920-000 ==========
+    ErrorCode PAYROLL_CONTRACT_NOT_EXISTS = new ErrorCode(1_050_920_000, "来源契约不存在");
+    ErrorCode PAYROLL_INTAKE_INVALID = new ErrorCode(1_050_920_001, "接入资料不完整或不合法：{}");
+    ErrorCode PAYROLL_CONTRACT_STALE = new ErrorCode(1_050_920_002, "契约已被修改，请重新读取");
+    ErrorCode PAYROLL_CONTRACT_IMMUTABLE = new ErrorCode(1_050_920_003, "已确认或停用契约不可修改，请创建新版本");
+    ErrorCode PAYROLL_CONTRACT_NOT_CONFIRMED = new ErrorCode(1_050_920_004, "请选择已确认且未停用的契约进行预检");
+    ErrorCode PAYROLL_IMPORT_BATCH_NOT_EXISTS = new ErrorCode(1_050_920_005, "预检批次不存在或不属于当前用户");
+    ErrorCode PAYROLL_INTAKE_EMPLOYEE_PERMISSION = new ErrorCode(1_050_920_006, "人员匹配还需要员工档案查询权限");
 }

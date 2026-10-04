@@ -51,3 +51,5 @@ DELETE FROM "hrm_payroll_requirement";
 DELETE FROM "hrm_payroll_source";
 DELETE FROM "hrm_payroll_review";
 DELETE FROM "hrm_payroll_baseline";
+DELETE FROM "hrm_payroll_import_batch";
+DELETE FROM "hrm_payroll_source_contract";
