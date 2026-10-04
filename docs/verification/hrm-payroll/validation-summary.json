@@ -1,5 +1,5 @@
 {
-  "verifiedAtUtc": "2026-10-04T17:07:21.167953+00:00",
+  "verifiedAtUtc": "2026-10-04T17:13:09.490392+00:00",
   "backendTests": {
     "total": 1457,
     "failures": 0,
@@ -19,7 +19,8 @@
     "pnpm": "11.19.0",
     "typeCheck": "PASS",
     "viteBuild": "PASS",
-    "businessOverlay": "yudao-ui/yudao-ui-admin-vue3"
+    "businessOverlay": "yudao-ui/yudao-ui-admin-vue3",
+    "nodeHeapMiBForTypes": 6144
   },
   "environment": {
     "database": "isolated verification database",
@@ -45,5 +46,6 @@
   },
   "apiMySqlChecks": 27,
   "browserChecks": 12,
-  "exportHttpHeaders": "PASS"
+  "exportHttpHeaders": "PASS",
+  "prototypeSha256": "6898065e01c0e38f35bbb09a65184bc385b2e2e10334c1f80bca74b188908839"
 }
