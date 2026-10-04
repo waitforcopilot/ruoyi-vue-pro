@@ -294,4 +294,13 @@ public interface ErrorCodeConstants {
     // ========== HRM 首页 1-050-900-001 ==========
     ErrorCode HOME_CALENDAR_DATE_RANGE_ILLEGAL = new ErrorCode(1_050_900_001, "HRM 首页日期范围不合法");
 
+
+    // ========== 薪酬需求征集 1-050-910-000 ==========
+    ErrorCode PAYROLL_COLLECTION_NOT_EXISTS = new ErrorCode(1_050_910_000, "需求或数据来源不存在");
+    ErrorCode PAYROLL_COLLECTION_CODE_DUPLICATE = new ErrorCode(1_050_910_001, "编号已被使用，不能重复创建");
+    ErrorCode PAYROLL_COLLECTION_VERSION_STALE = new ErrorCode(1_050_910_002, "记录已被修改，请刷新后重试");
+    ErrorCode PAYROLL_COLLECTION_INVALID = new ErrorCode(1_050_910_003, "评审资料不完整或不合法：{}");
+    ErrorCode PAYROLL_COLLECTION_BUILTIN_DELETE = new ErrorCode(1_050_910_004, "原型候选需求不能删除，请维护范围决定");
+    ErrorCode PAYROLL_BASELINE_NOT_EXISTS = new ErrorCode(1_050_910_005, "评审基线不存在");
+    ErrorCode PAYROLL_BASELINE_TOO_LARGE = new ErrorCode(1_050_910_006, "评审基线超过导出规模限制");
 }

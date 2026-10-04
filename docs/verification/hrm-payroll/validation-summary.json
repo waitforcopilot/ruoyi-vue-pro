@@ -1,0 +1,51 @@
+{
+  "verifiedAtUtc": "2026-10-04T17:13:09.490392+00:00",
+  "backendTests": {
+    "total": 1457,
+    "failures": 0,
+    "errors": 0,
+    "existingSkipped": 24
+  },
+  "hrmTests": {
+    "total": 589,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "newCollectionServiceTests": 18
+  },
+  "frontend": {
+    "completeProjectCommit": "0af03a93b6b6300f878e28add69b1c7a9f09ec34",
+    "node": "24.19.0",
+    "pnpm": "11.19.0",
+    "typeCheck": "PASS",
+    "viteBuild": "PASS",
+    "businessOverlay": "yudao-ui/yudao-ui-admin-vue3",
+    "nodeHeapMiBForTypes": 6144
+  },
+  "environment": {
+    "database": "isolated verification database",
+    "mysql": "8.0.46",
+    "frontendPort": 3000,
+    "backendPort": 48081,
+    "browserLocale": "zh-CN",
+    "browserTimezone": "Asia/Shanghai",
+    "candidateRequirements": 46,
+    "activeTestRequirements": 1,
+    "businessConfirmation": "pending"
+  },
+  "mysqlMigration": "PASS",
+  "foundationApiSmokeChecks": 13,
+  "screenshots": {
+    "payroll-review-history.png": "7ef731d56b734ac5e819031da12d728ae62cbd6ed97847160008bff6cf7ce432",
+    "payroll-requirement-mobile-form.png": "3eceb91cd88e15e9a197db47b133a883d153d5eddb1a914a83e7e45d9ea177a8",
+    "hrm-foundation-employee-page.png": "e74a22695bfc9b16b36f883129567971dfbf8a10e91dc38ded7a19110e45192f",
+    "payroll-data-sources.png": "b6b4aeb4c0b4cd388d887231cb35993eb19a04c05a8375082bc3dfb3b33f55a2",
+    "payroll-requirements-mobile.png": "d01a184b0a4b9b601b4d5fb0ac026df84823abfeca6c64fda5c95e0f23f5a45e",
+    "payroll-requirements-desktop.png": "24560bdb8be686b94e3b4f100b3973bc016a3f7b2d15db170739a3fac128bcb4",
+    "payroll-review-baselines.png": "63ec2890c097f4e0a8af4e47c535a72898fe054c64b26ab04444599be96c863a"
+  },
+  "apiMySqlChecks": 27,
+  "browserChecks": 12,
+  "exportHttpHeaders": "PASS",
+  "prototypeSha256": "6898065e01c0e38f35bbb09a65184bc385b2e2e10334c1f80bca74b188908839"
+}

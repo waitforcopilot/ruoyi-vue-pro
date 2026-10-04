@@ -1,0 +1,127 @@
+diff --git a/src/layout/components/Menu/src/Menu.vue b/src/layout/components/Menu/src/Menu.vue
+index bc7d8ca..f6901aa 100644
+--- a/src/layout/components/Menu/src/Menu.vue
++++ b/src/layout/components/Menu/src/Menu.vue
+@@ -203,7 +203,7 @@ export default defineComponent({
+     }
+
+     const defaultOpeneds = computed(() => {
+-      if (unref(menuMode) === 'horizontal') {
++      if (unref(menuMode) === 'horizontal' || (unref(collapse) && !isTwoColumnLayout(unref(layout)))) {
+         return []
+       }
+       if (props.rootOnly) {
+@@ -267,7 +267,7 @@ export default defineComponent({
+           return
+         }
+         const nextOpeneds = unref(defaultOpeneds)
+-        if (unref(uniqueOpened)) {
++        if (unref(uniqueOpened) || unref(collapse)) {
+           lastAutoOpeneds
+             .filter((path) => !nextOpeneds.includes(path))
+             .forEach((path) => {
+diff --git a/src/views/ai/chat/index/components/conversation/ConversationList.vue b/src/views/ai/chat/index/components/conversation/ConversationList.vue
+index f0ab098..361b729 100644
+--- a/src/views/ai/chat/index/components/conversation/ConversationList.vue
++++ b/src/views/ai/chat/index/components/conversation/ConversationList.vue
+@@ -134,6 +134,7 @@
+ </template>
+
+ <script setup lang="ts">
++import { ElMessage, ElMessageBox } from 'element-plus'
+ import { ChatConversationApi, ChatConversationVO } from '@/api/ai/chat/conversation'
+ import RoleRepository from '../role/RoleRepository.vue'
+ import { Bottom, Top } from '@element-plus/icons-vue'
+diff --git a/src/views/bpm/oa/leave/index.vue b/src/views/bpm/oa/leave/index.vue
+index 9fab923..2ed65e1 100644
+--- a/src/views/bpm/oa/leave/index.vue
++++ b/src/views/bpm/oa/leave/index.vue
+@@ -162,6 +162,7 @@
+   </ContentWrap>
+ </template>
+ <script lang="ts" setup>
++import { ElMessageBox } from 'element-plus'
+ import { DICT_TYPE, getIntDictOptions } from '@/utils/dict'
+ import { dateFormatter } from '@/utils/formatTime'
+ import * as LeaveApi from '@/api/bpm/leave'
+diff --git a/src/views/fms/report/components/FmsReportFormulaForm.vue b/src/views/fms/report/components/FmsReportFormulaForm.vue
+index dc7d80a..8f18bf6 100644
+--- a/src/views/fms/report/components/FmsReportFormulaForm.vue
++++ b/src/views/fms/report/components/FmsReportFormulaForm.vue
+@@ -133,14 +133,14 @@ const balanceFormulaRuleOptions = getIntDictOptions(DICT_TYPE.FMS_FORMULA_RULE).
+     FMS_FORMULA_RULE.BALANCE,
+     FMS_FORMULA_RULE.DEBIT_BALANCE,
+     FMS_FORMULA_RULE.CREDIT_BALANCE
+-  ].includes(item.value)
++  ].some(rule => rule === item.value)
+ )
+ const incomeFormulaRuleOptions = getIntDictOptions(DICT_TYPE.FMS_FORMULA_RULE).filter((item) =>
+   [
+     FMS_FORMULA_RULE.DEBIT_AMOUNT,
+     FMS_FORMULA_RULE.CREDIT_AMOUNT,
+     FMS_FORMULA_RULE.PROFIT_LOSS_AMOUNT
+-  ].includes(item.value)
++  ].some(rule => rule === item.value)
+ )
+
+ /** 启用状态的科目 */
+diff --git a/src/views/iot/alert/record/index.vue b/src/views/iot/alert/record/index.vue
+index e0bef5c..e912d38 100644
+--- a/src/views/iot/alert/record/index.vue
++++ b/src/views/iot/alert/record/index.vue
+@@ -188,6 +188,7 @@
+ </template>
+
+ <script setup lang="ts">
++import { ElMessageBox } from 'element-plus'
+ import { dateFormatter } from '@/utils/formatTime'
+ import { AlertRecordApi, AlertRecord } from '@/api/iot/alert/record'
+ import { AlertConfigApi, AlertConfig } from '@/api/iot/alert/config'
+diff --git a/src/views/mes/wm/barcode/components/PrinterLabel.vue b/src/views/mes/wm/barcode/components/PrinterLabel.vue
+index f00f372..2322194 100644
+--- a/src/views/mes/wm/barcode/components/PrinterLabel.vue
++++ b/src/views/mes/wm/barcode/components/PrinterLabel.vue
+@@ -4,6 +4,7 @@
+   </el-button>
+ </template>
+ <script lang="ts" setup>
++import { ElMessage } from 'element-plus'
+ // TODO @芋艿：后续实现。对接 HiPrint 打印插件 + UReport 报表模板，实现标签打印功能
+
+ defineOptions({ name: 'PrinterLabel' })
+diff --git a/src/views/mes/wm/barcode/config/BarcodeConfigForm.vue b/src/views/mes/wm/barcode/config/BarcodeConfigForm.vue
+index 41c87ec..7da9717 100644
+--- a/src/views/mes/wm/barcode/config/BarcodeConfigForm.vue
++++ b/src/views/mes/wm/barcode/config/BarcodeConfigForm.vue
+@@ -81,6 +81,7 @@
+ </template>
+
+ <script setup lang="ts">
++import { ElMessage } from 'element-plus'
+ import { getIntDictOptions, DICT_TYPE } from '@/utils/dict'
+ import {
+   WmBarcodeConfigApi as BarcodeConfigApi,
+diff --git a/src/views/mes/wm/warehouse/location/LocationForm.vue b/src/views/mes/wm/warehouse/location/LocationForm.vue
+index 662f34e..71ee2d8 100644
+--- a/src/views/mes/wm/warehouse/location/LocationForm.vue
++++ b/src/views/mes/wm/warehouse/location/LocationForm.vue
+@@ -111,6 +111,7 @@
+ </template>
+
+ <script setup lang="ts">
++import { ElMessageBox } from 'element-plus'
+ import { WmWarehouseApi, WmWarehouseVO } from '@/api/mes/wm/warehouse'
+ import { WmWarehouseLocationApi, WmWarehouseLocationVO } from '@/api/mes/wm/warehouse/location'
+ import { AutoCodeRecordApi } from '@/api/mes/md/autocode/record'
+diff --git a/src/views/pms/kb/document/KnowledgeLibrarySidebar.vue b/src/views/pms/kb/document/KnowledgeLibrarySidebar.vue
+index 7d3956a..c98f5db 100644
+--- a/src/views/pms/kb/document/KnowledgeLibrarySidebar.vue
++++ b/src/views/pms/kb/document/KnowledgeLibrarySidebar.vue
+@@ -137,6 +137,7 @@
+ </template>
+
+ <script lang="ts" setup>
++import { ElTree } from 'element-plus'
+ import {
+   getKnowledgeTreeNodeIcon,
+   type KnowledgeContentView,
