@@ -1,0 +1,81 @@
+{
+  "executedAt": "2026-10-05T14:08:10+08:00",
+  "sourceBaseCommit": "d29bbefc43c5671fd6d8f07fb6972ad04053090b",
+  "workflowSha256": "5a805d969bd70d15e0899e88dbba3e69175482b51bc27631aaa25931173f41d3",
+  "frontend": {
+    "baselineCommit": "0af03a93b6b6300f878e28add69b1c7a9f09ec34",
+    "node": "v24.19.0",
+    "pnpm": "11.19.0",
+    "overlayFiles": 27,
+    "normalizedTarballUrls": 159,
+    "lockedVersionsAndIntegrityUnchanged": true,
+    "lockfileSha256": "676050a5675a8de1ad6795cb6fbbedc54aec79cebda2deae4fa637dc3454a2e4",
+    "frozenInstall": {
+      "command": "pnpm install --frozen-lockfile --registry=https://registry.npmjs.org",
+      "exitCode": 0
+    },
+    "checks": [
+      {
+        "command": "NODE_OPTIONS=--max-old-space-size=4096 pnpm exec vite build --mode prod",
+        "exitCode": 0
+      },
+      {
+        "command": "NODE_OPTIONS=--max-old-space-size=6144 pnpm exec vue-tsc --noEmit",
+        "exitCode": 0
+      }
+    ],
+    "freshGeneratedDeclarations": [
+      "src/types/auto-imports.d.ts",
+      "src/types/auto-components.d.ts"
+    ],
+    "mesIncluded": true
+  },
+  "workflowLint": {
+    "tool": "actionlint",
+    "version": "1.7.7",
+    "exitCode": 0
+  },
+  "gateCases": [
+    {
+      "backend": "success",
+      "frontend": "success",
+      "exitCode": 0
+    },
+    {
+      "backend": "failure",
+      "frontend": "success",
+      "exitCode": 1
+    },
+    {
+      "backend": "success",
+      "frontend": "failure",
+      "exitCode": 1
+    },
+    {
+      "backend": "skipped",
+      "frontend": "success",
+      "exitCode": 1
+    },
+    {
+      "backend": "cancelled",
+      "frontend": "success",
+      "exitCode": 1
+    }
+  ],
+  "collectorRejectionCasesPassed": [
+    "missing_reports",
+    "missing_bpm",
+    "skipped_hrm",
+    "all_skipped_hrm",
+    "failed_tests"
+  ],
+  "collectorAcceptedExecutedBpmWithExistingSkips": true,
+  "overlayChecksPassed": [
+    "upgrade_previously_applied_patch",
+    "idempotent_reapply",
+    "reject_independent_vite_edits",
+    "reject_independent_lockfile_edits",
+    "reject_wrong_baseline"
+  ],
+  "githubExecution": "Local equivalent commands verified; GitHub result must be checked on the PR after push"
+}
