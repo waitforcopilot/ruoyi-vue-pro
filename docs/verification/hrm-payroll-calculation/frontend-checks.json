@@ -1,0 +1,19 @@
+{
+  "baselineCommit": "0af03a93b6b6300f878e28add69b1c7a9f09ec34",
+  "overlayFiles": 30,
+  "productionBuild": "PASS",
+  "typecheck": "PASS",
+  "mesIncluded": true,
+  "frozenDependenciesRetained": true,
+  "normalizedLockfileSha256": "676050a5675a8de1ad6795cb6fbbedc54aec79cebda2deae4fa637dc3454a2e4",
+  "sourceHashes": {
+    "src/api/hrm/payroll/calculation/index.ts": "1d5a75ec6661dbfb4b6cbefe4495ab773157b8bafe31cdf357a4a54ccd2b6975",
+    "src/views/hrm/payroll/calculation/CalculationEditor.vue": "28f7fe30bc9d5940a72b1151d328d65dbbb13949da5c61e0daa9bbea75896eb5",
+    "src/views/hrm/payroll/calculation/index.vue": "d30b1aff418952434fc5edb31d838bddf170f650c97bd97775c1a0b1888d64cc"
+  },
+  "productionIndexSha256": "ea8ad7db7b8db57ccc1fda43c06dfa7d4813260dd043aba9525ff3266e671372",
+  "runtimeMatchesVerifiedSource": true,
+  "typecheckExecutedWithoutConcurrentServices": true,
+  "node": "v24.19.0",
+  "pnpm": "11.19.0"
+}

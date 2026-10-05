@@ -58,3 +58,4 @@ DELETE FROM "hrm_payroll_rule";
 DELETE FROM "hrm_payroll_employee_mapping";
 DELETE FROM hrm_payroll_scheme_version;
 DELETE FROM hrm_payroll_insurance_policy;
+DELETE FROM hrm_payroll_calculation_definition;

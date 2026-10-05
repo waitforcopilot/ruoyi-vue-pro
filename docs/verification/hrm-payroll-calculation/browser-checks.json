@@ -1,0 +1,54 @@
+[
+  {
+    "check": "actual rule route renders filtered versions scope and approval states",
+    "result": "PASS"
+  },
+  {
+    "check": "browser shows exact ordered amounts valid zero raw result and calculation trace",
+    "result": "PASS"
+  },
+  {
+    "check": "input changes invalidate output and division by zero never leaves a previous result",
+    "result": "PASS"
+  },
+  {
+    "check": "version comparison displays explicit integer precision and retained decimal case expectations",
+    "result": "PASS"
+  },
+  {
+    "check": "detail rechecks saved cases and retains actual review actor and revision history",
+    "result": "PASS"
+  },
+  {
+    "check": "new editor leaves financial precision and rounding explicitly unselected",
+    "result": "PASS"
+  },
+  {
+    "check": "explicit synthetic sample retains blank policy metadata and mismatched expected result blocks approval",
+    "result": "PASS"
+  },
+  {
+    "check": "actual browser editing correcting and confirming a rule makes its exact saved definition executable",
+    "result": "PASS"
+  },
+  {
+    "check": "copy and edit refresh selected definition clear inputs and discard old execution output",
+    "result": "PASS"
+  },
+  {
+    "check": "browser retirement preserves version visibility and removes execution eligibility",
+    "result": "PASS"
+  },
+  {
+    "check": "query-only reader sees matching filtered rows and exact results without mutation controls",
+    "result": "PASS"
+  },
+  {
+    "check": "390px mobile contains table overflow and stacks input and editor metadata",
+    "result": "PASS"
+  },
+  {
+    "check": "desktop reader and mobile have no uncaught browser errors",
+    "result": "PASS"
+  }
+]

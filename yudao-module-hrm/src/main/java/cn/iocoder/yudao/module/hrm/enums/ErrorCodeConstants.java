@@ -342,4 +342,11 @@ public interface ErrorCodeConstants {
     ErrorCode PAYROLL_INSURANCE_POLICY_DUPLICATE = new ErrorCode(1_050_960_004, "该城市、范围及缴费项目已登记，请另建版本");
     ErrorCode PAYROLL_INSURANCE_POLICY_OVERLAP = new ErrorCode(1_050_960_005, "同城市、范围及项目存在有效期重叠的已确认政策");
     ErrorCode PAYROLL_INSURANCE_POLICY_BASE_OUTSIDE = new ErrorCode(1_050_960_006, "声明基数超出政策上下限，不自动调整或填零");
+    ErrorCode PAYROLL_CALCULATION_NOT_EXISTS = new ErrorCode(1_050_970_000, "计算规则版本不存在");
+    ErrorCode PAYROLL_CALCULATION_INVALID = new ErrorCode(1_050_970_001, "计算规则资料不合法：{}");
+    ErrorCode PAYROLL_CALCULATION_STALE = new ErrorCode(1_050_970_002, "计算规则已修改，请刷新后重试");
+    ErrorCode PAYROLL_CALCULATION_IMMUTABLE = new ErrorCode(1_050_970_003, "已确认或停用计算规则不能编辑，请另建版本");
+    ErrorCode PAYROLL_CALCULATION_DUPLICATE = new ErrorCode(1_050_970_004, "计算规则编号已登记，请另建版本");
+    ErrorCode PAYROLL_CALCULATION_OVERLAP = new ErrorCode(1_050_970_005, "同编号及范围存在有效期重叠的已确认计算规则");
+    ErrorCode PAYROLL_CALCULATION_CASES_FAILED = new ErrorCode(1_050_970_006, "业务样例尚未全部通过，不能确认计算规则");
 }
