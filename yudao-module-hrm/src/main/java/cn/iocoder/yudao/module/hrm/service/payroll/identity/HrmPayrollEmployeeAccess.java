@@ -37,18 +37,26 @@ public class HrmPayrollEmployeeAccess {
         return person;
     }
     public void require(HrmPayrollEmployeeMappingDO row) {
+        require(row.getEmployeeId(),row.getSnapshotDeptId(),row.getSnapshotUserId());
+    }
+    public void require(Long employeeId,Long capturedDept,Long capturedUser) {
         DeptDataPermissionRespDTO scope=scope();
         if(Boolean.TRUE.equals(scope.getAll())) return; // All-scope history remains readable after main-record deletion.
-        if(!visible(scope,row.getSnapshotDeptId(),row.getSnapshotUserId())) throw exception(PAYROLL_MAPPING_NOT_EXISTS);
-        employee(row.getEmployeeId(),false);
+        if(!visible(scope,capturedDept,capturedUser)) throw exception(PAYROLL_MAPPING_NOT_EXISTS);
+        employee(employeeId,false);
     }
     public LambdaQueryWrapperX<HrmPayrollEmployeeMappingDO> filter(LambdaQueryWrapperX<HrmPayrollEmployeeMappingDO> q) {
+        return filter(q,"hrm_payroll_employee_mapping");
+    }
+    public <T> LambdaQueryWrapperX<T> filter(LambdaQueryWrapperX<T> q,String table) {
+        if(!Arrays.asList("hrm_payroll_employee_mapping","hrm_payroll_employee_eligibility").contains(table))
+            throw new IllegalArgumentException("Unsupported personnel snapshot table");
         DeptDataPermissionRespDTO scope=scope();if(Boolean.TRUE.equals(scope.getAll())) return q;
         List<Object> parameters=new ArrayList<>();
         String captured=predicate(scope,"snapshot_dept_id","snapshot_user_id",parameters);
         int index=parameters.size();parameters.add(TenantContextHolder.getRequiredTenantId());
         String current=predicate(scope,"e.dept_id","e.user_id",parameters);
-        q.apply("("+captured+") AND EXISTS (SELECT 1 FROM hrm_employee e WHERE e.id=hrm_payroll_employee_mapping.employee_id"
+        q.apply("("+captured+") AND EXISTS (SELECT 1 FROM hrm_employee e WHERE e.id="+table+".employee_id"
                 +" AND e.tenant_id={"+index+"} AND e.deleted=0 AND ("+current+"))",parameters.toArray());
         return q;
     }

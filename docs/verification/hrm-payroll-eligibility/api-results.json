@@ -1,0 +1,199 @@
+{
+  "checks": [
+    {
+      "check": "anonymous and ungranted denied",
+      "result": "PASS"
+    },
+    {
+      "check": "maintainonly cannot read without combined query permissions",
+      "result": "PASS"
+    },
+    {
+      "check": "maintainonly cannot mutate without combined query permissions",
+      "result": "PASS"
+    },
+    {
+      "check": "reviewonly cannot read without combined query permissions",
+      "result": "PASS"
+    },
+    {
+      "check": "reviewonly cannot mutate without combined query permissions",
+      "result": "PASS"
+    },
+    {
+      "check": "nohrm cannot read without combined query permissions",
+      "result": "PASS"
+    },
+    {
+      "check": "nohrm cannot mutate without combined query permissions",
+      "result": "PASS"
+    },
+    {
+      "check": "server owns version snapshot and reviewer",
+      "result": "PASS"
+    },
+    {
+      "check": "duplicate entity person denied",
+      "result": "PASS"
+    },
+    {
+      "check": "reader cannot maintain",
+      "result": "PASS"
+    },
+    {
+      "check": "editor cannot review",
+      "result": "PASS"
+    },
+    {
+      "check": "reviewer cannot maintain",
+      "result": "PASS"
+    },
+    {
+      "check": "same job number is not identity",
+      "result": "PASS"
+    },
+    {
+      "check": "HTTP ISO dates and whitelist",
+      "result": "PASS"
+    },
+    {
+      "check": "draft does not match period",
+      "result": "PASS"
+    },
+    {
+      "check": "confirmation success",
+      "result": "PASS"
+    },
+    {
+      "check": "full period included matched",
+      "result": "PASS"
+    },
+    {
+      "check": "confirmed immutable",
+      "result": "PASS"
+    },
+    {
+      "check": "cross tenant IDs and histories denied",
+      "result": "PASS"
+    },
+    {
+      "check": "cross tenant create cannot bind tenant A person",
+      "result": "PASS"
+    },
+    {
+      "check": "cross tenant personnel unavailable",
+      "result": "PASS"
+    },
+    {
+      "check": "cross tenant period unresolved",
+      "result": "PASS"
+    },
+    {
+      "check": "adjacent date outside period unresolved",
+      "result": "PASS"
+    },
+    {
+      "check": "new version draft clears review",
+      "result": "PASS"
+    },
+    {
+      "check": "inclusive overlap blocked",
+      "result": "PASS"
+    },
+    {
+      "check": "draft update clears optional fields",
+      "result": "PASS"
+    },
+    {
+      "check": "incomplete confirmation blocked",
+      "result": "PASS"
+    },
+    {
+      "check": "explicit finite exclusion saved",
+      "result": "PASS"
+    },
+    {
+      "check": "excluded distinct from unknown",
+      "result": "PASS"
+    },
+    {
+      "check": "period does not join versions",
+      "result": "PASS"
+    },
+    {
+      "check": "revision update success",
+      "result": "PASS"
+    },
+    {
+      "check": "stale update blocked",
+      "result": "PASS"
+    },
+    {
+      "check": "stable employee identity blocked",
+      "result": "PASS"
+    },
+    {
+      "check": "empty unbounded end cannot confirm",
+      "result": "PASS"
+    },
+    {
+      "check": "dept and self readers see authorized snapshot",
+      "result": "PASS"
+    },
+    {
+      "check": "scoped history redacts freeform and snapshots",
+      "result": "PASS"
+    },
+    {
+      "check": "source drift stops confirmed matching",
+      "result": "PASS"
+    },
+    {
+      "check": "stale snapshot blocks draft save",
+      "result": "PASS"
+    },
+    {
+      "check": "source drift blocks otherwise complete draft confirmation",
+      "result": "PASS"
+    },
+    {
+      "check": "historical confirmed snapshot not rewritten",
+      "result": "PASS"
+    },
+    {
+      "check": "captured plus current department and self guard",
+      "result": "PASS"
+    },
+    {
+      "check": "scoped page hides moved personnel",
+      "result": "PASS"
+    },
+    {
+      "check": "concurrent version numbers unique",
+      "result": "PASS"
+    },
+    {
+      "check": "concurrent overlap admits one confirmation",
+      "result": "PASS"
+    },
+    {
+      "check": "retirement excludes lookup and keeps history",
+      "result": "PASS"
+    },
+    {
+      "check": "legacy salary and insurance tables unchanged",
+      "result": "PASS"
+    }
+  ],
+  "total": 46,
+  "passed": 46,
+  "syntheticFixtures": true,
+  "legacyTablesUnchanged": [
+    "hrm_salary_employee_info",
+    "hrm_salary_month_record",
+    "hrm_salary_month_employee_record",
+    "hrm_salary_slip_send_record",
+    "hrm_insurance_month_record",
+    "hrm_insurance_month_employee_record"
+  ]
+}

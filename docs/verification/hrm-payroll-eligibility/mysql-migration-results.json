@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "isolation": "temporary MySQL 8.0.46 container without network",
+  "migrationApplications": 2,
+  "checks": [
+    "three permissions without duplicates",
+    "retained personnel snapshot",
+    "tenant/entity/person/version uniqueness",
+    "Unicode preservation"
+  ]
+}
