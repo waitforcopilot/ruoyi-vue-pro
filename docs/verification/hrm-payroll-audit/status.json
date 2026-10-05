@@ -1,0 +1,1280 @@
+{
+  "auditedAt": "2026-10-05T13:22:28+08:00",
+  "timezone": "Asia/Shanghai",
+  "sourceCommit": "9f9da10b04683a10fda2a0d75d000784044a1f16",
+  "method": "按 PRD、路线图完整验收项及已提交代码/证据评估；子模块技术交付不等于全部业务验收。未完成不表示仓库没有继承的 HRM 基础。",
+  "roadmapCounts": {
+    "partial": 13,
+    "complete": 5,
+    "not_complete": 34
+  },
+  "prdCountsIncludingCollection": {
+    "complete": 3,
+    "not_complete": 38,
+    "partial": 5
+  },
+  "prototypeCounts": {
+    "not_complete": 38,
+    "partial": 5
+  },
+  "businessAcceptance": "未取得正式范围、规则、真实来源及财务样例签认",
+  "modules": [
+    {
+      "module": 1,
+      "name": "HRM/BPM 启动基础",
+      "scope": "HRM/BPM profile、MySQL 应用表增量、独立 jar 及启动验证。",
+      "commit": "09467d438b01d3835827d0c01542d6f2c3eefd6f",
+      "pullRequest": 2,
+      "branch": "feat/hrm-payroll-foundation",
+      "document": "docs/hrm-foundation-setup.md",
+      "reactorTestsAtDelivery": 1439,
+      "hrmTestsAtDelivery": 571,
+      "newHrmTests": 0,
+      "apiChecksAtDelivery": 13,
+      "browserChecksAtDelivery": null,
+      "pushed": true,
+      "merged": false,
+      "businessAcceptance": "not_established"
+    },
+    {
+      "module": 2,
+      "name": "需求征集与评审基线",
+      "scope": "46 候选点、12 类来源、评审留痕、修订与冻结 Excel。",
+      "commit": "c339f2a1b4688e4019f8dcc12f33ddd55ac3fd4e",
+      "pullRequest": 3,
+      "branch": "feat/hrm-payroll-requirements",
+      "document": "docs/hrm-payroll-requirements-module.md",
+      "reactorTestsAtDelivery": 1457,
+      "hrmTestsAtDelivery": 589,
+      "newHrmTests": 18,
+      "apiChecksAtDelivery": 27,
+      "browserChecksAtDelivery": 12,
+      "pushed": true,
+      "merged": false,
+      "businessAcceptance": "not_established"
+    },
+    {
+      "module": 3,
+      "name": "来源契约与 CSV 预检",
+      "scope": "版本化契约、CSV 模板、本人预检批次、错误与快照。",
+      "commit": "a464113d3716169ccdfddf205c27e1770d0892c5",
+      "pullRequest": 4,
+      "branch": "feat/hrm-payroll-intake",
+      "document": "docs/hrm-payroll-intake-module.md",
+      "reactorTestsAtDelivery": 1481,
+      "hrmTestsAtDelivery": 613,
+      "newHrmTests": 24,
+      "apiChecksAtDelivery": 46,
+      "browserChecksAtDelivery": 13,
+      "pushed": true,
+      "merged": false,
+      "businessAcceptance": "not_established"
+    },
+    {
+      "module": 4,
+      "name": "薪酬规则文字台账",
+      "scope": "口径/参数/业务样例登记、有效期、确认/停用及审计；不执行公式。",
+      "commit": "f7608cfd689f55a724312d3ab22548e8e5df68ff",
+      "pullRequest": 5,
+      "branch": "feat/hrm-payroll-rule-ledger",
+      "document": "docs/hrm-payroll-rules-module.md",
+      "reactorTestsAtDelivery": 1495,
+      "hrmTestsAtDelivery": 627,
+      "newHrmTests": 14,
+      "apiChecksAtDelivery": 34,
+      "browserChecksAtDelivery": 10,
+      "pushed": true,
+      "merged": false,
+      "businessAcceptance": "not_established"
+    },
+    {
+      "module": 5,
+      "name": "资料准备总览",
+      "scope": "真实资料状态、权限分区与本人最近预检批次；无正式工资 KPI。",
+      "commit": "7423a4ffe376a3b67504191b7935bcff4f710d03",
+      "pullRequest": 6,
+      "branch": "feat/hrm-payroll-preparation-overview",
+      "document": "docs/hrm-payroll-preparation-module.md",
+      "reactorTestsAtDelivery": 1504,
+      "hrmTestsAtDelivery": 636,
+      "newHrmTests": 9,
+      "apiChecksAtDelivery": 19,
+      "browserChecksAtDelivery": 12,
+      "pushed": true,
+      "merged": false,
+      "businessAcceptance": "not_established"
+    },
+    {
+      "module": 6,
+      "name": "人员编号映射",
+      "scope": "外部编号映射、主档抓取快照、期间核对及 CSV 版本引用；无完整计薪资格。",
+      "commit": "fc13c283a98a027915fdc0d964d3d62332f3741e",
+      "pullRequest": 7,
+      "branch": "feat/hrm-payroll-employee-mapping",
+      "document": "docs/hrm-payroll-identity-module.md",
+      "reactorTestsAtDelivery": 1524,
+      "hrmTestsAtDelivery": 656,
+      "newHrmTests": 20,
+      "apiChecksAtDelivery": 52,
+      "browserChecksAtDelivery": 14,
+      "pushed": true,
+      "merged": false,
+      "businessAcceptance": "not_established"
+    },
+    {
+      "module": 7,
+      "name": "方案配置版本",
+      "scope": "薪资组/计税配置/工资项快照、源变化校验、有效期及对比；未接入工资计算。",
+      "commit": "1d4c6b0f3f9ad2993f2b07a72ce35c0f51805ea9",
+      "pullRequest": 8,
+      "branch": "feat/hrm-payroll-scheme-versions",
+      "document": "docs/hrm-payroll-scheme-module.md",
+      "reactorTestsAtDelivery": 1543,
+      "hrmTestsAtDelivery": 675,
+      "newHrmTests": 19,
+      "apiChecksAtDelivery": 41,
+      "browserChecksAtDelivery": 14,
+      "pushed": true,
+      "merged": false,
+      "businessAcceptance": "not_established"
+    },
+    {
+      "module": 8,
+      "name": "本地社保公积金政策",
+      "scope": "本地城市政策、基数上下限、明确舍入、声明基数精确核对；无个人月账/扣款。",
+      "commit": "9f9da10b04683a10fda2a0d75d000784044a1f16",
+      "pullRequest": 9,
+      "branch": "feat/hrm-payroll-insurance-policies",
+      "document": "docs/hrm-payroll-insurance-module.md",
+      "reactorTestsAtDelivery": 1566,
+      "hrmTestsAtDelivery": 698,
+      "newHrmTests": 23,
+      "apiChecksAtDelivery": 48,
+      "browserChecksAtDelivery": 16,
+      "pushed": true,
+      "merged": false,
+      "businessAcceptance": "not_established"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T-01",
+      "stage": "R0",
+      "title": "明确首期范围、主体/人群、暂缓项、规则负责人和版本；保留完整候选需求清单",
+      "status": "partial",
+      "implemented": "征集目录、范围决定、负责人和优先级录入已提供。",
+      "remaining": "实际首期主体/人群、纳入/暂缓清单及业务负责人尚未签认。",
+      "pullRequests": [
+        3
+      ],
+      "evidenceDocuments": [
+        "docs/hrm-payroll-requirements-module.md"
+      ],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-02",
+      "stage": "R0",
+      "title": "建立规则台账与业务样例：期间、入离职、月中调薪、扣款、倍率、补休、社保、税务、精度、生命周期",
+      "status": "partial",
+      "implemented": "规则台账、参数、业务样例、有效期和评审留痕已提供。",
+      "remaining": "未取得正式口径及 HR/财务认可的输入与预期值；台账不执行规则。",
+      "pullRequests": [
+        5
+      ],
+      "evidenceDocuments": [
+        "docs/hrm-payroll-rules-module.md"
+      ],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-03",
+      "stage": "R0",
+      "title": "确定 DS-01～12 数据契约与来源负责人：实际系统、唯一键、字段、单位、模板/API、刷新/截止和错误处理",
+      "status": "partial",
+      "implemented": "12 类来源目录及版本化字段契约、模板与样本预检已提供。",
+      "remaining": "实际系统、来源负责人、截止/刷新、字段映射和样本尚未全部签认。",
+      "pullRequests": [
+        3,
+        4
+      ],
+      "evidenceDocuments": [
+        "docs/hrm-payroll-requirements-module.md",
+        "docs/hrm-payroll-intake-module.md"
+      ],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-04",
+      "stage": "R1",
+      "title": "固定前端交付方式：可写独立仓库或受控合入；对齐前后端版本、保留 MES 扩展，形成环境与构建说明",
+      "status": "complete",
+      "implemented": "固定完整 Vue3 基准提交；受控增量、兼容补丁、应用脚本及完整类型/构建回归已交付。",
+      "remaining": "已完成本任务的技术交付；生产发布仍属 T-52。",
+      "pullRequests": [
+        3
+      ],
+      "evidenceDocuments": [
+        "docs/hrm-payroll-requirements-module.md"
+      ],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-05",
+      "stage": "R1",
+      "title": "启用根模块 HRM/BPM 与 server 依赖，校验扫描、配置、任务和 BPM API 装配",
+      "status": "complete",
+      "implemented": "根 reactor 与 server 的 HRM/BPM profile、独立 jar、扫描和 API 装配已验证。",
+      "remaining": "已完成模块启用；业务审批链另属 T-40。",
+      "pullRequests": [
+        2
+      ],
+      "evidenceDocuments": [
+        "docs/hrm-foundation-setup.md"
+      ],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-06",
+      "stage": "R1",
+      "title": "编制 MySQL 增量建表/升级：50 个 HRM DO 对齐、BPM 应用表清单、Flowable 表/版本、字典/模板/菜单/流程种子",
+      "status": "partial",
+      "implemented": "50 张 HRM、8 张 BPM 应用表及各模块增量迁移、隔离重复迁移验证已提供。",
+      "remaining": "Flowable 使用启动建表；完整生产升级校验、经确认字典/模板/流程种子尚未完成。",
+      "pullRequests": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "evidenceDocuments": [
+        "docs/hrm-foundation-setup.md",
+        "docs/hrm-payroll-requirements-module.md",
+        "docs/hrm-payroll-intake-module.md",
+        "docs/hrm-payroll-rules-module.md",
+        "docs/hrm-payroll-preparation-module.md",
+        "docs/hrm-payroll-identity-module.md",
+        "docs/hrm-payroll-scheme-module.md",
+        "docs/hrm-payroll-insurance-module.md"
+      ],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-07",
+      "stage": "R1",
+      "title": "制定角色与字段授权，补充 HRM 主体/部门/员工数据权限和按 ID 校验；区分查看、调整、核算、审批、导出、发布",
+      "status": "partial",
+      "implemented": "新增工具接口的权限/租户、本人批次、人员映射的部门/本人及历史快照授权已有回归。",
+      "remaining": "尚未完成整个工资明细、批次、核算、审批、导出/发布的主体/字段/员工授权矩阵。",
+      "pullRequests": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "evidenceDocuments": [
+        "docs/hrm-payroll-requirements-module.md",
+        "docs/hrm-payroll-intake-module.md",
+        "docs/hrm-payroll-rules-module.md",
+        "docs/hrm-payroll-preparation-module.md",
+        "docs/hrm-payroll-identity-module.md",
+        "docs/hrm-payroll-scheme-module.md",
+        "docs/hrm-payroll-insurance-module.md"
+      ],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-08",
+      "stage": "R1",
+      "title": "建立 HRM/BPM 测试与构建流水线、可重建开发数据和基线回归结果",
+      "status": "partial",
+      "implemented": "本地完整 reactor、MySQL/API/浏览器、完整前端及可重建合成数据脚本已提供。",
+      "remaining": "现有 GitHub Maven 工作流跳过测试且不启用 HRM，前端工作流未校验本次 Vue3 增量；流水线未完成。",
+      "pullRequests": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "evidenceDocuments": [
+        "docs/hrm-foundation-setup.md",
+        "docs/hrm-payroll-requirements-module.md",
+        "docs/hrm-payroll-intake-module.md",
+        "docs/hrm-payroll-rules-module.md",
+        "docs/hrm-payroll-preparation-module.md",
+        "docs/hrm-payroll-identity-module.md",
+        "docs/hrm-payroll-scheme-module.md",
+        "docs/hrm-payroll-insurance-module.md"
+      ],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-09",
+      "stage": "R1",
+      "title": "建立需求/来源目录与基线模型，登记 43 功能点、COL-01～03、DS-01～12，提供查询/维护接口",
+      "status": "complete",
+      "implemented": "46 个候选需求（43+COL 三项）、12 类来源、查询/维护、评审与冻结基线模型已实现。",
+      "remaining": "技术模型和目录完整；真实业务结论不由目录登记自动产生。",
+      "pullRequests": [
+        3
+      ],
+      "evidenceDocuments": [
+        "docs/hrm-payroll-requirements-module.md"
+      ],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-10",
+      "stage": "R1",
+      "title": "实现征集总览及 9 个业务页共用征集面板：录入/补充、筛选、负责人、优先级、验收条件和字段映射",
+      "status": "partial",
+      "implemented": "独立征集页面、九领域筛选、公共征集组件、维护表单、移动端和 ?module= 入口已交付。",
+      "remaining": "公共面板尚未接入九个正式业务页；原型十视图不等于十个已实现业务模块。",
+      "pullRequests": [
+        3
+      ],
+      "evidenceDocuments": [
+        "docs/hrm-payroll-requirements-module.md"
+      ],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-11",
+      "stage": "R1",
+      "title": "实现确认/待确认/异议的权限、状态留痕、未决问题与基线变更记录",
+      "status": "complete",
+      "implemented": "确认/待确认/异议、权限、依据/责任人、修订失效、历史与不可变评审基线已实现。",
+      "remaining": "技术状态机制完成；合成确认记录不等于业务签认。",
+      "pullRequests": [
+        3
+      ],
+      "evidenceDocuments": [
+        "docs/hrm-payroll-requirements-module.md"
+      ],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-12",
+      "stage": "R1",
+      "title": "导出版本化评审清单，单独展示数据就绪状态，并支持功能/来源双向追踪",
+      "status": "complete",
+      "implemented": "冻结 Excel 三工作表、版本/状态/来源就绪分离、功能与来源双向追踪已实现。",
+      "remaining": "技术导出能力完成；真实来源的就绪结论仍须业务登记。",
+      "pullRequests": [
+        3
+      ],
+      "evidenceDocuments": [
+        "docs/hrm-payroll-requirements-module.md"
+      ],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-13",
+      "stage": "R2",
+      "title": "统一员工、工号、后台用户和外部编号映射；维护主体、计薪资格、历史组织/入离职快照",
+      "status": "partial",
+      "implemented": "跨来源编号映射、版本、当前主档抓取快照、期间覆盖核对、CSV 引用及部门/本人授权已实现。",
+      "remaining": "正式法人主体、历史任职与组织、入离职和期间计薪资格模型尚未完成。",
+      "pullRequests": [
+        7
+      ],
+      "evidenceDocuments": [
+        "docs/hrm-payroll-identity-module.md"
+      ],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-14",
+      "stage": "R2",
+      "title": "建立受控归集/导入批次、模板版本、预校验、逐行错误、去重/覆盖/新版本策略",
+      "status": "partial",
+      "implemented": "契约版本、CSV 模板/预检、缺失/零值、重复/未知人员、本人幂等批次及不可变快照已实现。",
+      "remaining": "尚无正式接收/入账、完整覆盖策略及真实工资来源归集。",
+      "pullRequests": [
+        4,
+        7
+      ],
+      "evidenceDocuments": [
+        "docs/hrm-payroll-intake-module.md",
+        "docs/hrm-payroll-identity-module.md"
+      ],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-15",
+      "stage": "R2",
+      "title": "实现首期来源适配：HRM 直取、确认模板导入、必要外部接口；来源状态、任务结果、重试与影响提示",
+      "status": "not_complete",
+      "implemented": "可复用已有 HRM 服务和已交付契约/映射工具。",
+      "remaining": "实际工资输入的 HRM/模板/外部来源适配、调度、失败重试和影响提示未交付。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-16",
+      "stage": "R2",
+      "title": "扩展核算准备检查为可配置校验：完整性、确认/截止、版本、重复和例外；执行接口统一调用",
+      "status": "not_complete",
+      "implemented": "资料准备总览已提供前置核对视图。",
+      "remaining": "主体/期间必需输入的可配置完整性、截止/例外及核算/审批接口统一门槛未实现。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-17",
+      "stage": "R2",
+      "title": "扩展薪酬方案/薪资组/项目为有适用范围和有效期的版本；方案复制、启用、停用和历史对比",
+      "status": "partial",
+      "implemented": "薪资组、引用计税配置和共用工资项的快照版本、源变化校验、有效期和历史对比已实现。",
+      "remaining": "未建立正式人员适用范围，也未由工资核算选择和执行这些版本。",
+      "pullRequests": [
+        8
+      ],
+      "evidenceDocuments": [
+        "docs/hrm-payroll-scheme-module.md"
+      ],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-18",
+      "stage": "R2",
+      "title": "薪级薪档、岗位系数、补贴标准批量维护；接入已确认的绩效结果并映射工资项",
+      "status": "not_complete",
+      "implemented": "现有 HRM 有薪酬配置及绩效系数基础。",
+      "remaining": "经确认薪级/薪档、岗位系数、补贴批量维护及绩效工资项映射未按本任务交付。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-19",
+      "stage": "R2",
+      "title": "扩展定薪/调薪记录，接 BPM 审批与生效任务；复核现有每日加权，处理追溯与补发依据",
+      "status": "not_complete",
+      "implemented": "现有 HRM 有定薪/调薪记录及相关计算基础。",
+      "remaining": "BPM 审批、生效任务、追溯/补发、月中及撤销的正式样例验证未交付。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-20",
+      "stage": "R2",
+      "title": "扩展工资规则计算层、依赖排序、舍入策略和计算解释；保留现有分类计算与可编辑项约束",
+      "status": "not_complete",
+      "implemented": "工作区刚建立 DTO、DO、Mapper、错误码和迁移草稿，共 14 个未提交文件。",
+      "remaining": "无表达式解析器、计算服务、Controller、页面或回归；未提交、未推送，不计完成。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": true
+    },
+    {
+      "id": "T-21",
+      "stage": "R2",
+      "title": "扩展日/月考勤归集，统一班次、跨日、时区、截止时间与工资起止日，验证迟到/早退/旷工规则",
+      "status": "not_complete",
+      "implemented": "现有考勤服务已有日/月汇总。",
+      "remaining": "非自然月工资期、截止/时区、跨夜、入离职和口径对账的本轮扩展未交付。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-22",
+      "stage": "R2",
+      "title": "在已有请假/BPM 基础上关联出差、外出、补卡等来源单据，标准化批准、撤销和有效时段",
+      "status": "not_complete",
+      "implemented": "现有 HRM/BPM 有请假基础。",
+      "remaining": "出差/外出/补卡与打卡的统一来源、撤销和重叠处理未按任务交付。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-23",
+      "stage": "R2",
+      "title": "考勤异常工单、提醒、人工核定与反馈闭环；补正记录标记工资影响和责任人",
+      "status": "not_complete",
+      "implemented": "原有考勤及新预检能够展示部分问题。",
+      "remaining": "工资影响、负责人、补正、通知及冻结后变更的正式异常工单闭环未交付。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-24",
+      "stage": "R2",
+      "title": "生成已确认考勤扣款/折算工资输入，完成请假扣款与缺勤等薪酬联动",
+      "status": "not_complete",
+      "implemented": "既有工资服务可同步部分考勤扣款。",
+      "remaining": "buildAttendanceData 仍将请假扣款等写为 ZERO；正式折算输入、单次扣款和差异解释未完成。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-25",
+      "stage": "R2",
+      "title": "建立城市/项目/有效期的本地缴费政策版本、基数上下限、比例与确认依据；外部查询作为候选输入",
+      "status": "partial",
+      "implemented": "本地城市/范围/项目政策版本、上下限、出处、确认/停用、精确声明基数核对及逐项舍入已实现。",
+      "remaining": "真实政策签认及正式核算消费未完成；声明基数核对不校验个人资格、不生成月账。",
+      "pullRequests": [
+        9
+      ],
+      "evidenceDocuments": [
+        "docs/hrm-payroll-insurance-module.md"
+      ],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-26",
+      "stage": "R2",
+      "title": "扩展参保档案与基数申报、年度调基、城市变更、入离职及补缴规则",
+      "status": "not_complete",
+      "implemented": "现有 HRM 有参保员工档案。",
+      "remaining": "基数申报、年度调基、有效期城市/入离职变化和补缴的本轮扩展未交付。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-27",
+      "stage": "R2",
+      "title": "月度缴费账与外部缴费明细对账，展示人员/项目/金额差异与处理状态",
+      "status": "not_complete",
+      "implemented": "现有 HRM 有缴费月账对象。",
+      "remaining": "外部账单导入、人员/项目/金额差异、重复对账和处理状态未交付。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-28",
+      "stage": "R2",
+      "title": "社保个人扣款、单位缴费进入工资及成本输入，使用被确认的月账快照",
+      "status": "not_complete",
+      "implemented": "既有工资服务有个人/单位缴费同步字段。",
+      "remaining": "缺个人缴费记录仍可能填零；新政策和已确认月账快照尚未接入正式工资及成本。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-29",
+      "stage": "R2",
+      "title": "专项附加扣除采集/同步，维护主体/员工/年度累计收入、扣除及已扣税期初资料与变更版本",
+      "status": "not_complete",
+      "implemented": "可复用来源契约及原有税务配置。",
+      "remaining": "主体/员工/年度的经确认期初累计、专项扣除采集、断月及重复导入处理未交付。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-30",
+      "stage": "R2",
+      "title": "复核并扩展已有累计预扣，区分已确认税务累计和试算数据；处理跨年、补发、精度及退税调整边界",
+      "status": "not_complete",
+      "implemented": "已有累计预扣与税务相关单测通过基础回归。",
+      "remaining": "经确认累计与试算分离、跨年/补发/精度的财务逐月样例未完成本轮验收。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-31",
+      "stage": "R4",
+      "title": "生成确认模板的个税申报资料；接入已确认的完税资料并独立导出，记录版本与来源",
+      "status": "not_complete",
+      "implemented": "原型和需求目录保留申报及完税导出候选。",
+      "remaining": "确认模板、申报/完税状态及版本化授权导出未交付。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-32",
+      "stage": "R4",
+      "title": "年终奖单独计税/并入综合所得的经确认策略、年度有效期及输入结果追溯",
+      "status": "not_complete",
+      "implemented": "规则台账能登记年终奖口径。",
+      "remaining": "年终奖正式计税策略、年度/范围与普通工资去重尚未实现。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-33",
+      "stage": "R3",
+      "title": "员工标准/综合/不定时工时制度档案，维护适用依据、有效期、结算周期及排班关系",
+      "status": "not_complete",
+      "implemented": "已有排班基础，规则目录保留工时制度问题。",
+      "remaining": "员工工时制度档案、批准依据、有效期及切换约束未交付。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-34",
+      "stage": "R3",
+      "title": "综合/不定时周期结算、排班/实际工时核对、工时报表与异常提醒",
+      "status": "not_complete",
+      "implemented": "已有日/月考勤与排班可复用。",
+      "remaining": "综合/不定时周期结算、跨月/跨夜、排班差异及报表提醒未交付。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-35",
+      "stage": "R3",
+      "title": "加班申请、BPM 审批、打卡核实与认可时长；关联来源单据和制度",
+      "status": "not_complete",
+      "implemented": "BPM 基础已启用。",
+      "remaining": "加班申请/批准、打卡核实、核定时长、撤销及制度关联未交付。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-36",
+      "stage": "R3",
+      "title": "调休/补休额度和使用流水，关联加班核定、请假与冲回，处理跨期余额",
+      "status": "not_complete",
+      "implemented": "需求及规则目录保留补休候选。",
+      "remaining": "补休授予/使用/冲回/余额流水、幂等及避免双重补偿未交付。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-37",
+      "stage": "R3",
+      "title": "按制度/日期/有效规则计算时薪与倍率，生成加班/工时工资输入，增加已确认上限提醒",
+      "status": "not_complete",
+      "implemented": "原型倍率未转成系统默认值。",
+      "remaining": "工资同步加班项仍为 ZERO；按确认制度/日期/倍率结算与上限提醒未实现。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-38",
+      "stage": "R2",
+      "title": "引入业务批次生命周期，保留现有计算枚举；补充主体/期间/补发维度、合法迁移与归档门槛",
+      "status": "not_complete",
+      "implemented": "现有工资表保留未核算/已归档/已核算枚举。",
+      "remaining": "主体、期间、补发及草稿→试算→审批→发放→归档业务批次未实现。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-39",
+      "stage": "R2",
+      "title": "输入/规则/结果快照、版本重算、人工调整及差异；把现有员工记录和汇总挂接到明确版本",
+      "status": "not_complete",
+      "implemented": "输入预检、配置和政策有各自快照。",
+      "remaining": "统一工资输入/规则/结果版本、重算、人工调整及明细/汇总挂接未实现。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-40",
+      "stage": "R2",
+      "title": "工资批次复核/BPM 审批与冻结，处理驳回、撤销、重算失效和版本校验",
+      "status": "not_complete",
+      "implemented": "BPM 模块及通用 API 可启动。",
+      "remaining": "工资版本绑定审批、复核/冻结、乱序和重复回调处理未实现。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-41",
+      "stage": "R2",
+      "title": "异常拦截、人工核对、金额变动对比和人员/汇总对账；形成审批前核对清单",
+      "status": "not_complete",
+      "implemented": "CSV 预检和版本工具提供前置异常资料。",
+      "remaining": "工资变动对比、审批前核对清单、责任人及受控例外未形成正式闭环。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-42",
+      "stage": "R2，R3 补齐工时",
+      "title": "总览真实 KPI、历史期间/批次查询、来源归集进度和待办；R3 接入新增工时/加班结果",
+      "status": "partial",
+      "implemented": "真实资料准备总览、权限分区、来源状态和本人最近预检批次已实现。",
+      "remaining": "按主体/期间/统一版本的工资 KPI、计算批次、审批待办及工时结果尚未提供。",
+      "pullRequests": [
+        6
+      ],
+      "evidenceDocuments": [
+        "docs/hrm-payroll-preparation-module.md"
+      ],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-43",
+      "stage": "R4",
+      "title": "银行代发模板/文件、账户校验、文件版本、授权导出和金额核对",
+      "status": "not_complete",
+      "implemented": "需求目录保留银行代发候选。",
+      "remaining": "批准冻结版本的代发模板、账户校验、文件版本/总额及授权导出未实现。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-44",
+      "stage": "R4",
+      "title": "银行回盘导入、批次/员工/金额匹配、部分成功/失败处理及剩余款项重试",
+      "status": "not_complete",
+      "implemented": "需求目录保留银行回盘候选。",
+      "remaining": "回盘匹配、金额核对、部分失败重试与成功人员去重未实现。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-45",
+      "stage": "R4",
+      "title": "扩展模板快照与本人工资条：版本化生成/发布/撤回，校验批准及经确认的付款/发布时间门槛",
+      "status": "not_complete",
+      "implemented": "既有工资条模板/快照/门户本人绑定及发送服务可启动。",
+      "remaining": "批准/付款发布门槛、版本/撤回及受控更正未扩展；现有发送只检查非未核算。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-46",
+      "stage": "R4",
+      "title": "在已有站内信上接经确认的邮件/短信渠道，记录投递状态、重试、去重与模板权限",
+      "status": "not_complete",
+      "implemented": "现有站内通知与系统消息基础可复用。",
+      "remaining": "工资条邮件/短信渠道、收件人映射、投递重试/去重及模板权限未交付。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-47",
+      "stage": "R4",
+      "title": "员工工资条异议/反馈、HR 处理和更正通知，关联工资版本及处理记录",
+      "status": "not_complete",
+      "implemented": "PRD 保留员工异议场景。",
+      "remaining": "与工资版本关联的本人反馈、HR 处理和更正通知闭环未交付。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-48",
+      "stage": "R5",
+      "title": "部门/成本中心/项目分摊规则及结果，连接单位缴费、历史组织和核算版本",
+      "status": "not_complete",
+      "implemented": "现有月表有部分单位缴费汇总字段。",
+      "remaining": "工资版本及历史组织上的成本中心/项目分摊、比例/尾差与总额核对未实现。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-49",
+      "stage": "R5",
+      "title": "营收/编制/预算来源与版本、人均/成本率、预算实际对比",
+      "status": "not_complete",
+      "implemented": "需求来源目录有 DS-10 候选。",
+      "remaining": "确认营收/预算/编制来源及版本、分母校验和实际预算比较未实现。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-50",
+      "stage": "R5",
+      "title": "薪酬结构多维分析、报表指标字典、导出模板与范围校验",
+      "status": "not_complete",
+      "implemented": "已有基础薪酬查询可复用。",
+      "remaining": "统一明细版本的指标字典、多维分析和授权导出模板未按任务交付。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-51",
+      "stage": "R5",
+      "title": "端到端回归、权限/幂等/精度/流程乱序、迁移兼容、性能及失败恢复测试",
+      "status": "partial",
+      "implemented": "已交付模块的后端、真实 API、浏览器、迁移、权限/并发/精度回归已有证据。",
+      "remaining": "完整工资/审批/银行/渠道端到端、确认规模的性能及失败恢复尚未完成。",
+      "pullRequests": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "evidenceDocuments": [
+        "docs/hrm-foundation-setup.md",
+        "docs/hrm-payroll-requirements-module.md",
+        "docs/hrm-payroll-intake-module.md",
+        "docs/hrm-payroll-rules-module.md",
+        "docs/hrm-payroll-preparation-module.md",
+        "docs/hrm-payroll-identity-module.md",
+        "docs/hrm-payroll-scheme-module.md",
+        "docs/hrm-payroll-insurance-module.md"
+      ],
+      "localWorkInProgress": false
+    },
+    {
+      "id": "T-52",
+      "stage": "R5",
+      "title": "业务并行试算、差异签认、试点上线、监控/操作手册及回退演练",
+      "status": "not_complete",
+      "implemented": "各模块有开发环境和迁移/回退说明。",
+      "remaining": "尚无两个真实工资周期的并行对账、财务签认、生产试点及监控/回退演练。",
+      "pullRequests": [],
+      "evidenceDocuments": [],
+      "localWorkInProgress": false
+    }
+  ],
+  "functions": [
+    {
+      "id": "COL-01",
+      "title": "按模块汇总功能及数据源，关联附录 A 的编号",
+      "status": "complete",
+      "assessment": "PR #3 实现 46 点/12 来源、领域筛选与稳定编号关联；九个业务页内嵌另见 T-10。",
+      "pullRequests": [
+        3
+      ],
+      "originalPrototype": false
+    },
+    {
+      "id": "COL-02",
+      "title": "维护确认 / 待确认 / 异议，记录确认人、时间、依据及未决问题",
+      "status": "complete",
+      "assessment": "PR #3 实现状态、操作者/时间/依据、异议责任人、修订失效及来源就绪分离。",
+      "pullRequests": [
+        3
+      ],
+      "originalPrototype": false
+    },
+    {
+      "id": "COL-03",
+      "title": "补充字段映射、负责人、优先级与导出评审清单",
+      "status": "complete",
+      "assessment": "PR #3 实现补充/映射/负责人/优先级与冻结 Excel 评审清单。",
+      "pullRequests": [
+        3
+      ],
+      "originalPrototype": false
+    },
+    {
+      "id": "OV-01",
+      "title": "总览层汇总指标（应发/实发/法定成本/个税）的统计口径定义",
+      "status": "not_complete",
+      "assessment": "已有部分工资汇总；四项正式指标口径及统一批次尚未核定。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "OV-02",
+      "title": "核算期间切换与历史批次查询",
+      "status": "not_complete",
+      "assessment": "已有年月查询；正式主体/期间/历史业务批次未形成。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "OV-03",
+      "title": "各数据要素(考勤/加班/工时/社保)归集完成度看板",
+      "status": "partial",
+      "assessment": "PR #6 提供真实资料状态及最近批次；不是按主体/期间的完整考勤、加班、工时、社保归集完成率。",
+      "pullRequests": [
+        6
+      ],
+      "originalPrototype": true
+    },
+    {
+      "id": "OV-04",
+      "title": "异常数据触发核对的规则与提醒",
+      "status": "partial",
+      "assessment": "PR #4/#6/#7 显示预检及映射问题；工资批次提醒、核定及处理闭环未实现。",
+      "pullRequests": [
+        4,
+        6,
+        7
+      ],
+      "originalPrototype": true
+    },
+    {
+      "id": "PLAN-01",
+      "title": "薪酬结构与各项目的规则可配置化",
+      "status": "not_complete",
+      "assessment": "已有工资项/薪资组及规则文字台账；本轮无可执行工资规则层。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "PLAN-02",
+      "title": "薪级薪档表的维护与批量导入",
+      "status": "not_complete",
+      "assessment": "薪级薪档维护/批量导入及确认数据未交付。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "PLAN-03",
+      "title": "定薪/调薪流程（含审批链与生效追溯）",
+      "status": "not_complete",
+      "assessment": "已有调薪记录；审批链、生效追溯及正式样例未完成。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "PLAN-04",
+      "title": "薪酬方案版本管理与历史对比",
+      "status": "partial",
+      "assessment": "PR #8 完成独立配置版本和历史对比；尚未与正式计薪人群和核算结果版本整合。",
+      "pullRequests": [
+        8
+      ],
+      "originalPrototype": true
+    },
+    {
+      "id": "CALC-01",
+      "title": "核算批次生命周期（草稿→试算→审批→发放→归档）",
+      "status": "not_complete",
+      "assessment": "已有计算枚举；审批、付款与归档门槛的批次生命周期未实现。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "CALC-02",
+      "title": "算薪公式引擎（各薪酬项目自动计算与调整）",
+      "status": "not_complete",
+      "assessment": "已有分类/税务计算；表达式层仅有工作区草稿，未提交或验证。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "CALC-03",
+      "title": "异常数据拦截与人工核对",
+      "status": "partial",
+      "assessment": "PR #4/#7 完成 CSV 结构、类型、重复、未知人员等预检；正式核算/审批异常门槛及人工复核未完成。",
+      "pullRequests": [
+        4,
+        7
+      ],
+      "originalPrototype": true
+    },
+    {
+      "id": "CALC-04",
+      "title": "银行代发文件生成与回盘核对",
+      "status": "not_complete",
+      "assessment": "候选需求已登记；本轮未交付该功能的正式业务闭环。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "CALC-05",
+      "title": "工资条生成与员工自助查看",
+      "status": "not_complete",
+      "assessment": "已有模板和门户本人绑定；批准/付款门槛及版本化发布未完成。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "TAX-01",
+      "title": "个税累计预扣法自动计算",
+      "status": "not_complete",
+      "assessment": "已有累计预扣；主体/年度/确认累计和财务样例尚未验收。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "TAX-02",
+      "title": "专项附加扣除采集与同步",
+      "status": "not_complete",
+      "assessment": "专项扣除采集/同步及已确认税务期初版本未交付。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "TAX-03",
+      "title": "工资条模板配置与多渠道推送(自助端/邮件/短信)",
+      "status": "not_complete",
+      "assessment": "已有模板/门户/通知基础；邮件/短信及受控发布版本未完成。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "TAX-04",
+      "title": "个税申报表与完税数据导出",
+      "status": "not_complete",
+      "assessment": "候选需求已登记；本轮未交付该功能的正式业务闭环。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "TAX-05",
+      "title": "年终奖单独计税处理",
+      "status": "not_complete",
+      "assessment": "候选需求已登记；本轮未交付该功能的正式业务闭环。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "ATT-01",
+      "title": "考勤数据按日/按月归集与汇总",
+      "status": "not_complete",
+      "assessment": "已有日/月统计；工资期间、截止/时区等新增口径未验收。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "ATT-02",
+      "title": "请假/出差/外出单据与打卡数据自动关联",
+      "status": "not_complete",
+      "assessment": "已有请假基础；出差/外出/补卡统一关联未完成。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "ATT-03",
+      "title": "迟到/早退/缺勤/旷工规则判定",
+      "status": "not_complete",
+      "assessment": "已有迟到/早退/缺勤基础；适用范围和正式样例未验收。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "ATT-04",
+      "title": "异常考勤提醒与人工处理闭环",
+      "status": "not_complete",
+      "assessment": "尚无关联工资影响的异常工单闭环。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "ATT-05",
+      "title": "考勤结果与薪酬计算的联动",
+      "status": "not_complete",
+      "assessment": "已有部分同步；请假等仍占位零，完整工资联动未完成。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "OT-01",
+      "title": "加班申请与审批流（关联考勤打卡时长）",
+      "status": "not_complete",
+      "assessment": "候选需求已登记；本轮未交付该功能的正式业务闭环。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "OT-02",
+      "title": "加班时长统计与倍率规则计算",
+      "status": "not_complete",
+      "assessment": "候选需求已登记；本轮未交付该功能的正式业务闭环。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "OT-03",
+      "title": "加班费自动生成并进入工资核算",
+      "status": "not_complete",
+      "assessment": "候选需求已登记；本轮未交付该功能的正式业务闭环。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "OT-04",
+      "title": "调休/补休管理",
+      "status": "not_complete",
+      "assessment": "候选需求已登记；本轮未交付该功能的正式业务闭环。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "OT-05",
+      "title": "加班合规上限提醒",
+      "status": "not_complete",
+      "assessment": "候选需求已登记；本轮未交付该功能的正式业务闭环。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "HOUR-01",
+      "title": "不同工时制度的员工适用维护",
+      "status": "not_complete",
+      "assessment": "候选需求已登记；本轮未交付该功能的正式业务闭环。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "HOUR-02",
+      "title": "综合/不定时工时周期结算",
+      "status": "not_complete",
+      "assessment": "候选需求已登记；本轮未交付该功能的正式业务闭环。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "HOUR-03",
+      "title": "工时报表生成与异常提醒",
+      "status": "not_complete",
+      "assessment": "候选需求已登记；本轮未交付该功能的正式业务闭环。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "HOUR-04",
+      "title": "工时数据与加班费/考勤扣款的联动",
+      "status": "not_complete",
+      "assessment": "候选需求已登记；本轮未交付该功能的正式业务闭环。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "HOUR-05",
+      "title": "工时与排班表关联核对",
+      "status": "not_complete",
+      "assessment": "已有排班基础；制度/周期工时与工资期的统一核对未完成。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "INS-01",
+      "title": "缴存基数申报与年度调基",
+      "status": "not_complete",
+      "assessment": "已有参保档案；年度调基、生效/补缴处理未按 PRD 完成。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "INS-02",
+      "title": "比例与基数按城市/政策配置",
+      "status": "partial",
+      "assessment": "PR #9 完成本地城市政策参数、版本和声明基数核对；真实政策签认及工资集成尚未完成。",
+      "pullRequests": [
+        9
+      ],
+      "originalPrototype": true
+    },
+    {
+      "id": "INS-03",
+      "title": "个人扣款自动进入工资核算",
+      "status": "not_complete",
+      "assessment": "已有缴费同步字段；缺记录填零和正式月账快照接入未解决。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "INS-04",
+      "title": "单位缴费计入用工成本报表",
+      "status": "not_complete",
+      "assessment": "已有部分单位缴费汇总；成本报表/分摊未交付。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "INS-05",
+      "title": "社保公积金月度缴纳台账与对账",
+      "status": "not_complete",
+      "assessment": "已有月账对象；外部账单核对、差异与处理状态未交付。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "RPT-01",
+      "title": "薪酬成本按部门/成本中心/项目分摊",
+      "status": "not_complete",
+      "assessment": "候选需求已登记；本轮未交付该功能的正式业务闭环。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "RPT-02",
+      "title": "人力成本率与人均指标计算",
+      "status": "not_complete",
+      "assessment": "候选需求已登记；本轮未交付该功能的正式业务闭环。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "RPT-03",
+      "title": "薪酬结构多维分析(占比/变动)",
+      "status": "not_complete",
+      "assessment": "候选需求已登记；本轮未交付该功能的正式业务闭环。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "RPT-04",
+      "title": "工资总额预算与实际对比",
+      "status": "not_complete",
+      "assessment": "候选需求已登记；本轮未交付该功能的正式业务闭环。",
+      "pullRequests": [],
+      "originalPrototype": true
+    },
+    {
+      "id": "RPT-05",
+      "title": "报表口径与导出格式",
+      "status": "not_complete",
+      "assessment": "候选需求已登记；本轮未交付该功能的正式业务闭环。",
+      "pullRequests": [],
+      "originalPrototype": true
+    }
+  ],
+  "latestCommittedRegression": {
+    "fullReactor": {
+      "tests": 1566,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 24
+    },
+    "hrm": {
+      "tests": 698,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "insuranceSuites": [
+      {
+        "suite": "cn.iocoder.yudao.module.hrm.service.payroll.insurance.HrmPayrollInsurancePolicyServiceImplTest",
+        "tests": 23,
+        "failures": 0,
+        "errors": 0
+      }
+    ]
+  },
+  "originalScreenshotCount": 45,
+  "sourceCatalogue": {
+    "requirements": 46,
+    "sources": 12
+  },
+  "localCalculationScaffoldFiles": 14
+}
