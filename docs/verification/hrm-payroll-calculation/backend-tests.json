@@ -1,13 +1,13 @@
 {
   "fullReactor": {
-    "tests": 1625,
+    "tests": 1626,
     "failures": 0,
     "errors": 0,
     "skipped": 24,
     "suites": 165
   },
   "hrm": {
-    "tests": 757,
+    "tests": 758,
     "failures": 0,
     "errors": 0,
     "skipped": 0,
@@ -78,7 +78,7 @@
       "suites": 20
     },
     "yudao-module-hrm": {
-      "tests": 757,
+      "tests": 758,
       "failures": 0,
       "errors": 0,
       "skipped": 0,

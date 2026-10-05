@@ -200,6 +200,10 @@
     "result": "PASS"
   },
   {
+    "check": "invalid definition null-case rejected before persistence",
+    "result": "PASS"
+  },
+  {
     "check": "concurrent version allocation remains sequential in MySQL",
     "result": "PASS"
   },

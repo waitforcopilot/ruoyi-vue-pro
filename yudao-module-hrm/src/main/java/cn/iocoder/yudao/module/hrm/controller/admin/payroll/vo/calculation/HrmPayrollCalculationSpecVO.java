@@ -9,9 +9,9 @@ import java.util.*;
 /** Decimal expressions and explicit expectations; never inferred from the textual rule ledger. */
 @Data
 public class HrmPayrollCalculationSpecVO {
-    @Valid @NotNull @Size(max = 32) private List<Input> inputs = new ArrayList<>();
-    @Valid @NotNull @Size(min = 1, max = 32) private List<Item> items = new ArrayList<>();
-    @Valid @NotNull @Size(max = 20) private List<BusinessCase> cases = new ArrayList<>();
+    @Valid @NotNull @Size(max = 32) private List<@NotNull Input> inputs = new ArrayList<>();
+    @Valid @NotNull @Size(min = 1, max = 32) private List<@NotNull Item> items = new ArrayList<>();
+    @Valid @NotNull @Size(max = 20) private List<@NotNull BusinessCase> cases = new ArrayList<>();
     @Min(0) @Max(8) @JsonDeserialize(using = ExplicitIntegerDeserializer.class) private Integer divisionScale;
     @Pattern(regexp = "HALF_UP|HALF_EVEN|DOWN|UP") private String divisionRoundingMode;
 

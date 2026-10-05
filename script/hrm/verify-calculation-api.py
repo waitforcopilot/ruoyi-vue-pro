@@ -194,7 +194,8 @@ for name, mutate in [('cycle',lambda p:p['items'][1].update(expression='net')),
                      ('float-precision',lambda p:p['items'][0].update(amountScale=2.5)),
                      ('string-precision',lambda p:p['items'][0].update(amountScale='2')),
                      ('missing-division',lambda p:p.pop('divisionScale')),
-                     ('numeric-case',lambda p:p['cases'][0]['inputs'].update(base=1000))]:
+                     ('numeric-case',lambda p:p['cases'][0]['inputs'].update(base=1000)),
+                     ('null-case',lambda p:p['cases'].append(None))]:
     invalid = copy.deepcopy(program); mutate(invalid)
     passed('invalid definition '+name+' rejected before persistence', call('/create',method='POST',role='editor',data={**request,'code':code+'-'+name.upper(),'program':invalid})['code'] != 0)
 versions = parallel(lambda _: version(next_id))

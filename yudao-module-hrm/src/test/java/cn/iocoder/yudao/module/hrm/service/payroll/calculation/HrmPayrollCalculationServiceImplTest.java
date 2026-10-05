@@ -67,6 +67,15 @@ class HrmPayrollCalculationServiceImplTest extends BaseDbUnitTest {
         assertThrows(ServiceException.class, () -> service.create(req)); assertEquals(0, mapper.selectCount()); assertEquals(0, reviews.selectCount());
         assertThrows(ServiceException.class, () -> service.create(draft().setProgram(null)));
     }
+    @Test void nullListElementsCannotCreateDefinitionsOrAudit() {
+        HrmPayrollCalculationSaveReqVO nullInput = draft(); nullInput.getProgram().setInputs(Collections.singletonList(null));
+        HrmPayrollCalculationSaveReqVO nullItem = draft(); nullItem.getProgram().setItems(Collections.singletonList(null));
+        HrmPayrollCalculationSaveReqVO nullCase = draft(); nullCase.getProgram().setCases(Collections.singletonList(null));
+        for (HrmPayrollCalculationSaveReqVO req : Arrays.asList(nullInput, nullItem, nullCase)) {
+            assertEquals(PAYROLL_CALCULATION_INVALID.getCode(), assertThrows(ServiceException.class, () -> service.create(req)).getCode());
+        }
+        assertEquals(0, mapper.selectCount()); assertEquals(0, reviews.selectCount());
+    }
     @Test void missingWrongAndInvalidExpectationsBlockConfirmationUntilFixed() {
         HrmPayrollCalculationSaveReqVO req = draft(); req.getProgram().setCases(Collections.emptyList()); Long id = service.create(req);
         assertServiceException(() -> review(id, "confirm"), PAYROLL_CALCULATION_CASES_FAILED);
