@@ -1,0 +1,11 @@
+{
+  "baselineCommit": "0af03a93b6b6300f878e28add69b1c7a9f09ec34",
+  "node": "v24.19.0",
+  "pnpm": "11.19.0",
+  "frozenLockfile": true,
+  "lockfileSha256": "676050a5675a8de1ad6795cb6fbbedc54aec79cebda2deae4fa637dc3454a2e4",
+  "typecheck": "passed",
+  "productionBuild": "passed",
+  "mesIncluded": true,
+  "overlayFiles": 32
+}

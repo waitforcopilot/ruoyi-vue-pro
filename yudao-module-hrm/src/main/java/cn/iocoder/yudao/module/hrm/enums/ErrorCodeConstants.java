@@ -349,4 +349,11 @@ public interface ErrorCodeConstants {
     ErrorCode PAYROLL_CALCULATION_DUPLICATE = new ErrorCode(1_050_970_004, "计算规则编号已登记，请另建版本");
     ErrorCode PAYROLL_CALCULATION_OVERLAP = new ErrorCode(1_050_970_005, "同编号及范围存在有效期重叠的已确认计算规则");
     ErrorCode PAYROLL_CALCULATION_CASES_FAILED = new ErrorCode(1_050_970_006, "业务样例尚未全部通过，不能确认计算规则");
+    ErrorCode PAYROLL_ELIGIBILITY_NOT_EXISTS = new ErrorCode(1_050_980_000, "计薪资格版本不存在或不可访问");
+    ErrorCode PAYROLL_ELIGIBILITY_INVALID = new ErrorCode(1_050_980_001, "计薪资格资料不合法：{}");
+    ErrorCode PAYROLL_ELIGIBILITY_STALE = new ErrorCode(1_050_980_002, "计薪资格已修改，请刷新后重试");
+    ErrorCode PAYROLL_ELIGIBILITY_IMMUTABLE = new ErrorCode(1_050_980_003, "已确认或停用资格不能编辑，请另建版本");
+    ErrorCode PAYROLL_ELIGIBILITY_DUPLICATE = new ErrorCode(1_050_980_004, "该主体和人员已登记资格，请另建版本");
+    ErrorCode PAYROLL_ELIGIBILITY_OVERLAP = new ErrorCode(1_050_980_005, "同主体和人员存在有效期重叠的已确认资格");
+    ErrorCode PAYROLL_ELIGIBILITY_PERSON_CHANGED = new ErrorCode(1_050_980_006, "人员主档已变化，请重新核对并刷新草稿快照");
 }

@@ -1,0 +1,65 @@
+{
+  "total": 12,
+  "passed": 12,
+  "checks": [
+    {
+      "check": "actual authorized qualification list renders persisted versions",
+      "result": "PASS"
+    },
+    {
+      "check": "confirmed full-period qualification shown with retained evidence",
+      "result": "PASS"
+    },
+    {
+      "check": "changed period clears old result and does not join versions",
+      "result": "PASS"
+    },
+    {
+      "check": "late period response cannot replace changed inputs",
+      "result": "PASS"
+    },
+    {
+      "check": "new draft has no default qualification or effective dates",
+      "result": "PASS"
+    },
+    {
+      "check": "late personnel response cannot bind a different person",
+      "result": "PASS"
+    },
+    {
+      "check": "structured editor verifies HRM person and saves explicit exclusion draft",
+      "result": "PASS"
+    },
+    {
+      "check": "reviewed exclusion is distinct from unresolved qualification",
+      "result": "PASS"
+    },
+    {
+      "check": "new version requires explicit review and preserves previous version",
+      "result": "PASS"
+    },
+    {
+      "check": "version detail retains qualification basis and review history",
+      "result": "PASS"
+    },
+    {
+      "check": "query role shows no maintain or review controls",
+      "result": "PASS"
+    },
+    {
+      "check": "mobile forms stack and table scroll stays inside page",
+      "result": "PASS"
+    }
+  ],
+  "screenshots": [
+    "payroll-eligibility-desktop.png",
+    "payroll-eligibility-editor.png",
+    "payroll-eligibility-excluded.png",
+    "payroll-eligibility-history.png",
+    "payroll-eligibility-matched.png",
+    "payroll-eligibility-mobile-lookup.png",
+    "payroll-eligibility-mobile.png",
+    "payroll-eligibility-readonly.png"
+  ],
+  "syntheticFixtures": true
+}
