@@ -1,0 +1,101 @@
+[
+  {
+    "number": 1,
+    "title": "docs: 整理 HRM 薪酬 PRD、业务原型与开发路线图",
+    "state": "open",
+    "draft": true,
+    "merged": false,
+    "base": "master",
+    "head": "docs/hrm-payroll-prd",
+    "headSha": "bde771409b07e726f1fa7d67d6a554fae7b4e183",
+    "url": "https://github.com/waitforcopilot/ruoyi-vue-pro/pull/1"
+  },
+  {
+    "number": 2,
+    "title": "feat(hrm): 建立 HRM/BPM 构建与 MySQL 启动基础",
+    "state": "open",
+    "draft": true,
+    "merged": false,
+    "base": "master",
+    "head": "feat/hrm-payroll-foundation",
+    "headSha": "09467d438b01d3835827d0c01542d6f2c3eefd6f",
+    "url": "https://github.com/waitforcopilot/ruoyi-vue-pro/pull/2"
+  },
+  {
+    "number": 3,
+    "title": "feat(hrm): 实现薪酬需求征集、评审留痕与版本基线",
+    "state": "open",
+    "draft": true,
+    "merged": false,
+    "base": "feat/hrm-payroll-foundation",
+    "head": "feat/hrm-payroll-requirements",
+    "headSha": "c339f2a1b4688e4019f8dcc12f33ddd55ac3fd4e",
+    "url": "https://github.com/waitforcopilot/ruoyi-vue-pro/pull/3"
+  },
+  {
+    "number": 4,
+    "title": "feat(hrm): 来源契约版本、CSV 预检与本人批次快照",
+    "state": "open",
+    "draft": true,
+    "merged": false,
+    "base": "feat/hrm-payroll-requirements",
+    "head": "feat/hrm-payroll-intake",
+    "headSha": "a464113d3716169ccdfddf205c27e1770d0892c5",
+    "url": "https://github.com/waitforcopilot/ruoyi-vue-pro/pull/4"
+  },
+  {
+    "number": 5,
+    "title": "feat(hrm): 薪酬规则台账、业务样例与版本评审",
+    "state": "open",
+    "draft": true,
+    "merged": false,
+    "base": "feat/hrm-payroll-intake",
+    "head": "feat/hrm-payroll-rule-ledger",
+    "headSha": "f7608cfd689f55a724312d3ab22548e8e5df68ff",
+    "url": "https://github.com/waitforcopilot/ruoyi-vue-pro/pull/5"
+  },
+  {
+    "number": 6,
+    "title": "feat(hrm): 薪酬资料准备总览与权限分区",
+    "state": "open",
+    "draft": true,
+    "merged": false,
+    "base": "feat/hrm-payroll-rule-ledger",
+    "head": "feat/hrm-payroll-preparation-overview",
+    "headSha": "7423a4ffe376a3b67504191b7935bcff4f710d03",
+    "url": "https://github.com/waitforcopilot/ruoyi-vue-pro/pull/6"
+  },
+  {
+    "number": 7,
+    "title": "feat(hrm): 薪酬人员编号映射、抓取快照与 CSV 版本核对",
+    "state": "open",
+    "draft": true,
+    "merged": false,
+    "base": "feat/hrm-payroll-preparation-overview",
+    "head": "feat/hrm-payroll-employee-mapping",
+    "headSha": "fc13c283a98a027915fdc0d964d3d62332f3741e",
+    "url": "https://github.com/waitforcopilot/ruoyi-vue-pro/pull/7"
+  },
+  {
+    "number": 8,
+    "title": "feat(hrm): 保留薪酬方案配置版本与历史对比",
+    "state": "open",
+    "draft": true,
+    "merged": false,
+    "base": "feat/hrm-payroll-employee-mapping",
+    "head": "feat/hrm-payroll-scheme-versions",
+    "headSha": "1d4c6b0f3f9ad2993f2b07a72ce35c0f51805ea9",
+    "url": "https://github.com/waitforcopilot/ruoyi-vue-pro/pull/8"
+  },
+  {
+    "number": 9,
+    "title": "feat(hrm): 本地社保公积金政策版本及精确核对",
+    "state": "open",
+    "draft": true,
+    "merged": false,
+    "base": "feat/hrm-payroll-scheme-versions",
+    "head": "feat/hrm-payroll-insurance-policies",
+    "headSha": "9f9da10b04683a10fda2a0d75d000784044a1f16",
+    "url": "https://github.com/waitforcopilot/ruoyi-vue-pro/pull/9"
+  }
+]
