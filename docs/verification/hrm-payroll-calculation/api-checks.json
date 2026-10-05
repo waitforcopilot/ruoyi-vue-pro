@@ -1,0 +1,222 @@
+[
+  {
+    "check": "anonymous and ungranted access denied",
+    "result": "PASS"
+  },
+  {
+    "check": "reader cannot create definitions",
+    "result": "PASS"
+  },
+  {
+    "check": "maintenance and review permissions each require query permission",
+    "result": "PASS"
+  },
+  {
+    "check": "server owns initial tenant version revision schema and draft status",
+    "result": "PASS"
+  },
+  {
+    "check": "saved JSON preserves explicit zero precision and decimal text",
+    "result": "PASS"
+  },
+  {
+    "check": "reader accesses cases and history but cannot update copy or review",
+    "result": "PASS"
+  },
+  {
+    "check": "maintenance and review duties are separate",
+    "result": "PASS"
+  },
+  {
+    "check": "draft cannot execute declared inputs",
+    "result": "PASS"
+  },
+  {
+    "check": "same tenant and code cannot register another first version",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent initial registration has one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent same-revision editing has one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "rule and scope identities cannot be changed",
+    "result": "PASS"
+  },
+  {
+    "check": "nullable metadata clears and missing owner blocks confirmation",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent same-revision confirmation has one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "review actor and time are stamped by the server",
+    "result": "PASS"
+  },
+  {
+    "check": "confirmed rules are immutable",
+    "result": "PASS"
+  },
+  {
+    "check": "dependencies execute before dependents and use rounded predecessor amounts",
+    "result": "PASS"
+  },
+  {
+    "check": "exact strings and rounding steps accompany every result",
+    "result": "PASS"
+  },
+  {
+    "check": "explicit zero input is accepted",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid input missing rejected without coercion or implicit zero",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid input extra rejected without coercion or implicit zero",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid input blank rejected without coercion or implicit zero",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid input null rejected without coercion or implicit zero",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid input excess-scale rejected without coercion or implicit zero",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid input integer-decimal rejected without coercion or implicit zero",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid input exponent rejected without coercion or implicit zero",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid input divide-zero rejected without coercion or implicit zero",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid input JSON-number rejected without coercion or implicit zero",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid input JSON-boolean rejected without coercion or implicit zero",
+    "result": "PASS"
+  },
+  {
+    "check": "declared period must be valid and fully covered by selected version",
+    "result": "PASS"
+  },
+  {
+    "check": "list omits expressions cases and freeform evidence",
+    "result": "PASS"
+  },
+  {
+    "check": "audit retains before and after definitions and actual actor",
+    "result": "PASS"
+  },
+  {
+    "check": "all reads writes histories and arithmetic are tenant isolated",
+    "result": "PASS"
+  },
+  {
+    "check": "new version copies definitions and clears approval",
+    "result": "PASS"
+  },
+  {
+    "check": "overlapping confirmation periods are blocked",
+    "result": "PASS"
+  },
+  {
+    "check": "zero-place result precision survives JSON database and execution",
+    "result": "PASS"
+  },
+  {
+    "check": "old version stays unchanged after new precision is approved",
+    "result": "PASS"
+  },
+  {
+    "check": "comparison preserves exact precision and period changes",
+    "result": "PASS"
+  },
+  {
+    "check": "period execution does not silently join adjacent versions",
+    "result": "PASS"
+  },
+  {
+    "check": "mismatched business cases remain inspectable drafts and block approval",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid expected decimal cannot become a passed case",
+    "result": "PASS"
+  },
+  {
+    "check": "zero business cases cannot approve a rule",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid definition cycle rejected before persistence",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid definition unknown rejected before persistence",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid definition script rejected before persistence",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid definition missing-precision rejected before persistence",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid definition float-precision rejected before persistence",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid definition string-precision rejected before persistence",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid definition missing-division rejected before persistence",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid definition numeric-case rejected before persistence",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent version allocation remains sequential in MySQL",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent overlapping version approvals have one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "retirement retains definitions and audit while disabling execution",
+    "result": "PASS"
+  },
+  {
+    "check": "different rule series cannot be compared",
+    "result": "PASS"
+  },
+  {
+    "check": "existing salary insurance and delivery checksums stay unchanged",
+    "result": "PASS"
+  }
+]

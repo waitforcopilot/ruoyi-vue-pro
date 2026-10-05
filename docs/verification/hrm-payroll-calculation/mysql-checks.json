@@ -1,0 +1,12 @@
+{
+  "result": "PASS",
+  "engine": "MySQL 8.0.46",
+  "isolation": "new container with --network none; removed on exit",
+  "checks": [
+    "repeat migration retains existing definition and precision",
+    "three unique menu permissions",
+    "tenant/code/version unique constraint",
+    "separate tenant and next version allowed",
+    "long Unicode reference and decimal strings preserved"
+  ]
+}
