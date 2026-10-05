@@ -19,10 +19,15 @@ if head != PINNED_COMMIT:
     parser.error('Checkout the documented frontend commit first: ' + PINNED_COMMIT)
 patch = overlay / 'patches/vue3-build-compat.patch'
 command = ['git', '-C', str(target), 'apply']
-forward = subprocess.run(command + ['--check', str(patch)], capture_output=True)
-reverse = subprocess.run(command + ['--reverse', '--check', str(patch)], capture_output=True)
-if forward.returncode and reverse.returncode:
-    parser.error('Compatibility patch conflicts with local edits; resolve them before applying the overlay')
+pending = []
+for segment in patch.read_bytes().split(b'diff --git ')[1:]:
+    fragment = b'diff --git ' + segment
+    forward = subprocess.run(command + ['--check', '-'], input=fragment, capture_output=True)
+    reverse = subprocess.run(command + ['--reverse', '--check', '-'], input=fragment, capture_output=True)
+    if forward.returncode and reverse.returncode:
+        parser.error('Compatibility patch conflicts with local edits: ' + fragment.splitlines()[0].decode())
+    if forward.returncode == 0:
+        pending.append(fragment)
 # Refuse to overwrite any file with independent local edits. Reapplying our overlay is allowed.
 files = [overlay / 'pnpm-workspace.yaml'] + sorted((overlay / 'src').rglob('*'))
 for source in files:
@@ -35,8 +40,8 @@ for source in files:
     original = subprocess.run(['git', '-C', str(target), 'show', 'HEAD:' + relative.as_posix()], capture_output=True)
     if original.returncode or destination.read_bytes() != original.stdout:
         parser.error('Independent edits would be overwritten: ' + relative.as_posix())
-if forward.returncode == 0:
-    subprocess.run(command + [str(patch)], check=True)
+if pending:
+    subprocess.run(command + ['-'], input=b''.join(pending), check=True)
 count = 0
 for source in files:
     if source.is_file():

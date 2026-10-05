@@ -1,3 +1,24 @@
+diff --git a/build/vite/index.ts b/build/vite/index.ts
+--- a/build/vite/index.ts
++++ b/build/vite/index.ts
+@@ -47,7 +47,7 @@
+           '@/utils/dict': ['DICT_TYPE']
+         }
+       ],
+-      dts: !isBuild && 'src/types/auto-imports.d.ts',
++      dts: 'src/types/auto-imports.d.ts',
+       resolvers: [ElementPlusResolver()],
+       eslintrc: {
+         enabled: false, // Default `false`
+@@ -57,7 +57,7 @@
+     }),
+     Components({
+       // 生成自定义 `auto-components.d.ts` 全局声明
+-      dts: !isBuild && 'src/types/auto-components.d.ts',
++      dts: 'src/types/auto-components.d.ts',
+       // 自定义组件的解析器
+       resolvers: [ElementPlusResolver()],
+       globs: ['src/components/**/**.{vue, md}', '!src/components/DiyEditor/components/mobile/**']
 diff --git a/src/layout/components/Menu/src/Menu.vue b/src/layout/components/Menu/src/Menu.vue
 index bc7d8ca..f6901aa 100644
 --- a/src/layout/components/Menu/src/Menu.vue

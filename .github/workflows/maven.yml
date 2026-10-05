@@ -1,30 +1,137 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
-
-name: Java CI with Maven
+name: HRM payroll CI
 
 on:
   push:
-    branches: [ master ]
-  # pull_request:
-  #   branches: [ master ]
+    branches: [master]
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  merge_group:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: payroll-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        java: [ '8', '11', '17' ]
-
+  backend:
+    name: Backend HRM tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK ${{ matrix.Java }}
-      uses: actions/setup-java@v2
-      with:
-        java-version: ${{ matrix.java }}
-        distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml -Dmaven.test.skip=true
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '8'
+          distribution: temurin
+          cache: maven
+      - name: Verify server and HRM/BPM dependencies with tests enabled
+        env:
+          MAVEN_OPTS: -Xmx2g
+        run: mvn -B -ntp -Phrm -pl yudao-server -am verify -DskipTests=false -Dmaven.test.skip=false
+      - name: Require executed HRM/BPM tests and collect results
+        run: python3 script/hrm/collect-ci-test-results.py --output ci-backend-tests.json --summary "$GITHUB_STEP_SUMMARY"
+      - name: Upload backend test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: payroll-backend-tests
+          path: |
+            ci-backend-tests.json
+            **/target/surefire-reports/TEST-*.xml
+          if-no-files-found: error
+          retention-days: 14
+
+  frontend:
+    name: Vue3 typecheck and build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Checkout the verified complete Vue3 baseline
+        uses: actions/checkout@v4
+        with:
+          repository: yudaocode/yudao-ui-admin-vue3
+          ref: 0af03a93b6b6300f878e28add69b1c7a9f09ec34
+          path: .ci/vue3
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: '11.19.0'
+          run_install: false
+      - name: Locate pnpm store
+        id: pnpm-store
+        run: printf 'path=%s\n' "$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: pnpm-${{ runner.os }}-node24-pnpm11-${{ hashFiles('.ci/vue3/pnpm-lock.yaml', 'yudao-ui/yudao-ui-admin-vue3/pnpm-workspace.yaml') }}
+      - name: Apply this PR's Vue3 sources and compatibility patch
+        run: python3 script/hrm/apply-vue3-overlay.py .ci/vue3
+      - name: Use official tarball URLs without changing locked packages
+        run: python3 script/hrm/normalize-vue3-lockfile.py .ci/vue3
+      - name: Install the locked complete frontend
+        working-directory: .ci/vue3
+        run: pnpm install --frozen-lockfile --registry=https://registry.npmjs.org
+      - name: Build the complete production frontend
+        working-directory: .ci/vue3
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: pnpm exec vite build --mode prod
+      - name: Check all Vue3 and MES types with fresh generated declarations
+        working-directory: .ci/vue3
+        env:
+          NODE_OPTIONS: --max-old-space-size=6144
+        run: pnpm exec vue-tsc --noEmit
+      - name: Record frontend evidence
+        run: |
+          python3 - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          result = {
+              'baselineCommit': subprocess.check_output(['git', '-C', '.ci/vue3', 'rev-parse', 'HEAD'], text=True).strip(),
+              'node': subprocess.check_output(['node', '--version'], text=True).strip(),
+              'pnpm': subprocess.check_output(['pnpm', '--version'], text=True).strip(),
+              'frozenLockfile': True,
+              'typecheck': 'passed',
+              'productionBuild': 'passed',
+              'mesIncluded': True
+          }
+          Path('ci-frontend-build.json').write_text(json.dumps(result, indent=2) + '\n')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+              summary.write('Full pinned Vue3 checkout + this PR overlay: typecheck and production build passed. MES included.\n')
+          PY
+      - name: Upload frontend build evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: payroll-vue3-build
+          path: |
+            ci-frontend-build.json
+            .ci/vue3/dist-prod
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+
+  gate:
+    name: Payroll CI
+    if: always()
+    needs: [backend, frontend]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Require both regression jobs to succeed
+        env:
+          BACKEND_RESULT: ${{ needs.backend.result }}
+          FRONTEND_RESULT: ${{ needs.frontend.result }}
+        run: |
+          test "$BACKEND_RESULT" = success
+          test "$FRONTEND_RESULT" = success
