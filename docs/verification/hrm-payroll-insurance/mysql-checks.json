@@ -1,0 +1,12 @@
+{
+  "command": "bash script/hrm/verify-insurance-mysql.sh",
+  "engine": "MySQL 8.0.46",
+  "result": "PASS",
+  "checks": [
+    "repeat migration",
+    "three permissions",
+    "existing parameters retained",
+    "tenant/identity/version uniqueness",
+    "Unicode JSON and references"
+  ]
+}

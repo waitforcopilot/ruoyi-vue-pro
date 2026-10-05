@@ -335,4 +335,11 @@ public interface ErrorCodeConstants {
     ErrorCode PAYROLL_SCHEME_OVERLAP = new ErrorCode(1_050_950_005, "该薪资组存在有效期重叠的已确认方案");
     ErrorCode PAYROLL_SCHEME_SOURCE_CHANGED = new ErrorCode(1_050_950_006, "源配置已变化，请重新抓取草稿并核对");
     ErrorCode PAYROLL_SCHEME_PERMISSION = new ErrorCode(1_050_950_007, "方案版本还需要薪资组、薪资项及计税规则查询权限");
+    ErrorCode PAYROLL_INSURANCE_POLICY_NOT_EXISTS = new ErrorCode(1_050_960_000, "缴费政策版本不存在");
+    ErrorCode PAYROLL_INSURANCE_POLICY_INVALID = new ErrorCode(1_050_960_001, "缴费政策资料不合法：{}");
+    ErrorCode PAYROLL_INSURANCE_POLICY_STALE = new ErrorCode(1_050_960_002, "政策版本已修改，请刷新后重试");
+    ErrorCode PAYROLL_INSURANCE_POLICY_IMMUTABLE = new ErrorCode(1_050_960_003, "已确认或停用政策不能编辑，请另建版本");
+    ErrorCode PAYROLL_INSURANCE_POLICY_DUPLICATE = new ErrorCode(1_050_960_004, "该城市、范围及缴费项目已登记，请另建版本");
+    ErrorCode PAYROLL_INSURANCE_POLICY_OVERLAP = new ErrorCode(1_050_960_005, "同城市、范围及项目存在有效期重叠的已确认政策");
+    ErrorCode PAYROLL_INSURANCE_POLICY_BASE_OUTSIDE = new ErrorCode(1_050_960_006, "声明基数超出政策上下限，不自动调整或填零");
 }

@@ -1,0 +1,66 @@
+[
+  {
+    "check": "policy route renders actual cities scope versions statuses and dates",
+    "result": "PASS"
+  },
+  {
+    "check": "browser renders exact component-rounded reference amounts including valid zero and each rounding step",
+    "result": "PASS"
+  },
+  {
+    "check": "out-of-range base clears old output without fabricating zero or clamping",
+    "result": "PASS"
+  },
+  {
+    "check": "period resolution explicitly selects the matching version before arithmetic",
+    "result": "PASS"
+  },
+  {
+    "check": "historical comparison distinguishes missing parameters explicit zero and rounding changes",
+    "result": "PASS"
+  },
+  {
+    "check": "policy detail preserves reviewed parameters reference and explicit units",
+    "result": "PASS"
+  },
+  {
+    "check": "audit expansion shows retained policy values with readable actions and actor time",
+    "result": "PASS"
+  },
+  {
+    "check": "real city cascader and project selector register a separate draft without policy defaults",
+    "result": "PASS"
+  },
+  {
+    "check": "new draft visibly preserves missing amounts rates unit and rounding",
+    "result": "PASS"
+  },
+  {
+    "check": "review requires evidence and cannot approve a draft with missing policy information",
+    "result": "PASS"
+  },
+  {
+    "check": "copied zero parameters remain explicit and overlapping effective intervals are blocked",
+    "result": "PASS"
+  },
+  {
+    "check": "explicit decimal editing confirms a separate period and uses its exact saved parameters",
+    "result": "PASS"
+  },
+  {
+    "check": "retirement preserves the tested policy version and review history",
+    "result": "PASS"
+  },
+  {
+    "check": "policy-only reader refreshes matching list rows and can inspect parameters without mutation controls",
+    "result": "PASS"
+  },
+  {
+    "check": "390px mobile contains table overflow and stacks policy fields",
+    "result": "PASS"
+  },
+  {
+    "check": "browser has no uncaught page errors",
+    "result": "PASS"
+  }
+]
