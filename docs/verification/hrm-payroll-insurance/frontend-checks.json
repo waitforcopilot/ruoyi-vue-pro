@@ -1,0 +1,17 @@
+{
+  "baseCommit": "0af03a93b6b6300f878e28add69b1c7a9f09ec34",
+  "overlayFiles": 27,
+  "checks": [
+    {
+      "command": "NODE_OPTIONS=--max-old-space-size=6144 pnpm exec vue-tsc --noEmit",
+      "exitCode": 0,
+      "executedSeparatelyFromBackendBuild": true
+    },
+    {
+      "command": "NODE_OPTIONS=--max-old-space-size=4096 pnpm exec vite build --mode prod",
+      "exitCode": 0
+    }
+  ],
+  "frontendPort": 3000,
+  "backendPort": 48081
+}

@@ -1,0 +1,194 @@
+[
+  {
+    "check": "anonymous policy access denied",
+    "result": "PASS"
+  },
+  {
+    "check": "ungranted policy access denied",
+    "result": "PASS"
+  },
+  {
+    "check": "project catalogue reuses all existing types and custom classification",
+    "result": "PASS"
+  },
+  {
+    "check": "empty draft keeps missing values rather than policy defaults",
+    "result": "PASS"
+  },
+  {
+    "check": "reader cannot create or review policy records",
+    "result": "PASS"
+  },
+  {
+    "check": "server owns tenant initial version status and configuration schema",
+    "result": "PASS"
+  },
+  {
+    "check": "money and percentage fields are exact decimal strings",
+    "result": "PASS"
+  },
+  {
+    "check": "district and city cannot register duplicate policy identity",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent initial registration has one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent same-revision editing has one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "maintenance and review roles are separate",
+    "result": "PASS"
+  },
+  {
+    "check": "city scope and project identity cannot be edited",
+    "result": "PASS"
+  },
+  {
+    "check": "confirmation requires responsible person",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent same-revision review has one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "review actor and timestamp are stamped by the server",
+    "result": "PASS"
+  },
+  {
+    "check": "confirmed policy cannot be edited",
+    "result": "PASS"
+  },
+  {
+    "check": "live percentage calculation returns exact amounts and explanation",
+    "result": "PASS"
+  },
+  {
+    "check": "valid zero and inclusive upper boundary are accepted",
+    "result": "PASS"
+  },
+  {
+    "check": "out-of-range base is blocked without clamping",
+    "result": "PASS"
+  },
+  {
+    "check": "wrong declared period does not use a policy implicitly",
+    "result": "PASS"
+  },
+  {
+    "check": "policy lists omit parameters and freeform evidence",
+    "result": "PASS"
+  },
+  {
+    "check": "audit retains exact actor and before-after policy parameters",
+    "result": "PASS"
+  },
+  {
+    "check": "tenant B cannot access IDs history edits reviews copies periods or arithmetic",
+    "result": "PASS"
+  },
+  {
+    "check": "new policy version copies parameters and clears review conclusions",
+    "result": "PASS"
+  },
+  {
+    "check": "overlapping confirmed policy intervals are rejected",
+    "result": "PASS"
+  },
+  {
+    "check": "component rounding and explicit zero match the confirmed version",
+    "result": "PASS"
+  },
+  {
+    "check": "total rounding differs from component rounding as declared",
+    "result": "PASS"
+  },
+  {
+    "check": "changing a new version preserves all old parameters",
+    "result": "PASS"
+  },
+  {
+    "check": "historical comparison preserves zero missing and rounding changes",
+    "result": "PASS"
+  },
+  {
+    "check": "equal version comparison has no artificial timestamp differences",
+    "result": "PASS"
+  },
+  {
+    "check": "adjacent periods resolve their own policy versions",
+    "result": "PASS"
+  },
+  {
+    "check": "period selection never stitches adjacent versions",
+    "result": "PASS"
+  },
+  {
+    "check": "missing active input blocks confirmation rather than becoming zero",
+    "result": "PASS"
+  },
+  {
+    "check": "missing-to-zero remains visible in saved policy comparison",
+    "result": "PASS"
+  },
+  {
+    "check": "fixed amounts and valid zero are not confused with missing inputs",
+    "result": "PASS"
+  },
+  {
+    "check": "all four rounding modes survive live JSON and database roundtrips",
+    "result": "PASS"
+  },
+  {
+    "check": "large base and four-place percentage retain exact arithmetic",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid policy precision rejected before registration",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid policy upper rejected before registration",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid policy url rejected before registration",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid policy mode rejected before registration",
+    "result": "PASS"
+  },
+  {
+    "check": "invalid policy custom rejected before registration",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent version allocation is sequential",
+    "result": "PASS"
+  },
+  {
+    "check": "concurrent overlapping reviews have one winner",
+    "result": "PASS"
+  },
+  {
+    "check": "cross-policy series comparison is rejected",
+    "result": "PASS"
+  },
+  {
+    "check": "retired policy retains parameters and history but cannot calculate",
+    "result": "PASS"
+  },
+  {
+    "check": "retired series still resolves another applicable confirmed version",
+    "result": "PASS"
+  },
+  {
+    "check": "legacy insurance salary and delivery table checksums stay unchanged",
+    "result": "PASS"
+  }
+]

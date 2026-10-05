@@ -1,0 +1,22 @@
+{
+  "fullReactor": {
+    "tests": 1566,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 24
+  },
+  "hrm": {
+    "tests": 698,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "insuranceSuites": [
+    {
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.insurance.HrmPayrollInsurancePolicyServiceImplTest",
+      "tests": 23,
+      "failures": 0,
+      "errors": 0
+    }
+  ]
+}
