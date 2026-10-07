@@ -218,6 +218,7 @@
       </el-tab-pane>
     </el-tabs>
     <template #footer
+      ><el-button @click="loadWageTemplate">载入常规工资模板</el-button
       ><el-button @click="loadSynthetic">载入合成运算样例</el-button
       ><el-button @click="visible = false">取消</el-button
       ><el-button type="primary" :loading="saving" @click="save">保存草稿</el-button></template
@@ -299,6 +300,21 @@ const open = async (id?: number) => {
   form.value = empty()
   if (id) form.value = JSON.parse(JSON.stringify(await Api.get(id)))
   visible.value = true
+}
+const loadWageTemplate = async () => {
+  try {
+    await ElMessageBox.confirm(
+      '将替换当前输入、表达式和样例。基本工资、扣款和已核定个税均需明确填写，合成样例仅用于对账。请核对后保存并评审。',
+      '载入常规工资模板'
+    )
+  } catch {
+    return
+  }
+  try {
+    form.value.program = await Api.wageTemplate()
+  } catch (e: any) {
+    error.value = e?.message || String(e)
+  }
 }
 const loadSynthetic = async () => {
   try {

@@ -119,3 +119,5 @@ export const preview = (data: {
   end: string
   inputs: Record<string, string>
 }): Promise<Preview> => request.post({ url: root + '/preview', data })
+
+export const wageTemplate = (): Promise<Program> => request.get({ url: root + '/wage-template' })

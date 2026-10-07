@@ -60,3 +60,7 @@ DELETE FROM hrm_payroll_scheme_version;
 DELETE FROM hrm_payroll_insurance_policy;
 DELETE FROM hrm_payroll_calculation_definition;
 DELETE FROM hrm_payroll_employee_eligibility;
+
+DELETE FROM hrm_payroll_trial_run;
+DELETE FROM hrm_payroll_trial_person;
+DELETE FROM hrm_payroll_trial_batch;

@@ -1,0 +1,92 @@
+{
+  "total": 18,
+  "passed": 18,
+  "checks": [
+    {
+      "check": "authorized real batch list renders stored data",
+      "result": "PASS"
+    },
+    {
+      "check": "immutable V2 result shows exact CNY totals and qualified persons",
+      "result": "PASS"
+    },
+    {
+      "check": "personal explanation retains input basis expression and rounding steps",
+      "result": "PASS"
+    },
+    {
+      "check": "version comparison displays exact 100.00 delta",
+      "result": "PASS"
+    },
+    {
+      "check": "changing comparison controls clears previous difference",
+      "result": "PASS"
+    },
+    {
+      "check": "batch operation history is readable",
+      "result": "PASS"
+    },
+    {
+      "check": "preflight checks current rule full-period qualification inputs and balance",
+      "result": "PASS"
+    },
+    {
+      "check": "late preflight cannot restore result after batch selection changes",
+      "result": "PASS"
+    },
+    {
+      "check": "unresolved qualification appears as explicit blocked row",
+      "result": "PASS"
+    },
+    {
+      "check": "historical explicit exclusion persists after current roster is edited",
+      "result": "PASS"
+    },
+    {
+      "check": "structured editor retains explicit values immutable batch identity and evidence",
+      "result": "PASS"
+    },
+    {
+      "check": "edited inputs create V3 while V2 remains unchanged",
+      "result": "PASS"
+    },
+    {
+      "check": "lost response retry reuses command and does not create duplicate version",
+      "result": "PASS"
+    },
+    {
+      "check": "late employee response cannot add a different selected person",
+      "result": "PASS"
+    },
+    {
+      "check": "new batch editor starts with missing inputs and saves explicitly entered nine amounts",
+      "result": "PASS"
+    },
+    {
+      "check": "new browser-created batch computes its independently entered wage",
+      "result": "PASS"
+    },
+    {
+      "check": "read-only role has checks and saved results without mutation buttons",
+      "result": "PASS"
+    },
+    {
+      "check": "mobile KPI cards stack and table overflow stays inside page",
+      "result": "PASS"
+    }
+  ],
+  "syntheticFixtures": true,
+  "screenshots": [
+    "payroll-trial-blocked.png",
+    "payroll-trial-check.png",
+    "payroll-trial-comparison.png",
+    "payroll-trial-desktop.png",
+    "payroll-trial-editor.png",
+    "payroll-trial-excluded.png",
+    "payroll-trial-explanation.png",
+    "payroll-trial-mobile-result.png",
+    "payroll-trial-mobile.png",
+    "payroll-trial-readonly.png",
+    "payroll-trial-result.png"
+  ]
+}

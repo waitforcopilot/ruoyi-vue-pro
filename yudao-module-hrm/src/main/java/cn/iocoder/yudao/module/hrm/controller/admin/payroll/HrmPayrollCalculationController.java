@@ -18,6 +18,9 @@ import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 @RestController @Validated @RequestMapping("/hrm/payroll/calculation-definitions")
 public class HrmPayrollCalculationController {
     @Resource private HrmPayrollCalculationService service;
+    @GetMapping("/wage-template") @PreAuthorize("@ss.hasPermission('hrm:payroll:calculation:query')")
+    @ApiAccessLog(requestEnable = false, responseEnable = false)
+    public CommonResult<HrmPayrollCalculationSpecVO> wageTemplate() { return success(cn.iocoder.yudao.module.hrm.service.payroll.calculation.HrmPayrollWageTemplate.program()); }
     @GetMapping("/page") @PreAuthorize("@ss.hasPermission('hrm:payroll:calculation:query')")
     @ApiAccessLog(requestEnable = false, responseEnable = false)
     public CommonResult<PageResult<HrmPayrollCalculationRespVO>> page(@Valid HrmPayrollCalculationPageReqVO req) { return success(service.page(req)); }
