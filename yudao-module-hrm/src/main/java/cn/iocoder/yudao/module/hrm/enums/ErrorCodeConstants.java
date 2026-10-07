@@ -356,4 +356,11 @@ public interface ErrorCodeConstants {
     ErrorCode PAYROLL_ELIGIBILITY_DUPLICATE = new ErrorCode(1_050_980_004, "该主体和人员已登记资格，请另建版本");
     ErrorCode PAYROLL_ELIGIBILITY_OVERLAP = new ErrorCode(1_050_980_005, "同主体和人员存在有效期重叠的已确认资格");
     ErrorCode PAYROLL_ELIGIBILITY_PERSON_CHANGED = new ErrorCode(1_050_980_006, "人员主档已变化，请重新核对并刷新草稿快照");
+    ErrorCode PAYROLL_TRIAL_NOT_EXISTS = new ErrorCode(1_050_990_000, "试算批次或版本不存在或不可访问");
+    ErrorCode PAYROLL_TRIAL_INVALID = new ErrorCode(1_050_990_001, "试算资料不合法：{}");
+    ErrorCode PAYROLL_TRIAL_STALE = new ErrorCode(1_050_990_002, "批次资料或来源已变化，请重新核验");
+    ErrorCode PAYROLL_TRIAL_DUPLICATE = new ErrorCode(1_050_990_003, "试算批次编号已登记");
+    ErrorCode PAYROLL_TRIAL_BLOCKED = new ErrorCode(1_050_990_004, "资料核验未通过，不能生成试算版本");
+    ErrorCode PAYROLL_TRIAL_REQUEST_CONFLICT = new ErrorCode(1_050_990_005, "该操作编号已用于不同试算资料，请重新核验");
+    ErrorCode PAYROLL_TRIAL_PERMISSION = new ErrorCode(1_050_990_006, "缺少批次、人员资格或计算规则查询权限");
 }

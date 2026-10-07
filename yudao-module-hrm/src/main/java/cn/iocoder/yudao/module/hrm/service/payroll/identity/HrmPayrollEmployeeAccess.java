@@ -60,6 +60,21 @@ public class HrmPayrollEmployeeAccess {
                 +" AND e.tenant_id={"+index+"} AND e.deleted=0 AND ("+current+"))",parameters.toArray());
         return q;
     }
+    /** Every historically involved person must remain visible before revealing a batch or its totals. */
+    public <T> LambdaQueryWrapperX<T> filterTrialBatches(LambdaQueryWrapperX<T> q) {
+        DeptDataPermissionRespDTO scope=scope();if(Boolean.TRUE.equals(scope.getAll()))return q;
+        List<Object> parameters=new ArrayList<>();
+        String captured=predicate(scope,"p.snapshot_dept_id","p.snapshot_user_id",parameters);
+        int tenantIndex=parameters.size();parameters.add(TenantContextHolder.getRequiredTenantId());
+        String current=predicate(scope,"e.dept_id","e.user_id",parameters);
+        String membership="p.batch_id=hrm_payroll_trial_batch.id AND p.tenant_id={"+tenantIndex+"} AND p.deleted=0";
+        q.apply("EXISTS (SELECT 1 FROM hrm_payroll_trial_person p WHERE "+membership+")"
+                +" AND NOT EXISTS (SELECT 1 FROM hrm_payroll_trial_person p WHERE "+membership
+                +" AND (COALESCE(("+captured+"),FALSE)=FALSE OR NOT EXISTS"
+                +" (SELECT 1 FROM hrm_employee e WHERE e.id=p.employee_id AND e.tenant_id={"+tenantIndex+"}"
+                +" AND e.deleted=0 AND ("+current+"))))",parameters.toArray());
+        return q;
+    }
     private String predicate(DeptDataPermissionRespDTO scope,String dept,String user,List<Object> values) {
         List<String> clauses=new ArrayList<>();
         if(scope.getDeptIds()!=null && !scope.getDeptIds().isEmpty()) {

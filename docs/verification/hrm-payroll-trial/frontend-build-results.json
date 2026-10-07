@@ -1,0 +1,10 @@
+{
+  "baselineCommit": "0af03a93b6b6300f878e28add69b1c7a9f09ec34",
+  "node": "v24.19.0",
+  "pnpm": "11.19.0",
+  "frozenLockfile": true,
+  "productionBuild": "PASS",
+  "typecheck": "PASS",
+  "mesIncluded": true,
+  "sourceOverlay": "hrm-payroll-trial"
+}

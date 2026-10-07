@@ -1,0 +1,225 @@
+{
+  "total": 52,
+  "passed": 52,
+  "checks": [
+    {
+      "check": "editable template has explicit money inputs and two cases",
+      "result": "PASS"
+    },
+    {
+      "check": "anonymous and ungranted denied",
+      "result": "PASS"
+    },
+    {
+      "check": "maintainonly lacks required combined permissions",
+      "result": "PASS"
+    },
+    {
+      "check": "executeonly lacks required combined permissions",
+      "result": "PASS"
+    },
+    {
+      "check": "nohrm lacks required combined permissions",
+      "result": "PASS"
+    },
+    {
+      "check": "nocalc lacks required combined permissions",
+      "result": "PASS"
+    },
+    {
+      "check": "noelig lacks required combined permissions",
+      "result": "PASS"
+    },
+    {
+      "check": "server owns identity revision and snapshots",
+      "result": "PASS"
+    },
+    {
+      "check": "HTTP dates are ISO strings",
+      "result": "PASS"
+    },
+    {
+      "check": "duplicate batch code rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "reader cannot edit and executor cannot edit",
+      "result": "PASS"
+    },
+    {
+      "check": "preflight stable and exact included count",
+      "result": "PASS"
+    },
+    {
+      "check": "editor cannot execute",
+      "result": "PASS"
+    },
+    {
+      "check": "executor stores balanced exact amounts",
+      "result": "PASS"
+    },
+    {
+      "check": "full personal expression and source trace retained",
+      "result": "PASS"
+    },
+    {
+      "check": "retry returns same version even after revision advances",
+      "result": "PASS"
+    },
+    {
+      "check": "request key conflict rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "edit clears current result while retaining latest historical run",
+      "result": "PASS"
+    },
+    {
+      "check": "immutable first result and exact version delta",
+      "result": "PASS"
+    },
+    {
+      "check": "lightweight page and run list omit sensitive payloads",
+      "result": "PASS"
+    },
+    {
+      "check": "cross tenant denied /get",
+      "result": "PASS"
+    },
+    {
+      "check": "cross tenant denied /check",
+      "result": "PASS"
+    },
+    {
+      "check": "cross tenant denied /runs",
+      "result": "PASS"
+    },
+    {
+      "check": "cross tenant denied /history",
+      "result": "PASS"
+    },
+    {
+      "check": "cross tenant denied /run",
+      "result": "PASS"
+    },
+    {
+      "check": "cross tenant denied /compare",
+      "result": "PASS"
+    },
+    {
+      "check": "cross tenant page does not reveal batch",
+      "result": "PASS"
+    },
+    {
+      "check": "wire value rejected 123.45",
+      "result": "PASS"
+    },
+    {
+      "check": "wire value rejected None",
+      "result": "PASS"
+    },
+    {
+      "check": "wire value rejected True",
+      "result": "PASS"
+    },
+    {
+      "check": "missing tax is blocked instead of zero",
+      "result": "PASS"
+    },
+    {
+      "check": "explicit zero is valid",
+      "result": "PASS"
+    },
+    {
+      "check": "negative regular wage input blocked",
+      "result": "PASS"
+    },
+    {
+      "check": "batch owner and evidence block execution when missing",
+      "result": "PASS"
+    },
+    {
+      "check": "custom explicit period supported",
+      "result": "PASS"
+    },
+    {
+      "check": "partial natural month rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "binding collision blocks preflight",
+      "result": "PASS"
+    },
+    {
+      "check": "unknown qualification blocks whole batch",
+      "result": "PASS"
+    },
+    {
+      "check": "excluded person has no computed zero and no contribution",
+      "result": "PASS"
+    },
+    {
+      "check": "all excluded blocks empty run",
+      "result": "PASS"
+    },
+    {
+      "check": "dept may read own complete batch",
+      "result": "PASS"
+    },
+    {
+      "check": "dept cannot read batch with unrelated excluded person",
+      "result": "PASS"
+    },
+    {
+      "check": "self may read own complete batch",
+      "result": "PASS"
+    },
+    {
+      "check": "self cannot read batch with unrelated excluded person",
+      "result": "PASS"
+    },
+    {
+      "check": "removing unrelated person does not expose old salary history",
+      "result": "PASS"
+    },
+    {
+      "check": "null dept and user cannot leak through SQL scope",
+      "result": "PASS"
+    },
+    {
+      "check": "simultaneous retry creates one version",
+      "result": "PASS"
+    },
+    {
+      "check": "stale revision blocks execution",
+      "result": "PASS"
+    },
+    {
+      "check": "source hash change with same batch revision blocks commit",
+      "result": "PASS"
+    },
+    {
+      "check": "current person drift blocks new trial",
+      "result": "PASS"
+    },
+    {
+      "check": "old immutable result replays after source drift",
+      "result": "PASS"
+    },
+    {
+      "check": "legacy protected tables are unchanged",
+      "result": "PASS"
+    }
+  ],
+  "syntheticFixtures": true,
+  "legacyProtectedTables": [
+    "hrm_salary_month_record",
+    "hrm_salary_month_employee_record",
+    "hrm_salary_slip",
+    "hrm_salary_slip_send_record",
+    "hrm_insurance_month_record",
+    "hrm_insurance_month_employee_record",
+    "hrm_employee_salary_card"
+  ],
+  "legacyUnchanged": true
+}
