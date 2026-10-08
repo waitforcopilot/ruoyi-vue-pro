@@ -1,0 +1,130 @@
+{
+  "headSha": "371d91f3d78828bb64f2cc9964b6379730626ab8",
+  "runId": 37707412668,
+  "url": "https://github.com/waitforcopilot/ruoyi-vue-pro/actions/runs/37707412668",
+  "frontendArtifactId": 11519299375,
+  "frontendArtifactSha256": "1552cd444d90f13f7f066b8ba7c38e946ef17b29cfe0e6e6119990eaac5a9822",
+  "frontend": {
+    "baselineCommit": "0af03a93b6b6300f878e28add69b1c7a9f09ec34",
+    "node": "v24.19.0",
+    "pnpm": "11.19.0",
+    "frozenLockfile": true,
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "mesIncluded": true
+  },
+  "buildContainsReviewPage": true,
+  "buildContainsReviewApi": true,
+  "backendArtifactId": 11520841026,
+  "backendArtifactSha256": "589b37f4d8fb93af7cf94b80e106447b965d3ff52c4c7b48e98ad2318923b81b",
+  "backend": {
+    "fullReactor": {
+      "tests": 1735,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 24,
+      "suites": 171
+    },
+    "hrm": {
+      "tests": 860,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suites": 66
+    },
+    "bpm": {
+      "tests": 63,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 6,
+      "suites": 21
+    },
+    "modules": {
+      "yudao-framework/yudao-common": {
+        "tests": 35,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": 4
+      },
+      "yudao-framework/yudao-spring-boot-starter-biz-data-permission": {
+        "tests": 43,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": 6
+      },
+      "yudao-framework/yudao-spring-boot-starter-biz-ip": {
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": 2
+      },
+      "yudao-framework/yudao-spring-boot-starter-excel": {
+        "tests": 21,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": 3
+      },
+      "yudao-framework/yudao-spring-boot-starter-mybatis": {
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": 3
+      },
+      "yudao-framework/yudao-spring-boot-starter-protection": {
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": 1
+      },
+      "yudao-framework/yudao-spring-boot-starter-web": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": 2
+      },
+      "yudao-module-bpm": {
+        "tests": 63,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 6,
+        "suites": 21
+      },
+      "yudao-module-hrm": {
+        "tests": 860,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": 66
+      },
+      "yudao-module-infra": {
+        "tests": 207,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 10,
+        "suites": 24
+      },
+      "yudao-module-system": {
+        "tests": 479,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 8,
+        "suites": 39
+      }
+    }
+  },
+  "allJobsSuccessful": true,
+  "newExecutedTests": {
+    "BpmBusinessTaskGuardIntegrationTest": 7,
+    "HrmPayrollBpmGuardTest": 7,
+    "HrmPayrollReviewBpmGatewayTest": 7,
+    "HrmPayrollReviewServiceImplTest": 32
+  },
+  "backendArtifactVerified": true
+}

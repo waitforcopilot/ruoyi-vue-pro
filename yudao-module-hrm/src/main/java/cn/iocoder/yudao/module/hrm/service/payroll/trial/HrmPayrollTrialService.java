@@ -11,6 +11,7 @@ public interface HrmPayrollTrialService {
  HrmPayrollTrialRespVO get(Long id);
  PageResult<HrmPayrollTrialRespVO> page(HrmPayrollTrialPageReqVO req);
  HrmPayrollTrialCheckVO check(Long id);
+ HrmPayrollTrialInspectionVO inspect(Long id);
  HrmPayrollTrialRunRespVO execute(HrmPayrollTrialExecuteReqVO req);
  List<HrmPayrollTrialRunRespVO> runs(Long id);
  HrmPayrollTrialRunRespVO run(Long id);

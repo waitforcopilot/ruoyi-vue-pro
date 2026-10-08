@@ -1,0 +1,38 @@
+{
+  "verifiedAtUtc": "2026-10-08T00:51:47.898837+00:00",
+  "sourceBranch": "feat/hrm-payroll-overview",
+  "baseCommit": "371d91f3d78828bb64f2cc9964b6379730626ab8",
+  "scope": "local verification; remote CI recorded independently in the pull request",
+  "frontend": {
+    "baselineCommit": "0af03a93b6b6300f878e28add69b1c7a9f09ec34",
+    "productionBuild": "passed",
+    "typecheck": "passed",
+    "mesIncluded": true
+  },
+  "mysqlMigration": "repeatability, unique menu, retained role grants and no business tables passed",
+  "backendReport": "hrm-overview-backend-tests.json",
+  "newExecutedTests": 26,
+  "actualOverviewApi": 30,
+  "priorReviewApi": 55,
+  "actualBrowser": 11,
+  "syntheticFixtures": true,
+  "realBpmEngine": true,
+  "legacyTablesUnchanged": 7,
+  "originalPrototypeSha256": "6898065e01c0e38f35bbb09a65184bc385b2e2e10334c1f80bca74b188908839",
+  "files": {
+    "hrm-overview-api-results.json": "37ffcd4506f618855761ac6875b3b8c775cc2d5f8981fdf8c74375c0c5c791e1",
+    "hrm-overview-backend-tests.json": "ee6506e321f02739dccf2c33442a93eb9acd18269230ddfdb1b0e22a890c9c5d",
+    "hrm-overview-browser-results.json": "31ceed7d2984e888de76bebefdd39e9b26a133e1ff8a140bfaae8f0f4791f2be",
+    "payroll-overview-finance-todo.png": "2403ca0cfd6f9fb8f213640669ebe668c86ff55e60aabebb9f610b6911fb2363",
+    "payroll-overview-hr-todo.png": "8315ace6f46ceecacec1094e74a1782b843c0aef3f675f4594a67a956b74d742",
+    "payroll-overview-invalidated.png": "4c95269780ad58dbcf2f2ed2f14d39a97bca11c2ae437c1594b6160117f559b1",
+    "payroll-overview-mobile-money.png": "3650f0e527335558f02756b25248dd22dc4018ec5df7a0d8baca7673ccbc9b7a",
+    "payroll-overview-mobile.png": "e22619917e797d6ecc8f5ba82e85b3cc2b47e921103e5a1b5a2e6b81fa8d2edd",
+    "payroll-overview-no-version.png": "7dcfb070589e5d23730aaae7ab591b9d266f9ae51dd5e2ee2574be146aa2606d",
+    "payroll-overview-review-link.png": "5393fb50961a200eda181691ac23a3c456ef94ccac6b146f09c30e8c34012d63",
+    "payroll-overview-states.png": "a8ad2cda4827e36f77080bb3c2d606864a8cb6b82f29f4767c118a535ef8593a",
+    "payroll-overview-version-money.png": "c873a8472070d934767f46cb625b7bf1e82064c7387169f75cffe724594cdbd6",
+    "prior-review-api-results.json": "42e8448a885bb9a3f92b090e159e2a142fc7ba6a03dca202acac8ed678c950dc",
+    "prior-review-github-ci-evidence.json": "5f3f3466283d027ea0ca657236c0940c4b4468da57e8bae1c7040bbefe5e07ad"
+  }
+}

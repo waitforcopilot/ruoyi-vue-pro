@@ -1,0 +1,130 @@
+{
+  "total": 30,
+  "passed": 30,
+  "checks": [
+    {
+      "check": "all five status counts are exact and independent of pagination",
+      "result": "PASS"
+    },
+    {
+      "check": "HR assigned count comes from current native task outside first page",
+      "result": "PASS"
+    },
+    {
+      "check": "finance assigned count comes from native finance stage",
+      "result": "PASS"
+    },
+    {
+      "check": "read-only actor has no fabricated personal tasks",
+      "result": "PASS"
+    },
+    {
+      "check": "batch stages reflect real HR and finance tasks",
+      "result": "PASS"
+    },
+    {
+      "check": "assignment badge uses the current logged-in actor",
+      "result": "PASS"
+    },
+    {
+      "check": "status filter applies consistently to count and list",
+      "result": "PASS"
+    },
+    {
+      "check": "exact complete period returns only matching batches",
+      "result": "PASS"
+    },
+    {
+      "check": "unknown entity is a legitimate empty result",
+      "result": "PASS"
+    },
+    {
+      "check": "invalid query rejected periodStart",
+      "result": "PASS"
+    },
+    {
+      "check": "invalid query rejected periodStart,periodEnd",
+      "result": "PASS"
+    },
+    {
+      "check": "invalid query rejected pageSize",
+      "result": "PASS"
+    },
+    {
+      "check": "invalid query rejected pageSize",
+      "result": "PASS"
+    },
+    {
+      "check": "invalid query rejected status",
+      "result": "PASS"
+    },
+    {
+      "check": "None missing overview or combined permissions denied",
+      "result": "PASS"
+    },
+    {
+      "check": "none missing overview or combined permissions denied",
+      "result": "PASS"
+    },
+    {
+      "check": "submitonly missing overview or combined permissions denied",
+      "result": "PASS"
+    },
+    {
+      "check": "freezeonly missing overview or combined permissions denied",
+      "result": "PASS"
+    },
+    {
+      "check": "noelig missing overview or combined permissions denied",
+      "result": "PASS"
+    },
+    {
+      "check": "single chosen version has exact stored decimal money without summing overlaps",
+      "result": "PASS"
+    },
+    {
+      "check": "no saved trial displays missing money rather than invented zero",
+      "result": "PASS"
+    },
+    {
+      "check": "invalidated trial retains clearly marked historical amounts",
+      "result": "PASS"
+    },
+    {
+      "check": "frozen workflow state still matches the original business sources",
+      "result": "PASS"
+    },
+    {
+      "check": "source basis drift is detected even with identical money",
+      "result": "PASS"
+    },
+    {
+      "check": "current personnel blocker preserves original saved money",
+      "result": "PASS"
+    },
+    {
+      "check": "overview GET leaves revisions history and legacy ledgers unchanged",
+      "result": "PASS"
+    },
+    {
+      "check": "self scope excludes whole mixed batch including explicitly excluded person",
+      "result": "PASS"
+    },
+    {
+      "check": "other department cannot count or read unauthorized batches",
+      "result": "PASS"
+    },
+    {
+      "check": "other tenant cannot read overview batch",
+      "result": "PASS"
+    },
+    {
+      "check": "legacy wage tax insurance slip and bank tables remain unchanged",
+      "result": "PASS"
+    }
+  ],
+  "priorReviewChecks": 55,
+  "syntheticFixtures": true,
+  "realBpmEngine": true,
+  "legacyUnchanged": true
+}

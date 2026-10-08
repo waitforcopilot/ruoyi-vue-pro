@@ -508,7 +508,30 @@ const saved = async (id: number) => {
   await load()
   await select(id)
 }
-onMounted(load)
+const route = useRoute()
+watch(
+  () => [route.path, route.query.batchId],
+  ([path, value]) => {
+    if (path !== '/hrm/payroll-trial-batches') {
+      clearDetail()
+      return
+    }
+    if (
+      typeof value === 'string' &&
+      /^[1-9]\d*$/.test(value) &&
+      Number.isSafeInteger(Number(value))
+    )
+      select(Number(value))
+    else clearDetail()
+  }
+)
+onMounted(async () => {
+  await load()
+  if (route.path !== '/hrm/payroll-trial-batches') return
+  const id = route.query.batchId
+  if (typeof id === 'string' && /^[1-9]\d*$/.test(id) && Number.isSafeInteger(Number(id)))
+    await select(Number(id))
+})
 </script>
 <style scoped>
 .trial-page {

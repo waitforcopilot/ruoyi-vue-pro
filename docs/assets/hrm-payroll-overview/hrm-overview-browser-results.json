@@ -1,0 +1,63 @@
+{
+  "total": 11,
+  "passed": 11,
+  "checks": [
+    {
+      "check": "scoped five-state dashboard and readonly personal task counts use actual data",
+      "result": "PASS"
+    },
+    {
+      "check": "money belongs to one saved version and unbound legal cost is missing",
+      "result": "PASS"
+    },
+    {
+      "check": "draft without a saved version displays no invented zero wages",
+      "result": "PASS"
+    },
+    {
+      "check": "invalidated historical money remains clearly labelled",
+      "result": "PASS"
+    },
+    {
+      "check": "assigned HR identity sees exactly its real native task",
+      "result": "PASS"
+    },
+    {
+      "check": "assigned finance identity sees current finance stage",
+      "result": "PASS"
+    },
+    {
+      "check": "overview link selects the exact review batch and preserves stage action permissions",
+      "result": "PASS"
+    },
+    {
+      "check": "batchId deep link survives a direct browser reload",
+      "result": "PASS"
+    },
+    {
+      "check": "late previous-batch response cannot overwrite chosen financial version",
+      "result": "PASS"
+    },
+    {
+      "check": "query change clears prior money and consistently filters state counts",
+      "result": "PASS"
+    },
+    {
+      "check": "mobile cards stack, exact money remains readable and table overflow stays local",
+      "result": "PASS"
+    }
+  ],
+  "syntheticFixtures": true,
+  "realBpmEngine": true,
+  "screenshots": [
+    "payroll-overview-finance-todo.png",
+    "payroll-overview-hr-todo.png",
+    "payroll-overview-invalidated.png",
+    "payroll-overview-mobile-money.png",
+    "payroll-overview-mobile.png",
+    "payroll-overview-no-version.png",
+    "payroll-overview-review-link.png",
+    "payroll-overview-states.png",
+    "payroll-overview-version-money.png"
+  ]
+}
