@@ -217,6 +217,19 @@ public class HrmPayrollTrialServiceImpl implements HrmPayrollTrialService {
     }
     @Override @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
     public HrmPayrollTrialCheckVO check(Long id) { return evaluate(require(id, false)).getCheck(); }
+    @Override @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
+    public HrmPayrollTrialInspectionVO inspect(Long id) {
+        HrmPayrollTrialBatchDO batch = require(id, false);
+        HrmPayrollTrialResultVO current = evaluate(batch);
+        HrmPayrollTrialInspectionVO out = new HrmPayrollTrialInspectionVO().setBatch(current.getBatch()).setCheck(current.getCheck()).setAvailability("NONE");
+        Long runId = batch.getCurrentRunId() == null ? batch.getLatestRunId() : batch.getCurrentRunId();
+        if (runId == null) return out;
+        HrmPayrollTrialRunDO saved = runs.selectOne(runQuery().eq(HrmPayrollTrialRunDO::getId, runId).eq(HrmPayrollTrialRunDO::getBatchId, id));
+        if (saved == null) return out.setAvailability("UNAVAILABLE");
+        HrmPayrollTrialRunRespVO snapshot = runResponse(saved, true); out.setRun(snapshot);
+        if (batch.getCurrentRunId() == null) return out.setAvailability("INVALIDATED");
+        return out.setAvailability(Boolean.TRUE.equals(current.getCheck().getReady()) && manifest(current).equals(manifest(snapshot.getResult())) ? "CURRENT" : "SOURCE_CHANGED");
+    }
     private void lockSources(HrmPayrollTrialBatchDO batch) {
         HrmPayrollCalculationRespVO definition = calculation.get(batch.getDefinitionId());
         definitions.selectOne(new LambdaQueryWrapperX<HrmPayrollCalculationDO>().eq(HrmPayrollCalculationDO::getTenantId, tenant())
