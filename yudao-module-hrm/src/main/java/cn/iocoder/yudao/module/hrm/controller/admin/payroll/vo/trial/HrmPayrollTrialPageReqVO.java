@@ -6,5 +6,5 @@ import javax.validation.constraints.*;
 public class HrmPayrollTrialPageReqVO extends PageParam {
  @Size(max=64) private String entityCode;
  @Size(max=160) private String search;
- @Min(0) @Max(1) private Integer status;
+ @Min(0) @Max(4) private Integer status;
 }

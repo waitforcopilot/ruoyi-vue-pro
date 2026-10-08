@@ -4,6 +4,8 @@ import cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.trial.*;
 import cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollReviewDO;
 import java.util.List;
 public interface HrmPayrollTrialService {
+    cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.trial.HrmPayrollTrialBatchDO lockBatch(Long id);
+    String validateCurrentRun(Long batchId, Long runId);
  Long create(HrmPayrollTrialSaveReqVO req);
  void update(HrmPayrollTrialSaveReqVO req);
  HrmPayrollTrialRespVO get(Long id);

@@ -19,6 +19,9 @@ public class BpmProcessInstanceCreateReqDTO {
      */
     @NotEmpty(message = "流程定义的标识不能为空")
     private String processDefinitionKey;
+
+    /** Optional explicit immutable deployment identity for version-bound business approvals. */
+    private String processDefinitionId;
     /**
      * 变量实例（动态表单）
      */

@@ -9,6 +9,7 @@ public class HrmPayrollTrialStoredConfigVO {
  private List<Person> people=new ArrayList<>();
  @Data @EqualsAndHashCode(callSuper=true) public static class Person extends HrmPayrollTrialConfigVO.PersonInput {
   private String snapshotName; private String snapshotJobNumber; private Long snapshotDeptId; private Long snapshotUserId;
-  @JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd'T'HH:mm:ss") private LocalDateTime snapshotCapturedAt;
+  @com.fasterxml.jackson.databind.annotation.JsonDeserialize(using=com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer.class)
+ @JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd'T'HH:mm:ss") private LocalDateTime snapshotCapturedAt;
  }
 }

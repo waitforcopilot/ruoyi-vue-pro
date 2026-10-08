@@ -54,3 +54,5 @@ python3 script/hrm/verify-trial-ui.py --allow-test-fixtures --fixture-file /tmp/
 ![版本比较](./assets/hrm-payroll-trial/payroll-trial-comparison.png)
 
 ![个人计算解释](./assets/hrm-payroll-trial/payroll-trial-explanation.png)
+
+2026-10-08 补充：T-39 的输入/规则/结果快照、版本重算和比较也由本模块部分覆盖；后续复核与冻结已在[独立模块](./hrm-payroll-review-freeze-module.md)接入，详见该模块的版本边界和回归证据。

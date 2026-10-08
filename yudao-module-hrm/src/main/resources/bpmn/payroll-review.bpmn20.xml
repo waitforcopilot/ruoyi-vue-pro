@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:flowable="http://flowable.org/bpmn" targetNamespace="https://iocoder.cn/hrm/payroll">
+ <process id="hrm_payroll_trial_review" name="薪酬试算两级复核" isExecutable="true">
+  <startEvent id="StartEvent" name="提交版本复核"/>
+  <userTask id="hrReview" name="HR 薪酬复核" flowable:candidateStrategy="35">
+   <extensionElements><flowable:approveType>1</flowable:approveType><flowable:approveMethod>1</flowable:approveMethod><flowable:assignStartUserHandlerType>1</flowable:assignStartUserHandlerType><flowable:assignEmptyHandlerType>2</flowable:assignEmptyHandlerType><flowable:rejectHandlerType>1</flowable:rejectHandlerType><flowable:signEnable>false</flowable:signEnable><flowable:reasonRequire>true</flowable:reasonRequire></extensionElements>
+  </userTask>
+  <userTask id="financeReview" name="财务薪酬复核" flowable:candidateStrategy="35">
+   <extensionElements><flowable:approveType>1</flowable:approveType><flowable:approveMethod>1</flowable:approveMethod><flowable:assignStartUserHandlerType>1</flowable:assignStartUserHandlerType><flowable:assignEmptyHandlerType>2</flowable:assignEmptyHandlerType><flowable:rejectHandlerType>1</flowable:rejectHandlerType><flowable:signEnable>false</flowable:signEnable><flowable:reasonRequire>true</flowable:reasonRequire></extensionElements>
+  </userTask>
+  <endEvent id="EndEvent" name="完成两级复核"/>
+  <sequenceFlow id="toHr" sourceRef="StartEvent" targetRef="hrReview"/>
+  <sequenceFlow id="toFinance" sourceRef="hrReview" targetRef="financeReview"/>
+  <sequenceFlow id="toEnd" sourceRef="financeReview" targetRef="EndEvent"/>
+ </process>
+</definitions>
