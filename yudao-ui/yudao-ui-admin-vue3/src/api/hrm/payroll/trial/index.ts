@@ -8,7 +8,7 @@ export const roleLabels: Record<string, string> = {
   tax: '个税',
   net: '实发'
 }
-export const states = ['草稿', '已试算']
+export const states = ['草稿', '已试算', '复核中', '复核通过', '已冻结']
 export const changes: Record<string, string> = {
   ADDED: '新增人员',
   REMOVED: '移除人员',
@@ -46,6 +46,8 @@ export interface Batch {
   personCount?: number
   currentRunId?: number
   latestRunId?: number
+  activeReviewId?: number
+  frozenRunId?: number
   configuration: { roles: Record<string, string>; people: Person[] }
 }
 export interface Issue {
@@ -79,6 +81,7 @@ export interface Run {
   expectedRevision: number
   includedCount: number
   excludedCount: number
+  executedBy: number
   executedByName: string
   executedAt: string
   result?: {

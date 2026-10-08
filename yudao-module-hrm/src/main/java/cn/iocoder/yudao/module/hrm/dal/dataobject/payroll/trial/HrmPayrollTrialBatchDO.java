@@ -15,4 +15,6 @@ public class HrmPayrollTrialBatchDO extends TenantBaseDO {
  private String configurationJson;
  @TableField(updateStrategy=FieldStrategy.ALWAYS) private Long currentRunId;
  private Long latestRunId;
+ @TableField(updateStrategy=FieldStrategy.ALWAYS) private Long activeReviewId;
+ @TableField(updateStrategy=FieldStrategy.ALWAYS) private Long frozenRunId;
 }

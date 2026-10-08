@@ -7,6 +7,7 @@ import java.util.*;
 public class HrmPayrollTrialCheckVO {
  private Long batchId; private Integer revision; private Boolean ready; private String sourceHash;
  private Integer includedCount; private Integer excludedCount; private Integer blockedCount;
+ @com.fasterxml.jackson.databind.annotation.JsonDeserialize(using=com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer.class)
  @JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd'T'HH:mm:ss") private LocalDateTime checkedAt;
  private List<Issue> issues=new ArrayList<>();
  private List<Person> people=new ArrayList<>();

@@ -1,0 +1,129 @@
+{
+  "runId": 37573639568,
+  "artifactId": 11461103775,
+  "artifactSha256": "8f2de7dbc61f8cca0351c5c2e46874202fddf960d62e399063973efac38bfca3",
+  "artifactVerified": true,
+  "buildContainsTrialPage": true,
+  "frontend": {
+    "baselineCommit": "0af03a93b6b6300f878e28add69b1c7a9f09ec34",
+    "node": "v24.19.0",
+    "pnpm": "11.19.0",
+    "frozenLockfile": true,
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "mesIncluded": true
+  },
+  "headSha": "6e42f55b42f97ba2a97f52f2474d08c68d7b466a",
+  "backendArtifactId": 11461654857,
+  "backendArtifactSha256": "4e29e0abaa8feaffb83d4959a7a1a0d556bf7ca918270e9e42723029ad0a21ef",
+  "backend": {
+    "fullReactor": {
+      "tests": 1682,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 24,
+      "suites": 167
+    },
+    "hrm": {
+      "tests": 814,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suites": 63
+    },
+    "bpm": {
+      "tests": 56,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 6,
+      "suites": 20
+    },
+    "modules": {
+      "yudao-framework/yudao-common": {
+        "tests": 35,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": 4
+      },
+      "yudao-framework/yudao-spring-boot-starter-biz-data-permission": {
+        "tests": 43,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": 6
+      },
+      "yudao-framework/yudao-spring-boot-starter-biz-ip": {
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": 2
+      },
+      "yudao-framework/yudao-spring-boot-starter-excel": {
+        "tests": 21,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": 3
+      },
+      "yudao-framework/yudao-spring-boot-starter-mybatis": {
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": 3
+      },
+      "yudao-framework/yudao-spring-boot-starter-protection": {
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": 1
+      },
+      "yudao-framework/yudao-spring-boot-starter-web": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": 2
+      },
+      "yudao-module-bpm": {
+        "tests": 56,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 6,
+        "suites": 20
+      },
+      "yudao-module-hrm": {
+        "tests": 814,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": 63
+      },
+      "yudao-module-infra": {
+        "tests": 207,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 10,
+        "suites": 24
+      },
+      "yudao-module-system": {
+        "tests": 479,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 8,
+        "suites": 39
+      }
+    }
+  },
+  "newTrialTests": {
+    "tests": 32,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "allThreeJobs": "success",
+  "url": "https://github.com/waitforcopilot/ruoyi-vue-pro/actions/runs/37573639568"
+}

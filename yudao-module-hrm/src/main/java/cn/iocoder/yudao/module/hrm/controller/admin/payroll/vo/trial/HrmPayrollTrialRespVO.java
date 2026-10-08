@@ -10,5 +10,6 @@ public class HrmPayrollTrialRespVO {
  @JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd") private LocalDate periodEnd;
  private Long definitionId; private Integer revision; private Integer status; private Integer personCount;
  private String ownerName; private String reference; private Long currentRunId; private Long latestRunId;
+ private Long activeReviewId; private Long frozenRunId;
  private HrmPayrollTrialStoredConfigVO configuration;
 }

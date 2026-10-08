@@ -10,7 +10,7 @@
         ></div
       >
       <el-alert
-        title="试算须匹配已确认的人员资格和计算规则。实发须等于应发减扣款减个税；本页仅保存试算，后续复核与发放另行处理。"
+        title="试算须匹配已确认的人员资格和计算规则。实发须等于应发减扣款减个税；本页保存试算并进行两级版本复核与冻结，发放另行处理。"
         type="info"
         :closable="false"
       />
@@ -48,9 +48,16 @@
         >
         <el-table-column label="状态 / 人数" min-width="150"
           ><template #default="{ row }"
-            ><el-tag :type="row.status === 1 ? 'success' : 'warning'">{{
-              Api.states[row.status]
-            }}</el-tag>
+            ><el-tag
+              :type="
+                row.status >= 3 || row.status === 1
+                  ? 'success'
+                  : row.status === 2
+                    ? 'info'
+                    : 'warning'
+              "
+              >{{ Api.states[row.status] }}</el-tag
+            >
             · {{ row.personCount }} 人</template
           ></el-table-column
         >
@@ -88,11 +95,11 @@
             v-if="canExecute && !pendingCommand"
             type="primary"
             :loading="executing"
-            :disabled="!check?.ready || checking || detailLoading"
+            :disabled="selected.status! > 1 || !check?.ready || checking || detailLoading"
             @click="execute"
             >保存试算版本</el-button
           ><el-button
-            v-if="canExecute && pendingCommand"
+            v-if="canExecute && pendingCommand && selected.status! <= 1"
             type="primary"
             :loading="executing"
             @click="execute"
@@ -108,7 +115,13 @@
       />
       <div v-if="check" data-testid="trial-check"
         ><el-alert
-          :title="check.ready ? '资料核验通过，可以保存试算版本' : '资料尚未就绪，请处理阻断项'"
+          :title="
+            check.ready
+              ? selected.status! > 1
+                ? '资料核验通过，当前处于复核或冻结阶段'
+                : '资料核验通过，可以保存试算版本'
+              : '资料尚未就绪，请处理阻断项'
+          "
           :type="check.ready ? 'success' : 'warning'"
           :closable="false"
         /><p
@@ -140,6 +153,13 @@
           ></el-table
         >
       </div>
+      <ReviewPanel
+        :key="selected.id"
+        :batch="selected"
+        :runs="runs"
+        class="mt-6"
+        @changed="reviewChanged"
+      />
       <el-tabs v-model="tab" class="mt-5">
         <el-tab-pane label="试算版本" name="runs"
           ><div class="version-toolbar"
@@ -251,6 +271,8 @@ import type { History } from '@/api/hrm/payroll/requirements'
 import { checkPermi } from '@/utils/permission'
 import TrialEditor from './TrialEditor.vue'
 import TrialRun from './TrialRun.vue'
+import ReviewPanel from './ReviewPanel.vue'
+import { actionLabels as reviewActionLabels } from '@/api/hrm/payroll/review'
 defineOptions({ name: 'HrmPayrollTrial' })
 const dependencies = [
   'hrm:employee:query',
@@ -295,7 +317,11 @@ const editor = ref<InstanceType<typeof TrialEditor>>(),
 const actionLabels: Record<string, string> = {
   create: '登记草稿',
   update: '维护草稿',
-  execute: '保存试算'
+  execute: '保存试算',
+  ...reviewActionLabels,
+  'bpm-approved': '流程复核通过',
+  'bpm-rejected': '流程驳回',
+  'bpm-cancelled': '流程撤销'
 }
 let listTicket = 0,
   selectionTicket = 0,
@@ -457,6 +483,25 @@ const compare = async () => {
     if (ticket === compareTicket) error.value = e?.message || String(e)
   } finally {
     if (ticket === compareTicket) comparing.value = false
+  }
+}
+const reviewChanged = async (id: number) => {
+  const selection = selectionTicket
+  if (selected.value?.id !== id) return
+  try {
+    const [batch, versions, records] = await Promise.all([
+      Api.get(id),
+      Api.runs(id),
+      Api.history(id)
+    ])
+    if (selection !== selectionTicket || selected.value?.id !== id) return
+    selected.value = batch
+    runs.value = versions
+    history.value = records
+    check.value = undefined
+    await load()
+  } catch (e: any) {
+    if (selection === selectionTicket) error.value = e?.message || String(e)
   }
 }
 const saved = async (id: number) => {

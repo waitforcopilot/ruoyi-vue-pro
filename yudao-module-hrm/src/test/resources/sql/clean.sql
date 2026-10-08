@@ -64,3 +64,6 @@ DELETE FROM hrm_payroll_employee_eligibility;
 DELETE FROM hrm_payroll_trial_run;
 DELETE FROM hrm_payroll_trial_person;
 DELETE FROM hrm_payroll_trial_batch;
+
+DELETE FROM hrm_payroll_review_command;
+DELETE FROM hrm_payroll_review_cycle;

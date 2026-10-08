@@ -1,0 +1,72 @@
+{
+  "total": 13,
+  "passed": 13,
+  "checks": [
+    {
+      "check": "current run ready for explicitly assigned two-stage review",
+      "result": "PASS"
+    },
+    {
+      "check": "empty evidence rejected before submit",
+      "result": "PASS"
+    },
+    {
+      "check": "lost submit response reuses identical command and creates one cycle",
+      "result": "PASS"
+    },
+    {
+      "check": "assigned HR sees stage actions without freeze permission",
+      "result": "PASS"
+    },
+    {
+      "check": "read-only actor sees bound version and reviewers without mutations",
+      "result": "PASS"
+    },
+    {
+      "check": "finance cannot act before HR completes",
+      "result": "PASS"
+    },
+    {
+      "check": "HR evidence saved against original run without closing finance stage",
+      "result": "PASS"
+    },
+    {
+      "check": "native final approval produces reviewed state and independent freeze action",
+      "result": "PASS"
+    },
+    {
+      "check": "freeze locks exact run while editing and recalculation stay disabled",
+      "result": "PASS"
+    },
+    {
+      "check": "mobile stages stack and overflow remains inside page",
+      "result": "PASS"
+    },
+    {
+      "check": "unfreeze retains both old decisions and frozen evidence",
+      "result": "PASS"
+    },
+    {
+      "check": "starter cancellation preserves history and invalidates current trial",
+      "result": "PASS"
+    },
+    {
+      "check": "late prior-batch response cannot overwrite current review history",
+      "result": "PASS"
+    }
+  ],
+  "syntheticFixtures": true,
+  "realBpmEngine": true,
+  "screenshots": [
+    "payroll-review-approved.png",
+    "payroll-review-cancelled.png",
+    "payroll-review-finance.png",
+    "payroll-review-frozen.png",
+    "payroll-review-hr.png",
+    "payroll-review-mobile-frozen.png",
+    "payroll-review-readonly.png",
+    "payroll-review-ready.png",
+    "payroll-review-submitted.png",
+    "payroll-review-unfrozen.png"
+  ]
+}

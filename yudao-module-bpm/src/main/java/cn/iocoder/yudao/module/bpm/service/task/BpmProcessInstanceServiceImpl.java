@@ -12,6 +12,7 @@ import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.framework.common.util.object.ObjectUtils;
 import cn.iocoder.yudao.framework.common.util.object.PageUtils;
 import cn.iocoder.yudao.framework.datapermission.core.annotation.DataPermission;
+import cn.iocoder.yudao.module.bpm.api.task.BpmBusinessTaskGuard;
 import cn.iocoder.yudao.module.bpm.api.task.dto.BpmProcessInstanceCreateReqDTO;
 import cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.model.BpmModelMetaInfoVO;
 import cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.model.simple.BpmSimpleModelNodeVO;
@@ -59,6 +60,7 @@ import org.flowable.engine.runtime.ProcessInstanceBuilder;
 import org.flowable.engine.task.Attachment;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.history.HistoricTaskInstance;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -124,6 +126,9 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
 
     @Resource
     private BpmProcessIdRedisDAO processIdRedisDAO;
+
+    @Autowired(required = false)
+    private List<BpmBusinessTaskGuard> businessTaskGuards = Collections.emptyList();
 
     // ========== Query 查询相关方法 ==========
 
@@ -815,8 +820,13 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
     public String createProcessInstance(Long userId, @Valid BpmProcessInstanceCreateReqDTO createReqDTO) {
         return FlowableUtils.executeAuthenticatedUserId(userId, () -> {
             // 获得流程定义
-            ProcessDefinition definition = processDefinitionService
-                    .getActiveProcessDefinition(createReqDTO.getProcessDefinitionKey());
+            ProcessDefinition definition = StrUtil.isBlank(createReqDTO.getProcessDefinitionId())
+                    ? processDefinitionService.getActiveProcessDefinition(createReqDTO.getProcessDefinitionKey())
+                    : processDefinitionService.getProcessDefinition(createReqDTO.getProcessDefinitionId());
+            if (definition != null && (!Objects.equals(definition.getKey(), createReqDTO.getProcessDefinitionKey())
+                    || !Objects.equals(definition.getTenantId(), FlowableUtils.getTenantId()))) {
+                definition = null;
+            }
             // 发起流程
             return createProcessInstance0(userId, definition, createReqDTO.getVariables(),
                     createReqDTO.getBusinessKey(),
@@ -833,6 +843,9 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
         }
         if (definition.isSuspended()) {
             throw exception(PROCESS_DEFINITION_IS_SUSPENDED);
+        }
+        for (BpmBusinessTaskGuard guard : businessTaskGuards) {
+            guard.beforeStart(definition.getKey(), userId, businessKey);
         }
         BpmProcessDefinitionInfoDO processDefinitionInfo = processDefinitionService
                 .getProcessDefinitionInfo(definition.getId());
@@ -952,6 +965,9 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
             throw exception(PROCESS_INSTANCE_CANCEL_CHILD_FAIL_NOT_ALLOW);
         }
 
+        for (BpmBusinessTaskGuard guard : businessTaskGuards) {
+            guard.beforeCancel(instance, userId);
+        }
         // 2. 取消流程
         updateProcessInstanceCancel(cancelReqVO.getId(),
                 BpmReasonEnum.CANCEL_PROCESS_INSTANCE_BY_START_USER.format(cancelReqVO.getReason()));
@@ -966,6 +982,9 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
             throw exception(PROCESS_INSTANCE_CANCEL_FAIL_NOT_EXISTS);
         }
 
+        for (BpmBusinessTaskGuard guard : businessTaskGuards) {
+            guard.beforeCancel(instance, userId);
+        }
         // 2. 取消流程
         AdminUserRespDTO user = adminUserApi.getUser(userId);
         updateProcessInstanceCancel(cancelReqVO.getId(),
@@ -1049,10 +1068,12 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
         }
 
         // 2. 发送对应的消息通知
-        if (Objects.equals(status, BpmProcessInstanceStatusEnum.APPROVE.getStatus())) {
+        if (businessTaskGuards.stream().allMatch(guard -> guard.useGenericSms(instance.getProcessDefinitionKey()))
+                && Objects.equals(status, BpmProcessInstanceStatusEnum.APPROVE.getStatus())) {
             messageService.sendMessageWhenProcessInstanceApprove(
                     BpmProcessInstanceConvert.INSTANCE.buildProcessInstanceApproveMessage(instance));
-        } else if (Objects.equals(status, BpmProcessInstanceStatusEnum.REJECT.getStatus())) {
+        } else if (businessTaskGuards.stream().allMatch(guard -> guard.useGenericSms(instance.getProcessDefinitionKey()))
+                && Objects.equals(status, BpmProcessInstanceStatusEnum.REJECT.getStatus())) {
             messageService.sendMessageWhenProcessInstanceReject(
                     BpmProcessInstanceConvert.INSTANCE.buildProcessInstanceRejectMessage(instance, reason));
         }

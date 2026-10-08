@@ -1,0 +1,40 @@
+{
+  "verifiedAtUtc": "2026-10-08T00:21:14.774288+00:00",
+  "sourceBranch": "feat/hrm-payroll-review-freeze",
+  "baseCommit": "6e42f55b42f97ba2a97f52f2474d08c68d7b466a",
+  "scope": "local verification; remote CI recorded independently in the pull request",
+  "frontend": {
+    "baselineCommit": "0af03a93b6b6300f878e28add69b1c7a9f09ec34",
+    "productionBuild": "passed",
+    "typecheck": "passed",
+    "mesIncluded": true
+  },
+  "mysqlMigration": "repeatability, retention, six permissions, Unicode and unique constraints passed",
+  "backendReport": "hrm-review-backend-tests.json",
+  "newExecutedTests": 53,
+  "bpmGuardAfterFormatting": "7 passed, no skips",
+  "actualApi": 55,
+  "priorTrialApi": 52,
+  "actualBrowser": 13,
+  "syntheticFixtures": true,
+  "realBpmEngine": true,
+  "legacyTablesUnchanged": 7,
+  "originalPrototypeSha256": "6898065e01c0e38f35bbb09a65184bc385b2e2e10334c1f80bca74b188908839",
+  "files": {
+    "hrm-review-api-results.json": "42e8448a885bb9a3f92b090e159e2a142fc7ba6a03dca202acac8ed678c950dc",
+    "hrm-review-backend-tests.json": "fb1f4e84077b8bcedc05dcc157d3928e43d6136dcdff0a84f283ff1c0c558979",
+    "hrm-review-browser-results.json": "22439f9ceb48265b3ec7a493f66245af5593f13b78438f49f9a022da4497be9d",
+    "payroll-review-approved.png": "220e272f2ef7acbbf6d8153a8cb8eeec05415663064c913d5c630983789519c5",
+    "payroll-review-cancelled.png": "021e6c4343297ee032b223bf1618fe6aad8e12d97e5b473464b904fb50601aa4",
+    "payroll-review-finance.png": "b401cefe413e2cfb57294e71435e8c9bb25f78cd5ec77a57de79bc9998e5bbe1",
+    "payroll-review-frozen.png": "fde1b488f92426e654ead96e453ef0a87aa2b9abe0ad57414eadbfb18e1494ff",
+    "payroll-review-hr.png": "d01e28020fbe940101794717d0d0bdabd25641d8351a7e2734904ccdd7b05c3b",
+    "payroll-review-mobile-frozen.png": "523c4eb26caf0a86a349c1e473fc8fee3263aa23306ab59f42918ebd61270d54",
+    "payroll-review-readonly.png": "3c0765158162349dd8ef21cf555c1a3bbfc68ce5b02dfbaa57952fcff8f372dc",
+    "payroll-review-ready.png": "a7b0acc020249a9e46ed5a11120ad805ce3abf84b83cfee092283eded4dff90c",
+    "payroll-review-submitted.png": "2bf487d6acc120ccbe9c53c4bd109729de672195f23484020736681d434fb052",
+    "payroll-review-unfrozen.png": "92c985d05bf0062d54a0a90999aea266f928a6839f90b26cb9c141fffc4d51f9",
+    "prior-trial-api-results.json": "20604687451c37da96301a991e656761b8e17b7fe3252dafc8d5ee0baa6a3d70",
+    "prior-trial-github-ci-evidence.json": "3ecab530929f6799b51bcbf9f534dd0b496e5e9ab7b00414a21f9e1b61eec89e"
+  }
+}

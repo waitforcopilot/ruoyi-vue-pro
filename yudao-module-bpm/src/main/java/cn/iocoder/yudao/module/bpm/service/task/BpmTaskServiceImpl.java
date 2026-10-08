@@ -15,6 +15,7 @@ import cn.iocoder.yudao.framework.common.util.object.ObjectUtils;
 import cn.iocoder.yudao.framework.common.util.object.PageUtils;
 import cn.iocoder.yudao.framework.datapermission.core.annotation.DataPermission;
 import cn.iocoder.yudao.framework.web.core.util.WebFrameworkUtils;
+import cn.iocoder.yudao.module.bpm.api.task.BpmBusinessTaskGuard;
 import cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.model.BpmModelMetaInfoVO;
 import cn.iocoder.yudao.module.bpm.controller.admin.task.vo.task.*;
 import cn.iocoder.yudao.module.bpm.convert.task.BpmTaskConvert;
@@ -56,6 +57,7 @@ import org.flowable.task.api.history.HistoricTaskInstance;
 import org.flowable.task.api.history.HistoricTaskInstanceQuery;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 import org.flowable.task.service.impl.persistence.entity.TaskEntityImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -112,6 +114,9 @@ public class BpmTaskServiceImpl implements BpmTaskService {
     private AdminUserApi adminUserApi;
     @Resource
     private DeptApi deptApi;
+
+    @Autowired(required = false)
+    private List<BpmBusinessTaskGuard> businessTaskGuards = Collections.emptyList();
 
     // ========== Query 查询相关方法 ==========
 
@@ -313,9 +318,16 @@ public class BpmTaskServiceImpl implements BpmTaskService {
         return query.list();
     }
 
+    private void checkBusinessTask(Task task, Long actorId) {
+        for (BpmBusinessTaskGuard guard : businessTaskGuards) {
+            guard.beforeTaskOperation(task, actorId);
+        }
+    }
+
     @Override
     public Task validateTask(Long userId, String taskId) {
         Task task = validateTaskExists(taskId);
+        checkBusinessTask(task, userId);
         // 为什么判断 assignee 非空的情况下？
         // 例如说：在审批人为空时，我们会有“自动审批通过”的策略，此时 userId 为 null，允许通过
         if (StrUtil.isNotBlank(task.getAssignee())
@@ -1260,6 +1272,7 @@ public class BpmTaskServiceImpl implements BpmTaskService {
     public void deleteSignTask(Long userId, BpmTaskSignDeleteReqVO reqVO) {
         // 1.1 校验 task 可以被减签
         Task task = validateTaskCanSignDelete(reqVO.getId());
+        checkBusinessTask(task, userId);
         // 1.2 校验取消人存在
         AdminUserRespDTO cancelUser = null;
         if (StrUtil.isNotBlank(task.getAssignee())) {
@@ -1290,6 +1303,7 @@ public class BpmTaskServiceImpl implements BpmTaskService {
 
     @Override
     public void copyTask(Long userId, BpmTaskCopyReqVO reqVO) {
+        checkBusinessTask(validateTaskExists(reqVO.getId()), userId);
         processInstanceCopyService.createProcessInstanceCopy(reqVO.getCopyUserIds(), reqVO.getReason(), reqVO.getId());
     }
 
@@ -1335,6 +1349,7 @@ public class BpmTaskServiceImpl implements BpmTaskService {
             throw exception(TASK_WITHDRAW_FAIL_NEXT_TASK_NOT_ALLOW);
         }
 
+        runningTasks.forEach(task -> checkBusinessTask(task, userId));
         // 2.1 取消当前任务
         List<String> withdrawExecutionIds = new ArrayList<>();
         for (Task task : runningTasks) {
@@ -1611,7 +1626,9 @@ public class BpmTaskServiceImpl implements BpmTaskService {
 
                     // 发送消息
                     AdminUserRespDTO startUser = adminUserApi.getUser(Long.valueOf(processInstance.getStartUserId()));
-                    messageService.sendMessageWhenTaskAssigned(BpmTaskConvert.INSTANCE.convert(processInstance, startUser, task));
+                    if (businessTaskGuards.stream().allMatch(guard -> guard.useGenericSms(processInstance.getProcessDefinitionKey()))) {
+                        messageService.sendMessageWhenTaskAssigned(BpmTaskConvert.INSTANCE.convert(processInstance, startUser, task));
+                    }
                 });
             }
 

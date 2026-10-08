@@ -248,8 +248,27 @@ public class HrmPayrollTrialServiceImpl implements HrmPayrollTrialService {
                 .setRequestKey(req.getRequestKey()).setExpectedRevision(req.getRevision()).setSourceHash(req.getSourceHash()).setResultJson(json)
                 .setIncludedCount(result.getCheck().getIncludedCount()).setExcludedCount(result.getCheck().getExcludedCount()).setExecutedBy(getLoginUserId())
                 .setExecutedByName(actorName()).setExecutedAt(LocalDateTime.now()); row.setTenantId(tenant()); runs.insert(row);
-        HrmPayrollTrialBatchDO after = BeanUtils.toBean(batch, HrmPayrollTrialBatchDO.class).setRevision(batch.getRevision() + 1).setStatus(1).setCurrentRunId(row.getId()).setLatestRunId(row.getId());
+        HrmPayrollTrialBatchDO after = BeanUtils.toBean(batch, HrmPayrollTrialBatchDO.class).setRevision(batch.getRevision() + 1).setStatus(1).setCurrentRunId(row.getId()).setLatestRunId(row.getId()).setActiveReviewId(null).setFrozenRunId(null);
         batches.updateById(after); audit("execute", batch, after, "保存试算 V" + row.getRunVersion() + "；未执行发放、审批或工资条发布"); return runResponse(row, true);
+    }
+    @Override public HrmPayrollTrialBatchDO lockBatch(Long id) { return require(id, true); }
+    @Override public String validateCurrentRun(Long batchId, Long runId) {
+        HrmPayrollTrialBatchDO batch = require(batchId, true);
+        HrmPayrollTrialRunDO run = runs.selectOne(runQuery().eq(HrmPayrollTrialRunDO::getId, runId).eq(HrmPayrollTrialRunDO::getBatchId, batchId));
+        if (run == null || !Objects.equals(batch.getCurrentRunId(), runId)) throw exception(PAYROLL_REVIEW_STALE);
+        lockSources(batch); HrmPayrollTrialResultVO current = evaluate(batch), saved = JsonUtils.parseObject(run.getResultJson(), HrmPayrollTrialResultVO.class);
+        if (!Boolean.TRUE.equals(current.getCheck().getReady()) || !manifest(current).equals(manifest(saved))) throw exception(PAYROLL_REVIEW_SOURCE_CHANGED);
+        return manifest(saved);
+    }
+    private String manifest(HrmPayrollTrialResultVO result) {
+        Map<String, Object> source = new LinkedHashMap<>();
+        HrmPayrollTrialRespVO b = result.getBatch();
+        Map<String, Object> identity = new LinkedHashMap<>();
+        identity.put("code", b.getCode()); identity.put("title", b.getTitle()); identity.put("entityCode", b.getEntityCode()); identity.put("entityName", b.getEntityName());
+        identity.put("periodType", b.getPeriodType()); identity.put("periodStart", b.getPeriodStart()); identity.put("periodEnd", b.getPeriodEnd());
+        identity.put("definitionId", b.getDefinitionId()); identity.put("ownerName", b.getOwnerName()); identity.put("reference", b.getReference()); identity.put("configuration", b.getConfiguration());
+        source.put("batch", identity); source.put("definition", result.getDefinition()); source.put("programHash", result.getProgramHash()); source.put("people", result.getPeople()); source.put("totals", result.getTotals());
+        return digest(source);
     }
     private HrmPayrollTrialRunRespVO runResponse(HrmPayrollTrialRunDO row, boolean detail) {
         HrmPayrollTrialRunRespVO vo = BeanUtils.toBean(row, HrmPayrollTrialRunRespVO.class);
