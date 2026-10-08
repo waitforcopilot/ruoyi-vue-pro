@@ -1,0 +1,38 @@
+{
+  "syntheticFixtures": true,
+  "originalScreenshots": true,
+  "screenshotCount": 12,
+  "backendNewTests": 23,
+  "frontend": {
+    "baseline": "0af03a93b6b6300f878e28add69b1c7a9f09ec34",
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "mesIncluded": true
+  },
+  "sqlMigration": "passed repeatability and historical preservation",
+  "realApiChecks": 37,
+  "priorReviewChecks": 55,
+  "priorOverviewChecks": 30,
+  "browserChecks": 12,
+  "legacyProtectedTablesUnchanged": 7,
+  "files": {
+    "backend-tests.json": "28ef5c5980b7e5303eec383a2b6c96fd72df3fbae356be817125e349c1af3f8a",
+    "hrm-binding-api-results.json": "9dc2cc6d9e217f7b38934f5bdf93cb3ba2796850b667064eeb1df3d32a322222",
+    "hrm-binding-browser-results.json": "a05e7a468ee0756d56a711320bd8780ee456b8d6eb60437ae76a9ef4c16173fb",
+    "hrm-overview-api-results.json": "37ffcd4506f618855761ac6875b3b8c775cc2d5f8981fdf8c74375c0c5c791e1",
+    "hrm-review-api-results.json": "42e8448a885bb9a3f92b090e159e2a142fc7ba6a03dca202acac8ed678c950dc",
+    "payroll-binding-all-sources.png": "05f6dee3ace9a56d8ad4f0e4d1a7309b06483ac2628531f4837a6406706ca17d",
+    "payroll-binding-comparison.png": "e7474153227076c6157cee9123792987b9aa383aa1a866fdb9de27023fd23b53",
+    "payroll-binding-editor.png": "1c024eaa299904622f6cbb214fe83a8d1195e90aadf10fc00f71965eb80ed9dc",
+    "payroll-binding-history.png": "0e4e19f94d059cfa80997352c55da08646450a4231fe09719c74b3ceaa5b7935",
+    "payroll-binding-missing-basis.png": "7f07827368b673fd0e50b2382cf62d689d0403d585efcb3ee345bc9588146401",
+    "payroll-binding-mobile-editor.png": "b20489440283d95a484ea1bb698a9e0c32427ff6ed0a32c3ec277a860267ec10",
+    "payroll-binding-mobile-snapshot.png": "1e809a930d445f1c3cccf1cb839ccdd705e104ec1fbb67460c878e69cfa67903",
+    "payroll-binding-new-associations.png": "6081fe5bfc00b41e4ef34edfff036d18576db8c468a569d8fe38d50c5f7bf72c",
+    "payroll-binding-restricted.png": "3cf827f8c6fbe8a2c9ce92b9221e87209cca9b5f3db63f08b8612d770c660805",
+    "payroll-binding-retired.png": "d9f6df7119c6295b50a49ff0b108d5f6c7d5701dc50436cdabd5eec2f4d49fa1",
+    "payroll-binding-retrial.png": "56545db84e089babee206a42889b850c46a0433e07f5265033d392b47f09a1f4",
+    "payroll-binding-snapshot.png": "35e3dc90b7d320ba75d94b95392fa9e8c795218938314df9a29e81a1dbc3d47c",
+    "prior-overview-github-ci-evidence.json": "91cfbbbc93c4b41bd0a19ff0b362be3543444d7fe9f65195822c6dfbde7a8de5"
+  }
+}

@@ -6,6 +6,7 @@ import java.util.*;
 @Data
 public class HrmPayrollTrialStoredConfigVO {
  private HrmPayrollTrialConfigVO.Roles roles;
+ private List<HrmPayrollTrialConfigVO.SourceBinding> sourceBindings;
  private List<Person> people=new ArrayList<>();
  @Data @EqualsAndHashCode(callSuper=true) public static class Person extends HrmPayrollTrialConfigVO.PersonInput {
   private String snapshotName; private String snapshotJobNumber; private Long snapshotDeptId; private Long snapshotUserId;

@@ -1,0 +1,133 @@
+{
+  "headSha": "773c7a68abc86c6c46bbb4f43873236110cfdff8",
+  "runId": 37710127744,
+  "url": "https://github.com/waitforcopilot/ruoyi-vue-pro/actions/runs/37710127744",
+  "frontendArtifactId": 11521676077,
+  "frontendArtifactSha256": "fa5dd1303602681e4dc6b7699a945bcf3cc19a3f4a7b0e5578adf2e54be0e4a0",
+  "frontend": {
+    "baselineCommit": "0af03a93b6b6300f878e28add69b1c7a9f09ec34",
+    "node": "v24.19.0",
+    "pnpm": "11.19.0",
+    "frozenLockfile": true,
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "mesIncluded": true
+  },
+  "buildContainsOverviewPage": true,
+  "buildContainsOverviewApi": true,
+  "allJobsSuccessful": true,
+  "backend": {
+    "artifactId": 11521866865,
+    "sha256": "f9b835140f7e22b370c0a1fb4a83cbadb773d88a4eaf3ed305851438cc0a3538",
+    "suites": 172,
+    "xmlTotals": {
+      "tests": 1761,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 24
+    },
+    "newOverviewTests": 26,
+    "report": {
+      "fullReactor": {
+        "tests": 1761,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 24,
+        "suites": 172
+      },
+      "hrm": {
+        "tests": 886,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": 67
+      },
+      "bpm": {
+        "tests": 63,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 6,
+        "suites": 21
+      },
+      "modules": {
+        "yudao-framework/yudao-common": {
+          "tests": 35,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "suites": 4
+        },
+        "yudao-framework/yudao-spring-boot-starter-biz-data-permission": {
+          "tests": 43,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "suites": 6
+        },
+        "yudao-framework/yudao-spring-boot-starter-biz-ip": {
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "suites": 2
+        },
+        "yudao-framework/yudao-spring-boot-starter-excel": {
+          "tests": 21,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "suites": 3
+        },
+        "yudao-framework/yudao-spring-boot-starter-mybatis": {
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "suites": 3
+        },
+        "yudao-framework/yudao-spring-boot-starter-protection": {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "suites": 1
+        },
+        "yudao-framework/yudao-spring-boot-starter-web": {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "suites": 2
+        },
+        "yudao-module-bpm": {
+          "tests": 63,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 6,
+          "suites": 21
+        },
+        "yudao-module-hrm": {
+          "tests": 886,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "suites": 67
+        },
+        "yudao-module-infra": {
+          "tests": 207,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 10,
+          "suites": 24
+        },
+        "yudao-module-system": {
+          "tests": 479,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 8,
+          "suites": 39
+        }
+      }
+    }
+  }
+}

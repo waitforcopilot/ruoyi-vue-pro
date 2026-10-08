@@ -10,6 +10,7 @@ public class HrmPayrollTrialBatchDO extends TenantBaseDO {
  private String code; private String title; private String entityCode; private String entityName;
  private String periodType; private LocalDate periodStart; private LocalDate periodEnd;
  private Long definitionId; private Integer revision; private Integer status; private Integer personCount;
+ private Long schemeId;
  @TableField(updateStrategy=FieldStrategy.ALWAYS) private String ownerName;
  @TableField(updateStrategy=FieldStrategy.ALWAYS) private String reference;
  private String configurationJson;

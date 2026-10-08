@@ -19,6 +19,14 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 public class HrmPayrollEmployeeAccess {
     @Resource private HrmEmployeeMapper employeeMapper;
     @Resource private PermissionApi permissionApi;
+    public boolean canReadTrialSchemes(Long userId) {
+        for(String p:Arrays.asList("hrm:payroll:scheme:query","hrm:salary:group:query","hrm:salary:option:query","hrm:salary:tax-rule:query"))
+            if(!permissionApi.hasAnyPermissions(userId,p)) return false;
+        return true;
+    }
+    public void requireTrialScheme(Long schemeId,Long userId) {
+        if(schemeId!=null && !canReadTrialSchemes(userId)) throw exception(PAYROLL_TRIAL_PERMISSION);
+    }
     public DeptDataPermissionRespDTO scope() {
         if(!permissionApi.hasAnyPermissions(getLoginUserId(),"hrm:employee:query")) throw exception(PAYROLL_MAPPING_PERMISSION);
         DeptDataPermissionRespDTO scope=permissionApi.getDeptDataPermission(getLoginUserId());
@@ -62,6 +70,7 @@ public class HrmPayrollEmployeeAccess {
     }
     /** Every historically involved person must remain visible before revealing a batch or its totals. */
     public <T> LambdaQueryWrapperX<T> filterTrialBatches(LambdaQueryWrapperX<T> q) {
+        if(!canReadTrialSchemes(getLoginUserId())) q.apply("hrm_payroll_trial_batch.scheme_id IS NULL");
         DeptDataPermissionRespDTO scope=scope();if(Boolean.TRUE.equals(scope.getAll()))return q;
         List<Object> parameters=new ArrayList<>();
         String captured=predicate(scope,"p.snapshot_dept_id","p.snapshot_user_id",parameters);

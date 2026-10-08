@@ -1,0 +1,238 @@
+{
+  "total": 55,
+  "passed": 55,
+  "checks": [
+    {
+      "check": "bundled two-stage definition deployed through existing BPM model API",
+      "result": "PASS"
+    },
+    {
+      "check": "review GET is read-only",
+      "result": "PASS"
+    },
+    {
+      "check": "None missing combined permissions is denied",
+      "result": "PASS"
+    },
+    {
+      "check": "none missing combined permissions is denied",
+      "result": "PASS"
+    },
+    {
+      "check": "submitonly missing combined permissions is denied",
+      "result": "PASS"
+    },
+    {
+      "check": "freezeonly missing combined permissions is denied",
+      "result": "PASS"
+    },
+    {
+      "check": "noelig missing combined permissions is denied",
+      "result": "PASS"
+    },
+    {
+      "check": "invalid reviewer combination hr/hr rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "invalid reviewer combination maker/finance rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "invalid reviewer combination hr/maker rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "invalid reviewer combination hr/disabled rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "reviewer permissions or full scope required reader",
+      "result": "PASS"
+    },
+    {
+      "check": "reviewer permissions or full scope required noelig",
+      "result": "PASS"
+    },
+    {
+      "check": "reviewer permissions or full scope required dept",
+      "result": "PASS"
+    },
+    {
+      "check": "missing evidence cannot start BPM",
+      "result": "PASS"
+    },
+    {
+      "check": "submission binds real BPM deployment run and fingerprint",
+      "result": "PASS"
+    },
+    {
+      "check": "retry submission returns original receipt with ISO timestamps",
+      "result": "PASS"
+    },
+    {
+      "check": "changed request body cannot reuse key",
+      "result": "PASS"
+    },
+    {
+      "check": "generic BPM cannot bypass payroll guard /approve",
+      "result": "PASS"
+    },
+    {
+      "check": "generic BPM cannot bypass payroll guard /reject",
+      "result": "PASS"
+    },
+    {
+      "check": "generic BPM cannot bypass payroll guard /transfer",
+      "result": "PASS"
+    },
+    {
+      "check": "generic BPM cannot bypass payroll guard /cancel-by-start-user",
+      "result": "PASS"
+    },
+    {
+      "check": "generic BPM cannot bypass payroll guard /cancel-by-admin",
+      "result": "PASS"
+    },
+    {
+      "check": "generic BPM cannot bypass payroll guard /create",
+      "result": "PASS"
+    },
+    {
+      "check": "nonassigned HR and premature finance cannot approve",
+      "result": "PASS"
+    },
+    {
+      "check": "falsified task ID cannot approve",
+      "result": "PASS"
+    },
+    {
+      "check": "freeze before two approvals is rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "reviewed batch cannot be edited",
+      "result": "PASS"
+    },
+    {
+      "check": "reviewed batch cannot be recalculated",
+      "result": "PASS"
+    },
+    {
+      "check": "HR approval advances to assigned finance task",
+      "result": "PASS"
+    },
+    {
+      "check": "approval retry returns original task receipt without repeating engine operation",
+      "result": "PASS"
+    },
+    {
+      "check": "native finance completion synchronizes approved business status",
+      "result": "PASS"
+    },
+    {
+      "check": "real BPM completion works without a mandatory phone",
+      "result": "PASS"
+    },
+    {
+      "check": "actual native BPM historic status is approved",
+      "result": "PASS"
+    },
+    {
+      "check": "BPM holds control metadata without payroll amounts or protected review evidence",
+      "result": "PASS"
+    },
+    {
+      "check": "core readonly role cannot freeze",
+      "result": "PASS"
+    },
+    {
+      "check": "freeze binds approved immutable run and evidence",
+      "result": "PASS"
+    },
+    {
+      "check": "freeze changes neither exact amounts nor calculation trace",
+      "result": "PASS"
+    },
+    {
+      "check": "audit snapshot records actual final approved cycle",
+      "result": "PASS"
+    },
+    {
+      "check": "unfreeze preserves frozen evidence and requires a new review round",
+      "result": "PASS"
+    },
+    {
+      "check": "new review round cannot reuse previous approval",
+      "result": "PASS"
+    },
+    {
+      "check": "starter cancellation invalidates current run and preserves history",
+      "result": "PASS"
+    },
+    {
+      "check": "cancelled round needs a new trial before resubmission",
+      "result": "PASS"
+    },
+    {
+      "check": "HR rejection closes real BPM and invalidates current trial",
+      "result": "PASS"
+    },
+    {
+      "check": "retrial after rejection binds a new run and new cycle",
+      "result": "PASS"
+    },
+    {
+      "check": "independent management cancellation is auditable and closes BPM",
+      "result": "PASS"
+    },
+    {
+      "check": "person drift blocks approval without recording a passed stage",
+      "result": "PASS"
+    },
+    {
+      "check": "person drift after approval blocks freeze while retaining approvals",
+      "result": "PASS"
+    },
+    {
+      "check": "self cannot read a mixed-scope review or synchronize it",
+      "result": "PASS"
+    },
+    {
+      "check": "dept cannot read a mixed-scope review or synchronize it",
+      "result": "PASS"
+    },
+    {
+      "check": "reviewer self-scope uses selected reviewer identity rather than starter",
+      "result": "PASS"
+    },
+    {
+      "check": "cross-tenant review read action and sync denied",
+      "result": "PASS"
+    },
+    {
+      "check": "simultaneous submit retry creates one cycle and one native BPM instance",
+      "result": "PASS"
+    },
+    {
+      "check": "explicit reconciliation is idempotent on completed history",
+      "result": "PASS"
+    },
+    {
+      "check": "legacy wage tax insurance slip and bank tables unchanged",
+      "result": "PASS"
+    }
+  ],
+  "syntheticFixtures": true,
+  "realBpmEngine": true,
+  "legacyProtectedTables": [
+    "hrm_salary_month_record",
+    "hrm_salary_month_employee_record",
+    "hrm_salary_slip",
+    "hrm_salary_slip_send_record",
+    "hrm_insurance_month_record",
+    "hrm_insurance_month_employee_record",
+    "hrm_employee_salary_card"
+  ],
+  "legacyUnchanged": true
+}

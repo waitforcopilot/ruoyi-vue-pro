@@ -205,7 +205,9 @@
             ><p
               >V{{ comparison.left.runVersion }} → V{{ comparison.right.runVersion }} ·
               {{
-                comparison.ruleChanged ? '计算规则或结果绑定有变化' : '计算规则与结果绑定一致'
+                comparison.ruleChanged
+                  ? '计算规则、方案或来源绑定有变化'
+                  : '计算规则、方案与来源绑定一致'
               }}</p
             ><div class="diff-totals"
               ><p v-for="(label, role) in Api.roleLabels" :key="role"

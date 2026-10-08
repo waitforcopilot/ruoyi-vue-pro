@@ -364,7 +364,7 @@ public interface ErrorCodeConstants {
     ErrorCode PAYROLL_TRIAL_DUPLICATE = new ErrorCode(1_050_990_003, "试算批次编号已登记");
     ErrorCode PAYROLL_TRIAL_BLOCKED = new ErrorCode(1_050_990_004, "资料核验未通过，不能生成试算版本");
     ErrorCode PAYROLL_TRIAL_REQUEST_CONFLICT = new ErrorCode(1_050_990_005, "该操作编号已用于不同试算资料，请重新核验");
-    ErrorCode PAYROLL_TRIAL_PERMISSION = new ErrorCode(1_050_990_006, "缺少批次、人员资格或计算规则查询权限");
+    ErrorCode PAYROLL_TRIAL_PERMISSION = new ErrorCode(1_050_990_006, "缺少批次、人员资格、计算规则或绑定方案资料查询权限");
     ErrorCode PAYROLL_REVIEW_INVALID = new ErrorCode(1_050_991_000, "复核请求不合法：{}");
     ErrorCode PAYROLL_REVIEW_PERMISSION = new ErrorCode(1_050_991_001, "缺少薪酬复核权限或职责不符合要求");
     ErrorCode PAYROLL_REVIEW_STALE = new ErrorCode(1_050_991_002, "复核版本已变化，请刷新后操作");

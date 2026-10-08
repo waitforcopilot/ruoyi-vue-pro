@@ -1320,7 +1320,7 @@ CREATE TABLE IF NOT EXISTS hrm_payroll_trial_batch (
  code varchar(64) NOT NULL,title varchar(160) NOT NULL,
  entity_code varchar(64) NOT NULL,entity_name varchar(160) NOT NULL,
  period_type varchar(16) NOT NULL,period_start date NOT NULL,period_end date NOT NULL,
- definition_id bigint NOT NULL,revision int NOT NULL,status int NOT NULL DEFAULT 0,person_count int NOT NULL,
+ definition_id bigint NOT NULL,scheme_id bigint,revision int NOT NULL,status int NOT NULL DEFAULT 0,person_count int NOT NULL,
  owner_name varchar(120),reference text,configuration_json clob NOT NULL,current_run_id bigint,latest_run_id bigint,
  creator varchar(64) DEFAULT '',create_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
  updater varchar(64) DEFAULT '',update_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,

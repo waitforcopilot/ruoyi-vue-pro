@@ -110,6 +110,10 @@ public class HrmPayrollReviewServiceImpl implements HrmPayrollReviewService {
                         "hrm:payroll:eligibility:query",
                         "hrm:employee:query",
                         permission)) allow(id, p);
+        HrmPayrollTrialBatchDO batch = batches.selectOne(new LambdaQueryWrapperX<HrmPayrollTrialBatchDO>()
+                .eq(HrmPayrollTrialBatchDO::getTenantId,tenant()).eq(HrmPayrollTrialBatchDO::getId,batchId));
+        if(batch!=null && batch.getSchemeId()!=null)
+            for(String p:Arrays.asList("hrm:payroll:scheme:query","hrm:salary:group:query","hrm:salary:option:query","hrm:salary:tax-rule:query")) allow(id,p);
         DeptDataPermissionRespDTO scope = permissions.getDeptDataPermission(id);
         if (scope == null) throw exception(PAYROLL_REVIEW_PERMISSION);
         if (!Boolean.TRUE.equals(scope.getAll()))
