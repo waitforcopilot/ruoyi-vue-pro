@@ -57,6 +57,7 @@ public class HrmPayrollTrialServiceImpl implements HrmPayrollTrialService {
     @Resource private PermissionApi permissionApi;
     @Resource private AdminUserApi adminUserApi;
     @Resource private Validator validator;
+    @Resource private HrmPayrollTrialSchemeBinding schemeBinding;
 
     private Long tenant() { return TenantContextHolder.getRequiredTenantId(); }
     private void guard() {
@@ -81,6 +82,7 @@ public class HrmPayrollTrialServiceImpl implements HrmPayrollTrialService {
         guard(); LambdaQueryWrapperX<HrmPayrollTrialBatchDO> q = batchQuery().eq(HrmPayrollTrialBatchDO::getId, id); if (lock) q.last("FOR UPDATE");
         HrmPayrollTrialBatchDO row = id == null ? null : batches.selectOne(q);
         if (row == null) throw exception(PAYROLL_TRIAL_NOT_EXISTS);
+        access.requireTrialScheme(row.getSchemeId(), getLoginUserId());
         List<HrmPayrollTrialPersonDO> footprint = people.selectList(personQuery(id));
         if (footprint.isEmpty()) throw exception(PAYROLL_TRIAL_NOT_EXISTS);
         for (HrmPayrollTrialPersonDO person : footprint) {
@@ -100,8 +102,11 @@ public class HrmPayrollTrialServiceImpl implements HrmPayrollTrialService {
         long days = ChronoUnit.DAYS.between(req.getPeriodStart(), req.getPeriodEnd()); valid(days >= 0 && days <= 365, "期间须合法且最多 366 天");
         if ("MONTHLY".equals(req.getPeriodType())) valid(req.getPeriodStart().getDayOfMonth() == 1 && req.getPeriodEnd().equals(YearMonth.from(req.getPeriodStart()).atEndOfMonth()), "自然月期间须从月初至该月月末");
         valid(req.getConfiguration().getPeople().stream().map(HrmPayrollTrialConfigVO.PersonInput::getEmployeeId).distinct().count() == req.getConfiguration().getPeople().size(), "同一批次不能重复登记人员");
-        calculation.get(req.getDefinitionId());
-        HrmPayrollTrialStoredConfigVO config = new HrmPayrollTrialStoredConfigVO().setRoles(req.getConfiguration().getRoles());
+        access.requireTrialScheme(req.getSchemeId(), getLoginUserId());
+        HrmPayrollCalculationRespVO definition = calculation.get(req.getDefinitionId());
+        if(req.getSchemeId()!=null) schemeBinding.validate(req.getSchemeId(),definition,req.getEntityCode(),req.getPeriodStart(),req.getPeriodEnd(),req.getConfiguration().getSourceBindings(),req.getConfiguration().getRoles());
+        else valid(req.getConfiguration().getSourceBindings()==null || req.getConfiguration().getSourceBindings().isEmpty(), "登记输入来源绑定时须选择方案版本");
+        HrmPayrollTrialStoredConfigVO config = new HrmPayrollTrialStoredConfigVO().setRoles(req.getConfiguration().getRoles()).setSourceBindings(req.getConfiguration().getSourceBindings());
         for (Long employeeId : req.getConfiguration().getPeople().stream().map(HrmPayrollTrialConfigVO.PersonInput::getEmployeeId).sorted().collect(Collectors.toList())) access.employee(employeeId, true);
         for (HrmPayrollTrialConfigVO.PersonInput input : req.getConfiguration().getPeople()) { HrmPayrollMappingRespVO person = personnel.employee(input.getEmployeeId());
             valid(input.getEmployeeFingerprint() == null || input.getEmployeeFingerprint().equals(person.getEmployeeFingerprint()), "人员档案已变化，请重新核对 HRM #" + input.getEmployeeId());
@@ -135,6 +140,7 @@ public class HrmPayrollTrialServiceImpl implements HrmPayrollTrialService {
     public void update(HrmPayrollTrialSaveReqVO req) {
         action("hrm:payroll:trial:maintain"); validate(req); HrmPayrollTrialBatchDO before = require(req.getId(), true); revision(before, req.getRevision());
         valid(before.getStatus() <= 1, "已复核或冻结的批次不能修改");
+        valid(before.getSchemeId()==null || req.getSchemeId()!=null, "已关联方案的批次不能清除方案；旧版本的资料权限须持续保留");
         valid(Objects.equals(before.getCode(), req.getCode()) && Objects.equals(before.getEntityCode(), req.getEntityCode())
                 && Objects.equals(before.getPeriodType(), req.getPeriodType()) && Objects.equals(before.getPeriodStart(), req.getPeriodStart())
                 && Objects.equals(before.getPeriodEnd(), req.getPeriodEnd()), "批次编号、主体编号和期间固定，不能修改");
@@ -174,6 +180,12 @@ public class HrmPayrollTrialServiceImpl implements HrmPayrollTrialService {
                 if (!mapping) { report.getIssues().add(issue("OUTPUT_BINDING_INVALID", "应发、扣款、个税和实发须分别绑定四个不同的 CNY/2 位结果")); compiled = null; }
             }
         } catch (ServiceException error) { report.getIssues().add(issue("DEFINITION_UNAVAILABLE", "规则不存在、不可访问或定义不合法")); }
+        if(batch.getSchemeId()!=null) {
+            try {
+                valid(result.getDefinition()!=null, "规则不可访问");
+                result.setScheme(schemeBinding.validate(batch.getSchemeId(),result.getDefinition(),batch.getEntityCode(),batch.getPeriodStart(),batch.getPeriodEnd(),config.getSourceBindings(),config.getRoles()));
+            } catch(ServiceException error) { report.getIssues().add(issue("SCHEME_BINDING_BLOCKED", error.getMessage())); compiled=null; }
+        }
         int included = 0, excluded = 0, blocked = 0;
         Map<String, BigDecimal> totals = new LinkedHashMap<>(); roleKeys.keySet().forEach(role -> totals.put(role, new BigDecimal("0.00")));
         for (HrmPayrollTrialStoredConfigVO.Person input : config.getPeople()) {
@@ -231,6 +243,7 @@ public class HrmPayrollTrialServiceImpl implements HrmPayrollTrialService {
         return out.setAvailability(Boolean.TRUE.equals(current.getCheck().getReady()) && manifest(current).equals(manifest(snapshot.getResult())) ? "CURRENT" : "SOURCE_CHANGED");
     }
     private void lockSources(HrmPayrollTrialBatchDO batch) {
+        if(batch.getSchemeId()!=null) schemeBinding.lock(batch.getSchemeId());
         HrmPayrollCalculationRespVO definition = calculation.get(batch.getDefinitionId());
         definitions.selectOne(new LambdaQueryWrapperX<HrmPayrollCalculationDO>().eq(HrmPayrollCalculationDO::getTenantId, tenant())
                 .eq(HrmPayrollCalculationDO::getCode, definition.getCode()).eq(HrmPayrollCalculationDO::getDefinitionVersion, 1).last("FOR UPDATE"));
@@ -280,6 +293,7 @@ public class HrmPayrollTrialServiceImpl implements HrmPayrollTrialService {
         identity.put("code", b.getCode()); identity.put("title", b.getTitle()); identity.put("entityCode", b.getEntityCode()); identity.put("entityName", b.getEntityName());
         identity.put("periodType", b.getPeriodType()); identity.put("periodStart", b.getPeriodStart()); identity.put("periodEnd", b.getPeriodEnd());
         identity.put("definitionId", b.getDefinitionId()); identity.put("ownerName", b.getOwnerName()); identity.put("reference", b.getReference()); identity.put("configuration", b.getConfiguration());
+        if(b.getSchemeId()!=null) { identity.put("schemeId",b.getSchemeId()); source.put("scheme",result.getScheme()); }
         source.put("batch", identity); source.put("definition", result.getDefinition()); source.put("programHash", result.getProgramHash()); source.put("people", result.getPeople()); source.put("totals", result.getTotals());
         return digest(source);
     }
@@ -300,6 +314,8 @@ public class HrmPayrollTrialServiceImpl implements HrmPayrollTrialService {
         HrmPayrollTrialRunRespVO left = run(leftId), right = run(rightId); valid(left.getBatchId().equals(right.getBatchId()), "只能对比同一批次的试算版本");
         HrmPayrollTrialCompareVO diff = new HrmPayrollTrialCompareVO().setLeft(left).setRight(right)
                 .setRuleChanged(!Objects.equals(left.getResult().getProgramHash(), right.getResult().getProgramHash())
+                        || !Objects.equals(left.getResult().getBatch().getSchemeId(),right.getResult().getBatch().getSchemeId())
+                        || !Objects.equals(JsonUtils.toJsonString(left.getResult().getBatch().getConfiguration().getSourceBindings()),JsonUtils.toJsonString(right.getResult().getBatch().getConfiguration().getSourceBindings()))
                         || !Objects.equals(JsonUtils.toJsonString(left.getResult().getBatch().getConfiguration().getRoles()), JsonUtils.toJsonString(right.getResult().getBatch().getConfiguration().getRoles())));
         for (String role : left.getResult().getTotals().keySet()) diff.getTotalDifferences().put(role, subtract(right.getResult().getTotals().get(role), left.getResult().getTotals().get(role)));
         Map<Long, HrmPayrollTrialResultVO.Person> l = index(left), r = index(right); Set<Long> ids = new TreeSet<>(l.keySet()); ids.addAll(r.keySet());

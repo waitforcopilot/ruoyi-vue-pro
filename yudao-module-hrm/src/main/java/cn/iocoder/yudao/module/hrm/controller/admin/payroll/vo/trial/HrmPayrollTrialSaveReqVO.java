@@ -15,6 +15,7 @@ public class HrmPayrollTrialSaveReqVO {
  @NotNull @JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd") private LocalDate periodStart;
  @NotNull @JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd") private LocalDate periodEnd;
  @NotNull @Min(1) private Long definitionId;
+ @Min(1) private Long schemeId;
  @Size(max=120) private String ownerName;
  @Size(max=2000) private String reference;
  @Valid @NotNull private HrmPayrollTrialConfigVO configuration;

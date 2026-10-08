@@ -1,0 +1,71 @@
+{
+  "total": 12,
+  "passed": 12,
+  "checks": [
+    {
+      "check": "saved version displays exact money and nine original scheme/manual source associations",
+      "result": "PASS"
+    },
+    {
+      "check": "structured editor loads explicit selected item and preserves historical access requirement",
+      "result": "PASS"
+    },
+    {
+      "check": "manual source has declared basis and no implied scheme item",
+      "result": "PASS"
+    },
+    {
+      "check": "missing source basis stays in editor and valid edit retains previous immutable result",
+      "result": "PASS"
+    },
+    {
+      "check": "editing source basis creates V2 with saved policy association and equal wages",
+      "result": "PASS"
+    },
+    {
+      "check": "source changes are visible separately from unchanged wage amounts",
+      "result": "PASS"
+    },
+    {
+      "check": "older trial shows its own original source basis rather than current draft",
+      "result": "PASS"
+    },
+    {
+      "check": "browser can associate an independent draft with a selected version and explicitly declare all sources",
+      "result": "PASS"
+    },
+    {
+      "check": "query-only reader without policy access cannot count or view bound batches",
+      "result": "PASS"
+    },
+    {
+      "check": "retired scheme blocks current qualification while original saved policy and wage result stay readable",
+      "result": "PASS"
+    },
+    {
+      "check": "390px source cards and structured editor remain readable without document overflow",
+      "result": "PASS"
+    },
+    {
+      "check": "browser has no uncaught page errors",
+      "result": "PASS"
+    }
+  ],
+  "syntheticFixtures": true,
+  "realBpmEngine": true,
+  "pageErrors": [],
+  "screenshots": [
+    "payroll-binding-all-sources.png",
+    "payroll-binding-comparison.png",
+    "payroll-binding-editor.png",
+    "payroll-binding-history.png",
+    "payroll-binding-missing-basis.png",
+    "payroll-binding-mobile-editor.png",
+    "payroll-binding-mobile-snapshot.png",
+    "payroll-binding-new-associations.png",
+    "payroll-binding-restricted.png",
+    "payroll-binding-retired.png",
+    "payroll-binding-retrial.png",
+    "payroll-binding-snapshot.png"
+  ]
+}

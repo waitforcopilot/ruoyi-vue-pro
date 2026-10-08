@@ -8,6 +8,7 @@ import java.util.*;
 @Data
 public class HrmPayrollTrialConfigVO {
  @Valid @NotNull private Roles roles=new Roles();
+ @Valid @Size(max=32) private List<@NotNull SourceBinding> sourceBindings;
  @Valid @NotNull @Size(min=1,max=100) private List<@NotNull PersonInput> people=new ArrayList<>();
  @Data public static class Roles {
   @NotBlank @Pattern(regexp="[A-Za-z][A-Za-z0-9_]{0,63}") private String gross="gross";
@@ -21,5 +22,12 @@ public class HrmPayrollTrialConfigVO {
   @NotNull @Size(max=32) @JsonDeserialize(contentUsing=PlainDecimalStringDeserializer.class)
   private Map<@Pattern(regexp="[A-Za-z][A-Za-z0-9_]{0,63}") String,@NotNull @Size(max=40) String> inputs=new LinkedHashMap<>();
   @Size(max=2000) private String inputReference;
+ }
+ @Data public static class SourceBinding {
+  @NotBlank @Pattern(regexp="[A-Za-z][A-Za-z0-9_]{0,63}") private String inputKey;
+  @NotBlank @Pattern(regexp="SCHEME_ITEM|MANUAL") private String sourceType;
+  @Min(1) private Long optionId;
+  @NotBlank @Size(max=40) private String unit;
+  @NotBlank @Size(max=2000) private String reference;
  }
 }

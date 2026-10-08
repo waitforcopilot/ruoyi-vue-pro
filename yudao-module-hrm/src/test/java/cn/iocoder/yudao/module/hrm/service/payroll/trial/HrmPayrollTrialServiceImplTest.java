@@ -33,7 +33,9 @@ import static org.mockito.Mockito.when;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 
-@Import({HrmPayrollTrialServiceImpl.class,HrmPayrollCalculationServiceImpl.class,HrmPayrollCalculationEngine.class,
+@Import({cn.iocoder.yudao.module.hrm.service.payroll.trial.HrmPayrollTrialSchemeBinding.class,
+    cn.iocoder.yudao.module.hrm.service.payroll.scheme.HrmPayrollSchemeServiceImpl.class,
+    HrmPayrollTrialServiceImpl.class,HrmPayrollCalculationServiceImpl.class,HrmPayrollCalculationEngine.class,
         HrmPayrollEligibilityServiceImpl.class,HrmPayrollEmployeeMappingServiceImpl.class,HrmPayrollEmployeeAccess.class,ValidationAutoConfiguration.class})
 class HrmPayrollTrialServiceImplTest extends BaseDbUnitTest {
  @Resource private HrmPayrollTrialService service;

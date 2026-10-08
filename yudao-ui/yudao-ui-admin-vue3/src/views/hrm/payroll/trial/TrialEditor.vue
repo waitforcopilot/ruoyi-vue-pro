@@ -84,6 +84,12 @@
             :value="item.key"
             :label="`${item.label} · ${item.key}`" /></el-select></label
     ></div>
+    <TrialSchemeSources
+      v-model:scheme-id="form.schemeId"
+      v-model:sources="form.configuration.sourceBindings"
+      :definition="definition"
+      :locked="boundOnOpen"
+    />
     <div class="people-title"><h3>人员与金额来源</h3><span>最多 100 人 · CNY 金额文本</span></div>
     <div class="add-person"
       ><el-input
@@ -163,6 +169,7 @@ import * as Calc from '@/api/hrm/payroll/calculation'
 import * as Eligibility from '@/api/hrm/payroll/eligibility'
 import type { Mapping } from '@/api/hrm/payroll/identity'
 import { ElMessageBox } from 'element-plus'
+import TrialSchemeSources from './TrialSchemeSources.vue'
 const emit = defineEmits(['saved'])
 const visible = ref(false),
   saving = ref(false),
@@ -187,6 +194,7 @@ const empty = (): Api.Batch => ({
   }
 })
 const form = ref<Api.Batch>(empty())
+const boundOnOpen = ref(false)
 let epoch = 0,
   ruleEpoch = 0,
   personEpoch = 0
@@ -219,6 +227,7 @@ const open = async (id?: number) => {
   personEpoch++
   error.value = ''
   form.value = empty()
+  boundOnOpen.value = false
   candidate.value = ''
   definition.value = undefined
   personLoading.value = false
@@ -235,6 +244,7 @@ const open = async (id?: number) => {
     definitions.value = rows.list
     if (row) {
       form.value = JSON.parse(JSON.stringify(row))
+      boundOnOpen.value = !!row.schemeId
       if (!definitions.value.some((r) => r.id === row.definitionId)) {
         const r = await Calc.get(row.definitionId!)
         if (ticket !== epoch) return

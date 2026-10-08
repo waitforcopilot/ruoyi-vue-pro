@@ -8,6 +8,7 @@ public class HrmPayrollTrialResultVO {
  private Integer schemaVersion=1;
  private HrmPayrollTrialRespVO batch;
  private HrmPayrollCalculationRespVO definition;
+ private cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.scheme.HrmPayrollSchemeRespVO scheme;
  private String programHash;
  private HrmPayrollTrialCheckVO check;
  private Map<String,String> totals=new LinkedHashMap<>();

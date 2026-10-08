@@ -1,0 +1,102 @@
+{
+  "fullReactor": {
+    "tests": 1784,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 24,
+    "suites": 173
+  },
+  "hrm": {
+    "tests": 909,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "suites": 68
+  },
+  "bpm": {
+    "tests": 63,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 6,
+    "suites": 21
+  },
+  "modules": {
+    "yudao-framework/yudao-common": {
+      "tests": 35,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suites": 4
+    },
+    "yudao-framework/yudao-spring-boot-starter-biz-data-permission": {
+      "tests": 43,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suites": 6
+    },
+    "yudao-framework/yudao-spring-boot-starter-biz-ip": {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suites": 2
+    },
+    "yudao-framework/yudao-spring-boot-starter-excel": {
+      "tests": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suites": 3
+    },
+    "yudao-framework/yudao-spring-boot-starter-mybatis": {
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suites": 3
+    },
+    "yudao-framework/yudao-spring-boot-starter-protection": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suites": 1
+    },
+    "yudao-framework/yudao-spring-boot-starter-web": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suites": 2
+    },
+    "yudao-module-bpm": {
+      "tests": 63,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 6,
+      "suites": 21
+    },
+    "yudao-module-hrm": {
+      "tests": 909,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suites": 68
+    },
+    "yudao-module-infra": {
+      "tests": 207,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 10,
+      "suites": 24
+    },
+    "yudao-module-system": {
+      "tests": 479,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 8,
+      "suites": 39
+    }
+  }
+}

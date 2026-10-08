@@ -47,6 +47,36 @@
       >
     </el-table>
     <el-collapse class="mt-4"
+      ><el-collapse-item v-if="run.result.scheme" title="方案版本与输入来源绑定" name="scheme"
+        ><div data-testid="trial-scheme-snapshot"
+          ><h4>{{ run.result.scheme.title }} · V{{ run.result.scheme.schemeVersion }}</h4
+          ><p
+            >源薪资组：{{ run.result.scheme.groupName }} · 方案依据：{{
+              run.result.scheme.reference
+            }}</p
+          ><p
+            >有效期：{{ run.result.scheme.effectiveFrom }} 至
+            {{ run.result.scheme.effectiveTo || '未指定结束' }}</p
+          ><p class="hash">方案指纹：{{ run.result.scheme.sourceHash }}</p
+          ><el-alert
+            title="此处展示本次试算保存的方案快照与关联。个人金额仍按输入依据录入，不按目录分类推导公式或自动取值。"
+            type="info"
+            :closable="false"
+          />
+          <div class="source-list">
+            <div
+              v-for="source in run.result.batch.configuration.sourceBindings || []"
+              :key="source.inputKey"
+              class="source-row"
+            >
+              <strong>{{ inputLabel(source.inputKey) }} · {{ source.unit }}</strong>
+              <span>{{
+                source.sourceType === 'SCHEME_ITEM' ? savedOption(source.optionId) : '独立录入来源'
+              }}</span>
+              <p>{{ source.reference }}</p>
+            </div>
+          </div>
+        </div></el-collapse-item
       ><el-collapse-item title="批次口径与版本依据" name="source"
         ><p>负责人：{{ run.result.batch.ownerName }}</p
         ><p>批次依据：{{ run.result.batch.reference }}</p
@@ -102,6 +132,10 @@ const explain = (row: ResultPerson) => {
 }
 const inputLabel = (key: string) =>
   props.run?.result?.definition.program?.inputs.find((f) => f.key === key)?.label || key
+const savedOption = (id?: number) => {
+  const option = props.run?.result?.scheme?.snapshot?.options.find((o) => o.id === id)
+  return option ? `方案工资项：${option.name} · #${option.id}` : '保存的工资项不可用'
+}
 watch(
   () => props.run?.id,
   () => {
@@ -143,6 +177,27 @@ small {
   word-break: break-all;
   font-size: 12px;
 }
+.source-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.source-row {
+  border: 1px solid #dce3ed;
+  border-radius: 6px;
+  padding: 14px;
+  overflow-wrap: anywhere;
+}
+.source-row strong,
+.source-row span {
+  display: block;
+  line-height: 1.8;
+}
+.source-row span {
+  font-size: 13px;
+  color: #475569;
+}
 .input-values {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -168,6 +223,7 @@ small {
 }
 @media (max-width: 720px) {
   .totals,
+  .source-list,
   .input-values {
     grid-template-columns: 1fr;
   }

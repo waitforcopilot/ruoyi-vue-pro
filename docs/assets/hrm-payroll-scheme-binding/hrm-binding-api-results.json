@@ -1,0 +1,159 @@
+{
+  "total": 37,
+  "passed": 37,
+  "checks": [
+    {
+      "check": "confirmed scheme version and every typed source are saved with exact wage result",
+      "result": "PASS"
+    },
+    {
+      "check": "saved ISO scheme dates survive persistent read and current manifest",
+      "result": "PASS"
+    },
+    {
+      "check": "missing source bindings cannot create",
+      "result": "PASS"
+    },
+    {
+      "check": "unknown input binding cannot create",
+      "result": "PASS"
+    },
+    {
+      "check": "duplicate input binding cannot create",
+      "result": "PASS"
+    },
+    {
+      "check": "foreign or missing scheme item cannot create",
+      "result": "PASS"
+    },
+    {
+      "check": "repeated scheme item cannot create",
+      "result": "PASS"
+    },
+    {
+      "check": "wrong source unit cannot create",
+      "result": "PASS"
+    },
+    {
+      "check": "missing source basis cannot create",
+      "result": "PASS"
+    },
+    {
+      "check": "manual source carries item ID cannot create",
+      "result": "PASS"
+    },
+    {
+      "check": "nominal scheme without any item association cannot create",
+      "result": "PASS"
+    },
+    {
+      "check": "source bindings without scheme cannot create",
+      "result": "PASS"
+    },
+    {
+      "check": "definition entity mismatch cannot create",
+      "result": "PASS"
+    },
+    {
+      "check": "scheme does not cover whole period cannot create",
+      "result": "PASS"
+    },
+    {
+      "check": "reader lacking policy permission cannot read batch or saved run",
+      "result": "PASS"
+    },
+    {
+      "check": "reader cannot count bound batches via hrm/payroll/trial-batches",
+      "result": "PASS"
+    },
+    {
+      "check": "reader cannot count bound batches via hrm/payroll/overview",
+      "result": "PASS"
+    },
+    {
+      "check": "wronghr lacking policy permission cannot read batch or saved run",
+      "result": "PASS"
+    },
+    {
+      "check": "wronghr cannot count bound batches via hrm/payroll/trial-batches",
+      "result": "PASS"
+    },
+    {
+      "check": "wronghr cannot count bound batches via hrm/payroll/overview",
+      "result": "PASS"
+    },
+    {
+      "check": "legacy independent input batch remains readable without policy permission",
+      "result": "PASS"
+    },
+    {
+      "check": "whole historical employee scope remains required",
+      "result": "PASS"
+    },
+    {
+      "check": "foreign tenant cannot read captured scheme via trial",
+      "result": "PASS"
+    },
+    {
+      "check": "inadequate reviewer policy access prevents native process creation",
+      "result": "PASS"
+    },
+    {
+      "check": "real BPM submission validates the persistent scheme manifest",
+      "result": "PASS"
+    },
+    {
+      "check": "bound scheme proceeds through actual HR and finance tasks",
+      "result": "PASS"
+    },
+    {
+      "check": "native terminal event approves captured scheme version",
+      "result": "PASS"
+    },
+    {
+      "check": "freeze retains stable scheme and exact input results",
+      "result": "PASS"
+    },
+    {
+      "check": "mutable catalogue changes preserve the selected confirmed snapshot",
+      "result": "PASS"
+    },
+    {
+      "check": "retirement blocks new trial but preserves old immutable amounts",
+      "result": "PASS"
+    },
+    {
+      "check": "retirement blocks a later approval in existing BPM",
+      "result": "PASS"
+    },
+    {
+      "check": "retirement blocks freeze after both stages passed",
+      "result": "PASS"
+    },
+    {
+      "check": "changing scheme clears current run and preserves historical selected version",
+      "result": "PASS"
+    },
+    {
+      "check": "new trial stores selected scheme V2 and identifies policy changes with equal wages",
+      "result": "PASS"
+    },
+    {
+      "check": "binding cannot be removed to bypass old snapshot permissions",
+      "result": "PASS"
+    },
+    {
+      "check": "bound GET keeps business state and audits unchanged",
+      "result": "PASS"
+    },
+    {
+      "check": "all seven existing salary insurance slip and bank tables stay unchanged",
+      "result": "PASS"
+    }
+  ],
+  "priorReviewChecks": 55,
+  "priorOverviewChecks": 30,
+  "syntheticFixtures": true,
+  "realBpmEngine": true,
+  "legacyUnchanged": true
+}

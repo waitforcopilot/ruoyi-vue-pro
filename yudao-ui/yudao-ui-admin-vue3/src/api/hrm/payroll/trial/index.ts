@@ -2,6 +2,7 @@ import request from '@/config/axios'
 import type { Definition, Result } from '@/api/hrm/payroll/calculation'
 import type { Eligibility } from '@/api/hrm/payroll/eligibility'
 import type { History } from '@/api/hrm/payroll/requirements'
+import type { Scheme } from '@/api/hrm/payroll/scheme'
 export const roleLabels: Record<string, string> = {
   gross: '应发',
   deductions: '扣款',
@@ -40,6 +41,7 @@ export interface Batch {
   periodStart: string
   periodEnd: string
   definitionId?: number
+  schemeId?: number
   ownerName?: string
   reference?: string
   status?: number
@@ -48,7 +50,18 @@ export interface Batch {
   latestRunId?: number
   activeReviewId?: number
   frozenRunId?: number
-  configuration: { roles: Record<string, string>; people: Person[] }
+  configuration: {
+    roles: Record<string, string>
+    people: Person[]
+    sourceBindings?: SourceBinding[]
+  }
+}
+export interface SourceBinding {
+  inputKey: string
+  sourceType: string
+  optionId?: number
+  unit: string
+  reference: string
 }
 export interface Issue {
   code: string
@@ -87,6 +100,7 @@ export interface Run {
   result?: {
     batch: Batch
     definition: Definition
+    scheme?: Scheme
     programHash: string
     check: Check
     totals: Record<string, string>

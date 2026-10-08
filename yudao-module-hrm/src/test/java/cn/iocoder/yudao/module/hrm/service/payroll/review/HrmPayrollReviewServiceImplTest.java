@@ -41,6 +41,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 @Import({
     HrmPayrollReviewServiceImpl.class,
+    cn.iocoder.yudao.module.hrm.service.payroll.trial.HrmPayrollTrialSchemeBinding.class,
+    cn.iocoder.yudao.module.hrm.service.payroll.scheme.HrmPayrollSchemeServiceImpl.class,
     HrmPayrollTrialServiceImpl.class,
     HrmPayrollCalculationServiceImpl.class,
     HrmPayrollCalculationEngine.class,
