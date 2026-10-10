@@ -40,6 +40,12 @@ public class HrmSalarySlipSendRecordDO extends BaseDO {
      * 关联 {@link HrmSalaryMonthRecordDO#getId()}
      */
     private Long monthRecordId;
+    /** 发布所依据的不可变核算版本 */
+    private Long runId;
+    private Integer runVersion;
+    private Boolean withdrawn;
+    private java.time.LocalDateTime withdrawnAt;
+    private Long withdrawnBy;
     /**
      * 工资表总人数
      */

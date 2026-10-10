@@ -31,6 +31,21 @@ class HrmPayrollBatchServiceTest extends BaseDbUnitTest {
         assertServiceException(()->service.transition(batch.getId(),second,"archive","归档",3L),SALARY_MONTH_RECORD_STATUS_INVALID);
         assertEquals(4,service.events(batch.getId()).size());
     }
+    @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.salary.slip.HrmSalarySlipSendRecordMapper slipMapper;
+    @Test void publishedSlipsMustBeWithdrawnBeforeUnfreezing() {
+        HrmSalaryMonthRecordDO batch=new HrmSalaryMonthRecordDO().setYear(2026).setMonth(10).setStatus(11);
+        mapper.insert(batch);
+        Long run=service.snapshot(batch.getId(),Collections.emptyMap(),Collections.emptyMap(),Collections.emptyList(),1L);
+        mapper.updateById(new HrmSalaryMonthRecordDO().setId(batch.getId()).setStatus(15));
+        cn.iocoder.yudao.module.hrm.dal.dataobject.salary.slip.HrmSalarySlipSendRecordDO slip =
+                cn.iocoder.yudao.module.hrm.dal.dataobject.salary.slip.HrmSalarySlipSendRecordDO.builder()
+                        .monthRecordId(batch.getId()).year(2026).month(10).withdrawn(false).build();
+        slipMapper.insert(slip);
+        assertServiceException(()->service.transition(batch.getId(),run,"unfreeze","修订",3L),SALARY_MONTH_RECORD_STATUS_INVALID);
+        slip.setWithdrawn(true); slipMapper.updateById(slip);
+        service.transition(batch.getId(),run,"unfreeze","已撤回工资条",3L);
+        assertEquals(11,mapper.selectById(batch.getId()).getStatus());
+    }
     @Test void stateMachineDoesNotAllowSkippingApprovalOrPayment() {
         assertServiceException(()->HrmPayrollBatchService.nextStatus(11,"pay"),SALARY_MONTH_RECORD_STATUS_INVALID);
         assertServiceException(()->HrmPayrollBatchService.nextStatus(16,"archive"),SALARY_MONTH_RECORD_STATUS_INVALID);

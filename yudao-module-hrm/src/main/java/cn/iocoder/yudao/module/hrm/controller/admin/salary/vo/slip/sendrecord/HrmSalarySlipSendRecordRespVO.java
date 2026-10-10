@@ -14,6 +14,11 @@ public class HrmSalarySlipSendRecordRespVO {
 
     @Schema(description = "工资表编号")
     private Long monthRecordId;
+    private Long runId;
+    private Integer runVersion;
+    private Boolean withdrawn;
+    private LocalDateTime withdrawnAt;
+    private Long withdrawnBy;
 
     @Schema(description = "计薪人数")
     private Integer employeeCount;

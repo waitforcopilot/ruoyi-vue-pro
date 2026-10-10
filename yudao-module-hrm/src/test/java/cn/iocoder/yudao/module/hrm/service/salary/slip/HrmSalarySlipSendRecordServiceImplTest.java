@@ -50,6 +50,10 @@ public class HrmSalarySlipSendRecordServiceImplTest extends BaseDbUnitTest {
     private HrmSalarySlipSendRecordMapper salarySlipSendRecordMapper;
 
     @MockBean
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollBatchService batchService;
+    private final java.util.List<HrmSalaryMonthEmployeeRecordDO> frozenRecords = new java.util.ArrayList<>();
+
+    @MockBean
     private HrmSalaryMonthRecordService monthRecordService;
     @MockBean
     private HrmSalaryMonthEmployeeRecordService monthEmployeeRecordService;
@@ -84,15 +88,19 @@ public class HrmSalarySlipSendRecordServiceImplTest extends BaseDbUnitTest {
         reqVO.setAll(false);
         reqVO.setEmployeeIds(Collections.singletonList(employeeRecord.getEmployeeId()));
 
-        // 调用
+        // 数据库当前记录被改动也不能影响冻结工资条金额
+        employeeRecord.setRealPaySalary(BigDecimal.ONE);
         Long sendRecordId = salarySlipSendRecordService.sendSalarySlip(reqVO);
 
         // 断言
         HrmSalarySlipSendRecordDO sendRecord = salarySlipSendRecordMapper.selectById(sendRecordId);
         assertEquals(monthRecord.getEmployeeCount(), sendRecord.getEmployeeCount());
         assertEquals(1, sendRecord.getSendEmployeeCount());
-        verify(salarySlipService).createSalarySlipList(
-                sendRecordId, Collections.singletonList(employeeRecord), template);
+        assertEquals(900L, sendRecord.getRunId());
+        assertEquals(3, sendRecord.getRunVersion());
+        org.mockito.ArgumentCaptor<java.util.List<HrmSalaryMonthEmployeeRecordDO>> amounts = org.mockito.ArgumentCaptor.forClass(java.util.List.class);
+        verify(salarySlipService).createSalarySlipList(org.mockito.ArgumentMatchers.eq(sendRecordId), amounts.capture(), org.mockito.ArgumentMatchers.eq(template));
+        assertEquals(new BigDecimal("7910.00"), amounts.getValue().get(0).getRealPaySalary());
     }
 
     @Test
@@ -217,7 +225,8 @@ public class HrmSalarySlipSendRecordServiceImplTest extends BaseDbUnitTest {
         salarySlipSendRecordService.deleteSalarySlipSendRecord(sendRecord.getId());
 
         // 断言
-        assertNull(salarySlipSendRecordMapper.selectById(sendRecord.getId()));
+        org.junit.jupiter.api.Assertions.assertTrue(salarySlipSendRecordMapper.selectById(sendRecord.getId()).getWithdrawn());
+        org.junit.jupiter.api.Assertions.assertNotNull(salarySlipSendRecordMapper.selectById(sendRecord.getId()).getWithdrawnAt());
         verify(salarySlipService).deleteSalarySlipListBySendRecordId(sendRecord.getId());
     }
 
@@ -258,21 +267,51 @@ public class HrmSalarySlipSendRecordServiceImplTest extends BaseDbUnitTest {
         assertEquals(0L, pageResult.getTotal());
     }
 
+    @Test
+    public void testTrialAndReviewResultsCannotBePublished() {
+        for (int status : new int[]{5, 11, 12, 13, 14}) {
+            HrmSalaryMonthRecordDO batch = createMonthRecord(2026, 8, 1).setStatus(status);
+            when(monthRecordService.validateMonthRecordExistsForUpdate(batch.getId())).thenReturn(batch);
+            assertServiceException(() -> salarySlipSendRecordService.sendSalarySlip(
+                    new HrmSalarySlipSendReqVO().setMonthRecordId(batch.getId())),
+                    cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_MONTH_RECORD_STATUS_INVALID);
+        }
+    }
+
+    @Test
+    public void testFrozenLegacyBatchWithoutVersionCannotBePublished() {
+        HrmSalaryMonthRecordDO batch = createMonthRecord(2026, 8, 1);
+        when(monthRecordService.validateMonthRecordExistsForUpdate(batch.getId())).thenReturn(batch);
+        when(batchService.runs(batch.getId())).thenReturn(Collections.emptyList());
+        assertServiceException(() -> salarySlipSendRecordService.sendSalarySlip(
+                new HrmSalarySlipSendReqVO().setMonthRecordId(batch.getId())),
+                cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_VERSION_CONFLICT);
+    }
+
     // ========== 随机对象 ==========
 
     private HrmSalaryMonthRecordDO createMonthRecord(Integer year, Integer month, Integer employeeCount) {
+        when(batchService.runs((long) (year * 100 + month))).thenAnswer(invocation -> {
+            cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRunDO run = new cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRunDO();
+            run.setId(900L); run.setVersion(3);
+            run.setResultSnapshot(cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(frozenRecords));
+            return Collections.singletonList(run);
+        });
         return randomPojo(HrmSalaryMonthRecordDO.class, o -> {
             o.setId((long) (year * 100 + month));
             o.setYear(year).setMonth(month).setEmployeeCount(employeeCount);
-            o.setStatus(HrmSalaryMonthRecordStatusEnum.COMPUTED.getStatus());
+            o.setStatus(15);
         });
     }
 
     private HrmSalaryMonthEmployeeRecordDO createMonthEmployeeRecord(Long monthRecordId, Long employeeId) {
-        return randomPojo(HrmSalaryMonthEmployeeRecordDO.class, o -> {
+        HrmSalaryMonthEmployeeRecordDO record = randomPojo(HrmSalaryMonthEmployeeRecordDO.class, o -> {
             o.setId(employeeId + 10000L).setMonthRecordId(monthRecordId).setEmployeeId(employeeId);
             o.setYear(2026).setMonth(8).setRealPaySalary(new BigDecimal("7910.00"));
         });
+        frozenRecords.add(cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseObject(
+                cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(record), HrmSalaryMonthEmployeeRecordDO.class));
+        return record;
     }
 
 }

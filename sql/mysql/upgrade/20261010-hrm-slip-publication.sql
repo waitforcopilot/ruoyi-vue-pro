@@ -1,0 +1,21 @@
+-- Approved payroll version binding and retained withdrawal audit; safe to reapply.
+SET @hrm_slip_ddl = IF((SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='hrm_salary_slip_send_record' AND column_name='run_id')=0, 'ALTER TABLE hrm_salary_slip_send_record ADD COLUMN run_id bigint NULL', 'SELECT 1');
+PREPARE hrm_slip_stmt FROM @hrm_slip_ddl;
+EXECUTE hrm_slip_stmt;
+DEALLOCATE PREPARE hrm_slip_stmt;
+SET @hrm_slip_ddl = IF((SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='hrm_salary_slip_send_record' AND column_name='run_version')=0, 'ALTER TABLE hrm_salary_slip_send_record ADD COLUMN run_version int NULL', 'SELECT 1');
+PREPARE hrm_slip_stmt FROM @hrm_slip_ddl;
+EXECUTE hrm_slip_stmt;
+DEALLOCATE PREPARE hrm_slip_stmt;
+SET @hrm_slip_ddl = IF((SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='hrm_salary_slip_send_record' AND column_name='withdrawn')=0, 'ALTER TABLE hrm_salary_slip_send_record ADD COLUMN withdrawn bit NOT NULL DEFAULT FALSE', 'SELECT 1');
+PREPARE hrm_slip_stmt FROM @hrm_slip_ddl;
+EXECUTE hrm_slip_stmt;
+DEALLOCATE PREPARE hrm_slip_stmt;
+SET @hrm_slip_ddl = IF((SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='hrm_salary_slip_send_record' AND column_name='withdrawn_at')=0, 'ALTER TABLE hrm_salary_slip_send_record ADD COLUMN withdrawn_at datetime NULL', 'SELECT 1');
+PREPARE hrm_slip_stmt FROM @hrm_slip_ddl;
+EXECUTE hrm_slip_stmt;
+DEALLOCATE PREPARE hrm_slip_stmt;
+SET @hrm_slip_ddl = IF((SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='hrm_salary_slip_send_record' AND column_name='withdrawn_by')=0, 'ALTER TABLE hrm_salary_slip_send_record ADD COLUMN withdrawn_by bigint NULL', 'SELECT 1');
+PREPARE hrm_slip_stmt FROM @hrm_slip_ddl;
+EXECUTE hrm_slip_stmt;
+DEALLOCATE PREPARE hrm_slip_stmt;

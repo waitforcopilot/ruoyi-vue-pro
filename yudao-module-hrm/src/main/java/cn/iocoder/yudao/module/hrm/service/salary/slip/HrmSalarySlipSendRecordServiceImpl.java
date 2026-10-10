@@ -57,6 +57,9 @@ import static cn.iocoder.yudao.module.hrm.enums.LogRecordConstants.HRM_SALARY_SL
 public class HrmSalarySlipSendRecordServiceImpl implements HrmSalarySlipSendRecordService {
 
     @Resource
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollBatchService batchService;
+
+    @Resource
     private HrmSalarySlipSendRecordMapper salarySlipSendRecordMapper;
 
     @Resource
@@ -78,9 +81,17 @@ public class HrmSalarySlipSendRecordServiceImpl implements HrmSalarySlipSendReco
         // 1.1 校验月度工资表，并构建本次发放的工资条模板快照
         HrmSalaryMonthRecordDO monthRecord = monthRecordService.validateMonthRecordExistsForUpdate(
                 reqVO.getMonthRecordId());
-        if (Objects.equals(monthRecord.getStatus(), HrmSalaryMonthRecordStatusEnum.UNCOMPUTED.getStatus())) {
+        if (!java.util.Arrays.asList(15, 16, 17, 10).contains(monthRecord.getStatus())) {
             throw exception(SALARY_MONTH_RECORD_STATUS_INVALID);
         }
+        List<cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRunDO> runs = batchService.runs(monthRecord.getId());
+        if (runs.isEmpty()) {
+            throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_VERSION_CONFLICT);
+        }
+        cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRunDO run = runs.get(0);
+        Map<Long, HrmSalaryMonthEmployeeRecordDO> frozenResults = cn.iocoder.yudao.framework.common.util.json.JsonUtils
+                .parseArray(run.getResultSnapshot(), HrmSalaryMonthEmployeeRecordDO.class).stream()
+                .collect(java.util.stream.Collectors.toMap(HrmSalaryMonthEmployeeRecordDO::getEmployeeId, value -> value));
         HrmSalarySlipTemplateDO template = salarySlipTemplateService.buildSalarySlipTemplateSnapshot(
                 reqVO.getHideEmpty(), reqVO.getOptions());
         // 1.2  筛选本次发放的员工月度工资记录
@@ -100,6 +111,14 @@ public class HrmSalarySlipSendRecordServiceImpl implements HrmSalarySlipSendReco
         if (CollUtil.isEmpty(employeeRecords)) {
             throw exception(SALARY_MONTH_EMP_RECORD_NOT_EXISTS);
         }
+        // 筛选条件可使用现有员工记录，发布金额只能使用冻结快照。
+        employeeRecords = employeeRecords.stream().map(record -> {
+            HrmSalaryMonthEmployeeRecordDO frozen = frozenResults.get(record.getEmployeeId());
+            if (frozen == null || !Objects.equals(frozen.getId(), record.getId())) {
+                throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_VERSION_CONFLICT);
+            }
+            return frozen;
+        }).collect(java.util.stream.Collectors.toList());
         // 1.3 仅向已绑定后台账号的员工发放工资条
         Map<Long, HrmEmployeeDO> employeeMap = employeeService.getEmployeeMap(
                 convertSet(employeeRecords, HrmSalaryMonthEmployeeRecordDO::getEmployeeId));
@@ -119,7 +138,7 @@ public class HrmSalarySlipSendRecordServiceImpl implements HrmSalarySlipSendReco
         HrmSalarySlipSendRecordDO salarySlipSendRecord = HrmSalarySlipSendRecordDO.builder()
                 .monthRecordId(reqVO.getMonthRecordId()).employeeCount(monthRecord.getEmployeeCount())
                 .sendEmployeeCount(sendableEmployeeRecords.size()).year(monthRecord.getYear())
-                .month(monthRecord.getMonth()).build();
+                .month(monthRecord.getMonth()).runId(run.getId()).runVersion(run.getVersion()).withdrawn(false).build();
         salarySlipSendRecordMapper.insert(salarySlipSendRecord);
         // 2.2 创建员工工资条
         salarySlipService.createSalarySlipList(
@@ -158,9 +177,16 @@ public class HrmSalarySlipSendRecordServiceImpl implements HrmSalarySlipSendReco
         // 1. 校验工资条发放记录存在
         HrmSalarySlipSendRecordDO salarySlipSendRecord = validateSalarySlipSendRecordExists(id);
 
-        // 2. 删除工资条和发放记录
+        // 与发布共用批次锁；保留发放记录，撤回后员工无法继续访问工资条。
+        monthRecordService.validateMonthRecordExistsForUpdate(salarySlipSendRecord.getMonthRecordId());
+        salarySlipSendRecord = validateSalarySlipSendRecordExists(id);
+        if (Boolean.TRUE.equals(salarySlipSendRecord.getWithdrawn())) {
+            return;
+        }
         salarySlipService.deleteSalarySlipListBySendRecordId(id);
-        salarySlipSendRecordMapper.deleteById(id);
+        salarySlipSendRecordMapper.updateById(HrmSalarySlipSendRecordDO.builder().id(id)
+                .withdrawn(true).withdrawnAt(java.time.LocalDateTime.now())
+                .withdrawnBy(cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId()).build());
 
         // 3. 记录操作日志上下文
         LogRecordContext.putVariable("salarySlipSendRecord", salarySlipSendRecord);

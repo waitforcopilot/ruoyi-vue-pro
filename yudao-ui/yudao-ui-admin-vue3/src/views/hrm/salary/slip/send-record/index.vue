@@ -37,6 +37,9 @@
           </el-button>
         </template>
       </el-table-column>
+      <el-table-column label="核算版本" prop="runVersion" width="100" />
+      <el-table-column label="发布状态" width="100"><template #default="{ row }">{{ row.withdrawn ? '已撤回' : '已发布' }}</template></el-table-column>
+      <el-table-column label="撤回时间" prop="withdrawnAt" :formatter="dateFormatter" width="180" />
       <el-table-column label="创建人" min-width="120" prop="creatorName" show-overflow-tooltip />
       <el-table-column
         align="center"
@@ -52,12 +55,13 @@
         <template #default="scope">
           <el-button link type="primary" @click="openDetail(scope.row.id)">详情</el-button>
           <el-button
+            v-if="!scope.row.withdrawn"
             v-hasPermi="['hrm:salary:slip:delete']"
             link
             type="danger"
             @click="handleDeleteRecord(scope.row.id)"
           >
-            删除
+            撤回
           </el-button>
         </template>
       </el-table-column>
@@ -138,9 +142,9 @@ async function handleDeleteRecord(id?: number) {
     return
   }
   try {
-    await message.delConfirm('删除后，本次发放的工资条将同时删除，是否继续？')
+    await message.delConfirm('撤回后员工无法继续查看本次工资条，发放记录仍保留，是否继续？')
     await SalarySlipSendRecordApi.deleteSalarySlipSendRecord(id)
-    message.success(t('common.delSuccess'))
+    message.success('工资条已撤回')
     await getList()
   } catch {}
 }

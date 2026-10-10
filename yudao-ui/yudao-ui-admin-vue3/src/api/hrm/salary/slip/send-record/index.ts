@@ -3,6 +3,11 @@ import type { SalarySlipTemplateOptionVO } from '../template'
 
 // 工资条发放记录 VO
 export interface SalarySlipSendRecordVO {
+  runId?: number
+  runVersion?: number
+  withdrawn?: boolean
+  withdrawnAt?: Date
+  withdrawnBy?: number
   id?: number // 工资条发放记录编号
   monthRecordId?: number // 月度工资表编号
   employeeCount?: number // 工资条数量

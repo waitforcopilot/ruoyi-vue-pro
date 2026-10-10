@@ -55,7 +55,7 @@
             <Icon class="mr-5px" icon="ep:cpu" />核算工资
           </el-button>
           <el-button
-            v-if="isComputed"
+            v-if="canPublishSlip"
             v-hasPermi="['hrm:salary:slip:create']"
             plain
             type="primary"
@@ -201,7 +201,7 @@ const computeFormRef = ref<InstanceType<typeof SalaryMonthComputeForm>>() // 核
 const slipSendFormRef = ref<InstanceType<typeof SalarySlipSendForm>>() // 工资条发放表单
 const readinessAlertRef = ref<InstanceType<typeof SalaryPayrollReadinessAlert>>() // 核算准备提示
 const isArchived = computed(() => record.value.status === HrmSalaryMonthStatus.HISTORY) // 是否已归档
-const isComputed = computed(() => record.value.status === HrmSalaryMonthStatus.COMPUTED) // 是否已核算
+const canPublishSlip = computed(() => [15, 16, 17, 10].includes(record.value.status))
 const isWritable = computed(
   () =>
     record.value.status === HrmSalaryMonthStatus.UNCOMPUTED ||

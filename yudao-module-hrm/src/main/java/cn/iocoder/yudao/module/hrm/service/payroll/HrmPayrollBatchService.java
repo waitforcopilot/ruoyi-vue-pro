@@ -13,6 +13,7 @@ import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionU
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 @Service
 public class HrmPayrollBatchService {
+    @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.salary.slip.HrmSalarySlipSendRecordMapper slipSendMapper;
     @Resource private HrmPayrollRunMapper runMapper;
     @Resource private HrmPayrollBatchEventMapper eventMapper;
     @Resource private HrmSalaryMonthRecordMapper batchMapper;
@@ -64,6 +65,12 @@ public class HrmPayrollBatchService {
             List<HrmPayrollBatchEventDO> events=events(batchId);
             HrmPayrollBatchEventDO review=events.stream().filter(e->Objects.equals(e.getRunId(),runId)&&"review".equals(e.getAction())).findFirst().orElse(null);
             if(review==null||Objects.equals(review.getActorId(),actor))throw exception(PAYROLL_SELF_APPROVAL);
+        }
+        if ("unfreeze".equals(action) && slipSendMapper.selectCount(
+                new LambdaQueryWrapperX<cn.iocoder.yudao.module.hrm.dal.dataobject.salary.slip.HrmSalarySlipSendRecordDO>()
+                        .eq(cn.iocoder.yudao.module.hrm.dal.dataobject.salary.slip.HrmSalarySlipSendRecordDO::getMonthRecordId, batchId)
+                        .eq(cn.iocoder.yudao.module.hrm.dal.dataobject.salary.slip.HrmSalarySlipSendRecordDO::getWithdrawn, false)) > 0) {
+            throw exception(SALARY_MONTH_RECORD_STATUS_INVALID);
         }
         int target=nextStatus(batch.getStatus(),action);
         batchMapper.updateById(new HrmSalaryMonthRecordDO().setId(batchId).setStatus(target));
