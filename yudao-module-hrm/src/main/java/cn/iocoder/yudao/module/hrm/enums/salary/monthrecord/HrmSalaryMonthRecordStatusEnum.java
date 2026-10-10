@@ -18,7 +18,13 @@ public enum HrmSalaryMonthRecordStatusEnum implements ArrayValuable<Integer> {
 
     UNCOMPUTED(5, "未核算"),
     HISTORY(10, "已归档"),
-    COMPUTED(11, "已核算");
+    COMPUTED(11, "已核算"),
+    REVIEWING(12, "HR复核中"),
+    FINANCE_REVIEW(13, "财务审批中"),
+    APPROVED(14, "已批准"),
+    FROZEN(15, "已冻结"),
+    PAYING(16, "发放中"),
+    PAID(17, "已发放");
 
     public static final Integer[] ARRAYS = Arrays.stream(values())
             .map(HrmSalaryMonthRecordStatusEnum::getStatus).toArray(Integer[]::new);

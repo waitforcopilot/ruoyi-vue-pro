@@ -84,6 +84,8 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
     private HrmSalaryMonthRecordMapper monthRecordMapper;
 
     @MockBean
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollBatchService payrollBatchService;
+    @MockBean
     private HrmSalaryOptionService salaryOptionService;
     @MockBean
     private HrmSalaryConfigService salaryConfigService;
@@ -228,7 +230,7 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCreateNextMonthRecord_archivePrevious() {
+    public void testCreateNextMonthRecord_doesNotArchivePrevious() {
         // mock 数据
         HrmSalaryMonthRecordDO previousMonthRecord =
                 buildMonthRecord(2026, 7, HrmSalaryMonthRecordStatusEnum.COMPUTED.getStatus());
@@ -240,7 +242,7 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
         Long monthRecordId = monthRecordService.createNextMonthRecord();
 
         // 断言
-        assertEquals(HrmSalaryMonthRecordStatusEnum.HISTORY.getStatus(),
+        assertEquals(HrmSalaryMonthRecordStatusEnum.COMPUTED.getStatus(),
                 monthRecordMapper.selectById(previousMonthRecord.getId()).getStatus());
         HrmSalaryMonthRecordDO monthRecord = monthRecordMapper.selectById(monthRecordId);
         assertEquals(2026, monthRecord.getYear());
@@ -420,7 +422,7 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
 
         // 断言
         assertNull(monthRecordMapper.selectById(currentMonthRecord.getId()));
-        assertEquals(HrmSalaryMonthRecordStatusEnum.COMPUTED.getStatus(),
+        assertEquals(HrmSalaryMonthRecordStatusEnum.HISTORY.getStatus(),
                 monthRecordMapper.selectById(previousMonthRecord.getId()).getStatus());
         verify(monthEmployeeRecordService)
                 .deleteMonthEmployeeRecordListByMonthRecordId(currentMonthRecord.getId());
@@ -512,6 +514,18 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
         // 调用，并断言异常
         assertServiceException(() -> monthRecordService.validateMonthRecordEditable(
                 monthRecord.getId()), SALARY_MONTH_RECORD_STATUS_INVALID);
+    }
+
+    @Test
+    public void testApprovalFreezePaymentAndArchiveAllPreventEditing() {
+        for (int status : new int[] {10, 12, 13, 14, 15, 16, 17}) {
+            HrmSalaryMonthRecordDO record = buildMonthRecord(2026, status % 12 + 1, status);
+            monthRecordMapper.insert(record);
+            assertServiceException(() -> monthRecordService.validateMonthRecordEditable(record.getId()),
+                    SALARY_MONTH_RECORD_STATUS_INVALID);
+            assertServiceException(() -> monthRecordService.validateMonthRecordEditableForUpdate(record.getId()),
+                    SALARY_MONTH_RECORD_STATUS_INVALID);
+        }
     }
 
     @Test

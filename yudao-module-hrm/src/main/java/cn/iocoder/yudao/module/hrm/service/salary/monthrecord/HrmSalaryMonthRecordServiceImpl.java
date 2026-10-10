@@ -118,6 +118,8 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
     private HrmSalaryGroupService salaryGroupService;
     @Resource
     private HrmSalaryTaxRuleService salaryTaxRuleService;
+    @Resource
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollBatchService payrollBatchService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -171,11 +173,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
             }
             nextMonth = YearMonth.of(salaryConfig.getStartYear(), salaryConfig.getStartMonth());
         } else {
-            // 2.2 非首次创建时，归档最近月度工资表
-            if (ObjectUtil.notEqual(lastRecord.getStatus(), HrmSalaryMonthRecordStatusEnum.HISTORY.getStatus())) {
-                monthRecordMapper.updateById(new HrmSalaryMonthRecordDO()
-                        .setId(lastRecord.getId()).setStatus(HrmSalaryMonthRecordStatusEnum.HISTORY.getStatus()));
-            }
+            // 创建下月不改变上月状态，归档必须经过独立的授权流程。
             nextMonth = YearMonth.of(lastRecord.getYear(), lastRecord.getMonth()).plusMonths(1);
         }
 
@@ -309,6 +307,21 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
                 .setOptionHeaders(buildOptionHeaderList(salaryOptionService.getSalaryOptionList(false, true))));
         updateMonthRecordSummary(id);
 
+        // 保存独立核算版本；重算不删除旧结果及规则快照。
+        Map<String, Object> inputSnapshot = new LinkedHashMap<>();
+        inputSnapshot.put("salaryValues", employeeOptionValueMap);
+        inputSnapshot.put("employees", payrollEmployees);
+        inputSnapshot.put("attendance", attendanceMap);
+        inputSnapshot.put("insurance", insuranceMap);
+        inputSnapshot.put("attendanceImport", attendanceRows);
+        inputSnapshot.put("deductionImport", additionalDeductionRows);
+        inputSnapshot.put("cumulativeTaxImport", cumulativeTaxRows);
+        Map<String, Object> ruleSnapshot = new LinkedHashMap<>();
+        ruleSnapshot.put("options", optionList);
+        ruleSnapshot.put("taxRules", employeeTaxRuleMap);
+        ruleSnapshot.put("salaryGroups", salaryGroupMap);
+        payrollBatchService.snapshot(id, inputSnapshot, ruleSnapshot, employeeRecords,
+                cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId());
         // 5. 记录操作日志上下文
         LogRecordContext.putVariable("salaryMonthRecord", monthRecord);
     }
@@ -331,10 +344,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
         // 2.1 删除当前月员工工资记录和工资表
         monthEmployeeRecordService.deleteMonthEmployeeRecordListByMonthRecordId(id);
         monthRecordMapper.deleteById(id);
-        // 2.2 恢复上一月工资表为已核算状态
-        HrmSalaryMonthRecordDO previousMonthRecord = monthRecordMapper.selectLast();
-        monthRecordMapper.updateById(new HrmSalaryMonthRecordDO()
-                .setId(previousMonthRecord.getId()).setStatus(HrmSalaryMonthRecordStatusEnum.COMPUTED.getStatus()));
+        // 历史批次保留原审批、冻结和归档状态。
 
         // 3. 记录操作日志上下文
         LogRecordContext.putVariable("salaryMonthRecord", salaryMonthRecord);
@@ -461,7 +471,8 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
     @Override
     public HrmSalaryMonthRecordDO validateMonthRecordEditable(Long id) {
         HrmSalaryMonthRecordDO monthRecord = validateMonthRecordExists(id);
-        if (Objects.equals(monthRecord.getStatus(), HrmSalaryMonthRecordStatusEnum.HISTORY.getStatus())) {
+        if (!Objects.equals(monthRecord.getStatus(), HrmSalaryMonthRecordStatusEnum.UNCOMPUTED.getStatus())
+                && !Objects.equals(monthRecord.getStatus(), HrmSalaryMonthRecordStatusEnum.COMPUTED.getStatus())) {
             throw exception(SALARY_MONTH_RECORD_STATUS_INVALID);
         }
         return monthRecord;
@@ -470,7 +481,8 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
     @Override
     public HrmSalaryMonthRecordDO validateMonthRecordEditableForUpdate(Long id) {
         HrmSalaryMonthRecordDO monthRecord = validateMonthRecordExistsForUpdate(id);
-        if (Objects.equals(monthRecord.getStatus(), HrmSalaryMonthRecordStatusEnum.HISTORY.getStatus())) {
+        if (!Objects.equals(monthRecord.getStatus(), HrmSalaryMonthRecordStatusEnum.UNCOMPUTED.getStatus())
+                && !Objects.equals(monthRecord.getStatus(), HrmSalaryMonthRecordStatusEnum.COMPUTED.getStatus())) {
             throw exception(SALARY_MONTH_RECORD_STATUS_INVALID);
         }
         return monthRecord;

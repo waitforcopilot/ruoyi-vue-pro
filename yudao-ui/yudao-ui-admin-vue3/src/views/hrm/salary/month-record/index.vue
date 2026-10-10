@@ -202,7 +202,11 @@ const slipSendFormRef = ref<InstanceType<typeof SalarySlipSendForm>>() // 工资
 const readinessAlertRef = ref<InstanceType<typeof SalaryPayrollReadinessAlert>>() // 核算准备提示
 const isArchived = computed(() => record.value.status === HrmSalaryMonthStatus.HISTORY) // 是否已归档
 const isComputed = computed(() => record.value.status === HrmSalaryMonthStatus.COMPUTED) // 是否已核算
-const isWritable = computed(() => !isArchived.value) // 是否可编辑
+const isWritable = computed(
+  () =>
+    record.value.status === HrmSalaryMonthStatus.UNCOMPUTED ||
+    record.value.status === HrmSalaryMonthStatus.COMPUTED
+) // 是否可编辑
 const employeeChangeTabs = [
   { type: HrmSalaryEmployeeChangeType.ALL, label: '计薪人数' },
   { type: HrmSalaryEmployeeChangeType.ENTRY, label: '新入职' },

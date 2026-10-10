@@ -112,6 +112,8 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
     private HrmSalaryGroupService salaryGroupService;
     @Resource
     private HrmSalaryTaxRuleService salaryTaxRuleService;
+    @Resource
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollBatchService payrollBatchService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -220,6 +222,18 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
 
         // 3. 统一更新月度工资表汇总
         monthRecordService.updateMonthRecordSummary(monthRecordId);
+        if (Objects.equals(salaryMonthRecord.getStatus(), 11)) {
+            Map<String, Object> inputs = new LinkedHashMap<>();
+            inputs.put("adjustments", reqVOs);
+            List<cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRunDO> runs = payrollBatchService.runs(monthRecordId);
+            if (!runs.isEmpty()) inputs.put("sourceRunId", runs.get(0).getId());
+            Map<String, Object> rules = new LinkedHashMap<>();
+            rules.put("options", optionMap);
+            rules.put("taxRules", employeeTaxRuleMap);
+            payrollBatchService.snapshot(monthRecordId, inputs, rules,
+                    monthEmployeeRecordMapper.selectListByMonthRecordId(monthRecordId),
+                    cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId());
+        }
 
         // 4.1 构建操作日志上下文。只记录影响范围和薪资项名称，不记录任何薪资金额
         List<Long> affectedEmployeeIds = employeeRecords.stream()

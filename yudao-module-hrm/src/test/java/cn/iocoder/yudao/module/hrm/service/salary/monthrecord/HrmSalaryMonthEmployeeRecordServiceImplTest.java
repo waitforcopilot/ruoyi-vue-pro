@@ -64,6 +64,9 @@ import static org.mockito.Mockito.when;
 @Import(HrmSalaryMonthEmployeeRecordServiceImpl.class)
 public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest {
 
+    @MockBean
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollBatchService payrollBatchService;
+
     @Resource
     private HrmSalaryMonthEmployeeRecordServiceImpl monthEmployeeRecordService;
 
@@ -95,7 +98,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest 
         monthEmployeeRecordMapper.insert(firstRecord);
         monthEmployeeRecordMapper.insert(secondRecord);
         when(monthRecordService.validateMonthRecordEditableForUpdate(2001L))
-                .thenReturn(new HrmSalaryMonthRecordDO().setId(2001L));
+                .thenReturn(new HrmSalaryMonthRecordDO().setId(2001L).setStatus(11));
         when(salaryOptionService.getSalaryOptionList(false)).thenReturn(Collections.singletonList(
                 new HrmSalaryOptionDO().setCode(10101).setName("基本工资").setParentCode(10)));
         HrmSalaryOptionValueVO salaryOption = new HrmSalaryOptionValueVO()
@@ -116,6 +119,11 @@ public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest 
                 monthEmployeeRecordMapper.selectById(secondRecord.getId()).getExpectedPaySalary()));
         verify(monthRecordService).validateMonthRecordEditableForUpdate(2001L);
         verify(monthRecordService).updateMonthRecordSummary(2001L);
+        org.mockito.ArgumentCaptor<java.util.List<HrmSalaryMonthEmployeeRecordDO>> snapshot =
+                org.mockito.ArgumentCaptor.forClass(java.util.List.class);
+        verify(payrollBatchService).snapshot(eq(2001L), any(), any(), snapshot.capture(), any());
+        assertEquals(2, snapshot.getValue().size());
+        assertAmount("9000.00", snapshot.getValue().get(0).getExpectedPaySalary());
     }
 
     @Test
