@@ -294,4 +294,10 @@ public interface ErrorCodeConstants {
     // ========== HRM 首页 1-050-900-001 ==========
     ErrorCode HOME_CALENDAR_DATE_RANGE_ILLEGAL = new ErrorCode(1_050_900_001, "HRM 首页日期范围不合法");
 
+
+    // ========== 薪酬需求评审 ==========
+    ErrorCode PAYROLL_REQUIREMENT_NOT_EXISTS = new ErrorCode(1_050_810_001, "薪酬需求不存在");
+    ErrorCode PAYROLL_VERSION_CONFLICT = new ErrorCode(1_050_810_002, "记录已被更新，请刷新后重试");
+    ErrorCode PAYROLL_REVIEW_INCOMPLETE = new ErrorCode(1_050_810_003, "请补齐责任人、评审依据、数据来源及验收条件");
+    ErrorCode PAYROLL_REQUIREMENT_DUPLICATE = new ErrorCode(1_050_810_004, "需求编号重复");
 }
