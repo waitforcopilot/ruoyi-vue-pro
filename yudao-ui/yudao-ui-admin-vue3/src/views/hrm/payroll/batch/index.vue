@@ -59,7 +59,7 @@
               v-for="run in runs"
               :key="run.id"
               :value="run.id"
-              :label="`版本 ${run.version} · ${run.createTime}`"
+              :label="`版本 ${run.version} · ${formatDate(run.createTime)}`"
           /></el-select>
           <el-alert
             class="my-4"
@@ -77,7 +77,7 @@
         </el-tab-pane>
         <el-tab-pane label="审批记录">
           <el-table :data="history"
-            ><el-table-column prop="createTime" label="时间" width="180" /><el-table-column
+            ><el-table-column label="时间" width="180"><template #default="{ row }">{{ formatDate(row.createTime) }}</template></el-table-column><el-table-column
               prop="actorId"
               label="操作人"
               width="90" /><el-table-column label="操作" width="100"
@@ -108,6 +108,7 @@
   </Dialog>
 </template>
 <script setup lang="ts">
+import { formatDate } from '@/utils/formatTime'
 import * as api from '@/api/hrm/payroll/batch'
 import type { SalaryMonthRecordVO } from '@/api/hrm/salary/month-record'
 defineOptions({ name: 'HrmPayrollBatch' })

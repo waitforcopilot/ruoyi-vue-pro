@@ -139,7 +139,7 @@
           users.find((u) => u.id === row.actorId)?.nickname || row.actorId
         }}</template></el-table-column
       >
-      <el-table-column prop="createTime" label="时间" width="180" />
+      <el-table-column label="时间" width="180"><template #default="{ row }">{{ formatDate(row.createTime) }}</template></el-table-column>
       <el-table-column label="评审内容" min-width="300"
         ><template #default="{ row }">
           <div>{{ row.review.description }}</div
@@ -154,6 +154,7 @@
   </Dialog>
 </template>
 <script setup lang="ts">
+import { formatDate } from '@/utils/formatTime'
 import * as api from '@/api/hrm/payroll/requirement'
 import type { PayrollRequirement } from '@/api/hrm/payroll/requirement'
 import download from '@/utils/download'

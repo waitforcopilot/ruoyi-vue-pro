@@ -110,9 +110,7 @@
         ><el-table-column prop="fileName" label="文件" /><el-table-column
           prop="rowCount"
           label="明细数量" /><el-table-column prop="actorId" label="操作人" /><el-table-column
-          prop="createTime"
-          label="导入时间"
-      /></el-table>
+          label="导入时间"><template #default="{ row }">{{ formatDate(row.createTime) }}</template></el-table-column></el-table>
     </template>
   </Dialog>
   <Dialog v-model="differenceVisible" title="回盘差异：未更新代发台账" width="750px">
@@ -166,6 +164,7 @@
   </Dialog>
 </template>
 <script setup lang="ts">
+import { formatDate } from '@/utils/formatTime'
 import * as api from '@/api/hrm/payroll/payment'
 import { statuses } from '@/api/hrm/payroll/batch'
 import download from '@/utils/download'
