@@ -52,3 +52,7 @@ DELETE FROM "hrm_payroll_requirement";
 
 DELETE FROM "hrm_payroll_batch_event";
 DELETE FROM "hrm_payroll_run";
+
+DELETE FROM "hrm_payroll_payment_receipt";
+DELETE FROM "hrm_payroll_payment";
+DELETE FROM "hrm_payroll_bank_template";
