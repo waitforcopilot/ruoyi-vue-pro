@@ -11,6 +11,7 @@ import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServic
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 @Import(HrmPayrollBatchService.class)
 class HrmPayrollBatchServiceTest extends BaseDbUnitTest {
+    @org.springframework.boot.test.mock.mockito.MockBean private HrmPayrollWorkService workService;
     @Resource private HrmPayrollBatchService service;
     @Resource private HrmSalaryMonthRecordMapper mapper;
     @Test void versionsRemainImmutableAndApprovalUsesLatestVersion() {
@@ -62,5 +63,23 @@ class HrmPayrollBatchServiceTest extends BaseDbUnitTest {
         assertEquals(11,mapper.selectById(batch.getId()).getStatus());
         assertEquals(1,service.runs(batch.getId()).size());
         assertEquals(2,service.events(batch.getId()).size());
+    }
+    @Test void changedOvertimeSourceBlocksFreezeAndLeavesApprovalIntact(){
+        HrmSalaryMonthRecordDO batch=new HrmSalaryMonthRecordDO().setYear(2026).setMonth(10).setStatus(11);mapper.insert(batch);
+        Long run=service.snapshot(batch.getId(),Collections.singletonMap("overtime",Collections.emptyMap()),Collections.emptyMap(),Collections.emptyList(),1L);
+        mapper.updateById(new HrmSalaryMonthRecordDO().setId(batch.getId()).setStatus(14));
+        org.mockito.Mockito.doThrow(cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception(PAYROLL_WORK_INVALID)).when(workService).validateInputSnapshot(org.mockito.ArgumentMatchers.anyString());
+        assertServiceException(()->service.transition(batch.getId(),run,"freeze","冻结",3L),PAYROLL_WORK_INVALID);
+        assertEquals(14,mapper.selectById(batch.getId()).getStatus());assertTrue(service.events(batch.getId()).isEmpty());
+    }
+    @Test void manualAdjustmentStillValidatesOriginalWorkSources(){
+        HrmSalaryMonthRecordDO batch=new HrmSalaryMonthRecordDO().setYear(2026).setMonth(10).setStatus(11);mapper.insert(batch);
+        Long source=service.snapshot(batch.getId(),Collections.singletonMap("overtime",Collections.emptyMap()),Collections.emptyMap(),Collections.emptyList(),1L);
+        Long adjusted=service.snapshot(batch.getId(),Collections.singletonMap("sourceRunId",source),Collections.emptyMap(),Collections.emptyList(),1L);
+        mapper.updateById(new HrmSalaryMonthRecordDO().setId(batch.getId()).setStatus(14));
+        String original=service.runs(batch.getId()).get(1).getInputSnapshot();
+        org.mockito.Mockito.doThrow(cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception(PAYROLL_WORK_INVALID)).when(workService).validateInputSnapshot(original);
+        assertServiceException(()->service.transition(batch.getId(),adjusted,"freeze","冻结",3L),PAYROLL_WORK_INVALID);
+        assertEquals(14,mapper.selectById(batch.getId()).getStatus());
     }
 }

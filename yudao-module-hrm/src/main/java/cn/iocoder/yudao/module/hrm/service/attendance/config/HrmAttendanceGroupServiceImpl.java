@@ -259,7 +259,8 @@ public class HrmAttendanceGroupServiceImpl implements HrmAttendanceGroupService 
         }
         // 未配置特殊日期时，再按法定节假日决定休息或补班
         if (holiday != null) {
-            if (Objects.equals(holiday.getType(), HrmAttendanceHolidayTypeEnum.REST.getType())
+            if ((Objects.equals(holiday.getType(), HrmAttendanceHolidayTypeEnum.REST.getType())
+                    || Objects.equals(holiday.getType(), HrmAttendanceHolidayTypeEnum.STATUTORY.getType()))
                     && Boolean.TRUE.equals(group.getRest())) {
                 return null;
             }

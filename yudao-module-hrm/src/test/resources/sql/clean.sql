@@ -62,3 +62,8 @@ DELETE FROM "hrm_payroll_formula";
 DELETE FROM "hrm_payroll_salary_proposal";
 
 DELETE FROM "hrm_payroll_grade_policy";
+
+DELETE FROM "hrm_payroll_time_off";
+DELETE FROM "hrm_payroll_time_entry";
+DELETE FROM "hrm_payroll_work_cycle";
+DELETE FROM "hrm_payroll_work_rule";

@@ -17,7 +17,8 @@ import java.util.Arrays;
 public enum HrmAttendanceHolidayTypeEnum implements ArrayValuable<Integer> {
 
     WORK(1, "上班"),
-    REST(2, "休息");
+    REST(2, "休息"),
+    STATUTORY(3, "法定节假日");
 
     public static final Integer[] ARRAYS = Arrays.stream(values())
             .map(HrmAttendanceHolidayTypeEnum::getType).toArray(Integer[]::new);

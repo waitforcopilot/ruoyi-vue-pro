@@ -19,6 +19,7 @@ import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServic
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 @Import({HrmPayrollPaymentService.class,HrmPayrollBatchService.class})
 class HrmPayrollPaymentServiceTest extends BaseDbUnitTest {
+    @org.springframework.boot.test.mock.mockito.MockBean private HrmPayrollWorkService workService;
     @Resource private HrmPayrollPaymentService service;
     @Resource private HrmPayrollBatchService batches;
     @Resource private HrmSalaryMonthRecordMapper mapper;

@@ -1,0 +1,796 @@
+package cn.iocoder.yudao.module.hrm.service.payroll;
+
+import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
+import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
+
+import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
+import cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX;
+import cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.*;
+import cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.*;
+import cn.iocoder.yudao.module.hrm.dal.mysql.employee.info.HrmEmployeeMapper;
+import cn.iocoder.yudao.module.hrm.dal.mysql.payroll.*;
+import java.math.*;
+import java.time.*;
+import java.util.*;
+import javax.annotation.Resource;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class HrmPayrollWorkService {
+  @Resource private HrmPayrollWorkRuleMapper ruleMapper;
+  @Resource private HrmPayrollTimeEntryMapper entryMapper;
+  @Resource private HrmPayrollTimeOffMapper offMapper;
+  @Resource private HrmPayrollWorkCycleMapper cycleMapper;
+  @Resource private HrmEmployeeMapper employeeMapper;
+  @Resource private javax.validation.Validator validator;
+  @Resource private cn.iocoder.yudao.module.oa.api.payroll.OaPayrollSourceApi oaSource;
+
+  @Resource
+  private cn.iocoder.yudao.module.hrm.dal.mysql.attendance.record.HrmAttendanceClockMapper
+      clockMapper;
+
+  @Resource
+  private cn.iocoder.yudao.module.hrm.dal.mysql.attendance.config.HrmAttendanceHolidayMapper
+      holidayMapper;
+
+  @Resource
+  private cn.iocoder.yudao.module.hrm.service.attendance.config.HrmAttendanceGroupService
+      attendanceGroups;
+
+  private cn.iocoder.yudao.module.hrm.dal.dataobject.employee.info.HrmEmployeeDO lockEmployee(
+      Long id) {
+    cn.iocoder.yudao.module.hrm.dal.dataobject.employee.info.HrmEmployeeDO employee =
+        employeeMapper.selectOneForUpdate(
+            cn.iocoder.yudao.module.hrm.dal.dataobject.employee.info.HrmEmployeeDO::getId, id);
+    if (employee == null) throw exception(PAYROLL_WORK_INVALID);
+    return employee;
+  }
+
+  public List<HrmPayrollWorkRuleDO> rules(Long employeeId) {
+    return ruleMapper.selectList(
+        new LambdaQueryWrapperX<HrmPayrollWorkRuleDO>()
+            .eqIfPresent(HrmPayrollWorkRuleDO::getEmployeeId, employeeId)
+            .orderByDesc(HrmPayrollWorkRuleDO::getEffectiveFrom));
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public Long createRule(HrmPayrollWorkRuleReqVO request) {
+    if (!validator.validate(request).isEmpty()) throw exception(PAYROLL_WORK_INVALID);
+    lockEmployee(request.getEmployeeId());
+    if ((!"IRREGULAR".equals(request.getSystemType())
+            && request.getWorkdayRate().compareTo(new BigDecimal("1.5")) < 0)
+        || ("STANDARD".equals(request.getSystemType())
+            && request.getRestdayRate().compareTo(new BigDecimal("2")) < 0)
+        || request.getHolidayRate().compareTo(new BigDecimal("3")) < 0)
+      throw exception(PAYROLL_WORK_INVALID);
+    if (request.getEffectiveTo().isBefore(request.getEffectiveFrom()))
+      throw exception(PAYROLL_WORK_INVALID);
+    List<HrmPayrollWorkRuleDO> overlap =
+        ruleMapper.selectList(
+            new LambdaQueryWrapperX<HrmPayrollWorkRuleDO>()
+                .in(HrmPayrollWorkRuleDO::getStatus, Arrays.asList("PENDING", "APPROVED"))
+                .eq(HrmPayrollWorkRuleDO::getEmployeeId, request.getEmployeeId())
+                .le(HrmPayrollWorkRuleDO::getEffectiveFrom, request.getEffectiveTo())
+                .ge(HrmPayrollWorkRuleDO::getEffectiveTo, request.getEffectiveFrom()));
+    if (!overlap.isEmpty()) throw exception(PAYROLL_WORK_INVALID);
+    HrmPayrollWorkRuleDO rule = BeanUtils.toBean(request, HrmPayrollWorkRuleDO.class);
+    rule.setStatus("PENDING");
+    ruleMapper.insert(rule);
+    return rule.getId();
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public void approveRule(Long id, Long actor) {
+    HrmPayrollWorkRuleDO rule = ruleMapper.selectById(id);
+    if (rule == null) throw exception(PAYROLL_WORK_INVALID);
+    lockEmployee(rule.getEmployeeId());
+    rule = ruleMapper.selectOneForUpdate(HrmPayrollWorkRuleDO::getId, id);
+    if (!"PENDING".equals(rule.getStatus()) || actor == null) throw exception(PAYROLL_WORK_INVALID);
+    if (Objects.equals(rule.getCreator(), String.valueOf(actor)))
+      throw exception(PAYROLL_SELF_APPROVAL);
+    rule.setStatus("APPROVED");
+    rule.setApprovedBy(actor);
+    ruleMapper.updateById(rule);
+  }
+
+  public static int recognizedMinutes(
+      LocalDateTime approvedStart,
+      LocalDateTime approvedEnd,
+      LocalDateTime clockStart,
+      LocalDateTime clockEnd,
+      int breaks) {
+    if (approvedStart == null
+        || approvedEnd == null
+        || clockStart == null
+        || clockEnd == null
+        || !approvedEnd.isAfter(approvedStart)
+        || !clockEnd.isAfter(clockStart)
+        || breaks < 0) throw exception(PAYROLL_WORK_INVALID);
+    LocalDateTime start = approvedStart.isAfter(clockStart) ? approvedStart : clockStart;
+    LocalDateTime end = approvedEnd.isBefore(clockEnd) ? approvedEnd : clockEnd;
+    long minutes = Math.max(0, Duration.between(start, end).toMinutes());
+    if (minutes > 24 * 60 || breaks > minutes) throw exception(PAYROLL_WORK_INVALID);
+    return (int) minutes - breaks;
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public List<Long> confirm(HrmPayrollTimeEntryReqVO request, Long actor) {
+    if (actor == null
+        || !validator.validate(request).isEmpty()
+        || !request.getEndTime().isAfter(request.getStartTime())
+        || Duration.between(request.getStartTime(), request.getEndTime()).toDays() > 31)
+      throw exception(PAYROLL_WORK_INVALID);
+    List<Long> ids = new ArrayList<>();
+    LocalDateTime cursor = request.getStartTime();
+    boolean crossesDay =
+        !cursor.toLocalDate().equals(request.getEndTime().minusNanos(1).toLocalDate());
+    if (crossesDay && request.getBreakMinutes() != 0) throw exception(PAYROLL_WORK_SPLIT_REQUIRED);
+    while (cursor.isBefore(request.getEndTime())) {
+      LocalDateTime boundary = cursor.toLocalDate().plusDays(1).atStartOfDay();
+      HrmPayrollTimeEntryReqVO segment = BeanUtils.toBean(request, HrmPayrollTimeEntryReqVO.class);
+      segment.setStartTime(cursor);
+      segment.setEndTime(boundary.isBefore(request.getEndTime()) ? boundary : request.getEndTime());
+      ids.add(confirmSingle(segment, actor));
+      cursor = segment.getEndTime();
+    }
+    return ids;
+  }
+
+  private Long confirmSingle(HrmPayrollTimeEntryReqVO request, Long actor) {
+    cn.iocoder.yudao.module.hrm.dal.dataobject.employee.info.HrmEmployeeDO employee =
+        lockEmployee(request.getEmployeeId());
+    if (!"OA".equals(request.getSourceSystem())
+        || employee.getUserId() == null
+        || request.getClockInId() == null
+        || request.getClockOutId() == null) throw exception(PAYROLL_WORK_INVALID);
+    Long sourceId;
+    try {
+      sourceId = Long.valueOf(request.getSourceRecordId());
+    } catch (NumberFormatException ex) {
+      throw exception(PAYROLL_WORK_INVALID);
+    }
+    cn.iocoder.yudao.module.oa.api.payroll.dto.OaPayrollOvertimeDTO approved =
+        oaSource.getApprovedOvertime(sourceId);
+    if (approved == null
+        || !Objects.equals(employee.getUserId(), approved.getApplicantUserId())
+        || approved.getStartTime() == null
+        || approved.getEndTime() == null
+        || request.getStartTime().isBefore(approved.getStartTime())
+        || request.getEndTime().isAfter(approved.getEndTime()))
+      throw exception(PAYROLL_WORK_INVALID);
+    cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record.HrmAttendanceClockDO in =
+        clockMapper.selectOneForUpdate(
+            cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record.HrmAttendanceClockDO
+                ::getId,
+            request.getClockInId());
+    cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record.HrmAttendanceClockDO out =
+        clockMapper.selectOneForUpdate(
+            cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record.HrmAttendanceClockDO
+                ::getId,
+            request.getClockOutId());
+    if (in == null
+        || out == null
+        || !Objects.equals(in.getEmployeeId(), employee.getId())
+        || !Objects.equals(out.getEmployeeId(), employee.getId())
+        || !Objects.equals(in.getType(), 1)
+        || !Objects.equals(out.getType(), 2)
+        || Objects.equals(in.getStatus(), 3)
+        || Objects.equals(out.getStatus(), 3)
+        || in.getClockTime() == null
+        || out.getClockTime() == null) throw exception(PAYROLL_WORK_INVALID);
+    request.setClockStart(in.getClockTime());
+    request.setClockEnd(out.getClockTime());
+    request.setSourceRecordId(sourceId + ":" + request.getStartTime().toLocalDate());
+    List<HrmPayrollTimeEntryDO> duplicate =
+        entryMapper.selectList(
+            new LambdaQueryWrapperX<HrmPayrollTimeEntryDO>()
+                .eq(HrmPayrollTimeEntryDO::getSourceSystem, request.getSourceSystem())
+                .eq(HrmPayrollTimeEntryDO::getSourceRecordId, request.getSourceRecordId()));
+    if (!duplicate.isEmpty()) throw exception(PAYROLL_WORK_INVALID);
+    if (!request
+        .getStartTime()
+        .toLocalDate()
+        .equals(request.getEndTime().minusNanos(1).toLocalDate()))
+      throw exception(PAYROLL_WORK_SPLIT_REQUIRED);
+    List<HrmPayrollTimeEntryDO> overlap =
+        entryMapper.selectList(
+            new LambdaQueryWrapperX<HrmPayrollTimeEntryDO>()
+                .eq(HrmPayrollTimeEntryDO::getEmployeeId, request.getEmployeeId())
+                .lt(HrmPayrollTimeEntryDO::getStartTime, request.getEndTime())
+                .gt(HrmPayrollTimeEntryDO::getEndTime, request.getStartTime()));
+    if (!overlap.isEmpty()) throw exception(PAYROLL_WORK_INVALID);
+    LocalDate date = request.getStartTime().toLocalDate();
+    List<HrmPayrollWorkRuleDO> rules =
+        ruleMapper.selectList(
+            new LambdaQueryWrapperX<HrmPayrollWorkRuleDO>()
+                .eq(HrmPayrollWorkRuleDO::getStatus, "APPROVED")
+                .eq(HrmPayrollWorkRuleDO::getEmployeeId, request.getEmployeeId())
+                .le(HrmPayrollWorkRuleDO::getEffectiveFrom, date)
+                .ge(HrmPayrollWorkRuleDO::getEffectiveTo, date));
+    if (rules.size() != 1) throw exception(PAYROLL_WORK_INVALID);
+    HrmPayrollWorkRuleDO rule = rules.get(0);
+    int minutes =
+        recognizedMinutes(
+            request.getStartTime(),
+            request.getEndTime(),
+            request.getClockStart(),
+            request.getClockEnd(),
+            request.getBreakMinutes());
+    if (minutes == 0) throw exception(PAYROLL_WORK_INVALID);
+    if (!attendanceGroups
+        .getAttendanceGroupMap(Collections.singleton(employee.getId()))
+        .containsKey(employee.getId())) throw exception(PAYROLL_WORK_INVALID);
+    cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.config.HrmAttendanceHolidayDO holiday =
+        holidayMapper.selectOne(
+            new LambdaQueryWrapperX<
+                    cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.config
+                        .HrmAttendanceHolidayDO>()
+                .ge(
+                    cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.config
+                            .HrmAttendanceHolidayDO
+                        ::getDate,
+                    date.atStartOfDay())
+                .lt(
+                    cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.config
+                            .HrmAttendanceHolidayDO
+                        ::getDate,
+                    date.plusDays(1).atStartOfDay()));
+    request.setDayType(
+        holiday != null && Objects.equals(holiday.getType(), 3)
+            ? "HOLIDAY"
+            : attendanceGroups.getEmployeeAttendanceShift(employee.getId(), date.atStartOfDay())
+                    == null
+                ? "RESTDAY"
+                : "WORKDAY");
+    cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.config.HrmAttendanceGroupDO.Shift shift =
+        attendanceGroups.getEmployeeAttendanceShift(employee.getId(), date.atStartOfDay());
+    if ("WORKDAY".equals(request.getDayType()) && !"IRREGULAR".equals(rule.getSystemType())) {
+      LocalDateTime a = date.atTime(shift.getStartTime()), b = date.atTime(shift.getEndTime());
+      if (!b.isAfter(a)) b = b.plusDays(1);
+      LocalDateTime start =
+          request.getStartTime().isAfter(in.getClockTime())
+              ? request.getStartTime()
+              : in.getClockTime();
+      LocalDateTime end =
+          request.getEndTime().isBefore(out.getClockTime())
+              ? request.getEndTime()
+              : out.getClockTime();
+      LocalDateTime overlapStart = a.isAfter(start) ? a : start,
+          overlapEnd = b.isBefore(end) ? b : end;
+      int regular = (int) Math.max(0, Duration.between(overlapStart, overlapEnd).toMinutes());
+      if (regular > 0) regular -= shiftBreak(shift, date, overlapStart, overlapEnd);
+      minutes = Math.max(0, minutes - regular);
+      if (minutes == 0) throw exception(PAYROLL_WORK_INVALID);
+    }
+    if ("TIME_OFF".equals(request.getCompensation())
+        && (!"RESTDAY".equals(request.getDayType()) || !"STANDARD".equals(rule.getSystemType())))
+      throw exception(PAYROLL_WORK_INVALID);
+    BigDecimal multiplier =
+        "HOLIDAY".equals(request.getDayType())
+            ? rule.getHolidayRate()
+            : "RESTDAY".equals(request.getDayType())
+                ? rule.getRestdayRate()
+                : rule.getWorkdayRate();
+    if (!"HOLIDAY".equals(request.getDayType()) && "IRREGULAR".equals(rule.getSystemType()))
+      multiplier = BigDecimal.ZERO;
+    if (!"HOLIDAY".equals(request.getDayType()) && "COMPREHENSIVE".equals(rule.getSystemType()))
+      multiplier = BigDecimal.ZERO;
+    HrmPayrollTimeEntryDO entry = BeanUtils.toBean(request, HrmPayrollTimeEntryDO.class);
+    entry.setRuleId(rule.getId());
+    entry.setSourceApplyId(sourceId);
+    Map<String, Object> source = new LinkedHashMap<>();
+    source.put("approval", approved);
+    source.put("clockInId", in.getId());
+    source.put("clockOutId", out.getId());
+    source.put("clockStart", in.getClockTime());
+    source.put("clockEnd", out.getClockTime());
+    source.put("dayType", request.getDayType());
+    source.put("shift", shift);
+    entry.setSourceSnapshot(
+        cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(source));
+    entry.setRecognizedMinutes(minutes);
+    entry.setConfirmedBy(actor);
+    entry.setAmount(
+        "TIME_OFF".equals(request.getCompensation())
+            ? BigDecimal.ZERO
+            : rule.getHourlyBase()
+                .multiply(multiplier)
+                .multiply(BigDecimal.valueOf(minutes))
+                .divide(BigDecimal.valueOf(60), 2, RoundingMode.HALF_UP));
+    entryMapper.insert(entry);
+    if ("TIME_OFF".equals(entry.getCompensation())) {
+      HrmPayrollTimeOffDO credit = new HrmPayrollTimeOffDO();
+      credit.setEmployeeId(entry.getEmployeeId());
+      credit.setTimeEntryId(entry.getId());
+      credit.setMinutes(minutes);
+      credit.setActorId(actor);
+      credit.setRequestKey("CREDIT-" + entry.getId());
+      credit.setReason("批准加班转调休");
+      credit.setStatus("CREDIT");
+      credit.setExpiresOn(entry.getStartTime().toLocalDate().plusDays(rule.getTimeOffExpiryDays()));
+      offMapper.insert(credit);
+    }
+    return entry.getId();
+  }
+
+  public void validateSources(List<HrmPayrollTimeEntryDO> rows) {
+    for (HrmPayrollTimeEntryDO row : rows) {
+      cn.iocoder.yudao.module.oa.api.payroll.dto.OaPayrollOvertimeDTO approved =
+          oaSource.getApprovedOvertime(row.getSourceApplyId());
+      cn.iocoder.yudao.module.hrm.dal.dataobject.employee.info.HrmEmployeeDO employee =
+          employeeMapper.selectById(row.getEmployeeId());
+      cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record.HrmAttendanceClockDO in =
+          clockMapper.selectOneForUpdate(
+              cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record.HrmAttendanceClockDO
+                  ::getId,
+              row.getClockInId());
+      cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record.HrmAttendanceClockDO out =
+          clockMapper.selectOneForUpdate(
+              cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record.HrmAttendanceClockDO
+                  ::getId,
+              row.getClockOutId());
+      if (approved == null
+          || employee == null
+          || !Objects.equals(employee.getUserId(), approved.getApplicantUserId())
+          || approved.getStartTime() == null
+          || approved.getEndTime() == null
+          || row.getStartTime().isBefore(approved.getStartTime())
+          || row.getEndTime().isAfter(approved.getEndTime())
+          || in == null
+          || out == null
+          || !Objects.equals(in.getEmployeeId(), row.getEmployeeId())
+          || !Objects.equals(out.getEmployeeId(), row.getEmployeeId())
+          || !Objects.equals(in.getType(), 1)
+          || !Objects.equals(out.getType(), 2)
+          || Objects.equals(in.getStatus(), 3)
+          || Objects.equals(out.getStatus(), 3)
+          || !Objects.equals(in.getClockTime(), row.getClockStart())
+          || !Objects.equals(out.getClockTime(), row.getClockEnd()))
+        throw exception(PAYROLL_WORK_INVALID);
+    }
+  }
+
+  public void validateInputSnapshot(String snapshot) {
+    Map<String, Object> input =
+        cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseObject(snapshot, Map.class);
+    Object overtime = input.get("overtime");
+    if (overtime instanceof Map) {
+      for (Object rows : ((Map<?, ?>) overtime).values()) {
+        validateSources(
+            cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseArray(
+                cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(rows),
+                HrmPayrollTimeEntryDO.class));
+      }
+    }
+    Object cycles = input.get("workCycles");
+    if (cycles instanceof Map) {
+      for (Object rows : ((Map<?, ?>) cycles).values()) {
+        List<HrmPayrollWorkCycleDO> settlements =
+            cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseArray(
+                cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(rows),
+                HrmPayrollWorkCycleDO.class);
+        for (HrmPayrollWorkCycleDO cycle : settlements) {
+          Map<String, Object> source =
+              cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseObject(
+                  cycle.getSourceSnapshot(), Map.class);
+          validateSources(
+              cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseArray(
+                  cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(
+                      source.get("approvals")),
+                  HrmPayrollTimeEntryDO.class));
+          List<cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record.HrmAttendanceClockDO>
+              clocks =
+                  cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseArray(
+                      cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(
+                          source.get("clocks")),
+                      cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record
+                          .HrmAttendanceClockDO.class);
+          for (cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record.HrmAttendanceClockDO
+              original : clocks) {
+            cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record.HrmAttendanceClockDO
+                current =
+                    clockMapper.selectOneForUpdate(
+                        cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record
+                                .HrmAttendanceClockDO
+                            ::getId,
+                        original.getId());
+            if (current == null
+                || !Objects.equals(current.getClockTime(), original.getClockTime())
+                || !Objects.equals(current.getEmployeeId(), original.getEmployeeId())
+                || !Objects.equals(current.getType(), original.getType())
+                || !Objects.equals(current.getStatus(), original.getStatus()))
+              throw exception(PAYROLL_WORK_INVALID);
+          }
+        }
+      }
+    }
+  }
+
+  public boolean hasSources(Long employeeId, LocalDate from, LocalDate to) {
+    return !entries(employeeId, from, to).isEmpty() || !cycles(employeeId, from, to).isEmpty();
+  }
+
+  public BigDecimal earnings(Long employeeId, LocalDate from, LocalDate to) {
+    List<HrmPayrollTimeEntryDO> rows = entries(employeeId, from, to);
+    validateSources(rows);
+    for (HrmPayrollWorkRuleDO rule : rules(employeeId)) {
+      if (!"APPROVED".equals(rule.getStatus()) || !"COMPREHENSIVE".equals(rule.getSystemType()))
+        continue;
+      for (int offset = 0; ; offset += rule.getCycleMonths()) {
+        LocalDate start = rule.getEffectiveFrom().plusMonths(offset);
+        if (start.isAfter(to) || start.isAfter(rule.getEffectiveTo())) break;
+        LocalDate end =
+            rule.getEffectiveFrom().plusMonths(offset + rule.getCycleMonths()).minusDays(1);
+        if (end.isBefore(from) || end.isAfter(to) || end.isAfter(rule.getEffectiveTo())) continue;
+        if (cycleMapper.selectOne(
+                new LambdaQueryWrapperX<HrmPayrollWorkCycleDO>()
+                    .eq(HrmPayrollWorkCycleDO::getRuleId, rule.getId())
+                    .eq(HrmPayrollWorkCycleDO::getCycleFrom, start))
+            == null) throw exception(PAYROLL_WORK_INVALID);
+      }
+    }
+    return rows.stream()
+        .map(HrmPayrollTimeEntryDO::getAmount)
+        .reduce(BigDecimal.ZERO, BigDecimal::add)
+        .add(
+            cycles(employeeId, from, to).stream()
+                .map(HrmPayrollWorkCycleDO::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add));
+  }
+
+  public List<HrmPayrollTimeEntryDO> entries(Long employeeId, LocalDate from, LocalDate to) {
+    return entryMapper.selectList(
+        new LambdaQueryWrapperX<HrmPayrollTimeEntryDO>()
+            .eqIfPresent(HrmPayrollTimeEntryDO::getEmployeeId, employeeId)
+            .ge(HrmPayrollTimeEntryDO::getStartTime, from.atStartOfDay())
+            .lt(HrmPayrollTimeEntryDO::getStartTime, to.plusDays(1).atStartOfDay())
+            .orderByAsc(HrmPayrollTimeEntryDO::getStartTime));
+  }
+
+  public List<HrmPayrollTimeOffDO> timeOff(Long employeeId) {
+    return offMapper.selectList(
+        new LambdaQueryWrapperX<HrmPayrollTimeOffDO>()
+            .eq(HrmPayrollTimeOffDO::getEmployeeId, employeeId)
+            .orderByDesc(HrmPayrollTimeOffDO::getId));
+  }
+
+  private Map<Long, Integer> availableLots(Long employeeId, LocalDate date) {
+    List<HrmPayrollTimeOffDO> ledger = timeOff(employeeId);
+    Map<Long, Integer> lots = new LinkedHashMap<>();
+    ledger.stream()
+        .filter(r -> "CREDIT".equals(r.getStatus()) && !r.getExpiresOn().isBefore(date))
+        .sorted(
+            Comparator.comparing(HrmPayrollTimeOffDO::getExpiresOn)
+                .thenComparing(HrmPayrollTimeOffDO::getId))
+        .forEach(r -> lots.put(r.getId(), r.getMinutes()));
+    for (HrmPayrollTimeOffDO row : ledger) {
+      if (row.getAllocations() == null) continue;
+      Map<String, Object> allocation =
+          cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseObject(
+              row.getAllocations(), Map.class);
+      int sign = "REFUND".equals(row.getStatus()) ? 1 : -1;
+      allocation.forEach(
+          (id, value) -> {
+            Long lot = Long.valueOf(id);
+            if (lots.containsKey(lot))
+              lots.compute(lot, (k, v) -> v + sign * ((Number) value).intValue());
+          });
+    }
+    return lots;
+  }
+
+  public int timeOffBalance(Long employeeId) {
+    return availableLots(employeeId, LocalDate.now(java.time.ZoneId.of("Asia/Shanghai")))
+        .values()
+        .stream()
+        .mapToInt(Integer::intValue)
+        .sum();
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public Long useTimeOff(Long employeeId, int minutes, String key, String reason, Long actor) {
+    lockEmployee(employeeId);
+    if (minutes <= 0
+        || key == null
+        || key.trim().isEmpty()
+        || key.length() > 100
+        || reason == null
+        || reason.trim().isEmpty()
+        || actor == null) throw exception(PAYROLL_WORK_INVALID);
+    HrmPayrollTimeOffDO duplicate = offMapper.selectOne(HrmPayrollTimeOffDO::getRequestKey, key);
+    if (duplicate != null) {
+      if (!Objects.equals(duplicate.getEmployeeId(), employeeId)
+          || duplicate.getMinutes() != -minutes) throw exception(PAYROLL_WORK_INVALID);
+      return duplicate.getId();
+    }
+    Map<Long, Integer> lots =
+        availableLots(employeeId, LocalDate.now(java.time.ZoneId.of("Asia/Shanghai")));
+    if (lots.values().stream().mapToInt(Integer::intValue).sum() < minutes)
+      throw exception(PAYROLL_WORK_INVALID);
+    Map<Long, Integer> allocation = new LinkedHashMap<>();
+    int remaining = minutes;
+    for (Map.Entry<Long, Integer> lot : lots.entrySet()) {
+      int take = Math.min(remaining, Math.max(0, lot.getValue()));
+      if (take > 0) allocation.put(lot.getKey(), take);
+      remaining -= take;
+      if (remaining == 0) break;
+    }
+    HrmPayrollTimeOffDO debit = new HrmPayrollTimeOffDO();
+    debit.setEmployeeId(employeeId);
+    debit.setMinutes(-minutes);
+    debit.setRequestKey(key);
+    debit.setReason(reason);
+    debit.setActorId(actor);
+    debit.setStatus("RESERVED");
+    debit.setAllocations(
+        cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(allocation));
+    offMapper.insert(debit);
+    return debit.getId();
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public void consumeTimeOff(Long debitId, Long actor) {
+    HrmPayrollTimeOffDO debit = offMapper.selectById(debitId);
+    if (debit == null) throw exception(PAYROLL_WORK_INVALID);
+    lockEmployee(debit.getEmployeeId());
+    debit = offMapper.selectOneForUpdate(HrmPayrollTimeOffDO::getId, debitId);
+    if (actor == null
+        || offMapper.selectOne(HrmPayrollTimeOffDO::getRequestKey, "REFUND-" + debitId) != null)
+      throw exception(PAYROLL_WORK_INVALID);
+    if ("CONSUMED".equals(debit.getStatus())) return;
+    if (!"RESERVED".equals(debit.getStatus())) throw exception(PAYROLL_WORK_INVALID);
+    Map<String, Object> allocations =
+        cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseObject(
+            debit.getAllocations(), Map.class);
+    for (String lotId : allocations.keySet()) {
+      HrmPayrollTimeOffDO lot = offMapper.selectById(Long.valueOf(lotId));
+      if (lot == null
+          || lot.getExpiresOn().isBefore(LocalDate.now(java.time.ZoneId.of("Asia/Shanghai"))))
+        throw exception(PAYROLL_WORK_INVALID);
+    }
+    debit.setStatus("CONSUMED");
+    debit.setActorId(actor);
+    offMapper.updateById(debit);
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public Long refundTimeOff(Long debitId, String key, String reason, Long actor) {
+    HrmPayrollTimeOffDO debit = offMapper.selectById(debitId);
+    if (debit == null || debit.getMinutes() >= 0 || actor == null)
+      throw exception(PAYROLL_WORK_INVALID);
+    lockEmployee(debit.getEmployeeId());
+    String refundKey = "REFUND-" + debitId;
+    HrmPayrollTimeOffDO duplicate =
+        offMapper.selectOne(HrmPayrollTimeOffDO::getRequestKey, refundKey);
+    if (duplicate != null) return duplicate.getId();
+    if (reason == null || reason.trim().isEmpty()) throw exception(PAYROLL_WORK_INVALID);
+    HrmPayrollTimeOffDO refund = new HrmPayrollTimeOffDO();
+    refund.setEmployeeId(debit.getEmployeeId());
+    refund.setMinutes(-debit.getMinutes());
+    refund.setRequestKey(refundKey);
+    refund.setReason(reason);
+    refund.setActorId(actor);
+    refund.setStatus("REFUND");
+    refund.setAllocations(debit.getAllocations());
+    offMapper.insert(refund);
+    return refund.getId();
+  }
+
+  public List<HrmPayrollWorkCycleDO> cycles(Long employeeId, LocalDate from, LocalDate to) {
+    return cycleMapper.selectList(
+        new LambdaQueryWrapperX<HrmPayrollWorkCycleDO>()
+            .eqIfPresent(HrmPayrollWorkCycleDO::getEmployeeId, employeeId)
+            .ge(HrmPayrollWorkCycleDO::getCycleTo, from)
+            .le(HrmPayrollWorkCycleDO::getCycleTo, to)
+            .orderByAsc(HrmPayrollWorkCycleDO::getCycleFrom));
+  }
+
+  public static int cyclePayableMinutes(int actual, int standard, int approved) {
+    if (actual < 0 || standard <= 0 || approved < 0) throw exception(PAYROLL_WORK_INVALID);
+    return Math.min(Math.max(0, actual - standard), approved);
+  }
+
+  private int shiftBreak(
+      cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.config.HrmAttendanceGroupDO.Shift shift,
+      LocalDate date,
+      LocalDateTime start,
+      LocalDateTime end) {
+    if (shift == null
+        || !Boolean.TRUE.equals(shift.getExcludeRestTime())
+        || shift.getRestStartTime() == null
+        || shift.getRestEndTime() == null) return 0;
+    LocalDateTime a = date.atTime(shift.getRestStartTime()),
+        b = date.atTime(shift.getRestEndTime());
+    if (!b.isAfter(a)) b = b.plusDays(1);
+    LocalDateTime intersectionStart = a.isAfter(start) ? a : start,
+        intersectionEnd = b.isBefore(end) ? b : end;
+    return (int) Math.max(0, Duration.between(intersectionStart, intersectionEnd).toMinutes());
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public Long settleCycle(Long ruleId, LocalDate from, Long actor) {
+    HrmPayrollWorkRuleDO rule = ruleMapper.selectById(ruleId);
+    if (rule == null
+        || actor == null
+        || !"APPROVED".equals(rule.getStatus())
+        || !"COMPREHENSIVE".equals(rule.getSystemType())) throw exception(PAYROLL_WORK_INVALID);
+    lockEmployee(rule.getEmployeeId());
+    long offset =
+        java.time.temporal.ChronoUnit.MONTHS.between(
+            rule.getEffectiveFrom().withDayOfMonth(1), from.withDayOfMonth(1));
+    if (offset < 0
+        || offset % rule.getCycleMonths() != 0
+        || !rule.getEffectiveFrom().plusMonths(offset).equals(from))
+      throw exception(PAYROLL_WORK_INVALID);
+    LocalDate to = rule.getEffectiveFrom().plusMonths(offset + rule.getCycleMonths()).minusDays(1);
+    if (to.isAfter(rule.getEffectiveTo())
+        || !to.isBefore(LocalDate.now(java.time.ZoneId.of("Asia/Shanghai"))))
+      throw exception(PAYROLL_WORK_INVALID);
+    HrmPayrollWorkCycleDO existing =
+        cycleMapper.selectOne(
+            new LambdaQueryWrapperX<HrmPayrollWorkCycleDO>()
+                .eq(HrmPayrollWorkCycleDO::getRuleId, ruleId)
+                .eq(HrmPayrollWorkCycleDO::getCycleFrom, from));
+    if (existing != null) return existing.getId();
+    List<cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record.HrmAttendanceClockDO> clocks =
+        clockMapper.selectList(
+            new LambdaQueryWrapperX<
+                    cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record
+                        .HrmAttendanceClockDO>()
+                .eq(
+                    cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record
+                            .HrmAttendanceClockDO
+                        ::getEmployeeId,
+                    rule.getEmployeeId())
+                .ge(
+                    cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record
+                            .HrmAttendanceClockDO
+                        ::getClockTime,
+                    from.atStartOfDay())
+                .lt(
+                    cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record
+                            .HrmAttendanceClockDO
+                        ::getClockTime,
+                    to.plusDays(2).atStartOfDay())
+                .orderByAsc(
+                    cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record
+                            .HrmAttendanceClockDO
+                        ::getClockTime));
+    int actual = 0, planned = 0;
+    LocalDateTime open = null;
+    List<Long> used = new ArrayList<>();
+    for (cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record.HrmAttendanceClockDO clock :
+        clocks) {
+      if (clock.getClockTime().isAfter(to.plusDays(1).atStartOfDay()) && open == null) break;
+      if (Objects.equals(clock.getStatus(), 3)) throw exception(PAYROLL_WORK_INVALID);
+      if (Objects.equals(clock.getType(), 1)) {
+        if (open != null) throw exception(PAYROLL_WORK_INVALID);
+        open = clock.getClockTime();
+        used.add(clock.getId());
+      } else if (Objects.equals(clock.getType(), 2)) {
+        if (open == null) throw exception(PAYROLL_WORK_INVALID);
+        LocalDateTime end = clock.getClockTime();
+        if (!end.isAfter(open) || Duration.between(open, end).toHours() > 24)
+          throw exception(PAYROLL_WORK_INVALID);
+        LocalDateTime cursor = open;
+        while (cursor.isBefore(end) && cursor.isBefore(to.plusDays(1).atStartOfDay())) {
+          LocalDate date = cursor.toLocalDate();
+          LocalDateTime boundary = date.plusDays(1).atStartOfDay();
+          LocalDateTime stop = end.isBefore(boundary) ? end : boundary;
+          cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.config.HrmAttendanceHolidayDO
+              holiday =
+                  holidayMapper.selectOne(
+                      new LambdaQueryWrapperX<
+                              cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.config
+                                  .HrmAttendanceHolidayDO>()
+                          .ge(
+                              cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.config
+                                      .HrmAttendanceHolidayDO
+                                  ::getDate,
+                              date.atStartOfDay())
+                          .lt(
+                              cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.config
+                                      .HrmAttendanceHolidayDO
+                                  ::getDate,
+                              boundary));
+          if (holiday == null || !Objects.equals(holiday.getType(), 3))
+            actual +=
+                (int) Duration.between(cursor, stop).toMinutes()
+                    - shiftBreak(
+                        attendanceGroups.getEmployeeAttendanceShift(
+                            rule.getEmployeeId(), date.atStartOfDay()),
+                        date,
+                        cursor,
+                        stop);
+          cursor = stop;
+        }
+        used.add(clock.getId());
+        open = null;
+      } else throw exception(PAYROLL_WORK_INVALID);
+    }
+    if (open != null) throw exception(PAYROLL_WORK_INVALID);
+    for (LocalDate day = from; !day.isAfter(to); day = day.plusDays(1)) {
+      cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.config.HrmAttendanceGroupDO.Shift
+          shift =
+              attendanceGroups.getEmployeeAttendanceShift(rule.getEmployeeId(), day.atStartOfDay());
+      if (shift == null) continue;
+      LocalDateTime a = day.atTime(shift.getStartTime()), b = day.atTime(shift.getEndTime());
+      if (!b.isAfter(a)) b = b.plusDays(1);
+      planned += (int) Duration.between(a, b).toMinutes() - shiftBreak(shift, day, a, b);
+    }
+    List<HrmPayrollTimeEntryDO> approved = entries(rule.getEmployeeId(), from, to);
+    validateSources(approved);
+    int recognized =
+        approved.stream()
+            .filter(
+                e ->
+                    Objects.equals(e.getRuleId(), ruleId)
+                        && !"HOLIDAY".equals(e.getDayType())
+                        && "PAY".equals(e.getCompensation()))
+            .mapToInt(HrmPayrollTimeEntryDO::getRecognizedMinutes)
+            .sum();
+    int payable = cyclePayableMinutes(actual, rule.getCycleMinutes(), recognized);
+    HrmPayrollWorkCycleDO cycle = new HrmPayrollWorkCycleDO();
+    cycle.setEmployeeId(rule.getEmployeeId());
+    cycle.setRuleId(ruleId);
+    cycle.setCycleFrom(from);
+    cycle.setCycleTo(to);
+    cycle.setPlannedMinutes(planned);
+    cycle.setActualMinutes(actual);
+    cycle.setRecognizedMinutes(recognized);
+    cycle.setPayableMinutes(payable);
+    cycle.setSettledBy(actor);
+    cycle.setAmount(
+        rule.getHourlyBase()
+            .multiply(rule.getWorkdayRate())
+            .multiply(BigDecimal.valueOf(payable))
+            .divide(BigDecimal.valueOf(60), 2, RoundingMode.HALF_UP));
+    Map<String, Object> snapshot = new LinkedHashMap<>();
+    snapshot.put("rule", rule);
+    snapshot.put(
+        "clocks",
+        clocks.stream()
+            .filter(c -> used.contains(c.getId()))
+            .collect(java.util.stream.Collectors.toList()));
+    snapshot.put("approvals", approved);
+    cycle.setSourceSnapshot(
+        cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(snapshot));
+    cycleMapper.insert(cycle);
+    return cycle.getId();
+  }
+
+  public Map<String, Object> summary(Long employeeId, LocalDate from, LocalDate to) {
+    List<HrmPayrollTimeEntryDO> rows = entries(employeeId, from, to);
+    int total = rows.stream().mapToInt(HrmPayrollTimeEntryDO::getRecognizedMinutes).sum();
+    Map<String, Object> result = new LinkedHashMap<>();
+    result.put("recognizedMinutes", total);
+    result.put(
+        "amount",
+        rows.stream()
+            .map(HrmPayrollTimeEntryDO::getAmount)
+            .reduce(BigDecimal.ZERO, BigDecimal::add));
+    result.put("timeOffBalance", timeOffBalance(employeeId));
+    List<HrmPayrollTimeEntryDO> monthlyRows =
+        entries(employeeId, from.withDayOfMonth(1), to.withDayOfMonth(to.lengthOfMonth()));
+    Map<String, Integer> monthly = new LinkedHashMap<>();
+    monthlyRows.forEach(
+        e ->
+            monthly.merge(
+                e.getStartTime().toLocalDate().withDayOfMonth(1).toString(),
+                e.getRecognizedMinutes(),
+                Integer::sum));
+    result.put("monthlyMinutes", monthly);
+    result.put(
+        "limitExceeded",
+        rows.stream()
+            .anyMatch(
+                e -> {
+                  HrmPayrollWorkRuleDO r = ruleMapper.selectById(e.getRuleId());
+                  return monthly.get(e.getStartTime().toLocalDate().withDayOfMonth(1).toString())
+                      > r.getLimitMinutes();
+                }));
+    result.put("cycles", cycles(employeeId, from, to));
+    return result;
+  }
+}

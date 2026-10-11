@@ -14,6 +14,7 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 @Service
 public class HrmPayrollBatchService {
     @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.salary.slip.HrmSalarySlipSendRecordMapper slipSendMapper;
+    @Resource private HrmPayrollWorkService workService;
     @Resource private HrmPayrollRunMapper runMapper;
     @Resource private HrmPayrollBatchEventMapper eventMapper;
     @Resource private HrmSalaryMonthRecordMapper batchMapper;
@@ -73,6 +74,19 @@ public class HrmPayrollBatchService {
             throw exception(SALARY_MONTH_RECORD_STATUS_INVALID);
         }
         int target=nextStatus(batch.getStatus(),action);
+        if("freeze".equals(action)){
+            HrmPayrollRunDO source=run;Set<Long> visited=new HashSet<>();
+            while(source!=null){
+                if(!visited.add(source.getId()))throw exception(PAYROLL_VERSION_CONFLICT);
+                workService.validateInputSnapshot(source.getInputSnapshot());
+                Map<String,Object> input=JsonUtils.parseObject(source.getInputSnapshot(),Map.class);
+                Object parent=input.get("sourceRunId");if(parent==null)break;
+                if(!(parent instanceof Number))throw exception(PAYROLL_VERSION_CONFLICT);
+                Long parentId=((Number)parent).longValue();Integer currentVersion=source.getVersion();
+                source=versions.stream().filter(r->Objects.equals(r.getId(),parentId)&&r.getVersion()<currentVersion).findFirst().orElse(null);
+                if(source==null)throw exception(PAYROLL_VERSION_CONFLICT);
+            }
+        }
         batchMapper.updateById(new HrmSalaryMonthRecordDO().setId(batchId).setStatus(target));
         HrmPayrollBatchEventDO event=new HrmPayrollBatchEventDO();event.setMonthRecordId(batchId);event.setRunId(runId);
         event.setAction(action);event.setActorId(actor);event.setReason(reason);event.setFromStatus(batch.getStatus());event.setToStatus(target);eventMapper.insert(event);

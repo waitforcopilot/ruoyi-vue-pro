@@ -119,9 +119,11 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
     @Resource
     private HrmSalaryTaxRuleService salaryTaxRuleService;
     @Resource
-    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollFormulaService payrollFormulaService;
-    @Resource
     private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollBatchService payrollBatchService;
+    @Resource
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWorkService payrollWorkService;
+    @Resource
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollFormulaService payrollFormulaService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -289,6 +291,12 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
                 values = mergeOptionValues(values, cumulativeTaxImportMap.getOrDefault(jobNumber, Collections.emptyList()));
             }
 
+            // 已核实的加班费按实际计薪区间进入工资，并保留来源快照。
+            BigDecimal overtimePay=payrollWorkService.earnings(employee.getId(),salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate());
+            if (overtimePay != null && (overtimePay.signum()>0 || payrollWorkService.hasSources(employee.getId(),salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate()))) {
+                values = mergeOptionValues(values, Collections.singletonList(importOptionValue(
+                        HrmSalaryOptionCodeEnum.OVERTIME_PAY.getCode(), optionMap, overtimePay)));
+            }
             // 3.3 构建员工月工资记录，并准备批量核算所需数据
             HrmSalaryGroupDO salaryGroup = salaryGroupMap.get(employee.getId());
             HrmSalaryTaxRuleDO taxRule = taxRuleMap.getOrDefault(salaryGroup.getTaxRuleId(), defaultTaxRule);
@@ -314,6 +322,10 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
         Map<String, Object> inputSnapshot = new LinkedHashMap<>();
         inputSnapshot.put("salaryValues", employeeOptionValueMap);
         inputSnapshot.put("employees", payrollEmployees);
+        inputSnapshot.put("overtime", payrollEmployees.stream().collect(java.util.stream.Collectors.toMap(
+                HrmEmployeeDO::getId,e->payrollWorkService.entries(e.getId(),salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate()))));
+        inputSnapshot.put("workCycles", payrollEmployees.stream().collect(java.util.stream.Collectors.toMap(
+                HrmEmployeeDO::getId,e->payrollWorkService.cycles(e.getId(),salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate()))));
         inputSnapshot.put("attendance", attendanceMap);
         inputSnapshot.put("insurance", insuranceMap);
         inputSnapshot.put("attendanceImport", attendanceRows);
@@ -322,6 +334,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
         Map<String, Object> ruleSnapshot = new LinkedHashMap<>();
         ruleSnapshot.put("options", optionList);
         ruleSnapshot.put("formulas", payrollFormulaService.effective(salaryTimes[0].toLocalDate()));
+        ruleSnapshot.put("workRules",payrollEmployees.stream().collect(java.util.stream.Collectors.toMap(HrmEmployeeDO::getId,e->payrollWorkService.rules(e.getId()))));
         ruleSnapshot.put("taxRules", employeeTaxRuleMap);
         ruleSnapshot.put("salaryGroups", salaryGroupMap);
         payrollBatchService.snapshot(id, inputSnapshot, ruleSnapshot, employeeRecords,

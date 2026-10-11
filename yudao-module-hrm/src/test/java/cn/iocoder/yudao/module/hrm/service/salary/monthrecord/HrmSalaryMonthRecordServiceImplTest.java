@@ -86,6 +86,8 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
     @MockBean
     private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollBatchService payrollBatchService;
     @MockBean
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWorkService payrollWorkService;
+    @MockBean
     private HrmSalaryOptionService salaryOptionService;
     @MockBean
     private HrmSalaryConfigService salaryConfigService;
@@ -301,10 +303,19 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
         when(monthEmployeeRecordService.getMonthOptionSummary(any()))
                 .thenReturn(Collections.emptyList());
 
+        // 已核实的调休或不定时工时零加班费，必须覆盖旧的手工金额。
+        when(payrollWorkService.earnings(eq(employee.getId()),any(),any())).thenReturn(BigDecimal.ZERO);
+        when(payrollWorkService.hasSources(eq(employee.getId()),any(),any())).thenReturn(true);
+        when(salaryEmployeeInfoService.getEffectiveSalaryOptionList(eq(employee),any(LocalDateTime[].class)))
+                .thenReturn(Arrays.asList(HrmSalaryEmployeeInfoDO.SalaryOption.builder().code(10101).name("基本工资").value(new BigDecimal("10000")).build(),
+                        HrmSalaryEmployeeInfoDO.SalaryOption.builder().code(180101).name("旧手工加班费").value(new BigDecimal("999")).build()));
         // 调用
         monthRecordService.computeMonthRecord(monthRecord.getId());
 
         // 断言
+        ArgumentCaptor<Map<Long,List<HrmSalaryOptionValueVO>>> sourceCaptor=ArgumentCaptor.forClass(Map.class);
+        verify(monthEmployeeRecordService).calculateMonthEmployeeRecordList(any(),sourceCaptor.capture(),any());
+        assertEquals(0,sourceCaptor.getValue().get(employee.getId()).stream().filter(v->v.getCode().equals(180101)).findFirst().get().getValue().signum());
         ArgumentCaptor<LocalDateTime[]> salaryTimesCaptor = ArgumentCaptor.forClass(LocalDateTime[].class);
         verify(salaryEmployeeInfoService).getEffectiveSalaryOptionList(eq(employee), salaryTimesCaptor.capture());
         LocalDateTime[] salaryTimes = salaryTimesCaptor.getValue();

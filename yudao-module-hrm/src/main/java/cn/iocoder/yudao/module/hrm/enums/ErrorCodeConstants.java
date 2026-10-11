@@ -304,6 +304,8 @@ public interface ErrorCodeConstants {
     ErrorCode PAYROLL_SELF_APPROVAL = new ErrorCode(1_050_810_005, "核算、HR复核和财务审批必须由不同人员完成");
 
     ErrorCode PAYROLL_PAYMENT_INVALID = new ErrorCode(1_050_810_006, "代发或回盘信息不完整、不匹配或状态不允许");
+    ErrorCode PAYROLL_WORK_INVALID = new ErrorCode(1_050_810_007, "工时规则、审批来源、打卡时段、周期结算或调休余额不合法");
+    ErrorCode PAYROLL_WORK_SPLIT_REQUIRED = new ErrorCode(1_050_810_008, "跨日加班含休息时长时，请按日分配休息分钟并分别核实");
     ErrorCode PAYROLL_FORMULA_INVALID = new ErrorCode(1_050_810_009, "薪资公式、变量、审批状态或生效区间不合法");
     ErrorCode PAYROLL_GRADE_INVALID = new ErrorCode(1_050_810_010, "薪级薪档、岗位系数、适用期间或审批状态不合法");
 }
