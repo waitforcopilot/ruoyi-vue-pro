@@ -64,7 +64,9 @@ export interface Receipt {
   actorId: number
   createTime: string
 }
-export const validateFile = (data: FormData) =>
-  request.upload<Difference[]>({ url: '/hrm/payroll/payment/validate', data })
+export const validateFile = async (data: FormData) => {
+  const response = await request.upload<{ data: Difference[] }>({ url: '/hrm/payroll/payment/validate', data })
+  return response.data
+}
 export const receipts = (batchId: number) =>
   request.get<Receipt[]>({ url: '/hrm/payroll/payment/receipts', params: { batchId } })
