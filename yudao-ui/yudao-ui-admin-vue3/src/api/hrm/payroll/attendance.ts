@@ -1,4 +1,5 @@
 import request from '@/config/axios'
+import { payrollDateTimes } from './date-time'
 const root = '/hrm/payroll/attendance'
 const portal = '/hrm/portal/payroll/attendance'
 export const employees = () =>
@@ -9,9 +10,13 @@ export const mine = () => request.get<any[]>({ url: `${portal}/mine` })
 export const overdue = () => request.get<any[]>({ url: `${portal}/overdue` })
 export const history = (id: number, isPortal = false) =>
   request.get<any[]>({ url: `${isPortal ? portal : root}/history`, params: { id } })
-export const create = (data: object) => request.post<number>({ url: `${root}/issue`, data })
+export const create = (data: object) =>
+  request.post<number>({ url: `${root}/issue`, data: payrollDateTimes(data, ['dueTime']) })
 export const submit = (data: object, isPortal = false) =>
-  request.post({ url: `${isPortal ? portal : root}/submit`, data })
+  request.post({
+    url: `${isPortal ? portal : root}/submit`,
+    data: payrollDateTimes(data, ['correctionTime'])
+  })
 export const review = (params: object) => request.post({ url: `${root}/review`, params })
 export const close = (params: object) => request.post({ url: `${root}/close`, params })
 export const reopen = (params: object) => request.post({ url: `${root}/reopen`, params })

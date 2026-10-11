@@ -1,4 +1,5 @@
 import request from '@/config/axios'
+import { payrollDateTimes } from './date-time'
 const url = '/hrm/payroll/work'
 export const employees = () =>
   request.get<{ id: number; name: string; jobNumber: string }[]>({ url: `${url}/employees` })
@@ -11,7 +12,11 @@ export const ledger = (employeeId: number) =>
 export const createRule = (data: object) => request.post({ url: `${url}/rule`, data })
 export const approveRule = (id: number) =>
   request.post({ url: `${url}/rule/approve`, params: { id } })
-export const confirm = (data: object) => request.post<number[]>({ url: `${url}/confirm`, data })
+export const confirm = (data: object) =>
+  request.post<number[]>({
+    url: `${url}/confirm`,
+    data: payrollDateTimes(data, ['startTime', 'endTime', 'clockStart', 'clockEnd'])
+  })
 export const reserve = (params: object) => request.post({ url: `${url}/time-off/use`, params })
 export const consume = (debitId: number) =>
   request.post({ url: `${url}/time-off/consume`, params: { debitId } })
