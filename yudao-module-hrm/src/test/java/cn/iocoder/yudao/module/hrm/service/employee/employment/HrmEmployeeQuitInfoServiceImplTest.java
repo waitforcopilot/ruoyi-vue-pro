@@ -42,7 +42,7 @@ public class HrmEmployeeQuitInfoServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         Long employeeId = randomLongId();
         HrmEmployeeQuitInfoSaveReqVO reqVO = randomPojo(HrmEmployeeQuitInfoSaveReqVO.class,
-                o -> o.setEmployeeId(employeeId).setPlanQuitTime(LocalDateTime.now().plusDays(10))
+                o -> o.setEmployeeId(employeeId).setPlanQuitTime(LocalDateTime.now().withNano(0).plusDays(10))
                         .setType(1).setReason(1).setOldEmployeeStatus(1));
 
         // 调用
@@ -58,11 +58,11 @@ public class HrmEmployeeQuitInfoServiceImplTest extends BaseDbUnitTest {
         // mock 数据
         Long employeeId = randomLongId();
         HrmEmployeeQuitInfoDO dbQuitInfo =
-                randomQuitInfoDO(employeeId, LocalDateTime.now().plusDays(10));
+                randomQuitInfoDO(employeeId, LocalDateTime.now().withNano(0).plusDays(10));
         quitInfoMapper.insert(dbQuitInfo);
         // 准备参数
         HrmEmployeeQuitInfoSaveReqVO reqVO = randomPojo(HrmEmployeeQuitInfoSaveReqVO.class,
-                o -> o.setEmployeeId(employeeId).setPlanQuitTime(LocalDateTime.now().plusDays(20))
+                o -> o.setEmployeeId(employeeId).setPlanQuitTime(LocalDateTime.now().withNano(0).plusDays(20))
                         .setType(2).setReason(11).setOldEmployeeStatus(2));
 
         // 调用
@@ -77,7 +77,7 @@ public class HrmEmployeeQuitInfoServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteEmployeeQuitInfo_success() {
         // mock 数据
-        HrmEmployeeQuitInfoDO quitInfo = randomQuitInfoDO(randomLongId(), LocalDateTime.now().plusDays(10));
+        HrmEmployeeQuitInfoDO quitInfo = randomQuitInfoDO(randomLongId(), LocalDateTime.now().withNano(0).plusDays(10));
         quitInfoMapper.insert(quitInfo);
 
         // 调用
@@ -101,10 +101,10 @@ public class HrmEmployeeQuitInfoServiceImplTest extends BaseDbUnitTest {
         // mock 数据
         Long employeeId = randomLongId();
         HrmEmployeeQuitInfoDO firstQuitInfo = randomQuitInfoDO(
-                employeeId, LocalDateTime.now().plusDays(10));
+                employeeId, LocalDateTime.now().withNano(0).plusDays(10));
         quitInfoMapper.insert(firstQuitInfo);
         HrmEmployeeQuitInfoDO latestQuitInfo = randomQuitInfoDO(
-                employeeId, LocalDateTime.now().plusDays(20));
+                employeeId, LocalDateTime.now().withNano(0).plusDays(20));
         quitInfoMapper.insert(latestQuitInfo);
 
         // 调用
@@ -136,9 +136,9 @@ public class HrmEmployeeQuitInfoServiceImplTest extends BaseDbUnitTest {
     public void testGetQuitInfoListByEmployeeIds() {
         // mock 数据
         HrmEmployeeQuitInfoDO quitInfo = randomQuitInfoDO(
-                randomLongId(), LocalDateTime.now().plusDays(10));
+                randomLongId(), LocalDateTime.now().withNano(0).plusDays(10));
         quitInfoMapper.insert(quitInfo);
-        quitInfoMapper.insert(randomQuitInfoDO(randomLongId(), LocalDateTime.now().plusDays(20)));
+        quitInfoMapper.insert(randomQuitInfoDO(randomLongId(), LocalDateTime.now().withNano(0).plusDays(20)));
 
         // 调用
         List<HrmEmployeeQuitInfoDO> result = quitInfoService.getQuitInfoListByEmployeeIds(

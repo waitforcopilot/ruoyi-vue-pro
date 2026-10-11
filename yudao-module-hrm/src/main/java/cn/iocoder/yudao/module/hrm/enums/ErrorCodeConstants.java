@@ -305,4 +305,5 @@ public interface ErrorCodeConstants {
 
     ErrorCode PAYROLL_PAYMENT_INVALID = new ErrorCode(1_050_810_006, "代发或回盘信息不完整、不匹配或状态不允许");
     ErrorCode PAYROLL_FORMULA_INVALID = new ErrorCode(1_050_810_009, "薪资公式、变量、审批状态或生效区间不合法");
+    ErrorCode PAYROLL_GRADE_INVALID = new ErrorCode(1_050_810_010, "薪级薪档、岗位系数、适用期间或审批状态不合法");
 }

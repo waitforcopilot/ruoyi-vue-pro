@@ -184,12 +184,12 @@ public class HrmEmployeeServiceImplTest extends BaseDbUnitTest {
                 .setEntryTime(null).setCandidateId(candidateId)
                 .setDeptId(10L).setPostName("开发工程师").setPostLevel("P5")
                 .setWorkAddress("杭州").setLeaderEmployeeId(11L)
-                .setRegularTime(LocalDateTime.now().plusMonths(1))
-                .setLeaveTime(LocalDateTime.now().plusYears(1)));
+                .setRegularTime(LocalDateTime.now().withNano(0).plusMonths(1))
+                .setLeaveTime(LocalDateTime.now().withNano(0).plusYears(1)));
         employeeMapper.insert(employee);
         HrmEmployeeConfirmEntryReqVO confirmReqVO = BeanUtils.toBean(
                 randomEmployeeSaveReqVO(o -> o.setId(employee.getId())
-                        .setEntryTime(LocalDateTime.now().minusMinutes(1)).setCandidateId(candidateId)
+                        .setEntryTime(LocalDateTime.now().withNano(0).minusMinutes(1)).setCandidateId(candidateId)
                         .setDeptId(null).setPostName(null).setPostLevel(null)
                         .setWorkAddress(null).setLeaderEmployeeId(null)
                         .setType(HrmEmployeeTypeEnum.INFORMAL.getType())
@@ -237,7 +237,7 @@ public class HrmEmployeeServiceImplTest extends BaseDbUnitTest {
                 .setWorkAddress("杭州").setLeaderEmployeeId(11L));
         employeeMapper.insert(employee);
         // 准备参数
-        LocalDateTime entryTime = LocalDateTime.now().minusMinutes(1).withNano(0);
+        LocalDateTime entryTime = LocalDateTime.now().withNano(0).minusMinutes(1).withNano(0);
         HrmEmployeeRehireReqVO reqVO = BeanUtils.toBean(
                 randomEmployeeSaveReqVO(), HrmEmployeeRehireReqVO.class);
         reqVO.setEmployeeId(employee.getId()).setEntryTime(entryTime)
@@ -446,7 +446,7 @@ public class HrmEmployeeServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testApplyEmployeeRegular_success() {
         // mock 数据
-        LocalDateTime regularTime = LocalDateTime.now().minusMinutes(1);
+        LocalDateTime regularTime = LocalDateTime.now().withNano(0).minusMinutes(1);
         HrmEmployeeDO employee = randomEmployeeDO(o -> o
                 .setStatus(HrmEmployeeStatusEnum.PROBATION.getStatus())
                 .setRegularTime(regularTime));
@@ -454,7 +454,7 @@ public class HrmEmployeeServiceImplTest extends BaseDbUnitTest {
 
         // 调用
         List<HrmEmployeeDO> regularEmployees =
-                employeeService.getDueRegularEmployeeList(LocalDateTime.now());
+                employeeService.getDueRegularEmployeeList(LocalDateTime.now().withNano(0));
         assertTrue(employeeService.applyEmployeeRegular(employee.getId()));
 
         // 断言
@@ -472,7 +472,7 @@ public class HrmEmployeeServiceImplTest extends BaseDbUnitTest {
                 .setEntryStatus(HrmEmployeeEntryStatusEnum.PENDING_LEAVE.getStatus())
                 .setCompanyAgeStartTime(effectTime.minusYears(3).atStartOfDay()));
         employeeMapper.insert(employee);
-        LocalDateTime planQuitTime = LocalDateTime.now().minusMinutes(1);
+        LocalDateTime planQuitTime = LocalDateTime.now().withNano(0).minusMinutes(1);
         HrmEmployeeQuitInfoDO quitInfo = HrmEmployeeQuitInfoDO.builder()
                 .employeeId(employee.getId()).planQuitTime(planQuitTime).build();
 
@@ -493,7 +493,7 @@ public class HrmEmployeeServiceImplTest extends BaseDbUnitTest {
         HrmEmployeeDO employee = randomEmployeeDO(o -> o
                 .setEntryStatus(HrmEmployeeEntryStatusEnum.LEFT.getStatus())
                 .setStatus(HrmEmployeeStatusEnum.PROBATION.getStatus())
-                .setRegularTime(LocalDateTime.now().minusDays(1)));
+                .setRegularTime(LocalDateTime.now().withNano(0).minusDays(1)));
         employeeMapper.insert(employee);
 
         // 调用
@@ -514,10 +514,10 @@ public class HrmEmployeeServiceImplTest extends BaseDbUnitTest {
                 .setStatus(HrmEmployeeStatusEnum.REGULAR.getStatus()));
         employeeMapper.insert(employee);
         // 准备参数
-        LocalDateTime planQuitTime = LocalDateTime.now().plusDays(10).withNano(0);
+        LocalDateTime planQuitTime = LocalDateTime.now().withNano(0).plusDays(10).withNano(0);
         HrmEmployeeQuitReqVO reqVO = randomPojo(HrmEmployeeQuitReqVO.class,
                 o -> o.setEmployeeId(employee.getId()).setPlanQuitTime(planQuitTime)
-                        .setApplyQuitTime(LocalDateTime.now().minusDays(1).withNano(0))
+                        .setApplyQuitTime(LocalDateTime.now().withNano(0).minusDays(1).withNano(0))
                         .setSalarySettlementTime(planQuitTime).setType(1).setReason(1));
 
         // 调用
@@ -568,7 +568,7 @@ public class HrmEmployeeServiceImplTest extends BaseDbUnitTest {
                 .setCompanyAgeStartTime(companyAgeStartDate.atStartOfDay()));
         employeeMapper.insert(employee);
         // 准备参数
-        LocalDateTime planQuitTime = LocalDateTime.now().minusMinutes(1).withNano(0);
+        LocalDateTime planQuitTime = LocalDateTime.now().withNano(0).minusMinutes(1).withNano(0);
         HrmEmployeeQuitReqVO reqVO = randomPojo(HrmEmployeeQuitReqVO.class,
                 o -> o.setEmployeeId(employee.getId()).setPlanQuitTime(planQuitTime)
                         .setApplyQuitTime(planQuitTime.minusDays(7))
@@ -591,7 +591,7 @@ public class HrmEmployeeServiceImplTest extends BaseDbUnitTest {
         employeeMapper.insert(employee);
         // 准备参数
         HrmEmployeeQuitReqVO reqVO = randomPojo(HrmEmployeeQuitReqVO.class,
-                o -> o.setEmployeeId(employee.getId()).setPlanQuitTime(LocalDateTime.now()).setType(1).setReason(1));
+                o -> o.setEmployeeId(employee.getId()).setPlanQuitTime(LocalDateTime.now().withNano(0)).setType(1).setReason(1));
 
         // 调用，并断言异常
         assertServiceException(() -> employeeService.quitEmployee(reqVO), EMPLOYEE_QUIT_STATUS_INVALID);
@@ -605,7 +605,7 @@ public class HrmEmployeeServiceImplTest extends BaseDbUnitTest {
                 .setCompanyAgeStartTime(LocalDate.now().minusYears(2).atStartOfDay()));
         employeeMapper.insert(employee);
         // 准备参数
-        LocalDateTime planQuitTime = LocalDateTime.now().minusDays(1).withNano(0);
+        LocalDateTime planQuitTime = LocalDateTime.now().withNano(0).minusDays(1).withNano(0);
         HrmEmployeeQuitReqVO reqVO = randomPojo(HrmEmployeeQuitReqVO.class,
                 o -> o.setEmployeeId(employee.getId()).setPlanQuitTime(planQuitTime)
                         .setApplyQuitTime(planQuitTime.minusDays(7))
@@ -628,7 +628,7 @@ public class HrmEmployeeServiceImplTest extends BaseDbUnitTest {
         // mock 数据
         HrmEmployeeDO employee = randomEmployeeDO(o -> o
                 .setEntryStatus(HrmEmployeeEntryStatusEnum.PENDING_LEAVE.getStatus())
-                .setLeaveTime(LocalDateTime.now().plusDays(10)));
+                .setLeaveTime(LocalDateTime.now().withNano(0).plusDays(10)));
         employeeMapper.insert(employee);
         HrmEmployeeCancelQuitReqVO reqVO = new HrmEmployeeCancelQuitReqVO()
                 .setEmployeeId(employee.getId()).setReason("员工撤回离职");

@@ -388,7 +388,7 @@ public class HrmRecruitCandidateServiceImplTest extends BaseDbUnitTest {
         HrmRecruitCandidateDO candidate = randomRecruitCandidateDO(o -> o
                 .setStatus(HrmRecruitCandidateStatusEnum.PENDING_ENTRY.getStatus()));
         recruitCandidateMapper.insert(candidate);
-        LocalDateTime entryTime = LocalDateTime.now().minusMinutes(1);
+        LocalDateTime entryTime = LocalDateTime.now().withNano(0).minusMinutes(1);
 
         // 调用
         recruitCandidateService.confirmRecruitCandidateEntry(candidate.getId(), entryTime);
@@ -409,7 +409,7 @@ public class HrmRecruitCandidateServiceImplTest extends BaseDbUnitTest {
 
         // 调用、断言
         assertServiceException(() -> recruitCandidateService.confirmRecruitCandidateEntry(
-                        candidate.getId(), LocalDateTime.now()),
+                        candidate.getId(), LocalDateTime.now().withNano(0)),
                 RECRUIT_CANDIDATE_STATUS_TRANSITION_INVALID,
                 HrmRecruitCandidateStatusEnum.JOINED.getName());
         assertEquals(HrmRecruitCandidateStatusEnum.OFFER_SENT.getStatus(),
