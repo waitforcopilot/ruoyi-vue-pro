@@ -45,12 +45,15 @@ public interface HrmSalaryEmployeeInfoService {
     /**
      * 修改员工薪资信息
      *
-     * <p>首次定薪时创建当前薪资信息；立即调薪时更新当前薪资信息；延迟调薪时创建待生效记录。</p>
+     * <p>提交独立审批申请；批准后按生效日期维护员工薪资。</p>
      *
      * @param reqVO 员工定薪或调薪信息
-     * @return 定薪或调薪记录编号
+     * @return 定薪或调薪审批申请编号
      */
     Long updateSalaryEmployeeInfo(@Valid HrmSalaryEmployeeInfoUpdateReqVO reqVO);
+
+    /** Internal application after HR and finance approve the immutable proposal. */
+    Long applyApprovedSalaryEmployeeInfo(@Valid HrmSalaryEmployeeInfoUpdateReqVO reqVO);
 
     /**
      * 批量更新员工薪资信息
@@ -68,6 +71,8 @@ public interface HrmSalaryEmployeeInfoService {
      * @return 员工薪资信息
      */
     HrmSalaryEmployeeInfoDO getSalaryEmployeeInfoByEmployeeId(Long employeeId);
+
+    HrmSalaryEmployeeInfoDO getSalaryEmployeeInfoByEmployeeIdForUpdate(Long employeeId);
 
     /**
      * 获得员工薪资信息列表

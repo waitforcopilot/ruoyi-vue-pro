@@ -74,6 +74,15 @@ public class HrmSalaryEmployeeInfoServiceImplTest extends BaseDbUnitTest {
     @MockBean
     private HrmEmployeeService employeeService;
 
+    @MockBean
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSalaryProposalService proposalService;
+    @org.junit.jupiter.api.BeforeEach
+    void approvalApplicationFixture() {
+        // Existing tests cover salary application algorithms after approval; proposal lifecycle is tested separately.
+        when(proposalService.create(any())).thenAnswer(invocation ->
+                salaryEmployeeInfoService.applyApprovedSalaryEmployeeInfo(invocation.getArgument(0)));
+    }
+
     @Test
     public void testGetSalaryEmployeeInfoPage_noMatchedEmployee() {
         // mock 数据
@@ -146,7 +155,7 @@ public class HrmSalaryEmployeeInfoServiceImplTest extends BaseDbUnitTest {
                         new BigDecimal("2000"), new BigDecimal("6000"));
 
         // 调用
-        Long changeRecordId = salaryEmployeeInfoService.updateSalaryEmployeeInfo(reqVO);
+        Long changeRecordId = salaryEmployeeInfoService.applyApprovedSalaryEmployeeInfo(reqVO);
 
         // 断言
         assertEquals(99L, changeRecordId);
@@ -179,7 +188,7 @@ public class HrmSalaryEmployeeInfoServiceImplTest extends BaseDbUnitTest {
         for (Integer code : Arrays.asList(180101, 190101, 190102, 190103, 190104, 190105, 190106)) {
             reqVO.setSalaryOptions(Collections.singletonList(
                     optionValue(code, "系统计算项", new BigDecimal("100"))));
-            assertServiceException(() -> salaryEmployeeInfoService.updateSalaryEmployeeInfo(reqVO),
+            assertServiceException(() -> salaryEmployeeInfoService.applyApprovedSalaryEmployeeInfo(reqVO),
                     SALARY_DATA_ILLEGAL);
         }
 
@@ -201,7 +210,7 @@ public class HrmSalaryEmployeeInfoServiceImplTest extends BaseDbUnitTest {
         for (Integer code : Arrays.asList(180101, 190101, 190102, 190103, 190104, 190105, 190106)) {
             reqVO.setProbationSalaryOptions(Collections.singletonList(
                     optionValue(code, "系统计算项", new BigDecimal("100"))));
-            assertServiceException(() -> salaryEmployeeInfoService.updateSalaryEmployeeInfo(reqVO),
+            assertServiceException(() -> salaryEmployeeInfoService.applyApprovedSalaryEmployeeInfo(reqVO),
                     SALARY_DATA_ILLEGAL);
         }
 
@@ -222,7 +231,7 @@ public class HrmSalaryEmployeeInfoServiceImplTest extends BaseDbUnitTest {
                 buildAdjustmentReqVO(employee.getId(), LocalDate.now().plusDays(1));
 
         // 调用
-        salaryEmployeeInfoService.updateSalaryEmployeeInfo(reqVO);
+        salaryEmployeeInfoService.applyApprovedSalaryEmployeeInfo(reqVO);
 
         // 断言
         assertAmount("10000.00", salaryEmployeeInfoMapper
@@ -248,7 +257,7 @@ public class HrmSalaryEmployeeInfoServiceImplTest extends BaseDbUnitTest {
         reqVO.setEffectTime(LocalDate.now().atTime(15, 30));
 
         // 调用
-        salaryEmployeeInfoService.updateSalaryEmployeeInfo(reqVO);
+        salaryEmployeeInfoService.applyApprovedSalaryEmployeeInfo(reqVO);
 
         // 断言
         HrmSalaryEmployeeInfoDO salaryEmployeeInfo =
@@ -334,7 +343,7 @@ public class HrmSalaryEmployeeInfoServiceImplTest extends BaseDbUnitTest {
                         new BigDecimal("2000"), new BigDecimal("6000"));
 
         // 调用，并断言异常
-        assertServiceException(() -> salaryEmployeeInfoService.updateSalaryEmployeeInfo(reqVO),
+        assertServiceException(() -> salaryEmployeeInfoService.applyApprovedSalaryEmployeeInfo(reqVO),
                 SALARY_CHANGE_RECORD_STATUS_INVALID);
     }
 
@@ -354,7 +363,7 @@ public class HrmSalaryEmployeeInfoServiceImplTest extends BaseDbUnitTest {
                 buildAdjustmentReqVO(employee.getId(), latestSalaryMonthBeginDate.minusDays(1));
 
         // 调用，并断言异常
-        assertServiceException(() -> salaryEmployeeInfoService.updateSalaryEmployeeInfo(reqVO),
+        assertServiceException(() -> salaryEmployeeInfoService.applyApprovedSalaryEmployeeInfo(reqVO),
                 SALARY_CHANGE_EFFECT_DATE_INVALID);
     }
 

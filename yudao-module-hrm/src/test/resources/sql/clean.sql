@@ -58,3 +58,5 @@ DELETE FROM "hrm_payroll_payment";
 DELETE FROM "hrm_payroll_bank_template";
 
 DELETE FROM "hrm_payroll_formula";
+
+DELETE FROM "hrm_payroll_salary_proposal";

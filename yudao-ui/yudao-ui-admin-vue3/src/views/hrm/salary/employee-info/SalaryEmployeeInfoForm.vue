@@ -268,7 +268,7 @@ async function submitForm() {
   formLoading.value = true
   try {
     await SalaryEmployeeInfoApi.updateSalaryEmployeeInfo(formData.value)
-    message.success(t('common.updateSuccess'))
+    message.success('定调薪申请已提交，HR与财务批准后按生效日期应用')
     dialogVisible.value = false
     // 发送操作成功的事件
     emit('success')

@@ -103,7 +103,7 @@ function submitFormSuccess(response: SalaryEmployeeInfoApi.SalaryEmployeeInfoImp
   const data = response.data
   const successJobNumbers = data.successJobNumbers as string[]
   const failureEntries = Object.entries(data.failureJobNumbers) as Array<[string, string]>
-  let text = `导入成功数量：${successJobNumbers.length}；`
+  let text = `提交审批数量：${successJobNumbers.length}，批准后生效；`
   for (const jobNumber of successJobNumbers.slice(0, 10)) {
     text += `< ${jobNumber} >`
   }

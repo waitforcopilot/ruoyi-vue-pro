@@ -212,7 +212,7 @@ async function submitForm() {
     const data = await SalaryEmployeeInfoApi.updateSalaryEmployeeInfoList(formData.value)
     const successCount = data.successEmployeeIds.length
     const failureCount = Object.keys(data.failureEmployeeReasons).length
-    const content = `批量调薪完成：成功 ${successCount} 人，失败 ${failureCount} 人`
+    const content = `批量调薪申请已提交：${successCount} 人，提交失败 ${failureCount} 人；批准后生效`
     if (failureCount === 0) {
       message.success(content)
     } else if (successCount > 0) {

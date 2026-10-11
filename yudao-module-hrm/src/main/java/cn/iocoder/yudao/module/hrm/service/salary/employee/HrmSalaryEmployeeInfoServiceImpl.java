@@ -87,6 +87,9 @@ import static cn.iocoder.yudao.module.hrm.util.HrmExcelUtils.parseDate;
 public class HrmSalaryEmployeeInfoServiceImpl implements HrmSalaryEmployeeInfoService {
 
     @Resource
+    @Lazy
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSalaryProposalService salaryProposalService;
+    @Resource
     private HrmSalaryOptionService salaryOptionService;
     @Resource
     private HrmSalaryEmployeeInfoMapper salaryEmployeeInfoMapper;
@@ -127,10 +130,15 @@ public class HrmSalaryEmployeeInfoServiceImpl implements HrmSalaryEmployeeInfoSe
     }
 
     @Override
+    public Long updateSalaryEmployeeInfo(HrmSalaryEmployeeInfoUpdateReqVO reqVO) {
+        return salaryProposalService.create(reqVO);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     @LogRecord(type = HRM_SALARY_EMPLOYEE_TYPE, subType = HRM_SALARY_EMPLOYEE_SET_SUB_TYPE,
             bizNo = "{{#reqVO.employeeId}}", success = HRM_SALARY_EMPLOYEE_SET_SUCCESS)
-    public Long updateSalaryEmployeeInfo(HrmSalaryEmployeeInfoUpdateReqVO reqVO) {
+    public Long applyApprovedSalaryEmployeeInfo(HrmSalaryEmployeeInfoUpdateReqVO reqVO) {
         // 1. 校验员工和定薪、调薪记录
         HrmEmployeeDO employee = employeeService.validateEmployeeExists(reqVO.getEmployeeId());
         HrmSalaryChangeRecordDO oldRecord = validateEditableChangeRecord(reqVO);
@@ -363,6 +371,11 @@ public class HrmSalaryEmployeeInfoServiceImpl implements HrmSalaryEmployeeInfoSe
         return salaryEmployeeInfoMapper.selectListByEmployeeIds(new ArrayList<>(employeeIds));
     }
 
+    @Override
+    public HrmSalaryEmployeeInfoDO getSalaryEmployeeInfoByEmployeeIdForUpdate(Long employeeId) {
+        return salaryEmployeeInfoMapper.selectOneForUpdate(HrmSalaryEmployeeInfoDO::getEmployeeId, employeeId);
+    }
+
     // ==================== 内部调用 ====================
 
     @Override
@@ -376,6 +389,7 @@ public class HrmSalaryEmployeeInfoServiceImpl implements HrmSalaryEmployeeInfoSe
 
         // 2. 逐条抢占待生效记录，并更新员工当前薪资
         for (HrmSalaryChangeRecordDO changeRecord : changeRecords) {
+            getSalaryEmployeeInfoByEmployeeIdForUpdate(changeRecord.getEmployeeId());
             if (!salaryChangeRecordService.updateSalaryChangeRecordStatus(changeRecord.getId(),
                     HrmSalaryChangeRecordStatusEnum.PENDING.getStatus(),
                     HrmSalaryChangeRecordStatusEnum.EFFECTIVE.getStatus())) {
