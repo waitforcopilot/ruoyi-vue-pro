@@ -61,7 +61,7 @@ import static org.mockito.Mockito.when;
  *
  * @author 芋道源码
  */
-@Import(HrmSalaryMonthEmployeeRecordServiceImpl.class)
+@Import({HrmSalaryMonthEmployeeRecordServiceImpl.class, cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollFormulaService.class})
 public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest {
 
     @MockBean

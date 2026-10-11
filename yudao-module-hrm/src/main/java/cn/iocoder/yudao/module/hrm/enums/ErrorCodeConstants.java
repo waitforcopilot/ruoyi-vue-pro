@@ -304,4 +304,5 @@ public interface ErrorCodeConstants {
     ErrorCode PAYROLL_SELF_APPROVAL = new ErrorCode(1_050_810_005, "核算、HR复核和财务审批必须由不同人员完成");
 
     ErrorCode PAYROLL_PAYMENT_INVALID = new ErrorCode(1_050_810_006, "代发或回盘信息不完整、不匹配或状态不允许");
+    ErrorCode PAYROLL_FORMULA_INVALID = new ErrorCode(1_050_810_009, "薪资公式、变量、审批状态或生效区间不合法");
 }

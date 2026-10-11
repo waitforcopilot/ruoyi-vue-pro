@@ -119,6 +119,8 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
     @Resource
     private HrmSalaryTaxRuleService salaryTaxRuleService;
     @Resource
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollFormulaService payrollFormulaService;
+    @Resource
     private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollBatchService payrollBatchService;
 
     @Override
@@ -294,7 +296,8 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
             employeeRecords.add(HrmSalaryMonthEmployeeRecordDO.builder()
                     .monthRecordId(id).employeeId(employee.getId())
                     .actualWorkDay(attendanceData == null ? salaryStandard : attendanceData.getActualWorkDay())
-                    .needWorkDay(salaryStandard).year(monthRecord.getYear()).month(monthRecord.getMonth()).build());
+                    .needWorkDay(salaryStandard).salaryGroupId(salaryGroup.getId())
+                    .formulaDate(salaryTimes[0].toLocalDate()).year(monthRecord.getYear()).month(monthRecord.getMonth()).build());
             employeeOptionValueMap.put(employee.getId(), values);
             employeeTaxRuleMap.put(employee.getId(), taxRule);
         }
@@ -318,6 +321,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
         inputSnapshot.put("cumulativeTaxImport", cumulativeTaxRows);
         Map<String, Object> ruleSnapshot = new LinkedHashMap<>();
         ruleSnapshot.put("options", optionList);
+        ruleSnapshot.put("formulas", payrollFormulaService.effective(salaryTimes[0].toLocalDate()));
         ruleSnapshot.put("taxRules", employeeTaxRuleMap);
         ruleSnapshot.put("salaryGroups", salaryGroupMap);
         payrollBatchService.snapshot(id, inputSnapshot, ruleSnapshot, employeeRecords,

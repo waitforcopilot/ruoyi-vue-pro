@@ -113,6 +113,8 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
     @Resource
     private HrmSalaryTaxRuleService salaryTaxRuleService;
     @Resource
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollFormulaService payrollFormulaService;
+    @Resource
     private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollBatchService payrollBatchService;
 
     @Override
@@ -398,6 +400,9 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
         List<HrmSalaryOptionValueVO> values = fillLastMonthCumulativeValues(
                 new ArrayList<>(optionValues), employeeRecord.getEmployeeId(),
                 employeeRecord.getYear(), employeeRecord.getMonth(), taxRule, optionMap);
+        values = payrollFormulaService.calculate(values, optionMap,
+                employeeRecord.getFormulaDate() == null ? java.time.LocalDate.of(employeeRecord.getYear(), employeeRecord.getMonth(), 1) : employeeRecord.getFormulaDate(),
+                employeeRecord.getSalaryGroupId(), employeeRecord.getActualWorkDay(), employeeRecord.getNeedWorkDay());
         SalaryComputeResult result = computeSalary(values, optionMap, taxRule);
         return employeeRecord.setExpectedPaySalary(result.getExpectedPaySalary())
                 .setTaxableSalary(result.getTaxableSalary()).setPersonalTax(result.getPersonalTax())

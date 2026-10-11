@@ -50,6 +50,9 @@ public class HrmSalaryMonthEmployeeRecordDO extends BaseDO {
      * 关联 {@link HrmEmployeeDO#getId()}
      */
     private Long employeeId;
+    private Long salaryGroupId;
+    /** 公式按核算期间起始日选取生效版本 */
+    private java.time.LocalDate formulaDate;
     /**
      * 实际工作天数
      */
