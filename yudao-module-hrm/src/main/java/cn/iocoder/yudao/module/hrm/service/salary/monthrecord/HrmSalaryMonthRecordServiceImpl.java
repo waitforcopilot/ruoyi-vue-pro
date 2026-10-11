@@ -123,6 +123,8 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
     @Resource
     private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWorkService payrollWorkService;
     @Resource
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollAttendanceService payrollAttendanceService;
+    @Resource
     private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollFormulaService payrollFormulaService;
 
     @Override
@@ -227,8 +229,8 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
         Map<String, AttendanceImportData> attendanceImportMap = syncAttendanceData
                 ? Collections.emptyMap() : parseAttendanceImportData(attendanceRows, optionMap);
         Map<Long, HrmAttendanceMonthRecordRespVO> attendanceMap = syncAttendanceData
-                ? attendanceStatisticsService.getAttendanceMonthRecordMap(
-                        monthRecord.getYear(), monthRecord.getMonth(),
+                ? attendanceStatisticsService.getAttendancePeriodRecordMap(
+                        salaryTimes[0].toLocalDate(), salaryTimes[1].toLocalDate(),
                         convertList(payrollEmployees, HrmEmployeeDO::getId))
                 : Collections.emptyMap();
         HrmSalaryConfigDO salaryConfig = salaryConfigService.getSalaryConfig();
@@ -326,6 +328,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
                 HrmEmployeeDO::getId,e->payrollWorkService.entries(e.getId(),salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate()))));
         inputSnapshot.put("workCycles", payrollEmployees.stream().collect(java.util.stream.Collectors.toMap(
                 HrmEmployeeDO::getId,e->payrollWorkService.cycles(e.getId(),salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate()))));
+        if(syncAttendanceData)inputSnapshot.put("attendanceSources",payrollAttendanceService.snapshot(salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate(),convertList(payrollEmployees,HrmEmployeeDO::getId)));
         inputSnapshot.put("attendance", attendanceMap);
         inputSnapshot.put("insurance", insuranceMap);
         inputSnapshot.put("attendanceImport", attendanceRows);

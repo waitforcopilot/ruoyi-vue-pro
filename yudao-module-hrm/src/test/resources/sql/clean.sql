@@ -67,3 +67,6 @@ DELETE FROM "hrm_payroll_time_off";
 DELETE FROM "hrm_payroll_time_entry";
 DELETE FROM "hrm_payroll_work_cycle";
 DELETE FROM "hrm_payroll_work_rule";
+
+DELETE FROM "hrm_payroll_attendance_issue_event";
+DELETE FROM "hrm_payroll_attendance_issue";

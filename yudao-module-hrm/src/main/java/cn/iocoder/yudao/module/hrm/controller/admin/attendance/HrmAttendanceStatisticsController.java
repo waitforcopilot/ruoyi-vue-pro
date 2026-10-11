@@ -63,6 +63,24 @@ public class HrmAttendanceStatisticsController {
     @Resource
     private DeptApi deptApi;
 
+    @GetMapping("/period-record-list")
+    @PreAuthorize("@ss.hasPermission('hrm:attendance:statistics:query')")
+    public CommonResult<List<HrmAttendanceMonthRecordRespVO>> period(
+        @RequestParam @org.springframework.format.annotation.DateTimeFormat(iso=org.springframework.format.annotation.DateTimeFormat.ISO.DATE) java.time.LocalDate from,
+        @RequestParam @org.springframework.format.annotation.DateTimeFormat(iso=org.springframework.format.annotation.DateTimeFormat.ISO.DATE) java.time.LocalDate to,
+        @RequestParam List<Long> employeeIds){
+        List<HrmAttendanceMonthRecordRespVO> rows=attendanceStatisticsService.getAttendancePeriodRecordList(from,to,employeeIds);fillAttendanceMonthRecordDeptName(rows);return success(rows);
+    }
+    @GetMapping("/period-record-export")
+    @PreAuthorize("@ss.hasPermission('hrm:attendance:statistics:export')")
+    @ApiAccessLog(operateType=OperateTypeEnum.EXPORT)
+    public void exportPeriod(
+        @RequestParam @org.springframework.format.annotation.DateTimeFormat(iso=org.springframework.format.annotation.DateTimeFormat.ISO.DATE) java.time.LocalDate from,
+        @RequestParam @org.springframework.format.annotation.DateTimeFormat(iso=org.springframework.format.annotation.DateTimeFormat.ISO.DATE) java.time.LocalDate to,
+        @RequestParam List<Long> employeeIds,HttpServletResponse response)throws IOException{
+        List<HrmAttendanceMonthRecordRespVO> rows=attendanceStatisticsService.getAttendancePeriodRecordList(from,to,employeeIds);fillAttendanceMonthRecordDeptName(rows);ExcelUtils.write(response,"计薪期间考勤.xlsx","期间考勤",HrmAttendanceMonthRecordRespVO.class,rows);
+    }
+
     @GetMapping("/daily-detail")
     @Operation(summary = "查询员工每日打卡明细")
     @PreAuthorize("@ss.hasPermission('hrm:attendance:clock:query')")

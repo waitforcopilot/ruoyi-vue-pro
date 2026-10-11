@@ -20,6 +20,12 @@ import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.
  */
 public interface HrmAttendanceStatisticsService {
 
+    Map<String,Object> getPayrollAttendanceSnapshot(java.time.LocalDate from,java.time.LocalDate to,List<Long> employeeIds);
+    List<HrmAttendanceMonthRecordRespVO> getAttendancePeriodRecordList(java.time.LocalDate from,java.time.LocalDate to,List<Long> employeeIds);
+    default Map<Long,HrmAttendanceMonthRecordRespVO> getAttendancePeriodRecordMap(java.time.LocalDate from,java.time.LocalDate to,List<Long> employeeIds){
+        return convertMap(getAttendancePeriodRecordList(from,to,employeeIds),HrmAttendanceMonthRecordRespVO::getEmployeeId);
+    }
+
     /**
      * 获得员工考勤日详情
      *

@@ -48,6 +48,7 @@ public class HrmAttendanceStatisticsServiceImplTest extends BaseMockitoUnitTest 
     @InjectMocks
     private HrmAttendanceStatisticsServiceImpl attendanceStatisticsService;
 
+    @Mock private cn.iocoder.yudao.module.oa.api.payroll.OaPayrollSourceApi oaSource;
     @Mock
     private HrmAttendanceClockService attendanceClockService;
     @Mock
@@ -477,4 +478,26 @@ public class HrmAttendanceStatisticsServiceImplTest extends BaseMockitoUnitTest 
         assertEquals(0, new BigDecimal(expected).compareTo(actual));
     }
 
+    @Test public void approvedBusinessDutyExcusesPunchesWithoutReducingAttendance(){
+        LocalDate day=LocalDate.of(2026,9,10);
+        HrmAttendanceGroupDO.Shift shift=HrmAttendanceGroupDO.Shift.builder().startTime(LocalTime.of(9,0)).endTime(LocalTime.of(17,0)).build();
+        HrmAttendanceLeaveDO trip=new HrmAttendanceLeaveDO().setType("BUSINESS_TRIP").setStartTime(day.atTime(9,0)).setEndTime(day.atTime(17,0));
+        HrmAttendanceLeaveDO outing=new HrmAttendanceLeaveDO().setType("OUTING").setStartTime(day.atTime(10,0)).setEndTime(day.atTime(16,0));
+        HrmAttendanceStatisticsServiceImpl.AttendanceDayCalculation result=attendanceStatisticsService.calculateAttendanceDay(day,shift,Collections.emptyList(),Arrays.asList(trip,outing),day.plusDays(1).atStartOfDay());
+        assertEquals(480,result.getScheduledMinutes());assertEquals(0,result.getLeaveMinutes());assertEquals(0,result.getMisscardCount());assertEquals(0,result.getAbsenteeismMinutes());
+        HrmAttendanceLeaveDO leave=new HrmAttendanceLeaveDO().setType("事假").setStartTime(day.atTime(9,0)).setEndTime(day.atTime(13,0));
+        result=attendanceStatisticsService.calculateAttendanceDay(day,shift,Collections.emptyList(),Arrays.asList(trip,leave),day.plusDays(1).atStartOfDay());
+        assertEquals(240,result.getLeaveMinutes());assertEquals(0,result.getAbsenteeismMinutes());
+    }
+    @Test public void payrollPeriodIncludesOnlyRequestedDaysAcrossMonths(){
+        LocalDate from=LocalDate.of(2026,9,30),to=LocalDate.of(2026,10,1);
+        HrmEmployeeDO employee=new HrmEmployeeDO().setId(1L).setName("跨月员工").setEntryTime(LocalDate.of(2026,1,1).atStartOfDay());
+        when(employeeService.getEmployeeMap(Collections.singletonList(1L))).thenReturn(Collections.singletonMap(1L,employee));
+        HrmAttendanceGroupDO group=new HrmAttendanceGroupDO();group.setId(1L);group.setName("日班");when(attendanceGroupService.getAttendanceGroupMap(Collections.singletonList(1L))).thenReturn(Collections.singletonMap(1L,group));
+        HrmAttendanceGroupDO.Shift shift=HrmAttendanceGroupDO.Shift.builder().startTime(LocalTime.of(9,0)).endTime(LocalTime.of(17,0)).build();
+        java.util.Map<LocalDate,HrmAttendanceGroupDO.Shift> shifts=new java.util.HashMap<>();shifts.put(from,shift);shifts.put(to,shift);
+        when(attendanceGroupService.getAttendanceGroupShiftMap(any(),any(),any())).thenReturn(shifts);
+        List<HrmAttendanceMonthRecordRespVO> rows=attendanceStatisticsService.getAttendancePeriodRecordList(from,to,Collections.singletonList(1L));
+        assertEquals(1,rows.size());assertEquals(2,rows.get(0).getAttendDays());assertEquals(0,rows.get(0).getActualDays().signum());assertEquals(0,new BigDecimal("2").compareTo(rows.get(0).getAbsenteeismDays()));
+    }
 }

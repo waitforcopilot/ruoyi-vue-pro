@@ -15,6 +15,7 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 public class HrmPayrollBatchService {
     @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.salary.slip.HrmSalarySlipSendRecordMapper slipSendMapper;
     @Resource private HrmPayrollWorkService workService;
+    @Resource private HrmPayrollAttendanceService attendanceService;
     @Resource private HrmPayrollRunMapper runMapper;
     @Resource private HrmPayrollBatchEventMapper eventMapper;
     @Resource private HrmSalaryMonthRecordMapper batchMapper;
@@ -79,6 +80,7 @@ public class HrmPayrollBatchService {
             while(source!=null){
                 if(!visited.add(source.getId()))throw exception(PAYROLL_VERSION_CONFLICT);
                 workService.validateInputSnapshot(source.getInputSnapshot());
+                attendanceService.validateInputSnapshot(source.getInputSnapshot());
                 Map<String,Object> input=JsonUtils.parseObject(source.getInputSnapshot(),Map.class);
                 Object parent=input.get("sourceRunId");if(parent==null)break;
                 if(!(parent instanceof Number))throw exception(PAYROLL_VERSION_CONFLICT);

@@ -308,4 +308,6 @@ public interface ErrorCodeConstants {
     ErrorCode PAYROLL_WORK_SPLIT_REQUIRED = new ErrorCode(1_050_810_008, "跨日加班含休息时长时，请按日分配休息分钟并分别核实");
     ErrorCode PAYROLL_FORMULA_INVALID = new ErrorCode(1_050_810_009, "薪资公式、变量、审批状态或生效区间不合法");
     ErrorCode PAYROLL_GRADE_INVALID = new ErrorCode(1_050_810_010, "薪级薪档、岗位系数、适用期间或审批状态不合法");
+    ErrorCode PAYROLL_ATTENDANCE_INVALID = new ErrorCode(1_050_810_011, "考勤来源已变更、考勤组缺失或异常工单未关闭，请先补正并重算");
+    ErrorCode PAYROLL_ATTENDANCE_ISSUE_INVALID = new ErrorCode(1_050_810_012, "考勤异常不存在、材料不完整或当前人员及状态不允许操作");
 }

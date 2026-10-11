@@ -76,6 +76,7 @@ import static org.mockito.Mockito.when;
  */
 @Import({HrmSalaryMonthRecordServiceImpl.class, cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollFormulaService.class})
 public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
+    @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollAttendanceService payrollAttendanceService;
 
     @Resource
     private HrmSalaryMonthRecordServiceImpl monthRecordService;
@@ -340,6 +341,7 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
         // mock 数据
         HrmSalaryMonthRecordDO monthRecord =
                 buildMonthRecord(2026, 7, HrmSalaryMonthRecordStatusEnum.UNCOMPUTED.getStatus());
+        monthRecord.setStartTime(LocalDate.of(2026,6,21).atStartOfDay()).setEndTime(LocalDate.of(2026,7,20).atStartOfDay());
         monthRecordMapper.insert(monthRecord);
         HrmEmployeeDO employee = buildActiveEmployee(1L, "NO-001");
         when(employeeService.getEmployeeList(any())).thenReturn(Collections.singletonList(employee));
@@ -360,8 +362,8 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
                 .setAbsenteeismDeductAmount(new BigDecimal("30.00"))
                 .setMisscardDeductAmount(new BigDecimal("40.00"))
                 .setAttendanceDeductAmount(new BigDecimal("100.00"));
-        when(attendanceStatisticsService.getAttendanceMonthRecordMap(
-                2026, 7, Collections.singletonList(employee.getId())))
+        when(attendanceStatisticsService.getAttendancePeriodRecordMap(
+                LocalDate.of(2026,6,21), LocalDate.of(2026,7,20), Collections.singletonList(employee.getId())))
                 .thenReturn(Collections.singletonMap(employee.getId(), attendance));
         when(monthEmployeeRecordService.calculateMonthEmployeeRecordList(any(), any(), any()))
                 .thenAnswer(invocation -> invocation.getArgument(0));

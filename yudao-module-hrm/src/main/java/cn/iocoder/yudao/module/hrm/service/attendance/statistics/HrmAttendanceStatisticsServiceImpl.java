@@ -41,6 +41,9 @@ import lombok.Getter;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_DATA_ILLEGAL;
+import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
@@ -54,6 +57,8 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -81,10 +86,49 @@ public class HrmAttendanceStatisticsServiceImpl implements HrmAttendanceStatisti
     private HrmEmployeeService employeeService;
     @Resource
     private HrmAttendanceLeaveService attendanceLeaveService;
+    @javax.annotation.Resource private cn.iocoder.yudao.module.oa.api.payroll.OaPayrollSourceApi oaSource;
     @Resource
     private HrmAttendanceGroupService attendanceGroupService;
     @Resource
     private HrmAttendanceHolidayService attendanceHolidayService;
+
+    private List<HrmAttendanceLeaveDO> approvedDutyCoverage(List<HrmEmployeeDO> employees,LocalDateTime from,LocalDateTime to){
+        Map<Long,HrmEmployeeDO> users=new HashMap<>();for(HrmEmployeeDO e:employees)if(e.getUserId()!=null){if(users.put(e.getUserId(),e)!=null)throw exception(SALARY_DATA_ILLEGAL);}
+        List<cn.iocoder.yudao.module.oa.api.payroll.dto.OaPayrollAttendanceDTO> sources=oaSource.getApprovedAttendance(users.keySet(),from,to);
+        List<HrmAttendanceLeaveDO> result=new ArrayList<>();
+        for(cn.iocoder.yudao.module.oa.api.payroll.dto.OaPayrollAttendanceDTO source:sources){
+            HrmEmployeeDO employee=users.get(source.getApplicantUserId());if(employee==null)throw exception(SALARY_DATA_ILLEGAL);
+            result.add(new HrmAttendanceLeaveDO().setId(-source.getId()).setEmployeeId(employee.getId()).setType("BUSINESS_TRIP").setStartTime(source.getStartTime()).setEndTime(source.getEndTime()).setProcessInstanceId(source.getProcessInstanceId()));
+        }
+        return result;
+    }
+    private boolean isPaidDuty(HrmAttendanceLeaveDO row){return "BUSINESS_TRIP".equals(row.getType())||"OUTING".equals(row.getType());}
+    @Override public Map<String,Object> getPayrollAttendanceSnapshot(LocalDate from,LocalDate to,List<Long> employeeIds){
+        if(from==null||to==null||to.isBefore(from)||java.time.temporal.ChronoUnit.DAYS.between(from,to)>366)throw exception(SALARY_DATA_ILLEGAL);
+        Map<Long,HrmEmployeeDO> found=employeeService.getEmployeeMap(employeeIds);
+        List<HrmEmployeeDO> employees=convertList(employeeIds,found::get);if(employees.stream().anyMatch(Objects::isNull))throw exception(SALARY_DATA_ILLEGAL);
+        AttendanceMonthData data=getAttendancePeriodData(from,to,employees);
+        Map<String,Object> snapshot=new LinkedHashMap<>();snapshot.put("from",from);snapshot.put("to",to);snapshot.put("employeeIds",employeeIds);
+        Map<Long,Object> sources=new LinkedHashMap<>();
+        for(HrmEmployeeDO employee:employees){Map<String,Object> source=new LinkedHashMap<>();
+            source.put("employeeId",employee.getId());source.put("userId",employee.getUserId());source.put("entryTime",employee.getEntryTime());source.put("leaveTime",employee.getLeaveTime());source.put("entryStatus",employee.getEntryStatus());
+            source.put("clocks",data.getEmployeeClockList(employee.getId()).stream().sorted(Comparator.comparing(HrmAttendanceClockDO::getId)).collect(Collectors.toList()));
+            source.put("coverage",data.getEmployeeLeaveList(employee.getId()).stream().sorted(Comparator.comparing(HrmAttendanceLeaveDO::getId)).collect(Collectors.toList()));
+            source.put("group",data.getEmployeeAttendanceGroup(employee.getId()));source.put("shifts",data.getEmployeeShiftMap(employee.getId()));sources.put(employee.getId(),source);
+        }
+        snapshot.put("sources",sources);return snapshot;
+    }
+    @Override
+    public List<HrmAttendanceMonthRecordRespVO> getAttendancePeriodRecordList(LocalDate from,LocalDate to,List<Long> employeeIds){
+        if(from==null||to==null||to.isBefore(from)||java.time.temporal.ChronoUnit.DAYS.between(from,to)>366)throw exception(SALARY_DATA_ILLEGAL);
+        if(CollUtil.isEmpty(employeeIds))return Collections.emptyList();
+        Map<Long,HrmEmployeeDO> employeeMap=employeeService.getEmployeeMap(employeeIds);
+        List<HrmEmployeeDO> employees=filterList(convertList(employeeIds,employeeMap::get),e->e!=null
+                &&(e.getEntryTime()==null||!e.getEntryTime().toLocalDate().isAfter(to))
+                &&(e.getLeaveTime()==null||!e.getLeaveTime().toLocalDate().isBefore(from)));
+        AttendanceMonthData data=getAttendancePeriodData(from,to,employees);
+        return convertList(employees,e->buildMonthSummary(e,data));
+    }
 
     @Override
     public HrmAttendanceDailyDetailRespVO getAttendanceDailyDetail(HrmAttendanceDailyDetailReqVO reqVO) {
@@ -112,6 +156,8 @@ public class HrmAttendanceStatisticsServiceImpl implements HrmAttendanceStatisti
         List<HrmAttendanceLeaveDO> leaveList = attendanceLeaveService
                 .getEffectiveAttendanceLeaveListByEmployeeIdsAndTimeRange(
                         Collections.singleton(employee.getId()), leaveTimes);
+
+        leaveList=new ArrayList<>(leaveList);leaveList.addAll(approvedDutyCoverage(Collections.singletonList(employee),leaveTimes[0],leaveTimes[1]));
 
         // 2. 计算单日考勤明细
         return buildDailyDetail(employee, attendanceDate, clockList,
@@ -365,7 +411,9 @@ public class HrmAttendanceStatisticsServiceImpl implements HrmAttendanceStatisti
         List<HrmAttendanceLeaveDO> validLeaveList = filterList(leaveList,
                 leave -> LocalDateTimeUtils.isTimeRangeValid(leave.getStartTime(), leave.getEndTime()));
         List<TimeRange> leaveWorkRanges = buildLeaveWorkRanges(validLeaveList, workRanges);
-        int leaveMinutes = LocalDateTimeUtils.calculateDurationMinutes(leaveWorkRanges);
+        List<TimeRange> nonDutyLeaveRanges=buildLeaveWorkRanges(filterList(validLeaveList,row->!isPaidDuty(row)),workRanges);
+        int leaveMinutes = LocalDateTimeUtils.calculateDurationMinutes(nonDutyLeaveRanges);
+        int coveredMinutes=LocalDateTimeUtils.calculateDurationMinutes(leaveWorkRanges);
         BigDecimal leaveDays = calculateDayRatio(leaveMinutes, scheduledMinutes);
 
         // 2.1 匹配上、下班有效打卡记录
@@ -379,7 +427,7 @@ public class HrmAttendanceStatisticsServiceImpl implements HrmAttendanceStatisti
                 clockList, HrmAttendanceClockTypeEnum.ON_DUTY.getType());
         HrmAttendanceClockDO offDutyClock = findClockByType(
                 clockList, HrmAttendanceClockTypeEnum.OFF_DUTY.getType());
-        int uncoveredMinutes = Math.max(scheduledMinutes - leaveMinutes, 0);
+        int uncoveredMinutes = Math.max(scheduledMinutes - coveredMinutes, 0);
         LocalDateTime clockInDeadline = getClockDeadline(attendanceDate,
                 shift.getClockInStartTime(), shift.getClockInEndTime(), shiftTimeRange.getStartTime());
         LocalDateTime clockOutDeadline = getClockDeadline(attendanceDate,
@@ -546,7 +594,7 @@ public class HrmAttendanceStatisticsServiceImpl implements HrmAttendanceStatisti
     private HrmAttendanceClockDO findClockByType(List<HrmAttendanceClockDO> clockList, Integer type) {
         Comparator<HrmAttendanceClockDO> comparator = Comparator.comparing(HrmAttendanceClockDO::getClockTime);
         return clockList.stream()
-                .filter(clock -> clock.getClockTime() != null)
+                .filter(clock -> clock.getClockTime() != null && !Objects.equals(clock.getStatus(),3))
                 .filter(clock -> Objects.equals(clock.getStage() == null ? 1 : clock.getStage(), 1))
                 .filter(clock -> Objects.equals(clock.getType(), type))
                 .min(Objects.equals(type, HrmAttendanceClockTypeEnum.ON_DUTY.getType())
@@ -767,14 +815,16 @@ public class HrmAttendanceStatisticsServiceImpl implements HrmAttendanceStatisti
 
     private AttendanceMonthData getAttendanceMonthData(
             Integer year, Integer month, List<HrmEmployeeDO> employeeList) {
-        LocalDateTime calculationTime = LocalDateTime.now();
-        LocalDateTime[] monthTimes = LocalDateTimeUtils.getMonthDateTimeRange(year, month);
-        LocalDate monthBeginDate = monthTimes[0].toLocalDate();
-        LocalDate monthEndDate = monthTimes[1].toLocalDate();
-        List<LocalDate> attendanceDateList = LocalDateTimeUtils.getDateList(
-                monthBeginDate, monthBeginDate.lengthOfMonth());
-        List<LocalDate> shiftAttendanceDateList = LocalDateTimeUtils.getDateList(
-                monthBeginDate.minusDays(1), monthBeginDate.lengthOfMonth() + 1);
+        LocalDateTime[] monthTimes=LocalDateTimeUtils.getMonthDateTimeRange(year,month);
+        return getAttendancePeriodData(monthTimes[0].toLocalDate(),monthTimes[1].toLocalDate(),employeeList);
+    }
+    private AttendanceMonthData getAttendancePeriodData(LocalDate monthBeginDate,LocalDate monthEndDate,List<HrmEmployeeDO> employeeList){
+        Integer year=monthBeginDate.getYear(),month=monthBeginDate.getMonthValue();
+        LocalDateTime calculationTime=LocalDateTime.now(java.time.ZoneId.of("Asia/Shanghai"));
+        LocalDateTime[] monthTimes=LocalDateTimeUtils.getDateTimeRange(monthBeginDate,monthEndDate);
+        int days=(int)java.time.temporal.ChronoUnit.DAYS.between(monthBeginDate,monthEndDate)+1;
+        List<LocalDate> attendanceDateList=LocalDateTimeUtils.getDateList(monthBeginDate,days);
+        List<LocalDate> shiftAttendanceDateList=LocalDateTimeUtils.getDateList(monthBeginDate.minusDays(1),days+1);
         List<Long> employeeIds = convertList(employeeList, HrmEmployeeDO::getId);
 
         // 1. 批量查询月度考勤关联数据
@@ -790,6 +840,9 @@ public class HrmAttendanceStatisticsServiceImpl implements HrmAttendanceStatisti
                 .getEffectiveAttendanceLeaveListByEmployeeIdsAndTimeRange(
                         employeeIds, LocalDateTimeUtils.getDateTimeRange(
                                 monthBeginDate, monthEndDate.plusDays(1)));
+
+        leaveList=new ArrayList<>(leaveList);
+        leaveList.addAll(approvedDutyCoverage(employeeList,monthTimes[0],monthEndDate.plusDays(2).atStartOfDay()));
 
         // 2.1 按考勤组解析班次，同一考勤组只计算一次
         Map<Long, HrmAttendanceGroupDO> attendanceGroupMap = convertMap(
@@ -958,7 +1011,7 @@ public class HrmAttendanceStatisticsServiceImpl implements HrmAttendanceStatisti
     }
 
     private int getActualClockCount(List<HrmAttendanceClockDO> clockList) {
-        return (int) clockList.stream()
+        return (int) clockList.stream().filter(clock->clock.getClockTime()!=null&&!Objects.equals(clock.getStatus(),3))
                 .filter(clock -> clock.getType() != null)
                 .filter(clock -> clock.getStage() == null
                         || Objects.equals(clock.getStage(), HrmAttendanceClockStageEnum.FIRST.getStage()))
