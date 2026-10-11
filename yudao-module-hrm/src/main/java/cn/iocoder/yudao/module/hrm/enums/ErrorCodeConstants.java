@@ -310,4 +310,5 @@ public interface ErrorCodeConstants {
     ErrorCode PAYROLL_GRADE_INVALID = new ErrorCode(1_050_810_010, "薪级薪档、岗位系数、适用期间或审批状态不合法");
     ErrorCode PAYROLL_ATTENDANCE_INVALID = new ErrorCode(1_050_810_011, "考勤来源已变更、考勤组缺失或异常工单未关闭，请先补正并重算");
     ErrorCode PAYROLL_ATTENDANCE_ISSUE_INVALID = new ErrorCode(1_050_810_012, "考勤异常不存在、材料不完整或当前人员及状态不允许操作");
+    ErrorCode PAYROLL_ENTITY_INVALID = new ErrorCode(1_050_810_013, "法人主体、人员归属、授权范围或审批状态不合法");
 }

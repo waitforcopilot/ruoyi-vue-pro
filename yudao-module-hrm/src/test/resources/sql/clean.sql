@@ -70,3 +70,8 @@ DELETE FROM "hrm_payroll_work_rule";
 
 DELETE FROM "hrm_payroll_attendance_issue_event";
 DELETE FROM "hrm_payroll_attendance_issue";
+
+DELETE FROM "hrm_payroll_entity_event";
+DELETE FROM "hrm_payroll_entity_membership";
+DELETE FROM "hrm_payroll_entity_grant";
+DELETE FROM "hrm_payroll_legal_entity";
