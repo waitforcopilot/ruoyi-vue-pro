@@ -44,6 +44,7 @@ import static org.mockito.Mockito.when;
 @Import(HrmSalarySlipSendRecordServiceImpl.class)
 public class HrmSalarySlipSendRecordServiceImplTest extends BaseDbUnitTest {
 
+    @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollScopeService payrollScope;
     @Resource
     private HrmSalarySlipSendRecordServiceImpl salarySlipSendRecordService;
     @Resource

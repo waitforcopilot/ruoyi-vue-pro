@@ -139,4 +139,6 @@ public interface HrmSalaryEmployeeInfoService {
      */
     List<HrmSalaryOptionDO> getSalaryImportOptionList();
 
+    List<HrmSalaryEmployeeInfoDO.SalaryOption> getEffectiveSalaryOptionList(
+            HrmEmployeeDO employee, LocalDateTime[] salaryTimes, java.util.Set<LocalDate> payrollDates);
 }

@@ -13,6 +13,7 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 class HrmPayrollBatchServiceTest extends BaseDbUnitTest {
     @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollAttendanceService payrollAttendanceService;
     @org.springframework.boot.test.mock.mockito.MockBean private HrmPayrollWorkService workService;
+    @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollScopeService payrollScope;
     @Resource private HrmPayrollBatchService service;
     @Resource private HrmSalaryMonthRecordMapper mapper;
     @Test void versionsRemainImmutableAndApprovalUsesLatestVersion() {

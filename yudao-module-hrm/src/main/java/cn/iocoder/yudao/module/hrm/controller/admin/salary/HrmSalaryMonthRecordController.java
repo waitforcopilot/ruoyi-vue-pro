@@ -80,14 +80,22 @@ public class HrmSalaryMonthRecordController {
     @Resource
     private HrmAttendanceStatisticsService attendanceStatisticsService;
 
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollScopeService payrollScope;
     @Resource
     private DeptApi deptApi;
+
+    @PostMapping("/create")
+    @Operation(summary = "按法人主体及期间创建工资表")
+    @PreAuthorize("@ss.hasPermission('hrm:salary:month-record:create')")
+    public CommonResult<Long> createMonthRecord(@Valid @org.springframework.web.bind.annotation.RequestBody cn.iocoder.yudao.module.hrm.controller.admin.salary.vo.monthrecord.HrmSalaryMonthRecordCreateReqVO request) {
+        return success(salaryMonthRecordService.createMonthRecord(request));
+    }
 
     @PostMapping("/create-next")
     @Operation(summary = "创建下月工资表")
     @PreAuthorize("@ss.hasPermission('hrm:salary:month-record:create')")
-    public CommonResult<Long> createNextMonthRecord() {
-        return success(salaryMonthRecordService.createNextMonthRecord());
+    public CommonResult<Long> createNextMonthRecord(@RequestParam Long entityId) {
+        return success(salaryMonthRecordService.createNextMonthRecord(entityId));
     }
 
     @PostMapping("/compute")
@@ -293,6 +301,7 @@ public class HrmSalaryMonthRecordController {
             return Collections.emptyList();
         }
 
+        payrollScope.require(monthRecord.getId(),"EXPORT");
         // 2. 获得指定工资表已有员工，或尚未核算时的计薪员工
         List<HrmEmployeeDO> employees;
         if (monthRecordId != null) {

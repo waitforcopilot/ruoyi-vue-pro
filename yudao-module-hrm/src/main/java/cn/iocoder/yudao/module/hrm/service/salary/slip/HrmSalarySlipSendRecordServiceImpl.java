@@ -73,12 +73,15 @@ public class HrmSalarySlipSendRecordServiceImpl implements HrmSalarySlipSendReco
     @Resource
     private HrmEmployeeService employeeService;
 
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollScopeService payrollScope;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     @LogRecord(type = HRM_SALARY_SLIP_TYPE, subType = HRM_SALARY_SLIP_SEND_SUB_TYPE,
             bizNo = "{{#salarySlipSendRecord.id}}", success = HRM_SALARY_SLIP_SEND_SUCCESS)
     public Long sendSalarySlip(HrmSalarySlipSendReqVO reqVO) {
         // 1.1 校验月度工资表，并构建本次发放的工资条模板快照
+        payrollScope.require(reqVO.getMonthRecordId(),"EXPORT");
         HrmSalaryMonthRecordDO monthRecord = monthRecordService.validateMonthRecordExistsForUpdate(
                 reqVO.getMonthRecordId());
         if (!java.util.Arrays.asList(15, 16, 17, 10).contains(monthRecord.getStatus())) {
@@ -178,6 +181,7 @@ public class HrmSalarySlipSendRecordServiceImpl implements HrmSalarySlipSendReco
         HrmSalarySlipSendRecordDO salarySlipSendRecord = validateSalarySlipSendRecordExists(id);
 
         // 与发布共用批次锁；保留发放记录，撤回后员工无法继续访问工资条。
+        payrollScope.require(salarySlipSendRecord.getMonthRecordId(),"MANAGE");
         monthRecordService.validateMonthRecordExistsForUpdate(salarySlipSendRecord.getMonthRecordId());
         salarySlipSendRecord = validateSalarySlipSendRecordExists(id);
         if (Boolean.TRUE.equals(salarySlipSendRecord.getWithdrawn())) {
@@ -194,12 +198,17 @@ public class HrmSalarySlipSendRecordServiceImpl implements HrmSalarySlipSendReco
 
     @Override
     public PageResult<HrmSalarySlipSendRecordDO> getSalarySlipSendRecordPage(HrmSalarySlipSendRecordPageReqVO reqVO) {
-        return salarySlipSendRecordMapper.selectPage(reqVO);
+        cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX<HrmSalarySlipSendRecordDO> query=new cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX<>();
+        query.eqIfPresent(HrmSalarySlipSendRecordDO::getYear,reqVO.getYear()).eqIfPresent(HrmSalarySlipSendRecordDO::getMonth,reqVO.getMonth())
+            .orderByDesc(HrmSalarySlipSendRecordDO::getId);
+        payrollScope.restrictRelated(query,HrmSalarySlipSendRecordDO::getMonthRecordId,"READ");
+        return salarySlipSendRecordMapper.selectPage(reqVO,query);
     }
 
     @Override
     public HrmSalarySlipSendRecordDO getSalarySlipSendRecord(Long id) {
-        return salarySlipSendRecordMapper.selectById(id);
+        HrmSalarySlipSendRecordDO record=salarySlipSendRecordMapper.selectById(id);
+        if(record!=null) payrollScope.require(record.getMonthRecordId(),"READ"); return record;
     }
 
     private List<HrmSalaryMonthEmployeeRecordDO> getSalarySlipSendEmployeeRecordList(
@@ -230,6 +239,7 @@ public class HrmSalarySlipSendRecordServiceImpl implements HrmSalarySlipSendReco
         if (salarySlipSendRecord == null) {
             throw exception(SALARY_SLIP_RECORD_NOT_EXISTS);
         }
+        payrollScope.require(salarySlipSendRecord.getMonthRecordId(),"READ");
         return salarySlipSendRecord;
     }
 

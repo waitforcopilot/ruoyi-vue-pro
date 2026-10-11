@@ -30,6 +30,11 @@
   <!-- 历史工资表列表 -->
   <ContentWrap>
     <el-table v-loading="loading" :data="list" :show-overflow-tooltip="true" :stripe="true">
+      <el-table-column prop="entityName" label="法人主体" min-width="140"
+        ><template #default="{ row }">{{
+          row.entityName || (row.entityId ? `主体 ${row.entityId}` : '未归属')
+        }}</template></el-table-column
+      >
       <el-table-column fixed="left" label="工资表" min-width="180" prop="title">
         <template #default="scope">
           <el-link :underline="false" type="primary" @click="openDetail(scope.row.id)">

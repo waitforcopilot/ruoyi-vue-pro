@@ -412,6 +412,13 @@ public class HrmSalaryEmployeeInfoServiceImpl implements HrmSalaryEmployeeInfoSe
     @Override
     public List<HrmSalaryEmployeeInfoDO.SalaryOption> getEffectiveSalaryOptionList(
             HrmEmployeeDO employee, LocalDateTime[] salaryTimes) {
+        return getEffectiveSalaryOptionList(employee,salaryTimes,null);
+    }
+
+    @Override
+    public List<HrmSalaryEmployeeInfoDO.SalaryOption> getEffectiveSalaryOptionList(
+            HrmEmployeeDO employee, LocalDateTime[] salaryTimes, java.util.Set<LocalDate> payrollDates) {
+        // 日权重的分母仍是完整工资周期，避免跨法人归属各领一份整期工资。
         // 1. 校验计算参数
         LocalDateTime beginTime = ArrayUtils.get(salaryTimes, 0);
         LocalDateTime endTime = ArrayUtils.get(salaryTimes, 1);
@@ -436,6 +443,7 @@ public class HrmSalaryEmployeeInfoServiceImpl implements HrmSalaryEmployeeInfoSe
         Map<Integer, HrmSalaryEmployeeInfoDO.SalaryOption> optionMap = new LinkedHashMap<>();
         Map<Integer, BigDecimal> amountMap = new LinkedHashMap<>();
         for (LocalDate date = beginDate; isBeforeOrEqual(date, endDate); date = date.plusDays(1)) {
+            if(payrollDates!=null&&!payrollDates.contains(date)) continue;
             for (HrmSalaryEmployeeInfoDO.SalaryOption option :
                     getEffectiveSalaryOptions(employee, date, changeRecords, salaryEmployeeInfo)) {
                 if (option.getCode() == null) {

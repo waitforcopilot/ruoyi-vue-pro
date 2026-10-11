@@ -38,6 +38,7 @@ public class HrmSalaryMonthEmployeeRecordDO extends BaseDO {
      */
     @TableId
     private Long id;
+    private Long entityId;
     /**
      * 月度工资表编号
      *

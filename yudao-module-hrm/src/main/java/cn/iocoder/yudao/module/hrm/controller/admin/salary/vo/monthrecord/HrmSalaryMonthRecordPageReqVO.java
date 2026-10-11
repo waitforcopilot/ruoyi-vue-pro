@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class HrmSalaryMonthRecordPageReqVO extends PageParam {
+    private Long entityId;
 
     @Schema(description = "年份", example = "2026")
     private Integer year;

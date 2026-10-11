@@ -72,6 +72,7 @@ import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.isB
 import static cn.iocoder.yudao.framework.common.util.number.MoneyUtils.priceAdd;
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_CONFIG_NOT_EXISTS;
+import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_DATA_ILLEGAL;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_MONTH_RECORD_EXISTS;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_MONTH_RECORD_CANNOT_DELETE_ONLY;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_MONTH_RECORD_NOT_EXISTS;
@@ -127,13 +128,18 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
     @Resource
     private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollFormulaService payrollFormulaService;
 
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollScopeService payrollScopeService;
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWindowService payrollWindowService;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     @LogRecord(type = HRM_SALARY_MONTH_TYPE, subType = HRM_SALARY_MONTH_CREATE_SUB_TYPE,
             bizNo = "{{#salaryMonthRecord.id}}", success = HRM_SALARY_MONTH_CREATE_SUCCESS)
     public Long createMonthRecord(HrmSalaryMonthRecordCreateReqVO reqVO) {
-        // 1. 校验年月唯一性
-        if (monthRecordMapper.selectByYearMonth(reqVO.getYear(), reqVO.getMonth()) != null) {
+        // 同主体同期间只创建一个常规批次，主体行锁串行化建表。
+        if(reqVO.getEntityId()==null) throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_ENTITY_INVALID);
+        payrollScopeService.create(reqVO.getEntityId());
+        if (monthRecordMapper.selectByEntityYearMonth(reqVO.getEntityId(), reqVO.getYear(), reqVO.getMonth()) != null) {
             throw exception(SALARY_MONTH_RECORD_EXISTS);
         }
 
@@ -152,9 +158,12 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
                         : String.format(MONTH_RECORD_TITLE_TEMPLATE, reqVO.getYear(), reqVO.getMonth()))
                 .setStartTime(reqVO.getStartTime() == null ? defaultStartDate.atStartOfDay() : reqVO.getStartTime())
                 .setEndTime(reqVO.getEndTime() == null ? defaultEndDate.atStartOfDay() : reqVO.getEndTime())
-                .setEmployeeCount(0).setStatus(HrmSalaryMonthRecordStatusEnum.UNCOMPUTED.getStatus())
+                .setBatchKey("REGULAR").setEmployeeCount(0).setStatus(HrmSalaryMonthRecordStatusEnum.UNCOMPUTED.getStatus())
                 .setExpectedPaySalary(BigDecimal.ZERO).setPersonalTax(BigDecimal.ZERO).setRealPaySalary(BigDecimal.ZERO)
                 .setOptionHeaders(buildOptionHeaderList(salaryOptionService.getSalaryOptionList(false, true)));
+        if(monthRecord.getEndTime().isBefore(monthRecord.getStartTime()) ||
+                java.time.temporal.ChronoUnit.DAYS.between(monthRecord.getStartTime().toLocalDate(),monthRecord.getEndTime().toLocalDate())>365)
+            throw exception(SALARY_DATA_ILLEGAL);
         monthRecordMapper.insert(monthRecord);
 
         // 3. 记录操作日志上下文
@@ -167,8 +176,18 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
     @LogRecord(type = HRM_SALARY_MONTH_TYPE, subType = HRM_SALARY_MONTH_CREATE_SUB_TYPE,
             bizNo = "{{#salaryMonthRecord.id}}", success = HRM_SALARY_MONTH_CREATE_SUCCESS)
     public Long createNextMonthRecord() {
-        // 1. 获得最近月度工资表
-        HrmSalaryMonthRecordDO lastRecord = monthRecordMapper.selectLast();
+        List<Long> entityIds = payrollScopeService.calculableEntities();
+        if(entityIds.size()!=1) throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_ENTITY_INVALID);
+        return createNextMonthRecord(entityIds.get(0));
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Long createNextMonthRecord(Long entityId) {
+        payrollScopeService.create(entityId);
+        HrmSalaryMonthRecordDO lastRecord = monthRecordMapper.selectOne(new cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX<HrmSalaryMonthRecordDO>()
+                .eq(HrmSalaryMonthRecordDO::getEntityId,entityId).eq(HrmSalaryMonthRecordDO::getBatchKey,"REGULAR")
+                .orderByDesc(HrmSalaryMonthRecordDO::getYear).orderByDesc(HrmSalaryMonthRecordDO::getMonth).last("LIMIT 1"));
 
         // 2.1 首次创建时，使用工资配置的开始年月
         YearMonth nextMonth;
@@ -185,7 +204,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
 
         // 3. 创建下月工资表
         return createMonthRecord(new HrmSalaryMonthRecordCreateReqVO()
-                .setYear(nextMonth.getYear()).setMonth(nextMonth.getMonthValue()));
+                .setEntityId(entityId).setYear(nextMonth.getYear()).setMonth(nextMonth.getMonthValue()));
     }
 
     @Override
@@ -223,6 +242,9 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
         Map<Long, HrmSalaryGroupDO> salaryGroupMap = salaryGroupService.getEmployeeSalaryGroupMap(payrollEmployees);
         payrollEmployees = filterList(payrollEmployees, employee -> salaryGroupMap.containsKey(employee.getId()));
 
+        if(syncInsuranceData && payrollEmployees.stream().anyMatch(e->payrollScopeService.requiresInsuranceAttribution(monthRecord,e.getId())))
+            throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INSURANCE_SCOPE_REQUIRED);
+
         // 2. 加载工资项、考勤、社保和导入数据
         List<HrmSalaryOptionDO> optionList = salaryOptionService.getSalaryOptionList(false);
         Map<Integer, HrmSalaryOptionDO> optionMap = convertMap(optionList, HrmSalaryOptionDO::getCode);
@@ -252,6 +274,12 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
                 convertSet(salaryGroupMap.values(), HrmSalaryGroupDO::getTaxRuleId));
         HrmSalaryTaxRuleDO defaultTaxRule = CollUtil.getFirst(salaryTaxRuleService.getSalaryTaxRuleList());
 
+        Map<Long,Set<LocalDate>> entityPayrollDates=monthRecord.getEntityId()==null?Collections.emptyMap():payrollScopeService.payrollDates(monthRecord);
+        if(syncAttendanceData && monthRecord.getEntityId()!=null) {
+            for(HrmEmployeeDO employee:payrollEmployees) {
+                attendanceMap.put(employee.getId(),payrollWindowService.attendance(employee.getId(),entityPayrollDates.get(employee.getId())));
+            }
+        }
         // 3. 逐个员工核算工资
         List<HrmSalaryMonthEmployeeRecordDO> employeeRecords = new ArrayList<>();
         Map<Long, List<HrmSalaryOptionValueVO>> employeeOptionValueMap = new LinkedHashMap<>();
@@ -260,8 +288,10 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
             // 3.1 获得本周期生效薪资；没有薪资档案时继承上月可维护薪资项
             String jobNumber = employee.getJobNumber();
             List<HrmSalaryOptionValueVO> values = BeanUtils.toBean(
-                    salaryEmployeeInfoService.getEffectiveSalaryOptionList(employee, salaryTimes),
+                    monthRecord.getEntityId()==null?salaryEmployeeInfoService.getEffectiveSalaryOptionList(employee, salaryTimes):
+                            salaryEmployeeInfoService.getEffectiveSalaryOptionList(employee,salaryTimes,entityPayrollDates.get(employee.getId())),
                     HrmSalaryOptionValueVO.class);
+            if (monthRecord.getEntityId()!=null && CollUtil.isEmpty(values)) throw exception(SALARY_DATA_ILLEGAL);
             if (CollUtil.isEmpty(values)) {
                 YearMonth previousMonth = YearMonth.of(monthRecord.getYear(), monthRecord.getMonth()).minusMonths(1);
                 HrmSalaryMonthEmployeeRecordDO previousEmployeeRecord = monthEmployeeRecordService
@@ -294,8 +324,8 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
             }
 
             // 已核实的加班费按实际计薪区间进入工资，并保留来源快照。
-            BigDecimal overtimePay=payrollWorkService.earnings(employee.getId(),salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate());
-            if (overtimePay != null && (overtimePay.signum()>0 || payrollWorkService.hasSources(employee.getId(),salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate()))) {
+            BigDecimal overtimePay=monthRecord.getEntityId()==null?payrollWorkService.earnings(employee.getId(),salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate()):payrollWindowService.earnings(employee.getId(),entityPayrollDates.get(employee.getId()));
+            if (overtimePay != null && (overtimePay.signum()>0 || (monthRecord.getEntityId()==null?payrollWorkService.hasSources(employee.getId(),salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate()):payrollWindowService.hasSources(employee.getId(),entityPayrollDates.get(employee.getId()))))) {
                 values = mergeOptionValues(values, Collections.singletonList(importOptionValue(
                         HrmSalaryOptionCodeEnum.OVERTIME_PAY.getCode(), optionMap, overtimePay)));
             }
@@ -304,7 +334,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
             HrmSalaryTaxRuleDO taxRule = taxRuleMap.getOrDefault(salaryGroup.getTaxRuleId(), defaultTaxRule);
             BigDecimal salaryStandard = defaultIfNull(salaryGroup.getSalaryStandard(), HrmSalaryGroupDO.DEFAULT_SALARY_STANDARD);
             employeeRecords.add(HrmSalaryMonthEmployeeRecordDO.builder()
-                    .monthRecordId(id).employeeId(employee.getId())
+                    .monthRecordId(id).employeeId(employee.getId()).entityId(monthRecord.getEntityId())
                     .actualWorkDay(attendanceData == null ? salaryStandard : attendanceData.getActualWorkDay())
                     .needWorkDay(salaryStandard).salaryGroupId(salaryGroup.getId())
                     .formulaDate(salaryTimes[0].toLocalDate()).year(monthRecord.getYear()).month(monthRecord.getMonth()).build());
@@ -322,6 +352,8 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
 
         // 保存独立核算版本；重算不删除旧结果及规则快照。
         Map<String, Object> inputSnapshot = new LinkedHashMap<>();
+        inputSnapshot.put("entityScope",payrollScopeService.snapshot(monthRecord));
+        inputSnapshot.put("entityPayrollDates",entityPayrollDates);
         inputSnapshot.put("salaryValues", employeeOptionValueMap);
         inputSnapshot.put("employees", payrollEmployees);
         inputSnapshot.put("overtime", payrollEmployees.stream().collect(java.util.stream.Collectors.toMap(
@@ -353,11 +385,12 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
     public void deleteMonthRecord(Long id) {
         // 1. 校验仅删除最新工资表，并至少保留一张工资表
         HrmSalaryMonthRecordDO salaryMonthRecord = validateMonthRecordEditableForUpdate(id);
-        HrmSalaryMonthRecordDO lastMonthRecord = monthRecordMapper.selectLast();
+        HrmSalaryMonthRecordDO lastMonthRecord = monthRecordMapper.selectOne(new cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX<HrmSalaryMonthRecordDO>()
+                .eq(salaryMonthRecord.getEntityId()!=null,HrmSalaryMonthRecordDO::getEntityId,salaryMonthRecord.getEntityId()).isNull(salaryMonthRecord.getEntityId()==null,HrmSalaryMonthRecordDO::getEntityId).orderByDesc(HrmSalaryMonthRecordDO::getYear).orderByDesc(HrmSalaryMonthRecordDO::getMonth).orderByDesc(HrmSalaryMonthRecordDO::getId).last("LIMIT 1"));
         if (lastMonthRecord == null || ObjectUtil.notEqual(lastMonthRecord.getId(), salaryMonthRecord.getId())) {
             throw exception(SALARY_MONTH_RECORD_NOT_LATEST);
         }
-        if (monthRecordMapper.selectCount() <= 1) {
+        if (monthRecordMapper.selectCount(new cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX<HrmSalaryMonthRecordDO>().eq(salaryMonthRecord.getEntityId()!=null,HrmSalaryMonthRecordDO::getEntityId,salaryMonthRecord.getEntityId()).isNull(salaryMonthRecord.getEntityId()==null,HrmSalaryMonthRecordDO::getEntityId)) <= 1) {
             throw exception(SALARY_MONTH_RECORD_CANNOT_DELETE_ONLY);
         }
 
@@ -372,24 +405,29 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
 
     @Override
     public HrmSalaryMonthRecordDO getMonthRecord(Long id) {
-        return monthRecordMapper.selectById(id);
+        HrmSalaryMonthRecordDO record=monthRecordMapper.selectById(id);
+        if(record!=null) payrollScopeService.check(record,"READ"); return record;
     }
 
     @Override
     public HrmSalaryMonthRecordDO getMonthRecordByYearMonth(Integer year, Integer month) {
-        return monthRecordMapper.selectByYearMonth(year, month);
+        List<HrmSalaryMonthRecordDO> records=payrollScopeService.list(null).stream()
+                .filter(r->Objects.equals(r.getYear(),year)&&Objects.equals(r.getMonth(),month)).collect(java.util.stream.Collectors.toList());
+        if(records.size()>1) throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_ENTITY_INVALID);
+        return records.isEmpty()?null:records.get(0);
     }
 
     @Override
     public HrmSalaryMonthRecordDO getLastMonthRecord() {
-        return monthRecordMapper.selectLast();
+        List<HrmSalaryMonthRecordDO> records=payrollScopeService.list(null);
+        return records.isEmpty()?null:records.get(0);
     }
 
     @Override
     public HrmSalaryPayrollReadinessRespVO getPayrollReadiness(Long monthRecordId) {
         // 1. 获得月度工资表和计薪周期内的员工
-        HrmSalaryMonthRecordDO monthRecord = monthRecordId == null ? monthRecordMapper.selectLast()
-                : monthRecordMapper.selectById(monthRecordId);
+        HrmSalaryMonthRecordDO monthRecord = monthRecordId == null ? getLastMonthRecord()
+                : getMonthRecord(monthRecordId);
         if (monthRecord == null) {
             return null;
         }
@@ -456,18 +494,22 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
                         || Objects.equals(employee.getEntryStatus(), HrmEmployeeEntryStatusEnum.LEFT.getStatus())
                         && employee.getLeaveTime() != null
                         && isAfterOrEqual(employee.getLeaveTime().toLocalDate(), monthRecord.getStartTime().toLocalDate())));
+        if(monthRecord.getEntityId()!=null) {
+            Set<Long> affiliated=payrollScopeService.payrollDates(monthRecord).keySet();
+            employees=filterList(employees,e->affiliated.contains(e.getId()));
+        }
         employees.sort(Comparator.comparing(HrmEmployeeDO::getId));
         return employees;
     }
 
     @Override
     public PageResult<HrmSalaryMonthRecordDO> getMonthRecordPage(HrmSalaryMonthRecordPageReqVO reqVO) {
-        return monthRecordMapper.selectPage(reqVO);
+        return payrollScopeService.page(reqVO,false);
     }
 
     @Override
     public List<HrmSalaryMonthRecordDO> getMonthRecordListByStatus(Integer status) {
-        return monthRecordMapper.selectListByStatus(status);
+        return payrollScopeService.list(status);
     }
 
     @Override
@@ -476,7 +518,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
         if (monthRecord == null) {
             throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);
         }
-        return monthRecord;
+        payrollScopeService.check(monthRecord,"READ"); return monthRecord;
     }
 
     @Override
@@ -485,12 +527,13 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
         if (monthRecord == null) {
             throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);
         }
-        return monthRecord;
+        payrollScopeService.check(monthRecord,"READ"); return monthRecord;
     }
 
     @Override
     public HrmSalaryMonthRecordDO validateMonthRecordEditable(Long id) {
         HrmSalaryMonthRecordDO monthRecord = validateMonthRecordExists(id);
+        payrollScopeService.check(monthRecord,"CALCULATE");
         if (!Objects.equals(monthRecord.getStatus(), HrmSalaryMonthRecordStatusEnum.UNCOMPUTED.getStatus())
                 && !Objects.equals(monthRecord.getStatus(), HrmSalaryMonthRecordStatusEnum.COMPUTED.getStatus())) {
             throw exception(SALARY_MONTH_RECORD_STATUS_INVALID);
@@ -501,6 +544,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
     @Override
     public HrmSalaryMonthRecordDO validateMonthRecordEditableForUpdate(Long id) {
         HrmSalaryMonthRecordDO monthRecord = validateMonthRecordExistsForUpdate(id);
+        payrollScopeService.check(monthRecord,"CALCULATE");
         if (!Objects.equals(monthRecord.getStatus(), HrmSalaryMonthRecordStatusEnum.UNCOMPUTED.getStatus())
                 && !Objects.equals(monthRecord.getStatus(), HrmSalaryMonthRecordStatusEnum.COMPUTED.getStatus())) {
             throw exception(SALARY_MONTH_RECORD_STATUS_INVALID);

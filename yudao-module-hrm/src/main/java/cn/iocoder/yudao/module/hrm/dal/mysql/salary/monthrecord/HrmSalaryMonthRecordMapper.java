@@ -23,6 +23,13 @@ public interface HrmSalaryMonthRecordMapper extends BaseMapperX<HrmSalaryMonthRe
                 .orderByAsc(HrmSalaryMonthRecordDO::getId));
     }
 
+    default HrmSalaryMonthRecordDO selectByEntityYearMonth(Long entityId, Integer year, Integer month) {
+        return selectOne(new LambdaQueryWrapperX<HrmSalaryMonthRecordDO>()
+            .eq(HrmSalaryMonthRecordDO::getEntityId, entityId)
+            .eq(HrmSalaryMonthRecordDO::getYear, year).eq(HrmSalaryMonthRecordDO::getMonth, month)
+            .eq(HrmSalaryMonthRecordDO::getBatchKey, "REGULAR"));
+    }
+
     default HrmSalaryMonthRecordDO selectLast() {
         return selectOne(new LambdaQueryWrapperX<HrmSalaryMonthRecordDO>()
                 .orderByDesc(HrmSalaryMonthRecordDO::getYear)
@@ -32,6 +39,7 @@ public interface HrmSalaryMonthRecordMapper extends BaseMapperX<HrmSalaryMonthRe
 
     default PageResult<HrmSalaryMonthRecordDO> selectPage(HrmSalaryMonthRecordPageReqVO reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<HrmSalaryMonthRecordDO>()
+                .eqIfPresent(HrmSalaryMonthRecordDO::getEntityId, reqVO.getEntityId())
                 .eqIfPresent(HrmSalaryMonthRecordDO::getYear, reqVO.getYear())
                 .eqIfPresent(HrmSalaryMonthRecordDO::getMonth, reqVO.getMonth())
                 .eqIfPresent(HrmSalaryMonthRecordDO::getStatus, reqVO.getStatus())

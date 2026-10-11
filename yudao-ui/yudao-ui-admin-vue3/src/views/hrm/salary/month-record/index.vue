@@ -1,6 +1,7 @@
 <template>
   <doc-alert title="【薪资】月度工资、工资条" url="https://doc.iocoder.cn/hrm/salary/payroll/" />
 
+  <SalarySubjectBatchSelector ref="batchSelectorRef" v-model="selectedBatchId" @change="init" />
   <ContentWrap v-loading="pageLoading">
     <template v-if="record.id">
       <div class="flex items-center">
@@ -174,6 +175,7 @@ import { formatHrmDateRange, formatHrmDays, formatHrmMoney } from '@/views/hrm/u
 import SalaryBatchEmployeeRecordForm from './SalaryBatchEmployeeRecordForm.vue'
 import SalaryMonthComputeForm from './SalaryMonthComputeForm.vue'
 import SalaryPayrollReadinessAlert from './SalaryPayrollReadinessAlert.vue'
+import SalarySubjectBatchSelector from './components/SalarySubjectBatchSelector.vue'
 import SalarySlipSendForm from '../slip/send-record/SalarySlipSendForm.vue'
 
 defineOptions({ name: 'HrmSalaryMonthRecord' })
@@ -181,6 +183,8 @@ defineOptions({ name: 'HrmSalaryMonthRecord' })
 const message = useMessage() // 消息弹窗
 const pageLoading = ref(false) // 页面加载中
 const createLoading = ref(false) // 工资表创建中
+const batchSelectorRef = ref<InstanceType<typeof SalarySubjectBatchSelector>>()
+const selectedBatchId = ref<number>()
 const record = ref<SalaryMonthRecordApi.SalaryMonthRecordVO>({}) // 工资表
 const loading = ref(false) // 员工工资加载中
 const total = ref(0) // 员工工资总数
@@ -320,10 +324,17 @@ function openBatchEdit() {
 
 /** 初始化工资表 */
 async function handleCreate() {
+  if (!record.value.entityId) {
+    message.warning('请在上方选择主体并创建工资批次')
+    return
+  }
   createLoading.value = true
   try {
-    await SalaryMonthRecordApi.createNextSalaryMonthRecord()
+    selectedBatchId.value = await SalaryMonthRecordApi.createNextSalaryMonthRecord(
+      record.value.entityId!
+    )
     message.success('新建成功')
+    await batchSelectorRef.value?.refresh()
     await init()
   } finally {
     createLoading.value = false
@@ -332,12 +343,17 @@ async function handleCreate() {
 
 /** 创建下月工资表 */
 async function handleCreateNext() {
+  if (!record.value.entityId) {
+    message.warning('请先确认当前批次法人主体')
+    return
+  }
   try {
-    await message.confirm(
-      '新建下月工资表后，当前工资表将归入历史工资且不可修改。请确认要新建下月工资表吗？'
+    await message.confirm('确认为当前法人主体创建下月工资表？')
+    selectedBatchId.value = await SalaryMonthRecordApi.createNextSalaryMonthRecord(
+      record.value.entityId!
     )
-    await SalaryMonthRecordApi.createNextSalaryMonthRecord()
     message.success('新建成功')
+    await batchSelectorRef.value?.refresh()
     await init()
   } catch {}
 }
@@ -356,11 +372,11 @@ async function handleDelete() {
   }
   try {
     // 删除的二次确认
-    await message.delConfirm(
-      '删除当前工资表后，上月工资表将恢复为当前工资表且支持修改。请确认要删除当前工资表吗？'
-    )
+    await message.delConfirm('确认删除当前草稿工资表？')
     // 发起删除
     await SalaryMonthRecordApi.deleteSalaryMonthRecord(record.value.id)
+    selectedBatchId.value = undefined
+    await batchSelectorRef.value?.refresh()
     message.success('删除成功')
     await init()
   } catch {}
@@ -396,7 +412,9 @@ async function getReadiness() {
 async function init() {
   pageLoading.value = true
   try {
-    record.value = (await SalaryMonthRecordApi.getLastSalaryMonthRecord()) || {}
+    record.value = selectedBatchId.value
+      ? await SalaryMonthRecordApi.getSalaryMonthRecord(selectedBatchId.value)
+      : {}
     queryParams.monthRecordId = record.value.id
     queryParams.pageNo = 1
     if (!record.value.id) {

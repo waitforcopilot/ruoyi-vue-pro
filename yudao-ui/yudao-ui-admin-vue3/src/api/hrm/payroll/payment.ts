@@ -3,6 +3,8 @@ import request from '@/config/axios'
 export interface PaymentBatch {
   id: number
   title: string
+  entityId?: number
+  entityName?: string
   status: number
   employeeCount: number
   realPaySalary: number
@@ -65,7 +67,10 @@ export interface Receipt {
   createTime: string
 }
 export const validateFile = async (data: FormData) => {
-  const response = await request.upload<{ data: Difference[] }>({ url: '/hrm/payroll/payment/validate', data })
+  const response = await request.upload<{ data: Difference[] }>({
+    url: '/hrm/payroll/payment/validate',
+    data
+  })
   return response.data
 }
 export const receipts = (batchId: number) =>

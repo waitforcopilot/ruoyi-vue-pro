@@ -32,6 +32,8 @@ public interface HrmSalaryMonthRecordService {
      */
     Long createNextMonthRecord();
 
+    Long createNextMonthRecord(Long entityId);
+
     /**
      * 核算月度工资表
      *

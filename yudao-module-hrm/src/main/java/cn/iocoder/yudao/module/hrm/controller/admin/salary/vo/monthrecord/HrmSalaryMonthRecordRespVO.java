@@ -14,6 +14,9 @@ public class HrmSalaryMonthRecordRespVO {
 
     @Schema(description = "编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long id;
+    private Long entityId;
+    private String batchKey;
+    private String entityName;
 
     @Schema(description = "年份", requiredMode = Schema.RequiredMode.REQUIRED, example = "2026")
     private Integer year;

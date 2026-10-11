@@ -528,6 +528,22 @@ public class HrmSalaryEmployeeInfoServiceImplTest extends BaseDbUnitTest {
                         optionValue(10101, "基本工资", new BigDecimal("6500"))));
     }
 
+    @Test
+    public void legalEntityTransferDoesNotPayFullSalaryTwice() {
+        HrmEmployeeDO employee=new HrmEmployeeDO().setId(1L).setName("调动员工").setStatus(2).setRegularTime(LocalDate.of(2026,1,1).atStartOfDay());
+        salaryEmployeeInfoMapper.insert(buildSalaryEmployeeInfo(1L));
+        java.util.Set<LocalDate> first=new java.util.HashSet<>(),second=new java.util.HashSet<>();
+        for(int day=1;day<=31;day++) (day<=15?first:second).add(LocalDate.of(2026,7,day));
+        java.time.LocalDateTime[] period={LocalDate.of(2026,7,1).atStartOfDay(),LocalDate.of(2026,7,31).atTime(23,59,59)};
+        List<HrmSalaryEmployeeInfoDO.SalaryOption> a=salaryEmployeeInfoService.getEffectiveSalaryOptionList(employee,period,first);
+        List<HrmSalaryEmployeeInfoDO.SalaryOption> b=salaryEmployeeInfoService.getEffectiveSalaryOptionList(employee,period,second);
+        assertAmount("3870.97",a.stream().filter(v->v.getCode()==10101).findFirst().get().getValue());
+        assertAmount("4129.03",b.stream().filter(v->v.getCode()==10101).findFirst().get().getValue());
+        BigDecimal combined=java.util.stream.Stream.concat(a.stream(),b.stream()).map(HrmSalaryEmployeeInfoDO.SalaryOption::getValue).reduce(BigDecimal.ZERO,BigDecimal::add);
+        assertAmount("10000.00",combined);
+        assertTrue(salaryEmployeeInfoService.getEffectiveSalaryOptionList(employee,period,Collections.emptySet()).isEmpty());
+    }
+
     private static HrmSalaryEmployeeInfoDO buildSalaryEmployeeInfo(Long employeeId) {
         return HrmSalaryEmployeeInfoDO.builder().employeeId(employeeId)
                 .changeType(HrmSalaryEmployeeInfoChangeTypeEnum.SET.getType()).effectTime(LocalDate.of(2026, 7, 1).atStartOfDay())

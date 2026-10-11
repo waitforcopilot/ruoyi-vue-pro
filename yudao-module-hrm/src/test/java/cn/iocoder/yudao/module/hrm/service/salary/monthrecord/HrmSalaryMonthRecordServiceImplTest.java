@@ -78,6 +78,7 @@ import static org.mockito.Mockito.when;
 public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
     @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollAttendanceService payrollAttendanceService;
 
+    @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollScopeService payrollScope;
     @Resource
     private HrmSalaryMonthRecordServiceImpl monthRecordService;
 
@@ -108,14 +109,23 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
     private HrmAttendanceStatisticsService attendanceStatisticsService;
     @MockBean
     private HrmInsuranceMonthEmployeeRecordService insuranceMonthEmployeeRecordService;
+    @MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWindowService payrollWindow;
     @MockBean
     private HrmInsuranceMonthRecordService insuranceMonthRecordService;
+
+    @org.junit.jupiter.api.BeforeEach
+    void configureScopedQueries() {
+        org.mockito.Mockito.when(payrollScope.page(org.mockito.ArgumentMatchers.any(),org.mockito.ArgumentMatchers.anyBoolean()))
+            .thenAnswer(call->monthRecordMapper.selectPage(call.getArgument(0)));
+        org.mockito.Mockito.when(payrollScope.list(org.mockito.ArgumentMatchers.nullable(Integer.class)))
+            .thenAnswer(call->monthRecordMapper.selectListByStatus(call.getArgument(0)));
+    }
 
     @Test
     public void testCreateMonthRecord_success() {
         // 准备参数
         HrmSalaryMonthRecordCreateReqVO reqVO =
-                new HrmSalaryMonthRecordCreateReqVO().setYear(2026).setMonth(7);
+                new HrmSalaryMonthRecordCreateReqVO().setEntityId(1L).setYear(2026).setMonth(7);
         when(salaryOptionService.getSalaryOptionList(false, true))
                 .thenReturn(Collections.emptyList());
 
@@ -140,7 +150,7 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
                 HrmSalaryOptionDO.builder().code(10101).parentCode(10).name("岗位工资").build(),
                 HrmSalaryOptionDO.builder().code(180).parentCode(0).name("加班工资").build()));
         HrmSalaryMonthRecordCreateReqVO reqVO =
-                new HrmSalaryMonthRecordCreateReqVO().setYear(2026).setMonth(7);
+                new HrmSalaryMonthRecordCreateReqVO().setEntityId(1L).setYear(2026).setMonth(7);
 
         // 调用
         Long id = monthRecordService.createMonthRecord(reqVO);
@@ -162,7 +172,7 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
                 .thenReturn(Collections.emptyList());
         // 准备参数
         HrmSalaryMonthRecordCreateReqVO reqVO =
-                new HrmSalaryMonthRecordCreateReqVO().setYear(2026).setMonth(7);
+                new HrmSalaryMonthRecordCreateReqVO().setEntityId(1L).setYear(2026).setMonth(7);
 
         // 调用
         Long monthRecordId = monthRecordService.createMonthRecord(reqVO);
@@ -176,10 +186,10 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateMonthRecord_exists() {
         // mock 数据
-        monthRecordMapper.insert(buildMonthRecord(2026, 7, HrmSalaryMonthRecordStatusEnum.UNCOMPUTED.getStatus()));
+        monthRecordMapper.insert(buildMonthRecord(2026, 7, HrmSalaryMonthRecordStatusEnum.UNCOMPUTED.getStatus()).setEntityId(1L));
         // 准备参数
         HrmSalaryMonthRecordCreateReqVO reqVO =
-                new HrmSalaryMonthRecordCreateReqVO().setYear(2026).setMonth(7);
+                new HrmSalaryMonthRecordCreateReqVO().setEntityId(1L).setYear(2026).setMonth(7);
 
         // 调用，并断言异常
         assertServiceException(() -> monthRecordService.createMonthRecord(reqVO),
@@ -197,7 +207,7 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
                 .thenReturn(Collections.emptyList());
         // 准备参数
         HrmSalaryMonthRecordCreateReqVO reqVO =
-                new HrmSalaryMonthRecordCreateReqVO().setYear(2026).setMonth(7);
+                new HrmSalaryMonthRecordCreateReqVO().setEntityId(1L).setYear(2026).setMonth(7);
 
         // 调用
         Long monthRecordId = monthRecordService.createMonthRecord(reqVO);
@@ -217,7 +227,7 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
                 .thenReturn(Collections.emptyList());
 
         // 调用
-        Long monthRecordId = monthRecordService.createNextMonthRecord();
+        Long monthRecordId = monthRecordService.createNextMonthRecord(1L);
 
         // 断言
         HrmSalaryMonthRecordDO monthRecord = monthRecordMapper.selectById(monthRecordId);
@@ -228,7 +238,7 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateNextMonthRecord_salaryConfigNotExists() {
         // 调用，并断言异常
-        assertServiceException(() -> monthRecordService.createNextMonthRecord(),
+        assertServiceException(() -> monthRecordService.createNextMonthRecord(1L),
                 SALARY_CONFIG_NOT_EXISTS);
     }
 
@@ -236,13 +246,13 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
     public void testCreateNextMonthRecord_doesNotArchivePrevious() {
         // mock 数据
         HrmSalaryMonthRecordDO previousMonthRecord =
-                buildMonthRecord(2026, 7, HrmSalaryMonthRecordStatusEnum.COMPUTED.getStatus());
+                buildMonthRecord(2026, 7, HrmSalaryMonthRecordStatusEnum.COMPUTED.getStatus()).setEntityId(1L);
         monthRecordMapper.insert(previousMonthRecord);
         when(salaryOptionService.getSalaryOptionList(false, true))
                 .thenReturn(Collections.emptyList());
 
         // 调用
-        Long monthRecordId = monthRecordService.createNextMonthRecord();
+        Long monthRecordId = monthRecordService.createNextMonthRecord(1L);
 
         // 断言
         assertEquals(HrmSalaryMonthRecordStatusEnum.COMPUTED.getStatus(),
@@ -250,6 +260,18 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
         HrmSalaryMonthRecordDO monthRecord = monthRecordMapper.selectById(monthRecordId);
         assertEquals(2026, monthRecord.getYear());
         assertEquals(8, monthRecord.getMonth());
+    }
+
+    @Test
+    public void crossEntityInsuranceWithoutPayerAttributionBlocksPayroll() {
+        HrmSalaryMonthRecordDO batch=buildMonthRecord(2026,7,HrmSalaryMonthRecordStatusEnum.UNCOMPUTED.getStatus());monthRecordMapper.insert(batch);
+        HrmEmployeeDO employee=buildActiveEmployee(1L,"TRANSFER");
+        when(employeeService.getEmployeeList(any())).thenReturn(Collections.singletonList(employee));
+        when(salaryGroupService.getEmployeeSalaryGroupMap(any())).thenReturn(Collections.singletonMap(1L,HrmSalaryGroupDO.builder().id(10L).build()));
+        when(payrollScope.requiresInsuranceAttribution(any(),eq(1L))).thenReturn(true);
+        assertServiceException(()->monthRecordService.computeMonthRecord(batch.getId(),true,false,Collections.emptyList(),Collections.emptyList(),Collections.emptyList()),cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INSURANCE_SCOPE_REQUIRED);
+        org.mockito.Mockito.verifyNoInteractions(insuranceMonthRecordService,insuranceMonthEmployeeRecordService);
+        assertEquals(HrmSalaryMonthRecordStatusEnum.UNCOMPUTED.getStatus(),monthRecordMapper.selectById(batch.getId()).getStatus());
     }
 
     @Test

@@ -4,6 +4,9 @@ import type { SalaryOptionValueVO, SalaryOptionVO } from '../config/option'
 // 月度工资表 VO
 export interface SalaryMonthRecordVO {
   id?: number // 月度工资表编号
+  entityId?: number
+  entityName?: string
+  batchKey?: string
   title?: string // 标题
   year?: number // 年份
   month?: number // 月份
@@ -55,8 +58,11 @@ export interface SalaryPayrollReadinessVO {
 }
 
 // 创建下月工资表
-export const createNextSalaryMonthRecord = async () => {
-  return await request.post<number>({ url: '/hrm/salary/month-record/create-next' })
+export const createNextSalaryMonthRecord = async (entityId: number) => {
+  return await request.post<number>({
+    url: '/hrm/salary/month-record/create-next',
+    params: { entityId }
+  })
 }
 
 // 核算月度工资表

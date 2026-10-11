@@ -17,6 +17,11 @@
       <el-button @click="search">查询</el-button>
     </el-form>
     <el-table v-loading="loading" :data="rows">
+      <el-table-column prop="entityName" label="法人主体" min-width="140"
+        ><template #default="{ row }">{{
+          row.entityName || (row.entityId ? `主体 ${row.entityId}` : '未归属')
+        }}</template></el-table-column
+      >
       <el-table-column prop="title" label="批次" min-width="180" />
       <el-table-column label="状态" width="150"
         ><template #default="{ row }">{{ api.statuses[row.status] }}</template></el-table-column
@@ -77,10 +82,13 @@
         </el-tab-pane>
         <el-tab-pane label="审批记录">
           <el-table :data="history"
-            ><el-table-column label="时间" width="180"><template #default="{ row }">{{ formatDate(row.createTime) }}</template></el-table-column><el-table-column
-              prop="actorId"
-              label="操作人"
-              width="90" /><el-table-column label="操作" width="100"
+            ><el-table-column label="时间" width="180"
+              ><template #default="{ row }">{{
+                formatDate(row.createTime)
+              }}</template></el-table-column
+            ><el-table-column prop="actorId" label="操作人" width="90" /><el-table-column
+              label="操作"
+              width="100"
               ><template #default="{ row }">{{
                 actionNames[row.action] || row.action
               }}</template></el-table-column

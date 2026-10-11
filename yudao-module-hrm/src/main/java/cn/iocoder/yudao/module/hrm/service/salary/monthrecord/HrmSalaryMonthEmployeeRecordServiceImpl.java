@@ -325,6 +325,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
 
     @Override
     public List<HrmSalaryMonthEmployeeRecordDO> getMonthEmployeeRecordListByMonthRecordId(Long monthRecordId) {
+        monthRecordService.validateMonthRecordExists(monthRecordId);
         return monthEmployeeRecordMapper.selectListByMonthRecordId(monthRecordId);
     }
 
@@ -399,7 +400,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
             HrmSalaryTaxRuleDO taxRule, Map<Integer, HrmSalaryOptionDO> optionMap) {
         List<HrmSalaryOptionValueVO> values = fillLastMonthCumulativeValues(
                 new ArrayList<>(optionValues), employeeRecord.getEmployeeId(),
-                employeeRecord.getYear(), employeeRecord.getMonth(), taxRule, optionMap);
+                employeeRecord.getYear(), employeeRecord.getMonth(), employeeRecord.getEntityId(), taxRule, optionMap);
         values = payrollFormulaService.calculate(values, optionMap,
                 employeeRecord.getFormulaDate() == null ? java.time.LocalDate.of(employeeRecord.getYear(), employeeRecord.getMonth(), 1) : employeeRecord.getFormulaDate(),
                 employeeRecord.getSalaryGroupId(), employeeRecord.getActualWorkDay(), employeeRecord.getNeedWorkDay());
@@ -600,14 +601,14 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
     }
 
     private List<HrmSalaryOptionValueVO> fillLastMonthCumulativeValues(
-            List<HrmSalaryOptionValueVO> sourceValues, Long employeeId, Integer year, Integer month,
+            List<HrmSalaryOptionValueVO> sourceValues, Long employeeId, Integer year, Integer month, Long entityId,
             HrmSalaryTaxRuleDO taxRule, Map<Integer, HrmSalaryOptionDO> optionMap) {
         if (!isSalaryTaxRule(taxRule)) {
             return sourceValues;
         }
         Set<Integer> existingCodes = convertSet(sourceValues, HrmSalaryOptionValueVO::getCode);
         Map<Integer, BigDecimal> lastMonthValues = getLastMonthCumulativeValues(
-                employeeId, year, month, taxRule, optionMap);
+                employeeId, year, month, entityId, taxRule, optionMap);
         List<HrmSalaryOptionValueVO> missingValues = HrmSalaryOptionCodeEnum.LAST_MONTH_CUMULATIVE_CODES.stream()
                 .filter(code -> !existingCodes.contains(code))
                 .map(code -> buildOptionValue(code, lastMonthValues.getOrDefault(code, BigDecimal.ZERO), optionMap))
@@ -621,7 +622,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
     }
 
     private Map<Integer, BigDecimal> getLastMonthCumulativeValues(
-            Long employeeId, Integer year, Integer month, HrmSalaryTaxRuleDO taxRule,
+            Long employeeId, Integer year, Integer month, Long entityId, HrmSalaryTaxRuleDO taxRule,
             Map<Integer, HrmSalaryOptionDO> optionMap) {
         Map<Integer, BigDecimal> result = HrmSalaryOptionCodeEnum.LAST_MONTH_CUMULATIVE_CODES.stream()
                 .collect(Collectors.toMap(Function.identity(), ignored -> BigDecimal.ZERO,
@@ -634,8 +635,12 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
             return result;
         }
         YearMonth lastYearMonth = YearMonth.of(year, month).minusMonths(1);
-        HrmSalaryMonthEmployeeRecordDO lastRecord = monthEmployeeRecordMapper
-                .selectByEmployeeIdAndYearMonth(employeeId, lastYearMonth.getYear(), lastYearMonth.getMonthValue());
+        HrmSalaryMonthEmployeeRecordDO lastRecord = entityId==null?monthEmployeeRecordMapper
+                .selectByEmployeeIdAndYearMonth(employeeId, lastYearMonth.getYear(), lastYearMonth.getMonthValue()):monthEmployeeRecordMapper.selectOne(
+                    new cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX<HrmSalaryMonthEmployeeRecordDO>()
+                        .eq(HrmSalaryMonthEmployeeRecordDO::getEmployeeId,employeeId).eq(HrmSalaryMonthEmployeeRecordDO::getEntityId,entityId)
+                        .eq(HrmSalaryMonthEmployeeRecordDO::getYear,lastYearMonth.getYear()).eq(HrmSalaryMonthEmployeeRecordDO::getMonth,lastYearMonth.getMonthValue())
+                        .orderByDesc(HrmSalaryMonthEmployeeRecordDO::getId).last("LIMIT 1"));
         if (lastRecord == null) {
             return result;
         }

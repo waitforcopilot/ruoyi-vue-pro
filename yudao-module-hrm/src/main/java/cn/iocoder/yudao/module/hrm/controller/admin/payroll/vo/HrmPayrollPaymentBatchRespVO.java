@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 @Data
 public class HrmPayrollPaymentBatchRespVO {
     private Long id;
+    private Long entityId;
+    private String entityName;
     private String title;
     private Integer status;
     private Integer employeeCount;

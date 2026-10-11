@@ -14,6 +14,11 @@ import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUti
 @RestController @RequestMapping("/hrm/payroll/batch")
 public class HrmPayrollBatchController {
     @Resource private HrmPayrollBatchService service;
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollScopeService scope;
+    @PostMapping("/bind-subject") @PreAuthorize("@ss.hasPermission('hrm:salary:month-record:update')")
+    public CommonResult<Boolean> bindSubject(@RequestParam Long batchId,@RequestParam Long entityId,@RequestParam String reason) {
+        scope.bindDraft(batchId,entityId,reason);return success(true);
+    }
     @GetMapping("/page") @PreAuthorize("@ss.hasPermission('hrm:payroll:batch:query')")
     public CommonResult<cn.iocoder.yudao.framework.common.pojo.PageResult<cn.iocoder.yudao.module.hrm.dal.dataobject.salary.monthrecord.HrmSalaryMonthRecordDO>> page(
             @Valid cn.iocoder.yudao.module.hrm.controller.admin.salary.vo.monthrecord.HrmSalaryMonthRecordPageReqVO request) {

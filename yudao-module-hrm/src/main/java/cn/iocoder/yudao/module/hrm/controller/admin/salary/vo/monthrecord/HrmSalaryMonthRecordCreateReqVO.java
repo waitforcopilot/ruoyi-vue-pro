@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 @Data
 public class HrmSalaryMonthRecordCreateReqVO {
 
+    @NotNull(message = "法人主体不能为空")
+    private Long entityId;
+
     @Schema(description = "年份", requiredMode = Schema.RequiredMode.REQUIRED, example = "2026")
     @NotNull(message = "年份不能为空")
     @Min(value = 2000, message = "年份不能小于 2000")

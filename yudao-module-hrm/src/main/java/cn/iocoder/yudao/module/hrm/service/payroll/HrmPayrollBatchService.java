@@ -15,6 +15,7 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 public class HrmPayrollBatchService {
     @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.salary.slip.HrmSalarySlipSendRecordMapper slipSendMapper;
     @Resource private HrmPayrollWorkService workService;
+    @Resource private HrmPayrollScopeService scope;
     @Resource private HrmPayrollAttendanceService attendanceService;
     @Resource private HrmPayrollRunMapper runMapper;
     @Resource private HrmPayrollBatchEventMapper eventMapper;
@@ -23,8 +24,9 @@ public class HrmPayrollBatchService {
     public Long snapshot(Long batchId,Object inputs,Object rules,List<HrmSalaryMonthEmployeeRecordDO> results,Long actor) {
         HrmSalaryMonthRecordDO batch=batchMapper.selectByIdForUpdate(batchId);
         if(batch==null)throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);
+        scope.check(batch,"CALCULATE",actor);
         if(batch.getStatus()!=11)throw exception(SALARY_MONTH_RECORD_STATUS_INVALID);
-        List<HrmPayrollRunDO> previous=runs(batchId);
+        List<HrmPayrollRunDO> previous=rawRuns(batchId);
         HrmPayrollRunDO run=new HrmPayrollRunDO();run.setMonthRecordId(batchId);
         run.setVersion(previous.isEmpty()?1:previous.get(0).getVersion()+1);
         run.setInputSnapshot(JsonUtils.toJsonString(inputs));run.setRuleSnapshot(JsonUtils.toJsonString(rules));
@@ -33,13 +35,19 @@ public class HrmPayrollBatchService {
     }
     public cn.iocoder.yudao.framework.common.pojo.PageResult<HrmSalaryMonthRecordDO> page(
             cn.iocoder.yudao.module.hrm.controller.admin.salary.vo.monthrecord.HrmSalaryMonthRecordPageReqVO request) {
-        return batchMapper.selectPage(request);
+        return scope.page(request,false);
     }
     public List<HrmPayrollRunDO> runs(Long batchId){
+        scope.require(batchId,"READ"); return rawRuns(batchId);
+    }
+    private List<HrmPayrollRunDO> rawRuns(Long batchId){
         if(batchMapper.selectById(batchId)==null)throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);
         return runMapper.selectList(new LambdaQueryWrapperX<HrmPayrollRunDO>().eq(HrmPayrollRunDO::getMonthRecordId,batchId).orderByDesc(HrmPayrollRunDO::getVersion));
     }
     public List<HrmPayrollBatchEventDO> events(Long batchId){
+        scope.require(batchId,"READ"); return rawEvents(batchId);
+    }
+    private List<HrmPayrollBatchEventDO> rawEvents(Long batchId){
         if(batchMapper.selectById(batchId)==null)throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);
         return eventMapper.selectList(new LambdaQueryWrapperX<HrmPayrollBatchEventDO>().eq(HrmPayrollBatchEventDO::getMonthRecordId,batchId).orderByDesc(HrmPayrollBatchEventDO::getId));
     }
@@ -59,12 +67,16 @@ public class HrmPayrollBatchService {
         if(reason==null||reason.trim().isEmpty())throw exception(PAYROLL_REVIEW_INCOMPLETE);
         HrmSalaryMonthRecordDO batch=batchMapper.selectByIdForUpdate(batchId);
         if(batch==null)throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);
-        List<HrmPayrollRunDO> versions=runs(batchId);
+        String permission="review".equals(action)?"REVIEW": "submit".equals(action)?"CALCULATE":
+            "reject".equals(action)?(batch.getStatus()==12?"REVIEW":"APPROVE"):
+            "unfreeze".equals(action)?"MANAGE":"APPROVE";
+        scope.check(batch,permission,actor);
+        List<HrmPayrollRunDO> versions=rawRuns(batchId);
         if(versions.isEmpty()||!Objects.equals(versions.get(0).getId(),runId))throw exception(PAYROLL_VERSION_CONFLICT);
         HrmPayrollRunDO run=versions.get(0);
         if(("review".equals(action)||"approve".equals(action)) && Objects.equals(run.getComputedBy(),actor))throw exception(PAYROLL_SELF_APPROVAL);
         if("approve".equals(action)){
-            List<HrmPayrollBatchEventDO> events=events(batchId);
+            List<HrmPayrollBatchEventDO> events=rawEvents(batchId);
             HrmPayrollBatchEventDO review=events.stream().filter(e->Objects.equals(e.getRunId(),runId)&&"review".equals(e.getAction())).findFirst().orElse(null);
             if(review==null||Objects.equals(review.getActorId(),actor))throw exception(PAYROLL_SELF_APPROVAL);
         }
@@ -79,6 +91,7 @@ public class HrmPayrollBatchService {
             HrmPayrollRunDO source=run;Set<Long> visited=new HashSet<>();
             while(source!=null){
                 if(!visited.add(source.getId()))throw exception(PAYROLL_VERSION_CONFLICT);
+                scope.validateInputSnapshot(source.getInputSnapshot());
                 workService.validateInputSnapshot(source.getInputSnapshot());
                 attendanceService.validateInputSnapshot(source.getInputSnapshot());
                 Map<String,Object> input=JsonUtils.parseObject(source.getInputSnapshot(),Map.class);

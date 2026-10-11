@@ -12,6 +12,11 @@
       ></el-space
     >
     <el-table v-loading="loading" :data="rows">
+      <el-table-column prop="entityName" label="法人主体" min-width="140"
+        ><template #default="{ row }">{{
+          row.entityName || (row.entityId ? `主体 ${row.entityId}` : '未归属')
+        }}</template></el-table-column
+      >
       <el-table-column prop="title" label="批次" min-width="180" />
       <el-table-column label="状态" width="120"
         ><template #default="{ row }">{{ statuses[row.status] }}</template></el-table-column
@@ -109,8 +114,11 @@
       <el-table :data="receipts"
         ><el-table-column prop="fileName" label="文件" /><el-table-column
           prop="rowCount"
-          label="明细数量" /><el-table-column prop="actorId" label="操作人" /><el-table-column
-          label="导入时间"><template #default="{ row }">{{ formatDate(row.createTime) }}</template></el-table-column></el-table>
+          label="明细数量"
+        /><el-table-column prop="actorId" label="操作人" /><el-table-column label="导入时间"
+          ><template #default="{ row }">{{ formatDate(row.createTime) }}</template></el-table-column
+        ></el-table
+      >
     </template>
   </Dialog>
   <Dialog v-model="differenceVisible" title="回盘差异：未更新代发台账" width="750px">

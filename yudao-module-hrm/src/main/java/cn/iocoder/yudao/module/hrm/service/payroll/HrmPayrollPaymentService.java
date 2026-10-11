@@ -22,6 +22,7 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 @Service
 public class HrmPayrollPaymentService {
     @Resource private HrmPayrollPaymentMapper paymentMapper;
+    @Resource private HrmPayrollScopeService scope;
     @Resource private HrmPayrollPaymentReceiptMapper receiptMapper;
     @Resource private HrmSalaryMonthRecordMapper batchMapper;
     @Resource private HrmPayrollRunMapper runMapper;
@@ -31,9 +32,7 @@ public class HrmPayrollPaymentService {
     @Resource private HrmPayrollBatchService batchService;
     public cn.iocoder.yudao.framework.common.pojo.PageResult<cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollPaymentBatchRespVO> batches(
             cn.iocoder.yudao.module.hrm.controller.admin.salary.vo.monthrecord.HrmSalaryMonthRecordPageReqVO request) {
-        cn.iocoder.yudao.framework.common.pojo.PageResult<HrmSalaryMonthRecordDO> page=batchMapper.selectPage(request,
-            new LambdaQueryWrapperX<HrmSalaryMonthRecordDO>().eqIfPresent(HrmSalaryMonthRecordDO::getStatus,request.getStatus())
-                .in(HrmSalaryMonthRecordDO::getStatus,10,15,16,17).orderByDesc(HrmSalaryMonthRecordDO::getYear).orderByDesc(HrmSalaryMonthRecordDO::getMonth));
+        cn.iocoder.yudao.framework.common.pojo.PageResult<HrmSalaryMonthRecordDO> page=scope.page(request,true);
         List<cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollPaymentBatchRespVO> rows=new ArrayList<>();
         for(HrmSalaryMonthRecordDO batch:page.getList()){
             cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollPaymentBatchRespVO row=BeanUtils.toBean(batch,cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollPaymentBatchRespVO.class);
@@ -44,6 +43,7 @@ public class HrmPayrollPaymentService {
     }
     @Transactional(rollbackFor=Exception.class)
     public void prepare(Long batchId,Long runId,Long actor) {
+        scope.check(batchMapper.selectByIdForUpdate(batchId),"APPROVE",actor);
         HrmSalaryMonthRecordDO batch=batchMapper.selectByIdForUpdate(batchId);
         if(batch==null)throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);
         HrmPayrollRunDO run=runMapper.selectById(runId);
@@ -73,18 +73,21 @@ public class HrmPayrollPaymentService {
         return paymentMapper.selectList(new LambdaQueryWrapperX<HrmPayrollPaymentDO>().eq(HrmPayrollPaymentDO::getMonthRecordId,batchId).orderByAsc(HrmPayrollPaymentDO::getId));
     }
     public List<HrmPayrollPaymentDO> list(Long batchId) {
+        scope.require(batchId,"READ");
         if(batchMapper.selectById(batchId)==null)throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);
         List<HrmPayrollPaymentDO> rows=rawList(batchId);
         for(HrmPayrollPaymentDO row:rows){String account=row.getBankAccount();row.setBankAccount(account==null||account.length()<4?"****":"****"+account.substring(account.length()-4));}
         return rows;
     }
     public List<HrmPayrollBankRowVO> export(Long batchId) {
+        scope.require(batchId,"EXPORT");
         HrmSalaryMonthRecordDO batch=batchMapper.selectById(batchId);
         if(batch==null||batch.getStatus()!=16)throw exception(SALARY_MONTH_RECORD_STATUS_INVALID);
         return rawList(batchId).stream().filter(row->"PENDING".equals(row.getStatus()))
             .map(row->BeanUtils.toBean(row,HrmPayrollBankRowVO.class)).collect(Collectors.toList());
     }
     public List<cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollBankDifferenceVO> validateRows(Long batchId,List<HrmPayrollBankRowVO> rows) {
+        scope.require(batchId,"APPROVE");
         if(batchMapper.selectById(batchId)==null)throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);
         Map<Long,HrmPayrollPaymentDO> payments=rawList(batchId).stream().collect(Collectors.toMap(HrmPayrollPaymentDO::getId,r->r));
         List<cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollBankDifferenceVO> differences=new ArrayList<>();Set<Long> seen=new HashSet<>();
@@ -104,6 +107,7 @@ public class HrmPayrollPaymentService {
     }
     @Transactional(rollbackFor=Exception.class)
     public Long reconcileFile(Long batchId,String fileName,String digest,List<HrmPayrollBankRowVO> rows,Long actor) {
+        scope.check(batchMapper.selectByIdForUpdate(batchId),"APPROVE",actor);
         if(batchMapper.selectByIdForUpdate(batchId)==null)throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);
         HrmPayrollPaymentReceiptDO previous=receiptMapper.selectOne(new LambdaQueryWrapperX<HrmPayrollPaymentReceiptDO>()
             .eq(HrmPayrollPaymentReceiptDO::getMonthRecordId,batchId).eq(HrmPayrollPaymentReceiptDO::getDigest,digest));
@@ -114,6 +118,7 @@ public class HrmPayrollPaymentService {
         receipt.setDetails(JsonUtils.toJsonString(rows));receiptMapper.insert(receipt);return receipt.getId();
     }
     public List<HrmPayrollPaymentReceiptDO> receipts(Long batchId) {
+        scope.require(batchId,"READ");
         if(batchMapper.selectById(batchId)==null)throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);
         List<HrmPayrollPaymentReceiptDO> rows=receiptMapper.selectList(new LambdaQueryWrapperX<HrmPayrollPaymentReceiptDO>().eq(HrmPayrollPaymentReceiptDO::getMonthRecordId,batchId).orderByDesc(HrmPayrollPaymentReceiptDO::getId));
         for(HrmPayrollPaymentReceiptDO row:rows)row.setDetails(null);
@@ -121,6 +126,7 @@ public class HrmPayrollPaymentService {
     }
     @Transactional(rollbackFor=Exception.class)
     public void reconcile(Long batchId,List<HrmPayrollBankRowVO> rows,Long actor) {
+        scope.check(batchMapper.selectByIdForUpdate(batchId),"APPROVE",actor);
         HrmSalaryMonthRecordDO batch=batchMapper.selectByIdForUpdate(batchId);
         if(batch==null||!(batch.getStatus()==16||batch.getStatus()==17))throw exception(SALARY_MONTH_RECORD_STATUS_INVALID);
         if(rows.isEmpty()||!validateRows(batchId,rows).isEmpty())throw exception(PAYROLL_PAYMENT_INVALID);
@@ -150,6 +156,7 @@ public class HrmPayrollPaymentService {
         HrmPayrollPaymentDO candidate=paymentMapper.selectById(id);
         if(candidate==null)throw exception(PAYROLL_PAYMENT_INVALID);
         HrmSalaryMonthRecordDO batch=batchMapper.selectByIdForUpdate(candidate.getMonthRecordId());
+        scope.check(batch,"APPROVE",actor);
         HrmPayrollPaymentDO row=paymentMapper.selectById(id);
         if(batch.getStatus()!=16||!"FAILED".equals(row.getStatus()))throw exception(PAYROLL_PAYMENT_INVALID);
         row.setStatus("PENDING");row.setAttempt(row.getAttempt()+1);paymentMapper.updateById(row);

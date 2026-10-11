@@ -14,4 +14,5 @@ public class HrmPayrollBatchEventDO extends BaseDO {
     private Integer toStatus;
     private Long actorId;
     private String reason;
+    private String snapshot;
 }

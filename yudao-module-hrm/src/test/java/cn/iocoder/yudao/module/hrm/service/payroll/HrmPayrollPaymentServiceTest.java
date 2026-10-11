@@ -21,11 +21,20 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 class HrmPayrollPaymentServiceTest extends BaseDbUnitTest {
     @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollAttendanceService payrollAttendanceService;
     @org.springframework.boot.test.mock.mockito.MockBean private HrmPayrollWorkService workService;
+    @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollScopeService payrollScope;
     @Resource private HrmPayrollPaymentService service;
     @Resource private HrmPayrollBatchService batches;
     @Resource private HrmSalaryMonthRecordMapper mapper;
     @MockBean private HrmEmployeeService employees;
     @MockBean private HrmEmployeeSalaryCardService cards;
+    @org.junit.jupiter.api.BeforeEach
+    void configureScopedQueries() {
+        org.mockito.Mockito.when(payrollScope.page(org.mockito.ArgumentMatchers.any(),org.mockito.ArgumentMatchers.anyBoolean()))
+            .thenAnswer(call->mapper.selectPage(call.getArgument(0)));
+        org.mockito.Mockito.when(payrollScope.list(org.mockito.ArgumentMatchers.nullable(Integer.class)))
+            .thenAnswer(call->mapper.selectListByStatus(call.getArgument(0)));
+    }
+
     @Test void partialFailureOnlyRetriesFailedRowsAndCannotReverseSuccess() {
         HrmSalaryMonthRecordDO batch=new HrmSalaryMonthRecordDO().setYear(2026).setMonth(10).setStatus(11);mapper.insert(batch);
         List<HrmSalaryMonthEmployeeRecordDO> results=new ArrayList<>();

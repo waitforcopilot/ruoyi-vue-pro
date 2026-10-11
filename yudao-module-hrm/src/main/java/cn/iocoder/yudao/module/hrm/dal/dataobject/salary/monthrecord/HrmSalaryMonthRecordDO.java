@@ -39,6 +39,10 @@ public class HrmSalaryMonthRecordDO extends BaseDO {
      */
     @TableId
     private Long id;
+    /** Explicit legal / withholding subject; null identifies unbound historical batches. */
+    private Long entityId;
+    private String batchKey;
+    @TableField(exist = false) private String entityName;
     /**
      * 工资表标题
      */
