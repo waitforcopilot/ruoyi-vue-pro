@@ -9,7 +9,11 @@
         <span>{{ payrollEmployeeCount }} 人</span>
       </el-form-item>
       <el-form-item label="社保数据">
+        <span v-if="currentRecord?.entityId"
+          >按批准的缴费主体、政策版本及申报基数计算；未核定来源不能核算。</span
+        >
         <el-switch
+          v-else
           v-model="syncInsuranceData"
           active-text="从社保表同步"
           inactive-text="本次不带入"

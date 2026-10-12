@@ -75,3 +75,8 @@ DELETE FROM "hrm_payroll_entity_event";
 DELETE FROM "hrm_payroll_entity_membership";
 DELETE FROM "hrm_payroll_entity_grant";
 DELETE FROM "hrm_payroll_legal_entity";
+
+DELETE FROM "hrm_payroll_insurance_event";
+DELETE FROM "hrm_payroll_insurance_base";
+DELETE FROM "hrm_payroll_insurance_policy";
+DELETE FROM "hrm_payroll_insurance_import";

@@ -172,6 +172,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
     @Override
     public HrmSalaryMonthEmployeeRecordDO calculateMonthEmployeeRecord(
             HrmSalaryMonthEmployeeRecordDO employeeRecord, List<HrmSalaryOptionValueVO> optionValues) {
+        validateInsuranceSourceAdjustment(employeeRecord, optionValues);
         Map<Integer, HrmSalaryOptionDO> optionMap = getSalaryOptionMap();
         HrmSalaryTaxRuleDO taxRule = getEmployeeTaxRuleMap(
                 Collections.singleton(employeeRecord.getEmployeeId())).get(employeeRecord.getEmployeeId());
@@ -217,6 +218,10 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
                 .collect(Collectors.toMap(HrmSalaryMonthEmployeeRecordDO::getId, Function.identity()));
         for (HrmSalaryMonthEmployeeRecordUpdateReqVO reqVO : reqVOs) {
             HrmSalaryMonthEmployeeRecordDO employeeRecord = employeeRecordMap.get(reqVO.getId());
+            if (salaryMonthRecord.getEntityId() != null) {
+                employeeRecord.setEntityId(salaryMonthRecord.getEntityId());
+                validateInsuranceSourceAdjustment(employeeRecord, reqVO.getOptionValues());
+            }
             monthEmployeeRecordMapper.updateById(calculateMonthEmployeeRecord(employeeRecord,
                     mergeEditableOptionValues(employeeRecord.getOptionValues(), reqVO.getOptionValues(), optionMap),
                     employeeTaxRuleMap.get(employeeRecord.getEmployeeId()), optionMap));
@@ -674,6 +679,20 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
         result.put(HrmSalaryOptionCodeEnum.LAST_MONTH_PREPAID_TAX.getCode(),
                 lastOptionMap.getOrDefault(HrmSalaryOptionCodeEnum.CURRENT_CUMULATIVE_TAX.getCode(), legacyPrepaidTax));
         return result;
+    }
+
+    private void validateInsuranceSourceAdjustment(HrmSalaryMonthEmployeeRecordDO record,
+            List<HrmSalaryOptionValueVO> requested) {
+        if (record.getEntityId() == null || requested == null) return;
+        Map<Integer, BigDecimal> original = new LinkedHashMap<>();
+        if (record.getOptionValues() != null) record.getOptionValues().forEach(value ->
+                original.put(value.getCode(), value.getValue()));
+        for (HrmSalaryOptionValueVO value : requested) {
+            if (!HrmSalaryOptionCodeEnum.INSURANCE_SOURCE_CODES.contains(value.getCode())) continue;
+            BigDecimal before = original.get(value.getCode());
+            if (before == null || value.getValue() == null || before.compareTo(value.getValue()) != 0)
+                throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INSURANCE_INVALID);
+        }
     }
 
     private List<HrmSalaryOptionValueVO> mergeEditableOptionValues(

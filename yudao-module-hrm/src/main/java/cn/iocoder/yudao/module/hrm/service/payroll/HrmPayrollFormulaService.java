@@ -43,7 +43,7 @@ public class HrmPayrollFormulaService {
     @Transactional(rollbackFor=Exception.class)
     public Long create(Integer code,String expression,LocalDate from,LocalDate to,String evidence,Long salaryGroupId) {
         Set<String> names=names();
-        if(!names.contains("item_"+code)||from==null||to==null||to.isBefore(from)
+        if(HrmSalaryOptionCodeEnum.INSURANCE_SOURCE_CODES.contains(code)||!names.contains("item_"+code)||from==null||to==null||to.isBefore(from)
                 ||evidence==null||evidence.trim().isEmpty()||evidence.length()>1000
                 ||(salaryGroupId!=null&&groupMapper.selectById(salaryGroupId)==null))throw exception(PAYROLL_FORMULA_INVALID);
         try {PayrollFormulaEngine.validateGraph(Collections.singletonMap("item_"+code,expression),names);}
@@ -57,7 +57,7 @@ public class HrmPayrollFormulaService {
         // A common ordered catalog lock prevents simultaneous approvals of mutually dependent outputs.
         optionMapper.selectList(new LambdaQueryWrapperX<HrmSalaryOptionDO>().orderByAsc(HrmSalaryOptionDO::getId).last("FOR UPDATE"));
         HrmPayrollFormulaDO rule=mapper.selectOneForUpdate(HrmPayrollFormulaDO::getId,id);
-        if(rule==null||!"PENDING".equals(rule.getStatus())||actor==null)throw exception(PAYROLL_FORMULA_INVALID);
+        if(rule==null||HrmSalaryOptionCodeEnum.INSURANCE_SOURCE_CODES.contains(rule.getOptionCode())||!"PENDING".equals(rule.getStatus())||actor==null)throw exception(PAYROLL_FORMULA_INVALID);
         if(Objects.equals(rule.getCreator(),String.valueOf(actor)))throw exception(PAYROLL_SELF_APPROVAL);
         List<HrmPayrollFormulaDO> approved=mapper.selectList(new LambdaQueryWrapperX<HrmPayrollFormulaDO>().eq(HrmPayrollFormulaDO::getStatus,"APPROVED"));
         for(HrmPayrollFormulaDO existing:approved)if(Objects.equals(existing.getOptionCode(),rule.getOptionCode())
@@ -88,6 +88,7 @@ public class HrmPayrollFormulaService {
         Map<String,String> result=new LinkedHashMap<>();rules.forEach(rule->result.put("item_"+rule.getOptionCode(),rule.getExpression()));return result;
     }
     private Map<String,BigDecimal> evaluate(List<HrmPayrollFormulaDO> rules,Map<String,BigDecimal> inputs) {
+        if(rules.stream().anyMatch(rule->HrmSalaryOptionCodeEnum.INSURANCE_SOURCE_CODES.contains(rule.getOptionCode())))throw exception(PAYROLL_FORMULA_INVALID);
         Map<String,String> formulas=expressions(rules);
         PayrollFormulaEngine.validateGraph(formulas,names());
         Set<String> referenced=new HashSet<>();formulas.values().forEach(expression->referenced.addAll(PayrollFormulaEngine.variables(expression)));

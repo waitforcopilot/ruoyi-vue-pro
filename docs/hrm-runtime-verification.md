@@ -6,9 +6,20 @@
 
 已有 yudao 数据库按顺序执行 `sql/mysql/hrm.sql`、`sql/mysql/bpm.sql`、`sql/mysql/oa.sql`，再执行已交付模块的增量脚本：
 
+必须先执行需求脚本创建薪酬父菜单，然后按以下顺序安装已交付功能（同日脚本也有依赖，不能直接按文件名字母排序）：
+
 - `sql/mysql/upgrade/20261010-hrm-requirements.sql`
 - `sql/mysql/upgrade/20261010-hrm-batch.sql`
 - `sql/mysql/upgrade/20261010-hrm-payment.sql`
+- `sql/mysql/upgrade/20261010-hrm-slip-publication.sql`
+- `sql/mysql/upgrade/20261010-hrm-formula.sql`
+- `sql/mysql/upgrade/20261010-hrm-salary-proposal.sql`
+- `sql/mysql/upgrade/20261010-hrm-work.sql`
+- `sql/mysql/upgrade/20261011-hrm-grade.sql`
+- `sql/mysql/upgrade/20261011-hrm-attendance.sql`
+- `sql/mysql/upgrade/20261011-hrm-entity.sql`
+- `sql/mysql/upgrade/20261011-hrm-batch-scope.sql`
+- `sql/mysql/upgrade/20261012-hrm-insurance-policy.sql`
 
 三个基础模块脚本仅创建缺失业务表。Flowable 使用项目现有的自动升级配置创建流程引擎表。后续模块的增量脚本应随相应功能交付安装，不能仅凭文件存在判断已验收。
 

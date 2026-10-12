@@ -16,6 +16,7 @@ public class HrmPayrollBatchService {
     @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.salary.slip.HrmSalarySlipSendRecordMapper slipSendMapper;
     @Resource private HrmPayrollWorkService workService;
     @Resource private HrmPayrollScopeService scope;
+    @Resource private HrmPayrollInsurancePolicyService insurance;
     @Resource private HrmPayrollAttendanceService attendanceService;
     @Resource private HrmPayrollRunMapper runMapper;
     @Resource private HrmPayrollBatchEventMapper eventMapper;
@@ -92,6 +93,7 @@ public class HrmPayrollBatchService {
             while(source!=null){
                 if(!visited.add(source.getId()))throw exception(PAYROLL_VERSION_CONFLICT);
                 scope.validateInputSnapshot(source.getInputSnapshot());
+                insurance.validateInputSnapshot(source.getInputSnapshot());
                 workService.validateInputSnapshot(source.getInputSnapshot());
                 attendanceService.validateInputSnapshot(source.getInputSnapshot());
                 Map<String,Object> input=JsonUtils.parseObject(source.getInputSnapshot(),Map.class);

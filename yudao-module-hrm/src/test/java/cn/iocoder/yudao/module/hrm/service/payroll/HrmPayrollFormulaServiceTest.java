@@ -75,4 +75,13 @@ class HrmPayrollFormulaServiceTest extends BaseDbUnitTest {
         HrmSalaryOptionDO option=optionMapper.selectOne(HrmSalaryOptionDO::getCode,1000000001);option.setEnabled(false);optionMapper.updateById(option);
         assertServiceException(()->create(1000000002,"item_1000000001+1",null),PAYROLL_FORMULA_INVALID);
     }
+    @Test void approvedInsuranceAmountsCannotBeOverriddenByRulesButCanBeReferenced() {
+        optionMapper.insert(HrmSalaryOptionDO.builder().code(100101).name("个人社保").parentCode(100).enabled(true).build());
+        assertServiceException(()->create(100101,"item_1000000001*2",null),PAYROLL_FORMULA_INVALID);
+        Long id=create(1000000002,"item_100101+10",null);approve(id);
+        assertEquals(0,new BigDecimal("110").compareTo(service.preview(id,start,null,Collections.singletonMap("item_100101",new BigDecimal("100"))).get("item_1000000002")));
+        HrmPayrollFormulaDO legacy=new HrmPayrollFormulaDO();legacy.setOptionCode(100101);legacy.setExpression("item_1000000001*2");legacy.setEffectiveFrom(start);legacy.setEffectiveTo(end);legacy.setStatus("APPROVED");legacy.setEvidence("历史规则依据");mapper.insert(legacy);
+        assertServiceException(()->service.calculate(Collections.emptyList(),Collections.emptyMap(),start,null,null,null),PAYROLL_FORMULA_INVALID);
+    }
+
 }

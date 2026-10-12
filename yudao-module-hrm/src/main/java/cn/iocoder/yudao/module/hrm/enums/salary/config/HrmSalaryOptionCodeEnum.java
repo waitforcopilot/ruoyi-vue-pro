@@ -73,6 +73,11 @@ public enum HrmSalaryOptionCodeEnum implements ArrayValuable<Integer> {
             CURRENT_CUMULATIVE_SPECIAL_DEDUCTION.getCode(), CURRENT_CUMULATIVE_ADDITIONAL_DEDUCTION.getCode(),
             CURRENT_CUMULATIVE_TAXABLE.getCode(), CURRENT_CUMULATIVE_TAX.getCode()));
 
+    /** 批准缴费来源生成的金额，不能通过人工调整或通用公式覆盖。 */
+    public static final Set<Integer> INSURANCE_SOURCE_CODES = Collections.unmodifiableSet(SetUtils.asSet(
+            PERSONAL_INSURANCE.getCode(), PERSONAL_PROVIDENT_FUND.getCode(),
+            CORPORATE_INSURANCE.getCode(), CORPORATE_PROVIDENT_FUND.getCode()));
+
     /**
      * 默认工资条模板的薪资项编码
      */

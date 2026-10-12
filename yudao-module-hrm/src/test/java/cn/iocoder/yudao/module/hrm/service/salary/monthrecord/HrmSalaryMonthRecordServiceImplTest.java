@@ -79,6 +79,7 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
     @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollAttendanceService payrollAttendanceService;
 
     @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollScopeService payrollScope;
+    @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInsurancePolicyService payrollInsurancePolicies;
     @Resource
     private HrmSalaryMonthRecordServiceImpl monthRecordService;
 
@@ -263,13 +264,14 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void crossEntityInsuranceWithoutPayerAttributionBlocksPayroll() {
-        HrmSalaryMonthRecordDO batch=buildMonthRecord(2026,7,HrmSalaryMonthRecordStatusEnum.UNCOMPUTED.getStatus());monthRecordMapper.insert(batch);
+    public void missingApprovedPayerCannotBeBypassedByDisablingLegacySynchronization() {
+        HrmSalaryMonthRecordDO batch=buildMonthRecord(2026,7,HrmSalaryMonthRecordStatusEnum.UNCOMPUTED.getStatus()).setEntityId(1L);monthRecordMapper.insert(batch);
         HrmEmployeeDO employee=buildActiveEmployee(1L,"TRANSFER");
         when(employeeService.getEmployeeList(any())).thenReturn(Collections.singletonList(employee));
+        when(payrollScope.payrollDates(any())).thenReturn(Collections.singletonMap(1L,Collections.singleton(LocalDate.of(2026,7,1))));
         when(salaryGroupService.getEmployeeSalaryGroupMap(any())).thenReturn(Collections.singletonMap(1L,HrmSalaryGroupDO.builder().id(10L).build()));
-        when(payrollScope.requiresInsuranceAttribution(any(),eq(1L))).thenReturn(true);
-        assertServiceException(()->monthRecordService.computeMonthRecord(batch.getId(),true,false,Collections.emptyList(),Collections.emptyList(),Collections.emptyList()),cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INSURANCE_SCOPE_REQUIRED);
+        when(payrollInsurancePolicies.forPayroll(any(),anyCollection(),any(),any())).thenThrow(cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INSURANCE_INVALID));
+        assertServiceException(()->monthRecordService.computeMonthRecord(batch.getId(),false,false,Collections.emptyList(),Collections.emptyList(),Collections.emptyList()),cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INSURANCE_INVALID);
         org.mockito.Mockito.verifyNoInteractions(insuranceMonthRecordService,insuranceMonthEmployeeRecordService);
         assertEquals(HrmSalaryMonthRecordStatusEnum.UNCOMPUTED.getStatus(),monthRecordMapper.selectById(batch.getId()).getStatus());
     }
@@ -356,6 +358,32 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
         assertAmount("10000.00", result.getExpectedPaySalary());
         assertAmount("500.00", result.getPersonalTax());
         assertAmount("9500.00", result.getRealPaySalary());
+    }
+
+    @Test
+    public void scopedPayrollUsesApprovedInsuranceDespiteLegacySwitchAndSnapshotsSources() {
+        HrmSalaryMonthRecordDO batch=buildMonthRecord(2026,7,HrmSalaryMonthRecordStatusEnum.UNCOMPUTED.getStatus()).setEntityId(1L);monthRecordMapper.insert(batch);
+        HrmEmployeeDO employee=buildActiveEmployee(1L,"INS-1");
+        when(employeeService.getEmployeeList(any())).thenReturn(Collections.singletonList(employee));
+        when(payrollScope.payrollDates(any())).thenReturn(Collections.singletonMap(1L,Collections.singleton(LocalDate.of(2026,7,1))));
+        when(salaryGroupService.getEmployeeSalaryGroupMap(any())).thenReturn(Collections.singletonMap(1L,HrmSalaryGroupDO.builder().id(10L).taxRuleId(20L).build()));
+        HrmSalaryTaxRuleDO tax=HrmSalaryTaxRuleDO.builder().id(20L).name("默认计税").build();
+        when(salaryTaxRuleService.getSalaryTaxRuleMap(anyCollection())).thenReturn(Collections.singletonMap(20L,tax));
+        when(salaryTaxRuleService.getSalaryTaxRuleList()).thenReturn(Collections.singletonList(tax));
+        when(salaryEmployeeInfoService.getEffectiveSalaryOptionList(eq(employee),any(LocalDateTime[].class),any()))
+            .thenReturn(Arrays.asList(HrmSalaryEmployeeInfoDO.SalaryOption.builder().code(10101).name("基本工资").value(new BigDecimal("10000")).build(),HrmSalaryEmployeeInfoDO.SalaryOption.builder().code(100101).name("旧缴费").value(new BigDecimal("999")).build()));
+        cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInsurancePolicyService.Quote q=new cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInsurancePolicyService.Quote();q.setEntityId(1L);q.setEmployeeId(1L);q.setBaseId(20L);q.setPolicyId(30L);q.setPersonalInsurance(new BigDecimal("640.00"));
+        when(payrollInsurancePolicies.forPayroll(any(),anyCollection(),any(),any())).thenReturn(Collections.singletonMap(1L,q));
+        when(payrollInsurancePolicies.payrollRecords(any())).thenReturn(Collections.singletonMap(1L,new cn.iocoder.yudao.module.hrm.dal.dataobject.insurance.monthrecord.HrmInsuranceMonthEmployeeRecordDO().setEmployeeId(1L).setPersonalInsuranceAmount(new BigDecimal("640.00")).setPersonalProvidentFundAmount(BigDecimal.ZERO).setCorporateInsuranceAmount(new BigDecimal("1280.00")).setCorporateProvidentFundAmount(BigDecimal.ZERO)));
+        when(monthEmployeeRecordService.calculateMonthEmployeeRecordList(any(),any(),any())).thenAnswer(call->{List<HrmSalaryMonthEmployeeRecordDO> records=call.getArgument(0);records.forEach(r->r.setExpectedPaySalary(BigDecimal.ZERO).setPersonalTax(BigDecimal.ZERO).setRealPaySalary(BigDecimal.ZERO).setOptionValues(Collections.emptyList()));return records;});
+        monthRecordService.computeMonthRecord(batch.getId(),false,false,Collections.emptyList(),Collections.emptyList(),Collections.emptyList());
+        ArgumentCaptor<Map<Long,List<HrmSalaryOptionValueVO>>> values=ArgumentCaptor.forClass(Map.class);
+        verify(monthEmployeeRecordService).calculateMonthEmployeeRecordList(any(),values.capture(),any());
+        assertAmount("640.00",values.getValue().get(1L).stream().filter(v->v.getCode()==100101).findFirst().get().getValue());
+        ArgumentCaptor<Map<String,Object>> snapshot=ArgumentCaptor.forClass(Map.class);
+        verify(payrollBatchService).snapshot(eq(batch.getId()),snapshot.capture(),any(),any(),any());
+        assertEquals(Collections.singletonMap(1L,q),snapshot.getValue().get("insurancePolicySources"));
+        org.mockito.Mockito.verifyNoInteractions(insuranceMonthRecordService,insuranceMonthEmployeeRecordService);
     }
 
     @Test

@@ -32,6 +32,7 @@ import org.springframework.context.annotation.Import;
   org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration.class
 })
 class HrmPayrollScopeServiceTest extends BaseDbUnitTest {
+    @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInsurancePolicyService payrollInsurancePolicies;
   @Resource private HrmPayrollScopeService scope;
   @Resource private HrmPayrollEntityService entities;
   @Resource private HrmPayrollBatchService approvals;

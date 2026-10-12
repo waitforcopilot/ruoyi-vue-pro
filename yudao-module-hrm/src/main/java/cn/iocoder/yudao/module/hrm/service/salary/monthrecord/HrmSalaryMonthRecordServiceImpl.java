@@ -130,6 +130,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
 
     @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollScopeService payrollScopeService;
     @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWindowService payrollWindowService;
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInsurancePolicyService payrollInsurancePolicyService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -242,9 +243,6 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
         Map<Long, HrmSalaryGroupDO> salaryGroupMap = salaryGroupService.getEmployeeSalaryGroupMap(payrollEmployees);
         payrollEmployees = filterList(payrollEmployees, employee -> salaryGroupMap.containsKey(employee.getId()));
 
-        if(syncInsuranceData && payrollEmployees.stream().anyMatch(e->payrollScopeService.requiresInsuranceAttribution(monthRecord,e.getId())))
-            throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INSURANCE_SCOPE_REQUIRED);
-
         // 2. 加载工资项、考勤、社保和导入数据
         List<HrmSalaryOptionDO> optionList = salaryOptionService.getSalaryOptionList(false);
         Map<Integer, HrmSalaryOptionDO> optionMap = convertMap(optionList, HrmSalaryOptionDO::getCode);
@@ -258,11 +256,14 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
         HrmSalaryConfigDO salaryConfig = salaryConfigService.getSalaryConfig();
         YearMonth socialSecurityYearMonth = resolveSocialSecurityYearMonth(
                 YearMonth.of(monthRecord.getYear(), monthRecord.getMonth()), salaryConfig);
-        if (syncInsuranceData) {
+        if (syncInsuranceData && monthRecord.getEntityId()==null) {
             insuranceMonthRecordService.validateMonthRecordExists(
                     socialSecurityYearMonth.getYear(), socialSecurityYearMonth.getMonthValue());
         }
-        Map<Long, HrmInsuranceMonthEmployeeRecordDO> insuranceMap = syncInsuranceData
+        Map<Long,cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInsurancePolicyService.Quote> insurancePolicySources=monthRecord.getEntityId()==null?Collections.emptyMap():
+            payrollInsurancePolicyService.forPayroll(monthRecord.getEntityId(),convertList(payrollEmployees,HrmEmployeeDO::getId),socialSecurityYearMonth,cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId());
+        Map<Long, HrmInsuranceMonthEmployeeRecordDO> insuranceMap = monthRecord.getEntityId()!=null?
+                payrollInsurancePolicyService.payrollRecords(insurancePolicySources):syncInsuranceData
                 ? insuranceMonthEmployeeRecordService.getNormalMonthEmployeeRecordMap(
                         socialSecurityYearMonth.getYear(), socialSecurityYearMonth.getMonthValue())
                 : Collections.emptyMap();
@@ -315,7 +316,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
             if (attendanceData != null) {
                 values = mergeOptionValues(values, attendanceData.getOptionValues());
             }
-            if (syncInsuranceData) {
+            if (syncInsuranceData || monthRecord.getEntityId()!=null) {
                 values = mergeOptionValues(values, buildInsuranceOptionValues(insuranceMap.get(employee.getId()), optionMap));
             }
             if (jobNumber != null) {
@@ -363,6 +364,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
         if(syncAttendanceData)inputSnapshot.put("attendanceSources",payrollAttendanceService.snapshot(salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate(),convertList(payrollEmployees,HrmEmployeeDO::getId)));
         inputSnapshot.put("attendance", attendanceMap);
         inputSnapshot.put("insurance", insuranceMap);
+        inputSnapshot.put("insurancePolicySources",insurancePolicySources);
         inputSnapshot.put("attendanceImport", attendanceRows);
         inputSnapshot.put("deductionImport", additionalDeductionRows);
         inputSnapshot.put("cumulativeTaxImport", cumulativeTaxRows);

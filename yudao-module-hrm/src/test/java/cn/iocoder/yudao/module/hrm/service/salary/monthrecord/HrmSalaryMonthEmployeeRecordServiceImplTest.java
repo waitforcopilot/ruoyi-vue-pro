@@ -510,5 +510,20 @@ public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest 
     private static void assertAmount(String expected, BigDecimal actual) {
         assertEquals(0, new BigDecimal(expected).compareTo(actual));
     }
+    @Test
+    void scopedManualAdjustmentsCannotChangeApprovedContributionSources() {
+        HrmSalaryMonthEmployeeRecordDO record=randomMonthEmployeeRecord(2001L,1001L).setEntityId(1L)
+            .setOptionValues(Collections.singletonList(HrmSalaryMonthEmployeeRecordDO.OptionValue.builder().code(100101).name("个人社保").value(new BigDecimal("640.00")).build()));
+        monthEmployeeRecordMapper.insert(record);
+        when(monthRecordService.validateMonthRecordEditableForUpdate(2001L)).thenReturn(new HrmSalaryMonthRecordDO().setId(2001L).setEntityId(1L).setStatus(11));
+        when(salaryOptionService.getSalaryOptionList(false)).thenReturn(Collections.singletonList(new HrmSalaryOptionDO().setCode(100101).setName("个人社保").setParentCode(100)));
+        HrmSalaryOptionValueVO changed=new HrmSalaryOptionValueVO().setCode(100101).setValue(new BigDecimal("1"));
+        HrmSalaryMonthEmployeeRecordUpdateReqVO request=new HrmSalaryMonthEmployeeRecordUpdateReqVO().setId(record.getId()).setOptionValues(Collections.singletonList(changed));
+        cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException(()->monthEmployeeRecordService.updateMonthEmployeeRecordList(Collections.singletonList(request)),cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INSURANCE_INVALID);
+        assertAmount("640.00",monthEmployeeRecordMapper.selectById(record.getId()).getOptionValues().get(0).getValue());
+        changed.setValue(new BigDecimal("640.0"));
+        monthEmployeeRecordService.updateMonthEmployeeRecordList(Collections.singletonList(request));
+        assertAmount("640.00",monthEmployeeRecordMapper.selectById(record.getId()).getOptionValues().stream().filter(v->v.getCode()==100101).findFirst().get().getValue());
+    }
 
 }
