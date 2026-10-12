@@ -1,51 +1,52 @@
 name: yudao-ui-admin CI
 
-# 在master分支发生push事件时触发。
 on:
   push:
-    branches: [ master ]
-  # pull_request:
-  #   branches: [ master ]
-env: # 设置环境变量
-  TZ: Asia/Shanghai # 时区（设置时区可使页面中的`最近更新时间`使用时区时间）
-  WORK_DIR: yudao-ui-admin #工作目录
+    branches: [master]
+    paths:
+      - 'yudao-ui/yudao-ui-admin-vue3/**'
+      - '.github/workflows/yudao-ui-admin.yml'
+  pull_request:
+    branches: [master]
+    paths:
+      - 'yudao-ui/yudao-ui-admin-vue3/**'
+      - '.github/workflows/yudao-ui-admin.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TZ: Asia/Shanghai
+  NODE_OPTIONS: --max-old-space-size=4096
 
 defaults:
   run:
     shell: bash
-    working-directory: yudao-ui-admin
+    working-directory: yudao-ui/yudao-ui-admin-vue3
 
 jobs:
-  build: # 自定义名称
-    runs-on: ubuntu-latest # 运行在虚拟机环境ubuntu-latest
-
-    strategy:
-      matrix:
-        node_version: [14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - name: Checkout # 步骤1
-        uses: actions/checkout@v2 # 使用的动作。格式：userName/repoName。作用：检出仓库，获取源码。 官方actions库：https://github.com/actions
-      
+      - uses: actions/checkout@v5
       - name: Install pnpm
-        uses: pnpm/action-setup@v2.0.1
+        uses: pnpm/action-setup@v4
         with:
-          version: 6.15.1
-
-      - name: Set node version to ${{ matrix.node_version }}
-        uses: actions/setup-node@v2
+          version: '10.30.0'
+          run_install: false
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v6
         with:
-          node-version: ${{ matrix.node_version }}
-          cache: "yarn"
-          cache-dependency-path: yudao-ui-admin/yarn.lock
-
-      - name: Install deps
-        run: node --version && yarn --version && yarn install
-
-      - name: Build
-        run: yarn build:prod
-  
-      # 查看 workflow 的文档来获取更多信息
-      # @see https://github.com/crazy-max/ghaction-github-pages
-
+          node-version: '24'
+          cache: pnpm
+          cache-dependency-path: yudao-ui/yudao-ui-admin-vue3/pnpm-lock.yaml
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build Vue3 application
+        run: node ./node_modules/vite/bin/vite.js build --mode prod
