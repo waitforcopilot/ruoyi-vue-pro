@@ -72,11 +72,16 @@ public class HrmPayrollEntityService {
     return entity;
   }
 
-  public String name(Long id) { HrmPayrollLegalEntityDO entity=entities.selectById(id); return entity==null?null:entity.getName(); }
+  public String name(Long id) {
+    HrmPayrollLegalEntityDO entity = entities.selectById(id);
+    return entity == null ? null : entity.getName();
+  }
 
   public HrmPayrollLegalEntityDO lockApproved(Long id) {
-    HrmPayrollLegalEntityDO entity = entities.selectOneForUpdate(HrmPayrollLegalEntityDO::getId, id);
-    if (entity == null || !"APPROVED".equals(entity.getStatus())) throw exception(PAYROLL_ENTITY_INVALID);
+    HrmPayrollLegalEntityDO entity =
+        entities.selectOneForUpdate(HrmPayrollLegalEntityDO::getId, id);
+    if (entity == null || !"APPROVED".equals(entity.getStatus()))
+      throw exception(PAYROLL_ENTITY_INVALID);
     return entity;
   }
 
@@ -187,6 +192,7 @@ public class HrmPayrollEntityService {
         || request.getEffectiveTo().isBefore(request.getEffectiveFrom())
         || !ACTIONS.containsAll(request.getActions())) throw exception(PAYROLL_ENTITY_INVALID);
     check(request.getEntityId(), "MANAGE", actor);
+    if (Objects.equals(request.getUserId(), actor)) throw exception(PAYROLL_ENTITY_INVALID);
     entities.selectOneForUpdate(HrmPayrollLegalEntityDO::getId, request.getEntityId());
     users.validateUser(request.getUserId());
     HrmPayrollEntityGrantDO grant = BeanUtils.toBean(request, HrmPayrollEntityGrantDO.class);
@@ -294,11 +300,15 @@ public class HrmPayrollEntityService {
     event(membership.getEntityId(), "APPROVE_ASSIGNMENT", reason, membership, actor);
   }
 
-  public boolean hasOtherMembership(Long employeeId,Long entityId,LocalDate from,LocalDate to) {
-    return memberships.selectCount(new LambdaQueryWrapperX<HrmPayrollEntityMembershipDO>()
-        .eq(HrmPayrollEntityMembershipDO::getEmployeeId,employeeId).eq(HrmPayrollEntityMembershipDO::getStatus,"APPROVED")
-        .ne(HrmPayrollEntityMembershipDO::getEntityId,entityId).le(HrmPayrollEntityMembershipDO::getEffectiveFrom,to)
-        .ge(HrmPayrollEntityMembershipDO::getEffectiveTo,from))>0;
+  public boolean hasOtherMembership(Long employeeId, Long entityId, LocalDate from, LocalDate to) {
+    return memberships.selectCount(
+            new LambdaQueryWrapperX<HrmPayrollEntityMembershipDO>()
+                .eq(HrmPayrollEntityMembershipDO::getEmployeeId, employeeId)
+                .eq(HrmPayrollEntityMembershipDO::getStatus, "APPROVED")
+                .ne(HrmPayrollEntityMembershipDO::getEntityId, entityId)
+                .le(HrmPayrollEntityMembershipDO::getEffectiveFrom, to)
+                .ge(HrmPayrollEntityMembershipDO::getEffectiveTo, from))
+        > 0;
   }
 
   public List<HrmPayrollEntityMembershipDO> effectiveMemberships(

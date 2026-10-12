@@ -208,4 +208,21 @@ class HrmPayrollEntityServiceTest extends BaseDbUnitTest {
     assertEquals(Collections.singleton("READ"), service.list(3L).get(0).getAllowedActions());
     assertServiceException(() -> service.options(a, 3L), PAYROLL_ENTITY_INVALID);
   }
+
+  @Test
+  void managersCannotGiveThemselvesAdditionalApprovalOrRenewTheirAuthorization() {
+    Long id = approved("A");
+    grant(id, 3L, Collections.singleton("MANAGE"), today(), today().plusDays(1));
+    HrmPayrollEntityReqVO.Grant request = new HrmPayrollEntityReqVO.Grant();
+    request.setEntityId(id);
+    request.setUserId(3L);
+    request.setActions(Collections.singleton("APPROVE"));
+    request.setEffectiveFrom(today());
+    request.setEffectiveTo(today().plusYears(1));
+    request.setReason("申请新增审批授权");
+    assertServiceException(() -> service.grant(request, 3L), PAYROLL_ENTITY_INVALID);
+    request.setActions(Collections.singleton("MANAGE"));
+    assertServiceException(() -> service.grant(request, 3L), PAYROLL_ENTITY_INVALID);
+    assertFalse(service.allowed(id, "APPROVE", 3L));
+  }
 }
