@@ -21,3 +21,12 @@
 - 两条工作流均只请求读取源码权限。HRM 测试报告保存为构建产物。
 
 本次提交前验证：暂存版本的 652 项 HRM 测试通过，主服务及启用模块打包通过；冻结锁文件检查和 Vue3 生产构建通过。修复后 GitHub 运行结果须在本次推送后单独核验。
+
+## 修复后的 GitHub 验证
+
+提交 `7c30a111d9` 推送后，两条远端工作流均成功：
+
+- [Java CI：38241768122](https://github.com/waitforcopilot/ruoyi-vue-pro/actions/runs/38241768122)。JDK 设置、HRM 回归、主服务打包及测试报告上传全部通过。
+- [Vue3 CI：38241768135](https://github.com/waitforcopilot/ruoyi-vue-pro/actions/runs/38241768135)。锁定依赖安装及生产构建通过。
+
+已修复此次核实的缓存和目录配置错误。后续新增代码仍需通过 CI，构建结果以对应提交的运行记录为准。
