@@ -43,6 +43,9 @@
       元；有效调休余额：{{ stats.timeOffBalance || 0 }} 分钟</p
     >
     <el-tabs>
+      <el-tab-pane label="工时与排班差异"
+        ><WorkVariance :entity-id="entityId" :employee-id="employeeId"
+      /></el-tab-pane>
       <el-tab-pane label="工时制度">
         <el-table :data="rules"
           ><el-table-column prop="systemType" label="制度" /><el-table-column
@@ -332,6 +335,7 @@
 </template>
 <script setup lang="ts">
 import * as api from '@/api/hrm/payroll/work'
+import WorkVariance from './WorkVariance.vue'
 import dayjs from 'dayjs'
 import * as entityApi from '@/api/hrm/payroll/entity'
 defineOptions({ name: 'HrmPayrollWork' })

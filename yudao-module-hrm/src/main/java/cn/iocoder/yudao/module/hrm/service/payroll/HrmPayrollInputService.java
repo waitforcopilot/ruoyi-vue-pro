@@ -195,6 +195,11 @@ public class HrmPayrollInputService {
     sources.put("from", b.getStartTime().toLocalDate());
     sources.put("to", b.getEndTime().toLocalDate());
     Map<String, BigDecimal> values = new LinkedHashMap<>();
+    if (Arrays.asList("ATTENDANCE", "OVERTIME").contains(r.getKind())) {
+      List<HrmPayrollWorkVarianceDO> variances =
+          work.requireVarianceReady(b.getEntityId(), e.getId(), dates);
+      if (variances != null && !variances.isEmpty()) sources.put("workVariances", variances);
+    }
     if ("ATTENDANCE".equals(r.getKind())) {
       List<HrmPayrollWorkRuleDO> policies =
           work.rules(e.getId()).stream()

@@ -27,6 +27,7 @@ public class HrmPayrollWorkService {
   @Resource private HrmPayrollTimeOffMapper offMapper;
   @Resource private HrmPayrollWorkCycleMapper cycleMapper;
   @Resource private HrmPayrollNoOvertimeMapper noOvertime;
+  @Resource private HrmPayrollWorkVarianceMapper variances;
   @Resource private HrmEmployeeMapper employeeMapper;
   @Resource private HrmPayrollEntityService entities;
   @Resource private javax.validation.Validator validator;
@@ -919,6 +920,201 @@ public class HrmPayrollWorkService {
           || !Objects.equals(out.getClockTime(), row.getClockEnd()))
         throw exception(PAYROLL_WORK_INVALID);
     }
+  }
+
+  /** Calendar-day comparison; incomplete punches remain unknown instead of becoming zero. */
+  public Map<String, Object> reconcileDay(
+      Long entityId, Long employeeId, LocalDate date, Long actor) {
+    if (date == null || !date.isBefore(LocalDate.now(ZoneId.of("Asia/Shanghai"))))
+      throw exception(PAYROLL_WORK_INVALID);
+    checkEmployeeScope(entityId, employeeId, date, date, "READ", actor);
+    return reconcileDayFacts(entityId, employeeId, date);
+  }
+
+  private Map<String, Object> reconcileDayFacts(Long entityId, Long employeeId, LocalDate date) {
+    requireMembership(entityId, employeeId, date, date);
+    cn.iocoder.yudao.module.hrm.dal.dataobject.employee.info.HrmEmployeeDO employee =
+        employeeMapper.selectById(employeeId);
+    if (employee == null) throw exception(PAYROLL_WORK_INVALID);
+    Map<String, Object> result = new LinkedHashMap<>();
+    List<String> issues = new ArrayList<>();
+    boolean planningReady =
+        attendanceGroups
+                .getAttendanceGroupMap(Collections.singletonList(employeeId))
+                .get(employeeId)
+            != null;
+    if (!planningReady) issues.add("未配置考勤组");
+    List<HrmPayrollWorkRuleDO> applicable =
+        rules(employeeId).stream()
+            .filter(rule -> Objects.equals(rule.getEntityId(), entityId) && applies(rule, date))
+            .collect(java.util.stream.Collectors.toList());
+    if (applicable.size() != 1) issues.add("缺少唯一批准工时制度");
+    List<Map<String, Object>> shifts = new ArrayList<>();
+    int planned = 0;
+    LocalDateTime start = date.atStartOfDay(),
+        finish = date.plusDays(1).atStartOfDay(),
+        previousEnd = null;
+    for (LocalDate d : Arrays.asList(date.minusDays(1), date)) {
+      HrmAttendanceGroupDO.Shift shift =
+          attendanceGroups.getEmployeeAttendanceShift(employeeId, d.atStartOfDay());
+      Map<String, Object> source = new LinkedHashMap<>();
+      source.put("date", d.toString());
+      source.put("shift", shift);
+      shifts.add(source);
+      if (shift == null) continue;
+      if (shift.getStartTime() == null || shift.getEndTime() == null) {
+        issues.add("排班时段不完整");
+        planningReady = false;
+        continue;
+      }
+      LocalDateTime a = d.atTime(shift.getStartTime()), b = d.atTime(shift.getEndTime());
+      if (!b.isAfter(a)) b = b.plusDays(1);
+      if (previousEnd != null && a.isBefore(previousEnd)) {
+        issues.add("班次重叠");
+        planningReady = false;
+      }
+      previousEnd = b;
+      LocalDateTime clippedStart = a.isAfter(start) ? a : start,
+          clippedEnd = b.isBefore(finish) ? b : finish;
+      if (clippedEnd.isAfter(clippedStart))
+        planned +=
+            (int) Duration.between(clippedStart, clippedEnd).toMinutes()
+                - shiftBreak(shift, d, clippedStart, clippedEnd);
+    }
+    List<HrmAttendanceClockDO> clocks =
+        clockMapper.selectList(
+            new LambdaQueryWrapperX<HrmAttendanceClockDO>()
+                .eq(HrmAttendanceClockDO::getEmployeeId, employeeId)
+                .ge(HrmAttendanceClockDO::getClockTime, date.minusDays(1).atStartOfDay())
+                .lt(HrmAttendanceClockDO::getClockTime, date.plusDays(2).atStartOfDay())
+                .orderByAsc(HrmAttendanceClockDO::getClockTime, HrmAttendanceClockDO::getId));
+    HrmAttendanceClockDO open = null;
+    boolean incomplete = false;
+    int actual = 0;
+    List<Map<String, Object>> used = new ArrayList<>();
+    for (HrmAttendanceClockDO clock : clocks) {
+      if (Objects.equals(clock.getStatus(), 3)) continue;
+      LocalDateTime time = clock.getClockTime();
+      boolean ownDay = !time.isBefore(start) && time.isBefore(finish);
+      if (Objects.equals(clock.getType(), 1)) {
+        if (open != null && (ownDay || !open.getClockTime().isBefore(start))) incomplete = true;
+        open = clock;
+      } else if (Objects.equals(clock.getType(), 2)) {
+        if (open == null) {
+          if (ownDay) incomplete = true;
+          continue;
+        }
+        LocalDateTime a = open.getClockTime().isAfter(start) ? open.getClockTime() : start;
+        LocalDateTime b = time.isBefore(finish) ? time : finish;
+        if (b.isAfter(a)) {
+          if (!time.isAfter(open.getClockTime())
+              || Duration.between(open.getClockTime(), time).toHours() > 24) incomplete = true;
+          else {
+            int minutes = (int) Duration.between(a, b).toMinutes();
+            for (LocalDate d : Arrays.asList(date.minusDays(1), date))
+              minutes -=
+                  shiftBreak(
+                      attendanceGroups.getEmployeeAttendanceShift(employeeId, d.atStartOfDay()),
+                      d,
+                      a,
+                      b);
+            if (minutes < 0) incomplete = true;
+            else actual += minutes;
+          }
+          Map<String, Object> pair = new LinkedHashMap<>();
+          pair.put("inId", open.getId());
+          pair.put("outId", clock.getId());
+          pair.put("from", open.getClockTime().toString());
+          pair.put("to", time.toString());
+          used.add(pair);
+        }
+        open = null;
+      } else if (ownDay) incomplete = true;
+    }
+    if (open != null && open.getClockTime().isBefore(finish)) incomplete = true;
+    // An entire scheduled shift with no punches is missing evidence, not proved zero work.
+    if (planned > 0 && used.isEmpty()) incomplete = true;
+    if (incomplete) issues.add("打卡证据缺失或无法唯一配对");
+    if (planned < 0) {
+      issues.add("排班休息分钟超出时段");
+      planningReady = false;
+    }
+    List<HrmPayrollTimeEntryDO> recognized = entries(employeeId, date, date);
+    recognized.removeIf(entry -> !Objects.equals(entry.getEntityId(), entityId));
+    boolean recognitionReady =
+        recognized.stream()
+            .allMatch(row -> row.getRecognizedMinutes() != null && row.getRecognizedMinutes() >= 0);
+    if (!recognitionReady) issues.add("认可分钟缺失或无效");
+    try {
+      validateSources(recognized);
+    } catch (cn.iocoder.yudao.framework.common.exception.ServiceException failure) {
+      issues.add("认可工时来源需重新核实");
+      recognitionReady = false;
+    }
+    if (employee.getUserId() == null) issues.add("缺少员工关联用户");
+    List<cn.iocoder.yudao.module.oa.api.payroll.dto.OaPayrollOvertimeDTO> approvals =
+        employee.getUserId() == null
+            ? Collections.emptyList()
+            : oaSource.getApprovedOvertimeList(employee.getUserId(), start, finish);
+    for (cn.iocoder.yudao.module.oa.api.payroll.dto.OaPayrollOvertimeDTO approval : approvals)
+      if (recognized.stream()
+          .noneMatch(entry -> Objects.equals(entry.getSourceApplyId(), approval.getId())))
+        issues.add("批准加班未完成发生量认可:" + approval.getId());
+    result.put("entityId", entityId);
+    result.put("employeeId", employeeId);
+    result.put("userId", employee.getUserId());
+    result.put("date", date.toString());
+    List<HrmAttendanceHolidayDO> dayRules =
+        holidayMapper.selectList(
+            new LambdaQueryWrapperX<HrmAttendanceHolidayDO>()
+                .ge(HrmAttendanceHolidayDO::getDate, start)
+                .lt(HrmAttendanceHolidayDO::getDate, finish));
+    if (dayRules.size() > 1) issues.add("节假日日历重复");
+    result.put("holidayType", dayRules.isEmpty() ? null : dayRules.get(0).getType());
+    result.put("plannedMinutes", planningReady ? planned : null);
+    result.put("actualMinutes", incomplete || !planningReady ? null : actual);
+    result.put(
+        "recognizedMinutes",
+        recognitionReady
+            ? recognized.stream().mapToInt(HrmPayrollTimeEntryDO::getRecognizedMinutes).sum()
+            : null);
+    result.put("differenceMinutes", incomplete || !planningReady ? null : actual - planned);
+    result.put("issues", issues);
+    result.put("ready", issues.isEmpty());
+    List<HrmPayrollWorkRuleDO> ruleFacts = new ArrayList<>();
+    for (HrmPayrollWorkRuleDO policy : applicable) {
+      HrmPayrollWorkRuleDO fact = BeanUtils.toBean(policy, HrmPayrollWorkRuleDO.class);
+      fact.clean();
+      fact.setSupersededFrom(null);
+      fact.setSupersededBy(null);
+      ruleFacts.add(fact);
+    }
+    result.put("rules", ruleFacts);
+    result.put("shifts", shifts);
+    result.put("clockPairs", used);
+    result.put("recognized", recognized);
+    result.put("approvedOvertime", approvals);
+    return result;
+  }
+
+  public List<HrmPayrollWorkVarianceDO> requireVarianceReady(
+      Long entityId, Long employeeId, Set<LocalDate> dates) {
+    if (dates == null || dates.isEmpty()) throw exception(PAYROLL_WORK_INVALID);
+    List<HrmPayrollWorkVarianceDO> cases =
+        variances.selectList(
+            new LambdaQueryWrapperX<HrmPayrollWorkVarianceDO>()
+                .eq(HrmPayrollWorkVarianceDO::getEntityId, entityId)
+                .eq(HrmPayrollWorkVarianceDO::getEmployeeId, employeeId)
+                .in(HrmPayrollWorkVarianceDO::getWorkDate, dates)
+                .orderByAsc(HrmPayrollWorkVarianceDO::getId));
+    for (HrmPayrollWorkVarianceDO row : cases) {
+      if (!"CLOSED".equals(row.getStatus())) throw exception(PAYROLL_WORK_INVALID);
+      Map<String, Object> current = reconcileDayFacts(entityId, employeeId, row.getWorkDate());
+      if (!Boolean.TRUE.equals(current.get("ready"))
+          || !Objects.equals(row.getSubmittedSnapshot(), JsonUtils.toJsonString(current)))
+        throw exception(PAYROLL_WORK_INVALID);
+    }
+    return cases;
   }
 
   private Map<String, Object> cycleFacts(Long employeeId, LocalDate from, LocalDate to) {

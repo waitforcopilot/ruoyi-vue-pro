@@ -446,6 +446,25 @@ class HrmPayrollInputServiceTest extends BaseDbUnitTest {
   }
 
   @Test
+  void reopenedWorkVarianceMakesApprovedAttendanceInputStale() {
+    Long id = approved(request(employeeId, "ATTENDANCE", "IMPORT").setValues(attendanceValues()));
+    doThrow(
+            cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception(
+                PAYROLL_WORK_INVALID))
+        .when(work)
+        .requireVarianceReady(eq(entityId), eq(employeeId), any());
+    assertEquals(
+        "STALE",
+        service.readiness(batchId, 1L).stream()
+            .filter(row -> id.equals(row.getInputId()))
+            .findFirst()
+            .get()
+            .getStatus());
+    assertServiceException(
+        () -> service.submit(request(employeeId, "OVERTIME", "ZERO"), 1L), PAYROLL_WORK_INVALID);
+  }
+
+  @Test
   void synchronizedAttendanceUsesActualValuesAndLaterChangesMakeConfirmationStale() {
     cn.iocoder.yudao.module.hrm.controller.admin.attendance.vo.statistics
             .HrmAttendanceMonthRecordRespVO

@@ -27,6 +27,7 @@
 - `sql/mysql/upgrade/20261013-hrm-work-entity.sql`
 - `sql/mysql/upgrade/20261013-hrm-no-overtime.sql`
 - `sql/mysql/upgrade/20261013-hrm-work-version.sql`
+- `sql/mysql/upgrade/20261013-hrm-work-variance.sql`
 
 三个基础模块脚本仅创建缺失业务表。Flowable 使用项目现有的自动升级配置创建流程引擎表。后续模块的增量脚本应随相应功能交付安装，不能仅凭文件存在判断已验收。
 
@@ -59,3 +60,5 @@ python3 scripts/hrm/smoke_api.py
 真实接口验证登录与权限信息、需求查询/初始化/Excel 导出、核算批次分页、代发批次与银行模板查询。未登录访问返回 401，错误租户访问返回 403。
 
 Chromium 浏览器完成登录并打开需求评审、核算审批、银行代发三个页面，无未捕获 JavaScript 异常。此结果覆盖已交付模块的运行基础；其余 PRD 功能仍需按计划开发及业务验收。
+
+工时差异升级同时创建站内信模板及默认停用的 `hrmPayrollWorkVarianceReminderJob`。生产启用前检查责任人/复核人主体授权和站内信配置；此轮只验证模拟发送、每日防重及失败重试，没有向真实人员发送提醒。工时差异台账与事件表包含来源证明，沿用工时查询权限及主体范围校验。

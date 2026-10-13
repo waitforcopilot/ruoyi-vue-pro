@@ -38,6 +38,7 @@ class HrmPayrollWorkServiceTest extends BaseDbUnitTest {
   @Resource private HrmPayrollWorkCycleMapper cycles;
   @Resource private HrmPayrollTimeOffMapper off;
   @Resource private HrmPayrollNoOvertimeMapper zeroCases;
+  @Resource private HrmPayrollWorkVarianceMapper variances;
   @Resource private HrmAttendanceClockMapper clocks;
   @Resource private HrmAttendanceHolidayMapper holidays;
   @MockBean private OaPayrollSourceApi oa;
@@ -161,6 +162,84 @@ class HrmPayrollWorkServiceTest extends BaseDbUnitTest {
     assertEquals("PENDING", rules.selectById(id).getStatus());
     service.approveRule(id, 2L);
     assertEquals("APPROVED", rules.selectById(id).getStatus());
+  }
+
+  @Test
+  void workReconciliationRetainsUnknownActualWhenPunchesAreMissing() {
+    approved("STANDARD");
+    Map<String, Object> source = service.reconcileDay(10L, employeeId, day, 2L);
+    assertEquals(480, source.get("plannedMinutes"));
+    assertNull(source.get("actualMinutes"));
+    assertEquals(false, source.get("ready"));
+    assertFalse(((List<?>) source.get("issues")).isEmpty());
+  }
+
+  @Test
+  void workReconciliationIncludesOvernightWorkAndSubtractsRest() {
+    approved("STANDARD");
+    when(groups.getEmployeeAttendanceShift(eq(employeeId), any())).thenReturn(null);
+    when(groups.getEmployeeAttendanceShift(eq(employeeId), eq(day.minusDays(1).atStartOfDay())))
+        .thenReturn(
+            HrmAttendanceGroupDO.Shift.builder()
+                .startTime(LocalTime.of(22, 0))
+                .endTime(LocalTime.of(6, 0))
+                .excludeRestTime(true)
+                .restStartTime(LocalTime.of(2, 0))
+                .restEndTime(LocalTime.of(3, 0))
+                .build());
+    clocks.insert(
+        HrmAttendanceClockDO.builder()
+            .employeeId(employeeId)
+            .type(1)
+            .status(0)
+            .clockTime(day.minusDays(1).atTime(22, 0))
+            .attendanceTime(day.minusDays(1).atTime(22, 0))
+            .build());
+    clocks.insert(
+        HrmAttendanceClockDO.builder()
+            .employeeId(employeeId)
+            .type(2)
+            .status(0)
+            .clockTime(day.atTime(6, 0))
+            .attendanceTime(day.atTime(6, 0))
+            .build());
+    Map<String, Object> source = service.reconcileDay(10L, employeeId, day, 2L);
+    assertEquals(300, source.get("plannedMinutes"));
+    assertEquals(300, source.get("actualMinutes"));
+    assertEquals(0, source.get("differenceMinutes"));
+    assertEquals(true, source.get("ready"));
+  }
+
+  @Test
+  void openVarianceOrChangedClosedEvidenceBlocksPayrollSources() {
+    approved("STANDARD");
+    HrmPayrollWorkVarianceDO issue =
+        new HrmPayrollWorkVarianceDO()
+            .setEntityId(10L)
+            .setEmployeeId(employeeId)
+            .setWorkDate(day)
+            .setRequestKey("BRIDGE-1")
+            .setStatus("OPEN");
+    variances.insert(issue);
+    assertServiceException(
+        () -> service.requireVarianceReady(10L, employeeId, Collections.singleton(day)),
+        PAYROLL_WORK_INVALID);
+    request(day.atTime(9, 0), day.atTime(17, 0));
+    issue.setStatus("CLOSED");
+    issue.setSubmittedSnapshot(
+        cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(
+            service.reconcileDay(10L, employeeId, day, 2L)));
+    variances.updateById(issue);
+    assertEquals(
+        1, service.requireVarianceReady(10L, employeeId, Collections.singleton(day)).size());
+    HrmAttendanceClockDO out =
+        clocks.selectList().stream().filter(clock -> clock.getType().equals(2)).findFirst().get();
+    out.setClockTime(day.atTime(18, 0));
+    clocks.updateById(out);
+    assertServiceException(
+        () -> service.requireVarianceReady(10L, employeeId, Collections.singleton(day)),
+        PAYROLL_WORK_INVALID);
+    assertEquals("CLOSED", variances.selectById(issue.getId()).getStatus());
   }
 
   @Test

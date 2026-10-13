@@ -91,3 +91,6 @@ DELETE FROM "hrm_payroll_input_import";
 DELETE FROM "hrm_payroll_source_claim";
 
 DELETE FROM "hrm_payroll_no_overtime";
+
+DELETE FROM "hrm_payroll_work_variance_event";
+DELETE FROM "hrm_payroll_work_variance";

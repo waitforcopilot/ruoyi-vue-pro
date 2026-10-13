@@ -35,3 +35,22 @@ export const submitNoOvertime = (data: object) =>
   request.post<number>({ url: `${url}/no-overtime`, data })
 export const reviewNoOvertime = (params: object) =>
   request.post({ url: `${url}/no-overtime/review`, params })
+
+const varianceUrl = `${url}/variance`
+export const variancePreview = (params: object) =>
+  request.get<any>({ url: `${varianceUrl}/preview`, params })
+export const varianceList = (params: object) =>
+  request.get<any[]>({ url: `${varianceUrl}/list`, params })
+export const createVariance = (data: object) =>
+  request.post<number>({ url: `${varianceUrl}/create`, data: payrollDateTimes(data, ['dueTime']) })
+export const submitVariance = (params: object) =>
+  request.post({ url: `${varianceUrl}/submit`, params })
+export const reviewVariance = (params: object) =>
+  request.post({ url: `${varianceUrl}/review`, params })
+export const reopenVariance = (params: object) =>
+  request.post({ url: `${varianceUrl}/reopen`, params })
+export const varianceHistory = (id: number) =>
+  request.get<any[]>({ url: `${varianceUrl}/history`, params: { id } })
+
+export const reassignVariance = (data: object) =>
+  request.post({ url: `${varianceUrl}/reassign`, data: payrollDateTimes(data, ['dueTime']) })
