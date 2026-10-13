@@ -510,6 +510,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest 
     private static void assertAmount(String expected, BigDecimal actual) {
         assertEquals(0, new BigDecimal(expected).compareTo(actual));
     }
+
     @Test
     void scopedManualAdjustmentsCannotChangeApprovedContributionSources() {
         HrmSalaryMonthEmployeeRecordDO record=randomMonthEmployeeRecord(2001L,1001L).setEntityId(1L)
@@ -524,6 +525,15 @@ public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest 
         changed.setValue(new BigDecimal("640.0"));
         monthEmployeeRecordService.updateMonthEmployeeRecordList(Collections.singletonList(request));
         assertAmount("640.00",monthEmployeeRecordMapper.selectById(record.getId()).getOptionValues().stream().filter(v->v.getCode()==100101).findFirst().get().getValue());
+    }
+
+    @Test void customContributionItemCannotBypassApprovedSources(){
+        HrmSalaryMonthEmployeeRecordDO record=randomMonthEmployeeRecord(2001L,1001L).setEntityId(1L).setOptionValues(Collections.emptyList());monthEmployeeRecordMapper.insert(record);
+        when(monthRecordService.validateMonthRecordEditableForUpdate(2001L)).thenReturn(new HrmSalaryMonthRecordDO().setId(2001L).setEntityId(1L).setStatus(11));
+        when(salaryOptionService.getSalaryOptionList(false)).thenReturn(Collections.singletonList(new HrmSalaryOptionDO().setCode(4001000).setName("自定义个人社保").setParentCode(100)));
+        HrmSalaryMonthEmployeeRecordUpdateReqVO request=new HrmSalaryMonthEmployeeRecordUpdateReqVO().setId(record.getId()).setOptionValues(Collections.singletonList(new HrmSalaryOptionValueVO().setCode(4001000).setValue(BigDecimal.TEN)));
+        cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException(()->monthEmployeeRecordService.updateMonthEmployeeRecordList(Collections.singletonList(request)),cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INPUT_INVALID);
+        assertTrue(monthEmployeeRecordMapper.selectById(record.getId()).getOptionValues().isEmpty());
     }
 
 }

@@ -60,7 +60,7 @@ public class HrmPayrollInsuranceBillService {
     } catch (NumberFormatException e) {
       throw new IllegalArgumentException("实缴金额须为元，最多两位小数");
     }
-    if (n.signum() < 0 || n.scale() > 2 || n.precision() - n.scale() > 10)
+    if (n.signum() < 0 || n.scale() > 2 || (long) n.precision() - n.scale() > 10)
       throw new IllegalArgumentException("实缴金额须非负且最多两位小数");
     return n.setScale(2, RoundingMode.UNNECESSARY);
   }

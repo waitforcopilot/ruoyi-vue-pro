@@ -79,4 +79,24 @@ public class OaPayrollSourceApiImpl implements OaPayrollSourceApi {
     result.setProcessInstanceId(source.getProcessInstanceId());
     return result;
   }
+
+  @Override
+  public java.util.List<OaPayrollOvertimeDTO> getApprovedOvertimeList(
+      Long userId, java.time.LocalDateTime from, java.time.LocalDateTime to) {
+    if (userId == null) return java.util.Collections.emptyList();
+    java.util.List<OaPayrollOvertimeDTO> result = new java.util.ArrayList<>();
+    for (OaOvertimeApplyDO row :
+        mapper.selectList(
+            new cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX<
+                    OaOvertimeApplyDO>()
+                .eq(OaOvertimeApplyDO::getCreator, String.valueOf(userId))
+                .eq(OaOvertimeApplyDO::getStatus, BpmProcessInstanceStatusEnum.APPROVE.getStatus())
+                .lt(OaOvertimeApplyDO::getStartTime, to)
+                .gt(OaOvertimeApplyDO::getEndTime, from)
+                .orderByAsc(OaOvertimeApplyDO::getId))) {
+      OaPayrollOvertimeDTO dto = getApprovedOvertime(row.getId());
+      if (dto != null) result.add(dto);
+    }
+    return result;
+  }
 }

@@ -130,7 +130,13 @@ public class HrmPayrollInsurancePolicyService {
     entities.lockApproved(r.getEntityId());
     Set<String> codes = new HashSet<>();
     for (Project p : r.getProjects())
-      if (!codes.add(p.getCode())
+      if ((long) p.getMinimumBase().precision() - p.getMinimumBase().scale() > 10
+          || (long) p.getMaximumBase().precision() - p.getMaximumBase().scale() > 10
+          || p.getPersonalFixed() != null
+              && (long) p.getPersonalFixed().precision() - p.getPersonalFixed().scale() > 10
+          || p.getCorporateFixed() != null
+              && (long) p.getCorporateFixed().precision() - p.getCorporateFixed().scale() > 10
+          || !codes.add(p.getCode())
           || p.getMaximumBase().compareTo(p.getMinimumBase()) < 0
           || HrmInsuranceProjectTypeEnum.valueOf(p.getType()) == null)
         throw exception(PAYROLL_INSURANCE_INVALID);
@@ -255,7 +261,8 @@ public class HrmPayrollInsurancePolicyService {
       if (amount == null
           || amount.signum() < 0
           || amount.scale() > 2
-          || amount.precision() - amount.scale() > 10) throw exception(PAYROLL_INSURANCE_INVALID);
+          || (long) amount.precision() - amount.scale() > 10)
+        throw exception(PAYROLL_INSURANCE_INVALID);
     }
     if (!codes.equals(r.getDeclaredBases().keySet())) throw exception(PAYROLL_INSURANCE_INVALID);
   }

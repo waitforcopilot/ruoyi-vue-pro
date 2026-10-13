@@ -72,6 +72,7 @@ import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.isB
 import static cn.iocoder.yudao.framework.common.util.number.MoneyUtils.priceAdd;
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_CONFIG_NOT_EXISTS;
+import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_IMPORT_DATA_INVALID;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_DATA_ILLEGAL;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_MONTH_RECORD_EXISTS;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_MONTH_RECORD_CANNOT_DELETE_ONLY;
@@ -131,6 +132,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
     @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollScopeService payrollScopeService;
     @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWindowService payrollWindowService;
     @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInsurancePolicyService payrollInsurancePolicyService;
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInputService payrollInputs;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -241,14 +243,20 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
         // 1.2 获得计薪周期内、且已分配薪资组的员工
         List<HrmEmployeeDO> payrollEmployees = getPayrollEmployeeList(monthRecord);
         Map<Long, HrmSalaryGroupDO> salaryGroupMap = salaryGroupService.getEmployeeSalaryGroupMap(payrollEmployees);
+        if(monthRecord.getEntityId()!=null && payrollEmployees.stream().anyMatch(employee->!salaryGroupMap.containsKey(employee.getId())))
+            throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INPUT_INVALID);
+        if(monthRecord.getEntityId()!=null && (CollUtil.isNotEmpty(attendanceRows)||CollUtil.isNotEmpty(additionalDeductionRows)||CollUtil.isNotEmpty(cumulativeTaxRows)))
+            throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INPUT_INVALID);
         payrollEmployees = filterList(payrollEmployees, employee -> salaryGroupMap.containsKey(employee.getId()));
 
         // 2. 加载工资项、考勤、社保和导入数据
         List<HrmSalaryOptionDO> optionList = salaryOptionService.getSalaryOptionList(false);
         Map<Integer, HrmSalaryOptionDO> optionMap = convertMap(optionList, HrmSalaryOptionDO::getCode);
+        if(monthRecord.getEntityId()!=null)validateSourceCatalog(optionMap);
+
         Map<String, AttendanceImportData> attendanceImportMap = syncAttendanceData
                 ? Collections.emptyMap() : parseAttendanceImportData(attendanceRows, optionMap);
-        Map<Long, HrmAttendanceMonthRecordRespVO> attendanceMap = syncAttendanceData
+        Map<Long, HrmAttendanceMonthRecordRespVO> attendanceMap = syncAttendanceData && monthRecord.getEntityId()==null
                 ? attendanceStatisticsService.getAttendancePeriodRecordMap(
                         salaryTimes[0].toLocalDate(), salaryTimes[1].toLocalDate(),
                         convertList(payrollEmployees, HrmEmployeeDO::getId))
@@ -262,6 +270,8 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
         }
         Map<Long,cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInsurancePolicyService.Quote> insurancePolicySources=monthRecord.getEntityId()==null?Collections.emptyMap():
             payrollInsurancePolicyService.forPayroll(monthRecord.getEntityId(),convertList(payrollEmployees,HrmEmployeeDO::getId),socialSecurityYearMonth,cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId());
+        Map<Long,Map<String,cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollInputDO>> approvedInputs=monthRecord.getEntityId()==null?Collections.emptyMap():
+            payrollInputs.forPayroll(monthRecord,payrollEmployees,cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId());
         Map<Long, HrmInsuranceMonthEmployeeRecordDO> insuranceMap = monthRecord.getEntityId()!=null?
                 payrollInsurancePolicyService.payrollRecords(insurancePolicySources):syncInsuranceData
                 ? insuranceMonthEmployeeRecordService.getNormalMonthEmployeeRecordMap(
@@ -276,11 +286,6 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
         HrmSalaryTaxRuleDO defaultTaxRule = CollUtil.getFirst(salaryTaxRuleService.getSalaryTaxRuleList());
 
         Map<Long,Set<LocalDate>> entityPayrollDates=monthRecord.getEntityId()==null?Collections.emptyMap():payrollScopeService.payrollDates(monthRecord);
-        if(syncAttendanceData && monthRecord.getEntityId()!=null) {
-            for(HrmEmployeeDO employee:payrollEmployees) {
-                attendanceMap.put(employee.getId(),payrollWindowService.attendance(employee.getId(),entityPayrollDates.get(employee.getId())));
-            }
-        }
         // 3. 逐个员工核算工资
         List<HrmSalaryMonthEmployeeRecordDO> employeeRecords = new ArrayList<>();
         Map<Long, List<HrmSalaryOptionValueVO>> employeeOptionValueMap = new LinkedHashMap<>();
@@ -309,8 +314,12 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
                 }
             }
 
+            if(monthRecord.getEntityId()!=null) values=filterList(values,value->{HrmSalaryOptionDO option=optionMap.get(value.getCode());return !HrmSalaryOptionCodeEnum.sourceControlled(value.getCode(),option==null?null:option.getParentCode());});
+
             // 3.2 合并考勤、社保、专项附加扣除和累计个税数据
-            AttendanceImportData attendanceData = syncAttendanceData
+            Map<String,cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollInputDO> confirmed=approvedInputs.get(employee.getId());
+            Map<String,BigDecimal> confirmedAttendance=monthRecord.getEntityId()==null?Collections.emptyMap():payrollInputs.values(confirmed.get("ATTENDANCE"));
+            AttendanceImportData attendanceData = monthRecord.getEntityId()!=null?buildConfirmedAttendance(confirmedAttendance,optionMap):syncAttendanceData
                     ? buildAttendanceData(attendanceMap.get(employee.getId()), optionMap)
                     : jobNumber == null ? null : attendanceImportMap.get(jobNumber);
             if (attendanceData != null) {
@@ -324,20 +333,26 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
                 values = mergeOptionValues(values, cumulativeTaxImportMap.getOrDefault(jobNumber, Collections.emptyList()));
             }
 
+            if(monthRecord.getEntityId()!=null){
+                values=mergeOptionValues(values,confirmedOptions(payrollInputs.values(confirmed.get("DEDUCTIONS")),optionMap));
+                values=mergeOptionValues(values,confirmedOptions(payrollInputs.values(confirmed.get("CUMULATIVE_TAX")),optionMap));
+            }
             // 已核实的加班费按实际计薪区间进入工资，并保留来源快照。
-            BigDecimal overtimePay=monthRecord.getEntityId()==null?payrollWorkService.earnings(employee.getId(),salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate()):payrollWindowService.earnings(employee.getId(),entityPayrollDates.get(employee.getId()));
-            if (overtimePay != null && (overtimePay.signum()>0 || (monthRecord.getEntityId()==null?payrollWorkService.hasSources(employee.getId(),salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate()):payrollWindowService.hasSources(employee.getId(),entityPayrollDates.get(employee.getId()))))) {
+            BigDecimal overtimePay=monthRecord.getEntityId()==null?payrollWorkService.earnings(employee.getId(),salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate()):payrollInputs.values(confirmed.get("OVERTIME")).get("180101");
+            if (overtimePay != null && (monthRecord.getEntityId()!=null || overtimePay.signum()>0 || (monthRecord.getEntityId()==null?payrollWorkService.hasSources(employee.getId(),salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate()):payrollWindowService.hasSources(employee.getId(),entityPayrollDates.get(employee.getId()))))) {
                 values = mergeOptionValues(values, Collections.singletonList(importOptionValue(
                         HrmSalaryOptionCodeEnum.OVERTIME_PAY.getCode(), optionMap, overtimePay)));
             }
             // 3.3 构建员工月工资记录，并准备批量核算所需数据
             HrmSalaryGroupDO salaryGroup = salaryGroupMap.get(employee.getId());
-            HrmSalaryTaxRuleDO taxRule = taxRuleMap.getOrDefault(salaryGroup.getTaxRuleId(), defaultTaxRule);
+            HrmSalaryTaxRuleDO taxRule = monthRecord.getEntityId()==null?taxRuleMap.getOrDefault(salaryGroup.getTaxRuleId(), defaultTaxRule):taxRuleMap.get(salaryGroup.getTaxRuleId());
+            if(monthRecord.getEntityId()!=null && (taxRule==null||taxRule.getTaxEnabled()==null))throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_TAX_CONFIGURATION_MISSING,employee.getJobNumber());
+
             BigDecimal salaryStandard = defaultIfNull(salaryGroup.getSalaryStandard(), HrmSalaryGroupDO.DEFAULT_SALARY_STANDARD);
             employeeRecords.add(HrmSalaryMonthEmployeeRecordDO.builder()
                     .monthRecordId(id).employeeId(employee.getId()).entityId(monthRecord.getEntityId())
                     .actualWorkDay(attendanceData == null ? salaryStandard : attendanceData.getActualWorkDay())
-                    .needWorkDay(salaryStandard).salaryGroupId(salaryGroup.getId())
+                    .needWorkDay(monthRecord.getEntityId()==null?salaryStandard:confirmedAttendance.get("NEED_DAYS")).salaryGroupId(salaryGroup.getId())
                     .formulaDate(salaryTimes[0].toLocalDate()).year(monthRecord.getYear()).month(monthRecord.getMonth()).build());
             employeeOptionValueMap.put(employee.getId(), values);
             employeeTaxRuleMap.put(employee.getId(), taxRule);
@@ -361,10 +376,11 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
                 HrmEmployeeDO::getId,e->payrollWorkService.entries(e.getId(),salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate()))));
         inputSnapshot.put("workCycles", payrollEmployees.stream().collect(java.util.stream.Collectors.toMap(
                 HrmEmployeeDO::getId,e->payrollWorkService.cycles(e.getId(),salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate()))));
-        if(syncAttendanceData)inputSnapshot.put("attendanceSources",payrollAttendanceService.snapshot(salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate(),convertList(payrollEmployees,HrmEmployeeDO::getId)));
+        if(syncAttendanceData && monthRecord.getEntityId()==null)inputSnapshot.put("attendanceSources",payrollAttendanceService.snapshot(salaryTimes[0].toLocalDate(),salaryTimes[1].toLocalDate(),convertList(payrollEmployees,HrmEmployeeDO::getId)));
         inputSnapshot.put("attendance", attendanceMap);
         inputSnapshot.put("insurance", insuranceMap);
         inputSnapshot.put("insurancePolicySources",insurancePolicySources);
+        if(monthRecord.getEntityId()!=null)inputSnapshot.put("approvedInputs",approvedInputs);
         inputSnapshot.put("attendanceImport", attendanceRows);
         inputSnapshot.put("deductionImport", additionalDeductionRows);
         inputSnapshot.put("cumulativeTaxImport", cumulativeTaxRows);
@@ -586,6 +602,28 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
         monthRecordMapper.updateById(updateObj);
     }
 
+    private void validateSourceCatalog(Map<Integer,HrmSalaryOptionDO> catalog){
+        for(Integer code:new java.util.TreeSet<>(HrmSalaryOptionCodeEnum.SOURCE_CONTROLLED_CODES)){
+            HrmSalaryOptionDO option=catalog.get(code);int expected=code/1000;
+            if(option==null||Boolean.FALSE.equals(option.getEnabled())||!Objects.equals(option.getParentCode(),expected))
+                throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_SOURCE_CATALOG_INVALID,HrmSalaryOptionCodeEnum.valueOf(code).getName());
+        }
+        if(!Objects.equals(catalog.get(200101).getType(),cn.iocoder.yudao.module.hrm.enums.salary.config.HrmSalaryOptionTypeEnum.MINUS.getType()))
+            throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_SOURCE_CATALOG_INVALID,"考勤扣款合计");
+        if(!Objects.equals(catalog.get(180101).getType(),cn.iocoder.yudao.module.hrm.enums.salary.config.HrmSalaryOptionTypeEnum.ADD.getType()))
+            throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_SOURCE_CATALOG_INVALID,"加班工资");
+    }
+
+    private List<HrmSalaryOptionValueVO> confirmedOptions(Map<String,BigDecimal> values,Map<Integer,HrmSalaryOptionDO> options){
+        List<HrmSalaryOptionValueVO> result=new ArrayList<>();values.forEach((code,value)->result.add(importOptionValue(Integer.valueOf(code),options,value)));return result;
+    }
+    private AttendanceImportData buildConfirmedAttendance(Map<String,BigDecimal> values,Map<Integer,HrmSalaryOptionDO> options){
+        Map<String,BigDecimal> amounts=new LinkedHashMap<>(values);amounts.remove("ACTUAL_DAYS");amounts.remove("NEED_DAYS");
+        List<HrmSalaryOptionValueVO> result=confirmedOptions(amounts,options);
+        result.add(importOptionValue(HrmSalaryOptionCodeEnum.ATTENDANCE_DEDUCTION_TOTAL.getCode(),options,amounts.values().stream().reduce(BigDecimal.ZERO,BigDecimal::add)));
+        return new AttendanceImportData(values.get("ACTUAL_DAYS"),result);
+    }
+
     private AttendanceImportData buildAttendanceData(
             HrmAttendanceMonthRecordRespVO attendance, Map<Integer, HrmSalaryOptionDO> optionMap) {
         if (attendance == null) {
@@ -654,6 +692,9 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
                 }
             }
             values.add(importOptionValue(HrmSalaryOptionCodeEnum.ATTENDANCE_DEDUCTION_TOTAL.getCode(), optionMap, attendanceDeductionTotal));
+            if (dataMap.containsKey(jobNumber)) {
+                throw exception(SALARY_IMPORT_DATA_INVALID);
+            }
             dataMap.put(jobNumber, new AttendanceImportData(parseAmount(getCell(row, 11), BigDecimal.ZERO), values));
         }
         return dataMap;
@@ -685,6 +726,9 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
             for (ImportColumn column : columns) {
                 values.add(importOptionValue(column.getCode(), optionMap,
                         parseAmount(getCell(row, column.getIndex()), BigDecimal.ZERO)));
+            }
+            if (dataMap.containsKey(jobNumber)) {
+                throw exception(SALARY_IMPORT_DATA_INVALID);
             }
             dataMap.put(jobNumber, values);
         }

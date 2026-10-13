@@ -23,6 +23,7 @@ import cn.iocoder.yudao.module.hrm.enums.employee.employment.HrmEmployeeChangeTy
 import cn.iocoder.yudao.module.hrm.enums.employee.info.HrmEmployeeEntryStatusEnum;
 import cn.iocoder.yudao.module.hrm.enums.employee.info.HrmEmployeeStatusEnum;
 import cn.iocoder.yudao.module.hrm.enums.salary.config.HrmSalaryOptionCodeEnum;
+import cn.iocoder.yudao.module.hrm.enums.salary.config.HrmSalaryOptionTypeEnum;
 import cn.iocoder.yudao.module.hrm.service.attendance.statistics.HrmAttendanceStatisticsService;
 import cn.iocoder.yudao.module.hrm.service.employee.employment.HrmEmployeeChangeRecordService;
 import cn.iocoder.yudao.module.hrm.service.employee.info.HrmEmployeeService;
@@ -76,6 +77,8 @@ import static org.mockito.Mockito.when;
  */
 @Import({HrmSalaryMonthRecordServiceImpl.class, cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollFormulaService.class})
 public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
+    @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInputService payrollInputs;
+
     @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollAttendanceService payrollAttendanceService;
 
     @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollScopeService payrollScope;
@@ -270,6 +273,7 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
         when(employeeService.getEmployeeList(any())).thenReturn(Collections.singletonList(employee));
         when(payrollScope.payrollDates(any())).thenReturn(Collections.singletonMap(1L,Collections.singleton(LocalDate.of(2026,7,1))));
         when(salaryGroupService.getEmployeeSalaryGroupMap(any())).thenReturn(Collections.singletonMap(1L,HrmSalaryGroupDO.builder().id(10L).build()));
+        configureSourceCatalog();
         when(payrollInsurancePolicies.forPayroll(any(),anyCollection(),any(),any())).thenThrow(cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INSURANCE_INVALID));
         assertServiceException(()->monthRecordService.computeMonthRecord(batch.getId(),false,false,Collections.emptyList(),Collections.emptyList(),Collections.emptyList()),cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INSURANCE_INVALID);
         org.mockito.Mockito.verifyNoInteractions(insuranceMonthRecordService,insuranceMonthEmployeeRecordService);
@@ -367,18 +371,28 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
         when(employeeService.getEmployeeList(any())).thenReturn(Collections.singletonList(employee));
         when(payrollScope.payrollDates(any())).thenReturn(Collections.singletonMap(1L,Collections.singleton(LocalDate.of(2026,7,1))));
         when(salaryGroupService.getEmployeeSalaryGroupMap(any())).thenReturn(Collections.singletonMap(1L,HrmSalaryGroupDO.builder().id(10L).taxRuleId(20L).build()));
-        HrmSalaryTaxRuleDO tax=HrmSalaryTaxRuleDO.builder().id(20L).name("默认计税").build();
+        configureSourceCatalog();
+        HrmSalaryTaxRuleDO tax=HrmSalaryTaxRuleDO.builder().id(20L).name("默认计税").taxEnabled(true).build();
         when(salaryTaxRuleService.getSalaryTaxRuleMap(anyCollection())).thenReturn(Collections.singletonMap(20L,tax));
         when(salaryTaxRuleService.getSalaryTaxRuleList()).thenReturn(Collections.singletonList(tax));
         when(salaryEmployeeInfoService.getEffectiveSalaryOptionList(eq(employee),any(LocalDateTime[].class),any()))
-            .thenReturn(Arrays.asList(HrmSalaryEmployeeInfoDO.SalaryOption.builder().code(10101).name("基本工资").value(new BigDecimal("10000")).build(),HrmSalaryEmployeeInfoDO.SalaryOption.builder().code(100101).name("旧缴费").value(new BigDecimal("999")).build()));
+            .thenReturn(Arrays.asList(HrmSalaryEmployeeInfoDO.SalaryOption.builder().code(10101).name("基本工资").value(new BigDecimal("10000")).build(),HrmSalaryEmployeeInfoDO.SalaryOption.builder().code(100101).name("旧缴费").value(new BigDecimal("999")).build(),HrmSalaryEmployeeInfoDO.SalaryOption.builder().code(4001000).name("自定义缴费").value(BigDecimal.TEN).build()));
         cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInsurancePolicyService.Quote q=new cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInsurancePolicyService.Quote();q.setEntityId(1L);q.setEmployeeId(1L);q.setBaseId(20L);q.setPolicyId(30L);q.setPersonalInsurance(new BigDecimal("640.00"));
         when(payrollInsurancePolicies.forPayroll(any(),anyCollection(),any(),any())).thenReturn(Collections.singletonMap(1L,q));
         when(payrollInsurancePolicies.payrollRecords(any())).thenReturn(Collections.singletonMap(1L,new cn.iocoder.yudao.module.hrm.dal.dataobject.insurance.monthrecord.HrmInsuranceMonthEmployeeRecordDO().setEmployeeId(1L).setPersonalInsuranceAmount(new BigDecimal("640.00")).setPersonalProvidentFundAmount(BigDecimal.ZERO).setCorporateInsuranceAmount(new BigDecimal("1280.00")).setCorporateProvidentFundAmount(BigDecimal.ZERO)));
         when(monthEmployeeRecordService.calculateMonthEmployeeRecordList(any(),any(),any())).thenAnswer(call->{List<HrmSalaryMonthEmployeeRecordDO> records=call.getArgument(0);records.forEach(r->r.setExpectedPaySalary(BigDecimal.ZERO).setPersonalTax(BigDecimal.ZERO).setRealPaySalary(BigDecimal.ZERO).setOptionValues(Collections.emptyList()));return records;});
+        Map<String,cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollInputDO> confirmed=new java.util.LinkedHashMap<>();
+        for(String kind:Arrays.asList("ATTENDANCE","OVERTIME","DEDUCTIONS","CUMULATIVE_TAX")){
+            cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollInputDO input=new cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollInputDO();input.setKind(kind);
+            Map<String,BigDecimal> data=new java.util.LinkedHashMap<>();if("ATTENDANCE".equals(kind)){data.put("ACTUAL_DAYS",BigDecimal.ONE);data.put("NEED_DAYS",BigDecimal.ONE);for(int code=190101;code<=190106;code++)data.put(String.valueOf(code),BigDecimal.ZERO);}
+            if("OVERTIME".equals(kind))data.put("180101",BigDecimal.ZERO);input.setPayload(cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(data));confirmed.put(kind,input);
+        }
+        when(payrollInputs.forPayroll(any(),any(),any())).thenReturn(Collections.singletonMap(1L,confirmed));
+        when(payrollInputs.values(any())).thenAnswer(call->cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseObject(((cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollInputDO)call.getArgument(0)).getPayload(),new com.fasterxml.jackson.core.type.TypeReference<Map<String,BigDecimal>>(){}));
         monthRecordService.computeMonthRecord(batch.getId(),false,false,Collections.emptyList(),Collections.emptyList(),Collections.emptyList());
         ArgumentCaptor<Map<Long,List<HrmSalaryOptionValueVO>>> values=ArgumentCaptor.forClass(Map.class);
         verify(monthEmployeeRecordService).calculateMonthEmployeeRecordList(any(),values.capture(),any());
+        assertTrue(values.getValue().get(1L).stream().noneMatch(v->v.getCode()==4001000));
         assertAmount("640.00",values.getValue().get(1L).stream().filter(v->v.getCode()==100101).findFirst().get().getValue());
         ArgumentCaptor<Map<String,Object>> snapshot=ArgumentCaptor.forClass(Map.class);
         verify(payrollBatchService).snapshot(eq(batch.getId()),snapshot.capture(),any(),any(),any());
@@ -386,6 +400,34 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
         org.mockito.Mockito.verifyNoInteractions(insuranceMonthRecordService,insuranceMonthEmployeeRecordService);
     }
 
+    @Test
+    void missingSalaryGroupBlocksInsteadOfDroppingEmployeeFromPayroll(){
+        HrmSalaryMonthRecordDO batch=buildMonthRecord(2026,7,HrmSalaryMonthRecordStatusEnum.UNCOMPUTED.getStatus()).setEntityId(1L);monthRecordMapper.insert(batch);
+        HrmEmployeeDO employee=buildActiveEmployee(1L,"EMP-1");when(employeeService.getEmployeeList(any())).thenReturn(Collections.singletonList(employee));when(payrollScope.payrollDates(any())).thenReturn(Collections.singletonMap(1L,Collections.singleton(LocalDate.of(2026,7,1))));
+        assertServiceException(()->monthRecordService.computeMonthRecord(batch.getId(),false,false,Collections.emptyList(),Collections.emptyList(),Collections.emptyList()),cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INPUT_INVALID);
+        org.mockito.Mockito.verifyNoInteractions(payrollInsurancePolicies,payrollInputs);assertEquals(5,monthRecordMapper.selectById(batch.getId()).getStatus());
+    }
+
+
+    @Test
+    void legacyDuplicateImportCannotSilentlyOverwriteFirstRow(){
+        HrmSalaryMonthRecordDO batch=buildMonthRecord(2026,7,HrmSalaryMonthRecordStatusEnum.UNCOMPUTED.getStatus());monthRecordMapper.insert(batch);
+        HrmEmployeeDO employee=buildActiveEmployee(1L,"EMP-1");when(employeeService.getEmployeeList(any())).thenReturn(Collections.singletonList(employee));when(salaryGroupService.getEmployeeSalaryGroupMap(any())).thenReturn(Collections.singletonMap(1L,HrmSalaryGroupDO.builder().id(10L).build()));
+        Map<Integer,String> first=new java.util.HashMap<>();first.put(2,"EMP-1");first.put(11,"20");Map<Integer,String> second=new java.util.HashMap<>(first);second.put(11,"22");
+        assertServiceException(()->monthRecordService.computeMonthRecord(batch.getId(),false,false,Arrays.asList(first,second),Collections.emptyList(),Collections.emptyList()),cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_IMPORT_DATA_INVALID);
+        assertEquals(5,monthRecordMapper.selectById(batch.getId()).getStatus());org.mockito.Mockito.verifyNoInteractions(monthEmployeeRecordService);
+    }
+
+
+    private void configureSourceCatalog(){
+        List<HrmSalaryOptionDO> catalog=new java.util.ArrayList<>();for(Integer code:HrmSalaryOptionCodeEnum.SOURCE_CONTROLLED_CODES)catalog.add(new HrmSalaryOptionDO().setCode(code).setParentCode(code/1000).setName("来源项"+code).setEnabled(true).setType(code==200101?HrmSalaryOptionTypeEnum.MINUS.getType():HrmSalaryOptionTypeEnum.ADD.getType()));
+        catalog.add(new HrmSalaryOptionDO().setCode(4001000).setParentCode(100).setName("自定义缴费"));when(salaryOptionService.getSalaryOptionList(false)).thenReturn(catalog);
+    }
+    @Test void scopedPayrollBlocksMissingCatalogInsteadOfDroppingMandatoryAmounts(){
+        HrmSalaryMonthRecordDO b=buildMonthRecord(2026,7,5).setEntityId(1L);monthRecordMapper.insert(b);
+        assertServiceException(()->monthRecordService.computeMonthRecord(b.getId(),false,false,Collections.emptyList(),Collections.emptyList(),Collections.emptyList()),cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_SOURCE_CATALOG_INVALID,"个人社保");
+        org.mockito.Mockito.verifyNoInteractions(payrollInsurancePolicies,payrollInputs);assertEquals(5,monthRecordMapper.selectById(b.getId()).getStatus());
+    }
     @Test
     public void testComputeMonthRecord_syncAttendanceData() {
         // mock 数据

@@ -19,7 +19,12 @@
           inactive-text="本次不带入"
         />
       </el-form-item>
-      <el-form-item label="同步考勤">
+      <el-form-item v-if="currentRecord?.entityId" label="必需输入"
+        ><span
+          >使用“核算输入与就绪”中经独立复核的版本；未准备或来源变更时不能核算。</span
+        ></el-form-item
+      >
+      <el-form-item v-if="!currentRecord?.entityId" label="同步考勤">
         <el-switch
           v-model="syncAttendanceData"
           active-text="从考勤统计同步"
@@ -27,7 +32,7 @@
         />
       </el-form-item>
       <!-- 考勤数据导入 -->
-      <el-form-item label="考勤数据">
+      <el-form-item v-if="!currentRecord?.entityId" label="考勤数据">
         <div class="flex flex-wrap items-start gap-8px">
           <el-upload
             v-model:file-list="attendanceFiles"
@@ -46,7 +51,7 @@
         </div>
       </el-form-item>
       <!-- 上月个税累计导入 -->
-      <el-form-item label="上月个税累计">
+      <el-form-item v-if="!currentRecord?.entityId" label="上月个税累计">
         <div class="flex flex-wrap items-start gap-8px">
           <el-upload
             v-model:file-list="cumulativeTaxFiles"
@@ -62,7 +67,7 @@
         </div>
       </el-form-item>
       <!-- 专项附加扣除导入 -->
-      <el-form-item label="专项附加扣除">
+      <el-form-item v-if="!currentRecord?.entityId" label="专项附加扣除">
         <div class="flex flex-wrap items-start gap-8px">
           <el-upload
             v-model:file-list="additionalDeductionFiles"
@@ -165,9 +170,11 @@ async function submitForm() {
     formData.append('id', String(currentRecord.value.id))
     formData.append('syncInsuranceData', String(syncInsuranceData.value))
     formData.append('syncAttendanceData', String(syncAttendanceData.value))
-    appendFile(formData, 'attendanceFile', attendanceFiles.value)
-    appendFile(formData, 'cumulativeTaxFile', cumulativeTaxFiles.value)
-    appendFile(formData, 'additionalDeductionFile', additionalDeductionFiles.value)
+    if (!currentRecord.value.entityId) {
+      appendFile(formData, 'attendanceFile', attendanceFiles.value)
+      appendFile(formData, 'cumulativeTaxFile', cumulativeTaxFiles.value)
+      appendFile(formData, 'additionalDeductionFile', additionalDeductionFiles.value)
+    }
     await SalaryMonthRecordApi.computeSalaryMonthRecordWithImport(formData)
     message.success(t('common.updateSuccess'))
     dialogVisible.value = false

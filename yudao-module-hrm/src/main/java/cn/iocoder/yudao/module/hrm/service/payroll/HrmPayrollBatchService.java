@@ -17,6 +17,7 @@ public class HrmPayrollBatchService {
     @Resource private HrmPayrollWorkService workService;
     @Resource private HrmPayrollScopeService scope;
     @Resource private HrmPayrollInsurancePolicyService insurance;
+    @Resource private HrmPayrollInputService inputs;
     @Resource private HrmPayrollAttendanceService attendanceService;
     @Resource private HrmPayrollRunMapper runMapper;
     @Resource private HrmPayrollBatchEventMapper eventMapper;
@@ -94,6 +95,7 @@ public class HrmPayrollBatchService {
                 if(!visited.add(source.getId()))throw exception(PAYROLL_VERSION_CONFLICT);
                 scope.validateInputSnapshot(source.getInputSnapshot());
                 insurance.validateInputSnapshot(source.getInputSnapshot());
+                inputs.validateInputSnapshot(source.getInputSnapshot());
                 workService.validateInputSnapshot(source.getInputSnapshot());
                 attendanceService.validateInputSnapshot(source.getInputSnapshot());
                 Map<String,Object> input=JsonUtils.parseObject(source.getInputSnapshot(),Map.class);

@@ -11,4 +11,7 @@ public interface OaPayrollSourceApi {
           java.util.Collection<Long> userIds,
           java.time.LocalDateTime from,
           java.time.LocalDateTime to);
+
+  java.util.List<OaPayrollOvertimeDTO> getApprovedOvertimeList(
+      Long userId, java.time.LocalDateTime from, java.time.LocalDateTime to);
 }

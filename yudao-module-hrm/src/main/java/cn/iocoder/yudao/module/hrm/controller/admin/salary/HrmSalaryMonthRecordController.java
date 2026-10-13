@@ -127,6 +127,11 @@ public class HrmSalaryMonthRecordController {
             @RequestParam(value = "additionalDeductionFile", required = false) MultipartFile additionalDeductionFile,
             @RequestParam(value = "cumulativeTaxFile", required = false) MultipartFile cumulativeTaxFile)
             throws IOException {
+        HrmSalaryMonthRecordDO batch=payrollScope.require(id,"CALCULATE");
+        for(MultipartFile file:Arrays.asList(attendanceFile,additionalDeductionFile,cumulativeTaxFile)){
+            if(file!=null&&!file.isEmpty() && (batch.getEntityId()!=null||file.getSize()>10*1024*1024))
+                throw cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INPUT_INVALID);
+        }
         salaryMonthRecordService.computeMonthRecord(id, syncInsuranceData, syncAttendanceData,
                 ExcelUtils.read(attendanceFile),
                 ExcelUtils.read(additionalDeductionFile),

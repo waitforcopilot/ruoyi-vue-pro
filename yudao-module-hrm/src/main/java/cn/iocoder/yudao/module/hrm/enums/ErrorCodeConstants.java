@@ -313,4 +313,10 @@ public interface ErrorCodeConstants {
     ErrorCode PAYROLL_ENTITY_INVALID = new ErrorCode(1_050_810_013, "法人主体、人员归属、授权范围或审批状态不合法");
     ErrorCode PAYROLL_INSURANCE_SCOPE_REQUIRED = new ErrorCode(1_050_810_014, "跨法人调动月份需先核定社保公积金缴费主体，不能重复同步月度缴费");
     ErrorCode PAYROLL_INSURANCE_INVALID = new ErrorCode(1_050_810_015, "缴费政策、申报基数、缴费主体、审批或生效期间不合法或未就绪");
+    ErrorCode SALARY_IMPORT_DATA_INVALID = new ErrorCode(1_050_800_005, "薪资导入存在重复工号，请修正后重新导入");
+    ErrorCode PAYROLL_INPUT_INVALID = new ErrorCode(1_050_810_016, "必需核算输入未就绪、来源已变更、导入字段缺失或当前审批状态不合法");
+
+    ErrorCode PAYROLL_SOURCE_CATALOG_INVALID = new ErrorCode(1_050_810_017, "必需工资项[{}]未启用或类别/加减类型错误，请检查工资项配置");
+    ErrorCode PAYROLL_TAX_CONFIGURATION_MISSING = new ErrorCode(1_050_810_018, "员工[{}]未匹配明确的计税规则，请检查薪资组及税务配置");
+
 }

@@ -90,8 +90,16 @@ async function open(
     })
     list.value = employeeRecords
     editableOptions.value = getLeafOptions(record.optionHeaders).filter(
-      (option) => !HRM_SALARY_COMPUTED_OPTION_CODES.has(option.code)
-        && !(record.entityId && [100101,100102,110101,120101].includes(option.code))
+      (option) =>
+        !HRM_SALARY_COMPUTED_OPTION_CODES.has(option.code) &&
+        !(record.entityId && [100,110,120,180,190,200,250,260].includes(option.parentCode)) &&
+        !(
+          record.entityId &&
+          [
+            100101, 100102, 110101, 120101, 180101, 190101, 190102, 190103, 190104, 190105, 190106,
+            200101, 250101, 250102, 250103, 250105, 260101, 260102, 260103, 260104, 260105
+          ].includes(option.code)
+        )
     )
     edited.value = false
     editedEmployeeIdSet.value = new Set()

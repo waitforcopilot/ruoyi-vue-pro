@@ -84,4 +84,11 @@ class HrmPayrollFormulaServiceTest extends BaseDbUnitTest {
         assertServiceException(()->service.calculate(Collections.emptyList(),Collections.emptyMap(),start,null,null,null),PAYROLL_FORMULA_INVALID);
     }
 
+    @Test void customStatutoryCategoryCannotBypassSourceControl(){
+        optionMapper.insert(HrmSalaryOptionDO.builder().code(4001000).name("自定义个人社保").parentCode(100).enabled(true).build());
+        assertServiceException(()->create(4001000,"item_1000000001*2",null),PAYROLL_FORMULA_INVALID);
+        Long id=create(1000000002,"item_4001000+10",null);approve(id);
+        assertEquals(0,new BigDecimal("110").compareTo(service.preview(id,start,null,Collections.singletonMap("item_4001000",new BigDecimal("100"))).get("item_1000000002")));
+    }
+
 }

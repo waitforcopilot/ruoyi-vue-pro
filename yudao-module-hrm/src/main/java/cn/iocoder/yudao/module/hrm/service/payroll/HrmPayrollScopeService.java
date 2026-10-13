@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 public class HrmPayrollScopeService {
   @Resource private HrmPayrollEntityService entities;
   @Resource private HrmSalaryMonthRecordMapper batches;
+  @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.employee.info.HrmEmployeeMapper employees;
   @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollBatchEventMapper events;
 
   @Resource
@@ -200,6 +201,15 @@ public class HrmPayrollScopeService {
       LocalDate from =
           membership.getEffectiveFrom().isBefore(start) ? start : membership.getEffectiveFrom();
       LocalDate to = membership.getEffectiveTo().isAfter(end) ? end : membership.getEffectiveTo();
+      cn.iocoder.yudao.module.hrm.dal.dataobject.employee.info.HrmEmployeeDO employee =
+          employees.selectById(membership.getEmployeeId());
+      if (employee == null) throw exception(PAYROLL_ENTITY_INVALID);
+      if (employee.getEntryTime() != null && employee.getEntryTime().toLocalDate().isAfter(from))
+        from = employee.getEntryTime().toLocalDate();
+      if (employee.getLeaveTime() != null && employee.getLeaveTime().toLocalDate().isBefore(to))
+        to = employee.getLeaveTime().toLocalDate();
+      if (from.isAfter(to)) continue;
+
       Set<LocalDate> dates =
           result.computeIfAbsent(membership.getEmployeeId(), k -> new TreeSet<>());
       for (LocalDate day = from; !day.isAfter(to); day = day.plusDays(1)) dates.add(day);

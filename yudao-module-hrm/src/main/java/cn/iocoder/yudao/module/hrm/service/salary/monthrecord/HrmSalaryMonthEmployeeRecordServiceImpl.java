@@ -172,8 +172,8 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
     @Override
     public HrmSalaryMonthEmployeeRecordDO calculateMonthEmployeeRecord(
             HrmSalaryMonthEmployeeRecordDO employeeRecord, List<HrmSalaryOptionValueVO> optionValues) {
-        validateInsuranceSourceAdjustment(employeeRecord, optionValues);
         Map<Integer, HrmSalaryOptionDO> optionMap = getSalaryOptionMap();
+        validateSourceAdjustment(employeeRecord, optionValues, optionMap);
         HrmSalaryTaxRuleDO taxRule = getEmployeeTaxRuleMap(
                 Collections.singleton(employeeRecord.getEmployeeId())).get(employeeRecord.getEmployeeId());
         return calculateMonthEmployeeRecord(employeeRecord,
@@ -220,7 +220,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
             HrmSalaryMonthEmployeeRecordDO employeeRecord = employeeRecordMap.get(reqVO.getId());
             if (salaryMonthRecord.getEntityId() != null) {
                 employeeRecord.setEntityId(salaryMonthRecord.getEntityId());
-                validateInsuranceSourceAdjustment(employeeRecord, reqVO.getOptionValues());
+                validateSourceAdjustment(employeeRecord, reqVO.getOptionValues(), optionMap);
             }
             monthEmployeeRecordMapper.updateById(calculateMonthEmployeeRecord(employeeRecord,
                     mergeEditableOptionValues(employeeRecord.getOptionValues(), reqVO.getOptionValues(), optionMap),
@@ -612,6 +612,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
             return sourceValues;
         }
         Set<Integer> existingCodes = convertSet(sourceValues, HrmSalaryOptionValueVO::getCode);
+        if (existingCodes.containsAll(HrmSalaryOptionCodeEnum.LAST_MONTH_CUMULATIVE_CODES)) return sourceValues;
         Map<Integer, BigDecimal> lastMonthValues = getLastMonthCumulativeValues(
                 employeeId, year, month, entityId, taxRule, optionMap);
         List<HrmSalaryOptionValueVO> missingValues = HrmSalaryOptionCodeEnum.LAST_MONTH_CUMULATIVE_CODES.stream()
@@ -681,17 +682,18 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
         return result;
     }
 
-    private void validateInsuranceSourceAdjustment(HrmSalaryMonthEmployeeRecordDO record,
-            List<HrmSalaryOptionValueVO> requested) {
+    private void validateSourceAdjustment(HrmSalaryMonthEmployeeRecordDO record,
+            List<HrmSalaryOptionValueVO> requested, Map<Integer,HrmSalaryOptionDO> options) {
         if (record.getEntityId() == null || requested == null) return;
         Map<Integer, BigDecimal> original = new LinkedHashMap<>();
         if (record.getOptionValues() != null) record.getOptionValues().forEach(value ->
                 original.put(value.getCode(), value.getValue()));
         for (HrmSalaryOptionValueVO value : requested) {
-            if (!HrmSalaryOptionCodeEnum.INSURANCE_SOURCE_CODES.contains(value.getCode())) continue;
+            HrmSalaryOptionDO option=options.get(value.getCode());
+            if (!HrmSalaryOptionCodeEnum.sourceControlled(value.getCode(),option==null?null:option.getParentCode())) continue;
             BigDecimal before = original.get(value.getCode());
             if (before == null || value.getValue() == null || before.compareTo(value.getValue()) != 0)
-                throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INSURANCE_INVALID);
+                throw exception(HrmSalaryOptionCodeEnum.INSURANCE_SOURCE_CODES.contains(value.getCode())?cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INSURANCE_INVALID:cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INPUT_INVALID);
         }
     }
 
