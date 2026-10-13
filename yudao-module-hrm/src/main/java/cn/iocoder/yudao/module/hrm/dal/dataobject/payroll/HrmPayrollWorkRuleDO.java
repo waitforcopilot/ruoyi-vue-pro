@@ -13,6 +13,10 @@ public class HrmPayrollWorkRuleDO extends BaseDO {
   @TableId private Long id;
   private Long employeeId;
   private Long entityId;
+  private Long priorRuleId;
+  private Long submittedBy;
+  private java.time.LocalDate supersededFrom;
+  private Long supersededBy;
   private String systemType;
   private java.time.LocalDate effectiveFrom;
   private java.time.LocalDate effectiveTo;

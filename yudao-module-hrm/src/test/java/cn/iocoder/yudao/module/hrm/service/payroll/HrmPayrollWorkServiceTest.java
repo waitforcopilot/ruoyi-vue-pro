@@ -520,4 +520,129 @@ class HrmPayrollWorkServiceTest extends BaseDbUnitTest {
     assertServiceException(() -> service.submitNoOvertime(r, 1L), PAYROLL_WORK_INVALID);
     assertTrue(zeroCases.selectList().isEmpty());
   }
+
+  @Test
+  void ruleSuccessionChangesFutureApplicabilityOnlyAfterApproval() {
+    Long oldId = approved("STANDARD");
+    LocalDate originalTo = rules.selectById(oldId).getEffectiveTo();
+    LocalDate cut = LocalDate.now(ZoneId.of("Asia/Shanghai")).plusDays(1);
+    HrmPayrollWorkRuleReqVO next = policy("IRREGULAR");
+    next.setPriorRuleId(oldId);
+    next.setEffectiveFrom(cut);
+    next.setHourlyBase(new BigDecimal("30"));
+    Long newId = service.createRule(next, 1L);
+    assertTrue(HrmPayrollWorkService.applies(rules.selectById(oldId), cut));
+    assertNull(rules.selectById(oldId).getSupersededFrom());
+    assertServiceException(() -> service.approveRule(newId, 1L), PAYROLL_SELF_APPROVAL);
+    service.approveRule(newId, 2L);
+    HrmPayrollWorkRuleDO old = rules.selectById(oldId);
+    assertEquals(originalTo, old.getEffectiveTo());
+    assertEquals(newId, old.getSupersededBy());
+    assertEquals(cut, old.getSupersededFrom());
+    assertTrue(HrmPayrollWorkService.applies(old, cut.minusDays(1)));
+    assertFalse(HrmPayrollWorkService.applies(old, cut));
+    assertTrue(HrmPayrollWorkService.applies(rules.selectById(newId), cut));
+    assertEquals(0, new BigDecimal("20").compareTo(old.getHourlyBase()));
+  }
+
+  @Test
+  void rejectedSuccessorDoesNotChangeApprovedOriginal() {
+    Long id = approved("STANDARD");
+    HrmPayrollWorkRuleReqVO r = policy("STANDARD");
+    r.setPriorRuleId(id);
+    r.setEffectiveFrom(LocalDate.now(ZoneId.of("Asia/Shanghai")).plusDays(1));
+    Long next = service.createRule(r, 1L);
+    service.rejectRule(next, "新依据未通过", 2L);
+    assertNull(rules.selectById(id).getSupersededFrom());
+    assertNull(rules.selectById(id).getSupersededBy());
+    assertNotEquals(next, service.createRule(r, 1L));
+  }
+
+  @Test
+  void retroactiveAndPartialComprehensiveSuccessorsAreRejected() {
+    Long id = approved("COMPREHENSIVE");
+    HrmPayrollWorkRuleReqVO r = policy("STANDARD");
+    r.setPriorRuleId(id);
+    r.setEffectiveFrom(LocalDate.now(ZoneId.of("Asia/Shanghai")).minusDays(1));
+    assertServiceException(() -> service.createRule(r, 1L), PAYROLL_WORK_INVALID);
+    r.setEffectiveFrom(LocalDate.now(ZoneId.of("Asia/Shanghai")).plusDays(1));
+    assertServiceException(() -> service.createRule(r, 1L), PAYROLL_WORK_INVALID);
+  }
+
+  @Test
+  void futureRuleSuccessionDoesNotInvalidateEarlierVerifiedZeroFacts() {
+    Long id = approved("STANDARD");
+    Long issue = service.submitNoOvertime(zeroRequest("before-successor"), 1L);
+    HrmPayrollWorkRuleReqVO r = policy("STANDARD");
+    r.setPriorRuleId(id);
+    r.setEffectiveFrom(LocalDate.now(ZoneId.of("Asia/Shanghai")).plusDays(1));
+    Long next = service.createRule(r, 1L);
+    service.approveRule(next, 2L);
+    assertTrue(service.noOvertimeCases(10L, employeeId, 2L).get(0).getSourceFresh());
+    service.reviewNoOvertime(issue, true, "核实原时段", 2L);
+    service.validateSources(entries.selectList());
+  }
+
+  @Test
+  void successorApprovalRechecksNewlyRecognizedFutureSources() {
+    Long id = approved("STANDARD");
+    LocalDate cut = LocalDate.now(ZoneId.of("Asia/Shanghai")).plusDays(1);
+    HrmPayrollWorkRuleReqVO r = policy("STANDARD");
+    r.setPriorRuleId(id);
+    r.setEffectiveFrom(cut);
+    Long next = service.createRule(r, 1L);
+    HrmPayrollTimeEntryDO existing = new HrmPayrollTimeEntryDO();
+    existing.setEmployeeId(employeeId);
+    existing.setEntityId(10L);
+    existing.setRuleId(id);
+    existing.setStartTime(cut.atTime(18, 0));
+    existing.setSourceRecordId("existing-future-source");
+    entries.insert(existing);
+    assertServiceException(() -> service.approveRule(next, 2L), PAYROLL_WORK_INVALID);
+    assertNull(rules.selectById(id).getSupersededFrom());
+    assertEquals("PENDING", rules.selectById(next).getStatus());
+  }
+
+  @Test
+  void concurrentSuccessorApprovalsCannotOverwriteTheFirstApprovedLink() throws Exception {
+    Long id = approved("STANDARD");
+    LocalDate cut = LocalDate.now(ZoneId.of("Asia/Shanghai")).plusDays(1);
+    HrmPayrollWorkRuleReqVO first = policy("STANDARD");
+    first.setPriorRuleId(id);
+    first.setEffectiveFrom(cut);
+    first.setEffectiveTo(cut.plusDays(6));
+    HrmPayrollWorkRuleReqVO second = policy("STANDARD");
+    second.setPriorRuleId(id);
+    second.setEffectiveFrom(cut.plusDays(7));
+    Long a = service.createRule(first, 1L), b = service.createRule(second, 1L);
+    java.util.concurrent.ExecutorService pool =
+        java.util.concurrent.Executors.newFixedThreadPool(2);
+    java.util.concurrent.CountDownLatch start = new java.util.concurrent.CountDownLatch(1);
+    try {
+      java.util.List<java.util.concurrent.Future<Boolean>> outcomes = new java.util.ArrayList<>();
+      for (Long child : Arrays.asList(a, b))
+        outcomes.add(
+            pool.submit(
+                () -> {
+                  start.await();
+                  try {
+                    service.approveRule(child, 2L);
+                    return true;
+                  } catch (cn.iocoder.yudao.framework.common.exception.ServiceException ex) {
+                    assertEquals(PAYROLL_WORK_INVALID.getCode(), ex.getCode());
+                    return false;
+                  }
+                }));
+      start.countDown();
+      int successes = 0;
+      for (java.util.concurrent.Future<Boolean> result : outcomes)
+        if (result.get(15, java.util.concurrent.TimeUnit.SECONDS)) successes++;
+      assertEquals(1, successes);
+      Long winner = rules.selectById(id).getSupersededBy();
+      assertEquals("APPROVED", rules.selectById(winner).getStatus());
+      assertEquals("PENDING", rules.selectById(Objects.equals(winner, a) ? b : a).getStatus());
+    } finally {
+      pool.shutdownNow();
+    }
+  }
 }

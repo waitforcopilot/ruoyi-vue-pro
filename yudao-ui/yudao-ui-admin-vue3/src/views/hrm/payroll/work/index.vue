@@ -48,7 +48,10 @@
           ><el-table-column prop="systemType" label="制度" /><el-table-column
             prop="effectiveFrom"
             label="生效日"
-          /><el-table-column prop="effectiveTo" label="结束日" /><el-table-column
+          /><el-table-column prop="effectiveTo" label="原结束日" />
+          <el-table-column prop="id" label="版本编号" />
+          <el-table-column prop="priorRuleId" label="原批准版本" />
+          <el-table-column prop="supersededFrom" label="后续版本生效日" /><el-table-column
             prop="status"
             label="审批状态"
           /><el-table-column
@@ -64,6 +67,12 @@
             show-overflow-tooltip
           /><el-table-column label="操作" width="180"
             ><template #default="{ row }"
+              ><el-button
+                v-if="row.status === 'APPROVED' && !row.supersededFrom"
+                v-hasPermi="['hrm:payroll:work:update']"
+                link
+                @click="openRuleVersion(row)"
+                >申请后续版本</el-button
               ><el-button
                 v-if="row.status === 'PENDING'"
                 v-hasPermi="['hrm:payroll:work:approve']"
@@ -215,6 +224,9 @@
   <Dialog v-model="visible" :title="titles[kind]" width="650px">
     <el-form label-width="140px">
       <template v-if="kind === 'rule'">
+        <el-form-item v-if="draft.priorRuleId" label="原批准版本">{{
+          draft.priorRuleId
+        }}</el-form-item>
         <el-form-item label="工时制度"
           ><el-select v-model="draft.systemType"
             ><el-option label="标准工时" value="STANDARD" /><el-option
@@ -417,6 +429,27 @@ function open(type: Kind) {
     minutes: 60
   }
   visible.value = true
+}
+function openRuleVersion(row: any) {
+  let next = dayjs().add(1, 'day').startOf('day')
+  if (row.systemType === 'COMPREHENSIVE') {
+    next = dayjs(row.effectiveFrom)
+    while (!next.isAfter(dayjs().startOf('day'))) next = next.add(row.cycleMonths, 'month')
+  }
+  if (next.isAfter(dayjs(row.effectiveTo).add(1, 'day'))) {
+    message.warning('原制度已结束或剩余周期需先处理差异，请新建适用制度或处理周期差异')
+    return
+  }
+  open('rule')
+  draft.value = {
+    ...row,
+    priorRuleId: row.id,
+    effectiveFrom: next.format('YYYY-MM-DD'),
+    effectiveTo: dayjs(row.effectiveTo).isBefore(next)
+      ? next.endOf('month').format('YYYY-MM-DD')
+      : row.effectiveTo,
+    legalBasis: ''
+  }
 }
 function openCycle(ruleId: number) {
   open('cycle')

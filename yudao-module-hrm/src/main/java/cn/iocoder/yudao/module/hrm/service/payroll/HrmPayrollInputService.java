@@ -238,7 +238,9 @@ public class HrmPayrollInputService {
                 .filter(
                     rule ->
                         !date.isBefore(rule.getEffectiveFrom())
-                            && !date.isAfter(rule.getEffectiveTo()))
+                            && !date.isAfter(rule.getEffectiveTo())
+                            && (rule.getSupersededFrom() == null
+                                || date.isBefore(rule.getSupersededFrom())))
                 .collect(Collectors.toList());
         if (applicable.size() != 1) throw exception(PAYROLL_WORK_INVALID);
         appliedRules.add(applicable.get(0).getId());

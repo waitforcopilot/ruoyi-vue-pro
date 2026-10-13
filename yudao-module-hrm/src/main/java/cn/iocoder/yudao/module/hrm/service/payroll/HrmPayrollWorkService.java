@@ -125,10 +125,60 @@ public class HrmPayrollWorkService {
             .orderByDesc(HrmPayrollWorkRuleDO::getEffectiveFrom));
   }
 
-  @Transactional(rollbackFor = Exception.class)
+  public static boolean applies(HrmPayrollWorkRuleDO rule, LocalDate date) {
+    return "APPROVED".equals(rule.getStatus())
+        && !date.isBefore(rule.getEffectiveFrom())
+        && !date.isAfter(rule.getEffectiveTo())
+        && (rule.getSupersededFrom() == null || date.isBefore(rule.getSupersededFrom()));
+  }
+
+  private HrmPayrollWorkRuleDO replacementParent(
+      Long id, Long entityId, Long employeeId, LocalDate from) {
+    HrmPayrollWorkRuleDO prior = ruleMapper.selectOneForUpdate(HrmPayrollWorkRuleDO::getId, id);
+    if (prior == null
+        || !"APPROVED".equals(prior.getStatus())
+        || prior.getSupersededFrom() != null
+        || !Objects.equals(prior.getEntityId(), entityId)
+        || !Objects.equals(prior.getEmployeeId(), employeeId)
+        || from.isBefore(LocalDate.now(ZoneId.of("Asia/Shanghai")).plusDays(1))
+        || from.isBefore(prior.getEffectiveFrom())
+        || from.isAfter(prior.getEffectiveTo().plusDays(1))) throw exception(PAYROLL_WORK_INVALID);
+    if (entryMapper.selectCount(
+            new LambdaQueryWrapperX<HrmPayrollTimeEntryDO>()
+                .eq(HrmPayrollTimeEntryDO::getRuleId, id)
+                .ge(HrmPayrollTimeEntryDO::getStartTime, from.atStartOfDay()))
+        > 0) throw exception(PAYROLL_WORK_INVALID);
+    if ("COMPREHENSIVE".equals(prior.getSystemType())) {
+      long months = java.time.temporal.ChronoUnit.MONTHS.between(prior.getEffectiveFrom(), from);
+      if (months <= 0
+          || months % prior.getCycleMonths() != 0
+          || !prior.getEffectiveFrom().plusMonths(months).equals(from))
+        throw exception(PAYROLL_WORK_INVALID);
+    }
+    return prior;
+  }
+
+  private boolean sameNoOvertimeSource(String old, String current) {
+    com.fasterxml.jackson.databind.JsonNode a =
+        cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseTree(old).deepCopy();
+    com.fasterxml.jackson.databind.JsonNode b =
+        cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseTree(current).deepCopy();
+    for (com.fasterxml.jackson.databind.JsonNode root : Arrays.asList(a, b)) {
+      com.fasterxml.jackson.databind.JsonNode rule = root.get("rule");
+      if (rule instanceof com.fasterxml.jackson.databind.node.ObjectNode)
+        ((com.fasterxml.jackson.databind.node.ObjectNode) rule)
+            .remove(Arrays.asList("updater", "updateTime", "supersededFrom", "supersededBy"));
+    }
+    return a.equals(b);
+  }
+
+  @Transactional(
+      rollbackFor = Exception.class,
+      isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public Long createRule(HrmPayrollWorkRuleReqVO request, Long actor) {
     entities.check(request.getEntityId(), "MANAGE", actor);
-    if (!validator.validate(request).isEmpty()) throw exception(PAYROLL_WORK_INVALID);
+    if (actor == null || !validator.validate(request).isEmpty())
+      throw exception(PAYROLL_WORK_INVALID);
     lockEmployee(request.getEmployeeId());
     requireMembership(
         request.getEntityId(),
@@ -150,15 +200,31 @@ public class HrmPayrollWorkService {
                 .eq(HrmPayrollWorkRuleDO::getEmployeeId, request.getEmployeeId())
                 .eq(HrmPayrollWorkRuleDO::getEntityId, request.getEntityId())
                 .le(HrmPayrollWorkRuleDO::getEffectiveFrom, request.getEffectiveTo())
-                .ge(HrmPayrollWorkRuleDO::getEffectiveTo, request.getEffectiveFrom()));
+                .ge(HrmPayrollWorkRuleDO::getEffectiveTo, request.getEffectiveFrom())
+                .last("FOR UPDATE"));
+    overlap.removeIf(
+        r ->
+            r.getSupersededFrom() != null
+                && !request.getEffectiveFrom().isBefore(r.getSupersededFrom()));
+    if (request.getPriorRuleId() != null) {
+      replacementParent(
+          request.getPriorRuleId(),
+          request.getEntityId(),
+          request.getEmployeeId(),
+          request.getEffectiveFrom());
+      overlap.removeIf(r -> Objects.equals(r.getId(), request.getPriorRuleId()));
+    }
     if (!overlap.isEmpty()) throw exception(PAYROLL_WORK_INVALID);
     HrmPayrollWorkRuleDO rule = BeanUtils.toBean(request, HrmPayrollWorkRuleDO.class);
     rule.setStatus("PENDING");
+    rule.setSubmittedBy(actor);
     ruleMapper.insert(rule);
     return rule.getId();
   }
 
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional(
+      rollbackFor = Exception.class,
+      isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public void approveRule(Long id, Long actor) {
     HrmPayrollWorkRuleDO rule = ruleMapper.selectById(id);
     if (rule == null) throw exception(PAYROLL_WORK_INVALID);
@@ -168,14 +234,30 @@ public class HrmPayrollWorkService {
         rule.getEntityId(), rule.getEmployeeId(), rule.getEffectiveFrom(), rule.getEffectiveTo());
     rule = ruleMapper.selectOneForUpdate(HrmPayrollWorkRuleDO::getId, id);
     if (!"PENDING".equals(rule.getStatus()) || actor == null) throw exception(PAYROLL_WORK_INVALID);
-    if (Objects.equals(rule.getCreator(), String.valueOf(actor)))
+    if (Objects.equals(rule.getSubmittedBy(), actor)
+        || Objects.equals(rule.getCreator(), String.valueOf(actor)))
       throw exception(PAYROLL_SELF_APPROVAL);
+    if (rule.getPriorRuleId() != null) {
+      HrmPayrollWorkRuleDO prior =
+          replacementParent(
+              rule.getPriorRuleId(),
+              rule.getEntityId(),
+              rule.getEmployeeId(),
+              rule.getEffectiveFrom());
+      HrmPayrollWorkRuleDO edge = new HrmPayrollWorkRuleDO();
+      edge.setId(prior.getId());
+      edge.setSupersededFrom(rule.getEffectiveFrom());
+      edge.setSupersededBy(rule.getId());
+      ruleMapper.updateById(edge);
+    }
     rule.setStatus("APPROVED");
     rule.setApprovedBy(actor);
     ruleMapper.updateById(rule);
   }
 
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional(
+      rollbackFor = Exception.class,
+      isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public void rejectRule(Long id, String reason, Long actor) {
     HrmPayrollWorkRuleDO rule = ruleMapper.selectById(id);
     if (rule == null || reason == null || reason.trim().isEmpty() || reason.length() > 1000)
@@ -184,7 +266,8 @@ public class HrmPayrollWorkService {
     lockEmployee(rule.getEmployeeId());
     rule = ruleMapper.selectOneForUpdate(HrmPayrollWorkRuleDO::getId, id);
     if (!"PENDING".equals(rule.getStatus()) || actor == null) throw exception(PAYROLL_WORK_INVALID);
-    if (Objects.equals(rule.getCreator(), String.valueOf(actor)))
+    if (Objects.equals(rule.getSubmittedBy(), actor)
+        || Objects.equals(rule.getCreator(), String.valueOf(actor)))
       throw exception(PAYROLL_SELF_APPROVAL);
     rule.setStatus("REJECTED");
     rule.setRejectedBy(actor);
@@ -212,7 +295,9 @@ public class HrmPayrollWorkService {
     return (int) minutes - breaks;
   }
 
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional(
+      rollbackFor = Exception.class,
+      isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public List<Long> confirm(HrmPayrollTimeEntryReqVO request, Long actor) {
     if (actor == null
         || !validator.validate(request).isEmpty()
@@ -324,6 +409,7 @@ public class HrmPayrollWorkService {
                 .eq(HrmPayrollWorkRuleDO::getEntityId, request.getEntityId())
                 .le(HrmPayrollWorkRuleDO::getEffectiveFrom, date)
                 .ge(HrmPayrollWorkRuleDO::getEffectiveTo, date));
+    rules.removeIf(r -> !applies(r, date));
     if (rules.size() != 1) throw exception(PAYROLL_WORK_INVALID);
     HrmPayrollWorkRuleDO rule = rules.get(0);
     int minutes =
@@ -466,7 +552,8 @@ public class HrmPayrollWorkService {
             !Objects.equals(r.getEntityId(), entityId)
                 || !"APPROVED".equals(r.getStatus())
                 || day.isBefore(r.getEffectiveFrom())
-                || day.isAfter(r.getEffectiveTo()));
+                || day.isAfter(r.getEffectiveTo())
+                || (r.getSupersededFrom() != null && !day.isBefore(r.getSupersededFrom())));
     if (applicable.size() != 1) throw exception(PAYROLL_WORK_INVALID);
     List<cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record.HrmAttendanceClockDO> clocks =
         clockMapper.selectList(
@@ -626,11 +713,7 @@ public class HrmPayrollWorkService {
                     row.getEmployeeId(),
                     row.getSourceApplyId(),
                     row.getWorkDate()));
-        row.setSourceFresh(
-            cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseTree(current)
-                .equals(
-                    cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseTree(
-                        row.getSourceSnapshot())));
+        row.setSourceFresh(sameNoOvertimeSource(row.getSourceSnapshot(), current));
       } catch (cn.iocoder.yudao.framework.common.exception.ServiceException ex) {
         row.setSourceFresh(false);
       }
@@ -638,7 +721,9 @@ public class HrmPayrollWorkService {
     return rows;
   }
 
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional(
+      rollbackFor = Exception.class,
+      isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public Long submitNoOvertime(HrmPayrollNoOvertimeReqVO r, Long actor) {
     entities.check(r.getEntityId(), "MANAGE", actor);
     if (actor == null || !validator.validate(r).isEmpty()) throw exception(PAYROLL_WORK_INVALID);
@@ -678,7 +763,9 @@ public class HrmPayrollWorkService {
     return row.getId();
   }
 
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional(
+      rollbackFor = Exception.class,
+      isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public void reviewNoOvertime(Long id, boolean approved, String opinion, Long actor) {
     HrmPayrollNoOvertimeDO row = noOvertime.selectById(id);
     if (row == null || opinion == null || opinion.trim().isEmpty() || opinion.length() > 1000)
@@ -699,10 +786,9 @@ public class HrmPayrollWorkService {
       Map<String, Object> source =
           noOvertimeSource(
               row.getEntityId(), row.getEmployeeId(), row.getSourceApplyId(), row.getWorkDate());
-      if (!cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseTree(row.getSourceSnapshot())
-          .equals(
-              cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseTree(
-                  cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(source))))
+      if (!sameNoOvertimeSource(
+          row.getSourceSnapshot(),
+          cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(source)))
         throw exception(PAYROLL_WORK_INVALID);
       HrmPayrollTimeEntryDO entry = new HrmPayrollTimeEntryDO();
       entry.setEntityId(row.getEntityId());
@@ -722,7 +808,9 @@ public class HrmPayrollWorkService {
       entry.setEvidence(row.getEvidence());
       Map<String, Object> link = new LinkedHashMap<>();
       link.put("noOvertimeCaseId", id);
-      link.put("source", source);
+      link.put(
+          "source",
+          cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseTree(row.getSourceSnapshot()));
       link.put("reason", row.getReason());
       link.put("evidence", row.getEvidence());
       entry.setSourceSnapshot(
@@ -764,8 +852,7 @@ public class HrmPayrollWorkService {
             .equals(proof.get("source"))) throw exception(PAYROLL_WORK_INVALID);
     String current =
         cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(currentSource);
-    if (!cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseTree(row.getSourceSnapshot())
-        .equals(cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseTree(current)))
+    if (!sameNoOvertimeSource(row.getSourceSnapshot(), current))
       throw exception(PAYROLL_WORK_INVALID);
   }
 
@@ -782,7 +869,8 @@ public class HrmPayrollWorkService {
             || !Objects.equals(rule.getEntityId(), row.getEntityId())
             || !Objects.equals(rule.getEmployeeId(), row.getEmployeeId())
             || row.getStartTime().toLocalDate().isBefore(rule.getEffectiveFrom())
-            || row.getEndTime().minusNanos(1).toLocalDate().isAfter(rule.getEffectiveTo()))
+            || row.getEndTime().minusNanos(1).toLocalDate().isAfter(rule.getEffectiveTo())
+            || !applies(rule, row.getStartTime().toLocalDate()))
           throw exception(PAYROLL_WORK_INVALID);
         requireMembership(
             row.getEntityId(),
@@ -903,7 +991,7 @@ public class HrmPayrollWorkService {
         if (start.isAfter(to) || start.isAfter(rule.getEffectiveTo())) break;
         LocalDate end =
             rule.getEffectiveFrom().plusMonths(offset + rule.getCycleMonths()).minusDays(1);
-        if (end.isBefore(from) || end.isAfter(to) || end.isAfter(rule.getEffectiveTo())) continue;
+        if (end.isBefore(from) || end.isAfter(to) || !applies(rule, end)) continue;
         if (cycleMapper.selectOne(
                 new LambdaQueryWrapperX<HrmPayrollWorkCycleDO>()
                     .eq(HrmPayrollWorkCycleDO::getRuleId, rule.getId())
@@ -1024,7 +1112,9 @@ public class HrmPayrollWorkService {
         .sum();
   }
 
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional(
+      rollbackFor = Exception.class,
+      isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public Long useTimeOff(Long employeeId, int minutes, String key, String reason, Long actor) {
     if (key != null && key.startsWith("BPM-LEAVE-")) throw exception(PAYROLL_WORK_INVALID);
     return reserveTimeOff(
@@ -1036,7 +1126,9 @@ public class HrmPayrollWorkService {
         LocalDate.now(java.time.ZoneId.of("Asia/Shanghai")));
   }
 
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional(
+      rollbackFor = Exception.class,
+      isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public Long reserveTimeOff(
       Long employeeId, int minutes, String key, String reason, Long actor, LocalDate validOn) {
     lockEmployee(employeeId);
@@ -1082,7 +1174,9 @@ public class HrmPayrollWorkService {
     return debit.getId();
   }
 
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional(
+      rollbackFor = Exception.class,
+      isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public void consumeTimeOff(Long debitId, Long actor) {
     rejectLinkedLeave(debitId);
     consumeTimeOffInternal(debitId, actor);
@@ -1095,7 +1189,9 @@ public class HrmPayrollWorkService {
         && debit.getRequestKey().startsWith("BPM-LEAVE-")) throw exception(PAYROLL_WORK_INVALID);
   }
 
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional(
+      rollbackFor = Exception.class,
+      isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public void completeLeaveTimeOff(
       Long debitId, Long leaveId, boolean approved, String reason, Long actor) {
     HrmPayrollTimeOffDO debit = offMapper.selectById(debitId);
@@ -1134,7 +1230,9 @@ public class HrmPayrollWorkService {
     offMapper.updateById(debit);
   }
 
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional(
+      rollbackFor = Exception.class,
+      isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public Long refundTimeOff(Long debitId, String key, String reason, Long actor) {
     rejectLinkedLeave(debitId);
     return refundTimeOffInternal(debitId, reason, actor);
@@ -1200,7 +1298,9 @@ public class HrmPayrollWorkService {
     return (int) Math.max(0, Duration.between(intersectionStart, intersectionEnd).toMinutes());
   }
 
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional(
+      rollbackFor = Exception.class,
+      isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public Long settleCycle(Long ruleId, LocalDate from, Long actor) {
     HrmPayrollWorkRuleDO rule = ruleMapper.selectById(ruleId);
     if (rule == null
@@ -1217,8 +1317,7 @@ public class HrmPayrollWorkService {
         || !rule.getEffectiveFrom().plusMonths(offset).equals(from))
       throw exception(PAYROLL_WORK_INVALID);
     LocalDate to = rule.getEffectiveFrom().plusMonths(offset + rule.getCycleMonths()).minusDays(1);
-    if (to.isAfter(rule.getEffectiveTo())
-        || !to.isBefore(LocalDate.now(java.time.ZoneId.of("Asia/Shanghai"))))
+    if (!applies(rule, to) || !to.isBefore(LocalDate.now(java.time.ZoneId.of("Asia/Shanghai"))))
       throw exception(PAYROLL_WORK_INVALID);
     requireMembership(rule.getEntityId(), rule.getEmployeeId(), from, to);
     HrmPayrollWorkCycleDO existing =
