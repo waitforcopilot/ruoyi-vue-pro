@@ -312,9 +312,10 @@ class HrmPayrollInputServiceTest extends BaseDbUnitTest {
     employees.updateById(employee);
     Long id = approved(request(employeeId, "DEDUCTIONS", "ZERO"));
     String snapshot = records.selectById(id).getSourceSnapshot();
-    List<LocalDate> confirmedDates = JsonUtils.parseObject(
-        JsonUtils.parseTree(snapshot).get("dates").toString(),
-        new com.fasterxml.jackson.core.type.TypeReference<List<LocalDate>>() {});
+    List<LocalDate> confirmedDates =
+        JsonUtils.parseObject(
+            JsonUtils.parseTree(snapshot).get("dates").toString(),
+            new com.fasterxml.jackson.core.type.TypeReference<List<LocalDate>>() {});
     assertEquals(LocalDate.of(2026, 10, 15), confirmedDates.get(0));
     employee.setLeaveTime(LocalDate.of(2026, 10, 25).atStartOfDay());
     employees.updateById(employee);
@@ -393,12 +394,41 @@ class HrmPayrollInputServiceTest extends BaseDbUnitTest {
         () -> service.submit(request(employeeId, "CUMULATIVE_TAX", "ZERO"), 1L),
         PAYROLL_INPUT_INVALID);
     Long id = approved(request(employeeId, "CUMULATIVE_TAX", "SYNC"));
-    assertEquals(0, new BigDecimal("100").compareTo(service.values(records.selectById(id)).get("250105")));
+    assertEquals(
+        0, new BigDecimal("100").compareTo(service.values(records.selectById(id)).get("250105")));
     Map<String, BigDecimal> changed = new LinkedHashMap<>(service.values(records.selectById(id)));
     changed.put("250105", BigDecimal.ONE);
     assertServiceException(
         () ->
             service.submit(request(employeeId, "CUMULATIVE_TAX", "IMPORT").setValues(changed), 1L),
         PAYROLL_INPUT_INVALID);
+  }
+
+  @Test
+  void recognizedApprovalMatchesOriginalIdRatherThanDateQualifiedReference() {
+    LocalDate date = LocalDate.of(2026, 10, 3);
+    cn.iocoder.yudao.module.oa.api.payroll.dto.OaPayrollOvertimeDTO source =
+        new cn.iocoder.yudao.module.oa.api.payroll.dto.OaPayrollOvertimeDTO()
+            .setId(123L)
+            .setApplicantUserId(10L)
+            .setStartTime(date.atTime(18, 0))
+            .setEndTime(date.atTime(20, 0))
+            .setProcessInstanceId("approved-bpm-source");
+    HrmPayrollTimeEntryDO entry =
+        new HrmPayrollTimeEntryDO()
+            .setId(1L)
+            .setEmployeeId(employeeId)
+            .setSourceApplyId(123L)
+            .setSourceRecordId("123:2026-10-03")
+            .setStartTime(date.atTime(18, 0))
+            .setEndTime(date.atTime(20, 0))
+            .setRecognizedMinutes(120)
+            .setAmount(new BigDecimal("100.00"));
+    when(oa.getApprovedOvertimeList(any(), any(), any()))
+        .thenReturn(Collections.singletonList(source));
+    when(work.entries(eq(employeeId), any(), any())).thenReturn(Collections.singletonList(entry));
+    when(window.earnings(eq(employeeId), any())).thenReturn(new BigDecimal("100.00"));
+    Long id = approved(request(employeeId, "OVERTIME", "SYNC"));
+    assertEquals(new BigDecimal("100.00"), service.values(records.selectById(id)).get("180101"));
   }
 }

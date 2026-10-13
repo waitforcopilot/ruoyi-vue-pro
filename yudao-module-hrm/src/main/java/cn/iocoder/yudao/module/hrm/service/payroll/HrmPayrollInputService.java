@@ -264,8 +264,7 @@ public class HrmPayrollInputService {
               && entries.stream()
                   .noneMatch(
                       entry ->
-                          Objects.equals(
-                                  entry.getSourceRecordId(), String.valueOf(approvedSource.getId()))
+                          Objects.equals(entry.getSourceApplyId(), approvedSource.getId())
                               && entry.getStartTime().toLocalDate().equals(date)))
             throw exception(PAYROLL_WORK_INVALID);
       }
