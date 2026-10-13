@@ -489,6 +489,117 @@ public class HrmAttendanceStatisticsServiceImplTest extends BaseMockitoUnitTest 
         result=attendanceStatisticsService.calculateAttendanceDay(day,shift,Collections.emptyList(),Arrays.asList(trip,leave),day.plusDays(1).atStartOfDay());
         assertEquals(240,result.getLeaveMinutes());assertEquals(0,result.getAbsenteeismMinutes());
     }
+    @Test
+    public void approvedTimeOffPreservesPaidAttendanceAndOnlyOrdinaryLeaveReducesIt() {
+        LocalDate day = LocalDate.of(2026, 9, 10);
+        HrmAttendanceGroupDO.Shift shift =
+                HrmAttendanceGroupDO.Shift.builder()
+                        .startTime(LocalTime.of(9, 0))
+                        .endTime(LocalTime.of(17, 0))
+                        .build();
+        HrmAttendanceLeaveDO paid =
+                new HrmAttendanceLeaveDO()
+                        .setType("调休")
+                        .setApprovalStatus(2)
+                        .setStartTime(day.atTime(9, 0))
+                        .setEndTime(day.atTime(17, 0));
+        HrmAttendanceStatisticsServiceImpl.AttendanceDayCalculation result =
+                attendanceStatisticsService.calculateAttendanceDay(
+                        day,
+                        shift,
+                        Collections.emptyList(),
+                        Collections.singletonList(paid),
+                        day.plusDays(1).atStartOfDay());
+        assertEquals(0, result.getLeaveMinutes());
+        assertDecimal("0", result.getLeaveDays());
+        assertEquals(0, result.getAbsenteeismMinutes());
+        assertEquals(0, result.getMisscardCount());
+        paid.setEndTime(day.atTime(13, 0));
+        HrmAttendanceLeaveDO unpaid =
+                new HrmAttendanceLeaveDO()
+                        .setType("事假")
+                        .setStartTime(day.atTime(13, 0))
+                        .setEndTime(day.atTime(17, 0));
+        result =
+                attendanceStatisticsService.calculateAttendanceDay(
+                        day,
+                        shift,
+                        Collections.emptyList(),
+                        Arrays.asList(paid, unpaid),
+                        day.plusDays(1).atStartOfDay());
+        assertEquals(240, result.getLeaveMinutes());
+        assertDecimal("0.50", result.getLeaveDays());
+        assertEquals(0, result.getAbsenteeismMinutes());
+    }
+
+    @Test
+    public void approvedOvernightTimeOffDoesNotDeductPaidDays() {
+        LocalDate day = LocalDate.of(2026, 9, 10);
+        HrmAttendanceGroupDO.Shift shift =
+                HrmAttendanceGroupDO.Shift.builder()
+                        .startTime(LocalTime.of(22, 0))
+                        .endTime(LocalTime.of(6, 0))
+                        .build();
+        HrmAttendanceLeaveDO paid =
+                new HrmAttendanceLeaveDO()
+                        .setType("调休")
+                        .setApprovalStatus(2)
+                        .setStartTime(day.atTime(22, 0))
+                        .setEndTime(day.plusDays(1).atTime(6, 0));
+        HrmAttendanceStatisticsServiceImpl.AttendanceDayCalculation result =
+                attendanceStatisticsService.calculateAttendanceDay(
+                        day,
+                        shift,
+                        Collections.emptyList(),
+                        Collections.singletonList(paid),
+                        day.plusDays(2).atStartOfDay());
+        assertEquals(480, result.getScheduledMinutes());
+        assertEquals(0, result.getLeaveMinutes());
+        assertEquals(0, result.getAbsenteeismMinutes());
+        assertEquals(0, result.getMisscardCount());
+    }
+
+    @Test
+    public void approvedTimeOffRetainsOnePayableDayInPeriodAggregation() {
+        LocalDate day = LocalDate.of(2026, 9, 10);
+        HrmEmployeeDO employee =
+                new HrmEmployeeDO()
+                        .setId(1L)
+                        .setName("调休员工")
+                        .setEntryTime(LocalDate.of(2026, 1, 1).atStartOfDay());
+        when(employeeService.getEmployeeMap(Collections.singletonList(1L)))
+                .thenReturn(Collections.singletonMap(1L, employee));
+        HrmAttendanceGroupDO group = new HrmAttendanceGroupDO().setId(1L).setName("日班");
+        when(attendanceGroupService.getAttendanceGroupMap(Collections.singletonList(1L)))
+                .thenReturn(Collections.singletonMap(1L, group));
+        HrmAttendanceGroupDO.Shift shift =
+                HrmAttendanceGroupDO.Shift.builder()
+                        .startTime(LocalTime.of(9, 0))
+                        .endTime(LocalTime.of(17, 0))
+                        .build();
+        when(attendanceGroupService.getAttendanceGroupShiftMap(any(), any(), any()))
+                .thenReturn(Collections.singletonMap(day, shift));
+        HrmAttendanceLeaveDO paid =
+                new HrmAttendanceLeaveDO()
+                        .setId(1L)
+                        .setEmployeeId(1L)
+                        .setType("调休")
+                        .setApprovalStatus(2)
+                        .setProcessInstanceId("approved-time-off")
+                        .setStartTime(day.atTime(9, 0))
+                        .setEndTime(day.atTime(17, 0));
+        when(attendanceLeaveService.getEffectiveAttendanceLeaveListByEmployeeIdsAndTimeRange(
+                        any(), any()))
+                .thenReturn(Collections.singletonList(paid));
+        HrmAttendanceMonthRecordRespVO result =
+                attendanceStatisticsService
+                        .getAttendancePeriodRecordList(day, day, Collections.singletonList(1L))
+                        .get(0);
+        assertDecimal("1.00", result.getActualDays());
+        assertDecimal("0", result.getLeaveDays());
+        assertDecimal("0", result.getAttendanceDeductAmount());
+    }
+
     @Test public void payrollPeriodIncludesOnlyRequestedDaysAcrossMonths(){
         LocalDate from=LocalDate.of(2026,9,30),to=LocalDate.of(2026,10,1);
         HrmEmployeeDO employee=new HrmEmployeeDO().setId(1L).setName("跨月员工").setEntryTime(LocalDate.of(2026,1,1).atStartOfDay());

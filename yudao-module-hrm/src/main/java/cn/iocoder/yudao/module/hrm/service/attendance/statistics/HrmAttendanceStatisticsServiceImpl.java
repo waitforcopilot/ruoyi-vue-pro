@@ -102,7 +102,11 @@ public class HrmAttendanceStatisticsServiceImpl implements HrmAttendanceStatisti
         }
         return result;
     }
-    private boolean isPaidDuty(HrmAttendanceLeaveDO row){return "BUSINESS_TRIP".equals(row.getType())||"OUTING".equals(row.getType());}
+    private boolean isPaidDuty(HrmAttendanceLeaveDO row) {
+        return "BUSINESS_TRIP".equals(row.getType())
+                || "OUTING".equals(row.getType())
+                || "调休".equals(row.getType());
+    }
     @Override public Map<String,Object> getPayrollAttendanceSnapshot(LocalDate from,LocalDate to,List<Long> employeeIds){
         if(from==null||to==null||to.isBefore(from)||java.time.temporal.ChronoUnit.DAYS.between(from,to)>366)throw exception(SALARY_DATA_ILLEGAL);
         Map<Long,HrmEmployeeDO> found=employeeService.getEmployeeMap(employeeIds);
