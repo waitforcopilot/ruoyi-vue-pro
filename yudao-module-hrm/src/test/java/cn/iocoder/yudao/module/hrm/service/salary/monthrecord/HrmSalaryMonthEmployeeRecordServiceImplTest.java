@@ -255,7 +255,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest 
     }
 
     @Test
-    public void testCalculateMonthEmployeeRecord_negativePersonalTaxRefund() {
+    public void testCalculateMonthEmployeeRecord_negativePersonalTaxDoesNotRefund() {
         // mock 数据
         when(salaryOptionService.getSalaryOptionList(false)).thenReturn(Collections.singletonList(
                 salaryOption(10101, 10, "基本工资", true, true)));
@@ -278,8 +278,8 @@ public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest 
         // 断言
         assertAmount("1000.00", employeeRecord.getExpectedPaySalary());
         assertAmount("0.00", employeeRecord.getTaxableSalary());
-        assertAmount("-100.00", employeeRecord.getPersonalTax());
-        assertAmount("1100.00", employeeRecord.getRealPaySalary());
+        assertAmount("0.00", employeeRecord.getPersonalTax());
+        assertAmount("1000.00", employeeRecord.getRealPaySalary());
     }
 
     @Test

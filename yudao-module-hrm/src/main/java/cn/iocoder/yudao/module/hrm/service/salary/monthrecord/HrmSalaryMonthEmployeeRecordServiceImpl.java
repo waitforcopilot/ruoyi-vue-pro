@@ -531,7 +531,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
                 .subtract(cumulativeSpecialDeduction).subtract(cumulativeAdditionalDeduction);
         BigDecimal cumulativeTax = calculateCumulativeSalaryTax(cumulativeTaxable, decimalScale);
         BigDecimal personalTax = cumulativeTax.subtract(
-                getOptionValue(values, HrmSalaryOptionCodeEnum.LAST_MONTH_PREPAID_TAX.getCode()));
+                getOptionValue(values, HrmSalaryOptionCodeEnum.LAST_MONTH_PREPAID_TAX.getCode())).max(BigDecimal.ZERO);
 
         appendComputedValue(values, HrmSalaryOptionCodeEnum.CURRENT_CUMULATIVE_INCOME.getCode(), "累计收入额", cumulativeIncome);
         appendComputedValue(values, HrmSalaryOptionCodeEnum.CURRENT_CUMULATIVE_DEDUCT_EXPENSE.getCode(), "累计减除费用", cumulativeDeductExpense);
