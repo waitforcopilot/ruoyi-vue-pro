@@ -50,6 +50,10 @@ public class HrmAttendanceClockServiceImplTest extends BaseDbUnitTest {
 
     @Resource
     private HrmAttendanceClockMapper attendanceClockMapper;
+    @Resource
+    private cn.iocoder.yudao.module.hrm.dal.mysql.employee.info.HrmEmployeeMapper employees;
+    @Resource
+    private org.springframework.transaction.PlatformTransactionManager transactionManager;
 
     @MockBean
     private HrmEmployeeService employeeService;
@@ -226,6 +230,8 @@ public class HrmAttendanceClockServiceImplTest extends BaseDbUnitTest {
         Long userId = 9001L;
         HrmEmployeeDO employee = createEmployee(30L, "手机打卡员工", 400L);
         when(employeeService.validateEmployeeBySelf(userId)).thenReturn(employee);
+        employee.setUserId(userId);
+        when(employeeService.validateEmployeeExistsForUpdate(employee.getId())).thenReturn(employee);
         when(attendanceGroupService.getMyAttendanceGroup(employee.getId()))
                 .thenReturn(createGroup(false, false, null, null));
         when(attendanceGroupService.getEmployeeAttendanceShift(any(), any())).thenReturn(createAllDayShift());
@@ -252,6 +258,8 @@ public class HrmAttendanceClockServiceImplTest extends BaseDbUnitTest {
                 .latitude(new BigDecimal("30.270000")).longitude(new BigDecimal("120.150000"))
                 .radius(200).build();
         when(employeeService.validateEmployeeBySelf(userId)).thenReturn(employee);
+        employee.setUserId(userId);
+        when(employeeService.validateEmployeeExistsForUpdate(employee.getId())).thenReturn(employee);
         when(attendanceGroupService.getMyAttendanceGroup(employee.getId()))
                 .thenReturn(createGroup(true, false, Collections.singletonList(point), null));
         when(attendanceGroupService.getEmployeeAttendanceShift(any(), any())).thenReturn(createAllDayShift());
@@ -285,6 +293,8 @@ public class HrmAttendanceClockServiceImplTest extends BaseDbUnitTest {
         HrmAttendanceGroupDO.Wifi wifi = HrmAttendanceGroupDO.Wifi.builder()
                 .ssid("office_wifi").mac("00:11:22:33:44:55").build();
         when(employeeService.validateEmployeeBySelf(userId)).thenReturn(employee);
+        employee.setUserId(userId);
+        when(employeeService.validateEmployeeExistsForUpdate(employee.getId())).thenReturn(employee);
         when(attendanceGroupService.getMyAttendanceGroup(employee.getId()))
                 .thenReturn(createGroup(false, true, null, Collections.singletonList(wifi)));
         when(attendanceGroupService.getEmployeeAttendanceShift(any(), any())).thenReturn(createAllDayShift());
@@ -316,6 +326,8 @@ public class HrmAttendanceClockServiceImplTest extends BaseDbUnitTest {
         HrmAttendanceGroupDO group = createGroup(false, false, null, null);
         HrmAttendanceGroupDO.Shift shift = createCrossDayShift();
         when(employeeService.validateEmployeeBySelf(userId)).thenReturn(employee);
+        employee.setUserId(userId);
+        when(employeeService.validateEmployeeExistsForUpdate(employee.getId())).thenReturn(employee);
         when(attendanceGroupService.getMyAttendanceGroup(employee.getId())).thenReturn(group);
         when(attendanceGroupService.getEmployeeAttendanceShift(any(), any())).thenReturn(shift);
         LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
@@ -402,6 +414,40 @@ public class HrmAttendanceClockServiceImplTest extends BaseDbUnitTest {
         return HrmAttendanceGroupDO.builder()
                 .id(1L).name("默认考勤组").openPointCard(openPointCard).openWifiCard(openWifiCard)
                 .points(points).wifis(wifis).defaultStatus(true).build();
+    }
+
+    @Test public void clockInsertionWaitsForPayrollEmployeeLock() throws Exception {
+        HrmEmployeeDO employee = new HrmEmployeeDO().setName("来源串行员工").setJobNumber("CLOCK-SERIAL").setUserId(9091L);
+        employees.insert(employee);
+        when(employeeService.validateEmployeeExists(employee.getId())).thenReturn(employee);
+        when(attendanceGroupService.getEmployeeAttendanceShift(any(),any())).thenReturn(createShift());
+        java.util.concurrent.CountDownLatch locked=new java.util.concurrent.CountDownLatch(1), release=new java.util.concurrent.CountDownLatch(1), reached=new java.util.concurrent.CountDownLatch(1);
+        when(employeeService.validateEmployeeExistsForUpdate(employee.getId())).thenAnswer(call->{reached.countDown();return employees.selectByIdForUpdate(employee.getId());});
+        java.util.concurrent.ExecutorService pool=java.util.concurrent.Executors.newFixedThreadPool(2);
+        try {
+            java.util.concurrent.Future<?> freezer=pool.submit(()->new org.springframework.transaction.support.TransactionTemplate(transactionManager).execute(status->{
+                employees.selectByIdForUpdate(employee.getId());locked.countDown();
+                try { if(!release.await(10,java.util.concurrent.TimeUnit.SECONDS)) throw new IllegalStateException("test release timed out"); }
+                catch(InterruptedException ex){Thread.currentThread().interrupt();throw new IllegalStateException(ex);}
+                return null;
+            }));
+            org.junit.jupiter.api.Assertions.assertTrue(locked.await(5,java.util.concurrent.TimeUnit.SECONDS));
+            java.util.concurrent.Future<Long> writer=pool.submit(()->attendanceClockService.createAttendanceClock(createClockReqVO(employee.getId(),
+                LocalDateTime.of(2026,7,18,9,0),LocalDateTime.of(2026,7,18,9,0),1)));
+            org.junit.jupiter.api.Assertions.assertTrue(reached.await(5,java.util.concurrent.TimeUnit.SECONDS));
+            org.junit.jupiter.api.Assertions.assertFalse(writer.isDone());assertEquals(0,attendanceClockMapper.selectList().size());
+            release.countDown();freezer.get(10,java.util.concurrent.TimeUnit.SECONDS);
+            assertNotNull(attendanceClockMapper.selectById(writer.get(10,java.util.concurrent.TimeUnit.SECONDS)));
+        } finally { release.countDown();pool.shutdownNow(); }
+    }
+
+    @Test public void mobileClockRechecksUserMappingAfterEmployeeLock() {
+        Long userId=9191L;HrmEmployeeDO before=createEmployee(991L,"映射变更员工",1L).setUserId(userId);
+        when(employeeService.validateEmployeeBySelf(userId)).thenReturn(before);
+        when(employeeService.validateEmployeeExistsForUpdate(before.getId())).thenReturn(createEmployee(991L,"映射变更员工",1L).setUserId(9292L));
+        assertServiceException(()->attendanceClockService.createMyAttendanceClock(userId,new HrmPortalAttendanceClockCreateReqVO()),
+            cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.ATTENDANCE_CLOCK_NOT_ALLOWED);
+        assertEquals(0,attendanceClockMapper.selectList().size());
     }
 
 }

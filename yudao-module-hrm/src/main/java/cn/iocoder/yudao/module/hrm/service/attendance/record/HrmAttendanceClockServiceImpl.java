@@ -67,8 +67,10 @@ public class HrmAttendanceClockServiceImpl implements HrmAttendanceClockService 
     private HrmAttendanceGroupService attendanceGroupService;
 
     @Override
+    @Transactional(rollbackFor = Exception.class, isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
     public Long createAttendanceClock(HrmAttendanceClockSaveReqVO createReqVO) {
         // 1.1 校验员工存在
+        employeeService.validateEmployeeExistsForUpdate(createReqVO.getEmployeeId());
         employeeService.validateEmployeeExists(createReqVO.getEmployeeId());
         // 1.2 校验应打卡时间和实际打卡时间位于员工班次窗口内
         validateAttendanceClockTime(createReqVO);
@@ -102,9 +104,12 @@ public class HrmAttendanceClockServiceImpl implements HrmAttendanceClockService 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
     public Long createMyAttendanceClock(Long userId, HrmPortalAttendanceClockCreateReqVO createReqVO) {
         // 1.1 解析本人、考勤组和下一步打卡动作
         HrmEmployeeDO employee = employeeService.validateEmployeeBySelf(userId);
+        employee = employeeService.validateEmployeeExistsForUpdate(employee.getId());
+        if (ObjUtil.notEqual(employee.getUserId(), userId)) throw exception(ATTENDANCE_CLOCK_NOT_ALLOWED);
         HrmAttendanceGroupDO group = attendanceGroupService.getMyAttendanceGroup(employee.getId());
         if (group == null) {
             throw exception(ATTENDANCE_CLOCK_GROUP_NOT_EXISTS);
@@ -138,9 +143,16 @@ public class HrmAttendanceClockServiceImpl implements HrmAttendanceClockService 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
     public void updateAttendanceClock(HrmAttendanceClockSaveReqVO updateReqVO) {
         // 1.1 校验记录存在且为手工录入
         HrmAttendanceClockDO oldClock = validateAttendanceClockExists(updateReqVO.getId());
+        java.util.Set<Long> employeeIds = new java.util.TreeSet<>(Arrays.asList(oldClock.getEmployeeId(), updateReqVO.getEmployeeId()));
+        employeeIds.forEach(employeeService::validateEmployeeExistsForUpdate);
+        HrmAttendanceClockDO current = attendanceClockMapper.selectOneForUpdate(HrmAttendanceClockDO::getId,oldClock.getId());
+        if (current == null) throw exception(ATTENDANCE_CLOCK_NOT_EXISTS);
+        if (ObjUtil.notEqual(current.getEmployeeId(),oldClock.getEmployeeId())) throw exception(ATTENDANCE_CLOCK_NOT_ALLOWED);
+        oldClock = current;
         validateAttendanceClockManual(oldClock);
         // 1.2 校验员工存在
         employeeService.validateEmployeeExists(updateReqVO.getEmployeeId());
@@ -154,9 +166,15 @@ public class HrmAttendanceClockServiceImpl implements HrmAttendanceClockService 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
     public void deleteAttendanceClock(Long id) {
         // 1. 校验记录存在且为手工录入
         HrmAttendanceClockDO clock = validateAttendanceClockExists(id);
+        employeeService.validateEmployeeExistsForUpdate(clock.getEmployeeId());
+        HrmAttendanceClockDO current = attendanceClockMapper.selectOneForUpdate(HrmAttendanceClockDO::getId,id);
+        if (current == null) throw exception(ATTENDANCE_CLOCK_NOT_EXISTS);
+        if (ObjUtil.notEqual(current.getEmployeeId(),clock.getEmployeeId())) throw exception(ATTENDANCE_CLOCK_NOT_ALLOWED);
+        clock = current;
         validateAttendanceClockManual(clock);
 
         // 2. 删除手工打卡记录
@@ -164,7 +182,7 @@ public class HrmAttendanceClockServiceImpl implements HrmAttendanceClockService 
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
     public void deleteAttendanceClockList(List<Long> ids) {
         // 1. 校验记录全部存在且均为手工录入，避免批量删除部分成功
         Set<Long> distinctIds = convertSet(ids);
@@ -174,6 +192,15 @@ public class HrmAttendanceClockServiceImpl implements HrmAttendanceClockService 
         List<HrmAttendanceClockDO> clocks = attendanceClockMapper.selectByIds(distinctIds);
         if (clocks.size() != distinctIds.size()) {
             throw exception(ATTENDANCE_CLOCK_NOT_EXISTS);
+        }
+        java.util.Set<Long> employeeIds = new java.util.TreeSet<>();
+        clocks.forEach(c -> employeeIds.add(c.getEmployeeId()));
+        employeeIds.forEach(employeeService::validateEmployeeExistsForUpdate);
+        for (HrmAttendanceClockDO original : clocks) {
+            HrmAttendanceClockDO current = attendanceClockMapper.selectOneForUpdate(HrmAttendanceClockDO::getId,original.getId());
+            if (current == null) throw exception(ATTENDANCE_CLOCK_NOT_EXISTS);
+            if (ObjUtil.notEqual(current.getEmployeeId(),original.getEmployeeId())) throw exception(ATTENDANCE_CLOCK_NOT_ALLOWED);
+            validateAttendanceClockManual(current);
         }
         clocks.forEach(this::validateAttendanceClockManual);
 

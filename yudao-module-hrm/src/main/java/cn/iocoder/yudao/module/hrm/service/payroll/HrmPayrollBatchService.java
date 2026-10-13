@@ -65,7 +65,7 @@ public class HrmPayrollBatchService {
         if(status==17 && "archive".equals(action))return 10;
         throw exception(SALARY_MONTH_RECORD_STATUS_INVALID);
     }
-    @Transactional(rollbackFor=Exception.class)
+    @Transactional(rollbackFor=Exception.class,isolation=org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
     public void transition(Long batchId,Long runId,String action,String reason,Long actor){
         if(reason==null||reason.trim().isEmpty())throw exception(PAYROLL_REVIEW_INCOMPLETE);
         HrmSalaryMonthRecordDO batch=batchMapper.selectByIdForUpdate(batchId);
