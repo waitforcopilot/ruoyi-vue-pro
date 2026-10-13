@@ -48,6 +48,8 @@ public class HrmAttendanceLeaveServiceImplTest extends BaseDbUnitTest {
     private HrmEmployeeService employeeService;
     @MockBean
     private BpmProcessInstanceApi processInstanceApi;
+    @MockBean
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWorkService payrollWorkService;
 
     @Test
     public void testCreateLeave_success() {
@@ -304,6 +306,7 @@ public class HrmAttendanceLeaveServiceImplTest extends BaseDbUnitTest {
         return randomPojo(HrmAttendanceLeaveDO.class, leave -> leave.setId(null).setEmployeeId(employeeId)
                 .setType(type).setStartTime(startTime).setEndTime(startTime.plusHours(8))
                 .setDay(new BigDecimal("1.00")).setApprovalStatus(approvalStatus)
+                .setTimeOffDebitId(null).setTimeOffMinutes(null).setTimeOffSourceSnapshot(null)
                 .setProcessInstanceId(employeeId + "-" + startTime).setDeleted(false));
     }
 

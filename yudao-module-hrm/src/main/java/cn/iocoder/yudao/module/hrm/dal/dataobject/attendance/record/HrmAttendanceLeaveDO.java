@@ -89,5 +89,8 @@ public class HrmAttendanceLeaveDO extends BaseDO {
      * 审批或取消原因
      */
     private String approvalReason;
+    private Long timeOffDebitId;
+    private Integer timeOffMinutes;
+    private String timeOffSourceSnapshot;
 
 }

@@ -20,4 +20,5 @@ public class HrmPayrollTimeOffDO extends BaseDO {
   private String status;
   private java.time.LocalDate expiresOn;
   private String allocations;
+  private java.time.LocalDate reservedForDate;
 }

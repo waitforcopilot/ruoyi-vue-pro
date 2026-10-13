@@ -17,6 +17,7 @@
     <el-table-column label="请假天数" align="center" prop="day" width="100">
       <template #default="scope">{{ scope.row.day }} 天</template>
     </el-table-column>
+    <el-table-column label="调休分钟" prop="timeOffMinutes" width="110" />
     <el-table-column label="请假事由" align="center" prop="reason" min-width="160" />
     <el-table-column label="审批状态" align="center" width="110">
       <template #default="scope">

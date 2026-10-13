@@ -35,3 +35,9 @@ export const cancelMyAttendanceLeave = async (id: number, reason: string) => {
     data: { id, reason }
   })
 }
+
+export const previewTimeOff = (data: HrmAttendanceLeaveCreateVO) =>
+  request.post<{ minutes: number; day: number; balance: number }>({
+    url: '/hrm/portal/attendance/leave/time-off-preview',
+    data
+  })

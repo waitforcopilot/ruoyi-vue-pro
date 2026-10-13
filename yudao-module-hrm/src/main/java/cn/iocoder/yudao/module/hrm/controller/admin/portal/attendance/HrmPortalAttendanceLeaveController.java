@@ -33,6 +33,21 @@ public class HrmPortalAttendanceLeaveController {
 
     @Resource
     private HrmAttendanceLeaveService attendanceLeaveService;
+    @Resource
+    private cn.iocoder.yudao.module.hrm.service.employee.info.HrmEmployeeService employeeService;
+    @Resource
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWorkService payrollWorkService;
+
+    @PostMapping("/time-off-preview")
+    @PreAuthorize("@ss.hasPermission('hrm:portal:attendance:leave')")
+    @Operation(summary = "按我的排班预览调休分钟及余额")
+    public CommonResult<java.util.Map<String, Object>> timeOffPreview(@Valid @RequestBody HrmAttendanceLeaveCreateReqVO reqVO) {
+        Long employeeId = employeeService.validateEmployeeBySelf(getLoginUserId()).getId();
+        java.util.Map<String, Object> result = payrollWorkService.plannedTimeOff(employeeId, reqVO.getStartTime(), reqVO.getEndTime());
+        result.remove("shifts");
+        result.put("balance", payrollWorkService.timeOffBalance(employeeId));
+        return success(result);
+    }
 
     @GetMapping("/list")
     @Operation(summary = "获得我的请假申请列表")

@@ -83,5 +83,8 @@ public class HrmAttendanceLeaveRespVO {
 
     @Schema(description = "审批意见")
     private String approvalReason;
+    @ExcelProperty(value = "调休分钟", index = 13)
+    private Integer timeOffMinutes;
+    private Long timeOffDebitId;
 
 }

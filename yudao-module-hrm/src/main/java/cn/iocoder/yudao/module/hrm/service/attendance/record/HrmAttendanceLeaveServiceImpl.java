@@ -52,6 +52,8 @@ public class HrmAttendanceLeaveServiceImpl implements HrmAttendanceLeaveService 
     private HrmEmployeeService employeeService;
     @Resource
     private BpmProcessInstanceApi processInstanceApi;
+    @Resource
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWorkService payrollWorkService;
 
     @Override
     @SuppressWarnings("ExtractMethodRecommender")
@@ -72,7 +74,22 @@ public class HrmAttendanceLeaveServiceImpl implements HrmAttendanceLeaveService 
         // 2. 创建请假记录
         HrmAttendanceLeaveDO attendanceLeave = BeanUtils.toBean(reqVO, HrmAttendanceLeaveDO.class)
                 .setEmployeeId(employee.getId()).setApprovalStatus(BpmProcessInstanceStatusEnum.RUNNING.getStatus());
+        Map<String, Object> timeOffSource = null;
+        if ("调休".equals(reqVO.getType())) {
+            if (reqVO.getStartTime().isBefore(LocalDateTime.now(java.time.ZoneId.of("Asia/Shanghai"))))
+                throw exception(ATTENDANCE_LEAVE_STATUS_INVALID);
+            timeOffSource = payrollWorkService.plannedTimeOff(employee.getId(), reqVO.getStartTime(), reqVO.getEndTime());
+            attendanceLeave.setDay((java.math.BigDecimal) timeOffSource.get("day"));
+            attendanceLeave.setTimeOffMinutes(((Number) timeOffSource.get("minutes")).intValue());
+            attendanceLeave.setTimeOffSourceSnapshot(cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(timeOffSource));
+        }
         attendanceLeaveMapper.insert(attendanceLeave);
+        if (timeOffSource != null) {
+            Long debit = payrollWorkService.reserveTimeOff(employee.getId(), attendanceLeave.getTimeOffMinutes(),
+                    "BPM-LEAVE-" + attendanceLeave.getId(), reqVO.getReason(), userId,
+                    reqVO.getEndTime().minusNanos(1).toLocalDate());
+            attendanceLeaveMapper.updateById(new HrmAttendanceLeaveDO().setId(attendanceLeave.getId()).setTimeOffDebitId(debit));
+        }
 
         // 3. 构建流程变量并发起审批流程
         Map<String, Object> variables = new HashMap<>();
@@ -82,7 +99,8 @@ public class HrmAttendanceLeaveServiceImpl implements HrmAttendanceLeaveService 
         variables.put("leaveType", reqVO.getType());
         variables.put("startTime", reqVO.getStartTime().toString());
         variables.put("endTime", reqVO.getEndTime().toString());
-        variables.put("day", reqVO.getDay());
+        variables.put("day", attendanceLeave.getDay());
+        variables.put("timeOffMinutes", attendanceLeave.getTimeOffMinutes());
         variables.put("reason", reqVO.getReason());
         BpmProcessInstanceCreateReqDTO processInstanceCreateReqDTO = new BpmProcessInstanceCreateReqDTO();
         processInstanceCreateReqDTO.setProcessDefinitionKey(LEAVE_PROCESS_KEY);
@@ -174,6 +192,7 @@ public class HrmAttendanceLeaveServiceImpl implements HrmAttendanceLeaveService 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateLeaveApprovalStatus(
             Long id, String processInstanceId, Integer status, String reason) {
         // 1. 仅处理当前审批流程的结束状态
@@ -181,12 +200,21 @@ public class HrmAttendanceLeaveServiceImpl implements HrmAttendanceLeaveService 
             return;
         }
         HrmAttendanceLeaveDO attendanceLeave = validateAttendanceLeaveExists(id);
+        employeeService.validateEmployeeExistsForUpdate(attendanceLeave.getEmployeeId());
+        attendanceLeave = attendanceLeaveMapper.selectOneForUpdate(HrmAttendanceLeaveDO::getId, id);
         if ((attendanceLeave.getProcessInstanceId() != null
                 && ObjUtil.notEqual(attendanceLeave.getProcessInstanceId(), processInstanceId))
                 || ObjUtil.notEqual(attendanceLeave.getApprovalStatus(), BpmProcessInstanceStatusEnum.RUNNING.getStatus())) {
             return;
         }
 
+        if (attendanceLeave.getTimeOffDebitId() != null) {
+            HrmEmployeeDO owner = employeeService.getEmployee(attendanceLeave.getEmployeeId());
+            if (owner == null || owner.getUserId() == null) throw exception(ATTENDANCE_LEAVE_STATUS_INVALID);
+            payrollWorkService.completeLeaveTimeOff(attendanceLeave.getTimeOffDebitId(), id,
+                    ObjUtil.equal(status, BpmProcessInstanceStatusEnum.APPROVE.getStatus()),
+                    StrUtil.isBlank(reason) ? "请假审批未通过或已取消" : reason, owner.getUserId());
+        }
         // 2. 仅允许当前审批中的流程写入一次终态
         attendanceLeaveMapper.updateApprovalResultByIdAndProcessInstanceIdAndApprovalStatus(
                 id, processInstanceId, BpmProcessInstanceStatusEnum.RUNNING.getStatus(),

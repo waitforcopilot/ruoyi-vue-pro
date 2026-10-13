@@ -448,6 +448,60 @@ public class HrmPayrollWorkService {
             .orderByAsc(HrmPayrollTimeEntryDO::getStartTime));
   }
 
+  public Map<String, Object> plannedTimeOff(Long employeeId, LocalDateTime from, LocalDateTime to) {
+    if (from == null
+        || to == null
+        || !to.isAfter(from)
+        || from.getSecond() != 0
+        || from.getNano() != 0
+        || to.getSecond() != 0
+        || to.getNano() != 0
+        || Duration.between(from, to).toDays() > 366) throw exception(PAYROLL_WORK_INVALID);
+    int minutes = 0;
+    BigDecimal days = BigDecimal.ZERO;
+    List<Map<String, Object>> shifts = new ArrayList<>();
+    LocalDateTime lastEnd = null;
+    for (LocalDate day = from.toLocalDate().minusDays(1);
+        !day.isAfter(to.toLocalDate());
+        day = day.plusDays(1)) {
+      cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.config.HrmAttendanceGroupDO.Shift
+          shift = attendanceGroups.getEmployeeAttendanceShift(employeeId, day.atStartOfDay());
+      if (shift == null) continue;
+      if (shift.getStartTime() == null || shift.getEndTime() == null)
+        throw exception(PAYROLL_WORK_INVALID);
+      LocalDateTime a = day.atTime(shift.getStartTime()), b = day.atTime(shift.getEndTime());
+      if (!b.isAfter(a)) b = b.plusDays(1);
+      LocalDateTime start = a.isAfter(from) ? a : from, end = b.isBefore(to) ? b : to;
+      if (!end.isAfter(start)) continue;
+      if (lastEnd != null && start.isBefore(lastEnd)) throw exception(PAYROLL_WORK_INVALID);
+      int duration =
+          Math.toIntExact(Duration.between(start, end).toMinutes())
+              - shiftBreak(shift, day, start, end);
+      int fullShift =
+          Math.toIntExact(Duration.between(a, b).toMinutes()) - shiftBreak(shift, day, a, b);
+      if (duration < 0 || fullShift <= 0) throw exception(PAYROLL_WORK_INVALID);
+      days =
+          days.add(
+              BigDecimal.valueOf(duration)
+                  .divide(BigDecimal.valueOf(fullShift), 8, RoundingMode.HALF_UP));
+      Map<String, Object> source = new LinkedHashMap<>();
+      source.put("date", day);
+      source.put("shift", shift);
+      source.put("from", start);
+      source.put("to", end);
+      source.put("minutes", duration);
+      shifts.add(source);
+      minutes = Math.addExact(minutes, duration);
+      lastEnd = end;
+    }
+    if (minutes <= 0) throw exception(PAYROLL_WORK_INVALID);
+    Map<String, Object> result = new LinkedHashMap<>();
+    result.put("minutes", minutes);
+    result.put("shifts", shifts);
+    result.put("day", days.setScale(2, RoundingMode.HALF_UP));
+    return result;
+  }
+
   public List<HrmPayrollTimeOffDO> timeOff(Long employeeId) {
     return offMapper.selectList(
         new LambdaQueryWrapperX<HrmPayrollTimeOffDO>()
@@ -490,7 +544,22 @@ public class HrmPayrollWorkService {
 
   @Transactional(rollbackFor = Exception.class)
   public Long useTimeOff(Long employeeId, int minutes, String key, String reason, Long actor) {
+    if (key != null && key.startsWith("BPM-LEAVE-")) throw exception(PAYROLL_WORK_INVALID);
+    return reserveTimeOff(
+        employeeId,
+        minutes,
+        key,
+        reason,
+        actor,
+        LocalDate.now(java.time.ZoneId.of("Asia/Shanghai")));
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public Long reserveTimeOff(
+      Long employeeId, int minutes, String key, String reason, Long actor, LocalDate validOn) {
     lockEmployee(employeeId);
+    if (validOn == null || validOn.isBefore(LocalDate.now(java.time.ZoneId.of("Asia/Shanghai"))))
+      throw exception(PAYROLL_WORK_INVALID);
     if (minutes <= 0
         || key == null
         || key.trim().isEmpty()
@@ -501,11 +570,12 @@ public class HrmPayrollWorkService {
     HrmPayrollTimeOffDO duplicate = offMapper.selectOne(HrmPayrollTimeOffDO::getRequestKey, key);
     if (duplicate != null) {
       if (!Objects.equals(duplicate.getEmployeeId(), employeeId)
-          || duplicate.getMinutes() != -minutes) throw exception(PAYROLL_WORK_INVALID);
+          || duplicate.getMinutes() != -minutes
+          || !Objects.equals(duplicate.getReservedForDate(), validOn))
+        throw exception(PAYROLL_WORK_INVALID);
       return duplicate.getId();
     }
-    Map<Long, Integer> lots =
-        availableLots(employeeId, LocalDate.now(java.time.ZoneId.of("Asia/Shanghai")));
+    Map<Long, Integer> lots = availableLots(employeeId, validOn);
     if (lots.values().stream().mapToInt(Integer::intValue).sum() < minutes)
       throw exception(PAYROLL_WORK_INVALID);
     Map<Long, Integer> allocation = new LinkedHashMap<>();
@@ -523,6 +593,7 @@ public class HrmPayrollWorkService {
     debit.setReason(reason);
     debit.setActorId(actor);
     debit.setStatus("RESERVED");
+    debit.setReservedForDate(validOn);
     debit.setAllocations(
         cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(allocation));
     offMapper.insert(debit);
@@ -531,6 +602,28 @@ public class HrmPayrollWorkService {
 
   @Transactional(rollbackFor = Exception.class)
   public void consumeTimeOff(Long debitId, Long actor) {
+    rejectLinkedLeave(debitId);
+    consumeTimeOffInternal(debitId, actor);
+  }
+
+  private void rejectLinkedLeave(Long debitId) {
+    HrmPayrollTimeOffDO debit = offMapper.selectById(debitId);
+    if (debit != null
+        && debit.getRequestKey() != null
+        && debit.getRequestKey().startsWith("BPM-LEAVE-")) throw exception(PAYROLL_WORK_INVALID);
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public void completeLeaveTimeOff(
+      Long debitId, Long leaveId, boolean approved, String reason, Long actor) {
+    HrmPayrollTimeOffDO debit = offMapper.selectById(debitId);
+    if (debit == null || !Objects.equals(debit.getRequestKey(), "BPM-LEAVE-" + leaveId))
+      throw exception(PAYROLL_WORK_INVALID);
+    if (approved) consumeTimeOffInternal(debitId, actor);
+    else refundTimeOffInternal(debitId, reason, actor);
+  }
+
+  private void consumeTimeOffInternal(Long debitId, Long actor) {
     HrmPayrollTimeOffDO debit = offMapper.selectById(debitId);
     if (debit == null) throw exception(PAYROLL_WORK_INVALID);
     lockEmployee(debit.getEmployeeId());
@@ -546,8 +639,13 @@ public class HrmPayrollWorkService {
     for (String lotId : allocations.keySet()) {
       HrmPayrollTimeOffDO lot = offMapper.selectById(Long.valueOf(lotId));
       if (lot == null
-          || lot.getExpiresOn().isBefore(LocalDate.now(java.time.ZoneId.of("Asia/Shanghai"))))
-        throw exception(PAYROLL_WORK_INVALID);
+          || lot.getExpiresOn()
+              .isBefore(
+                  debit.getReservedForDate() == null
+                          || debit.getRequestKey() == null
+                          || !debit.getRequestKey().startsWith("BPM-LEAVE-")
+                      ? LocalDate.now(java.time.ZoneId.of("Asia/Shanghai"))
+                      : debit.getReservedForDate())) throw exception(PAYROLL_WORK_INVALID);
     }
     debit.setStatus("CONSUMED");
     debit.setActorId(actor);
@@ -556,6 +654,11 @@ public class HrmPayrollWorkService {
 
   @Transactional(rollbackFor = Exception.class)
   public Long refundTimeOff(Long debitId, String key, String reason, Long actor) {
+    rejectLinkedLeave(debitId);
+    return refundTimeOffInternal(debitId, reason, actor);
+  }
+
+  private Long refundTimeOffInternal(Long debitId, String reason, Long actor) {
     HrmPayrollTimeOffDO debit = offMapper.selectById(debitId);
     if (debit == null || debit.getMinutes() >= 0 || actor == null)
       throw exception(PAYROLL_WORK_INVALID);
@@ -602,6 +705,13 @@ public class HrmPayrollWorkService {
         || shift.getRestEndTime() == null) return 0;
     LocalDateTime a = date.atTime(shift.getRestStartTime()),
         b = date.atTime(shift.getRestEndTime());
+    if (shift.getStartTime() != null
+        && shift.getEndTime() != null
+        && !shift.getEndTime().isAfter(shift.getStartTime())
+        && shift.getRestStartTime().isBefore(shift.getStartTime())) {
+      a = a.plusDays(1);
+      b = b.plusDays(1);
+    }
     if (!b.isAfter(a)) b = b.plusDays(1);
     LocalDateTime intersectionStart = a.isAfter(start) ? a : start,
         intersectionEnd = b.isBefore(end) ? b : end;

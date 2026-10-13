@@ -12,6 +12,8 @@ export interface HrmAttendanceLeaveVO {
   type: string // 请假类型
   startTime?: Date // 请假开始时间
   endTime?: Date // 请假结束时间
+  timeOffMinutes?: number
+  timeOffDebitId?: number
   day: number // 请假天数
   reason?: string // 请假事由
   remark?: string // 备注

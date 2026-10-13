@@ -21,6 +21,7 @@
         <el-date-picker
           v-model="formData.startTime"
           type="datetime"
+          format="YYYY-MM-DD HH:mm"
           value-format="x"
           placeholder="请选择开始时间"
           class="!w-100%"
@@ -30,10 +31,23 @@
         <el-date-picker
           v-model="formData.endTime"
           type="datetime"
+          format="YYYY-MM-DD HH:mm"
           value-format="x"
           placeholder="请选择结束时间"
           class="!w-100%"
         />
+      </el-form-item>
+      <el-alert
+        v-if="formData.type === '调休'"
+        type="info"
+        :closable="false"
+        title="调休按排班与申请时段核定分钟，扣除休息。提交时占用额度，审批通过扣减，驳回或撤销退回；额度须覆盖至请假结束日。"
+      />
+      <el-form-item v-if="formData.type === '调休'" label="额度核对">
+        <el-button :loading="formLoading" @click="previewTimeOff">核对排班与余额</el-button>
+        <span v-if="timeOffPreview" class="ml-2"
+          >申请 {{ timeOffPreview.minutes }} 分钟；当前余额 {{ timeOffPreview.balance }} 分钟</span
+        >
       </el-form-item>
       <el-form-item label="请假天数" prop="day">
         <el-input-number
@@ -81,6 +95,22 @@ import * as AttendanceLeaveApi from '@/api/hrm/portal/attendance/leave'
 
 defineOptions({ name: 'HrmPortalAttendanceLeaveForm' })
 
+const timeOffPreview = ref<{ minutes: number; day: number; balance: number }>()
+async function previewTimeOff() {
+  if (!formRef.value) return
+  await formRef.value.validate()
+  formLoading.value = true
+  try {
+    timeOffPreview.value = await AttendanceLeaveApi.previewTimeOff({
+      ...formData.value,
+      startTime: Math.floor(Number(formData.value.startTime) / 60000) * 60000,
+      endTime: Math.floor(Number(formData.value.endTime) / 60000) * 60000
+    })
+    formData.value.day = timeOffPreview.value.day
+  } finally {
+    formLoading.value = false
+  }
+}
 const message = useMessage() // 消息弹窗
 const dialogVisible = ref(false) // 弹窗的是否展示
 const formLoading = ref(false) // 表单的加载中
@@ -93,6 +123,13 @@ const formData = ref<AttendanceLeaveApi.HrmAttendanceLeaveCreateVO>({
   reason: '',
   remark: ''
 }) // 表单数据
+watch(
+  () => [formData.value.type, formData.value.startTime, formData.value.endTime],
+  () => {
+    timeOffPreview.value = undefined
+  }
+)
+
 const formRules = reactive<FormRules>({
   type: [{ required: true, message: '请选择请假类型', trigger: 'change' }],
   startTime: [{ required: true, message: '请选择开始时间', trigger: 'change' }],
@@ -140,8 +177,8 @@ async function submitForm() {
   try {
     await AttendanceLeaveApi.createMyAttendanceLeave({
       ...formData.value,
-      startTime: Number(formData.value.startTime),
-      endTime: Number(formData.value.endTime)
+      startTime: Math.floor(Number(formData.value.startTime) / 60000) * 60000,
+      endTime: Math.floor(Number(formData.value.endTime) / 60000) * 60000
     })
     message.success('请假申请已提交')
     dialogVisible.value = false
