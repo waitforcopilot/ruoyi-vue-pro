@@ -320,4 +320,5 @@ public interface ErrorCodeConstants {
     ErrorCode PAYROLL_TAX_CONFIGURATION_MISSING = new ErrorCode(1_050_810_018, "员工[{}]未匹配明确的计税规则，请检查薪资组及税务配置");
 
     ErrorCode PAYROLL_SOURCE_CLAIM_INVALID = new ErrorCode(1_050_810_019, "工资日期、加班/周期或缴费来源已被其他批次占用、来源不完整或不能释放");
+    ErrorCode PAYROLL_TAX_INVALID = new ErrorCode(1_050_810_020, "年度税务政策、年度金额、年终奖策略、审批或纳税主体不合法或未就绪");
 }

@@ -94,3 +94,6 @@ DELETE FROM "hrm_payroll_no_overtime";
 
 DELETE FROM "hrm_payroll_work_variance_event";
 DELETE FROM "hrm_payroll_work_variance";
+
+DELETE FROM "hrm_payroll_tax_policy_event";
+DELETE FROM "hrm_payroll_tax_policy";

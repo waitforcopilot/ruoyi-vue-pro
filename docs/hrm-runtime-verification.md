@@ -28,6 +28,7 @@
 - `sql/mysql/upgrade/20261013-hrm-no-overtime.sql`
 - `sql/mysql/upgrade/20261013-hrm-work-version.sql`
 - `sql/mysql/upgrade/20261013-hrm-work-variance.sql`
+- `sql/mysql/upgrade/20261013-hrm-tax-policy.sql`
 
 三个基础模块脚本仅创建缺失业务表。Flowable 使用项目现有的自动升级配置创建流程引擎表。后续模块的增量脚本应随相应功能交付安装，不能仅凭文件存在判断已验收。
 
