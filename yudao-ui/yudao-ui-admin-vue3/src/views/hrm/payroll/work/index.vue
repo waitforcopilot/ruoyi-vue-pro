@@ -23,6 +23,9 @@
       <el-button v-hasPermi="['hrm:payroll:work:confirm']" @click="open('entry')"
         >核实加班</el-button
       >
+      <el-button v-hasPermi="['hrm:payroll:work:confirm']" @click="open('zero')"
+        >登记加班未发生差异</el-button
+      >
       <el-button v-hasPermi="['hrm:payroll:work:confirm']" @click="open('reserve')"
         >占用调休</el-button
       >
@@ -110,6 +113,50 @@
             ></el-table-column
           ></el-table
         >
+      </el-tab-pane>
+      <el-tab-pane label="加班未发生差异">
+        <el-alert
+          title="OA批准不代表实际发生。申请需提供事实依据，另一名HR复核后才生成零发生记录；已有有效加班不能确认零值。来源变化会阻断核算。"
+          type="info"
+          :closable="false"
+        />
+        <el-table :data="zeroCases">
+          <el-table-column prop="sourceApplyId" label="原OA申请" />
+          <el-table-column prop="workDate" label="日期" />
+          <el-table-column prop="status" label="复核状态" />
+          <el-table-column label="来源就绪" width="150"
+            ><template #default="{ row }">{{
+              row.sourceFresh === false
+                ? '来源变更，需重新核实'
+                : row.sourceFresh === true
+                  ? '与提交一致'
+                  : '不适用'
+            }}</template></el-table-column
+          >
+          <el-table-column prop="reason" label="事实说明" show-overflow-tooltip />
+          <el-table-column prop="evidence" label="核实依据" show-overflow-tooltip />
+          <el-table-column prop="reviewOpinion" label="复核意见" show-overflow-tooltip />
+          <el-table-column label="操作" width="210"
+            ><template #default="{ row }">
+              <el-button link @click="showProof(row.sourceSnapshot)">来源快照</el-button>
+              <el-button
+                v-if="row.status === 'PENDING'"
+                v-hasPermi="['hrm:payroll:work:approve']"
+                link
+                :disabled="row.sourceFresh === false"
+                @click="reviewZero(row.id, true)"
+                >复核通过</el-button
+              >
+              <el-button
+                v-if="row.status === 'PENDING'"
+                v-hasPermi="['hrm:payroll:work:approve']"
+                link
+                @click="reviewZero(row.id, false)"
+                >驳回</el-button
+              >
+            </template></el-table-column
+          >
+        </el-table>
       </el-tab-pane>
       <el-tab-pane label="调休台账">
         <el-table :data="ledger"
@@ -228,6 +275,22 @@
         ><el-form-item label="审批及占用依据"
           ><el-input v-model="draft.reason" type="textarea" /></el-form-item
       ></template>
+      <template v-if="kind === 'zero'">
+        <el-form-item label="原OA申请编号"><el-input v-model="draft.sourceApplyId" /></el-form-item>
+        <el-form-item label="核实日期"
+          ><el-date-picker v-model="draft.workDate" type="date" value-format="YYYY-MM-DD"
+        /></el-form-item>
+        <el-form-item label="事实说明"
+          ><el-input v-model="draft.reason" type="textarea" maxlength="1000"
+        /></el-form-item>
+        <el-form-item label="核实依据"
+          ><el-input
+            v-model="draft.evidence"
+            type="textarea"
+            maxlength="1000"
+            placeholder="主管确认单、任务取消凭证等"
+        /></el-form-item>
+      </template>
       <template v-if="kind === 'cycle'"
         ><el-form-item label="周期开始日"
           ><el-date-picker v-model="draft.from" value-format="YYYY-MM-DD" /></el-form-item
@@ -263,17 +326,19 @@ const period = ref([
 const rules = ref<any[]>([]),
   entries = ref<any[]>([]),
   ledger = ref<any[]>([]),
+  zeroCases = ref<any[]>([]),
   stats = ref<any>({})
 const loading = ref(false),
   saving = ref(false),
   visible = ref(false),
   proofVisible = ref(false),
   proof = ref('')
-type Kind = 'rule' | 'entry' | 'reserve' | 'cycle'
+type Kind = 'rule' | 'entry' | 'reserve' | 'cycle' | 'zero'
 const kind = ref<Kind>('rule'),
   draft = ref<any>({})
 const titles = {
   rule: '新建工时制度（待审批）',
+  zero: '核实批准加班未实际发生（待独立复核）',
   entry: '核实加班',
   reserve: '调休申请占用',
   cycle: '综合工时周期结算'
@@ -290,11 +355,14 @@ const ruleNumbers = [
 ]
 const formatTime = (_row: unknown, _col: unknown, value: any) =>
   value ? dayjs(value).format('YYYY-MM-DD HH:mm') : ''
+let viewSequence = 0
 async function load() {
   if (!entityId.value || !employeeId.value || period.value?.length !== 2) {
     message.warning('请选择主体、员工和统计区间')
     return
   }
+  const sequence = ++viewSequence
+  const selection = JSON.stringify([entityId.value, employeeId.value, period.value])
   loading.value = true
   try {
     const params = {
@@ -303,14 +371,21 @@ async function load() {
       from: period.value[0],
       to: period.value[1]
     }
-    ;[rules.value, entries.value, ledger.value, stats.value] = await Promise.all([
+    const result = await Promise.all([
       api.rules(entityId.value, employeeId.value),
       api.entries(params),
       api.ledger(entityId.value, employeeId.value),
-      api.summary(params)
+      api.summary(params),
+      api.noOvertimeCases({ entityId: entityId.value, employeeId: employeeId.value })
     ])
+    if (
+      sequence !== viewSequence ||
+      selection !== JSON.stringify([entityId.value, employeeId.value, period.value])
+    )
+      return
+    ;[rules.value, entries.value, ledger.value, stats.value, zeroCases.value] = result
   } finally {
-    loading.value = false
+    if (sequence === viewSequence) loading.value = false
   }
 }
 function open(type: Kind) {
@@ -322,6 +397,8 @@ function open(type: Kind) {
   draft.value = {
     entityId: entityId.value,
     employeeId: employeeId.value,
+    workDate: period.value[0],
+    requestKey: `ZERO-${Date.now()}-${Math.random().toString(36).slice(2)}`,
     systemType: 'STANDARD',
     effectiveFrom: period.value[0],
     effectiveTo: period.value[1],
@@ -351,6 +428,7 @@ async function save() {
   try {
     if (kind.value === 'rule') await api.createRule(draft.value)
     else if (kind.value === 'entry') await api.confirm(draft.value)
+    else if (kind.value === 'zero') await api.submitNoOvertime(draft.value)
     else if (kind.value === 'reserve') await api.reserve(draft.value)
     else await api.settle({ ruleId: draft.value.ruleId, from: draft.value.from })
     visible.value = false
@@ -363,6 +441,14 @@ async function save() {
 async function approve(id: number) {
   await message.confirm('确认该员工适用制度及批准依据？提交人不能审批自己的制度。')
   await api.approveRule(id)
+  await load()
+}
+async function reviewZero(id: number, approved: boolean) {
+  const { value } = await message.prompt(
+    '请输入事实复核意见',
+    approved ? '确认未发生有效加班' : '驳回差异申请'
+  )
+  await api.reviewNoOvertime({ id, approved, opinion: value })
   await load()
 }
 async function rejectRule(id: number) {
@@ -387,11 +473,14 @@ function showProof(value: string) {
 watch(
   () => [entityId.value, ...(period.value || [])],
   async () => {
+    const sequence = ++viewSequence
+    loading.value = false
     employeeId.value = undefined
     employees.value = []
     rules.value = []
     entries.value = []
     ledger.value = []
+    zeroCases.value = []
     stats.value = {}
     if (!entityId.value || period.value?.length !== 2) return
     const selected = entityId.value
@@ -400,7 +489,7 @@ watch(
       from: period.value[0],
       to: period.value[1]
     })
-    if (entityId.value === selected) employees.value = rows
+    if (sequence === viewSequence && entityId.value === selected) employees.value = rows
   }
 )
 onMounted(async () => {

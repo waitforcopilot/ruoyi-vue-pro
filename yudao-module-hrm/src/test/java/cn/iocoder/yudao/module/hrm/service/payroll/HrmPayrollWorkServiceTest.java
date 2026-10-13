@@ -36,6 +36,7 @@ class HrmPayrollWorkServiceTest extends BaseDbUnitTest {
   @Resource private HrmPayrollWorkRuleMapper rules;
   @Resource private HrmPayrollTimeEntryMapper entries;
   @Resource private HrmPayrollTimeOffMapper off;
+  @Resource private HrmPayrollNoOvertimeMapper zeroCases;
   @Resource private HrmAttendanceClockMapper clocks;
   @Resource private HrmAttendanceHolidayMapper holidays;
   @MockBean private OaPayrollSourceApi oa;
@@ -335,7 +336,7 @@ class HrmPayrollWorkServiceTest extends BaseDbUnitTest {
     legacy.setStartTime(day.atTime(18, 0));
     legacy.setAmount(new BigDecimal("888"));
     entries.insert(legacy);
-    assertEquals(BigDecimal.ZERO, service.earningsForEntity(employeeId, 10L, day, day));
+    assertEquals(0, service.earningsForEntity(employeeId, 10L, day, day).signum());
     assertTrue(service.scopedRules(10L, employeeId, 2L).isEmpty());
   }
 
@@ -344,5 +345,179 @@ class HrmPayrollWorkServiceTest extends BaseDbUnitTest {
     doThrow(new IllegalStateException("forbidden")).when(entities).check(10L, "MANAGE", 1L);
     assertThrows(IllegalStateException.class, () -> service.createRule(policy("STANDARD"), 1L));
     assertTrue(rules.selectList().isEmpty());
+  }
+
+  private HrmPayrollNoOvertimeReqVO zeroRequest(String key) {
+    OaPayrollOvertimeDTO source = new OaPayrollOvertimeDTO();
+    source.setId(77L);
+    source.setApplicantUserId(99L);
+    source.setStartTime(day.atTime(18, 0));
+    source.setEndTime(day.atTime(20, 0));
+    source.setProcessInstanceId("approved-zero-flow");
+    when(oa.getApprovedOvertime(77L)).thenReturn(source);
+    HrmPayrollNoOvertimeReqVO r = new HrmPayrollNoOvertimeReqVO();
+    r.setEntityId(10L);
+    r.setEmployeeId(employeeId);
+    r.setSourceApplyId(77L);
+    r.setWorkDate(day);
+    r.setRequestKey(key);
+    r.setReason("生产任务取消，未实际加班");
+    r.setEvidence("主管确认单编号ZERO-1");
+    return r;
+  }
+
+  @Test
+  void approvedZeroDeclarationCreatesSourceOnceAndKeepsProof() {
+    approved("STANDARD");
+    HrmPayrollNoOvertimeReqVO r = zeroRequest("zero-1");
+    Long id = service.submitNoOvertime(r, 1L);
+    assertEquals(id, service.submitNoOvertime(r, 1L));
+    assertTrue(entries.selectList().isEmpty());
+    assertServiceException(
+        () -> service.reviewNoOvertime(id, true, "同意", 1L), PAYROLL_SELF_APPROVAL);
+    assertServiceException(
+        () -> service.reviewNoOvertime(id, true, "本人同意", 99L), PAYROLL_SELF_APPROVAL);
+    service.reviewNoOvertime(id, true, "核对任务取消证明，确认未发生", 2L);
+    service.reviewNoOvertime(id, true, "重复回调", 2L);
+    HrmPayrollTimeEntryDO entry = entries.selectById(zeroCases.selectById(id).getTimeEntryId());
+    assertEquals("VERIFIED_ZERO", entry.getCompensation());
+    assertEquals(0, entry.getRecognizedMinutes());
+    assertEquals(0, entry.getAmount().signum());
+    assertEquals(77L, entry.getSourceApplyId());
+    assertTrue(entry.getSourceSnapshot().contains("ZERO-1"));
+    assertEquals(1, entries.selectList().size());
+    assertEquals(0, service.earningsForEntity(employeeId, 10L, day, day).signum());
+  }
+
+  @Test
+  void changedApprovalBlocksZeroReviewAndSourceFreeze() {
+    approved("STANDARD");
+    Long id = service.submitNoOvertime(zeroRequest("zero-1"), 1L);
+    OaPayrollOvertimeDTO changed = new OaPayrollOvertimeDTO();
+    changed.setId(77L);
+    changed.setApplicantUserId(99L);
+    changed.setStartTime(day.atTime(18, 0));
+    changed.setEndTime(day.atTime(21, 0));
+    changed.setProcessInstanceId("approved-zero-flow");
+    when(oa.getApprovedOvertime(77L)).thenReturn(changed);
+    assertServiceException(
+        () -> service.reviewNoOvertime(id, true, "同意", 2L), PAYROLL_WORK_INVALID);
+    assertEquals("PENDING", zeroCases.selectById(id).getStatus());
+    assertTrue(entries.selectList().isEmpty());
+  }
+
+  @Test
+  void laterPunchesInvalidateAnApprovedZeroDeclaration() {
+    approved("STANDARD");
+    Long id = service.submitNoOvertime(zeroRequest("zero-1"), 1L);
+    service.reviewNoOvertime(id, true, "事实确认", 2L);
+    clocks.insert(
+        HrmAttendanceClockDO.builder()
+            .employeeId(employeeId)
+            .type(1)
+            .status(0)
+            .clockTime(day.atTime(18, 0))
+            .attendanceTime(day.atStartOfDay())
+            .build());
+    clocks.insert(
+        HrmAttendanceClockDO.builder()
+            .employeeId(employeeId)
+            .type(2)
+            .status(0)
+            .clockTime(day.atTime(20, 0))
+            .attendanceTime(day.atStartOfDay())
+            .build());
+    assertServiceException(
+        () -> service.validateSources(entries.selectList()), PAYROLL_WORK_INVALID);
+    assertFalse(service.noOvertimeCases(10L, employeeId, 2L).get(0).getSourceFresh());
+  }
+
+  @Test
+  void knownActualOvertimeCannotBeDeclaredZero() {
+    approved("STANDARD");
+    HrmPayrollNoOvertimeReqVO r = zeroRequest("zero-1");
+    clocks.insert(
+        HrmAttendanceClockDO.builder()
+            .employeeId(employeeId)
+            .type(1)
+            .status(0)
+            .clockTime(day.atTime(18, 0))
+            .attendanceTime(day.atStartOfDay())
+            .build());
+    clocks.insert(
+        HrmAttendanceClockDO.builder()
+            .employeeId(employeeId)
+            .type(2)
+            .status(0)
+            .clockTime(day.atTime(20, 0))
+            .attendanceTime(day.atStartOfDay())
+            .build());
+    assertServiceException(() -> service.submitNoOvertime(r, 1L), PAYROLL_WORK_INVALID);
+    assertTrue(zeroCases.selectList().isEmpty());
+  }
+
+  @Test
+  void rejectingZeroCasePreservesRecordAndAllowsNewPreview() {
+    approved("STANDARD");
+    Long id = service.submitNoOvertime(zeroRequest("zero-1"), 1L);
+    service.reviewNoOvertime(id, false, "证明不足", 2L);
+    assertTrue(entries.selectList().isEmpty());
+    assertNotEquals(id, service.submitNoOvertime(zeroRequest("zero-2"), 1L));
+    assertEquals("证明不足", zeroCases.selectById(id).getReviewOpinion());
+    assertEquals(2, zeroCases.selectList().size());
+  }
+
+  @Test
+  void duplicateSourcesAndWrongEmployerDeclarationsAreRejected() {
+    approved("STANDARD");
+    service.submitNoOvertime(zeroRequest("zero-1"), 1L);
+    assertServiceException(
+        () -> service.submitNoOvertime(zeroRequest("zero-2"), 1L), PAYROLL_WORK_INVALID);
+    HrmPayrollNoOvertimeReqVO foreign = zeroRequest("foreign");
+    foreign.setEntityId(20L);
+    assertServiceException(() -> service.submitNoOvertime(foreign, 1L), PAYROLL_WORK_INVALID);
+  }
+
+  @Test
+  void unrelatedNextDayPunchesDoNotInvalidateZeroFacts() {
+    approved("STANDARD");
+    Long id = service.submitNoOvertime(zeroRequest("zero-next"), 1L);
+    service.reviewNoOvertime(id, true, "核实确认", 2L);
+    clocks.insert(
+        HrmAttendanceClockDO.builder()
+            .employeeId(employeeId)
+            .type(1)
+            .status(0)
+            .clockTime(day.plusDays(1).atTime(9, 0))
+            .attendanceTime(day.plusDays(1).atStartOfDay())
+            .build());
+    clocks.insert(
+        HrmAttendanceClockDO.builder()
+            .employeeId(employeeId)
+            .type(2)
+            .status(0)
+            .clockTime(day.plusDays(1).atTime(17, 0))
+            .attendanceTime(day.plusDays(1).atStartOfDay())
+            .build());
+    service.validateSources(entries.selectList());
+    assertTrue(service.noOvertimeCases(10L, employeeId, 2L).get(0).getSourceFresh());
+  }
+
+  @Test
+  void overlappingPlannedShiftsCannotConcealActualOvertime() {
+    approved("STANDARD");
+    HrmPayrollNoOvertimeReqVO r = zeroRequest("overlap-shift");
+    when(groups.getEmployeeAttendanceShift(eq(employeeId), any()))
+        .thenReturn(
+            HrmAttendanceGroupDO.Shift.builder()
+                .startTime(LocalTime.of(22, 0))
+                .endTime(LocalTime.of(14, 0))
+                .build(),
+            HrmAttendanceGroupDO.Shift.builder()
+                .startTime(LocalTime.of(9, 0))
+                .endTime(LocalTime.of(17, 0))
+                .build());
+    assertServiceException(() -> service.submitNoOvertime(r, 1L), PAYROLL_WORK_INVALID);
+    assertTrue(zeroCases.selectList().isEmpty());
   }
 }

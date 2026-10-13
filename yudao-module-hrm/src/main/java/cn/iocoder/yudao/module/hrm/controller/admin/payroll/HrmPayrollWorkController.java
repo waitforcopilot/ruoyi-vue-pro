@@ -134,4 +134,26 @@ public class HrmPayrollWorkController {
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from) {
     return success(service.settleCycle(ruleId, from, getLoginUserId()));
   }
+
+  @GetMapping("/no-overtime")
+  @PreAuthorize("@ss.hasPermission('hrm:payroll:work:query')")
+  public CommonResult<List<HrmPayrollNoOvertimeDO>> noOvertime(
+      @RequestParam Long entityId, @RequestParam(required = false) Long employeeId) {
+    return success(service.noOvertimeCases(entityId, employeeId, getLoginUserId()));
+  }
+
+  @PostMapping("/no-overtime")
+  @PreAuthorize("@ss.hasPermission('hrm:payroll:work:confirm')")
+  public CommonResult<Long> submitNoOvertime(
+      @Valid @RequestBody HrmPayrollNoOvertimeReqVO request) {
+    return success(service.submitNoOvertime(request, getLoginUserId()));
+  }
+
+  @PostMapping("/no-overtime/review")
+  @PreAuthorize("@ss.hasPermission('hrm:payroll:work:approve')")
+  public CommonResult<Boolean> reviewNoOvertime(
+      @RequestParam Long id, @RequestParam boolean approved, @RequestParam String opinion) {
+    service.reviewNoOvertime(id, approved, opinion, getLoginUserId());
+    return success(true);
+  }
 }

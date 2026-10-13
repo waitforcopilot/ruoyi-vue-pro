@@ -28,3 +28,10 @@ export const settle = (params: object) => request.post({ url: `${url}/cycle/sett
 
 export const rejectRule = (id: number, reason: string) =>
   request.post({ url: `${url}/rule/reject`, params: { id, reason } })
+
+export const noOvertimeCases = (params: object) =>
+  request.get<any[]>({ url: `${url}/no-overtime`, params })
+export const submitNoOvertime = (data: object) =>
+  request.post<number>({ url: `${url}/no-overtime`, data })
+export const reviewNoOvertime = (params: object) =>
+  request.post({ url: `${url}/no-overtime/review`, params })

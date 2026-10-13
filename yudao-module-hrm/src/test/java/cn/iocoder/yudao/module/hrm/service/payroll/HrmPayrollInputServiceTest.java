@@ -452,4 +452,36 @@ class HrmPayrollInputServiceTest extends BaseDbUnitTest {
     assertServiceException(
         () -> service.submit(request(employeeId, "OVERTIME", "ZERO"), 1L), PAYROLL_WORK_INVALID);
   }
+
+  @Test
+  void independentlyVerifiedZeroOvertimeCanBeSynchronizedButNotImplicitlyConfirmed() {
+    Long employeeId = employee("VERIFIED-ZERO");
+    LocalDate date = LocalDate.of(2026, 10, 3);
+    cn.iocoder.yudao.module.oa.api.payroll.dto.OaPayrollOvertimeDTO source =
+        new cn.iocoder.yudao.module.oa.api.payroll.dto.OaPayrollOvertimeDTO();
+    source.setId(123L);
+    source.setApplicantUserId(99L);
+    source.setStartTime(date.atTime(18, 0));
+    source.setEndTime(date.atTime(20, 0));
+    HrmPayrollTimeEntryDO entry =
+        new HrmPayrollTimeEntryDO()
+            .setId(1L)
+            .setEntityId(entityId)
+            .setEmployeeId(employeeId)
+            .setSourceApplyId(123L)
+            .setSourceRecordId("123:2026-10-03")
+            .setStartTime(date.atTime(18, 0))
+            .setEndTime(date.atTime(20, 0))
+            .setRecognizedMinutes(0)
+            .setAmount(BigDecimal.ZERO)
+            .setCompensation("VERIFIED_ZERO");
+    when(oa.getApprovedOvertimeList(any(), any(), any()))
+        .thenReturn(Collections.singletonList(source));
+    when(work.entries(eq(employeeId), any(), any())).thenReturn(Collections.singletonList(entry));
+    assertServiceException(
+        () -> service.submit(request(employeeId, "OVERTIME", "ZERO"), 1L), PAYROLL_INPUT_INVALID);
+    Long id = approved(request(employeeId, "OVERTIME", "SYNC"));
+    assertEquals(BigDecimal.ZERO, service.values(records.selectById(id)).get("180101"));
+    assertTrue(records.selectById(id).getSourceSnapshot().contains("VERIFIED_ZERO"));
+  }
 }
