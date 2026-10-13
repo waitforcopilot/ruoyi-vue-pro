@@ -39,6 +39,9 @@
         <el-button v-hasPermi="['hrm:payroll:tax:private']" link @click="identifier(row.id)"
           >核实完整标识</el-button
         >
+        <el-button v-if="row.status === 'APPROVED'" link @click="openLedger(row)"
+          >已发工资年度台账</el-button
+        >
         <el-button
           v-if="row.status === 'PENDING'"
           v-hasPermi="['hrm:payroll:tax:approve']"
@@ -118,6 +121,58 @@
       ><el-button :loading="saving" type="primary" @click="save">提交独立复核</el-button></template
     >
   </Dialog>
+  <Dialog v-model="ledgerVisible" title="按实际到账年度归集已发工资" width="1100px">
+    <el-form inline
+      ><el-form-item label="累计截止日"
+        ><el-date-picker v-model="ledgerDate" value-format="YYYY-MM-DD" /></el-form-item
+      ><el-button :loading="ledgerLoading" @click="loadLedger">核对年度台账</el-button></el-form
+    >
+    <el-alert
+      title="引用成功回盘与冻结工资版本。历史累计覆盖截止日内已发金额，不重复相加；缺日期或税务来源时累计不可使用。此台账尚未替代工资核算的累计输入。"
+      type="info"
+      :closable="false"
+    />
+    <template v-if="ledgerData">
+      <el-alert
+        v-for="reason in ledgerData.blockers"
+        :key="reason"
+        :title="reason"
+        type="error"
+        :closable="false"
+        class="mt-10px"
+      />
+      <el-descriptions v-if="ledgerData.ready" :column="4" border class="mt-10px">
+        <el-descriptions-item label="工资收入">{{ ledgerData.income }}</el-descriptions-item
+        ><el-descriptions-item label="专项扣除">{{
+          ledgerData.socialDeduction
+        }}</el-descriptions-item
+        ><el-descriptions-item label="减除费用">{{
+          ledgerData.basicDeduction
+        }}</el-descriptions-item
+        ><el-descriptions-item label="工资已预缴">{{ ledgerData.withheld }}</el-descriptions-item>
+      </el-descriptions>
+      <el-table :data="ledgerData.rows" class="mt-10px">
+        <el-table-column prop="paymentId" label="回盘明细" /><el-table-column
+          prop="batchId"
+          label="工资批次"
+        /><el-table-column prop="runId" label="冻结版本" /><el-table-column
+          prop="valueDate"
+          label="实际到账日"
+          width="120"
+        />
+        <el-table-column label="归集状态" width="140"
+          ><template #default="{ row }">{{ ledgerStates[row.status] }}</template></el-table-column
+        >
+        <el-table-column prop="income" label="本次收入" /><el-table-column
+          prop="socialDeduction"
+          label="专项扣除"
+        /><el-table-column prop="basicDeduction" label="减除费用" /><el-table-column
+          prop="withheld"
+          label="工资预缴"
+        /><el-table-column prop="reason" label="说明" min-width="210" />
+      </el-table>
+    </template>
+  </Dialog>
   <Dialog v-model="proofVisible" title="年度税务资料与复核履历" width="850px">
     <pre style="white-space: pre-wrap; word-break: break-all">{{ proofText }}</pre>
   </Dialog>
@@ -148,6 +203,60 @@ const amounts = [
   { key: 'openingBasicDeduction', label: '本单位历史减除费用' },
   { key: 'openingWithheld', label: '本单位历史预缴（工资）' }
 ]
+const ledgerVisible = ref(false),
+  ledgerLoading = ref(false),
+  ledgerDate = ref(''),
+  ledgerData = ref<any>(),
+  ledgerEmployeeId = ref<number>()
+const ledgerStates: Record<string, string> = {
+  COUNTED: '已归入累计',
+  OPENING_COVERED: '历史资料已覆盖',
+  UNDATED: '缺到账日期',
+  SOURCE_INVALID: '税务来源待核实'
+}
+let ledgerSequence = 0
+async function openLedger(row: any) {
+  ledgerEmployeeId.value = row.employeeId
+  const end = `${props.year}-12-31`,
+    today = dayjs().format('YYYY-MM-DD')
+  ledgerDate.value = end < today ? end : today
+  ledgerData.value = undefined
+  ledgerVisible.value = true
+  await loadLedger()
+}
+async function loadLedger() {
+  const version = ++ledgerSequence
+  ledgerData.value = undefined
+  if (!props.entityId || !ledgerEmployeeId.value || !ledgerDate.value) return
+  ledgerLoading.value = true
+  try {
+    const data = await api.cashLedger({
+      entityId: props.entityId,
+      employeeId: ledgerEmployeeId.value,
+      year: props.year,
+      asOfDate: ledgerDate.value
+    })
+    if (version === ledgerSequence) ledgerData.value = data
+  } finally {
+    if (version === ledgerSequence) ledgerLoading.value = false
+  }
+}
+watch(
+  ledgerDate,
+  () => {
+    ledgerSequence++
+    ledgerData.value = undefined
+    ledgerLoading.value = false
+  },
+  { flush: 'sync' }
+)
+watch(ledgerVisible, (shown) => {
+  if (!shown) {
+    ledgerSequence++
+    ledgerData.value = undefined
+    ledgerLoading.value = false
+  }
+})
 let sequence = 0,
   employeeSequence = 0
 async function load() {
@@ -237,6 +346,9 @@ watch(
   async () => {
     const version = ++employeeSequence
     sequence++
+    ledgerVisible.value = false
+    ledgerSequence++
+    ledgerData.value = undefined
     employeeId.value = undefined
     employees.value = []
     visible.value = false

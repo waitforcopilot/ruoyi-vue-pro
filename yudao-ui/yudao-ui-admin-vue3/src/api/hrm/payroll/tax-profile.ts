@@ -7,3 +7,6 @@ export const review = (params: object) => request.post({ url: `${url}/review`, p
 export const history = (id: number) => request.get<any[]>({ url: `${url}/history`, params: { id } })
 export const privateIdentifier = (id: number) =>
   request.get<string>({ url: `${url}/private-identifier`, params: { id } })
+
+export const cashLedger = (params: object) =>
+  request.get<any>({ url: `${url}/cash-ledger`, params })

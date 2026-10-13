@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class HrmPayrollTaxProfileController {
   @Resource private HrmPayrollTaxProfileService service;
   @Resource private HrmPayrollWorkService work;
+  @Resource private HrmPayrollTaxCashLedgerService cashLedger;
 
   @GetMapping("/employees")
   @PreAuthorize("@ss.hasPermission('hrm:payroll:tax:query')")
@@ -65,6 +66,21 @@ public class HrmPayrollTaxProfileController {
   @PreAuthorize("@ss.hasPermission('hrm:payroll:tax:private')")
   public CommonResult<String> identifier(@RequestParam Long id) {
     return success(service.privateIdentifier(id, getLoginUserId()));
+  }
+
+  @GetMapping("/cash-ledger")
+  @PreAuthorize("@ss.hasPermission('hrm:payroll:tax:query')")
+  public CommonResult<
+          cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxCashLedgerVO>
+      cashLedger(
+          @RequestParam Long entityId,
+          @RequestParam Long employeeId,
+          @RequestParam Integer year,
+          @RequestParam
+              @org.springframework.format.annotation.DateTimeFormat(
+                  iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)
+              LocalDate asOfDate) {
+    return success(cashLedger.ledger(entityId, employeeId, year, asOfDate, getLoginUserId()));
   }
 
   @GetMapping("/history")
