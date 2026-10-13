@@ -41,4 +41,11 @@ public class HrmPayrollBatchController {
         @NotNull private Long runId;
         @NotBlank @Size(max=1000) private String reason;
     }
+    @javax.annotation.Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSourceClaimService sourceClaims;
+    @org.springframework.web.bind.annotation.GetMapping("/source-claims")
+    @org.springframework.security.access.prepost.PreAuthorize("@ss.hasPermission('hrm:payroll:batch:query')")
+    public cn.iocoder.yudao.framework.common.pojo.CommonResult<java.util.List<cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollSourceClaimDO>> sourceClaims(@org.springframework.web.bind.annotation.RequestParam Long batchId){
+        return success(sourceClaims.list(batchId,getLoginUserId()));
+    }
+
 }

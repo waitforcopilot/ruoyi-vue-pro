@@ -42,3 +42,6 @@ export const statuses: Record<number, string> = {
   16: '发放中',
   17: '已发放'
 }
+
+export const sourceClaims = (batchId: number) =>
+  request.get<any[]>({ url: '/hrm/payroll/batch/source-claims', params: { batchId } })

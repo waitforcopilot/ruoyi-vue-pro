@@ -18,6 +18,7 @@ public class HrmPayrollBatchService {
     @Resource private HrmPayrollScopeService scope;
     @Resource private HrmPayrollInsurancePolicyService insurance;
     @Resource private HrmPayrollInputService inputs;
+    @Resource private HrmPayrollSourceClaimService sourceClaims;
     @Resource private HrmPayrollAttendanceService attendanceService;
     @Resource private HrmPayrollRunMapper runMapper;
     @Resource private HrmPayrollBatchEventMapper eventMapper;
@@ -90,6 +91,7 @@ public class HrmPayrollBatchService {
         }
         int target=nextStatus(batch.getStatus(),action);
         if("freeze".equals(action)){
+            sourceClaims.lockEmployees(run);
             HrmPayrollRunDO source=run;Set<Long> visited=new HashSet<>();
             while(source!=null){
                 if(!visited.add(source.getId()))throw exception(PAYROLL_VERSION_CONFLICT);
@@ -106,6 +108,8 @@ public class HrmPayrollBatchService {
                 if(source==null)throw exception(PAYROLL_VERSION_CONFLICT);
             }
         }
+        if("freeze".equals(action))sourceClaims.reserve(batch,run,actor);
+        if("unfreeze".equals(action))sourceClaims.release(batchId,runId,reason,actor);
         batchMapper.updateById(new HrmSalaryMonthRecordDO().setId(batchId).setStatus(target));
         HrmPayrollBatchEventDO event=new HrmPayrollBatchEventDO();event.setMonthRecordId(batchId);event.setRunId(runId);
         event.setAction(action);event.setActorId(actor);event.setReason(reason);event.setFromStatus(batch.getStatus());event.setToStatus(target);eventMapper.insert(event);

@@ -80,6 +80,36 @@
             <el-table-column prop="delta" label="实发变动" />
           </el-table>
         </el-tab-pane>
+        <el-tab-pane label="来源占用与防重">
+          <el-alert
+            title="冻结时占用来源，解冻释放未发放占用；成功回盘保留已发放占用。计薪日期用于防重，具体工资金额见冻结版本。"
+            type="info"
+            :closable="false"
+          />
+          <el-table :data="sourceClaims">
+            <el-table-column prop="runId" label="核算版本编号" width="130" />
+            <el-table-column prop="employeeId" label="员工编号" width="100" />
+            <el-table-column label="来源类型"
+              ><template #default="{ row }">{{
+                claimKinds[row.kind] || row.kind
+              }}</template></el-table-column
+            >
+            <el-table-column label="来源编号或期间"
+              ><template #default="{ row }">{{ claimPeriod(row) }}</template></el-table-column
+            >
+            <el-table-column label="来源金额"
+              ><template #default="{ row }">{{
+                row.amount == null ? '见核算版本' : row.amount
+              }}</template></el-table-column
+            >
+            <el-table-column label="占用状态"
+              ><template #default="{ row }">{{
+                claimStatuses[row.status] || row.status
+              }}</template></el-table-column
+            >
+            <el-table-column prop="releaseReason" label="释放依据" show-overflow-tooltip />
+          </el-table>
+        </el-tab-pane>
         <el-tab-pane label="审批记录">
           <el-table :data="history"
             ><el-table-column label="时间" width="180"
@@ -121,6 +151,22 @@ import * as api from '@/api/hrm/payroll/batch'
 import type { SalaryMonthRecordVO } from '@/api/hrm/salary/month-record'
 defineOptions({ name: 'HrmPayrollBatch' })
 const message = useMessage()
+const sourceClaims = ref<any[]>([])
+const claimKinds: Record<string, string> = {
+  WAGE_DAY: '计薪日期',
+  OVERTIME: '认可加班',
+  WORK_CYCLE: '综合工时周期',
+  INSURANCE_MONTH: '月度缴费'
+}
+const claimStatuses: Record<string, string> = {
+  RESERVED: '已冻结占用',
+  PAID: '已对账发放',
+  RELEASED: '已解冻释放'
+}
+const claimPeriod = (row: any) => {
+  const parts = row.sourceKey.split(':')
+  return row.kind === 'OVERTIME' ? `审批 ${parts[1]} · ${parts[2]}` : parts.slice(1).join(' 至 ')
+}
 const query = reactive({ pageNo: 1, pageSize: 10, status: undefined as number | undefined })
 const rows = ref<SalaryMonthRecordVO[]>([]),
   total = ref(0),
@@ -176,9 +222,14 @@ const search = async () => {
 }
 const open = async (row: SalaryMonthRecordVO) => {
   selected.value = row
-  const data = await Promise.all([api.versions(row.id!), api.events(row.id!)])
+  const data = await Promise.all([
+    api.versions(row.id!),
+    api.events(row.id!),
+    api.sourceClaims(row.id!)
+  ])
   runs.value = data[0]
   history.value = data[1]
+  sourceClaims.value = data[2]
   selectedRunId.value = runs.value[0]?.id
   visible.value = true
 }

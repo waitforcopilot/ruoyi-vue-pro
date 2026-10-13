@@ -23,6 +23,7 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 public class HrmPayrollPaymentService {
     @Resource private HrmPayrollPaymentMapper paymentMapper;
     @Resource private HrmPayrollScopeService scope;
+    @Resource private HrmPayrollSourceClaimService sourceClaims;
     @Resource private HrmPayrollPaymentReceiptMapper receiptMapper;
     @Resource private HrmSalaryMonthRecordMapper batchMapper;
     @Resource private HrmPayrollRunMapper runMapper;
@@ -48,6 +49,7 @@ public class HrmPayrollPaymentService {
         if(batch==null)throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);
         HrmPayrollRunDO run=runMapper.selectById(runId);
         if(run==null||!Objects.equals(run.getMonthRecordId(),batchId))throw exception(PAYROLL_VERSION_CONFLICT);
+        sourceClaims.assertReserved(batchId,runId);
         List<HrmPayrollPaymentDO> previous=rawList(batchId);
         if(!previous.isEmpty()){
             if(!Objects.equals(previous.get(0).getRunId(),runId))throw exception(PAYROLL_VERSION_CONFLICT);
@@ -142,6 +144,7 @@ public class HrmPayrollPaymentService {
             }
             if(!Objects.equals(payment.getAttempt(),row.getAttempt()))throw exception(PAYROLL_PAYMENT_INVALID);
             if("FAILED".equals(row.getStatus())&&(row.getFailureReason()==null||row.getFailureReason().trim().isEmpty()))throw exception(PAYROLL_PAYMENT_INVALID);
+            if("SUCCESS".equals(row.getStatus()))sourceClaims.paid(batchId,payment.getRunId(),payment.getEmployeeId());
             paymentMapper.update(null,new com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper<HrmPayrollPaymentDO>()
                 .eq(HrmPayrollPaymentDO::getId,payment.getId()).set(HrmPayrollPaymentDO::getStatus,row.getStatus())
                 .set(HrmPayrollPaymentDO::getFailureReason,"SUCCESS".equals(row.getStatus())?null:row.getFailureReason()));

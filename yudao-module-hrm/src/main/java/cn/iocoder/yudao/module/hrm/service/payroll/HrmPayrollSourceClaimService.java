@@ -1,0 +1,258 @@
+package cn.iocoder.yudao.module.hrm.service.payroll;
+
+import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
+import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
+
+import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
+import cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX;
+import cn.iocoder.yudao.module.hrm.dal.dataobject.employee.info.HrmEmployeeDO;
+import cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.*;
+import cn.iocoder.yudao.module.hrm.dal.dataobject.salary.monthrecord.*;
+import cn.iocoder.yudao.module.hrm.dal.mysql.employee.info.HrmEmployeeMapper;
+import cn.iocoder.yudao.module.hrm.dal.mysql.payroll.*;
+import cn.iocoder.yudao.module.hrm.dal.mysql.salary.monthrecord.HrmSalaryMonthRecordMapper;
+import java.math.BigDecimal;
+import java.time.*;
+import java.util.*;
+import javax.annotation.Resource;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * Cross-batch claims prevent duplicate wage dates, overtime, cycle settlement and monthly
+ * contributions.
+ */
+@Service
+public class HrmPayrollSourceClaimService {
+  @Resource private HrmPayrollSourceClaimMapper claims;
+  @Resource private HrmEmployeeMapper employees;
+  @Resource private HrmPayrollScopeService scope;
+  @Resource private HrmPayrollRunMapper runs;
+  @Resource private HrmSalaryMonthRecordMapper batches;
+
+  public void lockEmployees(HrmPayrollRunDO run) {
+    Set<Long> ids = new TreeSet<>();
+    for (HrmSalaryMonthEmployeeRecordDO e :
+        JsonUtils.parseArray(run.getResultSnapshot(), HrmSalaryMonthEmployeeRecordDO.class))
+      ids.add(e.getEmployeeId());
+    for (Long id : ids)
+      if (employees.selectOneForUpdate(HrmEmployeeDO::getId, id) == null)
+        throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+  }
+
+  private HrmPayrollRunDO root(HrmPayrollRunDO latest) {
+    Set<Long> visited = new HashSet<>();
+    HrmPayrollRunDO row = latest;
+    while (true) {
+      if (row == null || !visited.add(row.getId())) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+      Object parent = JsonUtils.parseObject(row.getInputSnapshot(), Map.class).get("sourceRunId");
+      if (parent == null) return row;
+      if (!(parent instanceof Number)) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+      HrmPayrollRunDO prior = runs.selectById(((Number) parent).longValue());
+      if (prior == null
+          || !Objects.equals(prior.getMonthRecordId(), latest.getMonthRecordId())
+          || prior.getVersion() >= row.getVersion()) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+      row = prior;
+    }
+  }
+
+  private void add(
+      Map<String, HrmPayrollSourceClaimDO> out,
+      HrmSalaryMonthRecordDO batch,
+      HrmPayrollRunDO latest,
+      Long employee,
+      String kind,
+      String key,
+      BigDecimal amount) {
+    HrmPayrollSourceClaimDO c = new HrmPayrollSourceClaimDO();
+    c.setEntityId(batch.getEntityId());
+    c.setEmployeeId(employee);
+    c.setBatchId(batch.getId());
+    c.setRunId(latest.getId());
+    c.setKind(kind);
+    c.setSourceKey(key);
+    c.setAmount(amount);
+    c.setStatus("RESERVED");
+    if (out.putIfAbsent(kind + ":" + key, c) != null) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+  }
+
+  private List<HrmPayrollSourceClaimDO> required(
+      HrmSalaryMonthRecordDO batch, HrmPayrollRunDO latest) {
+    if (batch.getEntityId() == null || !"REGULAR".equals(batch.getBatchKey()))
+      throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+    HrmPayrollRunDO base = root(latest);
+    com.fasterxml.jackson.databind.JsonNode input = JsonUtils.parseTree(base.getInputSnapshot());
+    if (input.get("entityPayrollDates") == null
+        || input.get("approvedInputs") == null
+        || input.get("insurancePolicySources") == null)
+      throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+    Map<Long, Set<LocalDate>> dates =
+        JsonUtils.parseObject(
+            input.get("entityPayrollDates").toString(),
+            new com.fasterxml.jackson.core.type.TypeReference<Map<Long, Set<LocalDate>>>() {});
+    Map<Long, Map<String, HrmPayrollInputDO>> confirmed =
+        JsonUtils.parseObject(
+            input.get("approvedInputs").toString(),
+            new com.fasterxml.jackson.core.type.TypeReference<
+                Map<Long, Map<String, HrmPayrollInputDO>>>() {});
+    Map<Long, HrmPayrollInsurancePolicyService.Quote> fees =
+        JsonUtils.parseObject(
+            input.get("insurancePolicySources").toString(),
+            new com.fasterxml.jackson.core.type.TypeReference<
+                Map<Long, HrmPayrollInsurancePolicyService.Quote>>() {});
+    Map<String, HrmPayrollSourceClaimDO> out = new TreeMap<>();
+    for (HrmSalaryMonthEmployeeRecordDO employee :
+        JsonUtils.parseArray(latest.getResultSnapshot(), HrmSalaryMonthEmployeeRecordDO.class)) {
+      Long id = employee.getEmployeeId();
+      if (dates.get(id) == null
+          || dates.get(id).isEmpty()
+          || confirmed.get(id) == null
+          || confirmed.get(id).get("OVERTIME") == null
+          || fees.get(id) == null) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+      for (LocalDate date : new TreeSet<>(dates.get(id)))
+        add(out, batch, latest, id, "WAGE_DAY", id + ":" + date, null);
+      Map<String, Object> sources =
+          JsonUtils.parseObject(confirmed.get(id).get("OVERTIME").getSourceSnapshot(), Map.class);
+      if (!(sources.get("entries") instanceof List) || !(sources.get("cycles") instanceof List))
+        throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+      for (HrmPayrollTimeEntryDO e :
+          JsonUtils.parseArray(
+              JsonUtils.toJsonString(sources.get("entries")), HrmPayrollTimeEntryDO.class)) {
+        if (!Objects.equals(e.getEmployeeId(), id)
+            || !dates.get(id).contains(e.getStartTime().toLocalDate())
+            || e.getSourceApplyId() == null) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+        add(
+            out,
+            batch,
+            latest,
+            id,
+            "OVERTIME",
+            id + ":" + e.getSourceApplyId() + ":" + e.getStartTime().toLocalDate(),
+            e.getAmount());
+      }
+      for (HrmPayrollWorkCycleDO cycle :
+          JsonUtils.parseArray(
+              JsonUtils.toJsonString(sources.get("cycles")), HrmPayrollWorkCycleDO.class)) {
+        if (!Objects.equals(cycle.getEmployeeId(), id)
+            || !dates.get(id).contains(cycle.getCycleTo()))
+          throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+        add(
+            out,
+            batch,
+            latest,
+            id,
+            "WORK_CYCLE",
+            id + ":" + cycle.getCycleFrom() + ":" + cycle.getCycleTo(),
+            cycle.getAmount());
+      }
+      HrmPayrollInsurancePolicyService.Quote q = fees.get(id);
+      if ("INSURED".equals(q.getCoverage())
+          && q.getPersonalInsurance()
+                  .add(q.getPersonalFund())
+                  .add(q.getCorporateInsurance())
+                  .add(q.getCorporateFund())
+                  .signum()
+              > 0) {
+        if (!Objects.equals(q.getPayerEntityId(), batch.getEntityId()))
+          throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+        add(
+            out,
+            batch,
+            latest,
+            id,
+            "INSURANCE_MONTH",
+            id + ":" + YearMonth.of(q.getYear(), q.getMonth()),
+            q.getPersonalInsurance()
+                .add(q.getPersonalFund())
+                .add(q.getCorporateInsurance())
+                .add(q.getCorporateFund()));
+      }
+    }
+    return new ArrayList<>(out.values());
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public void reserve(HrmSalaryMonthRecordDO batch, HrmPayrollRunDO run, Long actor) {
+    scope.check(batch, "APPROVE", actor);
+    lockEmployees(run);
+    List<HrmPayrollSourceClaimDO> required = required(batch, run);
+    for (HrmPayrollSourceClaimDO c : required) {
+      HrmPayrollSourceClaimDO existing =
+          claims.selectOne(
+              new LambdaQueryWrapperX<HrmPayrollSourceClaimDO>()
+                  .eq(HrmPayrollSourceClaimDO::getKind, c.getKind())
+                  .eq(HrmPayrollSourceClaimDO::getSourceKey, c.getSourceKey())
+                  .in(HrmPayrollSourceClaimDO::getStatus, "RESERVED", "PAID"));
+      if (existing != null) {
+        if (Objects.equals(existing.getBatchId(), batch.getId())
+            && Objects.equals(existing.getRunId(), run.getId())) continue;
+        throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+      }
+      claims.insert(c);
+    }
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public void release(Long batchId, Long runId, String reason, Long actor) {
+    HrmSalaryMonthRecordDO batch = batches.selectByIdForUpdate(batchId);
+    scope.check(batch, "MANAGE", actor);
+    if (!Objects.equals(batch.getStatus(), 15)
+        || reason == null
+        || reason.trim().isEmpty()
+        || reason.length() > 1000) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+    List<HrmPayrollSourceClaimDO> rows =
+        claims.selectList(
+            new LambdaQueryWrapperX<HrmPayrollSourceClaimDO>()
+                .eq(HrmPayrollSourceClaimDO::getBatchId, batchId)
+                .eq(HrmPayrollSourceClaimDO::getRunId, runId));
+    if (rows.stream().anyMatch(c -> !"RESERVED".equals(c.getStatus())))
+      throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+    for (HrmPayrollSourceClaimDO c : rows) {
+      c.setStatus("RELEASED");
+      c.setReleasedBy(actor);
+      c.setReleaseReason(reason);
+      claims.updateById(c);
+    }
+  }
+
+  public void assertReserved(Long batchId, Long runId) {
+    HrmSalaryMonthRecordDO batch = batches.selectById(batchId);
+    HrmPayrollRunDO run = runs.selectById(runId);
+    if (run == null || !Objects.equals(run.getMonthRecordId(), batchId))
+      throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+    List<HrmPayrollSourceClaimDO> needed = required(batch, run);
+    List<HrmPayrollSourceClaimDO> actual =
+        claims.selectList(
+            new LambdaQueryWrapperX<HrmPayrollSourceClaimDO>()
+                .eq(HrmPayrollSourceClaimDO::getBatchId, batchId)
+                .eq(HrmPayrollSourceClaimDO::getRunId, runId)
+                .in(HrmPayrollSourceClaimDO::getStatus, "RESERVED", "PAID"));
+    Set<String> expected = new TreeSet<>(), found = new TreeSet<>();
+    needed.forEach(c -> expected.add(c.getKind() + ":" + c.getSourceKey()));
+    actual.forEach(c -> found.add(c.getKind() + ":" + c.getSourceKey()));
+    if (!expected.equals(found)) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+  }
+
+  @Transactional(rollbackFor=Exception.class)
+  public void paid(Long batchId, Long runId, Long employeeId) {
+    List<HrmPayrollSourceClaimDO> rows =
+        claims.selectList(
+            new LambdaQueryWrapperX<HrmPayrollSourceClaimDO>()
+                .eq(HrmPayrollSourceClaimDO::getBatchId, batchId)
+                .eq(HrmPayrollSourceClaimDO::getRunId, runId)
+                .eq(HrmPayrollSourceClaimDO::getEmployeeId, employeeId)
+                .eq(HrmPayrollSourceClaimDO::getStatus, "RESERVED"));
+    for (HrmPayrollSourceClaimDO c : rows) {
+      c.setStatus("PAID");
+      claims.updateById(c);
+    }
+  }
+
+  public List<HrmPayrollSourceClaimDO> list(Long batchId, Long actor) {
+    scope.check(batches.selectById(batchId), "READ", actor);
+    return claims.selectList(
+        new LambdaQueryWrapperX<HrmPayrollSourceClaimDO>()
+            .eq(HrmPayrollSourceClaimDO::getBatchId, batchId)
+            .orderByDesc(HrmPayrollSourceClaimDO::getId));
+  }
+}

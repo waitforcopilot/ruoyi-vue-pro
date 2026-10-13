@@ -87,3 +87,5 @@ DELETE FROM "hrm_payroll_insurance_settlement";
 
 DELETE FROM "hrm_payroll_input";
 DELETE FROM "hrm_payroll_input_import";
+
+DELETE FROM "hrm_payroll_source_claim";
