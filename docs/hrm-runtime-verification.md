@@ -20,6 +20,7 @@
 - `sql/mysql/upgrade/20261011-hrm-entity.sql`
 - `sql/mysql/upgrade/20261011-hrm-batch-scope.sql`
 - `sql/mysql/upgrade/20261012-hrm-insurance-policy.sql`
+- `sql/mysql/upgrade/20261012-hrm-insurance-bill.sql`
 
 三个基础模块脚本仅创建缺失业务表。Flowable 使用项目现有的自动升级配置创建流程引擎表。后续模块的增量脚本应随相应功能交付安装，不能仅凭文件存在判断已验收。
 

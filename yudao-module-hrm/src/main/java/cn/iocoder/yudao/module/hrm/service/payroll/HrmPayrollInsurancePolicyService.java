@@ -424,6 +424,8 @@ public class HrmPayrollInsurancePolicyService {
     b = bases.selectOneForUpdate(HrmPayrollInsuranceBaseDO::getId, id);
     if (!Arrays.asList("HR_REVIEW", "FINANCE_REVIEW").contains(b.getStatus()))
       throw exception(PAYROLL_INSURANCE_INVALID);
+    entities.check(
+        b.getEntityId(), "HR_REVIEW".equals(b.getStatus()) ? "REVIEW" : "APPROVE", actor);
     b.setStatus("REJECTED");
     bases.updateById(b);
     event(b.getEntityId(), null, id, "REJECT_BASE", evidence, b, actor);
@@ -571,6 +573,27 @@ public class HrmPayrollInsurancePolicyService {
             .map(HrmPayrollInsuranceBaseDO::getEmployeeId)
             .collect(java.util.stream.Collectors.toList());
     return preview(entityId, employeeIds, month, actor);
+  }
+
+  public Map<Long, Quote> reconciliationSources(Long entityId, YearMonth month, Long actor) {
+    entities.check(entityId, "MANAGE", actor);
+    return reconciliationSourcesForApproval(entityId, month);
+  }
+
+  Map<Long, Quote> reconciliationSourcesForApproval(Long entityId, YearMonth month) {
+    entities.approved(entityId);
+    Map<Long, Quote> result = new LinkedHashMap<>();
+    for (HrmPayrollInsuranceBaseDO base :
+        bases.selectList(
+            new LambdaQueryWrapperX<HrmPayrollInsuranceBaseDO>()
+                .eq(HrmPayrollInsuranceBaseDO::getEntityId, entityId)
+                .eq(HrmPayrollInsuranceBaseDO::getStatus, "APPROVED")
+                .le(HrmPayrollInsuranceBaseDO::getEffectiveFrom, month.atDay(1))
+                .ge(HrmPayrollInsuranceBaseDO::getEffectiveTo, month.atEndOfMonth())
+                .orderByAsc(HrmPayrollInsuranceBaseDO::getEmployeeId))) {
+      result.put(base.getEmployeeId(), quote(entityId, base.getEmployeeId(), month));
+    }
+    return result;
   }
 
   public Map<Long, HrmInsuranceMonthEmployeeRecordDO> payrollRecords(Map<Long, Quote> quotes) {

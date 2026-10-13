@@ -80,3 +80,7 @@ DELETE FROM "hrm_payroll_insurance_event";
 DELETE FROM "hrm_payroll_insurance_base";
 DELETE FROM "hrm_payroll_insurance_policy";
 DELETE FROM "hrm_payroll_insurance_import";
+
+DELETE FROM "hrm_payroll_insurance_bill";
+DELETE FROM "hrm_payroll_insurance_bill_line";
+DELETE FROM "hrm_payroll_insurance_settlement";
