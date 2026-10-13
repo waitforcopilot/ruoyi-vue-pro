@@ -3,9 +3,13 @@ package cn.iocoder.yudao.module.hrm.service.payroll;
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 
+import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX;
 import cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.*;
+import cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.config.HrmAttendanceGroupDO;
+import cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.config.HrmAttendanceHolidayDO;
+import cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record.HrmAttendanceClockDO;
 import cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.*;
 import cn.iocoder.yudao.module.hrm.dal.mysql.employee.info.HrmEmployeeMapper;
 import cn.iocoder.yudao.module.hrm.dal.mysql.payroll.*;
@@ -917,6 +921,89 @@ public class HrmPayrollWorkService {
     }
   }
 
+  private Map<String, Object> cycleFacts(Long employeeId, LocalDate from, LocalDate to) {
+    Map<String, Object> facts = new LinkedHashMap<>();
+    List<HrmAttendanceClockDO> window =
+        clockMapper.selectList(
+            new LambdaQueryWrapperX<HrmAttendanceClockDO>()
+                .eq(HrmAttendanceClockDO::getEmployeeId, employeeId)
+                .ge(HrmAttendanceClockDO::getClockTime, from.atStartOfDay())
+                .lt(HrmAttendanceClockDO::getClockTime, to.plusDays(2).atStartOfDay())
+                .orderByAsc(HrmAttendanceClockDO::getClockTime, HrmAttendanceClockDO::getId));
+    List<Map<String, Object>> clockFacts = new ArrayList<>();
+    boolean open = false;
+    for (HrmAttendanceClockDO clock : window) {
+      if (!clock.getClockTime().isBefore(to.plusDays(1).atStartOfDay()) && !open) break;
+      if (Objects.equals(clock.getType(), 1)) open = true;
+      else if (Objects.equals(clock.getType(), 2)) open = false;
+      Map<String, Object> fact = new LinkedHashMap<>();
+      fact.put("id", clock.getId());
+      fact.put("time", clock.getClockTime().toString());
+      fact.put("type", clock.getType());
+      fact.put("status", clock.getStatus());
+      clockFacts.add(fact);
+    }
+    facts.put("clocks", clockFacts);
+    List<Map<String, Object>> plans = new ArrayList<>();
+    for (LocalDate day = from; !day.isAfter(to); day = day.plusDays(1)) {
+      Map<String, Object> plan = new LinkedHashMap<>();
+      plan.put("date", day.toString());
+      HrmAttendanceGroupDO.Shift shift =
+          attendanceGroups.getEmployeeAttendanceShift(employeeId, day.atStartOfDay());
+      plan.put("shift", shift);
+      List<HrmAttendanceHolidayDO> holidays =
+          holidayMapper.selectList(
+              new LambdaQueryWrapperX<HrmAttendanceHolidayDO>()
+                  .ge(HrmAttendanceHolidayDO::getDate, day.atStartOfDay())
+                  .lt(HrmAttendanceHolidayDO::getDate, day.plusDays(1).atStartOfDay()));
+      if (holidays.size() > 1) throw exception(PAYROLL_WORK_INVALID);
+      plan.put("holidayType", holidays.isEmpty() ? null : holidays.get(0).getType());
+      plans.add(plan);
+    }
+    facts.put("plans", plans);
+    return facts;
+  }
+
+  private String entryFacts(Object records) {
+    List<Map> rows = JsonUtils.parseArray(JsonUtils.toJsonString(records), Map.class);
+    List<Map<String, Object>> facts = new ArrayList<>();
+    for (Map row : rows) {
+      Map<String, Object> fact = new TreeMap<>(row);
+      for (String audit :
+          Arrays.asList("creator", "createTime", "updater", "updateTime", "transMap"))
+        fact.remove(audit);
+      facts.add(fact);
+    }
+    facts.sort(Comparator.comparingLong(fact -> ((Number) fact.get("id")).longValue()));
+    return JsonUtils.toJsonString(facts);
+  }
+
+  private void validateCycle(HrmPayrollWorkCycleDO cycle) {
+    Map<String, Object> source = JsonUtils.parseObject(cycle.getSourceSnapshot(), Map.class);
+    if (source == null
+        || source.get("cycleFacts") == null
+        || !JsonUtils.toJsonString(source.get("cycleFacts"))
+            .equals(
+                JsonUtils.toJsonString(
+                    cycleFacts(cycle.getEmployeeId(), cycle.getCycleFrom(), cycle.getCycleTo()))))
+      throw exception(PAYROLL_WORK_INVALID);
+    List<HrmPayrollTimeEntryDO> currentApprovals =
+        entries(cycle.getEmployeeId(), cycle.getCycleFrom(), cycle.getCycleTo());
+    currentApprovals.removeIf(entry -> !Objects.equals(entry.getEntityId(), cycle.getEntityId()));
+    if (source.get("approvals") == null
+        || !entryFacts(source.get("approvals")).equals(entryFacts(currentApprovals)))
+      throw exception(PAYROLL_WORK_INVALID);
+    validateSources(currentApprovals);
+    HrmPayrollWorkRuleDO rule = ruleMapper.selectById(cycle.getRuleId());
+    if (rule == null
+        || !Objects.equals(rule.getEmployeeId(), cycle.getEmployeeId())
+        || !Objects.equals(rule.getEntityId(), cycle.getEntityId())
+        || !applies(rule, cycle.getCycleFrom())
+        || !applies(rule, cycle.getCycleTo())) throw exception(PAYROLL_WORK_INVALID);
+    requireMembership(
+        cycle.getEntityId(), cycle.getEmployeeId(), cycle.getCycleFrom(), cycle.getCycleTo());
+  }
+
   public void validateInputSnapshot(String snapshot) {
     Map<String, Object> input =
         cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseObject(snapshot, Map.class);
@@ -937,6 +1024,7 @@ public class HrmPayrollWorkService {
                 cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(rows),
                 HrmPayrollWorkCycleDO.class);
         for (HrmPayrollWorkCycleDO cycle : settlements) {
+          validateCycle(cycle);
           Map<String, Object> source =
               cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseObject(
                   cycle.getSourceSnapshot(), Map.class);
@@ -1003,12 +1091,15 @@ public class HrmPayrollWorkService {
             == null) throw exception(PAYROLL_WORK_INVALID);
       }
     }
+    List<HrmPayrollWorkCycleDO> settlements = cycles(employeeId, from, to);
+    settlements.removeIf(
+        cycle -> entityId != null && !Objects.equals(cycle.getEntityId(), entityId));
+    settlements.forEach(this::validateCycle);
     return rows.stream()
         .map(HrmPayrollTimeEntryDO::getAmount)
         .reduce(BigDecimal.ZERO, BigDecimal::add)
         .add(
-            cycles(employeeId, from, to).stream()
-                .filter(c -> entityId == null || Objects.equals(c.getEntityId(), entityId))
+            settlements.stream()
                 .map(HrmPayrollWorkCycleDO::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add));
   }
@@ -1313,6 +1404,10 @@ public class HrmPayrollWorkService {
         || !"COMPREHENSIVE".equals(rule.getSystemType())) throw exception(PAYROLL_WORK_INVALID);
     entities.check(rule.getEntityId(), "MANAGE", actor);
     lockEmployee(rule.getEmployeeId());
+    rule = ruleMapper.selectOneForUpdate(HrmPayrollWorkRuleDO::getId, ruleId);
+    if (rule == null
+        || !"APPROVED".equals(rule.getStatus())
+        || !"COMPREHENSIVE".equals(rule.getSystemType())) throw exception(PAYROLL_WORK_INVALID);
     long offset =
         java.time.temporal.ChronoUnit.MONTHS.between(
             rule.getEffectiveFrom().withDayOfMonth(1), from.withDayOfMonth(1));
@@ -1329,7 +1424,13 @@ public class HrmPayrollWorkService {
             new LambdaQueryWrapperX<HrmPayrollWorkCycleDO>()
                 .eq(HrmPayrollWorkCycleDO::getRuleId, ruleId)
                 .eq(HrmPayrollWorkCycleDO::getCycleFrom, from));
-    if (existing != null) return existing.getId();
+    if (existing != null) {
+      validateCycle(existing);
+      return existing.getId();
+    }
+    Map<String, Object> originalFacts =
+        JsonUtils.parseObject(
+            JsonUtils.toJsonString(cycleFacts(rule.getEmployeeId(), from, to)), Map.class);
     List<cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record.HrmAttendanceClockDO> clocks =
         clockMapper.selectList(
             new LambdaQueryWrapperX<
@@ -1359,7 +1460,7 @@ public class HrmPayrollWorkService {
     List<Long> used = new ArrayList<>();
     for (cn.iocoder.yudao.module.hrm.dal.dataobject.attendance.record.HrmAttendanceClockDO clock :
         clocks) {
-      if (clock.getClockTime().isAfter(to.plusDays(1).atStartOfDay()) && open == null) break;
+      if (!clock.getClockTime().isBefore(to.plusDays(1).atStartOfDay()) && open == null) break;
       if (Objects.equals(clock.getStatus(), 3)) throw exception(PAYROLL_WORK_INVALID);
       if (Objects.equals(clock.getType(), 1)) {
         if (open != null) throw exception(PAYROLL_WORK_INVALID);
@@ -1417,6 +1518,8 @@ public class HrmPayrollWorkService {
       planned += (int) Duration.between(a, b).toMinutes() - shiftBreak(shift, day, a, b);
     }
     List<HrmPayrollTimeEntryDO> approved = entries(rule.getEmployeeId(), from, to);
+    Long cycleEntityId = rule.getEntityId();
+    approved.removeIf(entry -> !Objects.equals(entry.getEntityId(), cycleEntityId));
     validateSources(approved);
     int recognized =
         approved.stream()
@@ -1446,6 +1549,10 @@ public class HrmPayrollWorkService {
             .divide(BigDecimal.valueOf(60), 2, RoundingMode.HALF_UP));
     Map<String, Object> snapshot = new LinkedHashMap<>();
     snapshot.put("rule", rule);
+    if (!JsonUtils.toJsonString(originalFacts)
+        .equals(JsonUtils.toJsonString(cycleFacts(rule.getEmployeeId(), from, to))))
+      throw exception(PAYROLL_WORK_INVALID);
+    snapshot.put("cycleFacts", originalFacts);
     snapshot.put(
         "clocks",
         clocks.stream()
@@ -1497,6 +1604,14 @@ public class HrmPayrollWorkService {
                 }));
     List<HrmPayrollWorkCycleDO> scopedCycles = cycles(employeeId, from, to);
     if (entityId != null) scopedCycles.removeIf(c -> !Objects.equals(c.getEntityId(), entityId));
+    for (HrmPayrollWorkCycleDO cycle : scopedCycles) {
+      try {
+        validateCycle(cycle);
+        cycle.setSourceFresh(true);
+      } catch (cn.iocoder.yudao.framework.common.exception.ServiceException failure) {
+        cycle.setSourceFresh(false);
+      }
+    }
     result.put("cycles", scopedCycles);
     return result;
   }

@@ -35,6 +35,7 @@ class HrmPayrollWorkServiceTest extends BaseDbUnitTest {
   @Resource private HrmEmployeeMapper employees;
   @Resource private HrmPayrollWorkRuleMapper rules;
   @Resource private HrmPayrollTimeEntryMapper entries;
+  @Resource private HrmPayrollWorkCycleMapper cycles;
   @Resource private HrmPayrollTimeOffMapper off;
   @Resource private HrmPayrollNoOvertimeMapper zeroCases;
   @Resource private HrmAttendanceClockMapper clocks;
@@ -264,6 +265,104 @@ class HrmPayrollWorkServiceTest extends BaseDbUnitTest {
             .compareTo(
                 service.earnings(employeeId, day.withDayOfMonth(1), day.withDayOfMonth(30))));
     assertEquals(20, HrmPayrollWorkService.cyclePayableMinutes(120, 100, 120));
+  }
+
+  @Test
+  void additionalClockAfterCycleSettlementInvalidatesOriginalSource() {
+    Long rule = approved("COMPREHENSIVE");
+    service.confirm(request(day.atTime(18, 0), day.atTime(20, 0)), 2L);
+    Long cycleId = service.settleCycle(rule, day.withDayOfMonth(1), 2L);
+    Map<String, Object> frozenInput = new LinkedHashMap<>();
+    frozenInput.put(
+        "workCycles",
+        Collections.singletonMap(
+            employeeId.toString(), Collections.singletonList(cycles.selectById(cycleId))));
+    String snapshot =
+        cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(frozenInput);
+    service.validateInputSnapshot(snapshot);
+    clocks.insert(
+        HrmAttendanceClockDO.builder()
+            .employeeId(employeeId)
+            .type(1)
+            .status(0)
+            .clockTime(day.minusDays(1).atTime(9, 0))
+            .attendanceTime(day.minusDays(1).atTime(9, 0))
+            .build());
+    assertServiceException(() -> service.validateInputSnapshot(snapshot), PAYROLL_WORK_INVALID);
+    assertServiceException(
+        () -> service.earnings(employeeId, day.withDayOfMonth(1), day.withDayOfMonth(30)),
+        PAYROLL_WORK_INVALID);
+    assertServiceException(
+        () -> service.settleCycle(rule, day.withDayOfMonth(1), 2L), PAYROLL_WORK_INVALID);
+  }
+
+  @Test
+  void nextPeriodClocksDoNotInvalidateCompletedCycle() {
+    Long rule = approved("COMPREHENSIVE");
+    service.confirm(request(day.atTime(18, 0), day.atTime(20, 0)), 2L);
+    service.settleCycle(rule, day.withDayOfMonth(1), 2L);
+    LocalDate next = day.withDayOfMonth(1).plusMonths(1);
+    for (int type : Arrays.asList(1, 2)) {
+      LocalDateTime time = next.atTime(type == 1 ? 9 : 17, 0);
+      clocks.insert(
+          HrmAttendanceClockDO.builder()
+              .employeeId(employeeId)
+              .type(type)
+              .status(0)
+              .clockTime(time)
+              .attendanceTime(time)
+              .build());
+    }
+    assertEquals(
+        0,
+        new BigDecimal("10")
+            .compareTo(
+                service.earnings(employeeId, day.withDayOfMonth(1), day.withDayOfMonth(30))));
+  }
+
+  @Test
+  void changedRecognizedEntryCannotReuseEarlierCycleAmount() {
+    Long rule = approved("COMPREHENSIVE");
+    Long entryId = service.confirm(request(day.atTime(18, 0), day.atTime(20, 0)), 2L).get(0);
+    Long cycle = service.settleCycle(rule, day.withDayOfMonth(1), 2L);
+    HrmPayrollTimeEntryDO altered =
+        new HrmPayrollTimeEntryDO().setId(entryId).setRecognizedMinutes(30);
+    entries.updateById(altered);
+    assertServiceException(
+        () -> service.earnings(employeeId, day.withDayOfMonth(1), day.withDayOfMonth(30)),
+        PAYROLL_WORK_INVALID);
+    assertEquals(120, cycles.selectById(cycle).getRecognizedMinutes());
+  }
+
+  @Test
+  void changedScheduleOrHolidayInvalidatesCycleSettlement() {
+    Long rule = approved("COMPREHENSIVE");
+    service.confirm(request(day.atTime(18, 0), day.atTime(20, 0)), 2L);
+    service.settleCycle(rule, day.withDayOfMonth(1), 2L);
+    when(groups.getEmployeeAttendanceShift(eq(employeeId), eq(day.minusDays(1).atStartOfDay())))
+        .thenReturn(
+            HrmAttendanceGroupDO.Shift.builder()
+                .startTime(LocalTime.of(10, 0))
+                .endTime(LocalTime.of(17, 0))
+                .build());
+    assertServiceException(
+        () -> service.earnings(employeeId, day.withDayOfMonth(1), day.withDayOfMonth(30)),
+        PAYROLL_WORK_INVALID);
+    when(groups.getEmployeeAttendanceShift(eq(employeeId), eq(day.minusDays(1).atStartOfDay())))
+        .thenReturn(
+            HrmAttendanceGroupDO.Shift.builder()
+                .startTime(LocalTime.of(9, 0))
+                .endTime(LocalTime.of(17, 0))
+                .build());
+    assertEquals(
+        0,
+        new BigDecimal("10")
+            .compareTo(
+                service.earnings(employeeId, day.withDayOfMonth(1), day.withDayOfMonth(30))));
+    holidays.insert(new HrmAttendanceHolidayDO().setDate(day.atStartOfDay()).setType(3));
+    assertServiceException(
+        () -> service.earnings(employeeId, day.withDayOfMonth(1), day.withDayOfMonth(30)),
+        PAYROLL_WORK_INVALID);
   }
 
   @Test

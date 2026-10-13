@@ -212,7 +212,16 @@
           /><el-table-column prop="recognizedMinutes" label="批准认可分钟" /><el-table-column
             prop="payableMinutes"
             label="超标准计薪分钟"
-          /><el-table-column prop="amount" label="结算加班费" /><el-table-column label="证据"
+          /><el-table-column prop="amount" label="结算加班费" /><el-table-column
+            label="来源校验"
+            width="160"
+          >
+            <template #default="{ row }"
+              ><el-tag :type="row.sourceFresh === true ? 'success' : 'danger'">
+                {{ row.sourceFresh === true ? '来源一致' : '来源变化，需更正' }}
+              </el-tag></template
+            ></el-table-column
+          ><el-table-column label="证据"
             ><template #default="{ row }"
               ><el-button link @click="showProof(row.sourceSnapshot)">结算快照</el-button></template
             ></el-table-column

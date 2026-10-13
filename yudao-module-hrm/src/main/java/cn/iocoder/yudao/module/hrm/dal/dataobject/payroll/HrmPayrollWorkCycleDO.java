@@ -23,4 +23,7 @@ public class HrmPayrollWorkCycleDO extends BaseDO {
   private java.math.BigDecimal amount;
   private String sourceSnapshot;
   private Long settledBy;
+
+  @TableField(exist = false)
+  private Boolean sourceFresh;
 }
