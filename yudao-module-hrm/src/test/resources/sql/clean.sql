@@ -97,3 +97,6 @@ DELETE FROM "hrm_payroll_work_variance";
 
 DELETE FROM "hrm_payroll_tax_policy_event";
 DELETE FROM "hrm_payroll_tax_policy";
+
+DELETE FROM "hrm_payroll_tax_profile_event";
+DELETE FROM "hrm_payroll_tax_profile";
