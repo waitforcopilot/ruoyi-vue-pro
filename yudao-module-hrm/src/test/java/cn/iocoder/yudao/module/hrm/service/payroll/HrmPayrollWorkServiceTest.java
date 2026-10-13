@@ -153,6 +153,16 @@ class HrmPayrollWorkServiceTest extends BaseDbUnitTest {
   }
 
   @Test
+  void employeeCannotReviewOwnWorkPolicySubmittedByAnotherUser() {
+    Long id = service.createRule(policy("STANDARD"), 1L);
+    assertServiceException(() -> service.approveRule(id, 99L), PAYROLL_SELF_APPROVAL);
+    assertServiceException(() -> service.rejectRule(id, "本人驳回", 99L), PAYROLL_SELF_APPROVAL);
+    assertEquals("PENDING", rules.selectById(id).getStatus());
+    service.approveRule(id, 2L);
+    assertEquals("APPROVED", rules.selectById(id).getStatus());
+  }
+
+  @Test
   void authoritativeClockAndCalendarOverrideClient() {
     approved("STANDARD");
     HrmPayrollTimeEntryReqVO r = request(day.atTime(18, 0), day.atTime(20, 0));

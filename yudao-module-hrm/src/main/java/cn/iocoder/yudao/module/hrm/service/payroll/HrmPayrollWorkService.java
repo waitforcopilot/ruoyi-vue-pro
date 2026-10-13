@@ -229,12 +229,14 @@ public class HrmPayrollWorkService {
     HrmPayrollWorkRuleDO rule = ruleMapper.selectById(id);
     if (rule == null) throw exception(PAYROLL_WORK_INVALID);
     entities.check(rule.getEntityId(), "APPROVE", actor);
-    lockEmployee(rule.getEmployeeId());
+    cn.iocoder.yudao.module.hrm.dal.dataobject.employee.info.HrmEmployeeDO subject =
+        lockEmployee(rule.getEmployeeId());
     requireMembership(
         rule.getEntityId(), rule.getEmployeeId(), rule.getEffectiveFrom(), rule.getEffectiveTo());
     rule = ruleMapper.selectOneForUpdate(HrmPayrollWorkRuleDO::getId, id);
     if (!"PENDING".equals(rule.getStatus()) || actor == null) throw exception(PAYROLL_WORK_INVALID);
-    if (Objects.equals(rule.getSubmittedBy(), actor)
+    if (Objects.equals(subject.getUserId(), actor)
+        || Objects.equals(rule.getSubmittedBy(), actor)
         || Objects.equals(rule.getCreator(), String.valueOf(actor)))
       throw exception(PAYROLL_SELF_APPROVAL);
     if (rule.getPriorRuleId() != null) {
@@ -263,10 +265,12 @@ public class HrmPayrollWorkService {
     if (rule == null || reason == null || reason.trim().isEmpty() || reason.length() > 1000)
       throw exception(PAYROLL_WORK_INVALID);
     entities.check(rule.getEntityId(), "APPROVE", actor);
-    lockEmployee(rule.getEmployeeId());
+    cn.iocoder.yudao.module.hrm.dal.dataobject.employee.info.HrmEmployeeDO subject =
+        lockEmployee(rule.getEmployeeId());
     rule = ruleMapper.selectOneForUpdate(HrmPayrollWorkRuleDO::getId, id);
     if (!"PENDING".equals(rule.getStatus()) || actor == null) throw exception(PAYROLL_WORK_INVALID);
-    if (Objects.equals(rule.getSubmittedBy(), actor)
+    if (Objects.equals(subject.getUserId(), actor)
+        || Objects.equals(rule.getSubmittedBy(), actor)
         || Objects.equals(rule.getCreator(), String.valueOf(actor)))
       throw exception(PAYROLL_SELF_APPROVAL);
     rule.setStatus("REJECTED");
