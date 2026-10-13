@@ -63,14 +63,23 @@
           >导出待发明细</el-button
         >
         <el-button @click="downloadTemplate">下载标准回盘模板</el-button>
+        <el-date-picker
+          v-model="valueDate"
+          type="date"
+          value-format="YYYY-MM-DD"
+          placeholder="无日期列时填写实际到账日"
+          style="width: 240px"
+        />
         <el-upload
-          v-if="selected.status === 16"
+          v-if="[16, 17].includes(selected.status)"
           v-hasPermi="['hrm:payroll:payment:reconcile']"
           :show-file-list="false"
           :auto-upload="false"
           accept=".xlsx,.xls"
           :on-change="importFile"
-          ><el-button :loading="saving">导入银行回盘</el-button></el-upload
+          ><el-button :loading="saving">{{
+            selected.status === 17 ? '补录历史到账日期' : '导入银行回盘'
+          }}</el-button></el-upload
         >
       </el-space>
       <el-alert
@@ -91,6 +100,7 @@
             paymentStatuses[row.status]
           }}</template></el-table-column
         >
+        <el-table-column prop="valueDate" label="实际到账日期" width="140" />
         <el-table-column prop="attempt" label="发放次数" width="100" /><el-table-column
           prop="failureReason"
           label="失败原因"
@@ -193,6 +203,7 @@ const query = reactive({ pageNo: 1, pageSize: 10 }),
   payments = ref<api.Payment[]>([])
 const templates = ref<api.BankTemplate[]>([]),
   templateId = ref<number>()
+const valueDate = ref<string>()
 const paymentStatuses: Record<string, string> = {
   PENDING: '待发放',
   SUCCESS: '成功',
@@ -206,7 +217,8 @@ const fieldNames: Record<string, string> = {
   bankAccount: '银行账户',
   amount: '金额',
   status: '回盘状态',
-  failureReason: '失败原因'
+  failureReason: '失败原因',
+  valueDate: '实际到账日期'
 }
 type Form = {
   name: string
@@ -246,6 +258,7 @@ const load = async () => {
   }
 }
 const open = async (row: api.PaymentBatch) => {
+  valueDate.value = undefined
   selected.value = row
   const data = await Promise.all([api.list(row.id), api.receipts(row.id)])
   payments.value = data[0]
@@ -292,6 +305,7 @@ const importFile = async (file: UploadFile) => {
     form.append('batchId', String(selected.value!.id))
     if (templateId.value) form.append('templateId', String(templateId.value))
     form.append('file', file.raw)
+    if (valueDate.value) form.append('valueDate', valueDate.value)
     differences.value = await api.validateFile(form)
     if (differences.value.length) {
       differenceVisible.value = true

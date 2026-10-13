@@ -19,6 +19,7 @@ export interface Payment {
   status: string
   failureReason?: string
   attempt: number
+  valueDate?: string
 }
 export interface Column {
   field: string
