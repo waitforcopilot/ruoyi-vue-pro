@@ -20,32 +20,39 @@ import org.springframework.web.bind.annotation.*;
 public class HrmPayrollWorkController {
   @Resource private HrmPayrollWorkService service;
 
-  @Resource
-  private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSalaryProposalService proposals;
-
   @GetMapping("/employees")
   @PreAuthorize("@ss.hasPermission('hrm:payroll:work:query')")
-  public CommonResult<List<Map<String, Object>>> employees() {
-    return success(proposals.employees());
+  public CommonResult<List<Map<String, Object>>> employees(
+      @RequestParam Long entityId,
+      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
+    return success(service.scopedEmployees(entityId, from, to, getLoginUserId()));
   }
 
   @GetMapping("/rules")
   @PreAuthorize("@ss.hasPermission('hrm:payroll:work:query')")
   public CommonResult<List<HrmPayrollWorkRuleDO>> rules(
-      @RequestParam(required = false) Long employeeId) {
-    return success(service.rules(employeeId));
+      @RequestParam Long entityId, @RequestParam(required = false) Long employeeId) {
+    return success(service.scopedRules(entityId, employeeId, getLoginUserId()));
   }
 
   @PostMapping("/rule")
   @PreAuthorize("@ss.hasPermission('hrm:payroll:work:update')")
   public CommonResult<Long> rule(@Valid @RequestBody HrmPayrollWorkRuleReqVO request) {
-    return success(service.createRule(request));
+    return success(service.createRule(request, getLoginUserId()));
   }
 
   @PostMapping("/rule/approve")
   @PreAuthorize("@ss.hasPermission('hrm:payroll:work:approve')")
   public CommonResult<Boolean> approveRule(@RequestParam Long id) {
     service.approveRule(id, getLoginUserId());
+    return success(true);
+  }
+
+  @PostMapping("/rule/reject")
+  @PreAuthorize("@ss.hasPermission('hrm:payroll:work:approve')")
+  public CommonResult<Boolean> rejectRule(@RequestParam Long id, @RequestParam String reason) {
+    service.rejectRule(id, reason, getLoginUserId());
     return success(true);
   }
 
@@ -58,47 +65,64 @@ public class HrmPayrollWorkController {
   @GetMapping("/entries")
   @PreAuthorize("@ss.hasPermission('hrm:payroll:work:query')")
   public CommonResult<List<HrmPayrollTimeEntryDO>> entries(
+      @RequestParam Long entityId,
       @RequestParam(required = false) Long employeeId,
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
-    return success(service.entries(employeeId, from, to));
+    service.checkScope(entityId, "READ", getLoginUserId());
+    List<HrmPayrollTimeEntryDO> rows = service.entries(employeeId, from, to);
+    rows.removeIf(row -> !Objects.equals(row.getEntityId(), entityId));
+    return success(rows);
   }
 
   @GetMapping("/summary")
   @PreAuthorize("@ss.hasPermission('hrm:payroll:work:query')")
   public CommonResult<Map<String, Object>> summary(
+      @RequestParam Long entityId,
       @RequestParam Long employeeId,
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
-    return success(service.summary(employeeId, from, to));
+    service.checkEmployeeScope(entityId, employeeId, from, to, "READ", getLoginUserId());
+    return success(service.summaryForEntity(employeeId, entityId, from, to));
   }
 
   @PostMapping("/time-off/use")
   @PreAuthorize("@ss.hasPermission('hrm:payroll:work:confirm')")
   public CommonResult<Long> use(
+      @RequestParam Long entityId,
       @RequestParam Long employeeId,
       @RequestParam int minutes,
       @RequestParam String key,
       @RequestParam String reason) {
+    LocalDate today = LocalDate.now(java.time.ZoneId.of("Asia/Shanghai"));
+    service.checkEmployeeScope(entityId, employeeId, today, today, "MANAGE", getLoginUserId());
     return success(service.useTimeOff(employeeId, minutes, key, reason, getLoginUserId()));
   }
 
   @PostMapping("/time-off/refund")
   @PreAuthorize("@ss.hasPermission('hrm:payroll:work:confirm')")
   public CommonResult<Long> refund(
-      @RequestParam Long debitId, @RequestParam String key, @RequestParam String reason) {
+      @RequestParam Long entityId,
+      @RequestParam Long debitId,
+      @RequestParam String key,
+      @RequestParam String reason) {
+    service.checkDebitScope(entityId, debitId, getLoginUserId());
     return success(service.refundTimeOff(debitId, key, reason, getLoginUserId()));
   }
 
   @GetMapping("/time-off")
   @PreAuthorize("@ss.hasPermission('hrm:payroll:work:query')")
-  public CommonResult<List<HrmPayrollTimeOffDO>> timeOff(@RequestParam Long employeeId) {
+  public CommonResult<List<HrmPayrollTimeOffDO>> timeOff(
+      @RequestParam Long entityId, @RequestParam Long employeeId) {
+    LocalDate today = LocalDate.now(java.time.ZoneId.of("Asia/Shanghai"));
+    service.checkEmployeeScope(entityId, employeeId, today, today, "READ", getLoginUserId());
     return success(service.timeOff(employeeId));
   }
 
   @PostMapping("/time-off/consume")
   @PreAuthorize("@ss.hasPermission('hrm:payroll:work:confirm')")
-  public CommonResult<Boolean> consume(@RequestParam Long debitId) {
+  public CommonResult<Boolean> consume(@RequestParam Long entityId, @RequestParam Long debitId) {
+    service.checkDebitScope(entityId, debitId, getLoginUserId());
     service.consumeTimeOff(debitId, getLoginUserId());
     return success(true);
   }

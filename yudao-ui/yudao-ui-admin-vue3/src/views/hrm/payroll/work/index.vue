@@ -1,6 +1,10 @@
 <template>
   <ContentWrap>
     <el-form inline>
+      <el-form-item label="法人主体"
+        ><el-select v-model="entityId" placeholder="请选择主体" style="width: 240px">
+          <el-option v-for="e in entities" :key="e.id" :value="e.id" :label="e.name" /> </el-select
+      ></el-form-item>
       <el-form-item label="员工"
         ><el-select v-model="employeeId" filterable placeholder="请选择员工" style="width: 240px"
           ><el-option
@@ -29,7 +33,7 @@
       title="员工月度认可加班超过制度上限，请复核排班和审批。"
       :closable="false"
     />
-    <p
+    <p v-if="stats.recognizedMinutes != null"
       >认可加班：{{ stats.recognizedMinutes || 0 }} 分钟；加班费：{{
         stats.amount || 0
       }}
@@ -44,6 +48,10 @@
           /><el-table-column prop="effectiveTo" label="结束日" /><el-table-column
             prop="status"
             label="审批状态"
+          /><el-table-column
+            prop="rejectionReason"
+            label="驳回依据"
+            show-overflow-tooltip
           /><el-table-column prop="cycleMonths" label="周期（月）" /><el-table-column
             prop="cycleMinutes"
             label="周期标准分钟"
@@ -53,13 +61,18 @@
             show-overflow-tooltip
           /><el-table-column label="操作" width="180"
             ><template #default="{ row }"
-              ><span v-if="row.requestKey?.startsWith('BPM-LEAVE-')">由请假审批处理</span
               ><el-button
                 v-if="row.status === 'PENDING'"
                 v-hasPermi="['hrm:payroll:work:approve']"
                 link
                 @click="approve(row.id)"
                 >审批通过</el-button
+              ><el-button
+                v-if="row.status === 'PENDING'"
+                v-hasPermi="['hrm:payroll:work:approve']"
+                link
+                @click="rejectRule(row.id)"
+                >驳回</el-button
               ><el-button
                 v-if="row.status === 'APPROVED' && row.systemType === 'COMPREHENSIVE'"
                 v-hasPermi="['hrm:payroll:work:confirm']"
@@ -111,6 +124,7 @@
             label="原因"
           /><el-table-column label="操作" width="160"
             ><template #default="{ row }"
+              ><span v-if="row.requestKey?.startsWith('BPM-LEAVE-')">由请假审批处理</span
               ><el-button
                 v-if="row.status === 'RESERVED' && !row.requestKey?.startsWith('BPM-LEAVE-')"
                 v-hasPermi="['hrm:payroll:work:confirm']"
@@ -235,8 +249,11 @@
 <script setup lang="ts">
 import * as api from '@/api/hrm/payroll/work'
 import dayjs from 'dayjs'
+import * as entityApi from '@/api/hrm/payroll/entity'
 defineOptions({ name: 'HrmPayrollWork' })
 const message = useMessage()
+const entityId = ref<number>()
+const entities = ref<entityApi.Entity[]>([])
 const employeeId = ref<number>()
 const employees = ref<{ id: number; name: string; jobNumber: string }[]>([])
 const period = ref([
@@ -274,17 +291,22 @@ const ruleNumbers = [
 const formatTime = (_row: unknown, _col: unknown, value: any) =>
   value ? dayjs(value).format('YYYY-MM-DD HH:mm') : ''
 async function load() {
-  if (!employeeId.value || period.value?.length !== 2) {
-    message.warning('请选择员工和统计区间')
+  if (!entityId.value || !employeeId.value || period.value?.length !== 2) {
+    message.warning('请选择主体、员工和统计区间')
     return
   }
   loading.value = true
   try {
-    const params = { employeeId: employeeId.value, from: period.value[0], to: period.value[1] }
+    const params = {
+      entityId: entityId.value,
+      employeeId: employeeId.value,
+      from: period.value[0],
+      to: period.value[1]
+    }
     ;[rules.value, entries.value, ledger.value, stats.value] = await Promise.all([
-      api.rules(employeeId.value),
+      api.rules(entityId.value, employeeId.value),
       api.entries(params),
-      api.ledger(employeeId.value),
+      api.ledger(entityId.value, employeeId.value),
       api.summary(params)
     ])
   } finally {
@@ -292,12 +314,13 @@ async function load() {
   }
 }
 function open(type: Kind) {
-  if (!employeeId.value) {
-    message.warning('请先选择员工')
+  if (!entityId.value || !employeeId.value) {
+    message.warning('请先选择主体和员工')
     return
   }
   kind.value = type
   draft.value = {
+    entityId: entityId.value,
     employeeId: employeeId.value,
     systemType: 'STANDARD',
     effectiveFrom: period.value[0],
@@ -342,21 +365,47 @@ async function approve(id: number) {
   await api.approveRule(id)
   await load()
 }
+async function rejectRule(id: number) {
+  const { value } = await message.prompt('请输入驳回依据', '驳回工时制度')
+  await api.rejectRule(id, value)
+  await load()
+}
 async function consume(id: number) {
   await message.confirm('确认调休已实际使用并核销？')
-  await api.consume(id)
+  await api.consume(entityId.value!, id)
   await load()
 }
 async function refund(id: number) {
   const { value } = await message.prompt('请输入撤销或退回依据', '退回调休')
-  await api.refund({ debitId: id, key: `REFUND-${id}`, reason: value })
+  await api.refund({ entityId: entityId.value, debitId: id, key: `REFUND-${id}`, reason: value })
   await load()
 }
 function showProof(value: string) {
   proof.value = JSON.stringify(JSON.parse(value), null, 2)
   proofVisible.value = true
 }
+watch(
+  () => [entityId.value, ...(period.value || [])],
+  async () => {
+    employeeId.value = undefined
+    employees.value = []
+    rules.value = []
+    entries.value = []
+    ledger.value = []
+    stats.value = {}
+    if (!entityId.value || period.value?.length !== 2) return
+    const selected = entityId.value
+    const rows = await api.employees({
+      entityId: selected,
+      from: period.value[0],
+      to: period.value[1]
+    })
+    if (entityId.value === selected) employees.value = rows
+  }
+)
 onMounted(async () => {
-  employees.value = await api.employees()
+  entities.value = (await entityApi.list()).filter(
+    (e) => e.status === 'APPROVED' && e.allowedActions.includes('READ')
+  )
 })
 </script>

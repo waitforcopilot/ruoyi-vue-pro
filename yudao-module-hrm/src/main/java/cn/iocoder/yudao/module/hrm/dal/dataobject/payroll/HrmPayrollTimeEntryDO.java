@@ -12,6 +12,7 @@ import lombok.EqualsAndHashCode;
 public class HrmPayrollTimeEntryDO extends BaseDO {
   @TableId private Long id;
   private Long employeeId;
+  private Long entityId;
   private Long ruleId;
   private Long sourceApplyId;
   private Long clockInId;

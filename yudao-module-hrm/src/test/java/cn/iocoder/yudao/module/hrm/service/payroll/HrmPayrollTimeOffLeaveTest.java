@@ -39,6 +39,7 @@ class HrmPayrollTimeOffLeaveTest extends BaseDbUnitTest {
   @MockBean private BpmProcessInstanceApi bpm;
   @MockBean private HrmAttendanceGroupService groups;
   @MockBean private OaPayrollSourceApi oa;
+  @MockBean private HrmPayrollEntityService entities;
   private HrmEmployeeDO employee;
   private LocalDate day;
 

@@ -23,6 +23,7 @@ public class HrmPayrollWorkService {
   @Resource private HrmPayrollTimeOffMapper offMapper;
   @Resource private HrmPayrollWorkCycleMapper cycleMapper;
   @Resource private HrmEmployeeMapper employeeMapper;
+  @Resource private HrmPayrollEntityService entities;
   @Resource private javax.validation.Validator validator;
   @Resource private cn.iocoder.yudao.module.oa.api.payroll.OaPayrollSourceApi oaSource;
 
@@ -47,6 +48,75 @@ public class HrmPayrollWorkService {
     return employee;
   }
 
+  public void requireMembership(Long entityId, Long employeeId, LocalDate from, LocalDate to) {
+    if (entityId == null
+        || from == null
+        || to == null
+        || to.isBefore(from)
+        || java.time.temporal.ChronoUnit.DAYS.between(from, to) > 1095)
+      throw exception(PAYROLL_WORK_INVALID);
+    List<HrmPayrollEntityMembershipDO> memberships =
+        entities.effectiveMemberships(entityId, from, to);
+    for (LocalDate day = from; !day.isAfter(to); day = day.plusDays(1)) {
+      final LocalDate d = day;
+      if (memberships.stream()
+          .noneMatch(
+              m ->
+                  Objects.equals(m.getEmployeeId(), employeeId)
+                      && !d.isBefore(m.getEffectiveFrom())
+                      && !d.isAfter(m.getEffectiveTo()))) throw exception(PAYROLL_WORK_INVALID);
+    }
+  }
+
+  public List<Map<String, Object>> scopedEmployees(
+      Long entityId, LocalDate from, LocalDate to, Long actor) {
+    entities.check(entityId, "READ", actor);
+    Set<Long> ids = new TreeSet<>();
+    entities.effectiveMemberships(entityId, from, to).forEach(m -> ids.add(m.getEmployeeId()));
+    List<Map<String, Object>> out = new ArrayList<>();
+    for (Long id : ids) {
+      cn.iocoder.yudao.module.hrm.dal.dataobject.employee.info.HrmEmployeeDO e =
+          employeeMapper.selectById(id);
+      if (e == null) continue;
+      Map<String, Object> row = new LinkedHashMap<>();
+      row.put("id", e.getId());
+      row.put("name", e.getName());
+      row.put("jobNumber", e.getJobNumber());
+      out.add(row);
+    }
+    return out;
+  }
+
+  public void checkEmployeeScope(
+      Long entityId, Long employeeId, LocalDate from, LocalDate to, String action, Long actor) {
+    entities.check(entityId, action, actor);
+    if (from == null
+        || to == null
+        || to.isBefore(from)
+        || java.time.temporal.ChronoUnit.DAYS.between(from, to) > 1095
+        || entities.effectiveMemberships(entityId, from, to).stream()
+            .noneMatch(m -> Objects.equals(m.getEmployeeId(), employeeId)))
+      throw exception(PAYROLL_WORK_INVALID);
+  }
+
+  public void checkDebitScope(Long entityId, Long debitId, Long actor) {
+    HrmPayrollTimeOffDO debit = offMapper.selectById(debitId);
+    if (debit == null) throw exception(PAYROLL_WORK_INVALID);
+    LocalDate today = LocalDate.now(ZoneId.of("Asia/Shanghai"));
+    checkEmployeeScope(entityId, debit.getEmployeeId(), today, today, "MANAGE", actor);
+  }
+
+  public void checkScope(Long entityId, String action, Long actor) {
+    entities.check(entityId, action, actor);
+  }
+
+  public List<HrmPayrollWorkRuleDO> scopedRules(Long entityId, Long employeeId, Long actor) {
+    entities.check(entityId, "READ", actor);
+    List<HrmPayrollWorkRuleDO> rows = rules(employeeId);
+    rows.removeIf(r -> !Objects.equals(r.getEntityId(), entityId));
+    return rows;
+  }
+
   public List<HrmPayrollWorkRuleDO> rules(Long employeeId) {
     return ruleMapper.selectList(
         new LambdaQueryWrapperX<HrmPayrollWorkRuleDO>()
@@ -55,9 +125,15 @@ public class HrmPayrollWorkService {
   }
 
   @Transactional(rollbackFor = Exception.class)
-  public Long createRule(HrmPayrollWorkRuleReqVO request) {
+  public Long createRule(HrmPayrollWorkRuleReqVO request, Long actor) {
+    entities.check(request.getEntityId(), "MANAGE", actor);
     if (!validator.validate(request).isEmpty()) throw exception(PAYROLL_WORK_INVALID);
     lockEmployee(request.getEmployeeId());
+    requireMembership(
+        request.getEntityId(),
+        request.getEmployeeId(),
+        request.getEffectiveFrom(),
+        request.getEffectiveTo());
     if ((!"IRREGULAR".equals(request.getSystemType())
             && request.getWorkdayRate().compareTo(new BigDecimal("1.5")) < 0)
         || ("STANDARD".equals(request.getSystemType())
@@ -71,6 +147,7 @@ public class HrmPayrollWorkService {
             new LambdaQueryWrapperX<HrmPayrollWorkRuleDO>()
                 .in(HrmPayrollWorkRuleDO::getStatus, Arrays.asList("PENDING", "APPROVED"))
                 .eq(HrmPayrollWorkRuleDO::getEmployeeId, request.getEmployeeId())
+                .eq(HrmPayrollWorkRuleDO::getEntityId, request.getEntityId())
                 .le(HrmPayrollWorkRuleDO::getEffectiveFrom, request.getEffectiveTo())
                 .ge(HrmPayrollWorkRuleDO::getEffectiveTo, request.getEffectiveFrom()));
     if (!overlap.isEmpty()) throw exception(PAYROLL_WORK_INVALID);
@@ -84,13 +161,33 @@ public class HrmPayrollWorkService {
   public void approveRule(Long id, Long actor) {
     HrmPayrollWorkRuleDO rule = ruleMapper.selectById(id);
     if (rule == null) throw exception(PAYROLL_WORK_INVALID);
+    entities.check(rule.getEntityId(), "APPROVE", actor);
     lockEmployee(rule.getEmployeeId());
+    requireMembership(
+        rule.getEntityId(), rule.getEmployeeId(), rule.getEffectiveFrom(), rule.getEffectiveTo());
     rule = ruleMapper.selectOneForUpdate(HrmPayrollWorkRuleDO::getId, id);
     if (!"PENDING".equals(rule.getStatus()) || actor == null) throw exception(PAYROLL_WORK_INVALID);
     if (Objects.equals(rule.getCreator(), String.valueOf(actor)))
       throw exception(PAYROLL_SELF_APPROVAL);
     rule.setStatus("APPROVED");
     rule.setApprovedBy(actor);
+    ruleMapper.updateById(rule);
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public void rejectRule(Long id, String reason, Long actor) {
+    HrmPayrollWorkRuleDO rule = ruleMapper.selectById(id);
+    if (rule == null || reason == null || reason.trim().isEmpty() || reason.length() > 1000)
+      throw exception(PAYROLL_WORK_INVALID);
+    entities.check(rule.getEntityId(), "APPROVE", actor);
+    lockEmployee(rule.getEmployeeId());
+    rule = ruleMapper.selectOneForUpdate(HrmPayrollWorkRuleDO::getId, id);
+    if (!"PENDING".equals(rule.getStatus()) || actor == null) throw exception(PAYROLL_WORK_INVALID);
+    if (Objects.equals(rule.getCreator(), String.valueOf(actor)))
+      throw exception(PAYROLL_SELF_APPROVAL);
+    rule.setStatus("REJECTED");
+    rule.setRejectedBy(actor);
+    rule.setRejectionReason(reason);
     ruleMapper.updateById(rule);
   }
 
@@ -121,6 +218,12 @@ public class HrmPayrollWorkService {
         || !request.getEndTime().isAfter(request.getStartTime())
         || Duration.between(request.getStartTime(), request.getEndTime()).toDays() > 31)
       throw exception(PAYROLL_WORK_INVALID);
+    entities.check(request.getEntityId(), "MANAGE", actor);
+    requireMembership(
+        request.getEntityId(),
+        request.getEmployeeId(),
+        request.getStartTime().toLocalDate(),
+        request.getEndTime().minusNanos(1).toLocalDate());
     List<Long> ids = new ArrayList<>();
     LocalDateTime cursor = request.getStartTime();
     boolean crossesDay =
@@ -140,6 +243,11 @@ public class HrmPayrollWorkService {
   private Long confirmSingle(HrmPayrollTimeEntryReqVO request, Long actor) {
     cn.iocoder.yudao.module.hrm.dal.dataobject.employee.info.HrmEmployeeDO employee =
         lockEmployee(request.getEmployeeId());
+    requireMembership(
+        request.getEntityId(),
+        request.getEmployeeId(),
+        request.getStartTime().toLocalDate(),
+        request.getEndTime().minusNanos(1).toLocalDate());
     if (!"OA".equals(request.getSourceSystem())
         || employee.getUserId() == null
         || request.getClockInId() == null
@@ -206,6 +314,7 @@ public class HrmPayrollWorkService {
             new LambdaQueryWrapperX<HrmPayrollWorkRuleDO>()
                 .eq(HrmPayrollWorkRuleDO::getStatus, "APPROVED")
                 .eq(HrmPayrollWorkRuleDO::getEmployeeId, request.getEmployeeId())
+                .eq(HrmPayrollWorkRuleDO::getEntityId, request.getEntityId())
                 .le(HrmPayrollWorkRuleDO::getEffectiveFrom, date)
                 .ge(HrmPayrollWorkRuleDO::getEffectiveTo, date));
     if (rules.size() != 1) throw exception(PAYROLL_WORK_INVALID);
@@ -316,6 +425,21 @@ public class HrmPayrollWorkService {
 
   public void validateSources(List<HrmPayrollTimeEntryDO> rows) {
     for (HrmPayrollTimeEntryDO row : rows) {
+      if (row.getEntityId() != null) {
+        HrmPayrollWorkRuleDO rule = ruleMapper.selectById(row.getRuleId());
+        if (rule == null
+            || !"APPROVED".equals(rule.getStatus())
+            || !Objects.equals(rule.getEntityId(), row.getEntityId())
+            || !Objects.equals(rule.getEmployeeId(), row.getEmployeeId())
+            || row.getStartTime().toLocalDate().isBefore(rule.getEffectiveFrom())
+            || row.getEndTime().minusNanos(1).toLocalDate().isAfter(rule.getEffectiveTo()))
+          throw exception(PAYROLL_WORK_INVALID);
+        requireMembership(
+            row.getEntityId(),
+            row.getEmployeeId(),
+            row.getStartTime().toLocalDate(),
+            row.getEndTime().minusNanos(1).toLocalDate());
+      }
       cn.iocoder.yudao.module.oa.api.payroll.dto.OaPayrollOvertimeDTO approved =
           oaSource.getApprovedOvertime(row.getSourceApplyId());
       cn.iocoder.yudao.module.hrm.dal.dataobject.employee.info.HrmEmployeeDO employee =
@@ -412,9 +536,16 @@ public class HrmPayrollWorkService {
   }
 
   public BigDecimal earnings(Long employeeId, LocalDate from, LocalDate to) {
+    return earningsForEntity(employeeId, null, from, to);
+  }
+
+  public BigDecimal earningsForEntity(
+      Long employeeId, Long entityId, LocalDate from, LocalDate to) {
     List<HrmPayrollTimeEntryDO> rows = entries(employeeId, from, to);
+    if (entityId != null) rows.removeIf(e -> !Objects.equals(e.getEntityId(), entityId));
     validateSources(rows);
     for (HrmPayrollWorkRuleDO rule : rules(employeeId)) {
+      if (entityId != null && !Objects.equals(rule.getEntityId(), entityId)) continue;
       if (!"APPROVED".equals(rule.getStatus()) || !"COMPREHENSIVE".equals(rule.getSystemType()))
         continue;
       for (int offset = 0; ; offset += rule.getCycleMonths()) {
@@ -435,6 +566,7 @@ public class HrmPayrollWorkService {
         .reduce(BigDecimal.ZERO, BigDecimal::add)
         .add(
             cycles(employeeId, from, to).stream()
+                .filter(c -> entityId == null || Objects.equals(c.getEntityId(), entityId))
                 .map(HrmPayrollWorkCycleDO::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add));
   }
@@ -725,6 +857,7 @@ public class HrmPayrollWorkService {
         || actor == null
         || !"APPROVED".equals(rule.getStatus())
         || !"COMPREHENSIVE".equals(rule.getSystemType())) throw exception(PAYROLL_WORK_INVALID);
+    entities.check(rule.getEntityId(), "MANAGE", actor);
     lockEmployee(rule.getEmployeeId());
     long offset =
         java.time.temporal.ChronoUnit.MONTHS.between(
@@ -737,6 +870,7 @@ public class HrmPayrollWorkService {
     if (to.isAfter(rule.getEffectiveTo())
         || !to.isBefore(LocalDate.now(java.time.ZoneId.of("Asia/Shanghai"))))
       throw exception(PAYROLL_WORK_INVALID);
+    requireMembership(rule.getEntityId(), rule.getEmployeeId(), from, to);
     HrmPayrollWorkCycleDO existing =
         cycleMapper.selectOne(
             new LambdaQueryWrapperX<HrmPayrollWorkCycleDO>()
@@ -844,6 +978,7 @@ public class HrmPayrollWorkService {
     HrmPayrollWorkCycleDO cycle = new HrmPayrollWorkCycleDO();
     cycle.setEmployeeId(rule.getEmployeeId());
     cycle.setRuleId(ruleId);
+    cycle.setEntityId(rule.getEntityId());
     cycle.setCycleFrom(from);
     cycle.setCycleTo(to);
     cycle.setPlannedMinutes(planned);
@@ -871,7 +1006,13 @@ public class HrmPayrollWorkService {
   }
 
   public Map<String, Object> summary(Long employeeId, LocalDate from, LocalDate to) {
+    return summaryForEntity(employeeId, null, from, to);
+  }
+
+  public Map<String, Object> summaryForEntity(
+      Long employeeId, Long entityId, LocalDate from, LocalDate to) {
     List<HrmPayrollTimeEntryDO> rows = entries(employeeId, from, to);
+    if (entityId != null) rows.removeIf(e -> !Objects.equals(e.getEntityId(), entityId));
     int total = rows.stream().mapToInt(HrmPayrollTimeEntryDO::getRecognizedMinutes).sum();
     Map<String, Object> result = new LinkedHashMap<>();
     result.put("recognizedMinutes", total);
@@ -883,6 +1024,7 @@ public class HrmPayrollWorkService {
     result.put("timeOffBalance", timeOffBalance(employeeId));
     List<HrmPayrollTimeEntryDO> monthlyRows =
         entries(employeeId, from.withDayOfMonth(1), to.withDayOfMonth(to.lengthOfMonth()));
+    if (entityId != null) monthlyRows.removeIf(e -> !Objects.equals(e.getEntityId(), entityId));
     Map<String, Integer> monthly = new LinkedHashMap<>();
     monthlyRows.forEach(
         e ->
@@ -900,7 +1042,9 @@ public class HrmPayrollWorkService {
                   return monthly.get(e.getStartTime().toLocalDate().withDayOfMonth(1).toString())
                       > r.getLimitMinutes();
                 }));
-    result.put("cycles", cycles(employeeId, from, to));
+    List<HrmPayrollWorkCycleDO> scopedCycles = cycles(employeeId, from, to);
+    if (entityId != null) scopedCycles.removeIf(c -> !Objects.equals(c.getEntityId(), entityId));
+    result.put("cycles", scopedCycles);
     return result;
   }
 }

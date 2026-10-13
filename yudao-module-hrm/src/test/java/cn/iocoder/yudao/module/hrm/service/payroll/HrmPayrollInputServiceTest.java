@@ -87,7 +87,7 @@ class HrmPayrollInputServiceTest extends BaseDbUnitTest {
         .thenReturn(
             Collections.singletonList(
                 new LocalDate[] {LocalDate.of(2026, 10, 1), LocalDate.of(2026, 10, 31)}));
-    when(window.earnings(anyLong(), any())).thenReturn(BigDecimal.ZERO);
+    when(window.earningsForEntity(anyLong(), eq(entityId), any())).thenReturn(BigDecimal.ZERO);
     when(work.rules(anyLong()))
         .thenAnswer(
             call ->
@@ -97,6 +97,7 @@ class HrmPayrollInputServiceTest extends BaseDbUnitTest {
                         .setEmployeeId(call.getArgument(0))
                         .setStatus("APPROVED")
                         .setSystemType("STANDARD")
+                        .setEntityId(entityId)
                         .setEffectiveFrom(LocalDate.of(2026, 1, 1))
                         .setEffectiveTo(LocalDate.of(2026, 12, 31))));
   }
@@ -419,6 +420,7 @@ class HrmPayrollInputServiceTest extends BaseDbUnitTest {
             .setId(1L)
             .setEmployeeId(employeeId)
             .setSourceApplyId(123L)
+            .setEntityId(entityId)
             .setSourceRecordId("123:2026-10-03")
             .setStartTime(date.atTime(18, 0))
             .setEndTime(date.atTime(20, 0))
@@ -427,8 +429,27 @@ class HrmPayrollInputServiceTest extends BaseDbUnitTest {
     when(oa.getApprovedOvertimeList(any(), any(), any()))
         .thenReturn(Collections.singletonList(source));
     when(work.entries(eq(employeeId), any(), any())).thenReturn(Collections.singletonList(entry));
-    when(window.earnings(eq(employeeId), any())).thenReturn(new BigDecimal("100.00"));
+    when(window.earningsForEntity(eq(employeeId), eq(entityId), any()))
+        .thenReturn(new BigDecimal("100.00"));
     Long id = approved(request(employeeId, "OVERTIME", "SYNC"));
     assertEquals(new BigDecimal("100.00"), service.values(records.selectById(id)).get("180101"));
+  }
+
+  @Test
+  void foreignEmployerWorkRuleCannotMakeInputsReady() {
+    Long employeeId = employee("FOREIGN-RULE");
+    when(work.rules(employeeId))
+        .thenReturn(
+            Collections.singletonList(
+                new HrmPayrollWorkRuleDO()
+                    .setId(99L)
+                    .setEntityId(entityId + 1)
+                    .setEmployeeId(employeeId)
+                    .setStatus("APPROVED")
+                    .setSystemType("STANDARD")
+                    .setEffectiveFrom(LocalDate.of(2026, 1, 1))
+                    .setEffectiveTo(LocalDate.of(2026, 12, 31))));
+    assertServiceException(
+        () -> service.submit(request(employeeId, "OVERTIME", "ZERO"), 1L), PAYROLL_WORK_INVALID);
   }
 }

@@ -37,6 +37,13 @@ public class HrmPayrollWindowService {
     return total;
   }
 
+  public BigDecimal earningsForEntity(Long employeeId, Long entityId, Set<LocalDate> dates) {
+    BigDecimal total = BigDecimal.ZERO;
+    for (LocalDate[] range : intervals(dates))
+      total = total.add(work.earningsForEntity(employeeId, entityId, range[0], range[1]));
+    return total;
+  }
+
   public boolean hasSources(Long employeeId, Set<LocalDate> dates) {
     for (LocalDate[] range : intervals(dates))
       if (work.hasSources(employeeId, range[0], range[1])) return true;

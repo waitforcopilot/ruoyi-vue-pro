@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 public class HrmPayrollWorkRuleReqVO {
   @NotNull private Long employeeId;
+  @NotNull private Long entityId;
 
   @NotBlank
   @Pattern(regexp = "STANDARD|COMPREHENSIVE|IRREGULAR")

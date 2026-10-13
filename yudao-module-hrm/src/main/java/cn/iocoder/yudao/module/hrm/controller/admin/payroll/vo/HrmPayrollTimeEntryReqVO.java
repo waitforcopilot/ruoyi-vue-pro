@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class HrmPayrollTimeEntryReqVO {
   @NotNull private Long employeeId;
+  @NotNull private Long entityId;
 
   @NotBlank
   @Pattern(regexp = "OA")

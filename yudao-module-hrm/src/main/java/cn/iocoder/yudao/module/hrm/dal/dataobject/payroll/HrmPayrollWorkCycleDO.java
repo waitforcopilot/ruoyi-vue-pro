@@ -12,6 +12,7 @@ import lombok.EqualsAndHashCode;
 public class HrmPayrollWorkCycleDO extends BaseDO {
   @TableId private Long id;
   private Long employeeId;
+  private Long entityId;
   private Long ruleId;
   private java.time.LocalDate cycleFrom;
   private java.time.LocalDate cycleTo;

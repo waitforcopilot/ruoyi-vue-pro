@@ -39,6 +39,7 @@ class HrmPayrollWorkServiceTest extends BaseDbUnitTest {
   @Resource private HrmAttendanceClockMapper clocks;
   @Resource private HrmAttendanceHolidayMapper holidays;
   @MockBean private OaPayrollSourceApi oa;
+  @MockBean private HrmPayrollEntityService entities;
   @MockBean private HrmAttendanceGroupService groups;
   private Long employeeId;
   private final LocalDate day = LocalDate.of(2026, 9, 10);
@@ -49,6 +50,13 @@ class HrmPayrollWorkServiceTest extends BaseDbUnitTest {
         new HrmEmployeeDO().setName("工时员工").setJobNumber("WORK-1").setUserId(99L);
     employees.insert(employee);
     employeeId = employee.getId();
+    when(entities.effectiveMemberships(eq(10L), any(), any()))
+        .thenReturn(
+            Collections.singletonList(
+                new HrmPayrollEntityMembershipDO()
+                    .setEmployeeId(employeeId)
+                    .setEffectiveFrom(LocalDate.of(2026, 1, 1))
+                    .setEffectiveTo(LocalDate.of(2026, 12, 31))));
     when(groups.getAttendanceGroupMap(anyCollection()))
         .thenReturn(Collections.singletonMap(employeeId, new HrmAttendanceGroupDO()));
     when(groups.getEmployeeAttendanceShift(eq(employeeId), any()))
@@ -62,6 +70,7 @@ class HrmPayrollWorkServiceTest extends BaseDbUnitTest {
   private HrmPayrollWorkRuleReqVO policy(String type) {
     HrmPayrollWorkRuleReqVO r = new HrmPayrollWorkRuleReqVO();
     r.setEmployeeId(employeeId);
+    r.setEntityId(10L);
     r.setSystemType(type);
     r.setEffectiveFrom(day.withDayOfMonth(1));
     r.setEffectiveTo(day.withDayOfMonth(1).plusMonths(3).minusDays(1));
@@ -78,7 +87,7 @@ class HrmPayrollWorkServiceTest extends BaseDbUnitTest {
   }
 
   private Long approved(String type) {
-    Long id = service.createRule(policy(type));
+    Long id = service.createRule(policy(type), 1L);
     HrmPayrollWorkRuleDO r = rules.selectById(id);
     r.setCreator("1");
     rules.updateById(r);
@@ -114,6 +123,7 @@ class HrmPayrollWorkServiceTest extends BaseDbUnitTest {
     clocks.insert(out);
     HrmPayrollTimeEntryReqVO r = new HrmPayrollTimeEntryReqVO();
     r.setEmployeeId(employeeId);
+    r.setEntityId(10L);
     r.setSourceSystem("OA");
     r.setSourceRecordId("7");
     r.setClockInId(in.getId());
@@ -131,8 +141,8 @@ class HrmPayrollWorkServiceTest extends BaseDbUnitTest {
   void policyApprovalAndStatutoryMinimum() {
     HrmPayrollWorkRuleReqVO p = policy("STANDARD");
     p.setHolidayRate(BigDecimal.ONE);
-    assertServiceException(() -> service.createRule(p), PAYROLL_WORK_INVALID);
-    Long id = service.createRule(policy("STANDARD"));
+    assertServiceException(() -> service.createRule(p, 1L), PAYROLL_WORK_INVALID);
+    Long id = service.createRule(policy("STANDARD"), 1L);
     HrmPayrollWorkRuleDO r = rules.selectById(id);
     r.setCreator("1");
     rules.updateById(r);
@@ -266,5 +276,73 @@ class HrmPayrollWorkServiceTest extends BaseDbUnitTest {
     HrmPayrollTimeEntryReqVO r = request(day.atTime(9, 0), day.atTime(11, 0));
     assertServiceException(() -> service.confirm(r, 2L), PAYROLL_WORK_INVALID);
     assertEquals(0L, entries.selectCount());
+  }
+
+  @Test
+  void membershipMustCoverEveryRuleDateAndApprovalRechecksIt() {
+    when(entities.effectiveMemberships(eq(10L), any(), any()))
+        .thenReturn(
+            Collections.singletonList(
+                new HrmPayrollEntityMembershipDO()
+                    .setEmployeeId(employeeId)
+                    .setEffectiveFrom(day)
+                    .setEffectiveTo(day.plusDays(1))));
+    assertServiceException(() -> service.createRule(policy("STANDARD"), 1L), PAYROLL_WORK_INVALID);
+    assertTrue(rules.selectList().isEmpty());
+  }
+
+  @Test
+  void foreignEmployerRuleCannotAuthorizeRecognition() {
+    approved("STANDARD");
+    when(entities.effectiveMemberships(eq(20L), any(), any()))
+        .thenReturn(
+            Collections.singletonList(
+                new HrmPayrollEntityMembershipDO()
+                    .setEmployeeId(employeeId)
+                    .setEffectiveFrom(LocalDate.of(2026, 1, 1))
+                    .setEffectiveTo(LocalDate.of(2026, 12, 31))));
+    HrmPayrollTimeEntryReqVO r = request(day.atTime(18, 0), day.atTime(20, 0));
+    r.setEntityId(20L);
+    assertServiceException(() -> service.confirm(r, 2L), PAYROLL_WORK_INVALID);
+    assertTrue(entries.selectList().isEmpty());
+  }
+
+  @Test
+  void rejectedRuleRetainsReasonAndAllowsFreshApplication() {
+    Long id = service.createRule(policy("STANDARD"), 1L);
+    HrmPayrollWorkRuleDO r = rules.selectById(id);
+    r.setCreator("1");
+    rules.updateById(r);
+    assertServiceException(() -> service.rejectRule(id, "不适用", 1L), PAYROLL_SELF_APPROVAL);
+    service.rejectRule(id, "批准依据错误", 2L);
+    assertEquals("批准依据错误", rules.selectById(id).getRejectionReason());
+    assertNotEquals(id, service.createRule(policy("STANDARD"), 1L));
+    assertEquals(2, rules.selectList().size());
+  }
+
+  @Test
+  void employerScopedEarningsIgnoreForeignAndLegacyUnboundAmounts() {
+    HrmPayrollTimeEntryDO foreign = new HrmPayrollTimeEntryDO();
+    foreign.setEmployeeId(employeeId);
+    foreign.setEntityId(20L);
+    foreign.setSourceRecordId("FOREIGN");
+    foreign.setStartTime(day.atTime(18, 0));
+    foreign.setAmount(new BigDecimal("999"));
+    entries.insert(foreign);
+    HrmPayrollTimeEntryDO legacy = new HrmPayrollTimeEntryDO();
+    legacy.setEmployeeId(employeeId);
+    legacy.setSourceRecordId("LEGACY");
+    legacy.setStartTime(day.atTime(18, 0));
+    legacy.setAmount(new BigDecimal("888"));
+    entries.insert(legacy);
+    assertEquals(BigDecimal.ZERO, service.earningsForEntity(employeeId, 10L, day, day));
+    assertTrue(service.scopedRules(10L, employeeId, 2L).isEmpty());
+  }
+
+  @Test
+  void employerPermissionIsCheckedBeforeCreatingRules() {
+    doThrow(new IllegalStateException("forbidden")).when(entities).check(10L, "MANAGE", 1L);
+    assertThrows(IllegalStateException.class, () -> service.createRule(policy("STANDARD"), 1L));
+    assertTrue(rules.selectList().isEmpty());
   }
 }

@@ -226,7 +226,10 @@ public class HrmPayrollInputService {
         throw exception(PAYROLL_INPUT_INVALID);
       List<HrmPayrollWorkRuleDO> rules =
           work.rules(e.getId()).stream()
-              .filter(rule -> "APPROVED".equals(rule.getStatus()))
+              .filter(
+                  rule ->
+                      "APPROVED".equals(rule.getStatus())
+                          && Objects.equals(rule.getEntityId(), b.getEntityId()))
               .collect(Collectors.toList());
       Set<Long> appliedRules = new TreeSet<>();
       for (LocalDate date : dates) {
@@ -250,8 +253,14 @@ public class HrmPayrollInputService {
       List<HrmPayrollWorkCycleDO> cycles = new ArrayList<>();
       Map<Long, OaPayrollOvertimeDTO> approved = new TreeMap<>();
       for (LocalDate[] range : window.intervals(dates)) {
-        entries.addAll(work.entries(e.getId(), range[0], range[1]));
-        cycles.addAll(work.cycles(e.getId(), range[0], range[1]));
+        entries.addAll(
+            work.entries(e.getId(), range[0], range[1]).stream()
+                .filter(row -> Objects.equals(row.getEntityId(), b.getEntityId()))
+                .collect(Collectors.toList()));
+        cycles.addAll(
+            work.cycles(e.getId(), range[0], range[1]).stream()
+                .filter(row -> Objects.equals(row.getEntityId(), b.getEntityId()))
+                .collect(Collectors.toList()));
         for (OaPayrollOvertimeDTO source :
             oa.getApprovedOvertimeList(
                 e.getUserId(), range[0].atStartOfDay(), range[1].plusDays(1).atStartOfDay()))
@@ -268,7 +277,7 @@ public class HrmPayrollInputService {
                               && entry.getStartTime().toLocalDate().equals(date)))
             throw exception(PAYROLL_WORK_INVALID);
       }
-      BigDecimal earned = window.earnings(e.getId(), dates);
+      BigDecimal earned = window.earningsForEntity(e.getId(), b.getEntityId(), dates);
       if (earned == null) throw exception(PAYROLL_WORK_INVALID);
       boolean recorded = !entries.isEmpty() || !cycles.isEmpty();
       if ("ZERO".equals(r.getMode()) && (recorded || !approved.isEmpty() || earned.signum() != 0)

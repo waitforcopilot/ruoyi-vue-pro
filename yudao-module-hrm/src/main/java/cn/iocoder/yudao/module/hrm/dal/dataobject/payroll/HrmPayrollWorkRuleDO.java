@@ -12,12 +12,15 @@ import lombok.EqualsAndHashCode;
 public class HrmPayrollWorkRuleDO extends BaseDO {
   @TableId private Long id;
   private Long employeeId;
+  private Long entityId;
   private String systemType;
   private java.time.LocalDate effectiveFrom;
   private java.time.LocalDate effectiveTo;
   private String legalBasis;
   private String status;
   private Long approvedBy;
+  private Long rejectedBy;
+  private String rejectionReason;
   private Integer cycleMinutes;
   private Integer cycleMonths;
   private Integer timeOffExpiryDays;
