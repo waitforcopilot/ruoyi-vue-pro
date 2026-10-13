@@ -427,13 +427,18 @@ public class HrmPayrollInputService {
     return now;
   }
 
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional(
+      rollbackFor = Exception.class,
+      isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public void review(Long id, boolean approve, String reason, Long actor) {
     if (reason == null || reason.trim().isEmpty() || reason.length() > 1000)
       throw exception(PAYROLL_INPUT_INVALID);
     HrmPayrollInputDO row = inputs.selectById(id);
     if (row == null) throw exception(PAYROLL_INPUT_INVALID);
     HrmSalaryMonthRecordDO b = batch(row.getBatchId(), "REVIEW", actor, true);
+    HrmEmployeeDO subject = employees.selectByIdForUpdate(row.getEmployeeId());
+    if (subject == null) throw exception(PAYROLL_INPUT_INVALID);
+    if (Objects.equals(subject.getUserId(), actor)) throw exception(PAYROLL_SELF_APPROVAL);
     row = inputs.selectOneForUpdate(HrmPayrollInputDO::getId, id);
     if (!"PENDING".equals(row.getStatus())) throw exception(PAYROLL_INPUT_INVALID);
     if (Objects.equals(row.getCreator(), String.valueOf(actor)))

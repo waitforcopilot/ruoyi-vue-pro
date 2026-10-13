@@ -190,6 +190,40 @@ class HrmPayrollInputServiceTest extends BaseDbUnitTest {
   }
 
   @Test
+  void employeeCannotReviewOwnMandatoryPayrollInputsEvenWithEntityReviewGrant() {
+    entities.grant(
+        new HrmPayrollEntityReqVO.Grant()
+            .setEntityId(entityId)
+            .setUserId(10L)
+            .setActions(new HashSet<>(Arrays.asList("READ", "REVIEW")))
+            .setEffectiveFrom(LocalDate.now().minusDays(1))
+            .setEffectiveTo(LocalDate.now().plusYears(1))
+            .setReason("工资输入复核角色"),
+        1L);
+    for (String kind : HrmPayrollInputService.KINDS) {
+      HrmPayrollInputReqVO request =
+          request(employeeId, kind, "ATTENDANCE".equals(kind) ? "IMPORT" : "ZERO");
+      if ("ATTENDANCE".equals(kind)) request.setValues(attendanceValues());
+      Long id = service.submit(request, 1L);
+      assertServiceException(() -> service.review(id, true, "本人批准", 10L), PAYROLL_SELF_APPROVAL);
+      assertServiceException(() -> service.review(id, false, "本人驳回", 10L), PAYROLL_SELF_APPROVAL);
+      assertEquals("PENDING", records.selectById(id).getStatus());
+      service.review(id, true, "独立复核", 2L);
+      assertEquals("APPROVED", records.selectById(id).getStatus());
+    }
+  }
+
+  @Test
+  void inputReviewRechecksCurrentEmployeeAccountForRejectionToo() {
+    Long id = service.submit(request(employeeId, "DEDUCTIONS", "ZERO"), 1L);
+    HrmEmployeeDO employee = employees.selectById(employeeId);
+    employee.setUserId(2L);
+    employees.updateById(employee);
+    assertServiceException(() -> service.review(id, false, "本人取消旧输入", 2L), PAYROLL_SELF_APPROVAL);
+    assertEquals("PENDING", records.selectById(id).getStatus());
+  }
+
+  @Test
   void attendanceBlankFieldsAndImplicitFullAttendanceAreRejected() {
     assertServiceException(
         () -> service.submit(request(employeeId, "ATTENDANCE", "ZERO"), 1L), PAYROLL_INPUT_INVALID);
