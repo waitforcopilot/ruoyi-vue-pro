@@ -196,16 +196,46 @@ public class HrmPayrollInputService {
     sources.put("to", b.getEndTime().toLocalDate());
     Map<String, BigDecimal> values = new LinkedHashMap<>();
     if ("ATTENDANCE".equals(r.getKind())) {
+      List<HrmPayrollWorkRuleDO> policies =
+          work.rules(e.getId()).stream()
+              .filter(rule -> Objects.equals(rule.getEntityId(), b.getEntityId()))
+              .collect(Collectors.toList());
+      Set<LocalDate> standardDates = new TreeSet<>();
+      Map<Long, HrmPayrollWorkRuleDO> appliedPolicies = new TreeMap<>();
+      for (LocalDate date : dates) {
+        List<HrmPayrollWorkRuleDO> applicable =
+            policies.stream()
+                .filter(rule -> HrmPayrollWorkService.applies(rule, date))
+                .collect(Collectors.toList());
+        if (applicable.size() != 1) throw exception(PAYROLL_WORK_INVALID);
+        HrmPayrollWorkRuleDO policy = applicable.get(0);
+        if (!Arrays.asList("STANDARD", "COMPREHENSIVE", "IRREGULAR")
+            .contains(policy.getSystemType())) throw exception(PAYROLL_WORK_INVALID);
+        appliedPolicies.put(policy.getId(), policy);
+        if ("STANDARD".equals(policy.getSystemType())) standardDates.add(date);
+      }
+      sources.put("attendanceWorkRules", new ArrayList<>(appliedPolicies.values()));
+      sources.put("standardPenaltyDates", standardDates);
       if ("SYNC".equals(r.getMode())) {
         HrmAttendanceMonthRecordRespVO a = window.attendance(e.getId(), dates);
         if (a == null || a.getAttendDays() == null) throw exception(PAYROLL_INPUT_INVALID);
         values.put("ACTUAL_DAYS", n(a.getActualDays()));
         values.put("NEED_DAYS", BigDecimal.valueOf(a.getAttendDays()));
-        values.put("190101", n(a.getLateDeductAmount()));
-        values.put("190102", n(a.getEarlyDeductAmount()));
-        values.put("190103", n(a.getAbsenteeismDeductAmount()));
+        HrmAttendanceMonthRecordRespVO penalties =
+            standardDates.isEmpty()
+                ? null
+                : standardDates.equals(dates) ? a : window.attendance(e.getId(), standardDates);
+        if (!standardDates.isEmpty() && penalties == null) throw exception(PAYROLL_INPUT_INVALID);
+        values.put(
+            "190101", penalties == null ? BigDecimal.ZERO : n(penalties.getLateDeductAmount()));
+        values.put(
+            "190102", penalties == null ? BigDecimal.ZERO : n(penalties.getEarlyDeductAmount()));
+        values.put(
+            "190103",
+            penalties == null ? BigDecimal.ZERO : n(penalties.getAbsenteeismDeductAmount()));
         values.put("190104", BigDecimal.ZERO);
-        values.put("190105", n(a.getMisscardDeductAmount()));
+        values.put(
+            "190105", penalties == null ? BigDecimal.ZERO : n(penalties.getMisscardDeductAmount()));
         values.put(
             "190106",
             n(a.getAttendanceDeductAmount())
@@ -218,6 +248,7 @@ public class HrmPayrollInputService {
           raw.add(attendance.snapshot(range[0], range[1], Collections.singletonList(e.getId())));
         sources.put("attendance", raw);
         sources.put("statistics", a);
+        sources.put("standardPenaltyStatistics", penalties);
       } else if ("IMPORT".equals(r.getMode()))
         values.putAll(r.getValues() == null ? Collections.emptyMap() : r.getValues());
       else throw exception(PAYROLL_INPUT_INVALID);

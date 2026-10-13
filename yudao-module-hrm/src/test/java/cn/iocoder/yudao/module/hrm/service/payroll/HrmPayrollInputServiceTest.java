@@ -330,6 +330,122 @@ class HrmPayrollInputServiceTest extends BaseDbUnitTest {
   }
 
   @Test
+  void irregularAttendanceDoesNotApplyStandardClockPenalties() {
+    HrmPayrollWorkRuleDO policy =
+        new HrmPayrollWorkRuleDO()
+            .setId(9L)
+            .setEmployeeId(employeeId)
+            .setEntityId(entityId)
+            .setStatus("APPROVED")
+            .setSystemType("IRREGULAR")
+            .setEffectiveFrom(LocalDate.of(2026, 1, 1))
+            .setEffectiveTo(LocalDate.of(2026, 12, 31));
+    when(work.rules(employeeId)).thenReturn(Collections.singletonList(policy));
+    cn.iocoder.yudao.module.hrm.controller.admin.attendance.vo.statistics
+            .HrmAttendanceMonthRecordRespVO
+        a =
+            new cn.iocoder.yudao.module.hrm.controller.admin.attendance.vo.statistics
+                    .HrmAttendanceMonthRecordRespVO()
+                .setEmployeeId(employeeId)
+                .setAttendDays(22)
+                .setActualDays(new BigDecimal("20"))
+                .setLateDeductAmount(BigDecimal.ONE)
+                .setEarlyDeductAmount(new BigDecimal("2"))
+                .setAbsenteeismDeductAmount(new BigDecimal("3"))
+                .setMisscardDeductAmount(new BigDecimal("4"))
+                .setAttendanceDeductAmount(new BigDecimal("15"));
+    when(window.attendance(eq(employeeId), any())).thenReturn(a);
+    Long id = approved(request(employeeId, "ATTENDANCE", "SYNC"));
+    Map<String, BigDecimal> values = service.values(records.selectById(id));
+    for (String code : Arrays.asList("190101", "190102", "190103", "190105"))
+      assertEquals(0, values.get(code).signum());
+    assertEquals(0, new BigDecimal("5").compareTo(values.get("190106")));
+    policy.setSystemType("STANDARD");
+    assertEquals(
+        "STALE",
+        service.readiness(batchId, 1L).stream()
+            .filter(row -> id.equals(row.getInputId()))
+            .findFirst()
+            .get()
+            .getStatus());
+  }
+
+  @Test
+  void mixedWorkPoliciesOnlyUseStandardDatesForClockPenalties() {
+    LocalDate split = LocalDate.of(2026, 10, 16);
+    HrmPayrollWorkRuleDO standard =
+        new HrmPayrollWorkRuleDO()
+            .setId(1L)
+            .setEmployeeId(employeeId)
+            .setEntityId(entityId)
+            .setStatus("APPROVED")
+            .setSystemType("STANDARD")
+            .setEffectiveFrom(LocalDate.of(2026, 1, 1))
+            .setEffectiveTo(LocalDate.of(2026, 12, 31))
+            .setSupersededFrom(split)
+            .setSupersededBy(2L);
+    HrmPayrollWorkRuleDO comprehensive =
+        new HrmPayrollWorkRuleDO()
+            .setId(2L)
+            .setEmployeeId(employeeId)
+            .setEntityId(entityId)
+            .setStatus("APPROVED")
+            .setSystemType("COMPREHENSIVE")
+            .setEffectiveFrom(split)
+            .setEffectiveTo(LocalDate.of(2026, 12, 31));
+    when(work.rules(employeeId)).thenReturn(Arrays.asList(standard, comprehensive));
+    cn.iocoder.yudao.module.hrm.controller.admin.attendance.vo.statistics
+            .HrmAttendanceMonthRecordRespVO
+        all =
+            new cn.iocoder.yudao.module.hrm.controller.admin.attendance.vo.statistics
+                    .HrmAttendanceMonthRecordRespVO()
+                .setEmployeeId(employeeId)
+                .setAttendDays(22)
+                .setActualDays(new BigDecimal("20"))
+                .setLateDeductAmount(new BigDecimal("10"))
+                .setEarlyDeductAmount(BigDecimal.ZERO)
+                .setAbsenteeismDeductAmount(BigDecimal.ZERO)
+                .setMisscardDeductAmount(BigDecimal.ZERO)
+                .setAttendanceDeductAmount(new BigDecimal("12"));
+    cn.iocoder.yudao.module.hrm.controller.admin.attendance.vo.statistics
+            .HrmAttendanceMonthRecordRespVO
+        standardOnly =
+            new cn.iocoder.yudao.module.hrm.controller.admin.attendance.vo.statistics
+                    .HrmAttendanceMonthRecordRespVO()
+                .setLateDeductAmount(new BigDecimal("3"))
+                .setEarlyDeductAmount(BigDecimal.ZERO)
+                .setAbsenteeismDeductAmount(BigDecimal.ZERO)
+                .setMisscardDeductAmount(BigDecimal.ZERO);
+    when(window.attendance(eq(employeeId), any()))
+        .thenAnswer(
+            call -> {
+              Set<LocalDate> dates = call.getArgument(1);
+              return dates.stream().anyMatch(date -> !date.isBefore(split)) ? all : standardOnly;
+            });
+    Long id = approved(request(employeeId, "ATTENDANCE", "SYNC"));
+    Map<String, BigDecimal> values = service.values(records.selectById(id));
+    assertEquals(0, new BigDecimal("3").compareTo(values.get("190101")));
+    assertEquals(0, new BigDecimal("2").compareTo(values.get("190106")));
+    assertEquals(0, new BigDecimal("20").compareTo(values.get("ACTUAL_DAYS")));
+    verify(window, atLeastOnce())
+        .attendance(
+            eq(employeeId),
+            argThat(
+                dates ->
+                    dates.size() == 15 && dates.stream().allMatch(date -> date.isBefore(split))));
+  }
+
+  @Test
+  void attendanceInputRequiresExactlyOneEmployerWorkPolicyPerDay() {
+    when(work.rules(employeeId)).thenReturn(Collections.emptyList());
+    assertServiceException(
+        () ->
+            service.submit(
+                request(employeeId, "ATTENDANCE", "IMPORT").setValues(attendanceValues()), 1L),
+        PAYROLL_WORK_INVALID);
+  }
+
+  @Test
   void synchronizedAttendanceUsesActualValuesAndLaterChangesMakeConfirmationStale() {
     cn.iocoder.yudao.module.hrm.controller.admin.attendance.vo.statistics
             .HrmAttendanceMonthRecordRespVO
