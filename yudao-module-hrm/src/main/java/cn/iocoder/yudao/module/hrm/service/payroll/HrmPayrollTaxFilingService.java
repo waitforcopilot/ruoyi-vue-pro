@@ -186,6 +186,7 @@ public class HrmPayrollTaxFilingService {
       output.add(
           BeanUtils.toBean(worker, HrmPayrollTaxFilingExportRowVO.class)
               .setIdentifier(identifier)
+              .setTaxCorrectionReferences(worker.getTaxCorrectionIds().stream().map(String::valueOf).collect(java.util.stream.Collectors.joining(",")))
               .setTaxRegistrationNumber(saved(row).getTaxRegistrationNumber())
               .setPeriod(YearMonth.of(row.getYear(), row.getMonth()).toString()));
     }

@@ -136,9 +136,11 @@ public class HrmPayrollTaxCashLedgerService {
         }
         populate(row, payment, run, correction == null);
         if (correction != null) {
+          HrmPayrollTaxProfileDO correctedProfile =
+              profiles.requireApproved(entityId, payment.getEmployeeId(), year);
           HrmPayrollTaxPolicyDO correctedPolicy = policyMapper.selectById(correction.getPolicyId());
           if (!Objects.equals(correction.getEntityId(), entityId)
-              || !Objects.equals(correction.getProfileId(), profile.getId())
+              || !Objects.equals(correction.getProfileId(), correctedProfile.getId())
               || !Objects.equals(correction.getTaxpayerKey(), profile.getTaxpayerKey())
               || !Objects.equals(
                   correction.getTaxRegistrationNumber(), profile.getTaxRegistrationNumber())

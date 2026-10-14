@@ -28,6 +28,9 @@ class HrmPayrollTaxFilingSourceServiceTest extends BaseDbUnitTest {
   @Resource private HrmSalaryMonthRecordMapper batches;
   @MockBean private HrmPayrollTaxPolicyService policies;
   @MockBean private HrmPayrollTaxProfileService profiles;
+  @MockBean private HrmPayrollTaxCashLedgerService cashLedger;
+  @MockBean private HrmPayrollTaxDeductionService deductions;
+  @MockBean private HrmPayrollTaxEmploymentService employment;
   private HrmPayrollTaxPolicyDO policy;
   private HrmPayrollTaxProfileDO profile;
 

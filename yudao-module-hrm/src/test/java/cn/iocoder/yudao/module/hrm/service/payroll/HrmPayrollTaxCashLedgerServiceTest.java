@@ -27,6 +27,8 @@ class HrmPayrollTaxCashLedgerServiceTest extends BaseDbUnitTest {
   @Resource private HrmPayrollRunMapper runs;
   @Resource private HrmSalaryMonthRecordMapper batches;
   @Resource private HrmPayrollTaxProfileMapper profileMapper;
+  @Resource private HrmPayrollTaxCorrectionMapper corrections;
+  @Resource private HrmPayrollTaxPolicyMapper policies;
   @MockBean private HrmPayrollEntityService entities;
   @MockBean private HrmPayrollTaxProfileService profiles;
   private HrmPayrollTaxProfileDO profile;
@@ -293,5 +295,51 @@ class HrmPayrollTaxCashLedgerServiceTest extends BaseDbUnitTest {
     assertThrows(
         IllegalStateException.class,
         () -> service.ledger(10L, 1L, 2026, LocalDate.of(2026, 10, 1), 9L));
+  }
+
+  @Test
+  void correctedRehiredAliasUsesItsOwnApprovedProfileWhileMergingSameTaxpayer() {
+    HrmPayrollTaxProfileDO alias =
+        cn.iocoder.yudao.framework.common.util.object.BeanUtils.toBean(
+                profile, HrmPayrollTaxProfileDO.class)
+            .setId(101L)
+            .setEmployeeId(2L)
+            .setStatus("APPROVED");
+    profileMapper.insert(alias);
+    when(profiles.requireApproved(10L, 2L, 2026)).thenReturn(alias);
+    HrmPayrollPaymentDO payment = paid(10L, 2L, LocalDate.of(2026, 9, 1), "SUCCESS");
+    HrmPayrollRunDO run = runs.selectById(payment.getRunId());
+    HrmPayrollTaxPolicyDO policy =
+        new HrmPayrollTaxPolicyDO()
+            .setEntityId(10L)
+            .setYear(2026)
+            .setVersion(1)
+            .setStatus("APPROVED");
+    policies.insert(policy);
+    HrmPayrollTaxCorrectionDO correction =
+        new HrmPayrollTaxCorrectionDO()
+            .setPaymentId(payment.getId())
+            .setRunId(run.getId())
+            .setEntityId(10L)
+            .setEmployeeId(2L)
+            .setVersion(1)
+            .setPolicyId(policy.getId())
+            .setProfileId(alias.getId())
+            .setTaxpayerKey(profile.getTaxpayerKey())
+            .setTaxRegistrationNumber(profile.getTaxRegistrationNumber())
+            .setSourceDigest(HrmPayrollTaxCorrectionService.digest(payments.selectById(payment.getId()), run))
+            .setIncome(money("10000"))
+            .setSocialDeduction(money("1000"))
+            .setBasicDeduction(money("2500"))
+            .setActualSalaryWithheld(money("100"))
+            .setSeparateBonusIncome(BigDecimal.ZERO)
+            .setActualBonusWithheld(BigDecimal.ZERO)
+            .setStatus("APPROVED");
+    corrections.insert(correction);
+    HrmPayrollTaxCashLedgerVO result = ledger();
+    assertTrue(result.isReady(), result.getBlockers().toString());
+    equal("10000", result.getIncome());
+    equal("2500", result.getBasicDeduction());
+    assertEquals(correction.getId(), result.getRows().get(0).getCorrectionId());
   }
 }

@@ -25,11 +25,13 @@ import org.springframework.context.annotation.Import;
 @Import({
   HrmPayrollTaxCorrectionService.class,
   HrmPayrollTaxCashLedgerService.class,
+  HrmPayrollTaxFilingSourceService.class,
   org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration.class
 })
 class HrmPayrollTaxCorrectionServiceTest extends BaseDbUnitTest {
   @Resource private HrmPayrollTaxCorrectionService service;
   @Resource private HrmPayrollTaxCashLedgerService ledger;
+  @Resource private HrmPayrollTaxFilingSourceService filingSource;
   @Resource private HrmPayrollTaxCorrectionMapper corrections;
   @Resource private HrmPayrollPaymentMapper payments;
   @Resource private HrmPayrollRunMapper runs;
@@ -42,6 +44,7 @@ class HrmPayrollTaxCorrectionServiceTest extends BaseDbUnitTest {
   @MockBean private HrmPayrollTaxPolicyService policyService;
   @MockBean private HrmPayrollTaxProfileService profiles;
   @MockBean private HrmPayrollTaxEmploymentService employment;
+  @MockBean private HrmPayrollTaxDeductionService deductions;
   private HrmPayrollPaymentDO payment;
   private HrmPayrollRunDO run;
   private HrmPayrollTaxProfileDO profile;
@@ -64,6 +67,7 @@ class HrmPayrollTaxCorrectionServiceTest extends BaseDbUnitTest {
             .setYear(2026)
             .setResidentThisYear(true)
             .setTaxpayerKey("taxpayer")
+            .setTaxpayerName("虚构员工")
             .setTaxRegistrationNumber("current-agent")
             .setOpeningMode("ZERO")
             .setOpeningAsOfDate(LocalDate.of(2026, 1, 1))
@@ -80,8 +84,17 @@ class HrmPayrollTaxCorrectionServiceTest extends BaseDbUnitTest {
             .setMonthlyBasicDeduction(money("5000"))
             .setTaxRegistrationNumber("current-agent")
             .setStatus("APPROVED");
+    policy.setResidentBands("[{\"upper\":null,\"rate\":0.03,\"quickDeduction\":0}]");
     policies.insert(policy);
     when(policyService.requireApproved(10L, 2026)).thenReturn(policy);
+    when(deductions.source(10L, 1L, 2026, 9))
+        .thenReturn(new HrmPayrollTaxDeductionDO().setId(201L).setStatus("APPROVED"));
+    when(deductions.values(any())).thenReturn(Collections.singletonMap("260101", BigDecimal.ZERO));
+    when(employment.forApprovedPayroll(10L, 1L, LocalDate.of(2026, 9, 30)))
+        .thenReturn(
+            new PayrollTaxEmploymentEngine.Result()
+                .setBasicDeduction(money("45000"))
+                .setMonths(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9)));
     when(employment.forApprovedPayroll(10L, 1L, LocalDate.of(2026, 9, 1)))
         .thenReturn(new PayrollTaxEmploymentEngine.Result().setBasicDeduction(money("45000")));
     batch =
@@ -258,5 +271,33 @@ class HrmPayrollTaxCorrectionServiceTest extends BaseDbUnitTest {
   @Test
   void correctedBasicCannotExceedApprovedEmploymentEntitlement() {
     assertServiceException(() -> service.preview(request("a", "45001"), 2L), PAYROLL_TAX_INVALID);
+  }
+
+  @Test
+  void filingReconstructsCorrectedMonthAndSeparatesOverWithheldFromActualTax() {
+    Long id = service.submit(request("a", "10000"), 2L);
+    service.review(id, true, "核对正式资料", 3L);
+    cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxFilingSourceVO out =
+        filingSource.source(10L, 2026, 9);
+    assertEquals(0, money("0").compareTo(out.getTotalTax()));
+    assertEquals(0, money("100").compareTo(out.getActualWithheldTotal()));
+    assertEquals(0, money("-100").compareTo(out.getPeriodTaxDifference()));
+    assertEquals(1, out.getRows().size());
+    cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxFilingSourceVO.Row row =
+        out.getRows().get(0);
+    assertEquals(Collections.singletonList(id), row.getTaxCorrectionIds());
+    assertEquals(0, money("10000").compareTo(row.getCumulativeIncome()));
+    assertEquals(0, money("45000").compareTo(row.getCumulativeBasicDeduction()));
+    assertEquals(0, money("100").compareTo(row.getCumulativeActualWithheld()));
+    assertEquals(0, money("-100").compareTo(row.getCumulativeTaxBalance()));
+    assertEquals(0, money("100").compareTo(row.getWithheld()));
+  }
+
+  @Test
+  void filingCorrectionRequiresReadyDeductionAndCurrentApprovedBasis() {
+    Long id = service.submit(request("a", "5000"), 2L);
+    service.review(id, true, "审核", 3L);
+    when(deductions.source(10L, 1L, 2026, 9)).thenReturn(null);
+    assertServiceException(() -> filingSource.source(10L, 2026, 9), PAYROLL_TAX_INVALID);
   }
 }

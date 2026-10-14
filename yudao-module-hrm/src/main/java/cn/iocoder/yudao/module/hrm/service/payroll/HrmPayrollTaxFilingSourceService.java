@@ -28,19 +28,26 @@ public class HrmPayrollTaxFilingSourceService {
   @Resource private HrmSalaryMonthRecordMapper batches;
   @Resource private HrmPayrollTaxPolicyService policies;
   @Resource private HrmPayrollTaxProfileService profiles;
+  @Resource private HrmPayrollTaxCorrectionMapper corrections;
+  @Resource private HrmPayrollTaxCashLedgerService cashLedger;
+  @Resource private HrmPayrollTaxDeductionService deductions;
+  @Resource private HrmPayrollTaxEmploymentService employment;
 
   private static class Candidate {
     final HrmSalaryMonthEmployeeRecordDO result;
     final HrmPayrollTaxWithholdingService.Source source;
     final Long paymentId;
+    final boolean corrected;
 
     Candidate(
         HrmSalaryMonthEmployeeRecordDO result,
         HrmPayrollTaxWithholdingService.Source source,
-        Long paymentId) {
+        Long paymentId,
+        boolean corrected) {
       this.result = result;
       this.source = source;
       this.paymentId = paymentId;
+      this.corrected = corrected;
     }
   }
 
@@ -105,6 +112,123 @@ public class HrmPayrollTaxFilingSourceService {
     return row;
   }
 
+  private void replaceValue(HrmSalaryMonthEmployeeRecordDO result, int code, BigDecimal amount) {
+    List<HrmSalaryMonthEmployeeRecordDO.OptionValue> values = new ArrayList<>();
+    for (HrmSalaryMonthEmployeeRecordDO.OptionValue value : result.getOptionValues())
+      if (!Objects.equals(value.getCode(), code)) values.add(value);
+    values.add(new HrmSalaryMonthEmployeeRecordDO.OptionValue().setCode(code).setValue(amount));
+    result.setOptionValues(values);
+  }
+
+  private HrmPayrollTaxWithholdingService.Source correctedSource(
+      HrmPayrollPaymentDO payment,
+      HrmSalaryMonthEmployeeRecordDO result,
+      HrmPayrollTaxWithholdingService.Source original,
+      HrmPayrollTaxPolicyDO policy,
+      HrmPayrollTaxCashLedgerVO.Row cash,
+      YearMonth period) {
+    HrmPayrollTaxCashLedgerVO ledger =
+        cashLedger.forApprovedPayroll(
+            policy.getEntityId(), payment.getEmployeeId(), period.getYear(), period.atEndOfMonth());
+    if (!ledger.isReady()) throw exception(PAYROLL_TAX_INVALID);
+    HrmPayrollTaxCashLedgerVO.Row corrected =
+        ledger.getRows().stream()
+            .filter(r -> Objects.equals(r.getPaymentId(), payment.getId()))
+            .findFirst()
+            .orElseThrow(() -> exception(PAYROLL_TAX_INVALID));
+    if (corrected.getCorrectionId() == null) throw exception(PAYROLL_TAX_INVALID);
+    cash.setIncome(corrected.getIncome())
+        .setSocialDeduction(corrected.getSocialDeduction())
+        .setBasicDeduction(corrected.getBasicDeduction())
+        .setWithheld(corrected.getWithheld())
+        .setSeparateBonusIncome(corrected.getSeparateBonusIncome())
+        .setSeparateBonusTax(corrected.getSeparateBonusTax());
+    HrmPayrollTaxProfileDO profile =
+        profiles.requireApproved(policy.getEntityId(), payment.getEmployeeId(), period.getYear());
+    if (profile.getOpeningAsOfDate() == null
+        || !profile.getOpeningAsOfDate().isBefore(period.atDay(1)))
+      throw exception(PAYROLL_TAX_INVALID);
+    HrmPayrollTaxDeductionDO declaration =
+        deductions.source(
+            policy.getEntityId(),
+            payment.getEmployeeId(),
+            period.getYear(),
+            period.getMonthValue());
+    if (declaration == null) throw exception(PAYROLL_TAX_INVALID);
+    Map<String, BigDecimal> values = deductions.values(declaration);
+    BigDecimal additional = values.values().stream().reduce(BigDecimal.ZERO, BigDecimal::add);
+    PayrollTaxEmploymentEngine.Result months =
+        employment.forApprovedPayroll(
+            policy.getEntityId(), payment.getEmployeeId(), period.atEndOfMonth());
+    if (months == null
+        || months.getMonths() == null
+        || ledger.getBasicDeduction().compareTo(months.getBasicDeduction()) > 0)
+      throw exception(PAYROLL_TAX_INVALID);
+    PayrollTaxPolicyEngine.Quote quote =
+        PayrollTaxPolicyEngine.quote(
+            policy,
+            new cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo
+                    .HrmPayrollTaxPolicyTrialReqVO()
+                .setPolicyId(policy.getId())
+                .setBasicMonths(months.getMonths().size())
+                .setSalaryIncome(ledger.getIncome())
+                .setSocialDeduction(ledger.getSocialDeduction())
+                .setAdditionalDeduction(additional)
+                .setOtherDeduction(BigDecimal.ZERO)
+                .setAlreadyWithheld(ledger.getWithheld())
+                .setBonusAmount(BigDecimal.ZERO)
+                .setBonusMode("NONE")
+                .setSeparateBonusAlreadyUsed(false));
+    replaceValue(result, 270101, ledger.getIncome());
+    replaceValue(result, 270103, ledger.getSocialDeduction());
+    replaceValue(result, 270102, quote.getBasicDeduction());
+    replaceValue(result, 270104, additional);
+    replaceValue(result, 270105, quote.getSalaryTaxable());
+    replaceValue(result, 270106, quote.getCumulativeSalaryTax());
+    BigDecimal currentIncome = cash.getIncome();
+    if ("MERGED".equals(original.bonusMode()))
+      currentIncome = currentIncome.subtract(original.bonusAmount());
+    if ("SEPARATE".equals(original.bonusMode())) {
+      if (policy.getSeparateBonusValidTo() == null
+          || payment.getValueDate().isAfter(policy.getSeparateBonusValidTo()))
+        throw exception(PAYROLL_TAX_INVALID);
+      PayrollTaxPolicyEngine.Quote bonusQuote =
+          PayrollTaxPolicyEngine.quote(
+              policy,
+              new cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo
+                      .HrmPayrollTaxPolicyTrialReqVO()
+                  .setPolicyId(policy.getId())
+                  .setBasicMonths(0)
+                  .setSalaryIncome(BigDecimal.ZERO)
+                  .setSocialDeduction(BigDecimal.ZERO)
+                  .setAdditionalDeduction(BigDecimal.ZERO)
+                  .setOtherDeduction(BigDecimal.ZERO)
+                  .setAlreadyWithheld(BigDecimal.ZERO)
+                  .setBonusAmount(original.bonusAmount())
+                  .setBonusMode("SEPARATE")
+                  .setSeparateBonusAlreadyUsed(false));
+      quote.setSeparateBonusTax(bonusQuote.getSeparateBonusTax());
+    }
+    PayrollTaxPolicyEngine.amount(currentIncome);
+    quote.setBonusMode(original.bonusMode());
+    return new HrmPayrollTaxWithholdingService.Source()
+        .setEntityId(policy.getEntityId())
+        .setEmployeeId(payment.getEmployeeId())
+        .setBatchId(payment.getMonthRecordId())
+        .setExpectedPaymentDate(payment.getValueDate())
+        .setPolicy(policy)
+        .setProfile(profile)
+        .setBonus(original.getBonus())
+        .setPaid(ledger)
+        .setDeclaration(declaration)
+        .setEmployment(months)
+        .setAdditionalDeduction(additional)
+        .setDeductionValues(new TreeMap<>(values))
+        .setCurrentIncome(currentIncome)
+        .setCurrentSocialDeduction(cash.getSocialDeduction())
+        .setQuote(quote);
+  }
+
   /** Internal: the caller must authorize the entity before retrieving this evidence. */
   @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
   public HrmPayrollTaxFilingSourceVO source(Long entityId, Integer year, Integer month) {
@@ -148,8 +272,13 @@ public class HrmPayrollTaxFilingSourceService {
       HrmPayrollTaxCashLedgerVO.Row cash = new HrmPayrollTaxCashLedgerVO.Row();
       HrmSalaryMonthEmployeeRecordDO result;
       HrmPayrollTaxWithholdingService.Source source;
+      HrmPayrollTaxCorrectionDO correction =
+          corrections.selectOne(
+              new LambdaQueryWrapperX<HrmPayrollTaxCorrectionDO>()
+                  .eq(HrmPayrollTaxCorrectionDO::getPaymentId, payment.getId())
+                  .eq(HrmPayrollTaxCorrectionDO::getStatus, "APPROVED"));
       try {
-        HrmPayrollTaxCashLedgerService.populate(cash, payment, run);
+        HrmPayrollTaxCashLedgerService.populate(cash, payment, run, correction == null);
         List<HrmSalaryMonthEmployeeRecordDO> results =
             JsonUtils.parseArray(run.getResultSnapshot(), HrmSalaryMonthEmployeeRecordDO.class);
         result =
@@ -162,6 +291,10 @@ public class HrmPayrollTaxFilingSourceService {
                 result.getTaxSourceSnapshot(), HrmPayrollTaxWithholdingService.Source.class);
       } catch (RuntimeException ex) {
         throw exception(PAYROLL_TAX_INVALID);
+      }
+      if (correction != null) {
+        if (source == null || source.getProfile() == null) throw exception(PAYROLL_TAX_INVALID);
+        source = correctedSource(payment, result, source, policy, cash, period);
       }
       if (source == null
           || source.getProfile() == null
@@ -204,12 +337,19 @@ public class HrmPayrollTaxFilingSourceService {
           .setCumulativeTax(value(result, 270106));
       candidates
           .computeIfAbsent(wage, key -> new ArrayList<>())
-          .add(new Candidate(result, source, payment.getId()));
+          .add(new Candidate(result, source, payment.getId(), correction != null));
       out.setTotalTax(out.getTotalTax().add(cash.getWithheld()));
       if ("SEPARATE".equals(source.bonusMode())) {
         HrmPayrollTaxFilingSourceVO.Row bonus = row(rows, profile, payment, "SEPARATE_BONUS");
         if (bonus.getPaymentIds().size() != 1) throw exception(PAYROLL_TAX_INVALID);
         bonus.setIncome(cash.getSeparateBonusIncome()).setWithheld(cash.getSeparateBonusTax());
+        if (correction != null) {
+          bonus.getTaxCorrectionIds().add(correction.getId());
+          bonus
+              .setExpectedBonusWithholding(source.getQuote().getSeparateBonusTax())
+              .setBonusTaxBalance(
+                  source.getQuote().getSeparateBonusTax().subtract(cash.getSeparateBonusTax()));
+        }
         out.setTotalTax(out.getTotalTax().add(cash.getSeparateBonusTax()));
       }
     }
@@ -227,12 +367,43 @@ public class HrmPayrollTaxFilingSourceService {
         if (prior.containsAll(wage.getPaymentIds())) complete = candidate;
       }
       if (complete == null) throw exception(PAYROLL_VERSION_CONFLICT);
+      for (HrmPayrollTaxCashLedgerVO.Row paidRow : complete.source.getPaid().getRows()) {
+        if (paidRow.getCorrectionId() != null
+            && !wage.getTaxCorrectionIds().contains(paidRow.getCorrectionId()))
+          wage.getTaxCorrectionIds().add(paidRow.getCorrectionId());
+      }
+      if (!wage.getTaxCorrectionIds().isEmpty()) {
+        Collections.sort(wage.getTaxCorrectionIds());
+        BigDecimal actual = complete.source.getPaid().getWithheld();
+        if (!complete.corrected)
+          actual = actual.add(complete.source.getQuote().getCurrentSalaryWithholding());
+        BigDecimal priorPeriodActual = actual.subtract(wage.getWithheld());
+        PayrollTaxPolicyEngine.amount(priorPeriodActual);
+        BigDecimal expectedCurrent =
+            value(complete.result, 270106).subtract(priorPeriodActual).max(BigDecimal.ZERO);
+        wage.setExpectedSalaryWithholding(expectedCurrent);
+        out.setTotalTax(out.getTotalTax().subtract(wage.getWithheld()).add(expectedCurrent));
+        wage.setCumulativeActualWithheld(actual)
+            .setCumulativeTaxBalance(value(complete.result, 270106).subtract(actual));
+      }
       wage.setCumulativeIncome(value(complete.result, 270101))
           .setCumulativeSocialDeduction(value(complete.result, 270103))
           .setCumulativeBasicDeduction(value(complete.result, 270102))
           .setCumulativeAdditionalDeduction(value(complete.result, 270104))
           .setCumulativeTaxable(value(complete.result, 270105))
           .setCumulativeTax(value(complete.result, 270106));
+    }
+    boolean amended = rows.values().stream().anyMatch(row -> !row.getTaxCorrectionIds().isEmpty());
+    if (amended) {
+      BigDecimal actual =
+          rows.values().stream()
+              .map(HrmPayrollTaxFilingSourceVO.Row::getWithheld)
+              .reduce(BigDecimal.ZERO, BigDecimal::add);
+      for (HrmPayrollTaxFilingSourceVO.Row row : rows.values())
+        if (row.getExpectedBonusWithholding() != null)
+          out.setTotalTax(
+              out.getTotalTax().subtract(row.getWithheld()).add(row.getExpectedBonusWithholding()));
+      out.setActualWithheldTotal(actual).setPeriodTaxDifference(out.getTotalTax().subtract(actual));
     }
     out.setRows(new ArrayList<>(rows.values()));
     return out;

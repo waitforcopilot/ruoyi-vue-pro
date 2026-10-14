@@ -20,7 +20,7 @@
     <el-table-column label="状态"
       ><template #default="{ row }">{{ states[row.status] }}</template></el-table-column
     >
-    <el-table-column prop="expectedTax" label="已预扣税合计" />
+    <el-table-column prop="expectedTax" label="申报应缴税合计" />
     <el-table-column prop="filingReference" label="正式申报凭据" min-width="180" />
     <el-table-column prop="filedDate" label="申报日期" />
     <el-table-column label="操作" width="300"
@@ -79,9 +79,21 @@
       />
       <el-descriptions :column="3" border class="mt-4">
         <el-descriptions-item label="状态">{{ states[data.filing.status] }}</el-descriptions-item>
-        <el-descriptions-item label="已预扣税">{{ data.filing.expectedTax }}</el-descriptions-item>
+        <el-descriptions-item label="申报应缴税">{{
+          data.filing.expectedTax
+        }}</el-descriptions-item>
         <el-descriptions-item label="正式缴退净额">{{ data.officialPaid }}</el-descriptions-item>
         <el-descriptions-item label="待核对差额">{{ data.difference }}</el-descriptions-item>
+        <el-descriptions-item
+          v-if="data.source.actualWithheldTotal !== undefined"
+          label="实际预缴税"
+          >{{ data.source.actualWithheldTotal }}</el-descriptions-item
+        >
+        <el-descriptions-item
+          v-if="data.source.periodTaxDifference !== undefined"
+          label="本期税差额"
+          >{{ data.source.periodTaxDifference }}（正数待补扣，负数待核实退税）</el-descriptions-item
+        >
         <el-descriptions-item label="纳税登记号">{{
           data.source.taxRegistrationNumber
         }}</el-descriptions-item>
@@ -152,6 +164,24 @@
               prop="cumulativeTax"
               label="累计工资应税额"
             />
+            <el-table-column prop="cumulativeActualWithheld" label="累计实际工资预缴" width="160" />
+            <el-table-column label="工资累计税差额" width="170"
+              ><template #default="{ row }">{{
+                row.cumulativeTaxBalance === undefined ? '—' : row.cumulativeTaxBalance
+              }}</template></el-table-column
+            >
+            <el-table-column
+              prop="expectedSalaryWithholding"
+              label="本月工资应预扣税"
+              width="170"
+            />
+            <el-table-column prop="expectedBonusWithholding" label="奖金应预扣税" width="140" />
+            <el-table-column prop="bonusTaxBalance" label="奖金税差额" width="140" />
+            <el-table-column label="更正履历" width="140"
+              ><template #default="{ row }">{{
+                row.taxCorrectionIds?.join('、') || '—'
+              }}</template></el-table-column
+            >
             <el-table-column label="到账明细"
               ><template #default="{ row }">{{
                 row.paymentIds.join('、')

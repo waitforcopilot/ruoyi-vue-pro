@@ -56,4 +56,22 @@ public class HrmPayrollTaxFilingExportRowVO {
 
   @ExcelProperty("累计应纳税额")
   private java.math.BigDecimal cumulativeTax;
+
+  @ExcelProperty("税务更正记录")
+  private String taxCorrectionReferences;
+
+  @ExcelProperty("本月工资应预扣税")
+  private java.math.BigDecimal expectedSalaryWithholding;
+
+  @ExcelProperty("累计实际工资预缴")
+  private java.math.BigDecimal cumulativeActualWithheld;
+
+  @ExcelProperty("累计工资税差额（正数待补扣）")
+  private java.math.BigDecimal cumulativeTaxBalance;
+
+  @ExcelProperty("奖金应预扣税")
+  private java.math.BigDecimal expectedBonusWithholding;
+
+  @ExcelProperty("奖金税差额（正数待补扣）")
+  private java.math.BigDecimal bonusTaxBalance;
 }

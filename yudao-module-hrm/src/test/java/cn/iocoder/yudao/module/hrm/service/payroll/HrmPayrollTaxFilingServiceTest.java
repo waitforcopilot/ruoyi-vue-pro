@@ -260,4 +260,37 @@ class HrmPayrollTaxFilingServiceTest extends BaseDbUnitTest {
     doThrow(new IllegalStateException("denied")).when(entities).check(10L, "REVIEW", 9L);
     assertThrows(IllegalStateException.class, () -> service.reconcile(filing, "无权限", 9L));
   }
+
+  @Test
+  void amendedZeroLiabilityReconcilesOfficialRefundWhileKeepingActualWithheld() {
+    Long old = filed();
+    Long payment = paid(old, "120");
+    source
+        .setTotalTax(BigDecimal.ZERO)
+        .setActualWithheldTotal(money("120"))
+        .setPeriodTaxDifference(money("-120"));
+    source
+        .getRows()
+        .get(0)
+        .setExpectedSalaryWithholding(BigDecimal.ZERO)
+        .setCumulativeActualWithheld(money("120"))
+        .setCumulativeTaxBalance(money("-120"))
+        .setTaxCorrectionIds(Collections.singletonList(77L));
+    Long amended = service.create(req().setPriorFilingId(old), 1L);
+    service.review(amended, true, "核对批准更正与实际预缴", 2L);
+    service.filed(amended, "AMENDED-ZERO", LocalDate.of(2026, 10, 3), "正式更正申报", 1L);
+    HrmPayrollTaxReceiptReqVO refund =
+        receipt(amended, "120")
+            .setKind("REFUND")
+            .setOriginalReceiptId(payment)
+            .setPaymentDate(LocalDate.of(2026, 10, 4));
+    Long refundId = service.receipt(refund, 1L);
+    service.reviewReceipt(refundId, true, "核对官方退税到账凭据", 2L);
+    service.reconcile(amended, "原缴税减正式退款等于更正应缴零额", 2L);
+    assertEquals("RECONCILED", filings.selectById(amended).getStatus());
+    HrmPayrollTaxFilingExportRowVO export = service.export(amended, 2L).get(0);
+    assertEquals(0, money("120").compareTo(export.getWithheld()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(export.getExpectedSalaryWithholding()));
+    assertEquals("77", export.getTaxCorrectionReferences());
+  }
 }
