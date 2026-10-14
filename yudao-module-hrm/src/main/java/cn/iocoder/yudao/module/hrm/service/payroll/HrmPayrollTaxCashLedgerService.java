@@ -209,6 +209,31 @@ public class HrmPayrollTaxCashLedgerService {
         .setSocialDeduction(delta(values, 270103, 250103))
         .setBasicDeduction(delta(values, 270102, 250102))
         .setWithheld(r.getPersonalTax());
+    row.setSeparateBonusIncome(BigDecimal.ZERO).setSeparateBonusTax(BigDecimal.ZERO);
+    if (r.getTaxSourceSnapshot() != null) {
+      HrmPayrollTaxWithholdingService.Source source =
+          JsonUtils.parseObject(
+              r.getTaxSourceSnapshot(), HrmPayrollTaxWithholdingService.Source.class);
+      if (source == null
+          || source.getQuote() == null
+          || source.getQuote().getCurrentWithholding() == null
+          || source.getQuote().getCurrentWithholding().compareTo(r.getPersonalTax()) != 0
+          || source.getQuote().getCurrentSalaryWithholding() == null
+          || source.getQuote().getSeparateBonusTax() == null
+          || source
+                  .getQuote()
+                  .getCurrentSalaryWithholding()
+                  .add(source.getQuote().getSeparateBonusTax())
+                  .compareTo(r.getPersonalTax())
+              != 0) throw new IllegalArgumentException();
+      row.setWithheld(source.getQuote().getCurrentSalaryWithholding());
+      if ("SEPARATE".equals(source.bonusMode())) {
+        if (source.bonusAmount().signum() <= 0) throw new IllegalArgumentException();
+        row.setSeparateBonusIncome(source.bonusAmount())
+            .setSeparateBonusTax(source.getQuote().getSeparateBonusTax());
+      } else if (source.getQuote().getSeparateBonusTax().signum() != 0)
+        throw new IllegalArgumentException();
+    }
   }
 
   private static BigDecimal delta(Map<Integer, BigDecimal> values, int current, int previous) {

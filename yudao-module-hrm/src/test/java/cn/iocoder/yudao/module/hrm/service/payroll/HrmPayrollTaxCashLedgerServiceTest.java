@@ -224,6 +224,38 @@ class HrmPayrollTaxCashLedgerServiceTest extends BaseDbUnitTest {
   }
 
   @Test
+  void separateBonusTaxCannotReduceNextSalaryWithholding() {
+    HrmPayrollPaymentDO payment = paid(10L, 1L, LocalDate.of(2026, 2, 1), "SUCCESS");
+    HrmPayrollRunDO run = runs.selectById(payment.getRunId());
+    List<HrmSalaryMonthEmployeeRecordDO> rows =
+        JsonUtils.parseArray(run.getResultSnapshot(), HrmSalaryMonthEmployeeRecordDO.class);
+    rows.get(0)
+        .setTaxSourceSnapshot(
+            JsonUtils.toJsonString(
+                new HrmPayrollTaxWithholdingService.Source()
+                    .setProfile(new HrmPayrollTaxProfileDO().setTaxRegistrationNumber("agent"))
+                    .setBonus(new HrmPayrollBonusDO().setMode("SEPARATE").setAmount(money("1000")))
+                    .setQuote(
+                        new PayrollTaxPolicyEngine.Quote()
+                            .setCurrentWithholding(money("100"))
+                            .setCurrentSalaryWithholding(money("70"))
+                            .setSeparateBonusTax(money("30")))));
+    run.setResultSnapshot(JsonUtils.toJsonString(rows));
+    runs.updateById(run);
+    HrmPayrollTaxCashLedgerVO result = ledger();
+    assertTrue(result.isReady());
+    assertEquals(0, money("70").compareTo(result.getWithheld()));
+    assertEquals(0, money("10000").compareTo(result.getIncome()));
+    assertEquals(0, money("1000").compareTo(result.getRows().get(0).getSeparateBonusIncome()));
+    assertEquals(0, money("30").compareTo(result.getRows().get(0).getSeparateBonusTax()));
+    rows.get(0).setPersonalTax(money("101"));
+    run.setResultSnapshot(JsonUtils.toJsonString(rows));
+    runs.updateById(run);
+    assertFalse(ledger().isReady());
+    assertNull(ledger().getWithheld());
+  }
+
+  @Test
   void unboundHistoricalPaidBatchCannotBeSilentlyExcluded() {
     paid(null, 1L, LocalDate.of(2026, 2, 1), "SUCCESS");
     assertFalse(ledger().isReady());

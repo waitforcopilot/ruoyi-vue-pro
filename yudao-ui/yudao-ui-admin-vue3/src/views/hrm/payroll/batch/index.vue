@@ -84,7 +84,7 @@
         :closable="false"
       />
       <el-tabs class="mt-4">
-        <el-tab-pane label="年终奖来源"
+        <el-tab-pane v-if="checkPermi(['hrm:payroll:tax:query'])" lazy label="年终奖来源"
           ><Bonuses :key="selected.id" :batch-id="selected.id!" :status="selected.status!"
         /></el-tab-pane>
         <el-tab-pane label="核算版本与差异">
@@ -181,6 +181,7 @@
 </template>
 <script setup lang="ts">
 import Bonuses from './Bonuses.vue'
+import { checkPermi } from '@/utils/permission'
 import { formatDate } from '@/utils/formatTime'
 import * as api from '@/api/hrm/payroll/batch'
 import type { SalaryMonthRecordVO } from '@/api/hrm/salary/month-record'
@@ -189,6 +190,7 @@ const message = useMessage()
 const sourceClaims = ref<any[]>([])
 const claimKinds: Record<string, string> = {
   TAX_YEAR: '年度预扣串行占用',
+  BONUS_YEAR: '纳税人年度单独计税额度',
   WAGE_DAY: '计薪日期',
   OVERTIME: '认可加班',
   WORK_CYCLE: '综合工时周期',

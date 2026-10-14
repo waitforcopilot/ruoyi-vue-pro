@@ -260,7 +260,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest 
     public void boundResidentPayrollUsesApprovedCashYearQuoteInsteadOfLegacyGroupThreshold() {
         when(salaryOptionService.getSalaryOptionList(false)).thenReturn(Arrays.asList(
                 salaryOption(10101,10,"基本工资",true,true),salaryOption(100101,100,"个人社保",true,true),
-                salaryOption(260106,260,"累计婴幼儿照护",true,true)));
+                salaryOption(260106,260,"累计婴幼儿照护",true,true),salaryOption(140101,140,"批准年终奖",true,false)));
         HrmSalaryMonthEmployeeRecordDO record=randomMonthEmployeeRecord(2001L,1001L).setEntityId(10L)
                 .setTaxPaymentDate(LocalDate.of(2026,10,14));
         Map<String,BigDecimal> deductionValues=new java.util.TreeMap<>();
@@ -276,8 +276,8 @@ public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest 
                     .setSocialDeduction(new BigDecimal("10000")).setWithheld(new BigDecimal("1000")))
                 .setQuote(new cn.iocoder.yudao.module.hrm.service.payroll.PayrollTaxPolicyEngine.Quote()
                     .setBasicDeduction(new BigDecimal("50000")).setSalaryTaxable(new BigDecimal("47000"))
-                    .setCumulativeSalaryTax(new BigDecimal("2180")).setCurrentSalaryWithholding(new BigDecimal("1180")));
-        when(taxWithholding.calculate(eq(10L),eq(1001L),eq(record.getTaxPaymentDate()),any(),any(),any())).thenReturn(source);
+                    .setCumulativeSalaryTax(new BigDecimal("2180")).setCurrentSalaryWithholding(new BigDecimal("1180")).setCurrentWithholding(new BigDecimal("1180")));
+        when(taxWithholding.calculateForBatch(eq(2001L),eq(10L),eq(1001L),eq(record.getTaxPaymentDate()),any(),any(),any())).thenReturn(source);
         List<HrmSalaryOptionValueVO> values=Arrays.asList(
                 salaryOptionValue(10101,"基本工资","10000"),salaryOptionValue(100101,"个人社保","1000"),
                 salaryOptionValue(260106,"累计婴幼儿照护","2000"),salaryOptionValue(250101,"此前收入","100000"),
@@ -291,6 +291,15 @@ public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest 
         assertAmount("1180",record.getPersonalTax());assertAmount("7820",record.getRealPaySalary());
         assertNotNull(record.getTaxSourceSnapshot());
         assertAmount("110000",record.getOptionValues().stream().filter(v->v.getCode()==270101).findFirst().get().getValue());
+        when(taxWithholding.bonusForBatch(2001L,1001L)).thenAnswer(invocation -> source.getBonus());
+        source.setBonus(new cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollBonusDO().setMode("SEPARATE").setAmount(new BigDecimal("36000")));
+        source.getQuote().setCurrentWithholding(new BigDecimal("2260")).setSeparateBonusTax(new BigDecimal("1080"));
+        monthEmployeeRecordService.calculateMonthEmployeeRecordList(Collections.singletonList(record),Collections.singletonMap(1001L,values),Collections.singletonMap(1001L,rule));
+        assertAmount("46000",record.getExpectedPaySalary());assertAmount("2260",record.getPersonalTax());assertAmount("42740",record.getRealPaySalary());
+        assertAmount("110000",record.getOptionValues().stream().filter(v->v.getCode()==270101).findFirst().get().getValue());
+        source.getBonus().setMode("MERGED");source.getQuote().setCurrentWithholding(new BigDecimal("4780")).setSeparateBonusTax(BigDecimal.ZERO);
+        monthEmployeeRecordService.calculateMonthEmployeeRecordList(Collections.singletonList(record),Collections.singletonMap(1001L,values),Collections.singletonMap(1001L,rule));
+        assertAmount("40220",record.getRealPaySalary());assertAmount("146000",record.getOptionValues().stream().filter(v->v.getCode()==270101).findFirst().get().getValue());
         values.get(3).setValue(new BigDecimal("99999"));
         cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException(()->
                 monthEmployeeRecordService.calculateMonthEmployeeRecordList(Collections.singletonList(record),

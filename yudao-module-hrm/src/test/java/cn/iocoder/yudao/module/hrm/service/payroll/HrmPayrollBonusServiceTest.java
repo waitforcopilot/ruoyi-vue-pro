@@ -28,6 +28,12 @@ import org.springframework.context.annotation.Import;
 class HrmPayrollBonusServiceTest extends BaseDbUnitTest {
   @Resource private HrmPayrollBonusService service;
   @Resource private HrmPayrollBonusMapper bonuses;
+
+  @Resource
+  private cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollSourceClaimMapper claims;
+
+  @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollPaymentMapper payments;
+  @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRunMapper runs;
   @Resource private HrmEmployeeMapper employees;
   @Resource private HrmSalaryMonthRecordMapper batches;
   @MockBean private HrmPayrollScopeService scope;
@@ -159,6 +165,74 @@ class HrmPayrollBonusServiceTest extends BaseDbUnitTest {
     assertEquals(employeeId, choices.get(0).get("id"));
     when(scope.payrollDates(any())).thenReturn(Collections.emptyMap());
     assertTrue(service.employees(batchId, 2L).isEmpty());
+  }
+
+  @Test
+  void quotaIgnoresReleasedClaimsAllowsItsOwnReservationButNeverPaid() {
+    HrmPayrollSourceClaimDO c =
+        new HrmPayrollSourceClaimDO()
+            .setKind("BONUS_YEAR")
+            .setSourceKey(HrmPayrollBonusService.quotaKey("same-person", 2026))
+            .setBatchId(batchId)
+            .setStatus("RESERVED");
+    claims.insert(c);
+    assertFalse(service.separateUsed(batchId, "same-person", 2026));
+    assertTrue(service.separateUsed(batchId + 1, "same-person", 2026));
+    c.setStatus("PAID");
+    claims.updateById(c);
+    assertTrue(service.separateUsed(batchId, "same-person", 2026));
+    c.setStatus("RELEASED");
+    claims.updateById(c);
+    assertFalse(service.separateUsed(batchId + 1, "same-person", 2026));
+  }
+
+  @Test
+  void unexpectedActualYearRetainsBonusUsageAcrossEntities() {
+    cn.iocoder.yudao.module.hrm.dal.dataobject.salary.monthrecord.HrmSalaryMonthEmployeeRecordDO
+        result =
+            new cn.iocoder.yudao.module.hrm.dal.dataobject.salary.monthrecord
+                    .HrmSalaryMonthEmployeeRecordDO()
+                .setEmployeeId(employeeId)
+                .setTaxSourceSnapshot(
+                    cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(
+                        new HrmPayrollTaxWithholdingService.Source()
+                            .setProfile(new HrmPayrollTaxProfileDO().setTaxpayerKey("same-person"))
+                            .setBonus(
+                                new HrmPayrollBonusDO()
+                                    .setMode("SEPARATE")
+                                    .setAmount(new BigDecimal("1000")))));
+    HrmPayrollRunDO run =
+        new HrmPayrollRunDO()
+            .setVersion(1)
+            .setInputSnapshot("{}")
+            .setRuleSnapshot("{}")
+            .setComputedBy(1L)
+            .setMonthRecordId(batchId)
+            .setResultSnapshot(
+                cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(
+                    Collections.singletonList(result)));
+    runs.insert(run);
+    claims.insert(
+        new HrmPayrollSourceClaimDO()
+            .setKind("BONUS_YEAR")
+            .setSourceKey(HrmPayrollBonusService.quotaKey("same-person", 2025))
+            .setBatchId(batchId)
+            .setRunId(run.getId())
+            .setEmployeeId(employeeId)
+            .setStatus("PAID"));
+    payments.insert(
+        new HrmPayrollPaymentDO()
+            .setEmployeeName("测试奖金员工")
+            .setBankAccount("test-bank")
+            .setAmount(new BigDecimal("1000"))
+            .setAttempt(1)
+            .setMonthRecordId(batchId)
+            .setRunId(run.getId())
+            .setEmployeeId(employeeId)
+            .setStatus("SUCCESS")
+            .setValueDate(LocalDate.of(2026, 1, 1)));
+    assertTrue(service.separateUsed(batchId + 1, "same-person", 2026));
+    assertFalse(service.separateUsed(batchId + 1, "other-person", 2026));
   }
 
   @Test

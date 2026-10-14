@@ -238,6 +238,20 @@ public class HrmPayrollSourceClaimService {
           "TAX_YEAR",
           prefix + ":" + latest.getId(),
           source.getQuote().getCurrentSalaryWithholding());
+      if ("SEPARATE".equals(source.bonusMode())) {
+        if (source.bonusAmount().signum() <= 0
+            || !Objects.equals(source.getBatchId(), batch.getId()))
+          throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+        add(
+            out,
+            batch,
+            latest,
+            entry.getKey(),
+            "BONUS_YEAR",
+            HrmPayrollBonusService.quotaKey(
+                source.getProfile().getTaxpayerKey(), source.getExpectedPaymentDate().getYear()),
+            source.bonusAmount());
+      }
     }
     return new ArrayList<>(out.values());
   }
@@ -278,7 +292,11 @@ public class HrmPayrollSourceClaimService {
             && Objects.equals(existing.getRunId(), run.getId())) continue;
         throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
       }
-      claims.insert(c);
+      try {
+        claims.insert(c);
+      } catch (org.springframework.dao.DuplicateKeyException ex) {
+        throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+      }
     }
   }
 

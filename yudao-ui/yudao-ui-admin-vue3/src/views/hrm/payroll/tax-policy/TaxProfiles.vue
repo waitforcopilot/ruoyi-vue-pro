@@ -203,12 +203,15 @@
         <el-table-column label="归集状态" width="140"
           ><template #default="{ row }">{{ ledgerStates[row.status] }}</template></el-table-column
         >
-        <el-table-column prop="income" label="本次收入" /><el-table-column
+        <el-table-column prop="income" label="本次工资收入" /><el-table-column
           prop="socialDeduction"
           label="专项扣除"
         /><el-table-column prop="basicDeduction" label="减除费用" /><el-table-column
           prop="withheld"
           label="工资预缴"
+        /><el-table-column prop="separateBonusIncome" label="单独计税奖金" /><el-table-column
+          prop="separateBonusTax"
+          label="奖金税额"
         /><el-table-column prop="reason" label="说明" min-width="210" />
       </el-table>
     </template>

@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Import;
 class HrmPayrollTaxWithholdingServiceTest extends BaseDbUnitTest {
   @Resource private HrmPayrollTaxWithholdingService service;
   @MockBean private HrmPayrollTaxPolicyService policies;
+  @MockBean private HrmPayrollBonusService bonuses;
   @MockBean private HrmPayrollTaxProfileService profiles;
   @MockBean private HrmPayrollTaxDeductionService deductions;
   @MockBean private HrmPayrollTaxCashLedgerService cash;
@@ -77,6 +78,51 @@ class HrmPayrollTaxWithholdingServiceTest extends BaseDbUnitTest {
                 .setMode("EMPLOYMENT_MONTHS")
                 .setMonths(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
                 .setBasicDeduction(money("50000")));
+  }
+
+  @Test
+  void approvedBonusUsesSeparateOrMergedQuoteAndQuota() {
+    HrmPayrollTaxPolicyDO policy = policies.requireApproved(10L, 2026);
+    policy
+        .setSeparateBonusAllowed(true)
+        .setSeparateBonusValidTo(LocalDate.of(2027, 12, 31))
+        .setBonusBands(
+            "[{\"upper\":3000,\"rate\":0.03,\"quickDeduction\":0},{\"upper\":null,\"rate\":0.10,\"quickDeduction\":210}]");
+    profiles.requireApproved(10L, 1L, 2026).setTaxpayerKey("same-person");
+    HrmPayrollBonusDO bonus =
+        new HrmPayrollBonusDO()
+            .setId(8L)
+            .setBatchId(90L)
+            .setEntityId(10L)
+            .setEmployeeId(1L)
+            .setProfileId(2L)
+            .setExpectedPaymentDate(payDate)
+            .setMode("SEPARATE")
+            .setAmount(money("36000.01"))
+            .setStatus("APPROVED");
+    when(bonuses.source(90L, 1L)).thenReturn(bonus);
+    HrmPayrollTaxWithholdingService.Source source =
+        service.calculateForBatch(
+            90L, 10L, 1L, payDate, money("10000"), money("1000"), money("2000"));
+    assertEquals(0, money("3390.00").compareTo(source.getQuote().getSeparateBonusTax()));
+    assertEquals(0, money("4570.00").compareTo(source.getQuote().getCurrentWithholding()));
+    assertEquals(0, money("1180").compareTo(source.getQuote().getCurrentSalaryWithholding()));
+    String snapshot = JsonUtils.toJsonString(source);
+    service.validate(snapshot);
+    bonus.setMode("MERGED");
+    assertServiceException(() -> service.validate(snapshot), PAYROLL_TAX_INVALID);
+    source =
+        service.calculateForBatch(
+            90L, 10L, 1L, payDate, money("10000"), money("1000"), money("2000"));
+    assertEquals(0, money("4780.00").compareTo(source.getQuote().getCurrentWithholding()));
+    assertEquals(0, source.getQuote().getSeparateBonusTax().signum());
+    bonus.setMode("SEPARATE");
+    when(bonuses.separateUsed(90L, "same-person", 2026)).thenReturn(true);
+    assertServiceException(
+        () ->
+            service.calculateForBatch(
+                90L, 10L, 1L, payDate, money("10000"), money("1000"), money("2000")),
+        PAYROLL_TAX_INVALID);
   }
 
   private HrmPayrollTaxWithholdingService.Source calculate() {

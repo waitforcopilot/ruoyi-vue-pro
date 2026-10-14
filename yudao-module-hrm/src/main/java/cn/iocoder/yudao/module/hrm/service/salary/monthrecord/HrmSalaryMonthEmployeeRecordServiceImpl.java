@@ -408,6 +408,15 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
         List<HrmSalaryOptionValueVO> values = fillLastMonthCumulativeValues(
                 new ArrayList<>(optionValues), employeeRecord.getEmployeeId(),
                 employeeRecord.getYear(), employeeRecord.getMonth(), employeeRecord.getEntityId(), taxRule, optionMap);
+        if(employeeRecord.getEntityId()!=null && isSalaryTaxRule(taxRule)) {
+            if(getOptionValue(values,140101).signum()!=0) throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_TAX_INVALID);
+            cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollBonusDO bonus=taxWithholding.bonusForBatch(employeeRecord.getMonthRecordId(),employeeRecord.getEmployeeId());
+            if(bonus!=null && bonus.getAmount().signum()>0) {
+                HrmSalaryOptionDO bonusOption=optionMap.get(140101);
+                if(bonusOption==null || !Objects.equals(bonusOption.getParentCode(),140) || !Boolean.FALSE.equals(bonusOption.getTaxEnabled()) || !Objects.equals(bonusOption.getType(),1) || Boolean.FALSE.equals(bonusOption.getEnabled())) throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_TAX_INVALID);
+                appendComputedValue(values,140101,"批准年终奖",bonus.getAmount());
+            }
+        }
         values = payrollFormulaService.calculate(values, optionMap,
                 employeeRecord.getFormulaDate() == null ? java.time.LocalDate.of(employeeRecord.getYear(), employeeRecord.getMonth(), 1) : employeeRecord.getFormulaDate(),
                 employeeRecord.getSalaryGroupId(), employeeRecord.getActualWorkDay(), employeeRecord.getNeedWorkDay());
@@ -420,9 +429,10 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
                 date=batch.getExpectedPaymentDate();
             }
             SalaryBaseAmounts current=calculateSalaryBaseAmounts(normalizeComputeSourceValues(values),optionMap);
-            taxSource=taxWithholding.calculate(employeeRecord.getEntityId(),employeeRecord.getEmployeeId(),date,
+            taxSource=taxWithholding.calculateForBatch(employeeRecord.getMonthRecordId(),employeeRecord.getEntityId(),employeeRecord.getEmployeeId(),date,
                     current.getTaxableIncome(),current.getCurrentSpecialDeduction(),calculateCumulativeAdditionalDeduction(values,optionMap));
             if(taxSource==null) throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_TAX_INVALID);
+            if(getOptionValue(values,140101).compareTo(taxSource.bonusAmount())!=0) throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_TAX_INVALID);
             Map<Integer,BigDecimal> prior=new java.util.LinkedHashMap<>();
             prior.put(250101,taxSource.getPaid().getIncome());prior.put(250102,taxSource.getPaid().getBasicDeduction());
             prior.put(250103,taxSource.getPaid().getSocialDeduction());prior.put(250105,taxSource.getPaid().getWithheld());
@@ -473,9 +483,9 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
                         taxRule.getDecimalScale());
             } else {
                 cn.iocoder.yudao.module.hrm.service.payroll.PayrollTaxPolicyEngine.Quote quote=taxSource.getQuote();
-                taxable=baseAmounts.getTaxableBeforeThreshold().subtract(quote.getBasicDeduction().subtract(taxSource.getPaid().getBasicDeduction())).max(BigDecimal.ZERO);
-                personalTax=quote.getCurrentSalaryWithholding();
-                appendComputedValue(values,270101,"累计收入额",taxSource.getPaid().getIncome().add(taxSource.getCurrentIncome()));
+                taxable=baseAmounts.getTaxableBeforeThreshold().add("MERGED".equals(taxSource.bonusMode())?taxSource.bonusAmount():BigDecimal.ZERO).subtract(quote.getBasicDeduction().subtract(taxSource.getPaid().getBasicDeduction())).max(BigDecimal.ZERO);
+                personalTax=quote.getCurrentWithholding();
+                appendComputedValue(values,270101,"累计收入额",taxSource.getPaid().getIncome().add(taxSource.getCurrentIncome()).add("MERGED".equals(taxSource.bonusMode())?taxSource.bonusAmount():BigDecimal.ZERO));
                 appendComputedValue(values,270102,"累计减除费用",quote.getBasicDeduction());
                 appendComputedValue(values,270103,"累计专项扣除",taxSource.getPaid().getSocialDeduction().add(taxSource.getCurrentSocialDeduction()));
                 appendComputedValue(values,270104,"累计专项附加扣除",taxSource.getAdditionalDeduction());

@@ -141,6 +141,63 @@ class HrmPayrollSourceClaimServiceTest extends BaseDbUnitTest {
             .setTaxRegistrationNumber("agent"));
   }
 
+  private HrmPayrollRunDO bonusRun(HrmSalaryMonthRecordDO batch, List<LocalDate> dates) {
+    HrmPayrollRunDO run = taxRun(batch, dates);
+    Map<String, Object> input = JsonUtils.parseObject(run.getInputSnapshot(), Map.class);
+    HrmPayrollTaxWithholdingService.Source source =
+        JsonUtils.parseObject(
+            (String) ((List<?>) input.get("withholdingContexts")).get(0),
+            HrmPayrollTaxWithholdingService.Source.class);
+    source
+        .setBatchId(batch.getId())
+        .setBonus(new HrmPayrollBonusDO().setMode("SEPARATE").setAmount(new BigDecimal("36000")));
+    input.put("withholdingContexts", Collections.singletonList(JsonUtils.toJsonString(source)));
+    run.setInputSnapshot(JsonUtils.toJsonString(input));
+    runs.updateById(run);
+    return run;
+  }
+
+  @Test
+  void separateBonusQuotaIsAcrossEntitiesAndRemainsConsumedAfterPayment() {
+    taxEntity();
+    legalEntities.insert(
+        new HrmPayrollLegalEntityDO()
+            .setId(2L)
+            .setCode("BONUS-AGENT2")
+            .setName("第二主体")
+            .setStatus("APPROVED")
+            .setTaxRegistrationNumber("agent2"));
+    HrmSalaryMonthRecordDO a = batch(1L), b = batch(2L);
+    HrmPayrollRunDO first = bonusRun(a, Collections.singletonList(day(1))),
+        second = bonusRun(b, Collections.singletonList(day(2)));
+    service.reserve(a, first, 3L);
+    assertServiceException(() -> service.reserve(b, second, 3L), PAYROLL_SOURCE_CLAIM_INVALID);
+    service.paid(a.getId(), first.getId(), employee);
+    assertServiceException(() -> service.reserve(b, second, 3L), PAYROLL_SOURCE_CLAIM_INVALID);
+    assertEquals(
+        1,
+        claims.selectList().stream()
+            .filter(c -> "BONUS_YEAR".equals(c.getKind()) && "PAID".equals(c.getStatus()))
+            .count());
+  }
+
+  @Test
+  void unfreezingUnpaidBonusReleasesAnnualQuota() {
+    taxEntity();
+    HrmSalaryMonthRecordDO a = batch(1L), b = batch(1L);
+    HrmPayrollRunDO first = bonusRun(a, Collections.singletonList(day(1))),
+        second = bonusRun(b, Collections.singletonList(day(2)));
+    service.reserve(a, first, 3L);
+    batches.updateById(new HrmSalaryMonthRecordDO().setId(a.getId()).setStatus(15));
+    service.release(a.getId(), first.getId(), "未发放重新核算", 3L);
+    service.reserve(b, second, 3L);
+    assertEquals(
+        1,
+        claims.selectList().stream()
+            .filter(c -> "BONUS_YEAR".equals(c.getKind()) && "RESERVED".equals(c.getStatus()))
+            .count());
+  }
+
   @Test
   void pendingTaxYearBlocksAnotherPeriodAndPaidContextDoesNotRevalidateItself() {
     taxEntity();
@@ -205,6 +262,63 @@ class HrmPayrollSourceClaimServiceTest extends BaseDbUnitTest {
           1,
           claims.selectList().stream()
               .filter(c -> "TAX_YEAR".equals(c.getKind()) && "RESERVED".equals(c.getStatus()))
+              .count());
+    } finally {
+      pool.shutdownNow();
+    }
+  }
+
+  @Test
+  void differentEntitiesAndEmployeeIdsCannotReserveSameBonusYearConcurrently() throws Exception {
+    taxEntity();
+    legalEntities.insert(
+        new HrmPayrollLegalEntityDO()
+            .setId(2L)
+            .setCode("BONUS-CONCURRENT2")
+            .setName("第二主体")
+            .setStatus("APPROVED")
+            .setTaxRegistrationNumber("agent2"));
+    HrmSalaryMonthRecordDO a = batch(1L), b = batch(2L);
+    HrmPayrollRunDO first = bonusRun(a, Collections.singletonList(day(1)));
+    HrmEmployeeDO alias = new HrmEmployeeDO().setName("再入职编号").setJobNumber("BONUS-ALIAS");
+    employees.insert(alias);
+    employee = alias.getId();
+    HrmPayrollRunDO second = bonusRun(b, Collections.singletonList(day(2)));
+    java.util.concurrent.CountDownLatch start = new java.util.concurrent.CountDownLatch(1);
+    java.util.concurrent.ExecutorService pool =
+        java.util.concurrent.Executors.newFixedThreadPool(2);
+    try {
+      java.util.List<java.util.concurrent.Future<Boolean>> outcomes = new ArrayList<>();
+      for (int i = 0; i < 2; i++) {
+        final HrmSalaryMonthRecordDO target = i == 0 ? a : b;
+        final HrmPayrollRunDO version = i == 0 ? first : second;
+        outcomes.add(
+            pool.submit(
+                () -> {
+                  cn.iocoder.yudao.framework.tenant.core.context.TenantContextHolder.setTenantId(
+                      0L);
+                  try {
+                    if (!start.await(10, java.util.concurrent.TimeUnit.SECONDS))
+                      throw new IllegalStateException("start timeout");
+                    service.reserve(target, version, 3L);
+                    return true;
+                  } catch (cn.iocoder.yudao.framework.common.exception.ServiceException ex) {
+                    if (ex.getCode() != PAYROLL_SOURCE_CLAIM_INVALID.getCode()) throw ex;
+                    return false;
+                  } finally {
+                    cn.iocoder.yudao.framework.tenant.core.context.TenantContextHolder.clear();
+                  }
+                }));
+      }
+      start.countDown();
+      int succeeded = 0;
+      for (java.util.concurrent.Future<Boolean> outcome : outcomes)
+        if (outcome.get(20, java.util.concurrent.TimeUnit.SECONDS)) succeeded++;
+      assertEquals(1, succeeded);
+      assertEquals(
+          1,
+          claims.selectList().stream()
+              .filter(c -> "BONUS_YEAR".equals(c.getKind()) && "RESERVED".equals(c.getStatus()))
               .count());
     } finally {
       pool.shutdownNow();

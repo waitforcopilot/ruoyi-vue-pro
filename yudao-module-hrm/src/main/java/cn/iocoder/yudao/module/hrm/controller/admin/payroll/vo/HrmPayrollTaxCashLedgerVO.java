@@ -24,5 +24,6 @@ public class HrmPayrollTaxCashLedgerVO {
     private Integer salaryYear, salaryMonth;
     private String status, reason;
     private BigDecimal income, socialDeduction, basicDeduction, withheld, net;
+    private BigDecimal separateBonusIncome, separateBonusTax;
   }
 }

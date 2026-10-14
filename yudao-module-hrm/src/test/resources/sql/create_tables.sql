@@ -1577,7 +1577,9 @@ CREATE TABLE IF NOT EXISTS "hrm_payroll_source_claim" (
  "status" varchar(32), "released_by" bigint, "release_reason" varchar(1000),
  "creator" varchar DEFAULT '', "create_time" timestamp DEFAULT CURRENT_TIMESTAMP,
  "updater" varchar DEFAULT '', "update_time" timestamp DEFAULT CURRENT_TIMESTAMP,
- "deleted" bit DEFAULT FALSE, "tenant_id" bigint DEFAULT 0
+ "deleted" bit DEFAULT FALSE, "tenant_id" bigint DEFAULT 0,
+ "active_source_key" varchar(128) GENERATED ALWAYS AS (CASE WHEN "deleted"=FALSE AND "status" IN ('RESERVED','PAID') THEN "source_key" ELSE NULL END),
+ UNIQUE ("tenant_id","kind","active_source_key")
 );
 
 CREATE TABLE IF NOT EXISTS "hrm_payroll_no_overtime" (

@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.*;
 @Service
 public class HrmPayrollTaxWithholdingService {
   @Resource private HrmPayrollTaxPolicyService policies;
+  @Resource private HrmPayrollBonusService bonuses;
   @Resource private HrmPayrollTaxProfileService profiles;
   @Resource private HrmPayrollTaxDeductionService deductions;
   @Resource private HrmPayrollTaxCashLedgerService cash;
@@ -27,7 +28,19 @@ public class HrmPayrollTaxWithholdingService {
 
   @Data
   public static class Source {
-    private Long entityId, employeeId;
+    private Long entityId, employeeId, batchId;
+    private HrmPayrollBonusDO bonus;
+
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    public BigDecimal bonusAmount() {
+      return bonus == null ? BigDecimal.ZERO : bonus.getAmount();
+    }
+
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    public String bonusMode() {
+      return bonus == null ? "NONE" : bonus.getMode();
+    }
+
     private LocalDate expectedPaymentDate;
     private HrmPayrollTaxPolicyDO policy;
     private HrmPayrollTaxProfileDO profile;
@@ -39,8 +52,26 @@ public class HrmPayrollTaxWithholdingService {
     private PayrollTaxPolicyEngine.Quote quote;
   }
 
+  /** Approved earnings must enter the formula inputs before derived wage items are evaluated. */
+  public HrmPayrollBonusDO bonusForBatch(Long batchId, Long employeeId) {
+    return batchId == null ? null : bonuses.source(batchId, employeeId);
+  }
+
   @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
   public Source calculate(
+      Long entityId,
+      Long employeeId,
+      LocalDate payDate,
+      BigDecimal currentIncome,
+      BigDecimal currentSocial,
+      BigDecimal confirmedAdditional) {
+    return calculateForBatch(
+        null, entityId, employeeId, payDate, currentIncome, currentSocial, confirmedAdditional);
+  }
+
+  @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
+  public Source calculateForBatch(
+      Long batchId,
       Long entityId,
       Long employeeId,
       LocalDate payDate,
@@ -72,6 +103,17 @@ public class HrmPayrollTaxWithholdingService {
         employment.forApprovedPayroll(entityId, employeeId, payDate);
     if (!ledger.isReady() || ledger.getBasicDeduction().compareTo(months.getBasicDeduction()) > 0)
       throw exception(PAYROLL_TAX_INVALID);
+    HrmPayrollBonusDO bonus = batchId == null ? null : bonuses.source(batchId, employeeId);
+    if (bonus != null
+        && (!Objects.equals(bonus.getEntityId(), entityId)
+            || !Objects.equals(bonus.getExpectedPaymentDate(), payDate)
+            || !Objects.equals(bonus.getProfileId(), profile.getId())))
+      throw exception(PAYROLL_TAX_INVALID);
+    BigDecimal bonusAmount = bonus == null ? BigDecimal.ZERO : bonus.getAmount();
+    String bonusMode = bonus == null ? "NONE" : bonus.getMode();
+    boolean separateUsed = Boolean.TRUE.equals(profile.getSeparateBonusUsedElsewhere());
+    if ("SEPARATE".equals(bonusMode))
+      separateUsed |= bonuses.separateUsed(batchId, profile.getTaxpayerKey(), payDate.getYear());
     HrmPayrollTaxPolicyTrialReqVO request =
         new HrmPayrollTaxPolicyTrialReqVO()
             .setPolicyId(policy.getId())
@@ -81,11 +123,12 @@ public class HrmPayrollTaxWithholdingService {
             .setAdditionalDeduction(additional)
             .setOtherDeduction(BigDecimal.ZERO)
             .setAlreadyWithheld(ledger.getWithheld())
-            .setBonusAmount(BigDecimal.ZERO)
-            .setBonusMode("NONE")
-            .setSeparateBonusAlreadyUsed(
-                Boolean.TRUE.equals(profile.getSeparateBonusUsedElsewhere()));
+            .setBonusAmount(bonusAmount)
+            .setBonusMode(bonusMode)
+            .setSeparateBonusAlreadyUsed(separateUsed);
     return new Source()
+        .setBatchId(batchId)
+        .setBonus(bonus)
         .setEntityId(entityId)
         .setEmployeeId(employeeId)
         .setExpectedPaymentDate(payDate)
@@ -107,11 +150,15 @@ public class HrmPayrollTaxWithholdingService {
     Object contexts = input.get("withholdingContexts");
     if (contexts == null) return;
     if (!(contexts instanceof List)) throw exception(PAYROLL_TAX_INVALID);
+    Object entityScope = input.get("entityScope");
+    Object batchId = entityScope instanceof Map ? ((Map<?, ?>) entityScope).get("batchId") : null;
     for (Object value : (List<?>) contexts) {
       if (!(value instanceof String)) throw exception(PAYROLL_TAX_INVALID);
       Source source = JsonUtils.parseObject((String) value, Source.class);
       if (source == null
           || !Objects.equals(source.getEntityId(), entityId)
+          || (batchId instanceof Number
+              && !Objects.equals(source.getBatchId(), ((Number) batchId).longValue()))
           || !Objects.equals(source.getExpectedPaymentDate(), expectedPaymentDate))
         throw exception(PAYROLL_TAX_INVALID);
       validate((String) value);
@@ -127,7 +174,8 @@ public class HrmPayrollTaxWithholdingService {
     }
     if (saved == null || saved.getPaid() == null) throw exception(PAYROLL_TAX_INVALID);
     Source current =
-        calculate(
+        calculateForBatch(
+            saved.getBatchId(),
             saved.getEntityId(),
             saved.getEmployeeId(),
             saved.getExpectedPaymentDate(),

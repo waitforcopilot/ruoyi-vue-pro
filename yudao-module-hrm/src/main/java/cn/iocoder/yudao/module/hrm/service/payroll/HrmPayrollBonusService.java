@@ -22,6 +22,9 @@ import org.springframework.transaction.annotation.*;
 @Service
 public class HrmPayrollBonusService {
   @Resource private HrmPayrollBonusMapper bonuses;
+  @Resource private HrmPayrollSourceClaimMapper claims;
+  @Resource private HrmPayrollPaymentMapper payments;
+  @Resource private HrmPayrollRunMapper runs;
   @Resource private HrmPayrollBonusEventMapper events;
   @Resource private HrmSalaryMonthRecordMapper batches;
   @Resource private HrmEmployeeMapper employees;
@@ -177,6 +180,70 @@ public class HrmPayrollBonusService {
     eligible(b, p, row.getMode());
     if (!Objects.equals(p.getId(), row.getProfileId())) throw exception(PAYROLL_VERSION_CONFLICT);
     return row;
+  }
+
+  public static String quotaKey(String taxpayerKey, int year) {
+    if (taxpayerKey == null || taxpayerKey.trim().isEmpty()) throw exception(PAYROLL_TAX_INVALID);
+    return cn.hutool.crypto.digest.DigestUtil.sha256Hex(taxpayerKey + ":" + year);
+  }
+
+  /** Reserved by this batch is valid during its freeze/export revalidation; paid is always used. */
+  public boolean separateUsed(Long batchId, String taxpayerKey, int year) {
+    boolean reserved =
+        claims
+            .selectList(
+                new LambdaQueryWrapperX<HrmPayrollSourceClaimDO>()
+                    .eq(HrmPayrollSourceClaimDO::getKind, "BONUS_YEAR")
+                    .eq(HrmPayrollSourceClaimDO::getSourceKey, quotaKey(taxpayerKey, year))
+                    .in(HrmPayrollSourceClaimDO::getStatus, "RESERVED", "PAID"))
+            .stream()
+            .anyMatch(
+                c -> "PAID".equals(c.getStatus()) || !Objects.equals(c.getBatchId(), batchId));
+    if (reserved) return true;
+    Set<String> paidBonusWorkers = new HashSet<>();
+    for (HrmPayrollSourceClaimDO claim :
+        claims.selectList(
+            new LambdaQueryWrapperX<HrmPayrollSourceClaimDO>()
+                .eq(HrmPayrollSourceClaimDO::getKind, "BONUS_YEAR")
+                .eq(HrmPayrollSourceClaimDO::getStatus, "PAID")))
+      paidBonusWorkers.add(claim.getRunId() + ":" + claim.getEmployeeId());
+    if (paidBonusWorkers.isEmpty()) return false;
+    Map<Long, HrmPayrollRunDO> runCache = new HashMap<>();
+    // Actual bank dates can cross the planned tax year; retain that cash-year evidence as well.
+    for (HrmPayrollPaymentDO payment :
+        payments.selectList(
+            new LambdaQueryWrapperX<HrmPayrollPaymentDO>()
+                .eq(HrmPayrollPaymentDO::getStatus, "SUCCESS")
+                .ge(HrmPayrollPaymentDO::getValueDate, LocalDate.of(year, 1, 1))
+                .le(HrmPayrollPaymentDO::getValueDate, LocalDate.of(year, 12, 31)))) {
+      if (!paidBonusWorkers.contains(payment.getRunId() + ":" + payment.getEmployeeId())) continue;
+      HrmPayrollRunDO run = runCache.computeIfAbsent(payment.getRunId(), runs::selectById);
+      if (run == null) throw exception(PAYROLL_TAX_INVALID);
+      List<
+              cn.iocoder.yudao.module.hrm.dal.dataobject.salary.monthrecord
+                  .HrmSalaryMonthEmployeeRecordDO>
+          rows =
+              JsonUtils.parseArray(
+                  run.getResultSnapshot(),
+                  cn.iocoder.yudao.module.hrm.dal.dataobject.salary.monthrecord
+                      .HrmSalaryMonthEmployeeRecordDO.class);
+      if (rows == null) throw exception(PAYROLL_TAX_INVALID);
+      int matches = 0;
+      for (cn.iocoder.yudao.module.hrm.dal.dataobject.salary.monthrecord
+              .HrmSalaryMonthEmployeeRecordDO
+          row : rows) {
+        if (!Objects.equals(row.getEmployeeId(), payment.getEmployeeId())) continue;
+        matches++;
+        HrmPayrollTaxWithholdingService.Source source =
+            JsonUtils.parseObject(
+                row.getTaxSourceSnapshot(), HrmPayrollTaxWithholdingService.Source.class);
+        if (source == null || source.getProfile() == null || !"SEPARATE".equals(source.bonusMode()))
+          throw exception(PAYROLL_TAX_INVALID);
+        if (Objects.equals(source.getProfile().getTaxpayerKey(), taxpayerKey)) return true;
+      }
+      if (matches != 1) throw exception(PAYROLL_TAX_INVALID);
+    }
+    return false;
   }
 
   public List<Map<String, Object>> employees(Long batchId, Long actor) {
