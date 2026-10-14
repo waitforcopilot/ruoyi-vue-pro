@@ -35,6 +35,7 @@
 - `sql/mysql/upgrade/20261014-hrm-payment-plan.sql`
 - `sql/mysql/upgrade/20261014-hrm-tax-withholding.sql`
 - `sql/mysql/upgrade/20261014-hrm-tax-profile-identity-reuse.sql`
+- `sql/mysql/upgrade/20261014-hrm-bonus.sql`
 
 安装扣除资料迁移后，对每个使用薪酬的租户执行现有 `PUT /hrm/salary-option/sync`（`hrm:salary:option:update`）同步新增 `260106` 婴幼儿照护目录项；保留原启用/展示设置。目录项缺失或归属错误时主体工资核算会阻断，不静默忽略非零扣除。旧已复核的五项扣除输入需按六项模板明确补齐并重新复核；不能自行给缺项补零。
 

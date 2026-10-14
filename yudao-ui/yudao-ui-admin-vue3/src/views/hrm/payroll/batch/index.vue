@@ -84,6 +84,9 @@
         :closable="false"
       />
       <el-tabs class="mt-4">
+        <el-tab-pane label="年终奖来源"
+          ><Bonuses :key="selected.id" :batch-id="selected.id!" :status="selected.status!"
+        /></el-tab-pane>
         <el-tab-pane label="核算版本与差异">
           <el-select v-model="selectedRunId" style="width: 300px"
             ><el-option
@@ -177,6 +180,7 @@
   </Dialog>
 </template>
 <script setup lang="ts">
+import Bonuses from './Bonuses.vue'
 import { formatDate } from '@/utils/formatTime'
 import * as api from '@/api/hrm/payroll/batch'
 import type { SalaryMonthRecordVO } from '@/api/hrm/salary/month-record'
