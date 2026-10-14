@@ -125,13 +125,29 @@
     <el-form inline
       ><el-form-item label="累计截止日"
         ><el-date-picker v-model="ledgerDate" value-format="YYYY-MM-DD" /></el-form-item
-      ><el-button :loading="ledgerLoading" @click="loadLedger">核对年度台账</el-button></el-form
+      ><el-button :loading="ledgerLoading" @click="loadLedger">核对年度台账</el-button
+      ><el-button :loading="employmentLoading" @click="loadEmployment"
+        >核对任职月份</el-button
+      ></el-form
     >
     <el-alert
       title="引用成功回盘与冻结工资版本。历史累计覆盖截止日内已发金额，不重复相加；缺日期或税务来源时累计不可使用。此台账尚未替代工资核算的累计输入。"
       type="info"
       :closable="false"
     />
+    <el-descriptions v-if="employmentData" :column="3" border class="mt-10px">
+      <el-descriptions-item label="减除费用口径">{{
+        employmentData.mode === 'EMPLOYMENT_MONTHS'
+          ? '本单位当年任职月份'
+          : '已核实首次工资，从一月起计'
+      }}</el-descriptions-item>
+      <el-descriptions-item label="计入月份">{{
+        employmentData.months.map((month: number) => `${month}月`).join('、') || '本年无任职月份'
+      }}</el-descriptions-item>
+      <el-descriptions-item label="按批准政策应减除费用">{{
+        employmentData.basicDeduction
+      }}</el-descriptions-item>
+    </el-descriptions>
     <template v-if="ledgerData">
       <el-alert
         v-for="reason in ledgerData.blockers"
@@ -208,6 +224,9 @@ const ledgerVisible = ref(false),
   ledgerDate = ref(''),
   ledgerData = ref<any>(),
   ledgerEmployeeId = ref<number>()
+const employmentData = ref<any>(),
+  employmentLoading = ref(false)
+let employmentSequence = 0
 const ledgerStates: Record<string, string> = {
   COUNTED: '已归入累计',
   OPENING_COVERED: '历史资料已覆盖',
@@ -216,6 +235,9 @@ const ledgerStates: Record<string, string> = {
 }
 let ledgerSequence = 0
 async function openLedger(row: any) {
+  employmentSequence++
+  employmentData.value = undefined
+  employmentLoading.value = false
   ledgerEmployeeId.value = row.employeeId
   const end = `${props.year}-12-31`,
     today = dayjs().format('YYYY-MM-DD')
@@ -223,6 +245,24 @@ async function openLedger(row: any) {
   ledgerData.value = undefined
   ledgerVisible.value = true
   await loadLedger()
+}
+async function loadEmployment() {
+  const version = ++employmentSequence,
+    sourceVersion = ledgerSequence
+  employmentData.value = undefined
+  if (!props.entityId || !ledgerEmployeeId.value || !ledgerDate.value) return
+  employmentLoading.value = true
+  try {
+    const data = await api.basicDeduction({
+      entityId: props.entityId,
+      employeeId: ledgerEmployeeId.value,
+      payDate: ledgerDate.value
+    })
+    if (version === employmentSequence && sourceVersion === ledgerSequence)
+      employmentData.value = data
+  } finally {
+    if (version === employmentSequence) employmentLoading.value = false
+  }
 }
 async function loadLedger() {
   const version = ++ledgerSequence
@@ -247,6 +287,9 @@ watch(
     ledgerSequence++
     ledgerData.value = undefined
     ledgerLoading.value = false
+    employmentSequence++
+    employmentData.value = undefined
+    employmentLoading.value = false
   },
   { flush: 'sync' }
 )
@@ -255,6 +298,9 @@ watch(ledgerVisible, (shown) => {
     ledgerSequence++
     ledgerData.value = undefined
     ledgerLoading.value = false
+    employmentSequence++
+    employmentData.value = undefined
+    employmentLoading.value = false
   }
 })
 let sequence = 0,

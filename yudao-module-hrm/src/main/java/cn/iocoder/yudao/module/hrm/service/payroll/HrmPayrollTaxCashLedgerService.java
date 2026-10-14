@@ -78,9 +78,13 @@ public class HrmPayrollTaxCashLedgerService {
         result.getBlockers().add("成功明细" + payment.getId() + "缺少工资批次");
         continue;
       }
-      if (!Objects.equals(batch.getEntityId(), entityId)) continue;
       LocalDate date = payment.getValueDate();
       if (date != null && (date.getYear() != year || date.isAfter(asOfDate))) continue;
+      if (batch.getEntityId() == null) {
+        result.getBlockers().add("存在未绑定扣缴主体的历史成功明细，需先核实主体归属");
+        continue;
+      }
+      if (!Objects.equals(batch.getEntityId(), entityId)) continue;
       Row row =
           new Row()
               .setPaymentId(payment.getId())

@@ -187,6 +187,14 @@ class HrmPayrollTaxCashLedgerServiceTest extends BaseDbUnitTest {
   }
 
   @Test
+  void unboundHistoricalPaidBatchCannotBeSilentlyExcluded() {
+    paid(null, 1L, LocalDate.of(2026, 2, 1), "SUCCESS");
+    assertFalse(ledger().isReady());
+    assertNull(ledger().getIncome());
+    assertTrue(ledger().getBlockers().stream().anyMatch(reason -> reason.contains("主体归属")));
+  }
+
+  @Test
   void datesAndPermissionsAreCheckedBeforeReadingPayments() {
     assertServiceException(
         () -> service.ledger(10L, 1L, 2026, LocalDate.of(2025, 12, 31), 2L), PAYROLL_TAX_INVALID);

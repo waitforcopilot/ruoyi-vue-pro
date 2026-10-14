@@ -20,6 +20,7 @@ public class HrmPayrollTaxProfileController {
   @Resource private HrmPayrollTaxProfileService service;
   @Resource private HrmPayrollWorkService work;
   @Resource private HrmPayrollTaxCashLedgerService cashLedger;
+  @Resource private HrmPayrollTaxEmploymentService employment;
 
   @GetMapping("/employees")
   @PreAuthorize("@ss.hasPermission('hrm:payroll:tax:query')")
@@ -66,6 +67,18 @@ public class HrmPayrollTaxProfileController {
   @PreAuthorize("@ss.hasPermission('hrm:payroll:tax:private')")
   public CommonResult<String> identifier(@RequestParam Long id) {
     return success(service.privateIdentifier(id, getLoginUserId()));
+  }
+
+  @GetMapping("/basic-deduction")
+  @PreAuthorize("@ss.hasPermission('hrm:payroll:tax:query')")
+  public CommonResult<PayrollTaxEmploymentEngine.Result> basicDeduction(
+      @RequestParam Long entityId,
+      @RequestParam Long employeeId,
+      @RequestParam
+          @org.springframework.format.annotation.DateTimeFormat(
+              iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)
+          LocalDate payDate) {
+    return success(employment.deduction(entityId, employeeId, payDate, getLoginUserId()));
   }
 
   @GetMapping("/cash-ledger")

@@ -10,3 +10,6 @@ export const privateIdentifier = (id: number) =>
 
 export const cashLedger = (params: object) =>
   request.get<any>({ url: `${url}/cash-ledger`, params })
+
+export const basicDeduction = (params: object) =>
+  request.get<any>({ url: `${url}/basic-deduction`, params })
