@@ -20,6 +20,7 @@ public class HrmPayrollTaxCashLedgerVO {
   @Data
   public static class Row {
     private Long paymentId, batchId, runId, employeeId;
+    private Long correctionId;
     private LocalDate valueDate;
     private Integer salaryYear, salaryMonth;
     private String status, reason;

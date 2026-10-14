@@ -192,6 +192,17 @@
         ><el-descriptions-item label="工资已预缴">{{ ledgerData.withheld }}</el-descriptions-item>
       </el-descriptions>
       <el-table :data="ledgerData.rows" class="mt-10px">
+        <el-table-column label="税务更正" width="130"
+          ><template #default="{ row }">
+            <el-button
+              v-hasPermi="['hrm:payroll:tax:query']"
+              link
+              type="primary"
+              @click="taxCorrectionRef?.open(row.paymentId, Number(row.basicDeduction || 0))"
+              >{{ row.correctionId ? '更正履历' : '核实更正' }}</el-button
+            >
+          </template></el-table-column
+        >
         <el-table-column prop="paymentId" label="回盘明细" /><el-table-column
           prop="batchId"
           label="工资批次"
@@ -219,11 +230,18 @@
   <Dialog v-model="proofVisible" title="年度税务资料与复核履历" width="850px">
     <pre style="white-space: pre-wrap; word-break: break-all">{{ proofText }}</pre>
   </Dialog>
+  <TaxCorrection
+    :key="`${props.entityId}-${props.year}`"
+    ref="taxCorrectionRef"
+    @changed="loadLedger"
+  />
 </template>
 <script setup lang="ts">
 import * as api from '@/api/hrm/payroll/tax-profile'
 import dayjs from 'dayjs'
 import TaxDeductions from './TaxDeductions.vue'
+import TaxCorrection from './TaxCorrection.vue'
+const taxCorrectionRef = ref<InstanceType<typeof TaxCorrection>>()
 const props = defineProps<{ entityId?: number; year: number }>()
 const message = useMessage()
 const employees = ref<any[]>([]),
@@ -261,6 +279,7 @@ const ledgerStates: Record<string, string> = {
   COUNTED: '已归入累计',
   OPENING_COVERED: '历史资料已覆盖',
   UNDATED: '缺到账日期',
+  TAX_CORRECTION_STALE: '更正来源需重新核实',
   TAX_PERIOD_MISMATCH: '到账税务期需更正',
   TAX_SUBJECT_MISMATCH: '扣缴主体需更正',
   SOURCE_INVALID: '税务来源待核实'

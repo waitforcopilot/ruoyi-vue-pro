@@ -114,3 +114,5 @@ DELETE FROM "hrm_payroll_tax_filing";
 DELETE FROM hrm_salary_slip_delivery;
 
 DELETE FROM hrm_salary_slip_delivery_attempt;
+
+DELETE FROM hrm_payroll_tax_correction;

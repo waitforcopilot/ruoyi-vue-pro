@@ -27,6 +27,8 @@ public class HrmPayrollTaxCashLedgerService {
   @Resource private HrmPayrollTaxProfileMapper profileMapper;
   @Resource private HrmPayrollPaymentMapper payments;
   @Resource private HrmPayrollRunMapper runs;
+  @Resource private HrmPayrollTaxCorrectionMapper corrections;
+  @Resource private HrmPayrollTaxPolicyMapper policyMapper;
   @Resource private HrmSalaryMonthRecordMapper batches;
 
   @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
@@ -109,7 +111,12 @@ public class HrmPayrollTaxCashLedgerService {
       }
       HrmPayrollRunDO run = runCache.computeIfAbsent(payment.getRunId(), runs::selectById);
       try {
-        if (run != null) {
+        HrmPayrollTaxCorrectionDO correction =
+            corrections.selectOne(
+                new LambdaQueryWrapperX<HrmPayrollTaxCorrectionDO>()
+                    .eq(HrmPayrollTaxCorrectionDO::getPaymentId, payment.getId())
+                    .eq(HrmPayrollTaxCorrectionDO::getStatus, "APPROVED"));
+        if (run != null && correction == null) {
           List<HrmSalaryMonthEmployeeRecordDO> frozen =
               JsonUtils.parseArray(run.getResultSnapshot(), HrmSalaryMonthEmployeeRecordDO.class);
           for (HrmSalaryMonthEmployeeRecordDO resultRow : frozen)
@@ -127,12 +134,33 @@ public class HrmPayrollTaxCashLedgerService {
                 throw new IllegalArgumentException("TAX_SUBJECT_MISMATCH");
             }
         }
-        populate(row, payment, run);
+        populate(row, payment, run, correction == null);
+        if (correction != null) {
+          HrmPayrollTaxPolicyDO correctedPolicy = policyMapper.selectById(correction.getPolicyId());
+          if (!Objects.equals(correction.getEntityId(), entityId)
+              || !Objects.equals(correction.getProfileId(), profile.getId())
+              || !Objects.equals(correction.getTaxpayerKey(), profile.getTaxpayerKey())
+              || !Objects.equals(
+                  correction.getTaxRegistrationNumber(), profile.getTaxRegistrationNumber())
+              || correctedPolicy == null
+              || !"APPROVED".equals(correctedPolicy.getStatus())
+              || !Objects.equals(
+                  correction.getSourceDigest(), HrmPayrollTaxCorrectionService.digest(payment, run))
+              || correction.getIncome().compareTo(row.getIncome()) != 0
+              || correction.getSocialDeduction().compareTo(row.getSocialDeduction()) != 0
+              || correction.getActualSalaryWithheld().compareTo(row.getWithheld()) != 0
+              || correction.getSeparateBonusIncome().compareTo(row.getSeparateBonusIncome()) != 0
+              || correction.getActualBonusWithheld().compareTo(row.getSeparateBonusTax()) != 0)
+            throw new IllegalArgumentException("TAX_CORRECTION_STALE");
+          row.setBasicDeduction(correction.getBasicDeduction()).setCorrectionId(correction.getId());
+        }
       } catch (RuntimeException ex) {
         if ("TAX_SUBJECT_MISMATCH".equals(ex.getMessage()))
           block(result, row, "TAX_SUBJECT_MISMATCH", "冻结扣缴单位与当前税务档案不符，需办理主体迁移或税务更正");
         else if ("TAX_PERIOD_MISMATCH".equals(ex.getMessage()))
           block(result, row, "TAX_PERIOD_MISMATCH", "实际到账税务月份与冻结核算月份不符，需办理税务更正");
+        else if ("TAX_CORRECTION_STALE".equals(ex.getMessage()))
+          block(result, row, "TAX_CORRECTION_STALE", "批准税务更正的政策、档案或已发事实已变更，需重新核实更正版本");
         else block(result, row, "SOURCE_INVALID", "冻结结果或累计薪资项不完整/不一致，需核实税务来源");
         continue;
       }
@@ -173,6 +201,11 @@ public class HrmPayrollTaxCashLedgerService {
   }
 
   static void populate(Row row, HrmPayrollPaymentDO payment, HrmPayrollRunDO run) {
+    populate(row, payment, run, true);
+  }
+
+  static void populate(
+      Row row, HrmPayrollPaymentDO payment, HrmPayrollRunDO run, boolean enforcePeriod) {
     if (run == null || !Objects.equals(run.getMonthRecordId(), payment.getMonthRecordId()))
       throw new IllegalArgumentException();
     if (payment.getAmount() != null
@@ -193,7 +226,8 @@ public class HrmPayrollTaxCashLedgerService {
         .forEach(matching::add);
     if (matching.size() != 1) throw new IllegalArgumentException();
     HrmSalaryMonthEmployeeRecordDO r = matching.get(0);
-    if (r.getTaxPaymentDate() != null
+    if (enforcePeriod
+        && r.getTaxPaymentDate() != null
         && payment.getValueDate() != null
         && !java.time.YearMonth.from(r.getTaxPaymentDate())
             .equals(java.time.YearMonth.from(payment.getValueDate())))
