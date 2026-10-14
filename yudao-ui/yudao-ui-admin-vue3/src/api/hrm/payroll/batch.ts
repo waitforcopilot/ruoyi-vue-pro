@@ -3,6 +3,7 @@ import type { SalaryMonthRecordVO } from '@/api/hrm/salary/month-record'
 
 export interface PayrollRun {
   id: number
+  expectedPaymentDate?: string
   version: number
   computedBy: number
   createTime: string
@@ -45,3 +46,9 @@ export const statuses: Record<number, string> = {
 
 export const sourceClaims = (batchId: number) =>
   request.get<any[]>({ url: '/hrm/payroll/batch/source-claims', params: { batchId } })
+
+export const paymentPlan = (batchId: number, expectedPaymentDate: string, reason: string) =>
+  request.post({
+    url: '/hrm/payroll/batch/payment-plan',
+    data: { batchId, expectedPaymentDate, reason }
+  })

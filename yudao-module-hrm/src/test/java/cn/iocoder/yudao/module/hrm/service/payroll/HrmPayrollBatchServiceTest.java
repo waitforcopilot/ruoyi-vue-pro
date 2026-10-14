@@ -21,6 +21,40 @@ class HrmPayrollBatchServiceTest extends BaseDbUnitTest {
     @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInsurancePolicyService payrollInsurancePolicies;
     @Resource private HrmPayrollBatchService service;
     @Resource private HrmSalaryMonthRecordMapper mapper;
+    @Test void explicitPaymentPlanIsAuditedAndOldRunCannotApproveChangedDate() {
+        HrmSalaryMonthRecordDO batch = new HrmSalaryMonthRecordDO().setEntityId(10L).setYear(2026).setMonth(12).setStatus(11);
+        mapper.insert(batch);
+        java.time.LocalDate firstDate=java.time.LocalDate.of(2027,1,10), nextDate=java.time.LocalDate.of(2027,2,10);
+        service.paymentPlan(batch.getId(),firstDate,"明确下年计划发放日",1L);
+        service.paymentPlan(batch.getId(),firstDate,"同日期重试",1L);
+        assertEquals(1,service.events(batch.getId()).size());
+        assertTrue(service.events(batch.getId()).get(0).getSnapshot().contains("UNPLANNED"));
+        Long first=service.snapshot(batch.getId(),Collections.emptyMap(),Collections.emptyMap(),Collections.emptyList(),1L);
+        service.paymentPlan(batch.getId(),nextDate,"根据发放安排修改，重新核算",1L);
+        assertEquals(firstDate,service.runs(batch.getId()).get(0).getExpectedPaymentDate());
+        assertServiceException(()->service.transition(batch.getId(),first,"submit","旧试算",1L),PAYROLL_VERSION_CONFLICT);
+        Long second=service.snapshot(batch.getId(),Collections.emptyMap(),Collections.emptyMap(),Collections.emptyList(),1L);
+        assertEquals(nextDate,service.runs(batch.getId()).get(0).getExpectedPaymentDate());
+        service.transition(batch.getId(),second,"submit","提交新日期版本",1L);
+        assertServiceException(()->service.paymentPlan(batch.getId(),firstDate,"在审修改",1L),SALARY_MONTH_RECORD_STATUS_INVALID);
+    }
+
+    @Test void paymentPlanRequiresSubjectScopeExplicitDateAndEditableState() {
+        HrmSalaryMonthRecordDO batch=new HrmSalaryMonthRecordDO().setEntityId(10L).setYear(2026).setMonth(10).setStatus(5);mapper.insert(batch);
+        java.time.LocalDate date=java.time.LocalDate.of(2026,10,14);
+        assertServiceException(()->service.paymentPlan(batch.getId(),null,"缺日期",1L),PAYROLL_PAYMENT_INVALID);
+        assertServiceException(()->service.paymentPlan(batch.getId(),date,"",1L),PAYROLL_PAYMENT_INVALID);
+        for(int status: new int[]{10,12,13,14,15,16,17}) {
+            mapper.updateById(new HrmSalaryMonthRecordDO().setId(batch.getId()).setStatus(status));
+            assertServiceException(()->service.paymentPlan(batch.getId(),date,"不可编辑",1L),SALARY_MONTH_RECORD_STATUS_INVALID);
+        }
+        mapper.updateById(new HrmSalaryMonthRecordDO().setId(batch.getId()).setStatus(5));
+        org.mockito.Mockito.doThrow(new IllegalStateException("denied")).when(payrollScope).check(org.mockito.ArgumentMatchers.any(),org.mockito.ArgumentMatchers.eq("MANAGE"),org.mockito.ArgumentMatchers.eq(9L));
+        assertThrows(IllegalStateException.class,()->service.paymentPlan(batch.getId(),date,"无维护授权",9L));
+        HrmSalaryMonthRecordDO unbound=new HrmSalaryMonthRecordDO().setYear(2026).setMonth(10).setStatus(5);mapper.insert(unbound);
+        assertServiceException(()->service.paymentPlan(unbound.getId(),date,"未绑定主体",1L),PAYROLL_ENTITY_INVALID);
+    }
+
     @Test void versionsRemainImmutableAndApprovalUsesLatestVersion() {
         HrmSalaryMonthRecordDO batch=new HrmSalaryMonthRecordDO().setYear(2026).setMonth(10).setStatus(11);
         mapper.insert(batch);

@@ -11,6 +11,7 @@ import java.util.List;
 @Schema(description = "管理后台 - HRM 月度工资表 Response VO")
 @Data
 public class HrmSalaryMonthRecordRespVO {
+    private java.time.LocalDate expectedPaymentDate;
 
     @Schema(description = "编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long id;

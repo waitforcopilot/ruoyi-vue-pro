@@ -19,6 +19,17 @@ public class HrmPayrollBatchController {
     public CommonResult<Boolean> bindSubject(@RequestParam Long batchId,@RequestParam Long entityId,@RequestParam String reason) {
         scope.bindDraft(batchId,entityId,reason);return success(true);
     }
+    @PostMapping("/payment-plan") @PreAuthorize("@ss.hasPermission('hrm:salary:month-record:update')")
+    public CommonResult<Boolean> paymentPlan(@Valid @RequestBody PaymentPlan request) {
+        service.paymentPlan(request.getBatchId(),request.getExpectedPaymentDate(),request.getReason(),getLoginUserId());
+        return success(true);
+    }
+    @Data public static class PaymentPlan {
+        @NotNull private Long batchId;
+        @NotNull private java.time.LocalDate expectedPaymentDate;
+        @NotBlank @Size(max=1000) private String reason;
+    }
+
     @GetMapping("/page") @PreAuthorize("@ss.hasPermission('hrm:payroll:batch:query')")
     public CommonResult<cn.iocoder.yudao.framework.common.pojo.PageResult<cn.iocoder.yudao.module.hrm.dal.dataobject.salary.monthrecord.HrmSalaryMonthRecordDO>> page(
             @Valid cn.iocoder.yudao.module.hrm.controller.admin.salary.vo.monthrecord.HrmSalaryMonthRecordPageReqVO request) {

@@ -42,6 +42,8 @@ public class HrmSalaryMonthRecordDO extends BaseDO {
     /** Explicit legal / withholding subject; null identifies unbound historical batches. */
     private Long entityId;
     private String batchKey;
+    /** Explicit planned cash date; historical rows remain unknown until confirmed. */
+    private java.time.LocalDate expectedPaymentDate;
     @TableField(exist = false) private String entityName;
     /**
      * 工资表标题

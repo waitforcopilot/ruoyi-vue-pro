@@ -26,6 +26,7 @@
       <el-table-column label="状态" width="150"
         ><template #default="{ row }">{{ api.statuses[row.status] }}</template></el-table-column
       >
+      <el-table-column prop="expectedPaymentDate" label="计划发放日" width="130" />
       <el-table-column prop="employeeCount" label="人数" width="80" />
       <el-table-column prop="expectedPaySalary" label="应发" /><el-table-column
         prop="realPaySalary"
@@ -52,11 +53,36 @@
           v-for="action in availableActions"
           :key="action.code"
           v-hasPermi="['hrm:payroll:batch:' + action.code]"
-          :disabled="!runs.length"
+          :disabled="
+            !runs.length ||
+            (['submit', 'review', 'approve', 'freeze'].includes(action.code) &&
+              runs[0]?.expectedPaymentDate !== selected.expectedPaymentDate)
+          "
           @click="prepare(action)"
           >{{ action.label }}</el-button
         >
       </el-space>
+      <el-form v-if="[5, 11].includes(selected.status!)" inline class="mt-4">
+        <el-form-item label="计划发放日期"
+          ><el-date-picker
+            v-model="plannedDate"
+            value-format="YYYY-MM-DD"
+            placeholder="明确计划日期"
+        /></el-form-item>
+        <el-button
+          v-hasPermi="['hrm:salary:month-record:update']"
+          :disabled="!plannedDate"
+          :loading="savingPlan"
+          @click="savePlan"
+          >保存发放安排</el-button
+        >
+      </el-form>
+      <el-alert
+        class="mt-4"
+        title="计划日期由主体维护人员确认，并保存到核算版本。调整日期后须重新核算，原版本保留；实际到账日期仍以银行回盘为准。"
+        type="info"
+        :closable="false"
+      />
       <el-tabs class="mt-4">
         <el-tab-pane label="核算版本与差异">
           <el-select v-model="selectedRunId" style="width: 300px"
@@ -66,6 +92,11 @@
               :value="run.id"
               :label="`版本 ${run.version} · ${formatDate(run.createTime)}`"
           /></el-select>
+          <el-tag class="ml-4"
+            >本版本计划发放日：{{
+              runs.find((run) => run.id === selectedRunId)?.expectedPaymentDate || '尚未确认'
+            }}</el-tag
+          >
           <el-alert
             class="my-4"
             title="差异相对于上一个核算版本；首次核算显示完整结果。审批始终针对最新版本。"
@@ -178,7 +209,11 @@ const selected = ref<SalaryMonthRecordVO>(),
   runs = ref<api.PayrollRun[]>([]),
   history = ref<api.BatchEvent[]>([]),
   selectedRunId = ref<number>()
+const plannedDate = ref<string>(),
+  savingPlan = ref(false)
+let detailSequence = 0
 const actionNames: Record<string, string> = {
+  SET_PAYMENT_PLAN: '调整计划发放日',
   submit: '提交复核',
   review: 'HR 复核通过',
   approve: '财务审批通过',
@@ -220,13 +255,42 @@ const search = async () => {
   query.pageNo = 1
   await load()
 }
+const savePlan = async () => {
+  const batchId = selected.value?.id,
+    date = plannedDate.value
+  if (!batchId || !date) return
+  const reason = await message.prompt('填写计划发放安排依据；日期变更后须重新核算')
+  if (!reason || selected.value?.id !== batchId || plannedDate.value !== date) return
+  savingPlan.value = true
+  try {
+    await api.paymentPlan(batchId, date, reason)
+    message.success('已保存计划发放日期')
+    await load()
+    if (selected.value?.id === batchId) {
+      const row = rows.value.find((item) => item.id === batchId)
+      if (row) await open(row)
+      else visible.value = false
+    }
+  } finally {
+    savingPlan.value = false
+  }
+}
+watch(visible, (shown) => {
+  if (!shown) detailSequence++
+})
 const open = async (row: SalaryMonthRecordVO) => {
+  const version = ++detailSequence
+  plannedDate.value = row.expectedPaymentDate
+  runs.value = []
+  history.value = []
+  sourceClaims.value = []
   selected.value = row
   const data = await Promise.all([
     api.versions(row.id!),
     api.events(row.id!),
     api.sourceClaims(row.id!)
   ])
+  if (version !== detailSequence || selected.value?.id !== row.id) return
   runs.value = data[0]
   history.value = data[1]
   sourceClaims.value = data[2]

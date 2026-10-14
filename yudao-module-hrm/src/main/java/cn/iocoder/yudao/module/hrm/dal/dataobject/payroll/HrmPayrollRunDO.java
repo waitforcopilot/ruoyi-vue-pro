@@ -9,6 +9,7 @@ public class HrmPayrollRunDO extends BaseDO {
     @TableId private Long id;
     private Long monthRecordId;
     private Integer version;
+    private java.time.LocalDate expectedPaymentDate;
     private String inputSnapshot;
     private String ruleSnapshot;
     private String resultSnapshot;

@@ -32,10 +32,29 @@ public class HrmPayrollBatchService {
         List<HrmPayrollRunDO> previous=rawRuns(batchId);
         HrmPayrollRunDO run=new HrmPayrollRunDO();run.setMonthRecordId(batchId);
         run.setVersion(previous.isEmpty()?1:previous.get(0).getVersion()+1);
+        run.setExpectedPaymentDate(batch.getExpectedPaymentDate());
         run.setInputSnapshot(JsonUtils.toJsonString(inputs));run.setRuleSnapshot(JsonUtils.toJsonString(rules));
         run.setResultSnapshot(JsonUtils.toJsonString(results));run.setComputedBy(actor);runMapper.insert(run);
         return run.getId();
     }
+    @Transactional(rollbackFor=Exception.class,isolation=org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
+    public void paymentPlan(Long batchId,java.time.LocalDate date,String reason,Long actor) {
+        HrmSalaryMonthRecordDO batch=batchMapper.selectByIdForUpdate(batchId);
+        if(batch==null) throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);
+        scope.check(batch,"MANAGE",actor);
+        if(batch.getEntityId()==null) throw exception(PAYROLL_ENTITY_INVALID);
+        if(date==null || date.getYear()<2019 || date.getYear()>2099 || reason==null || reason.trim().isEmpty() || reason.length()>1000)
+            throw exception(PAYROLL_PAYMENT_INVALID);
+        if(!(Objects.equals(batch.getStatus(),5)||Objects.equals(batch.getStatus(),11))) throw exception(SALARY_MONTH_RECORD_STATUS_INVALID);
+        if(Objects.equals(batch.getExpectedPaymentDate(),date)) return;
+        Map<String,Object> facts=new LinkedHashMap<>();
+        facts.put("before",batch.getExpectedPaymentDate()==null?"UNPLANNED":batch.getExpectedPaymentDate().toString());
+        facts.put("after",date.toString());
+        batch.setExpectedPaymentDate(date); batchMapper.updateById(batch);
+        eventMapper.insert(new HrmPayrollBatchEventDO().setMonthRecordId(batchId).setAction("SET_PAYMENT_PLAN")
+            .setFromStatus(batch.getStatus()).setToStatus(batch.getStatus()).setActorId(actor).setReason(reason).setSnapshot(JsonUtils.toJsonString(facts)));
+    }
+
     public cn.iocoder.yudao.framework.common.pojo.PageResult<HrmSalaryMonthRecordDO> page(
             cn.iocoder.yudao.module.hrm.controller.admin.salary.vo.monthrecord.HrmSalaryMonthRecordPageReqVO request) {
         return scope.page(request,false);
@@ -77,6 +96,8 @@ public class HrmPayrollBatchService {
         List<HrmPayrollRunDO> versions=rawRuns(batchId);
         if(versions.isEmpty()||!Objects.equals(versions.get(0).getId(),runId))throw exception(PAYROLL_VERSION_CONFLICT);
         HrmPayrollRunDO run=versions.get(0);
+        if(Arrays.asList("submit","review","approve","freeze").contains(action) && !Objects.equals(run.getExpectedPaymentDate(),batch.getExpectedPaymentDate()))
+            throw exception(PAYROLL_VERSION_CONFLICT);
         if(("review".equals(action)||"approve".equals(action)) && Objects.equals(run.getComputedBy(),actor))throw exception(PAYROLL_SELF_APPROVAL);
         if("approve".equals(action)){
             List<HrmPayrollBatchEventDO> events=rawEvents(batchId);
