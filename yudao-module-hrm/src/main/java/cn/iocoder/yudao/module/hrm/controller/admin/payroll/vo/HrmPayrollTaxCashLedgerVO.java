@@ -21,6 +21,10 @@ public class HrmPayrollTaxCashLedgerVO {
   public static class Row {
     private Long paymentId, batchId, runId, employeeId;
     private Long correctionId;
+    private Long taxSettlementId;
+    private Integer taxOriginYear;
+    private Integer taxOriginMonth;
+    private String taxSettlementMode;
     private LocalDate valueDate;
     private Integer salaryYear, salaryMonth;
     private String status, reason;

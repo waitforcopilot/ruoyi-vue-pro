@@ -29,6 +29,8 @@ public class HrmPayrollTaxCashLedgerService {
   @Resource private HrmPayrollRunMapper runs;
   @Resource private HrmPayrollTaxCorrectionMapper corrections;
   @Resource private HrmPayrollTaxPolicyMapper policyMapper;
+  @Resource private HrmPayrollTaxSettlementMapper taxSettlements;
+  @Resource private HrmPayrollTaxFilingMapper taxFilings;
   @Resource private HrmSalaryMonthRecordMapper batches;
 
   @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
@@ -49,6 +51,22 @@ public class HrmPayrollTaxCashLedgerService {
         || asOfDate.getYear() != year
         || asOfDate.isAfter(LocalDate.now(ZoneId.of("Asia/Shanghai"))))
       throw exception(PAYROLL_TAX_INVALID);
+    return build(entityId, employeeId, year, asOfDate, true);
+  }
+
+  @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
+  public HrmPayrollTaxCashLedgerVO forTaxFiling(
+      Long entityId, Long employeeId, Integer year, LocalDate asOfDate) {
+    if (year == null
+        || asOfDate == null
+        || asOfDate.getYear() != year
+        || asOfDate.isAfter(LocalDate.now(ZoneId.of("Asia/Shanghai"))))
+      throw exception(PAYROLL_TAX_INVALID);
+    return build(entityId, employeeId, year, asOfDate, false);
+  }
+
+  private HrmPayrollTaxCashLedgerVO build(
+      Long entityId, Long employeeId, Integer year, LocalDate asOfDate, boolean requireClearedTax) {
     HrmPayrollTaxProfileDO profile = profiles.requireApproved(entityId, employeeId, year);
     if (asOfDate.isBefore(profile.getOpeningAsOfDate())) throw exception(PAYROLL_TAX_INVALID);
     Set<Long> employeeIds = new HashSet<>();
@@ -181,6 +199,53 @@ public class HrmPayrollTaxCashLedgerService {
         withheld = withheld.add(row.getWithheld());
       }
     }
+    for (HrmPayrollTaxSettlementDO settlement :
+        taxSettlements.selectList(
+            new LambdaQueryWrapperX<HrmPayrollTaxSettlementDO>()
+                .eq(HrmPayrollTaxSettlementDO::getEntityId, entityId)
+                .eq(HrmPayrollTaxSettlementDO::getYear, year)
+                .eq(HrmPayrollTaxSettlementDO::getTaxpayerKey, profile.getTaxpayerKey())
+                .eq(HrmPayrollTaxSettlementDO::getStatus, "SETTLED")
+                .le(HrmPayrollTaxSettlementDO::getValueDate, asOfDate)
+                .orderByAsc(HrmPayrollTaxSettlementDO::getId))) {
+      if (settlement.getValueDate() == null
+          || settlement.getAmount() == null
+          || settlement.getAmount().signum() <= 0
+          || !Arrays.asList("REFUND", "RECOVERY").contains(settlement.getKind())
+          || settlement.getBankReference() == null) {
+        result.getBlockers().add("税款结算" + settlement.getId() + "实际收付款依据不完整");
+        continue;
+      }
+      BigDecimal tax = HrmPayrollTaxSettlementService.signed(settlement);
+      Row adjustment =
+          new Row()
+              .setTaxSettlementId(settlement.getId())
+              .setTaxOriginYear(settlement.getYear())
+              .setTaxOriginMonth(settlement.getMonth())
+              .setTaxSettlementMode(settlement.getMode())
+              .setEmployeeId(settlement.getEmployeeId())
+              .setValueDate(settlement.getValueDate())
+              .setIncome(BigDecimal.ZERO)
+              .setSocialDeduction(BigDecimal.ZERO)
+              .setBasicDeduction(BigDecimal.ZERO)
+              .setNet(tax.negate())
+              .setSeparateBonusIncome(BigDecimal.ZERO)
+              .setSeparateBonusTax(
+                  "SEPARATE_BONUS".equals(settlement.getMode()) ? tax : BigDecimal.ZERO)
+              .setWithheld("RESIDENT_WAGE".equals(settlement.getMode()) ? tax : BigDecimal.ZERO);
+      if ("DECLARE".equals(profile.getOpeningMode())
+          && !settlement.getValueDate().isAfter(profile.getOpeningAsOfDate())) {
+        adjustment.setStatus("OPENING_COVERED").setReason("批准历史累计已包含实际税款结算，不重复相加");
+        coveredTax = coveredTax.add(adjustment.getWithheld());
+      } else {
+        adjustment.setStatus("COUNTED").setReason("独立复核后按实际收付款确认的税款结算");
+        withheld = withheld.add(adjustment.getWithheld());
+      }
+      result.getRows().add(adjustment);
+    }
+    if (withheld.signum() < 0 || coveredTax.signum() < 0)
+      result.getBlockers().add("税款返还超过该年度已核实工资预缴，请核实历史累计及结算归属");
+    if (requireClearedTax) checkTaxClearing(result, entityId, year, profile);
     if (coveredIncome.compareTo(profile.getOpeningIncome()) > 0
         || coveredSocial.compareTo(profile.getOpeningSocialDeduction()) > 0
         || coveredBasic.compareTo(profile.getOpeningBasicDeduction()) > 0
@@ -194,6 +259,53 @@ public class HrmPayrollTaxCashLedgerService {
           .setBasicDeduction(basic)
           .setWithheld(withheld);
     return result;
+  }
+
+  private void checkTaxClearing(
+      HrmPayrollTaxCashLedgerVO result,
+      Long entityId,
+      Integer year,
+      HrmPayrollTaxProfileDO profile) {
+    for (HrmPayrollTaxFilingDO filing :
+        taxFilings.selectList(
+            new LambdaQueryWrapperX<HrmPayrollTaxFilingDO>()
+                .eq(HrmPayrollTaxFilingDO::getEntityId, entityId)
+                .eq(HrmPayrollTaxFilingDO::getYear, year)
+                .eq(HrmPayrollTaxFilingDO::getStatus, "RECONCILED"))) {
+      if (filing.getFiledDate() != null && filing.getFiledDate().isAfter(result.getAsOfDate()))
+        continue;
+      cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxFilingSourceVO source =
+          JsonUtils.parseObject(
+              filing.getSourceSnapshot(),
+              cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxFilingSourceVO
+                  .class);
+      for (cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxFilingSourceVO.Row
+          worker : source.getRows()) {
+        HrmPayrollTaxProfileDO owner = profileMapper.selectById(worker.getProfileId());
+        if (owner == null || !Objects.equals(owner.getTaxpayerKey(), profile.getTaxpayerKey()))
+          continue;
+        BigDecimal expected =
+            "RESIDENT_WAGE".equals(worker.getMode())
+                ? worker.getExpectedSalaryWithholding()
+                : worker.getExpectedBonusWithholding();
+        if (expected == null) expected = worker.getWithheld();
+        BigDecimal difference = expected.subtract(worker.getWithheld());
+        for (HrmPayrollTaxSettlementDO settled :
+            taxSettlements.selectList(
+                new LambdaQueryWrapperX<HrmPayrollTaxSettlementDO>()
+                    .eq(HrmPayrollTaxSettlementDO::getEntityId, entityId)
+                    .eq(HrmPayrollTaxSettlementDO::getYear, year)
+                    .eq(HrmPayrollTaxSettlementDO::getMonth, filing.getMonth())
+                    .eq(HrmPayrollTaxSettlementDO::getMode, worker.getMode())
+                    .eq(HrmPayrollTaxSettlementDO::getTaxpayerKey, profile.getTaxpayerKey())
+                    .eq(HrmPayrollTaxSettlementDO::getStatus, "SETTLED")))
+          difference = difference.subtract(HrmPayrollTaxSettlementService.signed(settled));
+        if (difference.signum() != 0)
+          result
+              .getBlockers()
+              .add("申报" + filing.getId() + "的" + worker.getMode() + "税款收退差额尚未结清，先核实员工税款结算");
+      }
+    }
   }
 
   private static void block(

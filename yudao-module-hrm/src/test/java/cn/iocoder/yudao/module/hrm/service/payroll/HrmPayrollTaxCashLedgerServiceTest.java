@@ -29,6 +29,8 @@ class HrmPayrollTaxCashLedgerServiceTest extends BaseDbUnitTest {
   @Resource private HrmPayrollTaxProfileMapper profileMapper;
   @Resource private HrmPayrollTaxCorrectionMapper corrections;
   @Resource private HrmPayrollTaxPolicyMapper policies;
+  @Resource private HrmPayrollTaxSettlementMapper taxSettlements;
+  @Resource private HrmPayrollTaxFilingMapper taxFilings;
   @MockBean private HrmPayrollEntityService entities;
   @MockBean private HrmPayrollTaxProfileService profiles;
   private HrmPayrollTaxProfileDO profile;
@@ -327,7 +329,8 @@ class HrmPayrollTaxCashLedgerServiceTest extends BaseDbUnitTest {
             .setProfileId(alias.getId())
             .setTaxpayerKey(profile.getTaxpayerKey())
             .setTaxRegistrationNumber(profile.getTaxRegistrationNumber())
-            .setSourceDigest(HrmPayrollTaxCorrectionService.digest(payments.selectById(payment.getId()), run))
+            .setSourceDigest(
+                HrmPayrollTaxCorrectionService.digest(payments.selectById(payment.getId()), run))
             .setIncome(money("10000"))
             .setSocialDeduction(money("1000"))
             .setBasicDeduction(money("2500"))
@@ -341,5 +344,120 @@ class HrmPayrollTaxCashLedgerServiceTest extends BaseDbUnitTest {
     equal("10000", result.getIncome());
     equal("2500", result.getBasicDeduction());
     assertEquals(correction.getId(), result.getRows().get(0).getCorrectionId());
+  }
+
+  @Test
+  void actualRefundAndRecoveryAdjustTaxWithoutChangingSalaryIncome() {
+    paid(10L, 1L, LocalDate.of(2026, 9, 1), "SUCCESS");
+    taxSettlements.insert(
+        new HrmPayrollTaxSettlementDO()
+            .setEntityId(10L)
+            .setEmployeeId(1L)
+            .setYear(2026)
+            .setMonth(9)
+            .setTaxpayerKey(profile.getTaxpayerKey())
+            .setTaxRegistrationNumber("agent")
+            .setMode("RESIDENT_WAGE")
+            .setKind("REFUND")
+            .setAmount(money("100"))
+            .setStatus("SETTLED")
+            .setValueDate(LocalDate.of(2026, 10, 1))
+            .setBankReference("BANK:REFUND:1"));
+    HrmPayrollTaxCashLedgerVO result = ledger();
+    assertTrue(result.isReady());
+    equal("10000", result.getIncome());
+    equal("0", result.getWithheld());
+    assertEquals(2, result.getRows().size());
+    assertNotNull(result.getRows().get(1).getTaxSettlementId());
+    taxSettlements.insert(
+        new HrmPayrollTaxSettlementDO()
+            .setEntityId(10L)
+            .setEmployeeId(1L)
+            .setYear(2026)
+            .setMonth(9)
+            .setTaxpayerKey(profile.getTaxpayerKey())
+            .setTaxRegistrationNumber("agent")
+            .setMode("RESIDENT_WAGE")
+            .setKind("RECOVERY")
+            .setAmount(money("50"))
+            .setStatus("SETTLED")
+            .setValueDate(LocalDate.of(2026, 10, 1))
+            .setBankReference("BANK:RECOVERY:1"));
+    result = ledger();
+    assertTrue(result.isReady());
+    equal("50", result.getWithheld());
+    equal("10000", result.getIncome());
+  }
+
+  @Test
+  void refundBeyondConfirmedTaxBlocksAndOtherYearOrUnpaidClaimsAreNotCounted() {
+    paid(10L, 1L, LocalDate.of(2026, 9, 1), "SUCCESS");
+    HrmPayrollTaxSettlementDO s =
+        new HrmPayrollTaxSettlementDO()
+            .setEntityId(10L)
+            .setEmployeeId(1L)
+            .setYear(2025)
+            .setMonth(9)
+            .setTaxpayerKey(profile.getTaxpayerKey())
+            .setTaxRegistrationNumber("agent")
+            .setMode("RESIDENT_WAGE")
+            .setKind("REFUND")
+            .setAmount(money("101"))
+            .setStatus("SETTLED")
+            .setValueDate(LocalDate.of(2026, 10, 1))
+            .setBankReference("BANK:1");
+    taxSettlements.insert(s);
+    assertTrue(ledger().isReady());
+    taxSettlements.updateById(
+        new HrmPayrollTaxSettlementDO().setId(s.getId()).setYear(2026).setStatus("APPROVED"));
+    assertTrue(ledger().isReady());
+    taxSettlements.updateById(
+        new HrmPayrollTaxSettlementDO().setId(s.getId()).setStatus("SETTLED"));
+    assertFalse(ledger().isReady());
+  }
+
+  @Test
+  void reconciledGovernmentDifferenceBlocksNewPayrollUntilEmployeeCashSettlesButNotFilingRead() {
+    paid(10L, 1L, LocalDate.of(2026, 9, 1), "SUCCESS");
+    profileMapper.insert(profile);
+    cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxFilingSourceVO source =
+        new cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxFilingSourceVO()
+            .setRows(
+                Collections.singletonList(
+                    new cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo
+                            .HrmPayrollTaxFilingSourceVO.Row()
+                        .setProfileId(profile.getId())
+                        .setMode("RESIDENT_WAGE")
+                        .setWithheld(money("100"))
+                        .setExpectedSalaryWithholding(BigDecimal.ZERO)));
+    HrmPayrollTaxFilingDO filing =
+        new HrmPayrollTaxFilingDO()
+            .setEntityId(10L)
+            .setYear(2026)
+            .setMonth(9)
+            .setVersion(1)
+            .setStatus("RECONCILED")
+            .setFiledDate(LocalDate.of(2026, 10, 1))
+            .setSourceSnapshot(JsonUtils.toJsonString(source));
+    taxFilings.insert(filing);
+    assertFalse(ledger().isReady());
+    assertTrue(service.forTaxFiling(10L, 1L, 2026, LocalDate.of(2026, 10, 1)).isReady());
+    taxSettlements.insert(
+        new HrmPayrollTaxSettlementDO()
+            .setFilingId(filing.getId())
+            .setEntityId(10L)
+            .setEmployeeId(1L)
+            .setYear(2026)
+            .setMonth(9)
+            .setTaxpayerKey(profile.getTaxpayerKey())
+            .setTaxRegistrationNumber("agent")
+            .setMode("RESIDENT_WAGE")
+            .setKind("REFUND")
+            .setAmount(money("100"))
+            .setStatus("SETTLED")
+            .setValueDate(LocalDate.of(2026, 10, 1))
+            .setBankReference("BANK:1"));
+    assertTrue(ledger().isReady());
+    equal("0", ledger().getWithheld());
   }
 }

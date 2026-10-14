@@ -103,6 +103,12 @@
       </el-descriptions>
       <div class="mt-4">
         <el-button
+          v-if="data.filing.status === 'RECONCILED'"
+          v-hasPermi="['hrm:payroll:tax:query']"
+          @click="taxSettlementsRef?.open(data.filing.id)"
+          >员工税款结算</el-button
+        >
+        <el-button
           v-if="
             data.sourceFresh && ['APPROVED', 'FILED', 'RECONCILED'].includes(data.filing.status)
           "
@@ -292,9 +298,12 @@
       ></template
     ></Dialog
   >
+  <TaxSettlements ref="taxSettlementsRef" />
 </template>
 <script setup lang="ts">
 import * as api from '@/api/hrm/payroll/tax-filing'
+import TaxSettlements from './TaxSettlements.vue'
+const taxSettlementsRef = ref<InstanceType<typeof TaxSettlements>>()
 import dayjs from 'dayjs'
 import download from '@/utils/download'
 import { checkPermi } from '@/utils/permission'

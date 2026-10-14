@@ -128,7 +128,7 @@ public class HrmPayrollTaxFilingSourceService {
       HrmPayrollTaxCashLedgerVO.Row cash,
       YearMonth period) {
     HrmPayrollTaxCashLedgerVO ledger =
-        cashLedger.forApprovedPayroll(
+        cashLedger.forTaxFiling(
             policy.getEntityId(), payment.getEmployeeId(), period.getYear(), period.atEndOfMonth());
     if (!ledger.isReady()) throw exception(PAYROLL_TAX_INVALID);
     HrmPayrollTaxCashLedgerVO.Row corrected =
