@@ -280,7 +280,7 @@ const fields: Record<string, string[]> = {
     '190106'
   ],
   OVERTIME: ['180101'],
-  DEDUCTIONS: ['260101', '260102', '260103', '260104', '260105'],
+  DEDUCTIONS: ['260101', '260102', '260103', '260104', '260105', '260106'],
   CUMULATIVE_TAX: ['250101', '250102', '250103', '250105']
 }
 const labels: Record<string, string> = {
@@ -298,6 +298,7 @@ const labels: Record<string, string> = {
   '260103': '累计房贷利息（元）',
   '260104': '累计赡养老人（元）',
   '260105': '累计继续教育（元）',
+  '260106': '累计婴幼儿照护（元）',
   '250101': '截至上期累计收入（元）',
   '250102': '截至上期减除费用（元）',
   '250103': '截至上期专项扣除（元）',
@@ -309,7 +310,7 @@ const modesFor = (kind: string) =>
     : kind === 'OVERTIME'
       ? ['SYNC', 'ZERO']
       : kind === 'DEDUCTIONS'
-        ? ['ZERO', 'IMPORT']
+        ? ['SYNC', 'ZERO', 'IMPORT']
         : ['SYNC', 'ZERO', 'IMPORT']
 const templateKind = ref('ATTENDANCE'),
   templateMode = ref('SYNC'),

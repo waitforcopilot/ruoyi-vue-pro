@@ -44,10 +44,11 @@ public class HrmPayrollInputService {
               "190105",
               "190106"));
   public static final List<String> DEDUCTION_FIELDS =
-      Collections.unmodifiableList(Arrays.asList("260101", "260102", "260103", "260104", "260105"));
+      Collections.unmodifiableList(Arrays.asList("260101", "260102", "260103", "260104", "260105", "260106"));
   public static final List<String> CUMULATIVE_FIELDS =
       Collections.unmodifiableList(Arrays.asList("250101", "250102", "250103", "250105"));
   @Resource private HrmPayrollInputMapper inputs;
+  @Resource private HrmPayrollTaxDeductionService deductions;
   @Resource private HrmSalaryMonthRecordMapper batches;
   @Resource private HrmSalaryMonthEmployeeRecordMapper employeeRecords;
   @Resource private HrmEmployeeMapper employees;
@@ -325,10 +326,18 @@ public class HrmPayrollInputService {
       sources.put("cycles", cycles);
       sources.put("approvedOvertime", new ArrayList<>(approved.values()));
     } else if ("DEDUCTIONS".equals(r.getKind())) {
+      HrmPayrollTaxDeductionDO declaration = deductions.source(b.getEntityId(), e.getId(), b.getYear(), b.getMonth());
+      if(declaration != null) sources.put("taxDeductionDeclaration", declaration);
       if ("ZERO".equals(r.getMode()))
         DEDUCTION_FIELDS.forEach(code -> values.put(code, BigDecimal.ZERO));
+      else if ("SYNC".equals(r.getMode()) && declaration != null) values.putAll(deductions.values(declaration));
       else if ("IMPORT".equals(r.getMode()) && r.getValues() != null) values.putAll(r.getValues());
       else throw exception(PAYROLL_INPUT_INVALID);
+      if(declaration != null) {
+        Map<String,BigDecimal> approved=deductions.values(declaration);
+        for(String code:DEDUCTION_FIELDS)
+          if(values.get(code)==null || approved.get(code)==null || values.get(code).compareTo(approved.get(code))!=0) throw exception(PAYROLL_INPUT_INVALID);
+      }
     } else if ("CUMULATIVE_TAX".equals(r.getKind())) {
       HrmSalaryMonthEmployeeRecordDO prior = priorPaid(b, e.getId());
       sources.put("priorPaidRecord", prior);

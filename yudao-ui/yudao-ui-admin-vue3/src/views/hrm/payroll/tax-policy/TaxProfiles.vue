@@ -59,6 +59,7 @@
       </template></el-table-column
     >
   </el-table>
+  <TaxDeductions :entity-id="entityId" :employee-id="employeeId" :year="year" />
   <Dialog v-model="visible" title="年度税务档案（待独立复核）" width="750px">
     <el-form label-width="230px">
       <el-form-item label="纳税人姓名"
@@ -196,6 +197,7 @@
 <script setup lang="ts">
 import * as api from '@/api/hrm/payroll/tax-profile'
 import dayjs from 'dayjs'
+import TaxDeductions from './TaxDeductions.vue'
 const props = defineProps<{ entityId?: number; year: number }>()
 const message = useMessage()
 const employees = ref<any[]>([]),

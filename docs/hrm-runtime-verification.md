@@ -31,6 +31,9 @@
 - `sql/mysql/upgrade/20261013-hrm-tax-policy.sql`
 - `sql/mysql/upgrade/20261013-hrm-tax-profile.sql`
 - `sql/mysql/upgrade/20261013-hrm-bank-value-date.sql`
+- `sql/mysql/upgrade/20261014-hrm-tax-deduction.sql`
+
+安装扣除资料迁移后，对每个使用薪酬的租户执行现有 `PUT /hrm/salary-option/sync`（`hrm:salary:option:update`）同步新增 `260106` 婴幼儿照护目录项；保留原启用/展示设置。目录项缺失或归属错误时主体工资核算会阻断，不静默忽略非零扣除。旧已复核的五项扣除输入需按六项模板明确补齐并重新复核；不能自行给缺项补零。
 
 三个基础模块脚本仅创建缺失业务表。Flowable 使用项目现有的自动升级配置创建流程引擎表。后续模块的增量脚本应随相应功能交付安装，不能仅凭文件存在判断已验收。
 

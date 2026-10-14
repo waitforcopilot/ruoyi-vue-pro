@@ -46,6 +46,7 @@ class HrmPayrollInputServiceTest extends BaseDbUnitTest {
   @MockBean private PermissionApi permissions;
   @MockBean private DeptApi departments;
   @MockBean private HrmPayrollWindowService window;
+  @MockBean private HrmPayrollTaxDeductionService deductions;
   @MockBean private HrmPayrollWorkService work;
   @MockBean private HrmPayrollAttendanceService attendance;
   @MockBean private cn.iocoder.yudao.module.oa.api.payroll.OaPayrollSourceApi oa;
@@ -148,6 +149,33 @@ class HrmPayrollInputServiceTest extends BaseDbUnitTest {
     Long id = service.submit(r, 1L);
     service.review(id, true, "数据与来源已核实", 2L);
     return id;
+  }
+
+  @Test
+  void approvedDeductionDeclarationSynchronizesAndChangedVersionMakesInputStale() {
+    Map<String,BigDecimal> values=new TreeMap<>(); HrmPayrollInputService.DEDUCTION_FIELDS.forEach(code->values.put(code,BigDecimal.ZERO));
+    values.put("260106",new BigDecimal("20000"));
+    HrmPayrollTaxDeductionDO declaration=new HrmPayrollTaxDeductionDO().setId(500L).setEntityId(entityId).setEmployeeId(employeeId).setYear(2026).setMonth(10).setVersion(1).setStatus("APPROVED");
+    when(deductions.source(entityId,employeeId,2026,10)).thenReturn(declaration);
+    when(deductions.values(declaration)).thenReturn(values);
+    Long id=approved(request(employeeId,"DEDUCTIONS","SYNC"));
+    assertEquals(new BigDecimal("20000"),service.values(records.selectById(id)).get("260106"));
+    assertTrue(service.readiness(batchId,1L).stream().anyMatch(r->"DEDUCTIONS".equals(r.getKind()) && "APPROVED".equals(r.getStatus())));
+    HrmPayrollTaxDeductionDO successor = new HrmPayrollTaxDeductionDO().setId(501L).setVersion(2);
+    when(deductions.source(entityId,employeeId,2026,10)).thenReturn(successor);
+    when(deductions.values(successor)).thenReturn(values);
+    assertTrue(service.readiness(batchId,1L).stream().anyMatch(r->"DEDUCTIONS".equals(r.getKind()) && "STALE".equals(r.getStatus())));
+  }
+
+  @Test
+  void declaredDeductionCannotBeBypassedWithZeroOrDifferentManualAmounts() {
+    Map<String,BigDecimal> values=new TreeMap<>(); HrmPayrollInputService.DEDUCTION_FIELDS.forEach(code->values.put(code,BigDecimal.ZERO));
+    values.put("260106",new BigDecimal("20000"));
+    HrmPayrollTaxDeductionDO declaration=new HrmPayrollTaxDeductionDO().setId(500L);
+    when(deductions.source(entityId,employeeId,2026,10)).thenReturn(declaration); when(deductions.values(declaration)).thenReturn(values);
+    assertServiceException(()->service.submit(request(employeeId,"DEDUCTIONS","ZERO"),1L),PAYROLL_INPUT_INVALID);
+    Map<String,BigDecimal> changed=new TreeMap<>(values);changed.put("260106",BigDecimal.ZERO);
+    assertServiceException(()->service.submit(request(employeeId,"DEDUCTIONS","IMPORT").setValues(changed),1L),PAYROLL_INPUT_INVALID);
   }
 
   @Test

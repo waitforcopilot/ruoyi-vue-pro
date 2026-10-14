@@ -54,6 +54,8 @@ public enum HrmSalaryOptionCodeEnum implements ArrayValuable<Integer> {
     ELDERLY_SUPPORT_DEDUCTION(260104, "累计赡养老人"),
     CONTINUING_EDUCATION_DEDUCTION(260105, "累计继续教育"),
 
+    INFANT_CARE_DEDUCTION(260106, "累计婴幼儿照护"),
+
     CURRENT_CUMULATIVE_INCOME(270101, "累计收入额"),
     CURRENT_CUMULATIVE_DEDUCT_EXPENSE(270102, "累计减除费用"),
     CURRENT_CUMULATIVE_SPECIAL_DEDUCTION(270103, "累计专项扣除"),
@@ -81,7 +83,7 @@ public enum HrmSalaryOptionCodeEnum implements ArrayValuable<Integer> {
     /** 金额来自经复核的外部输入或法定计算，不允许用通用公式/人工调整改写。 */
     public static final Set<Integer> SOURCE_CONTROLLED_CODES=Collections.unmodifiableSet(SetUtils.asSet(
         100101,100102,110101,120101,180101,190101,190102,190103,190104,190105,190106,200101,
-        250101,250102,250103,250105,260101,260102,260103,260104,260105));
+        250101,250102,250103,250105,260101,260102,260103,260104,260105,260106));
 
     public static final Set<Integer> SOURCE_CONTROLLED_PARENT_CODES=Collections.unmodifiableSet(SetUtils.asSet(100,110,120,180,190,200,250,260));
     public static boolean sourceControlled(Integer code,Integer parentCode){return SOURCE_CONTROLLED_CODES.contains(code)||SOURCE_CONTROLLED_PARENT_CODES.contains(parentCode);}

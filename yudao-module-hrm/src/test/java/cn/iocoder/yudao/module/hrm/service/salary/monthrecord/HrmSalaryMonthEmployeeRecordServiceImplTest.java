@@ -255,6 +255,29 @@ public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest 
     }
 
     @Test
+    public void infantCareCumulativeDeductionReducesTaxWithoutReducingGrossWages() {
+        when(salaryOptionService.getSalaryOptionList(false)).thenReturn(Arrays.asList(
+                salaryOption(10101, 10, "基本工资", true, true),
+                salaryOption(260106, 260, "累计婴幼儿照护", true, true)));
+        HrmSalaryMonthEmployeeRecordDO record = randomMonthEmployeeRecord(2001L, 1001L);
+        HrmSalaryTaxRuleDO taxRule = HrmSalaryTaxRuleDO.builder()
+                .type(HrmSalaryTaxTypeEnum.SALARY.getType()).taxEnabled(true)
+                .threshold(new BigDecimal("5000")).decimalScale(2)
+                .cycleType(HrmSalaryTaxCycleTypeEnum.JANUARY_TO_DECEMBER.getType()).build();
+        monthEmployeeRecordService.calculateMonthEmployeeRecordList(
+                Collections.singletonList(record),
+                Collections.singletonMap(record.getEmployeeId(), Arrays.asList(
+                        salaryOptionValue(10101, "基本工资", "10000"),
+                        salaryOptionValue(260106, "累计婴幼儿照护", "2000"))),
+                Collections.singletonMap(record.getEmployeeId(), taxRule));
+        assertAmount("10000", record.getExpectedPaySalary());
+        assertAmount("90", record.getPersonalTax());
+        assertAmount("9910", record.getRealPaySalary());
+        assertAmount("3000", record.getOptionValues().stream().filter(v -> v.getCode() == 270105)
+                .findFirst().get().getValue());
+    }
+
+    @Test
     public void testCalculateMonthEmployeeRecord_negativePersonalTaxDoesNotRefund() {
         // mock 数据
         when(salaryOptionService.getSalaryOptionList(false)).thenReturn(Collections.singletonList(
