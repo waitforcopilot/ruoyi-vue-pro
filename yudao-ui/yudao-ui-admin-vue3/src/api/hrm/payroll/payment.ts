@@ -20,6 +20,7 @@ export interface Payment {
   failureReason?: string
   attempt: number
   valueDate?: string
+  zeroSettlementReference?: string
 }
 export interface Column {
   field: string
@@ -76,3 +77,8 @@ export const validateFile = async (data: FormData) => {
 }
 export const receipts = (batchId: number) =>
   request.get<Receipt[]>({ url: '/hrm/payroll/payment/receipts', params: { batchId } })
+
+export const settleZero = (params: object) =>
+  request.post({ url: '/hrm/payroll/payment/zero-settlement', params })
+export const cancelZeroPreparation = (batchId: number, reason: string) =>
+  request.post({ url: '/hrm/payroll/payment/zero-preparation-cancel', params: { batchId, reason } })

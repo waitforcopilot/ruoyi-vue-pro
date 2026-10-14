@@ -100,16 +100,112 @@ public class HrmPayrollPaymentService {
       payment.setBankAccount(card == null ? "" : card.getBankCardNumber());
       payment.setBankName(card == null ? "" : card.getBankName());
       payment.setAmount(result.getRealPaySalary());
-      payment.setStatus(result.getRealPaySalary().signum() == 0 ? "SUCCESS" : "PENDING");
+      payment.setStatus(result.getRealPaySalary().signum() == 0 ? "ZERO_PENDING" : "PENDING");
       payment.setAttempt(1);
-      if (result.getRealPaySalary().signum() == 0)
-        payment.setValueDate(java.time.LocalDate.now(java.time.ZoneId.of("Asia/Shanghai")));
       paymentMapper.insert(payment);
-      if (result.getRealPaySalary().signum() == 0)
-        sourceClaims.paid(batchId, runId, result.getEmployeeId());
     }
     batchService.transition(batchId, runId, "pay", "生成代发明细", actor);
     completeIfPaid(batchId, runId, actor);
+  }
+
+  @Transactional(
+      rollbackFor = Exception.class,
+      isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
+  public void settleZero(
+      Long id, java.time.LocalDate date, String reference, String evidence, Long actor) {
+    HrmPayrollPaymentDO candidate = paymentMapper.selectById(id);
+    if (candidate == null) throw exception(PAYROLL_PAYMENT_INVALID);
+    HrmSalaryMonthRecordDO batch = batchMapper.selectByIdForUpdate(candidate.getMonthRecordId());
+    scope.check(batch, "APPROVE", actor);
+    HrmPayrollPaymentDO payment = paymentMapper.selectOneForUpdate(HrmPayrollPaymentDO::getId, id);
+    if (payment == null) throw exception(PAYROLL_PAYMENT_INVALID);
+    HrmPayrollRunDO run = runMapper.selectById(payment.getRunId());
+    if (run == null
+        || payment.getAmount() == null
+        || payment.getAmount().signum() != 0
+        || date == null
+        || date.isAfter(java.time.LocalDate.now(java.time.ZoneId.of("Asia/Shanghai")))
+        || reference == null
+        || reference.trim().isEmpty()
+        || reference.length() > 100
+        || evidence == null
+        || evidence.trim().isEmpty()
+        || evidence.length() > 1000) throw exception(PAYROLL_PAYMENT_INVALID);
+    if (Objects.equals(run.getComputedBy(), actor)) throw exception(PAYROLL_SELF_APPROVAL);
+    if (run.getExpectedPaymentDate() != null
+        && !java.time.YearMonth.from(run.getExpectedPaymentDate())
+            .equals(java.time.YearMonth.from(date))) throw exception(PAYROLL_TAX_INVALID);
+    if ("SUCCESS".equals(payment.getStatus()) && payment.getZeroSettlementReference() != null) {
+      if (Objects.equals(date, payment.getValueDate())
+          && Objects.equals(reference, payment.getZeroSettlementReference())
+          && Objects.equals(evidence, payment.getZeroSettlementEvidence())) return;
+      throw exception(PAYROLL_PAYMENT_INVALID);
+    }
+    if (!Arrays.asList(16, 17).contains(batch.getStatus())
+        || !("ZERO_PENDING".equals(payment.getStatus())
+            || ("SUCCESS".equals(payment.getStatus())
+                && payment.getZeroSettlementReference() == null)))
+      throw exception(SALARY_MONTH_RECORD_STATUS_INVALID);
+    if ("SUCCESS".equals(payment.getStatus()) && !Objects.equals(date, payment.getValueDate()))
+      throw exception(PAYROLL_PAYMENT_INVALID);
+    sourceClaims.assertReserved(batch.getId(), run.getId());
+    payment
+        .setStatus("SUCCESS")
+        .setValueDate(date)
+        .setZeroSettlementReference(reference)
+        .setZeroSettlementEvidence(evidence)
+        .setZeroSettledBy(actor)
+        .setZeroSettlementTime(java.time.LocalDateTime.now(java.time.ZoneId.of("Asia/Shanghai")));
+    paymentMapper.updateById(payment);
+    sourceClaims.paid(batch.getId(), run.getId(), payment.getEmployeeId());
+    Map<String, Object> audit = new LinkedHashMap<>();
+    audit.put("paymentId", payment.getId());
+    audit.put("date", payment.getValueDate());
+    audit.put("reference", payment.getZeroSettlementReference());
+    eventMapper.insert(
+        new HrmPayrollBatchEventDO()
+            .setMonthRecordId(batch.getId())
+            .setRunId(run.getId())
+            .setAction("zero_settled")
+            .setFromStatus(batch.getStatus())
+            .setToStatus(batch.getStatus())
+            .setActorId(actor)
+            .setReason(evidence)
+            .setSnapshot(JsonUtils.toJsonString(audit)));
+    completeIfPaid(batch.getId(), run.getId(), actor);
+  }
+
+  /** Only zero-only preparations can be rolled back without a bank cancellation workflow. */
+  @Transactional(
+      rollbackFor = Exception.class,
+      isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
+  public void cancelZeroPreparation(Long batchId, String reason, Long actor) {
+    HrmSalaryMonthRecordDO batch = batchMapper.selectByIdForUpdate(batchId);
+    scope.check(batch, "APPROVE", actor);
+    List<HrmPayrollPaymentDO> payments = rawList(batchId);
+    if (batch.getStatus() != 16
+        || payments.isEmpty()
+        || payments.stream().anyMatch(p -> !"ZERO_PENDING".equals(p.getStatus()))
+        || reason == null
+        || reason.trim().isEmpty()
+        || reason.length() > 1000) throw exception(PAYROLL_PAYMENT_INVALID);
+    Long runId = payments.get(0).getRunId();
+    eventMapper.insert(
+        new HrmPayrollBatchEventDO()
+            .setMonthRecordId(batchId)
+            .setRunId(runId)
+            .setAction("cancel_zero_preparation")
+            .setFromStatus(16)
+            .setToStatus(15)
+            .setActorId(actor)
+            .setReason(reason)
+            .setSnapshot(
+                JsonUtils.toJsonString(
+                    payments.stream()
+                        .map(HrmPayrollPaymentDO::getId)
+                        .collect(Collectors.toList()))));
+    for (HrmPayrollPaymentDO payment : payments) paymentMapper.deleteById(payment.getId());
+    batchMapper.updateById(new HrmSalaryMonthRecordDO().setId(batchId).setStatus(15));
   }
 
   private List<HrmPayrollPaymentDO> rawList(Long batchId) {
@@ -138,10 +234,10 @@ public class HrmPayrollPaymentService {
     HrmSalaryMonthRecordDO batch = batchMapper.selectById(batchId);
     if (batch == null || batch.getStatus() != 16)
       throw exception(SALARY_MONTH_RECORD_STATUS_INVALID);
-    List<HrmPayrollPaymentDO> all=rawList(batchId);
-    if(!all.isEmpty()) sourceClaims.assertReserved(batchId,all.get(0).getRunId());
+    List<HrmPayrollPaymentDO> all = rawList(batchId);
+    if (!all.isEmpty()) sourceClaims.assertReserved(batchId, all.get(0).getRunId());
     return all.stream()
-        .filter(row -> "PENDING".equals(row.getStatus()))
+        .filter(row -> "PENDING".equals(row.getStatus()) && row.getAmount().signum() > 0)
         .map(row -> BeanUtils.toBean(row, HrmPayrollBankRowVO.class))
         .collect(Collectors.toList());
   }
@@ -161,6 +257,7 @@ public class HrmPayrollPaymentService {
       String reason = null;
       if (!seen.add(row.getId())) reason = "重复的代发明细编号";
       else if (payment == null) reason = "明细不属于此发放批次";
+      else if (payment.getAmount().signum() == 0) reason = "零实发须使用结算凭据确认，不导入银行回盘";
       else if (!Objects.equals(payment.getBankAccount(), row.getBankAccount())) reason = "银行账户不匹配";
       else if (row.getAmount() == null || payment.getAmount().compareTo(row.getAmount()) != 0)
         reason = "金额不匹配";

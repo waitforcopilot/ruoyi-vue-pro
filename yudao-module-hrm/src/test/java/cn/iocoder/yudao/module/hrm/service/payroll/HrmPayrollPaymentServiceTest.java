@@ -3,7 +3,7 @@ package cn.iocoder.yudao.module.hrm.service.payroll;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
 import cn.iocoder.yudao.framework.test.core.ut.BaseDbUnitTest;
@@ -23,7 +23,9 @@ import org.springframework.context.annotation.Import;
 
 @Import({HrmPayrollPaymentService.class, HrmPayrollBatchService.class})
 class HrmPayrollPaymentServiceTest extends BaseDbUnitTest {
-  @org.springframework.boot.test.mock.mockito.MockBean private HrmPayrollTaxWithholdingService taxWithholding;
+  @org.springframework.boot.test.mock.mockito.MockBean
+  private HrmPayrollTaxWithholdingService taxWithholding;
+
   @org.springframework.boot.test.mock.mockito.MockBean
   private HrmPayrollSourceClaimService sourceClaims;
 
@@ -196,10 +198,13 @@ class HrmPayrollPaymentServiceTest extends BaseDbUnitTest {
         java.time.LocalDate.of(2026, 10, 1), service.list(batch.getId()).get(0).getValueDate());
   }
 
-  @Test
-  void zeroNetPayrollSettlesSourcesWithoutGeneratingBankTransfer() {
+  private Long[] zeroPreparation() {
     HrmSalaryMonthRecordDO batch =
-        new HrmSalaryMonthRecordDO().setYear(2026).setMonth(10).setStatus(11);
+        new HrmSalaryMonthRecordDO()
+            .setYear(2026)
+            .setMonth(10)
+            .setStatus(11)
+            .setExpectedPaymentDate(java.time.LocalDate.of(2026, 10, 1));
     mapper.insert(batch);
     when(employees.getEmployee(1L)).thenReturn(new HrmEmployeeDO().setId(1L).setName("无需转账员工"));
     Long run =
@@ -214,10 +219,70 @@ class HrmPayrollPaymentServiceTest extends BaseDbUnitTest {
             1L);
     mapper.updateById(new HrmSalaryMonthRecordDO().setId(batch.getId()).setStatus(15));
     service.prepare(batch.getId(), run, 3L);
-    assertEquals(17, mapper.selectById(batch.getId()).getStatus());
-    assertEquals(
-        java.time.LocalDate.now(java.time.ZoneId.of("Asia/Shanghai")),
-        service.list(batch.getId()).get(0).getValueDate());
-    verify(sourceClaims).paid(batch.getId(), run, 1L);
+    return new Long[] {batch.getId(), run, service.list(batch.getId()).get(0).getId()};
+  }
+
+  @Test
+  void zeroNetNeedsDatedAccountingProofAndDoesNotGenerateBankTransfer() {
+    Long[] ids = zeroPreparation();
+    assertEquals(16, mapper.selectById(ids[0]).getStatus());
+    assertEquals("ZERO_PENDING", service.list(ids[0]).get(0).getStatus());
+    assertNull(service.list(ids[0]).get(0).getValueDate());
+    assertTrue(service.export(ids[0]).isEmpty());
+    verify(sourceClaims, never()).paid(anyLong(), anyLong(), anyLong());
+    service.settleZero(
+        ids[2], java.time.LocalDate.of(2026, 10, 1), "ZERO-2026-10", "核对正式会计结算凭据及日期", 3L);
+    assertEquals(17, mapper.selectById(ids[0]).getStatus());
+    assertEquals(java.time.LocalDate.of(2026, 10, 1), service.list(ids[0]).get(0).getValueDate());
+    verify(sourceClaims).paid(ids[0], ids[1], 1L);
+    service.settleZero(
+        ids[2], java.time.LocalDate.of(2026, 10, 1), "ZERO-2026-10", "核对正式会计结算凭据及日期", 3L);
+    verify(sourceClaims, times(1)).paid(ids[0], ids[1], 1L);
+  }
+
+  @Test
+  void zeroSettlementRejectsSelfFutureWrongPeriodAndBankCallback() {
+    Long[] ids = zeroPreparation();
+    assertServiceException(
+        () -> service.settleZero(ids[2], java.time.LocalDate.of(2026, 10, 1), "REF", "本人确认", 1L),
+        PAYROLL_SELF_APPROVAL);
+    assertServiceException(
+        () ->
+            service.settleZero(
+                ids[2],
+                java.time.LocalDate.now(java.time.ZoneId.of("Asia/Shanghai")).plusDays(1),
+                "REF",
+                "未来结算",
+                3L),
+        PAYROLL_PAYMENT_INVALID);
+    assertServiceException(
+        () -> service.settleZero(ids[2], java.time.LocalDate.of(2026, 9, 30), "REF", "错误税务期间", 3L),
+        PAYROLL_TAX_INVALID);
+    HrmPayrollBankRowVO row =
+        new HrmPayrollBankRowVO()
+            .setId(ids[2])
+            .setAmount(BigDecimal.ZERO)
+            .setBankAccount("")
+            .setAttempt(1)
+            .setStatus("SUCCESS")
+            .setValueDate(java.time.LocalDate.of(2026, 10, 1));
+    assertTrue(
+        service
+            .validateRows(ids[0], Collections.singletonList(row))
+            .get(0)
+            .getReason()
+            .contains("零实发"));
+  }
+
+  @Test
+  void unpaidZeroOnlyPreparationCanReturnToFrozenForRecalculation() {
+    Long[] ids = zeroPreparation();
+    service.cancelZeroPreparation(ids[0], "发放安排需重新核定", 3L);
+    assertEquals(15, mapper.selectById(ids[0]).getStatus());
+    assertTrue(service.list(ids[0]).isEmpty());
+    verify(sourceClaims, never()).paid(anyLong(), anyLong(), anyLong());
+    service.prepare(ids[0], ids[1], 3L);
+    assertEquals(16, mapper.selectById(ids[0]).getStatus());
+    assertEquals(1, service.list(ids[0]).size());
   }
 }

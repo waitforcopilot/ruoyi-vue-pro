@@ -256,6 +256,25 @@ class HrmPayrollTaxCashLedgerServiceTest extends BaseDbUnitTest {
   }
 
   @Test
+  void legacyZeroNetRequiresAccountingProofBeforeTaxAccumulation() {
+    HrmPayrollPaymentDO payment = paid(10L, 1L, LocalDate.of(2026, 2, 1), "SUCCESS");
+    payment.setAmount(BigDecimal.ZERO);
+    payments.updateById(payment);
+    HrmPayrollRunDO run = runs.selectById(payment.getRunId());
+    List<HrmSalaryMonthEmployeeRecordDO> rows =
+        JsonUtils.parseArray(run.getResultSnapshot(), HrmSalaryMonthEmployeeRecordDO.class);
+    rows.get(0).setRealPaySalary(BigDecimal.ZERO);
+    run.setResultSnapshot(JsonUtils.toJsonString(rows));
+    runs.updateById(run);
+    assertFalse(ledger().isReady());
+    assertNull(ledger().getIncome());
+    payment.setZeroSettlementReference("VERIFIED-ZERO-REF");
+    payments.updateById(payment);
+    assertTrue(ledger().isReady());
+    assertEquals(0, money("10000").compareTo(ledger().getIncome()));
+  }
+
+  @Test
   void unboundHistoricalPaidBatchCannotBeSilentlyExcluded() {
     paid(null, 1L, LocalDate.of(2026, 2, 1), "SUCCESS");
     assertFalse(ledger().isReady());

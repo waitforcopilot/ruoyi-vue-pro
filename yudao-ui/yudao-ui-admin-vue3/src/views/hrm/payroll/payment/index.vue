@@ -89,6 +89,17 @@
         :closable="false"
         type="info"
       />
+      <el-button
+        v-if="
+          selected.status === 16 &&
+          payments.length &&
+          payments.every((row) => row.status === 'ZERO_PENDING')
+        "
+        v-hasPermi="['hrm:payroll:payment:reconcile']"
+        class="mb-4"
+        @click="cancelZero"
+        >零实发批次退回冻结</el-button
+      >
       <el-table :data="payments">
         <el-table-column prop="employeeName" label="员工" /><el-table-column
           prop="bankAccount"
@@ -100,13 +111,13 @@
             paymentStatuses[row.status]
           }}</template></el-table-column
         >
-        <el-table-column prop="valueDate" label="实际到账日期" width="140" />
+        <el-table-column prop="valueDate" label="实际到账／结算日期" width="140" />
         <el-table-column prop="attempt" label="发放次数" width="100" /><el-table-column
           prop="failureReason"
           label="失败原因"
           min-width="180"
         />
-        <el-table-column label="操作" width="90"
+        <el-table-column label="操作" width="160"
           ><template #default="{ row }"
             ><el-button
               v-if="row.status === 'FAILED' && selected.status === 16"
@@ -116,6 +127,17 @@
               :disabled="saving"
               @click="retry(row)"
               >重试</el-button
+            ><el-button
+              v-if="
+                row.status === 'ZERO_PENDING' ||
+                (row.status === 'SUCCESS' &&
+                  Number(row.amount) === 0 &&
+                  !row.zeroSettlementReference)
+              "
+              v-hasPermi="['hrm:payroll:payment:reconcile']"
+              link
+              @click="openZero(row)"
+              >确认零实发结算</el-button
             ></template
           ></el-table-column
         >
@@ -131,6 +153,24 @@
       >
     </template>
   </Dialog>
+  <Dialog v-model="zeroVisible" title="零实发会计结算凭据" width="650px"
+    ><el-form label-width="130px"
+      ><el-form-item label="实际结算日期"
+        ><el-date-picker v-model="zeroDraft.date" value-format="YYYY-MM-DD" /></el-form-item
+      ><el-form-item label="正式结算凭据编号"
+        ><el-input v-model="zeroDraft.reference" maxlength="100" /></el-form-item
+      ><el-form-item label="核实依据"
+        ><el-input
+          v-model="zeroDraft.evidence"
+          type="textarea"
+          maxlength="1000"
+          placeholder="零实发、代扣或抵扣结算的实际凭据及日期依据" /></el-form-item></el-form
+    ><template #footer
+      ><el-button type="primary" :loading="saving" @click="settleZero"
+        >确认会计结算</el-button
+      ></template
+    ></Dialog
+  >
   <Dialog v-model="differenceVisible" title="回盘差异：未更新代发台账" width="750px">
     <el-table :data="differences"
       ><el-table-column prop="row" label="文件行" width="90" /><el-table-column
@@ -207,6 +247,7 @@ const valueDate = ref<string>()
 const paymentStatuses: Record<string, string> = {
   PENDING: '待发放',
   SUCCESS: '成功',
+  ZERO_PENDING: '待零实发结算',
   FAILED: '失败'
 }
 const fieldNames: Record<string, string> = {
@@ -280,6 +321,33 @@ const prepare = async () => {
   } finally {
     saving.value = false
   }
+}
+const zeroVisible = ref(false),
+  zeroDraft = ref<any>({})
+function openZero(row: api.Payment) {
+  zeroDraft.value = { id: row.id, date: row.valueDate, reference: '', evidence: '' }
+  zeroVisible.value = true
+}
+async function settleZero() {
+  saving.value = true
+  try {
+    await api.settleZero(zeroDraft.value)
+    zeroVisible.value = false
+    await refresh()
+    message.success('零实发结算已确认')
+  } finally {
+    saving.value = false
+  }
+}
+async function cancelZero() {
+  const id = selected.value?.id
+  if (!id) return
+  const reason = await message.prompt(
+    '填写退回原因；仅全部待确认零实发的批次允许退回冻结状态，再按核算流程解冻修订'
+  )
+  if (!reason || selected.value?.id !== id) return
+  await api.cancelZeroPreparation(id, reason)
+  await refresh()
 }
 const retry = async (row: api.Payment) => {
   saving.value = true

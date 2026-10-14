@@ -162,6 +162,27 @@ public class HrmPayrollPaymentController {
     return success(true);
   }
 
+  @PostMapping("/zero-settlement")
+  @PreAuthorize("@ss.hasPermission('hrm:payroll:payment:reconcile')")
+  public CommonResult<Boolean> zero(
+      @RequestParam Long id,
+      @RequestParam
+          @org.springframework.format.annotation.DateTimeFormat(
+              iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)
+          java.time.LocalDate date,
+      @RequestParam String reference,
+      @RequestParam String evidence) {
+    service.settleZero(id, date, reference, evidence, getLoginUserId());
+    return success(true);
+  }
+
+  @PostMapping("/zero-preparation-cancel")
+  @PreAuthorize("@ss.hasPermission('hrm:payroll:payment:reconcile')")
+  public CommonResult<Boolean> cancelZero(@RequestParam Long batchId, @RequestParam String reason) {
+    service.cancelZeroPreparation(batchId, reason, getLoginUserId());
+    return success(true);
+  }
+
   @PostMapping("/retry")
   @PreAuthorize("@ss.hasPermission('hrm:payroll:batch:pay')")
   public CommonResult<Boolean> retry(@RequestParam Long id) {

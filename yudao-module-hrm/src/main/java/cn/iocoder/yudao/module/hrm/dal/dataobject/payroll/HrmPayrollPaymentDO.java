@@ -22,4 +22,7 @@ public class HrmPayrollPaymentDO extends BaseDO {
   private String failureReason;
   private Integer attempt;
   private java.time.LocalDate valueDate;
+  private String zeroSettlementReference, zeroSettlementEvidence;
+  private Long zeroSettledBy;
+  private java.time.LocalDateTime zeroSettlementTime;
 }

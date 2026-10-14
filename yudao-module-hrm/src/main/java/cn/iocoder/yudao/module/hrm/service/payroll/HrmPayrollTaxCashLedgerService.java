@@ -175,6 +175,11 @@ public class HrmPayrollTaxCashLedgerService {
   static void populate(Row row, HrmPayrollPaymentDO payment, HrmPayrollRunDO run) {
     if (run == null || !Objects.equals(run.getMonthRecordId(), payment.getMonthRecordId()))
       throw new IllegalArgumentException();
+    if (payment.getAmount() != null
+        && payment.getAmount().signum() == 0
+        && (payment.getZeroSettlementReference() == null
+            || payment.getZeroSettlementReference().trim().isEmpty()))
+      throw new IllegalArgumentException("ZERO_SETTLEMENT_UNVERIFIED");
     List<HrmSalaryMonthEmployeeRecordDO> records;
     try {
       records = JsonUtils.parseArray(run.getResultSnapshot(), HrmSalaryMonthEmployeeRecordDO.class);
