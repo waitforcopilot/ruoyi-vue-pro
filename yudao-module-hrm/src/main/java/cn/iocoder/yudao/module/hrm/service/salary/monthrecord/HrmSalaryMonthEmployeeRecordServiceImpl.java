@@ -179,7 +179,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
         HrmSalaryTaxRuleDO taxRule = getEmployeeTaxRuleMap(
                 Collections.singleton(employeeRecord.getEmployeeId())).get(employeeRecord.getEmployeeId());
         return calculateMonthEmployeeRecord(employeeRecord,
-                mergeEditableOptionValues(employeeRecord.getOptionValues(), optionValues, optionMap),
+                mergeEditableOptionValues(employeeRecord.getOptionValues(), optionValues, optionMap,employeeRecord.getEntityId()!=null),
                 taxRule, optionMap);
     }
 
@@ -225,7 +225,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
                 validateSourceAdjustment(employeeRecord, reqVO.getOptionValues(), optionMap);
             }
             monthEmployeeRecordMapper.updateById(calculateMonthEmployeeRecord(employeeRecord,
-                    mergeEditableOptionValues(employeeRecord.getOptionValues(), reqVO.getOptionValues(), optionMap),
+                    mergeEditableOptionValues(employeeRecord.getOptionValues(), reqVO.getOptionValues(), optionMap,employeeRecord.getEntityId()!=null),
                     employeeTaxRuleMap.get(employeeRecord.getEmployeeId()), optionMap));
         }
 
@@ -747,7 +747,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
 
     private List<HrmSalaryOptionValueVO> mergeEditableOptionValues(
             List<HrmSalaryMonthEmployeeRecordDO.OptionValue> currentValues,
-            List<HrmSalaryOptionValueVO> updateValues, Map<Integer, HrmSalaryOptionDO> optionMap) {
+            List<HrmSalaryOptionValueVO> updateValues, Map<Integer, HrmSalaryOptionDO> optionMap,boolean governed) {
         Map<Integer, HrmSalaryOptionValueVO> valueMap = new LinkedHashMap<>();
         for (HrmSalaryMonthEmployeeRecordDO.OptionValue currentValue : CollUtil.emptyIfNull(currentValues)) {
             HrmSalaryOptionValueVO value = new HrmSalaryOptionValueVO();
@@ -763,6 +763,8 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
             value.setCode(option.getCode()).setName(option.getName()).setValue(nvl(updateValue.getValue()));
             valueMap.put(value.getCode(), value);
         }
+        // Rebuild the approved bonus before formulas; prior computed earnings are not raw inputs.
+        if(governed) valueMap.remove(140101);
         return valueMap.values().stream()
                 .sorted(Comparator.comparing(HrmSalaryOptionValueVO::getCode))
                 .collect(Collectors.toList());

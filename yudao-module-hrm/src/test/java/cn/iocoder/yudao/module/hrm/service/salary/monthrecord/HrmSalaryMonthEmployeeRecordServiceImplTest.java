@@ -300,6 +300,13 @@ public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest 
         source.getBonus().setMode("MERGED");source.getQuote().setCurrentWithholding(new BigDecimal("4780")).setSeparateBonusTax(BigDecimal.ZERO);
         monthEmployeeRecordService.calculateMonthEmployeeRecordList(Collections.singletonList(record),Collections.singletonMap(1001L,values),Collections.singletonMap(1001L,rule));
         assertAmount("40220",record.getRealPaySalary());assertAmount("146000",record.getOptionValues().stream().filter(v->v.getCode()==270101).findFirst().get().getValue());
+        when(salaryTaxRuleService.getSalaryTaxRuleList()).thenReturn(Collections.singletonList(rule));
+        monthEmployeeRecordService.calculateMonthEmployeeRecord(record,Collections.emptyList());
+        assertAmount("46000",record.getExpectedPaySalary());assertAmount("40220",record.getRealPaySalary());
+        source.setBonus(null);source.getQuote().setCurrentWithholding(new BigDecimal("1180"));
+        monthEmployeeRecordService.calculateMonthEmployeeRecord(record,Collections.emptyList());
+        assertAmount("10000",record.getExpectedPaySalary());assertAmount("7820",record.getRealPaySalary());
+        cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException(()->monthEmployeeRecordService.calculateMonthEmployeeRecord(record,Collections.singletonList(salaryOptionValue(140101,"奖金","1"))),cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INPUT_INVALID);
         values.get(3).setValue(new BigDecimal("99999"));
         cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException(()->
                 monthEmployeeRecordService.calculateMonthEmployeeRecordList(Collections.singletonList(record),
