@@ -69,6 +69,13 @@ public class HrmPayrollTaxProfileController {
     return success(service.privateIdentifier(id, getLoginUserId()));
   }
 
+  @GetMapping("/identity-source")
+  @PreAuthorize("@ss.hasPermission('hrm:payroll:tax:update')")
+  public CommonResult<Map<String, Object>> identitySource(
+      @RequestParam Long entityId, @RequestParam Long employeeId, @RequestParam Integer year) {
+    return success(service.identitySource(entityId, employeeId, year, getLoginUserId()));
+  }
+
   @GetMapping("/basic-deduction")
   @PreAuthorize("@ss.hasPermission('hrm:payroll:tax:query')")
   public CommonResult<PayrollTaxEmploymentEngine.Result> basicDeduction(

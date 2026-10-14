@@ -17,6 +17,7 @@ public class HrmPayrollTaxProfileDO extends BaseDO {
   private Integer year;
   private Integer version;
   private Long priorProfileId;
+  private Long identitySourceProfileId;
   private String taxRegistrationNumber;
   private String taxpayerName;
   private String identifierType;

@@ -33,7 +33,8 @@ public class HrmPayrollTaxProfileReqVO {
   @Pattern(regexp = "[A-Z]{2}")
   private String identifierCountry;
 
-  @NotBlank
+  private Long identitySourceProfileId;
+
   @Pattern(regexp = "[0-9A-Za-z]{3,64}")
   @com.fasterxml.jackson.annotation.JsonProperty(
       access = com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY)

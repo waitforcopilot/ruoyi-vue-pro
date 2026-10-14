@@ -203,6 +203,111 @@ class HrmPayrollTaxProfileServiceTest extends BaseDbUnitTest {
   }
 
   @Test
+  void verifiedIdentityCanBeReusedWithoutPlaintextOrPrivateReadPermission() {
+    Long first = service.create(request(), 1L);
+    service.review(first, true, "核实身份", 2L);
+    HrmPayrollTaxProfileReqVO reuse =
+        request().setPriorProfileId(first).setIdentitySourceProfileId(first).setIdentifier(null);
+    Long next = service.create(reuse, 1L);
+    assertEquals(first, profiles.selectById(next).getIdentitySourceProfileId());
+    assertEquals(
+        profiles.selectById(first).getIdentifierCipher(),
+        profiles.selectById(next).getIdentifierCipher());
+    assertEquals(
+        profiles.selectById(first).getTaxpayerKey(), profiles.selectById(next).getTaxpayerKey());
+    assertFalse(JsonUtils.toJsonString(reuse).contains("TESTTAX12345678"));
+    service.review(next, true, "仅核实年度资格更新，身份沿用批准来源", 2L);
+    assertEquals(next, service.create(reuse, 1L));
+    assertEquals("TESTTAX12345678", service.privateIdentifier(next, 2L));
+    assertFalse(service.history(next, 2L).get(0).getSnapshot().contains("TESTTAX12345678"));
+    assertServiceException(
+        () ->
+            service.create(
+                request()
+                    .setPriorProfileId(next)
+                    .setIdentitySourceProfileId(first)
+                    .setIdentifier(null),
+                1L),
+        PAYROLL_VERSION_CONFLICT);
+  }
+
+  @Test
+  void reuseCannotBorrowAnotherEntityEmployeePendingIdentityOrMixPlaintext() {
+    HrmPayrollTaxProfileDO foreign =
+        new HrmPayrollTaxProfileDO()
+            .setEntityId(20L)
+            .setEmployeeId(employeeId)
+            .setYear(2026)
+            .setVersion(1)
+            .setStatus("APPROVED")
+            .setIdentifierType("OTHER")
+            .setIdentifierCountry("CN")
+            .setTaxpayerKey("foreign-test-only")
+            .setIdentifierCipher("v1:test-only");
+    profiles.insert(foreign);
+    assertServiceException(
+        () ->
+            service.create(
+                request().setIdentitySourceProfileId(foreign.getId()).setIdentifier(null), 1L),
+        PAYROLL_TAX_INVALID);
+    Long pending = service.create(request(), 1L);
+    assertServiceException(
+        () -> service.create(request().setIdentitySourceProfileId(pending).setIdentifier(null), 1L),
+        PAYROLL_TAX_INVALID);
+    service.review(pending, true, "核实", 2L);
+    assertServiceException(
+        () ->
+            service.create(
+                request().setIdentitySourceProfileId(pending).setPriorProfileId(pending), 1L),
+        PAYROLL_TAX_INVALID);
+    assertServiceException(
+        () ->
+            service.create(
+                request()
+                    .setIdentitySourceProfileId(pending)
+                    .setPriorProfileId(pending)
+                    .setIdentifier(null)
+                    .setIdentifierCountry("US"),
+                1L),
+        PAYROLL_TAX_INVALID);
+    HrmPayrollTaxProfileDO another =
+        new HrmPayrollTaxProfileDO()
+            .setEntityId(10L)
+            .setEmployeeId(employeeId + 100)
+            .setYear(2026)
+            .setVersion(1)
+            .setStatus("APPROVED")
+            .setIdentifierType("OTHER")
+            .setIdentifierCountry("CN")
+            .setTaxpayerKey("other-test-only")
+            .setIdentifierCipher("v1:test-only");
+    profiles.insert(another);
+    assertServiceException(
+        () ->
+            service.create(
+                request().setIdentitySourceProfileId(another.getId()).setIdentifier(null), 1L),
+        PAYROLL_TAX_INVALID);
+  }
+
+  @Test
+  void identitySourceProjectionIsMaskedAndRequiresManageScope() {
+    Long first = service.create(request(), 1L);
+    service.review(first, true, "核实", 2L);
+    java.util.Map<String, Object> info = service.identitySource(10L, employeeId, 2026, 1L);
+    assertEquals(first, info.get("id"));
+    assertEquals("****5678", info.get("maskedIdentifier"));
+    assertEquals(5, info.size());
+    assertFalse(JsonUtils.toJsonString(info).contains("identifierCipher"));
+    assertFalse(JsonUtils.toJsonString(info).contains("TESTTAX12345678"));
+    assertTrue(service.identitySource(20L, employeeId, 2026, 1L).isEmpty());
+    org.mockito.Mockito.doThrow(new IllegalStateException("denied"))
+        .when(entities)
+        .check(10L, "MANAGE", 8L);
+    assertThrows(
+        IllegalStateException.class, () -> service.identitySource(10L, employeeId, 2026, 8L));
+  }
+
+  @Test
   void profileSuccessorPreservesHistoryAndCannotResetTaxpayerIdentity() {
     Long first = service.create(request(), 1L);
     service.review(first, true, "核对", 2L);

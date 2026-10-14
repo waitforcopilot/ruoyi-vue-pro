@@ -13,3 +13,6 @@ export const cashLedger = (params: object) =>
 
 export const basicDeduction = (params: object) =>
   request.get<any>({ url: `${url}/basic-deduction`, params })
+
+export const identitySource = (params: object) =>
+  request.get<any>({ url: `${url}/identity-source`, params })

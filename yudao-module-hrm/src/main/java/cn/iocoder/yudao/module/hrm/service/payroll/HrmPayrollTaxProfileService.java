@@ -103,7 +103,13 @@ public class HrmPayrollTaxProfileService {
             || !Boolean.TRUE.equals(request.getNoPriorSalaryThisYear())
             || !Boolean.TRUE.equals(request.getNoPriorContinuousRemunerationBeforeEntry())))
       throw exception(PAYROLL_TAX_INVALID);
-    if ("ID_CARD".equals(request.getIdentifierType())
+    if (request.getIdentitySourceProfileId() == null
+        && (request.getIdentifier() == null || request.getIdentifier().trim().isEmpty()))
+      throw exception(PAYROLL_TAX_INVALID);
+    if (request.getIdentitySourceProfileId() != null && request.getIdentifier() != null)
+      throw exception(PAYROLL_TAX_INVALID);
+    if (request.getIdentitySourceProfileId() == null
+        && "ID_CARD".equals(request.getIdentifierType())
         && (!"CN".equals(request.getIdentifierCountry())
             || !cn.hutool.core.util.IdcardUtil.isValidCard(request.getIdentifier())))
       throw exception(PAYROLL_TAX_INVALID);
@@ -113,9 +119,25 @@ public class HrmPayrollTaxProfileService {
       throw exception(PAYROLL_TAX_INVALID);
     HrmPayrollTaxPolicyDO policy =
         policies.requireApproved(request.getEntityId(), request.getYear());
-    String normalized = request.getIdentifier().toUpperCase(Locale.ROOT),
-        taxpayer =
-            identityKey(request.getIdentifierType(), request.getIdentifierCountry(), normalized);
+    HrmPayrollTaxProfileDO reused = null;
+    String normalized = null, taxpayer;
+    if (request.getIdentitySourceProfileId() != null) {
+      reused = profiles.selectById(request.getIdentitySourceProfileId());
+      if (reused == null
+          || !Objects.equals(reused.getEntityId(), request.getEntityId())
+          || !Objects.equals(reused.getEmployeeId(), request.getEmployeeId())
+          || reused.getYear() > request.getYear()
+          || !Arrays.asList("APPROVED", "SUPERSEDED").contains(reused.getStatus())
+          || !Objects.equals(reused.getIdentifierType(), request.getIdentifierType())
+          || !Objects.equals(reused.getIdentifierCountry(), request.getIdentifierCountry())
+          || reused.getIdentifierCipher() == null
+          || reused.getTaxpayerKey() == null) throw exception(PAYROLL_TAX_INVALID);
+      taxpayer = reused.getTaxpayerKey();
+    } else {
+      normalized = request.getIdentifier().toUpperCase(Locale.ROOT);
+      taxpayer =
+          identityKey(request.getIdentifierType(), request.getIdentifierCountry(), normalized);
+    }
     String fingerprint = identity.fingerprint("request:" + JsonUtils.toJsonString(request));
     HrmPayrollTaxProfileDO replay =
         profiles.selectOne(HrmPayrollTaxProfileDO::getRequestKey, request.getRequestKey());
@@ -125,6 +147,20 @@ public class HrmPayrollTaxProfileService {
           || !Objects.equals(replay.getTaxpayerKey(), taxpayer))
         throw exception(PAYROLL_TAX_INVALID);
       return replay.getId();
+    }
+    if (reused != null) {
+      HrmPayrollTaxProfileDO latestIdentity =
+          profiles.selectOne(
+              new LambdaQueryWrapperX<HrmPayrollTaxProfileDO>()
+                  .eq(HrmPayrollTaxProfileDO::getEntityId, request.getEntityId())
+                  .eq(HrmPayrollTaxProfileDO::getEmployeeId, request.getEmployeeId())
+                  .le(HrmPayrollTaxProfileDO::getYear, request.getYear())
+                  .in(HrmPayrollTaxProfileDO::getStatus, "APPROVED", "SUPERSEDED")
+                  .orderByDesc(HrmPayrollTaxProfileDO::getYear)
+                  .orderByDesc(HrmPayrollTaxProfileDO::getVersion)
+                  .last("LIMIT 1"));
+      if (latestIdentity == null || !Objects.equals(latestIdentity.getId(), reused.getId()))
+        throw exception(PAYROLL_VERSION_CONFLICT);
     }
     HrmPayrollTaxProfileDO current =
         active(request.getEntityId(), request.getEmployeeId(), request.getYear());
@@ -146,16 +182,20 @@ public class HrmPayrollTaxProfileService {
             .setVersion(
                 old.stream().mapToInt(HrmPayrollTaxProfileDO::getVersion).max().orElse(0) + 1)
             .setPriorProfileId(request.getPriorProfileId())
+            .setIdentitySourceProfileId(request.getIdentitySourceProfileId())
             .setTaxRegistrationNumber(policy.getTaxRegistrationNumber())
             .setTaxpayerName(request.getTaxpayerName())
             .setIdentifierType(request.getIdentifierType())
             .setIdentifierCountry(request.getIdentifierCountry())
-            .setIdentifierCipher(identity.encrypt(normalized))
+            .setIdentifierCipher(
+                reused == null ? identity.encrypt(normalized) : reused.getIdentifierCipher())
             .setTaxpayerKey(taxpayer)
             .setMaskedIdentifier(
-                normalized.length() <= 4
-                    ? "****"
-                    : "****" + normalized.substring(normalized.length() - 4))
+                reused != null
+                    ? reused.getMaskedIdentifier()
+                    : normalized.length() <= 4
+                        ? "****"
+                        : "****" + normalized.substring(normalized.length() - 4))
             .setResidentThisYear(request.getResidentThisYear())
             .setNoPriorContinuousRemunerationBeforeEntry(
                 request.getNoPriorContinuousRemunerationBeforeEntry())
@@ -249,6 +289,30 @@ public class HrmPayrollTaxProfileService {
             policies.requireApproved(entityId, year).getTaxRegistrationNumber()))
       throw exception(PAYROLL_TAX_INVALID);
     return row;
+  }
+
+  public Map<String, Object> identitySource(
+      Long entityId, Long employeeId, Integer year, Long actor) {
+    entities.check(entityId, "MANAGE", actor);
+    if (year == null || year < 2019 || year > 2099) throw exception(PAYROLL_TAX_INVALID);
+    HrmPayrollTaxProfileDO source =
+        profiles.selectOne(
+            new LambdaQueryWrapperX<HrmPayrollTaxProfileDO>()
+                .eq(HrmPayrollTaxProfileDO::getEntityId, entityId)
+                .eq(HrmPayrollTaxProfileDO::getEmployeeId, employeeId)
+                .le(HrmPayrollTaxProfileDO::getYear, year)
+                .in(HrmPayrollTaxProfileDO::getStatus, "APPROVED", "SUPERSEDED")
+                .orderByDesc(HrmPayrollTaxProfileDO::getYear)
+                .orderByDesc(HrmPayrollTaxProfileDO::getVersion)
+                .last("LIMIT 1"));
+    if (source == null) return Collections.emptyMap();
+    Map<String, Object> out = new LinkedHashMap<>();
+    out.put("id", source.getId());
+    out.put("year", source.getYear());
+    out.put("identifierType", source.getIdentifierType());
+    out.put("identifierCountry", source.getIdentifierCountry());
+    out.put("maskedIdentifier", source.getMaskedIdentifier());
+    return out;
   }
 
   @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)

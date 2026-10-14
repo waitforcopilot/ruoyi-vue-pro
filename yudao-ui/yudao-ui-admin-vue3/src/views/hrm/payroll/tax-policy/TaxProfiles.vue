@@ -69,16 +69,26 @@
       <el-form-item label="纳税人姓名"
         ><el-input v-model="draft.taxpayerName" readonly
       /></el-form-item>
+      <el-form-item v-if="savedIdentity?.id" label="已核实身份"
+        ><el-checkbox v-model="reuseIdentity"
+          >沿用 {{ savedIdentity.year }} 年批准身份
+          {{ savedIdentity.maskedIdentifier }}</el-checkbox
+        ></el-form-item
+      >
       <el-form-item label="标识类型"
-        ><el-select v-model="draft.identifierType"
+        ><el-select v-model="draft.identifierType" :disabled="reuseIdentity"
           ><el-option value="ID_CARD" label="居民身份证" /><el-option
             value="PASSPORT"
             label="护照" /><el-option value="OTHER" label="其他税务认可标识" /></el-select
       ></el-form-item>
       <el-form-item label="签发国家代码"
-        ><el-input v-model="draft.identifierCountry" maxlength="2" placeholder="CN 等两位大写代码"
+        ><el-input
+          v-model="draft.identifierCountry"
+          :disabled="reuseIdentity"
+          maxlength="2"
+          placeholder="CN 等两位大写代码"
       /></el-form-item>
-      <el-form-item label="完整税务标识"
+      <el-form-item v-if="!reuseIdentity" label="完整税务标识"
         ><el-input
           v-model="draft.identifier"
           show-password
@@ -222,6 +232,8 @@ const employees = ref<any[]>([]),
   proofVisible = ref(false),
   proofText = ref(''),
   draft = ref<any>({})
+const savedIdentity = ref<any>(),
+  reuseIdentity = ref(false)
 const states: Record<string, string> = {
   PENDING: '待复核',
   APPROVED: '已批准',
@@ -338,7 +350,16 @@ async function load() {
     if (version === sequence) loading.value = false
   }
 }
-function open() {
+async function open() {
+  const version = sequence
+  const entityId = props.entityId,
+    targetId = employeeId.value
+  if (!entityId || !targetId) return
+  savedIdentity.value = undefined
+  reuseIdentity.value = false
+  const source = await api.identitySource({ entityId, employeeId: targetId, year: props.year })
+  if (version !== sequence || entityId !== props.entityId || targetId !== employeeId.value) return
+  savedIdentity.value = source?.id ? source : undefined
   const employee = employees.value.find((row) => row.id === employeeId.value)
   if (!employee) return
   const prior = rows.value.find(
@@ -369,8 +390,28 @@ function open() {
     officialReference: '',
     evidence: ''
   }
+  if (savedIdentity.value) {
+    draft.value.identifierType = savedIdentity.value.identifierType
+    draft.value.identifierCountry = savedIdentity.value.identifierCountry
+    reuseIdentity.value = true
+  }
   visible.value = true
 }
+watch(
+  reuseIdentity,
+  (enabled) => {
+    if (enabled && savedIdentity.value?.id) {
+      draft.value.identitySourceProfileId = savedIdentity.value.id
+      draft.value.identifier = undefined
+      draft.value.identifierType = savedIdentity.value.identifierType
+      draft.value.identifierCountry = savedIdentity.value.identifierCountry
+    } else {
+      draft.value.identitySourceProfileId = undefined
+      draft.value.identifier = undefined
+    }
+  },
+  { flush: 'sync' }
+)
 async function save() {
   saving.value = true
   try {
@@ -437,6 +478,10 @@ watch(
   }
 )
 watch(visible, (shown) => {
-  if (!shown) draft.value.identifier = ''
+  if (!shown) {
+    draft.value.identifier = ''
+    savedIdentity.value = undefined
+    reuseIdentity.value = false
+  }
 })
 </script>
