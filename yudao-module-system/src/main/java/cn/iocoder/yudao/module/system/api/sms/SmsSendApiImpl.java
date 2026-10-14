@@ -15,6 +15,12 @@ import javax.annotation.Resource;
 @Service
 @Validated
 public class SmsSendApiImpl implements SmsSendApi {
+    @Resource private cn.iocoder.yudao.module.system.service.sms.SmsLogService logs;
+    @Override public Integer getSendStatus(Long id) {
+        cn.iocoder.yudao.module.system.dal.dataobject.sms.SmsLogDO log=logs.getSmsLog(id);
+        return log==null ? null : log.getSendStatus();
+    }
+
 
     @Resource
     private SmsSendService smsSendService;

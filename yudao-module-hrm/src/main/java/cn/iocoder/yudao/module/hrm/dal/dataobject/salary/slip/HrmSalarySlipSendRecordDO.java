@@ -43,6 +43,7 @@ public class HrmSalarySlipSendRecordDO extends BaseDO {
     /** 发布所依据的不可变核算版本 */
     private Long runId;
     private Integer runVersion;
+    private String deliveryChannels;
     private Boolean withdrawn;
     private java.time.LocalDateTime withdrawnAt;
     private Long withdrawnBy;

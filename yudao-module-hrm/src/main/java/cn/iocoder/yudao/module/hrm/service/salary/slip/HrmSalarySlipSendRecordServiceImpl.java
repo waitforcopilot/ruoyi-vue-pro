@@ -137,11 +137,13 @@ public class HrmSalarySlipSendRecordServiceImpl implements HrmSalarySlipSendReco
             throw exception(SALARY_SLIP_EMPLOYEE_ACCOUNT_NOT_EXISTS);
         }
 
+        HrmSalarySlipDeliveryService.channels(reqVO.getChannels());
         // 2.1 创建工资条发放记录
         HrmSalarySlipSendRecordDO salarySlipSendRecord = HrmSalarySlipSendRecordDO.builder()
                 .monthRecordId(reqVO.getMonthRecordId()).employeeCount(monthRecord.getEmployeeCount())
                 .sendEmployeeCount(sendableEmployeeRecords.size()).year(monthRecord.getYear())
-                .month(monthRecord.getMonth()).runId(run.getId()).runVersion(run.getVersion()).withdrawn(false).build();
+                .month(monthRecord.getMonth()).runId(run.getId()).runVersion(run.getVersion()).withdrawn(false)
+                .deliveryChannels(String.join(",", HrmSalarySlipDeliveryService.channels(reqVO.getChannels()))).build();
         salarySlipSendRecordMapper.insert(salarySlipSendRecord);
         // 2.2 创建员工工资条
         salarySlipService.createSalarySlipList(

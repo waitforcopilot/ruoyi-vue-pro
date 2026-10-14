@@ -127,6 +127,22 @@ public class HrmSalarySlipSendRecordController {
                 Collections.singletonList(slipSendRecord))));
     }
 
+    @Resource private cn.iocoder.yudao.module.hrm.service.salary.slip.HrmSalarySlipDeliveryService deliveries;
+    @GetMapping("/deliveries")
+    @PreAuthorize("@ss.hasPermission('hrm:salary:slip:query')")
+    public CommonResult<List<cn.iocoder.yudao.module.hrm.dal.dataobject.salary.slip.HrmSalarySlipDeliveryDO>> deliveries(@RequestParam Long id) {
+        return success(deliveries.list(id));
+    }
+    @GetMapping("/delivery-history")
+    @PreAuthorize("@ss.hasPermission('hrm:salary:slip:query')")
+    public CommonResult<List<cn.iocoder.yudao.module.hrm.dal.dataobject.salary.slip.HrmSalarySlipDeliveryAttemptDO>> history(@RequestParam Long id) {
+        return success(deliveries.history(id));
+    }
+    @PostMapping("/retry-delivery")
+    @PreAuthorize("@ss.hasPermission('hrm:salary:slip:create')")
+    public CommonResult<Boolean> retryDelivery(@RequestParam Long id) {
+        deliveries.retry(id); return success(true);
+    }
     // ==================== 拼接 VO ====================
 
     private List<HrmSalarySlipSendRecordRespVO> buildSalarySlipSendRecordRespVOList(

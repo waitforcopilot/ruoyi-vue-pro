@@ -51,6 +51,13 @@
         </el-form-item>
         <el-empty v-if="!sendTemplate" description="暂无工资条模板，请先新增模板" />
         <template v-else>
+          <el-form-item label="通知渠道">
+            <el-checkbox-group v-model="deliveryChannels">
+              <el-checkbox value="STATION">站内通知</el-checkbox>
+              <el-checkbox value="EMAIL">邮件</el-checkbox>
+              <el-checkbox value="SMS">短信</el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
           <el-form-item label="隐藏空项">
             <el-switch
               v-model="sendTemplate.hideEmpty"
@@ -323,6 +330,7 @@ function handleSelectionChange(rows: SalarySlipSendRecordApi.SalarySlipSendEmplo
   selectedEmployeeIdSet.value = new Set(selectedEmployeeIdSet.value)
 }
 
+const deliveryChannels = ref<string[]>(['STATION'])
 const emit = defineEmits(['success']) // 定义 success 事件
 
 /** 发放工资条 */
@@ -331,11 +339,16 @@ async function submitForm(all: boolean) {
     message.warning('请选择发放员工')
     return
   }
+  if (!deliveryChannels.value.length) {
+    message.warning('请选择通知渠道')
+    return
+  }
   sendLoading.value = true
   try {
     // 提交请求
     await SalarySlipSendRecordApi.sendSalarySlip({
       monthRecordId: monthRecordId.value,
+      channels: deliveryChannels.value,
       hideEmpty: Boolean(sendTemplate.value.hideEmpty),
       options: getTemplateOptions(),
       all,

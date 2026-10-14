@@ -8,12 +8,10 @@ import cn.iocoder.yudao.module.hrm.controller.admin.salary.vo.slip.HrmSalarySlip
 import cn.iocoder.yudao.module.hrm.dal.dataobject.employee.info.HrmEmployeeDO;
 import cn.iocoder.yudao.module.hrm.dal.dataobject.salary.monthrecord.HrmSalaryMonthEmployeeRecordDO;
 import cn.iocoder.yudao.module.hrm.dal.dataobject.salary.slip.HrmSalarySlipDO;
+import cn.iocoder.yudao.module.hrm.dal.dataobject.salary.slip.HrmSalarySlipSendRecordDO;
 import cn.iocoder.yudao.module.hrm.dal.dataobject.salary.slip.HrmSalarySlipTemplateDO;
 import cn.iocoder.yudao.module.hrm.dal.mysql.salary.slip.HrmSalarySlipMapper;
-import cn.iocoder.yudao.module.hrm.enums.MessageTemplateConstants;
 import cn.iocoder.yudao.module.hrm.service.employee.info.HrmEmployeeService;
-import cn.iocoder.yudao.module.system.api.notify.NotifyMessageSendApi;
-import cn.iocoder.yudao.module.system.api.notify.dto.NotifySendSingleToUserReqDTO;
 import cn.iocoder.yudao.module.hrm.enums.salary.slip.HrmSalarySlipReadStatusEnum;
 import cn.iocoder.yudao.module.hrm.enums.salary.slip.HrmSalarySlipTemplateOptionTypeEnum;
 import javax.annotation.Resource;
@@ -27,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +52,8 @@ public class HrmSalarySlipServiceImpl implements HrmSalarySlipService {
     @Resource
     private HrmEmployeeService employeeService;
     @Resource
-    private NotifyMessageSendApi notifyMessageSendApi;
+    private HrmSalarySlipDeliveryService deliveries;
+    @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.salary.slip.HrmSalarySlipSendRecordMapper publications;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -87,14 +85,18 @@ public class HrmSalarySlipServiceImpl implements HrmSalarySlipService {
             salarySlipMapper.insert(salarySlip);
         }
 
-        // 3. 逐个发送工资条通知
-        for (HrmSalaryMonthEmployeeRecordDO employeeRecord : employeeRecords) {
-            sendSalarySlipMessage(employeeMap.get(employeeRecord.getEmployeeId()), employeeRecord);
+        HrmSalarySlipSendRecordDO publication = publications.selectById(sendRecordId);
+        List<String> channels = publication == null || publication.getDeliveryChannels() == null
+                ? Collections.singletonList("STATION") : java.util.Arrays.asList(publication.getDeliveryChannels().split(","));
+        for (HrmSalarySlipDO slip : salarySlips) {
+            HrmEmployeeDO employee = employeeMap.get(slip.getEmployeeId());
+            if (employee != null && employee.getUserId() != null) deliveries.enqueue(slip, employee.getUserId(), channels);
         }
     }
 
     @Override
     public void deleteSalarySlipListBySendRecordId(Long sendRecordId) {
+        deliveries.cancel(sendRecordId);
         salarySlipMapper.deleteBySendRecordId(sendRecordId);
     }
 
@@ -242,21 +244,6 @@ public class HrmSalarySlipServiceImpl implements HrmSalarySlipService {
         return HrmSalarySlipDO.Option.builder()
                 .name(option.getName()).type(option.getType()).code(option.getCode()).value(value)
                 .remark(option.getRemark()).sort(option.getSort()).children(children).build();
-    }
-
-    private void sendSalarySlipMessage(HrmEmployeeDO employee,
-                                       HrmSalaryMonthEmployeeRecordDO employeeRecord) {
-        if (employee == null || employee.getUserId() == null) {
-            return;
-        }
-        Map<String, Object> templateParams = new HashMap<>(4);
-        templateParams.put("employeeName", employee.getName());
-        templateParams.put("year", employeeRecord.getYear());
-        templateParams.put("month", employeeRecord.getMonth());
-        templateParams.put("realSalary", employeeRecord.getRealPaySalary().toPlainString());
-        notifyMessageSendApi.sendSingleMessageToAdmin(new NotifySendSingleToUserReqDTO()
-                .setUserId(employee.getUserId()).setTemplateCode(MessageTemplateConstants.SALARY_SLIP_SENT)
-                .setTemplateParams(templateParams));
     }
 
 }

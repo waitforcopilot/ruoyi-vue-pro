@@ -22,6 +22,7 @@ export interface SalarySlipSendRecordVO {
 
 // 工资条发送 Request VO
 export interface SalarySlipSendReqVO {
+  channels?: string[]
   monthRecordId: number // 月度工资表编号
   hideEmpty: boolean // 是否隐藏空工资项
   options: SalarySlipTemplateOptionVO[] // 本次发放的工资条模板项
@@ -79,3 +80,32 @@ export const getSalarySlipSendRecord = async (id: number) => {
     url: '/hrm/salary/slip-send-record/get?id=' + id
   })
 }
+
+export interface DeliveryVO {
+  id: number
+  userId: number
+  channel: string
+  status: string
+  attempts: number
+  providerLogId?: number
+  failureCode?: string
+  lastAttemptAt?: Date
+}
+export const getDeliveries = (id: number) =>
+  request.get<DeliveryVO[]>({ url: '/hrm/salary/slip-send-record/deliveries', params: { id } })
+export const retryDelivery = (id: number) =>
+  request.post({ url: '/hrm/salary/slip-send-record/retry-delivery', params: { id } })
+
+export interface DeliveryAttemptVO {
+  id: number
+  attemptNumber: number
+  status: string
+  providerLogId?: number
+  failureCode?: string
+  startedAt: Date
+}
+export const getDeliveryHistory = (id: number) =>
+  request.get<DeliveryAttemptVO[]>({
+    url: '/hrm/salary/slip-send-record/delivery-history',
+    params: { id }
+  })

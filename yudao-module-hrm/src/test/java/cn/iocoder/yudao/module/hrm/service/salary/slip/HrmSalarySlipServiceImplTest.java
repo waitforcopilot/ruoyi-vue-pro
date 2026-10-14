@@ -54,7 +54,7 @@ public class HrmSalarySlipServiceImplTest extends BaseDbUnitTest {
     @MockBean
     private HrmEmployeeService employeeService;
     @MockBean
-    private NotifyMessageSendApi notifyMessageSendApi;
+    private HrmSalarySlipDeliveryService deliveries;
 
     @Test
     public void testCreateSalarySlipList_success() {
@@ -89,9 +89,9 @@ public class HrmSalarySlipServiceImplTest extends BaseDbUnitTest {
         assertEquals(employeeRecord.getEmployeeId(), salarySlip.getEmployeeId());
         assertEquals(1, salarySlip.getOptions().size());
         assertEquals(2, salarySlip.getOptions().get(0).getChildren().size());
-        verify(notifyMessageSendApi).sendSingleMessageToAdmin(argThat(sendReqVO ->
-                employee.getUserId().equals(sendReqVO.getUserId())
-                        && "7910.00".equals(sendReqVO.getTemplateParams().get("realSalary"))));
+        verify(deliveries).enqueue(argThat(slip -> slip.getId().equals(salarySlip.getId())),
+                org.mockito.ArgumentMatchers.eq(employee.getUserId()),
+                org.mockito.ArgumentMatchers.eq(Collections.singletonList("STATION")));
     }
 
     @Test

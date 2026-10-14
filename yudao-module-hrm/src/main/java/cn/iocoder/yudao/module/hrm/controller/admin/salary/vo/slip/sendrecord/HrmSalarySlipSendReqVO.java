@@ -43,6 +43,15 @@ public class HrmSalarySlipSendReqVO {
     @Schema(description = "是否已发送", example = "false")
     private Boolean sent;
 
+    private List<String> channels;
+
+    @AssertTrue(message="投递渠道仅支持站内、邮件和短信，不可为空或重复")
+    @JsonIgnore
+    public boolean isChannelsValid() {
+        try { cn.iocoder.yudao.module.hrm.service.salary.slip.HrmSalarySlipDeliveryService.channels(channels); return true; }
+        catch (RuntimeException error) { return false; }
+    }
+
     @AssertTrue(message = "发放已选员工时，员工不能为空")
     @JsonIgnore
     public boolean isEmployeeIdsValid() {

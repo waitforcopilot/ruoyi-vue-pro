@@ -15,6 +15,12 @@ import javax.annotation.Resource;
 @Service
 @Validated
 public class MailSendApiImpl implements MailSendApi {
+    @Resource private cn.iocoder.yudao.module.system.service.mail.MailLogService logs;
+    @Override public Integer getSendStatus(Long id) {
+        cn.iocoder.yudao.module.system.dal.dataobject.mail.MailLogDO log=logs.getMailLog(id);
+        return log==null ? null : log.getSendStatus();
+    }
+
 
     @Resource
     private MailSendService mailSendService;

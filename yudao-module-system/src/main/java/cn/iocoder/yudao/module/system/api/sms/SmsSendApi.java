@@ -10,6 +10,9 @@ import javax.validation.Valid;
  * @author 芋道源码
  */
 public interface SmsSendApi {
+    /** Tenant-scoped gateway send status; null means no matching log. */
+    Integer getSendStatus(Long logId);
+
 
     /**
      * 发送单条短信给 Admin 用户
