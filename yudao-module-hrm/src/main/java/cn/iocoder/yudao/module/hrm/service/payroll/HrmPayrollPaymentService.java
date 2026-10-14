@@ -138,7 +138,9 @@ public class HrmPayrollPaymentService {
     HrmSalaryMonthRecordDO batch = batchMapper.selectById(batchId);
     if (batch == null || batch.getStatus() != 16)
       throw exception(SALARY_MONTH_RECORD_STATUS_INVALID);
-    return rawList(batchId).stream()
+    List<HrmPayrollPaymentDO> all=rawList(batchId);
+    if(!all.isEmpty()) sourceClaims.assertReserved(batchId,all.get(0).getRunId());
+    return all.stream()
         .filter(row -> "PENDING".equals(row.getStatus()))
         .map(row -> BeanUtils.toBean(row, HrmPayrollBankRowVO.class))
         .collect(Collectors.toList());

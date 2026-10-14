@@ -23,10 +23,21 @@ public class HrmPayrollTaxEmploymentService {
   public PayrollTaxEmploymentEngine.Result deduction(
       Long entityId, Long employeeId, LocalDate payDate, Long actor) {
     entities.check(entityId, "READ", actor);
+    return forApprovedPayroll(entityId, employeeId, payDate);
+  }
+
+  /** Internal payroll callers must first validate batch/entity and employee scope. */
+  @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
+  public PayrollTaxEmploymentEngine.Result forApprovedPayroll(
+      Long entityId, Long employeeId, LocalDate payDate) {
     if (payDate == null || payDate.getYear() < 2019 || payDate.getYear() > 2099)
       throw exception(PAYROLL_TAX_INVALID);
     HrmPayrollTaxProfileDO profile =
         profiles.requireApproved(entityId, employeeId, payDate.getYear());
+    if (Boolean.TRUE.equals(profile.getFirstSalaryThisYear())
+        && (!Boolean.TRUE.equals(profile.getResidentThisYear())
+            || !Boolean.TRUE.equals(profile.getNoPriorContinuousRemunerationBeforeEntry())))
+      throw exception(PAYROLL_TAX_INVALID);
     HrmPayrollTaxPolicyDO policy = policies.requireApproved(entityId, payDate.getYear());
     Set<Long> employeeIds = new HashSet<>();
     employeeIds.add(employeeId);

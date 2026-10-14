@@ -54,6 +54,8 @@ public class HrmSalaryMonthEmployeeRecordDO extends BaseDO {
     private Long salaryGroupId;
     /** 公式按核算期间起始日选取生效版本 */
     private java.time.LocalDate formulaDate;
+    @TableField(exist=false) private java.time.LocalDate taxPaymentDate;
+    @TableField(exist=false) private String taxSourceSnapshot;
     /**
      * 实际工作天数
      */

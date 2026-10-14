@@ -39,6 +39,8 @@ public class HrmPayrollTaxProfileReqVO {
       access = com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY)
   private String identifier;
 
+  @NotNull private Boolean residentThisYear;
+  @NotNull private Boolean noPriorContinuousRemunerationBeforeEntry;
   @NotNull private Boolean firstSalaryThisYear;
   @NotNull private Boolean noPriorSalaryThisYear;
   @NotNull private Boolean separateBonusUsedElsewhere;

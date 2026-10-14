@@ -25,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class HrmPayrollSourceClaimService {
   @Resource private HrmPayrollSourceClaimMapper claims;
+  @Resource private HrmPayrollLegalEntityMapper legalEntities;
+  @Resource private HrmPayrollTaxWithholdingService taxWithholding;
   @Resource private HrmEmployeeMapper employees;
   @Resource private HrmPayrollScopeService scope;
   @Resource private HrmPayrollRunMapper runs;
@@ -74,6 +76,49 @@ public class HrmPayrollSourceClaimService {
     c.setAmount(amount);
     c.setStatus("RESERVED");
     if (out.putIfAbsent(kind + ":" + key, c) != null) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+  }
+
+  private Map<Long, String> taxContexts(HrmPayrollRunDO latest) {
+    Set<Long> included = new HashSet<>();
+    JsonUtils.parseArray(latest.getResultSnapshot(), HrmSalaryMonthEmployeeRecordDO.class)
+        .forEach(row -> included.add(row.getEmployeeId()));
+    Map<Long, String> out = new LinkedHashMap<>();
+    Set<Long> visited = new HashSet<>();
+    HrmPayrollRunDO row = latest;
+    while (row != null) {
+      if (!visited.add(row.getId())) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+      Map<String, Object> input = JsonUtils.parseObject(row.getInputSnapshot(), Map.class);
+      Object contexts = input.get("withholdingContexts");
+      if (contexts != null) {
+        if (!(contexts instanceof List)) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+        Set<Long> local = new HashSet<>();
+        for (Object value : (List<?>) contexts) {
+          if (!(value instanceof String)) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+          HrmPayrollTaxWithholdingService.Source source =
+              JsonUtils.parseObject((String) value, HrmPayrollTaxWithholdingService.Source.class);
+          if (source == null
+              || source.getEmployeeId() == null
+              || !local.add(source.getEmployeeId())) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+          if (included.contains(source.getEmployeeId()))
+            out.putIfAbsent(source.getEmployeeId(), (String) value);
+        }
+      }
+      Object parent = input.get("sourceRunId");
+      if (parent == null) break;
+      if (!(parent instanceof Number)) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+      HrmPayrollRunDO previous = runs.selectById(((Number) parent).longValue());
+      if (previous == null
+          || !Objects.equals(previous.getMonthRecordId(), latest.getMonthRecordId())
+          || previous.getVersion() >= row.getVersion())
+        throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+      row = previous;
+    }
+    return out;
+  }
+
+  private void lockTaxEntity(Long id) {
+    if (legalEntities.selectOneForUpdate(HrmPayrollLegalEntityDO::getId, id) == null)
+      throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
   }
 
   private List<HrmPayrollSourceClaimDO> required(
@@ -168,15 +213,60 @@ public class HrmPayrollSourceClaimService {
                 .add(q.getCorporateFund()));
       }
     }
+    for (Map.Entry<Long, String> entry : taxContexts(latest).entrySet()) {
+      HrmPayrollTaxWithholdingService.Source source =
+          JsonUtils.parseObject(entry.getValue(), HrmPayrollTaxWithholdingService.Source.class);
+      if (!Objects.equals(source.getEntityId(), batch.getEntityId())
+          || source.getProfile() == null
+          || source.getExpectedPaymentDate() == null
+          || source.getQuote() == null
+          || source.getProfile().getTaxpayerKey() == null
+          || source.getProfile().getTaxRegistrationNumber() == null)
+        throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+      String prefix =
+          cn.hutool.crypto.digest.DigestUtil.sha256Hex(
+              batch.getEntityId()
+                  + ":"
+                  + source.getProfile().getTaxpayerKey()
+                  + ":"
+                  + source.getExpectedPaymentDate().getYear());
+      add(
+          out,
+          batch,
+          latest,
+          entry.getKey(),
+          "TAX_YEAR",
+          prefix + ":" + latest.getId(),
+          source.getQuote().getCurrentSalaryWithholding());
+    }
     return new ArrayList<>(out.values());
   }
 
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional(
+      rollbackFor = Exception.class,
+      isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public void reserve(HrmSalaryMonthRecordDO batch, HrmPayrollRunDO run, Long actor) {
     scope.check(batch, "APPROVE", actor);
     lockEmployees(run);
     List<HrmPayrollSourceClaimDO> required = required(batch, run);
+    if (required.stream().anyMatch(c -> "TAX_YEAR".equals(c.getKind()))) {
+      lockTaxEntity(batch.getEntityId());
+      for (String snapshot : taxContexts(run).values()) taxWithholding.validate(snapshot);
+    }
     for (HrmPayrollSourceClaimDO c : required) {
+      if ("TAX_YEAR".equals(c.getKind())) {
+        String prefix = c.getSourceKey().substring(0, c.getSourceKey().lastIndexOf(':') + 1);
+        HrmPayrollSourceClaimDO pending =
+            claims.selectOne(
+                new LambdaQueryWrapperX<HrmPayrollSourceClaimDO>()
+                    .eq(HrmPayrollSourceClaimDO::getKind, "TAX_YEAR")
+                    .eq(HrmPayrollSourceClaimDO::getStatus, "RESERVED")
+                    .likeRight(HrmPayrollSourceClaimDO::getSourceKey, prefix));
+        if (pending != null
+            && (!Objects.equals(pending.getBatchId(), batch.getId())
+                || !Objects.equals(pending.getRunId(), run.getId())))
+          throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+      }
       HrmPayrollSourceClaimDO existing =
           claims.selectOne(
               new LambdaQueryWrapperX<HrmPayrollSourceClaimDO>()
@@ -231,10 +321,32 @@ public class HrmPayrollSourceClaimService {
     needed.forEach(c -> expected.add(c.getKind() + ":" + c.getSourceKey()));
     actual.forEach(c -> found.add(c.getKind() + ":" + c.getSourceKey()));
     if (!expected.equals(found)) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+    Map<Long, String> contexts = taxContexts(run);
+    for (HrmPayrollSourceClaimDO c : actual)
+      if ("TAX_YEAR".equals(c.getKind()) && "RESERVED".equals(c.getStatus())) {
+        String snapshot = contexts.get(c.getEmployeeId());
+        if (snapshot == null) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+        taxWithholding.validate(snapshot);
+      }
   }
 
-  @Transactional(rollbackFor=Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public void paid(Long batchId, Long runId, Long employeeId) {
+    boolean tax =
+        claims.selectCount(
+                new LambdaQueryWrapperX<HrmPayrollSourceClaimDO>()
+                    .eq(HrmPayrollSourceClaimDO::getBatchId, batchId)
+                    .eq(HrmPayrollSourceClaimDO::getRunId, runId)
+                    .eq(HrmPayrollSourceClaimDO::getEmployeeId, employeeId)
+                    .eq(HrmPayrollSourceClaimDO::getKind, "TAX_YEAR"))
+            > 0;
+    if (tax) {
+      if (employees.selectOneForUpdate(HrmEmployeeDO::getId, employeeId) == null)
+        throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+      HrmSalaryMonthRecordDO batch = batches.selectById(batchId);
+      if (batch == null) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+      lockTaxEntity(batch.getEntityId());
+    }
     List<HrmPayrollSourceClaimDO> rows =
         claims.selectList(
             new LambdaQueryWrapperX<HrmPayrollSourceClaimDO>()

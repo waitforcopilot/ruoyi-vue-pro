@@ -254,6 +254,7 @@ const kinds: Record<string, string> = {
 }
 const modes: Record<string, string> = {
   SYNC: '同步已核实来源',
+  CASH: '按计划发放年度同步已发现金来源',
   ZERO: '确认无发生额',
   IMPORT: '提供完整导入数据'
 }
@@ -311,7 +312,7 @@ const modesFor = (kind: string) =>
       ? ['SYNC', 'ZERO']
       : kind === 'DEDUCTIONS'
         ? ['SYNC', 'ZERO', 'IMPORT']
-        : ['SYNC', 'ZERO', 'IMPORT']
+        : ['CASH', 'SYNC', 'ZERO', 'IMPORT']
 const templateKind = ref('ATTENDANCE'),
   templateMode = ref('SYNC'),
   visible = ref(false),

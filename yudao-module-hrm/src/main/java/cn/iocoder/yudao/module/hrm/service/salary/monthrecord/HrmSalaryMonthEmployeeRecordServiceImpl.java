@@ -116,6 +116,8 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
     private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollFormulaService payrollFormulaService;
     @Resource
     private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollBatchService payrollBatchService;
+    @Resource
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxWithholdingService taxWithholding;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -409,7 +411,30 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
         values = payrollFormulaService.calculate(values, optionMap,
                 employeeRecord.getFormulaDate() == null ? java.time.LocalDate.of(employeeRecord.getYear(), employeeRecord.getMonth(), 1) : employeeRecord.getFormulaDate(),
                 employeeRecord.getSalaryGroupId(), employeeRecord.getActualWorkDay(), employeeRecord.getNeedWorkDay());
-        SalaryComputeResult result = computeSalary(values, optionMap, taxRule);
+        cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxWithholdingService.Source taxSource=null;
+        if(employeeRecord.getEntityId()!=null && isSalaryTaxRule(taxRule)) {
+            java.time.LocalDate date=employeeRecord.getTaxPaymentDate();
+            if(date==null) {
+                HrmSalaryMonthRecordDO batch=monthRecordService.getMonthRecord(employeeRecord.getMonthRecordId());
+                if(batch==null) throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_TAX_INVALID);
+                date=batch.getExpectedPaymentDate();
+            }
+            SalaryBaseAmounts current=calculateSalaryBaseAmounts(normalizeComputeSourceValues(values),optionMap);
+            taxSource=taxWithholding.calculate(employeeRecord.getEntityId(),employeeRecord.getEmployeeId(),date,
+                    current.getTaxableIncome(),current.getCurrentSpecialDeduction(),calculateCumulativeAdditionalDeduction(values,optionMap));
+            if(taxSource==null) throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_TAX_INVALID);
+            Map<Integer,BigDecimal> prior=new java.util.LinkedHashMap<>();
+            prior.put(250101,taxSource.getPaid().getIncome());prior.put(250102,taxSource.getPaid().getBasicDeduction());
+            prior.put(250103,taxSource.getPaid().getSocialDeduction());prior.put(250105,taxSource.getPaid().getWithheld());
+            for(Map.Entry<Integer,BigDecimal> entry:prior.entrySet())
+                if(getOptionValue(values,entry.getKey()).compareTo(entry.getValue())!=0)
+                    throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_TAX_INVALID);
+            for(Map.Entry<String,BigDecimal> entry:taxSource.getDeductionValues().entrySet())
+                if(getOptionValue(values,Integer.valueOf(entry.getKey())).compareTo(entry.getValue())!=0)
+                    throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_TAX_INVALID);
+            employeeRecord.setTaxPaymentDate(date).setTaxSourceSnapshot(cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(taxSource));
+        }
+        SalaryComputeResult result = computeSalary(values, optionMap, taxRule,taxSource);
         return employeeRecord.setExpectedPaySalary(result.getExpectedPaySalary())
                 .setTaxableSalary(result.getTaxableSalary()).setPersonalTax(result.getPersonalTax())
                 .setRealPaySalary(result.getRealPaySalary())
@@ -425,7 +450,8 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
 
     private SalaryComputeResult computeSalary(List<HrmSalaryOptionValueVO> sourceValues,
                                               Map<Integer, HrmSalaryOptionDO> optionMap,
-                                              HrmSalaryTaxRuleDO taxRule) {
+                                              HrmSalaryTaxRuleDO taxRule,
+                                              cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxWithholdingService.Source taxSource) {
         List<HrmSalaryOptionValueVO> values = normalizeComputeSourceValues(sourceValues);
         SalaryBaseAmounts baseAmounts = calculateSalaryBaseAmounts(values, optionMap);
         BigDecimal expected = baseAmounts.getExpectedPaySalary();
@@ -442,8 +468,20 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
         } else {
             BigDecimal threshold = nvl(taxRule.getThreshold());
             taxable = baseAmounts.getTaxableBeforeThreshold().subtract(threshold).max(BigDecimal.ZERO);
-            personalTax = appendCumulativeSalaryTaxValues(values, optionMap, baseAmounts, threshold,
-                    taxRule.getDecimalScale());
+            if(taxSource==null) {
+                personalTax = appendCumulativeSalaryTaxValues(values, optionMap, baseAmounts, threshold,
+                        taxRule.getDecimalScale());
+            } else {
+                cn.iocoder.yudao.module.hrm.service.payroll.PayrollTaxPolicyEngine.Quote quote=taxSource.getQuote();
+                taxable=baseAmounts.getTaxableBeforeThreshold().subtract(quote.getBasicDeduction().subtract(taxSource.getPaid().getBasicDeduction())).max(BigDecimal.ZERO);
+                personalTax=quote.getCurrentSalaryWithholding();
+                appendComputedValue(values,270101,"累计收入额",taxSource.getPaid().getIncome().add(taxSource.getCurrentIncome()));
+                appendComputedValue(values,270102,"累计减除费用",quote.getBasicDeduction());
+                appendComputedValue(values,270103,"累计专项扣除",taxSource.getPaid().getSocialDeduction().add(taxSource.getCurrentSocialDeduction()));
+                appendComputedValue(values,270104,"累计专项附加扣除",taxSource.getAdditionalDeduction());
+                appendComputedValue(values,270105,"累计应纳税所得额",quote.getSalaryTaxable());
+                appendComputedValue(values,270106,"累计应纳税额",quote.getCumulativeSalaryTax());
+            }
         }
         BigDecimal realPay;
         if (taxRule == null || Boolean.FALSE.equals(taxRule.getTaxEnabled())

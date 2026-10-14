@@ -66,6 +66,8 @@ public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest 
 
     @MockBean
     private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollBatchService payrollBatchService;
+    @MockBean
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxWithholdingService taxWithholding;
 
     @Resource
     private HrmSalaryMonthEmployeeRecordServiceImpl monthEmployeeRecordService;
@@ -252,6 +254,48 @@ public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest 
         assertAmount("10000.00", employeeRecord.getTaxableSalary());
         assertAmount("300.00", employeeRecord.getPersonalTax());
         assertAmount("14850.00", employeeRecord.getRealPaySalary());
+    }
+
+    @Test
+    public void boundResidentPayrollUsesApprovedCashYearQuoteInsteadOfLegacyGroupThreshold() {
+        when(salaryOptionService.getSalaryOptionList(false)).thenReturn(Arrays.asList(
+                salaryOption(10101,10,"基本工资",true,true),salaryOption(100101,100,"个人社保",true,true),
+                salaryOption(260106,260,"累计婴幼儿照护",true,true)));
+        HrmSalaryMonthEmployeeRecordDO record=randomMonthEmployeeRecord(2001L,1001L).setEntityId(10L)
+                .setTaxPaymentDate(LocalDate.of(2026,10,14));
+        Map<String,BigDecimal> deductionValues=new java.util.TreeMap<>();
+        cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxDeductionService.FIELDS.forEach(code->deductionValues.put(code,BigDecimal.ZERO));
+        deductionValues.put("260106",new BigDecimal("2000"));
+        cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxWithholdingService.Source source=
+                new cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxWithholdingService.Source()
+                .setEntityId(10L).setEmployeeId(1001L).setExpectedPaymentDate(record.getTaxPaymentDate())
+                .setCurrentIncome(new BigDecimal("10000")).setCurrentSocialDeduction(new BigDecimal("1000"))
+                .setAdditionalDeduction(new BigDecimal("2000")).setDeductionValues(deductionValues)
+                .setPaid(new cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxCashLedgerVO()
+                    .setIncome(new BigDecimal("100000")).setBasicDeduction(new BigDecimal("45000"))
+                    .setSocialDeduction(new BigDecimal("10000")).setWithheld(new BigDecimal("1000")))
+                .setQuote(new cn.iocoder.yudao.module.hrm.service.payroll.PayrollTaxPolicyEngine.Quote()
+                    .setBasicDeduction(new BigDecimal("50000")).setSalaryTaxable(new BigDecimal("47000"))
+                    .setCumulativeSalaryTax(new BigDecimal("2180")).setCurrentSalaryWithholding(new BigDecimal("1180")));
+        when(taxWithholding.calculate(eq(10L),eq(1001L),eq(record.getTaxPaymentDate()),any(),any(),any())).thenReturn(source);
+        List<HrmSalaryOptionValueVO> values=Arrays.asList(
+                salaryOptionValue(10101,"基本工资","10000"),salaryOptionValue(100101,"个人社保","1000"),
+                salaryOptionValue(260106,"累计婴幼儿照护","2000"),salaryOptionValue(250101,"此前收入","100000"),
+                salaryOptionValue(250102,"此前减除费用","45000"),salaryOptionValue(250103,"此前专项扣除","10000"),
+                salaryOptionValue(250105,"此前预缴","1000"));
+        HrmSalaryTaxRuleDO rule=HrmSalaryTaxRuleDO.builder().type(HrmSalaryTaxTypeEnum.SALARY.getType())
+                .taxEnabled(true).threshold(new BigDecimal("99999")).decimalScale(2)
+                .cycleType(HrmSalaryTaxCycleTypeEnum.JANUARY_TO_DECEMBER.getType()).build();
+        monthEmployeeRecordService.calculateMonthEmployeeRecordList(Collections.singletonList(record),
+                Collections.singletonMap(1001L,values),Collections.singletonMap(1001L,rule));
+        assertAmount("1180",record.getPersonalTax());assertAmount("7820",record.getRealPaySalary());
+        assertNotNull(record.getTaxSourceSnapshot());
+        assertAmount("110000",record.getOptionValues().stream().filter(v->v.getCode()==270101).findFirst().get().getValue());
+        values.get(3).setValue(new BigDecimal("99999"));
+        cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException(()->
+                monthEmployeeRecordService.calculateMonthEmployeeRecordList(Collections.singletonList(record),
+                    Collections.singletonMap(1001L,values),Collections.singletonMap(1001L,rule)),
+                cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_TAX_INVALID);
     }
 
     @Test
@@ -499,7 +543,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest 
     // ========== 随机对象 ==========
 
     private HrmSalaryMonthEmployeeRecordDO randomMonthEmployeeRecord(Long monthRecordId, Long employeeId) {
-        return randomPojo(HrmSalaryMonthEmployeeRecordDO.class, record -> record.setId(null)
+        return randomPojo(HrmSalaryMonthEmployeeRecordDO.class, record -> record.setId(null).setEntityId(null).setTaxPaymentDate(null).setTaxSourceSnapshot(null)
                 .setMonthRecordId(monthRecordId).setEmployeeId(employeeId).setYear(2026).setMonth(7)
                 .setActualWorkDay(BigDecimal.valueOf(20)).setNeedWorkDay(BigDecimal.valueOf(22))
                 .setExpectedPaySalary(BigDecimal.valueOf(8000)).setTaxableSalary(BigDecimal.valueOf(7000))

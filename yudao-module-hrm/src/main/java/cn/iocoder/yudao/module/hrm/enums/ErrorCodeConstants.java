@@ -322,4 +322,6 @@ public interface ErrorCodeConstants {
     ErrorCode PAYROLL_SOURCE_CLAIM_INVALID = new ErrorCode(1_050_810_019, "工资日期、加班/周期或缴费来源已被其他批次占用、来源不完整或不能释放");
     ErrorCode PAYROLL_TAX_INVALID = new ErrorCode(1_050_810_020, "年度税务政策、年度金额、年终奖策略、审批或纳税主体不合法或未就绪");
     ErrorCode PAYROLL_TAX_IDENTITY_KEY_MISSING = new ErrorCode(1_050_810_021, "税务身份安全存储未正确配置，请联系管理员");
+    ErrorCode PAYROLL_TAX_PAYMENT_DATE_MISSING = new ErrorCode(1_050_810_022, "请先明确工资批次的计划发放日期并重新核算");
+    ErrorCode PAYROLL_TAX_RESIDENCY_UNCONFIRMED = new ErrorCode(1_050_810_023, "居民累计预扣模型需要已核实的本年度居民资格，其他税务身份不能套用此模型");
 }

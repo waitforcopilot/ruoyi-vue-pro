@@ -16,6 +16,7 @@ public class HrmPayrollBatchService {
     @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.salary.slip.HrmSalarySlipSendRecordMapper slipSendMapper;
     @Resource private HrmPayrollWorkService workService;
     @Resource private HrmPayrollScopeService scope;
+    @Resource private HrmPayrollTaxWithholdingService taxWithholding;
     @Resource private HrmPayrollInsurancePolicyService insurance;
     @Resource private HrmPayrollInputService inputs;
     @Resource private HrmPayrollSourceClaimService sourceClaims;
@@ -33,6 +34,14 @@ public class HrmPayrollBatchService {
         HrmPayrollRunDO run=new HrmPayrollRunDO();run.setMonthRecordId(batchId);
         run.setVersion(previous.isEmpty()?1:previous.get(0).getVersion()+1);
         run.setExpectedPaymentDate(batch.getExpectedPaymentDate());
+        List<String> taxContexts=new ArrayList<>();
+        for(HrmSalaryMonthEmployeeRecordDO result:results)
+            if(result.getTaxSourceSnapshot()!=null) taxContexts.add(result.getTaxSourceSnapshot());
+        if(!taxContexts.isEmpty()) {
+            if(!(inputs instanceof Map)) throw exception(PAYROLL_TAX_INVALID);
+            Map<String,Object> combined=new LinkedHashMap<>((Map<String,Object>)inputs);
+            combined.put("withholdingContexts",taxContexts);inputs=combined;
+        }
         run.setInputSnapshot(JsonUtils.toJsonString(inputs));run.setRuleSnapshot(JsonUtils.toJsonString(rules));
         run.setResultSnapshot(JsonUtils.toJsonString(results));run.setComputedBy(actor);runMapper.insert(run);
         return run.getId();
@@ -121,6 +130,7 @@ public class HrmPayrollBatchService {
                 inputs.validateInputSnapshot(source.getInputSnapshot());
                 workService.validateInputSnapshot(source.getInputSnapshot());
                 attendanceService.validateInputSnapshot(source.getInputSnapshot());
+                taxWithholding.validateInputSnapshot(source.getInputSnapshot(),batch.getEntityId(),source.getExpectedPaymentDate());
                 Map<String,Object> input=JsonUtils.parseObject(source.getInputSnapshot(),Map.class);
                 Object parent=input.get("sourceRunId");if(parent==null)break;
                 if(!(parent instanceof Number))throw exception(PAYROLL_VERSION_CONFLICT);

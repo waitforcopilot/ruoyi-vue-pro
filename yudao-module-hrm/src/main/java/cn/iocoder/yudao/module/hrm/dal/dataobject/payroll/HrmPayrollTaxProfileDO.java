@@ -25,6 +25,8 @@ public class HrmPayrollTaxProfileDO extends BaseDO {
   @JsonIgnore private String requestFingerprint;
   private String taxpayerKey;
   private String maskedIdentifier;
+  private Boolean residentThisYear;
+  private Boolean noPriorContinuousRemunerationBeforeEntry;
   private Boolean firstSalaryThisYear;
   private Boolean noPriorSalaryThisYear;
   private Boolean separateBonusUsedElsewhere;

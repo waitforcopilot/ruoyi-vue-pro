@@ -47,6 +47,7 @@ class HrmPayrollInputServiceTest extends BaseDbUnitTest {
   @MockBean private DeptApi departments;
   @MockBean private HrmPayrollWindowService window;
   @MockBean private HrmPayrollTaxDeductionService deductions;
+  @MockBean private HrmPayrollTaxCashLedgerService cashLedger;
   @MockBean private HrmPayrollWorkService work;
   @MockBean private HrmPayrollAttendanceService attendance;
   @MockBean private cn.iocoder.yudao.module.oa.api.payroll.OaPayrollSourceApi oa;
@@ -149,6 +150,20 @@ class HrmPayrollInputServiceTest extends BaseDbUnitTest {
     Long id = service.submit(r, 1L);
     service.review(id, true, "数据与来源已核实", 2L);
     return id;
+  }
+
+  @Test
+  void cashYearInputUsesPlannedPaymentDateAndLaterCashEvidenceMakesItStale() {
+    batches.updateById(new HrmSalaryMonthRecordDO().setId(batchId).setExpectedPaymentDate(LocalDate.of(2026,10,14)));
+    cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxCashLedgerVO ledger=
+        new cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxCashLedgerVO()
+        .setReady(true).setIncome(new BigDecimal("10000")).setBasicDeduction(new BigDecimal("5000"))
+        .setSocialDeduction(new BigDecimal("1000")).setWithheld(new BigDecimal("120"));
+    when(cashLedger.forApprovedPayroll(eq(entityId),eq(employeeId),eq(2026),any())).thenReturn(ledger);
+    Long id=approved(request(employeeId,"CUMULATIVE_TAX","CASH"));
+    assertEquals(new BigDecimal("120"),service.values(records.selectById(id)).get("250105"));
+    ledger.setWithheld(new BigDecimal("150"));
+    assertTrue(service.readiness(batchId,1L).stream().anyMatch(r->"CUMULATIVE_TAX".equals(r.getKind()) && "STALE".equals(r.getStatus())));
   }
 
   @Test

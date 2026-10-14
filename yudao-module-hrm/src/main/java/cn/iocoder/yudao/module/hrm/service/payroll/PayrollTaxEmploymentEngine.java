@@ -59,7 +59,7 @@ public final class PayrollTaxEmploymentEngine {
         months.add(month.getMonthValue());
     }
     String mode = "EMPLOYMENT_MONTHS";
-    if (firstSalary && payDate.getYear() >= 2020) {
+    if (firstSalary && !payDate.isBefore(LocalDate.of(2020, 7, 1))) {
       if (!noPriorSalary || months.isEmpty()) throw exception(PAYROLL_TAX_INVALID);
       mode = "QUALIFIED_FIRST_SALARY_FROM_JANUARY";
       int lastEmploymentMonth = months.last();

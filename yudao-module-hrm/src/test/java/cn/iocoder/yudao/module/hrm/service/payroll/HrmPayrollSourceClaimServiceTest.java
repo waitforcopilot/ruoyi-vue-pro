@@ -28,6 +28,8 @@ class HrmPayrollSourceClaimServiceTest extends BaseDbUnitTest {
   @Resource private HrmSalaryMonthRecordMapper batches;
   @Resource private HrmEmployeeMapper employees;
   @MockBean private HrmPayrollScopeService scope;
+  @MockBean private HrmPayrollTaxWithholdingService taxWithholding;
+  @Resource private HrmPayrollLegalEntityMapper legalEntities;
   private Long employee;
 
   @BeforeEach
@@ -105,6 +107,108 @@ class HrmPayrollSourceClaimServiceTest extends BaseDbUnitTest {
                     .build())));
     runs.insert(r);
     return r;
+  }
+
+  private HrmPayrollRunDO taxRun(HrmSalaryMonthRecordDO batch, List<LocalDate> dates) {
+    HrmPayrollRunDO run = run(batch, dates, false, false);
+    HrmPayrollTaxWithholdingService.Source source =
+        new HrmPayrollTaxWithholdingService.Source()
+            .setEntityId(batch.getEntityId())
+            .setEmployeeId(employee)
+            .setExpectedPaymentDate(LocalDate.of(2026, 10, 14))
+            .setProfile(
+                new HrmPayrollTaxProfileDO()
+                    .setTaxpayerKey("same-person-test")
+                    .setTaxRegistrationNumber("agent"))
+            .setQuote(
+                new PayrollTaxPolicyEngine.Quote()
+                    .setCurrentSalaryWithholding(new BigDecimal("100")));
+    Map<String, Object> input = JsonUtils.parseObject(run.getInputSnapshot(), Map.class);
+    input.put("withholdingContexts", Collections.singletonList(JsonUtils.toJsonString(source)));
+    run.setInputSnapshot(JsonUtils.toJsonString(input))
+        .setExpectedPaymentDate(source.getExpectedPaymentDate());
+    runs.updateById(run);
+    return run;
+  }
+
+  private void taxEntity() {
+    legalEntities.insert(
+        new HrmPayrollLegalEntityDO()
+            .setId(1L)
+            .setCode("TAX-AGENT")
+            .setName("扣缴主体")
+            .setStatus("APPROVED")
+            .setTaxRegistrationNumber("agent"));
+  }
+
+  @Test
+  void pendingTaxYearBlocksAnotherPeriodAndPaidContextDoesNotRevalidateItself() {
+    taxEntity();
+    HrmSalaryMonthRecordDO a = batch(1L), b = batch(1L);
+    HrmPayrollRunDO first = taxRun(a, Collections.singletonList(day(1))),
+        second = taxRun(b, Collections.singletonList(day(2)));
+    service.reserve(a, first, 3L);
+    assertServiceException(() -> service.reserve(b, second, 3L), PAYROLL_SOURCE_CLAIM_INVALID);
+    service.paid(a.getId(), first.getId(), employee);
+    org.mockito.Mockito.clearInvocations(taxWithholding);
+    service.assertReserved(a.getId(), first.getId());
+    org.mockito.Mockito.verifyNoInteractions(taxWithholding);
+    service.reserve(b, second, 3L);
+    assertEquals(
+        1,
+        claims.selectList().stream()
+            .filter(c -> "TAX_YEAR".equals(c.getKind()) && "RESERVED".equals(c.getStatus()))
+            .count());
+  }
+
+  @Test
+  void differentEmployeeIdsForSameTaxIdentityCannotFreezeConcurrently() throws Exception {
+    taxEntity();
+    HrmSalaryMonthRecordDO a = batch(1L), b = batch(1L);
+    HrmPayrollRunDO first = taxRun(a, Collections.singletonList(day(1)));
+    HrmEmployeeDO alias = new HrmEmployeeDO().setName("再入职编号").setJobNumber("CLAIM-ALIAS");
+    employees.insert(alias);
+    employee = alias.getId();
+    HrmPayrollRunDO second = taxRun(b, Collections.singletonList(day(2)));
+    java.util.concurrent.CountDownLatch start = new java.util.concurrent.CountDownLatch(1);
+    java.util.concurrent.ExecutorService pool =
+        java.util.concurrent.Executors.newFixedThreadPool(2);
+    try {
+      java.util.List<java.util.concurrent.Future<Boolean>> outcomes = new ArrayList<>();
+      for (int i = 0; i < 2; i++) {
+        final HrmSalaryMonthRecordDO target = i == 0 ? a : b;
+        final HrmPayrollRunDO version = i == 0 ? first : second;
+        outcomes.add(
+            pool.submit(
+                () -> {
+                  cn.iocoder.yudao.framework.tenant.core.context.TenantContextHolder.setTenantId(
+                      0L);
+                  try {
+                    if (!start.await(10, java.util.concurrent.TimeUnit.SECONDS))
+                      throw new IllegalStateException("start timeout");
+                    service.reserve(target, version, 3L);
+                    return true;
+                  } catch (cn.iocoder.yudao.framework.common.exception.ServiceException ex) {
+                    if (ex.getCode() != PAYROLL_SOURCE_CLAIM_INVALID.getCode()) throw ex;
+                    return false;
+                  } finally {
+                    cn.iocoder.yudao.framework.tenant.core.context.TenantContextHolder.clear();
+                  }
+                }));
+      }
+      start.countDown();
+      int succeeded = 0;
+      for (java.util.concurrent.Future<Boolean> outcome : outcomes)
+        if (outcome.get(20, java.util.concurrent.TimeUnit.SECONDS)) succeeded++;
+      assertEquals(1, succeeded);
+      assertEquals(
+          1,
+          claims.selectList().stream()
+              .filter(c -> "TAX_YEAR".equals(c.getKind()) && "RESERVED".equals(c.getStatus()))
+              .count());
+    } finally {
+      pool.shutdownNow();
+    }
   }
 
   @Test

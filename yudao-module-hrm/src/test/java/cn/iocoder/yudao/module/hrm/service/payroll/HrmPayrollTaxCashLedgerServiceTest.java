@@ -187,6 +187,43 @@ class HrmPayrollTaxCashLedgerServiceTest extends BaseDbUnitTest {
   }
 
   @Test
+  void governedTaxPeriodMismatchIsExplicitAndRequiresCorrection() {
+    HrmPayrollPaymentDO payment = paid(10L, 1L, LocalDate.of(2026, 9, 15), "SUCCESS");
+    HrmPayrollRunDO run = runs.selectById(payment.getRunId());
+    List<HrmSalaryMonthEmployeeRecordDO> rows =
+        JsonUtils.parseArray(run.getResultSnapshot(), HrmSalaryMonthEmployeeRecordDO.class);
+    rows.get(0).setTaxPaymentDate(LocalDate.of(2026, 8, 15));
+    run.setResultSnapshot(JsonUtils.toJsonString(rows));
+    runs.updateById(run);
+    HrmPayrollTaxCashLedgerVO result = ledger();
+    assertFalse(result.isReady());
+    assertNull(result.getIncome());
+    assertEquals("TAX_PERIOD_MISMATCH", result.getRows().get(0).getStatus());
+  }
+
+  @Test
+  void changedWithholdingSubjectAndMalformedFrozenDataAreNotSilentlyAccumulated() {
+    HrmPayrollPaymentDO payment = paid(10L, 1L, LocalDate.of(2026, 2, 1), "SUCCESS");
+    HrmPayrollRunDO run = runs.selectById(payment.getRunId());
+    List<HrmSalaryMonthEmployeeRecordDO> rows =
+        JsonUtils.parseArray(run.getResultSnapshot(), HrmSalaryMonthEmployeeRecordDO.class);
+    rows.get(0)
+        .setTaxSourceSnapshot(
+            JsonUtils.toJsonString(
+                new HrmPayrollTaxWithholdingService.Source()
+                    .setProfile(
+                        new HrmPayrollTaxProfileDO().setTaxRegistrationNumber("another-agent"))));
+    run.setResultSnapshot(JsonUtils.toJsonString(rows));
+    runs.updateById(run);
+    assertEquals("TAX_SUBJECT_MISMATCH", ledger().getRows().get(0).getStatus());
+    assertNull(ledger().getIncome());
+    run.setResultSnapshot("null");
+    runs.updateById(run);
+    assertEquals("SOURCE_INVALID", ledger().getRows().get(0).getStatus());
+    assertNull(ledger().getWithheld());
+  }
+
+  @Test
   void unboundHistoricalPaidBatchCannotBeSilentlyExcluded() {
     paid(null, 1L, LocalDate.of(2026, 2, 1), "SUCCESS");
     assertFalse(ledger().isReady());

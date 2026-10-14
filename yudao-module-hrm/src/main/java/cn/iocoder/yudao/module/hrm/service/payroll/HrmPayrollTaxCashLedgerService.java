@@ -33,6 +33,13 @@ public class HrmPayrollTaxCashLedgerService {
   public HrmPayrollTaxCashLedgerVO ledger(
       Long entityId, Long employeeId, Integer year, LocalDate asOfDate, Long actor) {
     entities.check(entityId, "READ", actor);
+    return forApprovedPayroll(entityId, employeeId, year, asOfDate);
+  }
+
+  /** Internal payroll callers must first validate batch/entity and employee scope. */
+  @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
+  public HrmPayrollTaxCashLedgerVO forApprovedPayroll(
+      Long entityId, Long employeeId, Integer year, LocalDate asOfDate) {
     if (year == null
         || year < 2019
         || year > 2099
@@ -102,9 +109,31 @@ public class HrmPayrollTaxCashLedgerService {
       }
       HrmPayrollRunDO run = runCache.computeIfAbsent(payment.getRunId(), runs::selectById);
       try {
+        if (run != null) {
+          List<HrmSalaryMonthEmployeeRecordDO> frozen =
+              JsonUtils.parseArray(run.getResultSnapshot(), HrmSalaryMonthEmployeeRecordDO.class);
+          for (HrmSalaryMonthEmployeeRecordDO resultRow : frozen)
+            if (Objects.equals(resultRow.getEmployeeId(), payment.getEmployeeId())
+                && resultRow.getTaxSourceSnapshot() != null) {
+              HrmPayrollTaxWithholdingService.Source source =
+                  JsonUtils.parseObject(
+                      resultRow.getTaxSourceSnapshot(),
+                      HrmPayrollTaxWithholdingService.Source.class);
+              if (source == null
+                  || source.getProfile() == null
+                  || !Objects.equals(
+                      source.getProfile().getTaxRegistrationNumber(),
+                      profile.getTaxRegistrationNumber()))
+                throw new IllegalArgumentException("TAX_SUBJECT_MISMATCH");
+            }
+        }
         populate(row, payment, run);
-      } catch (IllegalArgumentException ex) {
-        block(result, row, "SOURCE_INVALID", "冻结结果或累计薪资项不完整/不一致，需核实税务来源");
+      } catch (RuntimeException ex) {
+        if ("TAX_SUBJECT_MISMATCH".equals(ex.getMessage()))
+          block(result, row, "TAX_SUBJECT_MISMATCH", "冻结扣缴单位与当前税务档案不符，需办理主体迁移或税务更正");
+        else if ("TAX_PERIOD_MISMATCH".equals(ex.getMessage()))
+          block(result, row, "TAX_PERIOD_MISMATCH", "实际到账税务月份与冻结核算月份不符，需办理税务更正");
+        else block(result, row, "SOURCE_INVALID", "冻结结果或累计薪资项不完整/不一致，需核实税务来源");
         continue;
       }
       if ("DECLARE".equals(profile.getOpeningMode())
@@ -159,6 +188,11 @@ public class HrmPayrollTaxCashLedgerService {
         .forEach(matching::add);
     if (matching.size() != 1) throw new IllegalArgumentException();
     HrmSalaryMonthEmployeeRecordDO r = matching.get(0);
+    if (r.getTaxPaymentDate() != null
+        && payment.getValueDate() != null
+        && !java.time.YearMonth.from(r.getTaxPaymentDate())
+            .equals(java.time.YearMonth.from(payment.getValueDate())))
+      throw new IllegalArgumentException("TAX_PERIOD_MISMATCH");
     if (r.getRealPaySalary() == null
         || payment.getAmount() == null
         || r.getRealPaySalary().compareTo(payment.getAmount()) != 0

@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Import;
 
 @Import({HrmPayrollPaymentService.class, HrmPayrollBatchService.class})
 class HrmPayrollPaymentServiceTest extends BaseDbUnitTest {
+  @org.springframework.boot.test.mock.mockito.MockBean private HrmPayrollTaxWithholdingService taxWithholding;
   @org.springframework.boot.test.mock.mockito.MockBean
   private HrmPayrollSourceClaimService sourceClaims;
 

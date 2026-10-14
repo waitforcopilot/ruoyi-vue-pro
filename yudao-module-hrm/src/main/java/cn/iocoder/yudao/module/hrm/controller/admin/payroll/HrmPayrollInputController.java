@@ -130,10 +130,10 @@ public class HrmPayrollInputController {
     cn.iocoder.yudao.module.hrm.dal.dataobject.salary.monthrecord.HrmSalaryMonthRecordDO b =
         service.batch(batchId, "EXPORT", getLoginUserId(), false);
     if (!HrmPayrollInputService.KINDS.contains(kind)
-        || !Arrays.asList("SYNC", "ZERO", "IMPORT").contains(mode)
+        || !Arrays.asList("SYNC", "ZERO", "IMPORT", "CASH").contains(mode)
         || "OVERTIME".equals(kind) && "IMPORT".equals(mode)
         || "ATTENDANCE".equals(kind) && "ZERO".equals(mode)
-        || "DEDUCTIONS".equals(kind) && "SYNC".equals(mode)) throw exception(PAYROLL_INPUT_INVALID);
+        || "CASH".equals(mode) && !"CUMULATIVE_TAX".equals(kind)) throw exception(PAYROLL_INPUT_INVALID);
     String code = entities.approved(b.getEntityId()).getCode();
     List<HrmPayrollInputRowVO> rows = new ArrayList<>();
     for (cn.iocoder.yudao.module.hrm.dal.dataobject.employee.info.HrmEmployeeDO e :

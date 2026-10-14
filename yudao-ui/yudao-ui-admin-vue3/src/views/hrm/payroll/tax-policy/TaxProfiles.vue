@@ -14,7 +14,7 @@
     >
   </el-form>
   <el-alert
-    title="历史累计只填写本扣缴单位所属年度金额。零累计须明确声明；首次工资资格及外单位单独奖金使用情况须提供可核实依据。"
+    title="历史累计只填写本扣缴单位所属年度金额。零累计须明确声明；居民身份、首次工资在新入职前的资格及外单位奖金使用情况须提供可核实依据。"
     type="info"
     :closable="false"
   />
@@ -22,7 +22,11 @@
     <el-table-column prop="taxpayerName" label="纳税人" /><el-table-column
       prop="maskedIdentifier"
       label="脱敏标识"
-    /><el-table-column prop="version" label="版本" width="70" />
+    /><el-table-column label="居民资格"
+      ><template #default="{ row }">{{
+        row.residentThisYear == null ? '待补充核实' : row.residentThisYear ? '居民' : '非居民'
+      }}</template></el-table-column
+    ><el-table-column prop="version" label="版本" width="70" />
     <el-table-column label="状态"
       ><template #default="{ row }">{{
         states[row.status] || row.status
@@ -82,18 +86,27 @@
           autocomplete="off"
           maxlength="64"
       /></el-form-item>
-      <el-form-item label="本年度首次取得工资"
+      <el-form-item label="年度税收居民资格"
+        ><el-select v-model="draft.residentThisYear" placeholder="须依据资料明确选择"
+          ><el-option :value="true" label="已核实居民个人" /><el-option
+            :value="false"
+            label="非居民，不能套用居民累计模型" /></el-select
+      ></el-form-item>
+      <el-form-item label="本年首次工资优惠资格"
         ><el-switch v-model="draft.firstSalaryThisYear"
       /></el-form-item>
-      <el-form-item label="资格核实前未取得其他工资"
+      <el-form-item label="本年新入职前未取得工资薪金"
         ><el-switch v-model="draft.noPriorSalaryThisYear"
+      /></el-form-item>
+      <el-form-item label="本年新入职前无连续性劳务"
+        ><el-switch v-model="draft.noPriorContinuousRemunerationBeforeEntry"
       /></el-form-item>
       <el-form-item label="外单位已用奖金单独计税"
         ><el-switch v-model="draft.separateBonusUsedElsewhere"
       /></el-form-item>
       <el-form-item label="本单位历史累计状态"
         ><el-select v-model="draft.openingMode" placeholder="须明确选择"
-          ><el-option value="ZERO" label="声明本单位当年无历史累计" /><el-option
+          ><el-option value="ZERO" label="确认无额外历史累计资料，仍归集系统已发事实" /><el-option
             value="DECLARE"
             label="依据资料登记历史累计" /></el-select
       ></el-form-item>
@@ -233,6 +246,8 @@ const ledgerStates: Record<string, string> = {
   COUNTED: '已归入累计',
   OPENING_COVERED: '历史资料已覆盖',
   UNDATED: '缺到账日期',
+  TAX_PERIOD_MISMATCH: '到账税务期需更正',
+  TAX_SUBJECT_MISMATCH: '扣缴主体需更正',
   SOURCE_INVALID: '税务来源待核实'
 }
 let ledgerSequence = 0
@@ -339,6 +354,9 @@ function open() {
     identifierType: 'ID_CARD',
     identifierCountry: 'CN',
     identifier: '',
+    residentThisYear: prior?.residentThisYear,
+    noPriorContinuousRemunerationBeforeEntry:
+      prior?.noPriorContinuousRemunerationBeforeEntry ?? false,
     firstSalaryThisYear: false,
     noPriorSalaryThisYear: false,
     separateBonusUsedElsewhere: false,

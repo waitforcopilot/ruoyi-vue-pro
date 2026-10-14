@@ -49,6 +49,7 @@ public class HrmPayrollInputService {
       Collections.unmodifiableList(Arrays.asList("250101", "250102", "250103", "250105"));
   @Resource private HrmPayrollInputMapper inputs;
   @Resource private HrmPayrollTaxDeductionService deductions;
+  @Resource private HrmPayrollTaxCashLedgerService cashLedger;
   @Resource private HrmSalaryMonthRecordMapper batches;
   @Resource private HrmSalaryMonthEmployeeRecordMapper employeeRecords;
   @Resource private HrmEmployeeMapper employees;
@@ -326,7 +327,9 @@ public class HrmPayrollInputService {
       sources.put("cycles", cycles);
       sources.put("approvedOvertime", new ArrayList<>(approved.values()));
     } else if ("DEDUCTIONS".equals(r.getKind())) {
-      HrmPayrollTaxDeductionDO declaration = deductions.source(b.getEntityId(), e.getId(), b.getYear(), b.getMonth());
+      LocalDate paymentDate=b.getExpectedPaymentDate();
+      if(paymentDate!=null) sources.put("expectedPaymentDate",paymentDate);
+      HrmPayrollTaxDeductionDO declaration = deductions.source(b.getEntityId(), e.getId(), paymentDate==null?b.getYear():paymentDate.getYear(), paymentDate==null?b.getMonth():paymentDate.getMonthValue());
       if(declaration != null) sources.put("taxDeductionDeclaration", declaration);
       if ("ZERO".equals(r.getMode()))
         DEDUCTION_FIELDS.forEach(code -> values.put(code, BigDecimal.ZERO));
@@ -338,6 +341,17 @@ public class HrmPayrollInputService {
         for(String code:DEDUCTION_FIELDS)
           if(values.get(code)==null || approved.get(code)==null || values.get(code).compareTo(approved.get(code))!=0) throw exception(PAYROLL_INPUT_INVALID);
       }
+    } else if ("CUMULATIVE_TAX".equals(r.getKind()) && "CASH".equals(r.getMode())) {
+      LocalDate paymentDate=b.getExpectedPaymentDate();
+      if(paymentDate==null) throw exception(PAYROLL_INPUT_INVALID);
+      LocalDate today=LocalDate.now(ZoneId.of("Asia/Shanghai")), asOf=paymentDate.isAfter(today)?today:paymentDate;
+      if(asOf.getYear()!=paymentDate.getYear()) throw exception(PAYROLL_INPUT_INVALID);
+      cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxCashLedgerVO ledger=cashLedger.forApprovedPayroll(b.getEntityId(),e.getId(),paymentDate.getYear(),asOf);
+      if(ledger==null || !ledger.isReady()) throw exception(PAYROLL_INPUT_INVALID);
+      values.put("250101",ledger.getIncome());values.put("250102",ledger.getBasicDeduction());
+      values.put("250103",ledger.getSocialDeduction());values.put("250105",ledger.getWithheld());
+      ledger.setAsOfDate(null);
+      sources.put("expectedPaymentDate",paymentDate);sources.put("cashLedger",ledger);
     } else if ("CUMULATIVE_TAX".equals(r.getKind())) {
       HrmSalaryMonthEmployeeRecordDO prior = priorPaid(b, e.getId());
       sources.put("priorPaidRecord", prior);

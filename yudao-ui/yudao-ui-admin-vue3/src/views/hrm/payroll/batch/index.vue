@@ -184,6 +184,7 @@ defineOptions({ name: 'HrmPayrollBatch' })
 const message = useMessage()
 const sourceClaims = ref<any[]>([])
 const claimKinds: Record<string, string> = {
+  TAX_YEAR: '年度预扣串行占用',
   WAGE_DAY: '计薪日期',
   OVERTIME: '认可加班',
   WORK_CYCLE: '综合工时周期',
@@ -196,6 +197,7 @@ const claimStatuses: Record<string, string> = {
 }
 const claimPeriod = (row: any) => {
   const parts = row.sourceKey.split(':')
+  if (row.kind === 'TAX_YEAR') return `核算版本 ${row.runId} · 同一扣缴单位/纳税人/年度`
   return row.kind === 'OVERTIME' ? `审批 ${parts[1]} · ${parts[2]}` : parts.slice(1).join(' 至 ')
 }
 const query = reactive({ pageNo: 1, pageSize: 10, status: undefined as number | undefined })

@@ -353,7 +353,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
                     .monthRecordId(id).employeeId(employee.getId()).entityId(monthRecord.getEntityId())
                     .actualWorkDay(attendanceData == null ? salaryStandard : attendanceData.getActualWorkDay())
                     .needWorkDay(monthRecord.getEntityId()==null?salaryStandard:confirmedAttendance.get("NEED_DAYS")).salaryGroupId(salaryGroup.getId())
-                    .formulaDate(salaryTimes[0].toLocalDate()).year(monthRecord.getYear()).month(monthRecord.getMonth()).build());
+                    .formulaDate(salaryTimes[0].toLocalDate()).taxPaymentDate(monthRecord.getExpectedPaymentDate()).year(monthRecord.getYear()).month(monthRecord.getMonth()).build());
             employeeOptionValueMap.put(employee.getId(), values);
             employeeTaxRuleMap.put(employee.getId(), taxRule);
         }

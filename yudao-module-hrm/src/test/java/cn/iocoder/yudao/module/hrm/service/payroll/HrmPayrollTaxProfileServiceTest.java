@@ -84,6 +84,8 @@ class HrmPayrollTaxProfileServiceTest extends BaseDbUnitTest {
         .setIdentifierCountry("CN")
         .setIdentifier("TESTTAX12345678")
         .setRequestKey(UUID.randomUUID().toString())
+        .setResidentThisYear(true)
+        .setNoPriorContinuousRemunerationBeforeEntry(false)
         .setFirstSalaryThisYear(false)
         .setNoPriorSalaryThisYear(false)
         .setSeparateBonusUsedElsewhere(false)
@@ -160,9 +162,34 @@ class HrmPayrollTaxProfileServiceTest extends BaseDbUnitTest {
                 1L),
         PAYROLL_TAX_INVALID);
     Long id =
-        service.create(request().setFirstSalaryThisYear(true).setNoPriorSalaryThisYear(true), 1L);
+        service.create(
+            request()
+                .setFirstSalaryThisYear(true)
+                .setNoPriorSalaryThisYear(true)
+                .setNoPriorContinuousRemunerationBeforeEntry(true),
+            1L);
     service.review(id, true, "核对年度首次取得工资资格", 2L);
     assertTrue(profiles.selectById(id).getFirstSalaryThisYear());
+  }
+
+  @Test
+  void firstIncomeEligibilityIsAssessedBeforeEntryAndDoesNotEraseThisEmployerHistory() {
+    HrmPayrollTaxProfileReqVO missing =
+        request().setFirstSalaryThisYear(true).setNoPriorSalaryThisYear(true);
+    assertServiceException(() -> service.create(missing, 1L), PAYROLL_TAX_INVALID);
+    HrmPayrollTaxProfileReqVO valid =
+        request()
+            .setFirstSalaryThisYear(true)
+            .setNoPriorSalaryThisYear(true)
+            .setNoPriorContinuousRemunerationBeforeEntry(true)
+            .setOpeningMode("DECLARE")
+            .setOpeningIncome(new java.math.BigDecimal("10000"))
+            .setOpeningBasicDeduction(new java.math.BigDecimal("5000"))
+            .setOpeningWithheld(new java.math.BigDecimal("150"));
+    Long id = service.create(valid, 1L);
+    service.review(id, true, "核实新入职前无前述所得，累计为本单位入职后发放", 2L);
+    assertEquals(
+        0, new java.math.BigDecimal("10000").compareTo(profiles.selectById(id).getOpeningIncome()));
   }
 
   @Test

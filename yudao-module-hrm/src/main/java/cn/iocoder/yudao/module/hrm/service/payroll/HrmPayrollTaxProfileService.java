@@ -99,9 +99,10 @@ public class HrmPayrollTaxProfileService {
             || request.getOpeningBasicDeduction().signum() != 0
             || request.getOpeningWithheld().signum() != 0)) throw exception(PAYROLL_TAX_INVALID);
     if (Boolean.TRUE.equals(request.getFirstSalaryThisYear())
-        && (!Boolean.TRUE.equals(request.getNoPriorSalaryThisYear())
-            || request.getOpeningIncome().signum() != 0
-            || request.getOpeningWithheld().signum() != 0)) throw exception(PAYROLL_TAX_INVALID);
+        && (!Boolean.TRUE.equals(request.getResidentThisYear())
+            || !Boolean.TRUE.equals(request.getNoPriorSalaryThisYear())
+            || !Boolean.TRUE.equals(request.getNoPriorContinuousRemunerationBeforeEntry())))
+      throw exception(PAYROLL_TAX_INVALID);
     if ("ID_CARD".equals(request.getIdentifierType())
         && (!"CN".equals(request.getIdentifierCountry())
             || !cn.hutool.core.util.IdcardUtil.isValidCard(request.getIdentifier())))
@@ -155,6 +156,9 @@ public class HrmPayrollTaxProfileService {
                 normalized.length() <= 4
                     ? "****"
                     : "****" + normalized.substring(normalized.length() - 4))
+            .setResidentThisYear(request.getResidentThisYear())
+            .setNoPriorContinuousRemunerationBeforeEntry(
+                request.getNoPriorContinuousRemunerationBeforeEntry())
             .setFirstSalaryThisYear(request.getFirstSalaryThisYear())
             .setNoPriorSalaryThisYear(request.getNoPriorSalaryThisYear())
             .setSeparateBonusUsedElsewhere(request.getSeparateBonusUsedElsewhere())
@@ -190,6 +194,13 @@ public class HrmPayrollTaxProfileService {
     if (Objects.equals(actor, row.getSubmittedBy()) || Objects.equals(actor, employee.getUserId()))
       throw exception(PAYROLL_SELF_APPROVAL);
     if (approved) {
+      if (row.getResidentThisYear() == null
+          || row.getNoPriorContinuousRemunerationBeforeEntry() == null
+          || Boolean.TRUE.equals(row.getFirstSalaryThisYear())
+              && (!Boolean.TRUE.equals(row.getResidentThisYear())
+                  || !Boolean.TRUE.equals(row.getNoPriorSalaryThisYear())
+                  || !Boolean.TRUE.equals(row.getNoPriorContinuousRemunerationBeforeEntry())))
+        throw exception(PAYROLL_TAX_INVALID);
       HrmPayrollTaxProfileDO current =
           active(row.getEntityId(), row.getEmployeeId(), row.getYear());
       if (!Objects.equals(row.getPriorProfileId(), current == null ? null : current.getId()))

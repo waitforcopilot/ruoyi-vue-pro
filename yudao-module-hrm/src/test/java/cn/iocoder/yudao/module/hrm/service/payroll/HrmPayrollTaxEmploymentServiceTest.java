@@ -87,7 +87,9 @@ class HrmPayrollTaxEmploymentServiceTest extends BaseDbUnitTest {
                 .setEmployeeId(1L)
                 .setTaxpayerKey("same-person")
                 .setTaxRegistrationNumber("agent")
-                .setFirstSalaryThisYear(true)
+                .setResidentThisYear(true)
+            .setNoPriorContinuousRemunerationBeforeEntry(true)
+            .setFirstSalaryThisYear(true)
                 .setNoPriorSalaryThisYear(true));
     when(entities.effectiveMemberships(10L, LocalDate.of(2026, 1, 1), payDate))
         .thenReturn(Collections.singletonList(membership(1, 1, "2026-08-15", "2026-12-31")));

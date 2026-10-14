@@ -100,7 +100,7 @@ public class HrmPayrollInputImportService {
                 .setEvidence(s(row.getEvidence()))
                 .setValues(new LinkedHashMap<>());
         if (!HrmPayrollInputService.KINDS.contains(r.getKind())
-            || !Arrays.asList("SYNC", "ZERO", "IMPORT").contains(r.getMode()))
+            || !Arrays.asList("SYNC", "ZERO", "IMPORT", "CASH").contains(r.getMode()))
           throw new IllegalArgumentException("数据类型或处理方式不合法");
         String fingerprint = JsonUtils.toJsonString(r), key = r.getEmployeeId() + ":" + r.getKind();
         Group g = groups.get(key);
