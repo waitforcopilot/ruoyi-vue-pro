@@ -106,3 +106,7 @@ DELETE FROM "hrm_payroll_tax_deduction";
 
 DELETE FROM "hrm_payroll_bonus_event";
 DELETE FROM "hrm_payroll_bonus";
+
+DELETE FROM "hrm_payroll_tax_filing_event";
+DELETE FROM "hrm_payroll_tax_receipt";
+DELETE FROM "hrm_payroll_tax_filing";

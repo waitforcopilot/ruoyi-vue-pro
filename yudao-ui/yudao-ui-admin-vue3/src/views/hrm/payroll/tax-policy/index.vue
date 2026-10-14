@@ -64,6 +64,7 @@
     </el-table>
     <el-divider>员工年度税务身份与历史累计</el-divider>
     <TaxProfiles :entity-id="entityId" :year="year" />
+    <TaxFilings :entity-id="entityId" :year="year" />
   </ContentWrap>
   <Dialog v-model="visible" title="年度政策版本（待独立审批）" width="850px">
     <el-form label-width="150px">
@@ -181,6 +182,7 @@
 import dayjs from 'dayjs'
 import * as api from '@/api/hrm/payroll/tax-policy'
 import TaxProfiles from './TaxProfiles.vue'
+import TaxFilings from './TaxFilings.vue'
 defineOptions({ name: 'HrmPayrollTaxPolicy' })
 const message = useMessage()
 const entities = ref<any[]>([]),
