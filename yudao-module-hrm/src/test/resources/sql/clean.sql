@@ -122,3 +122,7 @@ DELETE FROM hrm_payroll_tax_settlement;
 
 DELETE FROM hrm_payroll_retro;
 DELETE FROM hrm_payroll_retro_event;
+
+DELETE FROM hrm_payroll_cost_rule;
+DELETE FROM hrm_payroll_cost_report;
+DELETE FROM hrm_payroll_cost_event;
