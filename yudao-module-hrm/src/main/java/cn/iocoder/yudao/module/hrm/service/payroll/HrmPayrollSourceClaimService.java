@@ -124,10 +124,12 @@ public class HrmPayrollSourceClaimService {
 
   private List<HrmPayrollSourceClaimDO> required(
       HrmSalaryMonthRecordDO batch, HrmPayrollRunDO latest) {
-    if (batch.getEntityId() == null || !"REGULAR".equals(batch.getBatchKey()))
+    if (batch.getEntityId() == null || !("REGULAR".equals(batch.getBatchKey())||HrmPayrollSupplementService.isSupplement(batch)))
       throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
     HrmPayrollRunDO base = root(latest);
     com.fasterxml.jackson.databind.JsonNode input = JsonUtils.parseTree(base.getInputSnapshot());
+    Map<String, HrmPayrollSourceClaimDO> out = new TreeMap<>();
+    if("REGULAR".equals(batch.getBatchKey())) {
     if (input.get("entityPayrollDates") == null
         || input.get("approvedInputs") == null
         || input.get("insurancePolicySources") == null)
@@ -146,7 +148,7 @@ public class HrmPayrollSourceClaimService {
             input.get("insurancePolicySources").toString(),
             new com.fasterxml.jackson.core.type.TypeReference<
                 Map<Long, HrmPayrollInsurancePolicyService.Quote>>() {});
-    Map<String, HrmPayrollSourceClaimDO> out = new TreeMap<>();
+
     for (HrmSalaryMonthEmployeeRecordDO employee :
         JsonUtils.parseArray(latest.getResultSnapshot(), HrmSalaryMonthEmployeeRecordDO.class)) {
       Long id = employee.getEmployeeId();
@@ -213,6 +215,26 @@ public class HrmPayrollSourceClaimService {
                 .add(q.getCorporateInsurance())
                 .add(q.getCorporateFund()));
       }
+    }
+    } else {
+      List<HrmPayrollRetroDO> retro=retroService.sources(batch.getId());
+      if(retro.isEmpty()) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+      Map<Long,BigDecimal> amounts=new TreeMap<>();for(HrmPayrollRetroDO r:retro) {
+        if(r.getDelta().signum()<=0) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+        amounts.merge(r.getEmployeeId(),r.getDelta(),BigDecimal::add);
+      }
+      Map<Long,String> contexts=taxContexts(latest);
+      if(!contexts.keySet().equals(amounts.keySet())) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+      Set<Long> checked=new HashSet<>();
+      for(HrmSalaryMonthEmployeeRecordDO row:JsonUtils.parseArray(latest.getResultSnapshot(),HrmSalaryMonthEmployeeRecordDO.class)) {
+        if(!checked.add(row.getEmployeeId()) || !amounts.containsKey(row.getEmployeeId()) || row.getExpectedPaySalary()==null
+          || row.getExpectedPaySalary().compareTo(amounts.get(row.getEmployeeId()))!=0) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+        HrmPayrollTaxWithholdingService.Source tax=JsonUtils.parseObject(row.getTaxSourceSnapshot(),HrmPayrollTaxWithholdingService.Source.class);
+        if(!Objects.equals(contexts.get(row.getEmployeeId()),row.getTaxSourceSnapshot()) || tax==null || tax.getCurrentIncome().compareTo(amounts.get(row.getEmployeeId()))!=0 || tax.getCurrentSocialDeduction().signum()!=0
+          || tax.bonusAmount().signum()!=0 || tax.getQuote().getCurrentWithholding().compareTo(row.getPersonalTax())!=0
+          || row.getRealPaySalary().compareTo(row.getExpectedPaySalary().subtract(row.getPersonalTax()))!=0) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+      }
+      if(!checked.equals(amounts.keySet())) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
     }
     retroService.validateInputSnapshot(base.getInputSnapshot(),batch.getId());
     for(HrmPayrollRetroDO r:retroService.sources(batch.getId()))

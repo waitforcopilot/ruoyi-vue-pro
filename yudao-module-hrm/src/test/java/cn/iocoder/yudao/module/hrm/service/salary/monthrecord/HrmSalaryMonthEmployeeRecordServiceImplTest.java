@@ -100,6 +100,14 @@ public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest 
     private HrmSalaryTaxRuleService salaryTaxRuleService;
 
     @Test
+    public void supplementalEmployeeRowsCannotBeExpandedByManualRegularWageEdits() {
+        HrmSalaryMonthEmployeeRecordDO record=randomMonthEmployeeRecord(2001L,1001L);monthEmployeeRecordMapper.insert(record);
+        when(monthRecordService.validateMonthRecordEditableForUpdate(2001L)).thenReturn(new HrmSalaryMonthRecordDO().setId(2001L).setStatus(11).setParentBatchId(100L).setBatchKey("SUPPLEMENT:source"));
+        HrmSalaryMonthEmployeeRecordUpdateReqVO request=new HrmSalaryMonthEmployeeRecordUpdateReqVO();request.setId(record.getId()).setOptionValues(Collections.emptyList());
+        cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException(()->monthEmployeeRecordService.updateMonthEmployeeRecordList(Collections.singletonList(request)),cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_RETRO_INVALID);
+    }
+
+    @Test
     public void testUpdateMonthEmployeeRecordList_success() {
         // mock 数据
         HrmSalaryMonthEmployeeRecordDO firstRecord = randomMonthEmployeeRecord(2001L, 1001L);

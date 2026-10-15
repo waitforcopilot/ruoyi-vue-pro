@@ -7,6 +7,7 @@ export interface SalaryMonthRecordVO {
   entityId?: number
   entityName?: string
   expectedPaymentDate?: string
+  parentBatchId?: number
   batchKey?: string
   title?: string // 标题
   year?: number // 年份

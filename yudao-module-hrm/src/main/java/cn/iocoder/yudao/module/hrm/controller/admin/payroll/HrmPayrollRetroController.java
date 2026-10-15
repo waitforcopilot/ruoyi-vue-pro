@@ -13,6 +13,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController @RequestMapping("/hrm/payroll/retro")
 public class HrmPayrollRetroController {
  @Resource private HrmPayrollRetroService service;
+ @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSupplementService supplements;
+ @GetMapping("/supplement-baseline") @PreAuthorize("@ss.hasPermission('hrm:payroll:retro:query')")
+ public CommonResult<Map<String,Object>> supplementBaseline(@RequestParam Long paymentId){return success(service.supplementBaseline(paymentId,getLoginUserId()));}
+ @PostMapping("/supplement") @PreAuthorize("@ss.hasPermission('hrm:payroll:retro:update') && @ss.hasPermission('hrm:salary:month-record:create')")
+ public CommonResult<Long> supplement(@Valid @RequestBody cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollSupplementReqVO req){return success(supplements.create(req,getLoginUserId()));}
+ @PostMapping("/compute-supplement") @PreAuthorize("@ss.hasPermission('hrm:salary:month-record:compute')")
+ public CommonResult<Long> computeSupplement(@RequestParam Long batchId){return success(supplements.compute(batchId,getLoginUserId()));}
  @GetMapping("/list") @PreAuthorize("@ss.hasPermission('hrm:payroll:retro:query')")
  public CommonResult<List<HrmPayrollRetroDO>> list(@RequestParam Long batchId){return success(service.list(batchId,getLoginUserId()));}
  @GetMapping("/candidates") @PreAuthorize("@ss.hasPermission('hrm:payroll:retro:query')")

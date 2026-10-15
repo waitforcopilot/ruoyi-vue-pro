@@ -40,6 +40,7 @@ public class HrmPayrollBonusService {
     if (b.getEntityId() == null) throw exception(PAYROLL_ENTITY_INVALID);
     if (draft && !(Objects.equals(b.getStatus(), 5) || Objects.equals(b.getStatus(), 11)))
       throw exception(SALARY_MONTH_RECORD_STATUS_INVALID);
+    if (draft && HrmPayrollSupplementService.isSupplement(b)) throw exception(PAYROLL_TAX_INVALID);
     if (draft && b.getExpectedPaymentDate() == null)
       throw exception(PAYROLL_TAX_PAYMENT_DATE_MISSING);
     return b;

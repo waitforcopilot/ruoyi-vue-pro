@@ -17,6 +17,7 @@
       <el-button @click="search">查询</el-button>
     </el-form>
     <el-table v-loading="loading" :data="rows">
+      <el-table-column prop="id" label="批次编号" width="100" />
       <el-table-column prop="entityName" label="法人主体" min-width="140"
         ><template #default="{ row }">{{
           row.entityName || (row.entityId ? `主体 ${row.entityId}` : '未归属')
@@ -83,11 +84,22 @@
         type="info"
         :closable="false"
       />
+      <el-button
+        v-if="selected.parentBatchId && [5, 11].includes(selected.status!)"
+        v-hasPermi="['hrm:salary:month-record:compute']"
+        class="mt-4"
+        :loading="computingSupplement"
+        @click="computeSupplement"
+        >独立补发试算</el-button
+      >
       <el-tabs class="mt-4">
         <el-tab-pane v-if="checkPermi(['hrm:payroll:retro:query'])" lazy label="工资补发/收回">
           <Retro :key="selected.id" :batch-id="selected.id!" :status="selected.status!" />
         </el-tab-pane>
-        <el-tab-pane v-if="checkPermi(['hrm:payroll:tax:query'])" lazy label="年终奖来源"
+        <el-tab-pane
+          v-if="!selected.parentBatchId && checkPermi(['hrm:payroll:tax:query'])"
+          lazy
+          label="年终奖来源"
           ><Bonuses :key="selected.id" :batch-id="selected.id!" :status="selected.status!"
         /></el-tab-pane>
         <el-tab-pane label="核算版本与差异">
@@ -183,6 +195,7 @@
   </Dialog>
 </template>
 <script setup lang="ts">
+import request from '@/config/axios'
 import Bonuses from './Bonuses.vue'
 import Retro from './Retro.vue'
 import { checkPermi } from '@/utils/permission'
@@ -245,6 +258,22 @@ const actionsByStatus: Record<number, string[]> = {
   14: ['freeze', 'reject'],
   15: ['unfreeze'],
   17: ['archive']
+}
+const computingSupplement = ref(false)
+const computeSupplement = async () => {
+  if (!selected.value?.id) return
+  computingSupplement.value = true
+  try {
+    await request.post({
+      url: '/hrm/payroll/retro/compute-supplement',
+      params: { batchId: selected.value.id }
+    })
+    await load()
+    const row = rows.value.find((r) => r.id === selected.value?.id)
+    if (row) await open(row)
+  } finally {
+    computingSupplement.value = false
+  }
 }
 const availableActions = computed(() =>
   (actionsByStatus[selected.value?.status || 0] || []).map((code) => ({

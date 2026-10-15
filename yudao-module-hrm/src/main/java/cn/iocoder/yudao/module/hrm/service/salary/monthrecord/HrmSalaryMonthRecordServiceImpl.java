@@ -93,6 +93,7 @@ import static cn.iocoder.yudao.module.hrm.util.HrmExcelUtils.parseAmount;
 @Validated
 public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordService {
     @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRetroService retroService;
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSupplementService supplements;
 
 
     private static final String MONTH_RECORD_TITLE_TEMPLATE = "%d年%d月工资表";
@@ -240,6 +241,11 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
                                    List<Map<Integer, String>> cumulativeTaxRows) {
         // 1.1 校验工资表并构造计薪周期
         HrmSalaryMonthRecordDO monthRecord = validateMonthRecordEditableForUpdate(id);
+        if(cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSupplementService.isSupplement(monthRecord)) {
+            if(syncInsuranceData||syncAttendanceData||CollUtil.isNotEmpty(attendanceRows)||CollUtil.isNotEmpty(additionalDeductionRows)||CollUtil.isNotEmpty(cumulativeTaxRows))
+                throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_RETRO_INVALID);
+            supplements.compute(id,cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId());return;
+        }
         LocalDateTime[] salaryTimes = LocalDateTimeUtils.getDateTimeRange(
                 monthRecord.getStartTime().toLocalDate(), monthRecord.getEndTime().toLocalDate());
         // 1.2 获得计薪周期内、且已分配薪资组的员工

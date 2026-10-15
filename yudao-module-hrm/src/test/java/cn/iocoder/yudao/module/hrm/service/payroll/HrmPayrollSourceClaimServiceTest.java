@@ -165,6 +165,29 @@ class HrmPayrollSourceClaimServiceTest extends BaseDbUnitTest {
   }
 
   @Test
+  void supplementalPayrollClaimsOnlyDifferenceAndTaxYearWithoutRepayingWageDays() {
+    HrmSalaryMonthRecordDO b=batch(10L).setParentBatchId(999L).setBatchKey("SUPPLEMENT:request");batches.updateById(b);
+    legalEntities.insert(new HrmPayrollLegalEntityDO().setId(10L).setCode("SUPPLEMENT_ENTITY").setName("补发主体").setStatus("APPROVED"));
+    HrmPayrollRetroDO retro=new HrmPayrollRetroDO().setId(100L).setBatchId(b.getId()).setEmployeeId(employee).setDelta(new BigDecimal("2000"));
+    org.mockito.Mockito.when(retroService.sources(b.getId())).thenReturn(Collections.singletonList(retro));
+    HrmPayrollTaxWithholdingService.Source tax=new HrmPayrollTaxWithholdingService.Source().setEntityId(10L).setBatchId(b.getId()).setEmployeeId(employee)
+      .setExpectedPaymentDate(day(15)).setCurrentIncome(new BigDecimal("2000")).setCurrentSocialDeduction(BigDecimal.ZERO)
+      .setProfile(new HrmPayrollTaxProfileDO().setTaxpayerKey("same-worker").setTaxRegistrationNumber("registered"))
+      .setQuote(new PayrollTaxPolicyEngine.Quote().setCurrentWithholding(new BigDecimal("60")).setCurrentSalaryWithholding(new BigDecimal("60")));
+    HrmSalaryMonthEmployeeRecordDO result=new HrmSalaryMonthEmployeeRecordDO().setMonthRecordId(b.getId()).setEmployeeId(employee).setExpectedPaySalary(new BigDecimal("2000"))
+      .setPersonalTax(new BigDecimal("60")).setRealPaySalary(new BigDecimal("1940")).setTaxSourceSnapshot(JsonUtils.toJsonString(tax));
+    HrmPayrollRunDO run=new HrmPayrollRunDO().setMonthRecordId(b.getId()).setVersion(1).setRuleSnapshot("{}").setInputSnapshot(JsonUtils.toJsonString(Collections.singletonMap("withholdingContexts",Collections.singletonList(JsonUtils.toJsonString(tax)))))
+      .setResultSnapshot(JsonUtils.toJsonString(Collections.singletonList(result)));runs.insert(run);
+    service.reserve(b,run,1L);service.assertReserved(b.getId(),run.getId());
+    List<HrmPayrollSourceClaimDO> actual=claims.selectList();assertEquals(2,actual.size());
+    assertEquals(new HashSet<>(Arrays.asList("RETRO_WAGE","TAX_YEAR")),new HashSet<>(Arrays.asList(actual.get(0).getKind(),actual.get(1).getKind())));
+    result.setExpectedPaySalary(new BigDecimal("12000"));run.setResultSnapshot(JsonUtils.toJsonString(Collections.singletonList(result)));runs.updateById(run);
+    assertServiceException(()->service.assertReserved(b.getId(),run.getId()),PAYROLL_SOURCE_CLAIM_INVALID);
+    result.setExpectedPaySalary(new BigDecimal("2000"));run.setResultSnapshot(JsonUtils.toJsonString(Collections.singletonList(result))).setInputSnapshot("{}");runs.updateById(run);
+    assertServiceException(()->service.assertReserved(b.getId(),run.getId()),PAYROLL_SOURCE_CLAIM_INVALID);
+  }
+
+  @Test
   void retroSourceIsReservedReleasedAndPermanentlyConsumedOnPayment() {
     HrmSalaryMonthRecordDO b=batch(10L);
     HrmPayrollRunDO r=run(b,Collections.singletonList(day(1)),false,false);

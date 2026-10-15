@@ -117,7 +117,7 @@
           label="失败原因"
           min-width="180"
         />
-        <el-table-column label="操作" width="160"
+        <el-table-column label="操作" width="240"
           ><template #default="{ row }"
             ><el-button
               v-if="row.status === 'FAILED' && selected.status === 16"
@@ -138,6 +138,18 @@
               link
               @click="openZero(row)"
               >确认零实发结算</el-button
+            ><el-button
+              v-if="
+                row.status === 'SUCCESS' &&
+                row.valueDate &&
+                checkPermi(['hrm:payroll:retro:query']) &&
+                checkPermi(['hrm:payroll:retro:update']) &&
+                checkPermi(['hrm:salary:month-record:create'])
+              "
+              v-hasPermi="['hrm:payroll:retro:update', 'hrm:salary:month-record:create']"
+              link
+              @click="supplementRef?.open(row.id)"
+              >独立补发</el-button
             ></template
           ></el-table-column
         >
@@ -220,8 +232,12 @@
       ></template
     >
   </Dialog>
+  <Supplement ref="supplementRef" />
 </template>
 <script setup lang="ts">
+import { checkPermi } from '@/utils/permission'
+import Supplement from './Supplement.vue'
+const supplementRef = ref<InstanceType<typeof Supplement>>()
 import { formatDate } from '@/utils/formatTime'
 import * as api from '@/api/hrm/payroll/payment'
 import { statuses } from '@/api/hrm/payroll/batch'

@@ -124,7 +124,8 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
     public void saveMonthEmployeeRecordList(
             Long monthRecordId, Collection<HrmSalaryMonthEmployeeRecordDO> employeeRecords) {
         // 1. 锁定月度工资表，避免并发核算生成重复的员工记录
-        monthRecordService.validateMonthRecordEditableForUpdate(monthRecordId);
+        if(cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSupplementService.isSupplement(monthRecordService.validateMonthRecordEditableForUpdate(monthRecordId)))
+            throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_RETRO_INVALID);
         // 2. 加载已有员工记录
         List<HrmSalaryMonthEmployeeRecordDO> oldRecords =
                 monthEmployeeRecordMapper.selectListByMonthRecordId(monthRecordId);
@@ -208,8 +209,9 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
             throw exception(SALARY_DATA_ILLEGAL);
         }
         Long monthRecordId = CollUtil.getFirst(monthRecordIds);
-        HrmSalaryMonthRecordDO salaryMonthRecord =
-                monthRecordService.validateMonthRecordEditableForUpdate(monthRecordId);
+        HrmSalaryMonthRecordDO salaryMonthRecord = monthRecordService.validateMonthRecordEditableForUpdate(monthRecordId);
+        if(cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSupplementService.isSupplement(salaryMonthRecord))
+            throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_RETRO_INVALID);
 
         // 2.1 批量加载工资项和员工计税规则
         Map<Integer, HrmSalaryOptionDO> optionMap = getSalaryOptionMap();
