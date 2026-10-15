@@ -8,6 +8,8 @@ import cn.iocoder.yudao.framework.common.exception.ErrorCode;
  * HRM 系统，使用 1-050-000-000 段
  */
 public interface ErrorCodeConstants {
+    ErrorCode PAYROLL_FINANCIAL_HEADER_INVALID = new ErrorCode(1_050_810_027, "导入列名、列数或单位不符，请使用当前预算/营收/编制模板");
+    ErrorCode PAYROLL_FINANCIAL_INVALID = new ErrorCode(1_050_810_026, "预算/营收/编制的期间、金额、范围、来源、版本或审批状态不合法或不齐备");
     ErrorCode PAYROLL_COST_INVALID = new ErrorCode(1_050_810_025, "成本分摊比例、历史归属、工资/单位缴费来源或审批状态不合法");
     ErrorCode PAYROLL_RETRO_INVALID = new ErrorCode(1_050_810_024, "工资补发/收回来源、金额或结算条件不符");
 

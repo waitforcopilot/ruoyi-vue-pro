@@ -252,6 +252,12 @@ import org.springframework.transaction.annotation.*;
   r.setStatus(approve?"APPROVED":"REJECTED").setReviewedBy(actor).setReviewedTime(LocalDateTime.now(ZoneId.of("Asia/Shanghai"))).setReviewReason(reason);
   reports.updateById(r);event("REPORT",id,approve?"APPROVE":"REJECT",reason,r,actor);
  }
+ public HrmPayrollCostReportDO approvedReport(Long batchId,Long actor) {
+  HrmSalaryMonthRecordDO source=batches.selectById(batchId);scope.check(source,"READ",actor);
+  if(source.getEntityId()==null||!Arrays.asList(15,16,17,10).contains(source.getStatus()))throw exception(SALARY_MONTH_RECORD_STATUS_INVALID);
+  HrmPayrollCostReportDO report=reports.selectOne(new LambdaQueryWrapperX<HrmPayrollCostReportDO>().eq(HrmPayrollCostReportDO::getBatchId,batchId).eq(HrmPayrollCostReportDO::getStatus,"APPROVED").orderByDesc(HrmPayrollCostReportDO::getVersion).last("LIMIT 1"));
+  if(report!=null)validate(report);return report;
+ }
  public List<HrmPayrollCostReportDO> reports(Long batchId,Long actor) {
   scope.check(batches.selectById(batchId),"READ",actor);
   return reports.selectList(new LambdaQueryWrapperX<HrmPayrollCostReportDO>().eq(HrmPayrollCostReportDO::getBatchId,batchId).orderByDesc(HrmPayrollCostReportDO::getVersion));
@@ -261,7 +267,11 @@ import org.springframework.transaction.annotation.*;
   HrmPayrollCostReportDO r=reports.selectById(id);if(r==null)throw exception(PAYROLL_COST_INVALID);
   scope.check(batches.selectById(r.getBatchId()),export?"EXPORT":"READ",actor);
   if(export){frozen(r.getBatchId(),"EXPORT",actor);if(!"APPROVED".equals(r.getStatus()))throw exception(PAYROLL_COST_INVALID);validate(r);event("REPORT",id,"EXPORT","导出批准成本报表",Collections.singletonMap("runId",r.getRunId()),actor);}
-  return JsonUtils.parseArray(r.getResultSnapshot(),HrmPayrollCostRowVO.class);
+  HrmSalaryMonthRecordDO batch=batches.selectById(r.getBatchId());
+  List<HrmPayrollCostRowVO> rows=JsonUtils.parseArray(r.getResultSnapshot(),HrmPayrollCostRowVO.class);
+  String entityName=entities.name(batch.getEntityId());
+  for(HrmPayrollCostRowVO row:rows)row.setEntityId(batch.getEntityId()).setEntityName(entityName).setYear(batch.getYear()).setMonth(batch.getMonth()).setBatchId(batch.getId()).setRunId(r.getRunId());
+  return rows;
  }
  public List<HrmPayrollCostEventDO> history(String kind,Long id,Long actor) {
   if("RULE".equals(kind)){HrmPayrollCostRuleDO r=rules.selectById(id);if(r==null)throw exception(PAYROLL_COST_INVALID);entities.check(r.getEntityId(),"READ",actor);}
