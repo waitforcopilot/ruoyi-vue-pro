@@ -4,6 +4,7 @@ export interface PaymentBatch {
   id: number
   title: string
   entityId?: number
+  parentBatchId?: number
   entityName?: string
   status: number
   employeeCount: number

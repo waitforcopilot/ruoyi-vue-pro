@@ -17,6 +17,7 @@ public class HrmSalaryMonthRecordRespVO {
     private Long id;
     private Long entityId;
     private String batchKey;
+    private Long parentBatchId;
     private String entityName;
 
     @Schema(description = "年份", requiredMode = Schema.RequiredMode.REQUIRED, example = "2026")

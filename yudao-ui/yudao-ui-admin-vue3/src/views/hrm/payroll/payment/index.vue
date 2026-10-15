@@ -141,6 +141,7 @@
             ><el-button
               v-if="
                 row.status === 'SUCCESS' &&
+                !selected.parentBatchId &&
                 row.valueDate &&
                 checkPermi(['hrm:payroll:retro:query']) &&
                 checkPermi(['hrm:payroll:retro:update']) &&

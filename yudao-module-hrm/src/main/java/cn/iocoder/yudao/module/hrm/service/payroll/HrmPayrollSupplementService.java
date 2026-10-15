@@ -41,6 +41,7 @@ import org.springframework.transaction.annotation.*;
   HrmSalaryMonthRecordDO original=batches.selectByIdForUpdate(p.getMonthRecordId());
   scope.check(original,"READ",actor);scope.check(original,"CALCULATE",actor);scope.check(original,"MANAGE",actor);
   if(original.getEntityId()==null) throw exception(PAYROLL_ENTITY_INVALID);
+  if(!"REGULAR".equals(original.getBatchKey()))throw exception(PAYROLL_RETRO_INVALID);
   // Serializing on the original batch also makes independent request creation idempotent.
   String key="SUPPLEMENT:"+cn.hutool.crypto.digest.DigestUtil.sha256Hex(request.getRequestKey()).substring(0,40);
   HrmSalaryMonthRecordDO b=batches.selectOne(HrmSalaryMonthRecordDO::getBatchKey,key);

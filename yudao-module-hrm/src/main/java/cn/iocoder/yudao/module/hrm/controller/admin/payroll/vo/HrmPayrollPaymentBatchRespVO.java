@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 public class HrmPayrollPaymentBatchRespVO {
     private Long id;
     private Long entityId;
+    private Long parentBatchId;
     private String entityName;
     private String title;
     private Integer status;

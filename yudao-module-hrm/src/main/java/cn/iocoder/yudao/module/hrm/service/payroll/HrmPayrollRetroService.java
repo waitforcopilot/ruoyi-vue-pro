@@ -68,7 +68,7 @@ import org.springframework.transaction.annotation.*;
  }
  private void eligible(HrmSalaryMonthRecordDO b,HrmPayrollPaymentDO p) {
   HrmSalaryMonthRecordDO original=batches.selectById(p.getMonthRecordId());
-  if(original==null || !Objects.equals(original.getEntityId(),b.getEntityId()) || Objects.equals(b.getId(),original.getId())
+  if(original==null || !"REGULAR".equals(original.getBatchKey()) || !Objects.equals(original.getEntityId(),b.getEntityId()) || Objects.equals(b.getId(),original.getId())
     || b.getExpectedPaymentDate()==null || b.getExpectedPaymentDate().isBefore(p.getValueDate())
     || !scope.payrollDates(b).containsKey(p.getEmployeeId())) throw exception(PAYROLL_RETRO_INVALID);
   if(HrmPayrollSupplementService.isSupplement(b) && !Objects.equals(b.getParentBatchId(),original.getId())) throw exception(PAYROLL_RETRO_INVALID);
@@ -77,8 +77,18 @@ import org.springframework.transaction.annotation.*;
   if(!Objects.equals(t.getEntityId(),b.getEntityId()) || t.getProfile().getTaxpayerKey()==null
     || !Objects.equals(t.getProfile().getTaxpayerKey(),current.getTaxpayerKey())) throw exception(PAYROLL_RETRO_INVALID);
  }
+ private BigDecimal originalIncome(HrmPayrollPaymentDO payment) {
+  HrmSalaryMonthEmployeeRecordDO salary=result(payment);
+  if(salary.getOptionValues()==null)throw exception(PAYROLL_RETRO_INVALID);
+  BigDecimal historical=BigDecimal.ZERO;boolean seen=false;
+  for(HrmSalaryMonthEmployeeRecordDO.OptionValue value:salary.getOptionValues())if(Objects.equals(value.getCode(),10901)) {
+   if(seen||value.getValue()==null)throw exception(PAYROLL_RETRO_INVALID);seen=true;historical=value.getValue();
+  }
+  BigDecimal basis=tax(payment).getCurrentIncome().subtract(historical);
+  if(basis.signum()<0)throw exception(PAYROLL_RETRO_INVALID);return basis;
+ }
  private BigDecimal baseline(HrmPayrollPaymentDO p,HrmPayrollRetroDO prior) {
-  if(prior==null) return tax(p).getCurrentIncome();
+  if(prior==null) return originalIncome(p);
   // A successor may only follow actual settlement of its predecessor.
   List<HrmPayrollPaymentDO> settled=payments.selectList(new LambdaQueryWrapperX<HrmPayrollPaymentDO>()
     .eq(HrmPayrollPaymentDO::getMonthRecordId,prior.getBatchId()).eq(HrmPayrollPaymentDO::getEmployeeId,prior.getEmployeeId()).eq(HrmPayrollPaymentDO::getStatus,"SUCCESS"));
@@ -218,6 +228,7 @@ import org.springframework.transaction.annotation.*;
   HrmPayrollPaymentDO p=payments.selectById(paymentId);
   if(p==null||!"SUCCESS".equals(p.getStatus())||p.getValueDate()==null) throw exception(PAYROLL_RETRO_INVALID);
   HrmSalaryMonthRecordDO original=batches.selectById(p.getMonthRecordId());scope.check(original,"READ",actor);
+  if(original==null||!"REGULAR".equals(original.getBatchKey()))throw exception(PAYROLL_RETRO_INVALID);
   HrmPayrollRetroDO prior=latest(paymentId);
   Map<String,Object> out=new LinkedHashMap<>();out.put("income",baseline(p,prior));out.put("priorRetroId",prior==null?null:prior.getId());out.put("originalBatch",original.getTitle());return out;
  }
@@ -226,7 +237,7 @@ import org.springframework.transaction.annotation.*;
   Set<Long> roster=scope.payrollDates(b).keySet();List<Map<String,Object>> out=new ArrayList<>();
   for(HrmPayrollPaymentDO p:payments.selectList(new LambdaQueryWrapperX<HrmPayrollPaymentDO>().eq(HrmPayrollPaymentDO::getStatus,"SUCCESS").orderByDesc(HrmPayrollPaymentDO::getId))) {
    HrmSalaryMonthRecordDO original=batches.selectById(p.getMonthRecordId());
-   if(original==null||!Objects.equals(original.getEntityId(),b.getEntityId())||Objects.equals(original.getId(),batchId)||!roster.contains(p.getEmployeeId())) continue;
+   if(original==null||!"REGULAR".equals(original.getBatchKey())||!Objects.equals(original.getEntityId(),b.getEntityId())||Objects.equals(original.getId(),batchId)||!roster.contains(p.getEmployeeId())) continue;
    scope.check(original,"READ",actor);
    HrmPayrollRetroDO prior=latest(p.getId());
    try {

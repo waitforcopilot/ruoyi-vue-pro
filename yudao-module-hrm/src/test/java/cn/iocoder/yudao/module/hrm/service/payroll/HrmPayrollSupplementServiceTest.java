@@ -46,7 +46,7 @@ class HrmPayrollSupplementServiceTest extends BaseDbUnitTest {
   HrmEmployeeDO employee=new HrmEmployeeDO().setName("已离职补发员工").setJobNumber("SUPP-1").setUserId(99L).setLeaveTime(LocalDate.of(2026,9,30).atStartOfDay());employees.insert(employee);employeeId=employee.getId();
   original=new HrmSalaryMonthRecordDO().setEntityId(10L).setTitle("九月工资").setYear(2026).setMonth(9).setStatus(17).setBatchKey("REGULAR").setStartTime(LocalDate.of(2026,9,1).atStartOfDay()).setEndTime(LocalDate.of(2026,9,30).atStartOfDay());batches.insert(original);
   HrmPayrollTaxWithholdingService.Source saved=new HrmPayrollTaxWithholdingService.Source().setEntityId(10L).setEmployeeId(employeeId).setCurrentIncome(new BigDecimal("10000")).setProfile(new HrmPayrollTaxProfileDO().setTaxpayerKey("same-person"));
-  HrmSalaryMonthEmployeeRecordDO result=new HrmSalaryMonthEmployeeRecordDO().setEmployeeId(employeeId).setRealPaySalary(new BigDecimal("9000")).setTaxSourceSnapshot(JsonUtils.toJsonString(saved));
+  HrmSalaryMonthEmployeeRecordDO result=new HrmSalaryMonthEmployeeRecordDO().setEmployeeId(employeeId).setRealPaySalary(new BigDecimal("9000")).setTaxSourceSnapshot(JsonUtils.toJsonString(saved)).setOptionValues(Collections.emptyList());
   HrmPayrollRunDO run=new HrmPayrollRunDO().setMonthRecordId(original.getId()).setVersion(1).setInputSnapshot("{}").setRuleSnapshot("{}").setResultSnapshot(JsonUtils.toJsonString(Collections.singletonList(result)));runs.insert(run);
   HrmPayrollPaymentDO p=new HrmPayrollPaymentDO().setMonthRecordId(original.getId()).setRunId(run.getId()).setEmployeeId(employeeId).setEmployeeName("已离职补发员工").setBankAccount("test-account").setAttempt(1).setAmount(new BigDecimal("9000")).setStatus("SUCCESS").setValueDate(LocalDate.of(2026,9,30));payments.insert(p);paymentId=p.getId();
   when(scope.payrollDates(any())).thenAnswer(call->{HrmSalaryMonthRecordDO b=call.getArgument(0);return b.getStartTime().toLocalDate().isAfter(LocalDate.of(2026,9,30))?Collections.emptyMap():Collections.singletonMap(employeeId,Collections.singleton(LocalDate.of(2026,9,1)));});
@@ -92,5 +92,9 @@ class HrmPayrollSupplementServiceTest extends BaseDbUnitTest {
  @Test void catalogAndCurrentTaxEvidenceMustBeReady() {
   Long batch=approved();when(options.getSalaryOptionList(false)).thenReturn(Collections.emptyList());assertServiceException(()->service.compute(batch,1L),PAYROLL_RETRO_INVALID);
   assertEquals(5,batches.selectById(batch).getStatus());
+ }
+ @Test void derivedPaymentCannotBecomeANewIndependentSupplementRoot(){
+  batches.updateById(new HrmSalaryMonthRecordDO().setId(original.getId()).setParentBatchId(999L).setBatchKey("SUPPLEMENT:derived"));
+  assertServiceException(()->service.create(req(),1L),PAYROLL_RETRO_INVALID);assertEquals(1,batches.selectCount());
  }
 }

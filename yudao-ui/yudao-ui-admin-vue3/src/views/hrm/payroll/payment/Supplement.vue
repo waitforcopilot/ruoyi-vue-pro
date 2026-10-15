@@ -1,13 +1,13 @@
 <template>
   <Dialog v-model="visible" title="创建独立工资补发批次" width="680px">
     <el-alert
-      title="只发放已核定工资收入差额，原银行付款保持不变。创建后先到核算审批复核差额来源，再试算、审批、冻结并代发。"
+      title="基线为原常规工资计税收入，已剔除历史差额；补发后的进一步更正仍关联原常规工资。创建后先到核算审批复核差额来源，再试算、审批、冻结并代发。"
       type="info"
       :closable="false"
     />
     <el-form label-width="130px" class="mt-4">
       <el-form-item label="原工资期间">{{ baseline.originalBatch }}</el-form-item>
-      <el-form-item label="此前核定收入">{{ baseline.income }}</el-form-item>
+      <el-form-item label="此前核定计税收入">{{ baseline.income }}</el-form-item>
       <el-form-item label="更正后收入"
         ><el-input-number v-model="draft.correctedIncome" :min="0" :precision="2"
       /></el-form-item>
