@@ -90,6 +90,10 @@ public enum HrmSalaryOptionCodeEnum implements ArrayValuable<Integer> {
     public static final Set<Integer> SOURCE_CONTROLLED_PARENT_CODES=Collections.unmodifiableSet(SetUtils.asSet(100,110,120,180,190,200,250,260));
     public static boolean sourceControlled(Integer code,Integer parentCode){return SOURCE_CONTROLLED_CODES.contains(code)||SOURCE_CONTROLLED_PARENT_CODES.contains(parentCode);}
 
+    /** Shared gross-pay taxonomy used by calculation and frozen financial reporting. */
+    public static final Set<Integer> EXPECTED_PAY_PARENT_CODES = Collections.unmodifiableSet(SetUtils.asSet(
+            10,20,30,40,50,60,70,80,90,130,140,180,200));
+
     /**
      * 默认工资条模板的薪资项编码
      */

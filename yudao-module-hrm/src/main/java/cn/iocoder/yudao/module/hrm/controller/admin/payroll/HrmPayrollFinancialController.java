@@ -16,6 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class HrmPayrollFinancialController {
  @Resource private HrmPayrollFinancialService service;
  @Resource private HrmPayrollCostService costs;
+ @Resource private HrmPayrollWageStructureService structure;
+ @cn.iocoder.yudao.framework.apilog.core.annotation.ApiAccessLog(requestEnable=false,responseEnable=false)
+ @GetMapping("/wage-structure") @PreAuthorize("@ss.hasPermission('hrm:payroll:analysis:query')")
+ public CommonResult<HrmPayrollWageStructureService.Result> structure(@RequestParam Long entityId,@RequestParam Integer year,@RequestParam Integer month,@RequestParam(required=false) Long deptId,@RequestParam(required=false) String employeeCategory){return success(structure.analyze(entityId,year,month,deptId,employeeCategory,getLoginUserId()));}
+ @cn.iocoder.yudao.framework.apilog.core.annotation.ApiAccessLog(requestEnable=false,responseEnable=false)
+ @GetMapping("/wage-structure-export") @PreAuthorize("@ss.hasPermission('hrm:payroll:analysis:export')")
+ public void structureExport(@RequestParam Long entityId,@RequestParam Integer year,@RequestParam Integer month,@RequestParam(required=false) Long deptId,@RequestParam(required=false) String employeeCategory,javax.servlet.http.HttpServletResponse response)throws java.io.IOException{ExcelUtils.write(response,"冻结工资结构及环比.xlsx","工资结构",HrmPayrollWageStructureRowVO.class,structure.export(entityId,year,month,deptId,employeeCategory,getLoginUserId()));}
  @cn.iocoder.yudao.framework.apilog.core.annotation.ApiAccessLog(requestEnable=false,responseEnable=false)
  @GetMapping("/options") @PreAuthorize("@ss.hasPermission('hrm:payroll:analysis:query')")
  public CommonResult<Map<String,Object>> options(@RequestParam(required=false) Long entityId){return success(costs.options(entityId,getLoginUserId()));}

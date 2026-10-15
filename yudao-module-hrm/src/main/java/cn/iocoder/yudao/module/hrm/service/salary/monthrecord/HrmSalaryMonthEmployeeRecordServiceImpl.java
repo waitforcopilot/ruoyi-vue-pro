@@ -85,8 +85,7 @@ import static cn.iocoder.yudao.module.hrm.enums.LogRecordConstants.HRM_SALARY_MO
 @Validated
 public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEmployeeRecordService {
 
-    private static final Set<Integer> EXPECTED_PAY_PARENT_CODES = new HashSet<>(Arrays.asList(
-            10, 20, 30, 40, 50, 60, 70, 80, 90, 130, 140, 180, 200));
+    private static final Set<Integer> EXPECTED_PAY_PARENT_CODES = HrmSalaryOptionCodeEnum.EXPECTED_PAY_PARENT_CODES;
     private static final Integer WITHHOLDING_PARENT_CODE = 100;
     private static final Integer AFTER_TAX_ADD_PARENT_CODE = 150;
     private static final Integer AFTER_TAX_DEDUCT_PARENT_CODE = 160;

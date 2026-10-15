@@ -98,12 +98,12 @@ import org.springframework.transaction.annotation.*;
   Map<String,Object> out=new LinkedHashMap<>();List<Object> entityOptions=new ArrayList<>();
   for(Long id:entities.accessible("READ",actor)) {Map<String,Object> e=new LinkedHashMap<>();e.put("id",id);e.put("name",entities.name(id));entityOptions.add(e);}
   out.put("entities",entityOptions);if(entityId==null)return out;entities.check(entityId,"READ",actor);
-  Set<Long> employeeIds=new TreeSet<>(),deptIds=new TreeSet<>();
+  Set<Long> employeeIds=new TreeSet<>(),deptIds=new TreeSet<>();Set<String> categories=new TreeSet<>();
   for(HrmPayrollEntityMembershipDO m:membershipMapper.selectList(new LambdaQueryWrapperX<HrmPayrollEntityMembershipDO>().eq(HrmPayrollEntityMembershipDO::getEntityId,entityId).in(HrmPayrollEntityMembershipDO::getStatus,"APPROVED","SUPERSEDED"))) {
-   employeeIds.add(m.getEmployeeId());if(m.getDeptId()!=null)deptIds.add(m.getDeptId());
+   employeeIds.add(m.getEmployeeId());if(m.getDeptId()!=null)deptIds.add(m.getDeptId());if(m.getEmployeeCategory()!=null&&!m.getEmployeeCategory().trim().isEmpty())categories.add(m.getEmployeeCategory());
   }
   List<Object> people=new ArrayList<>();for(Long id:employeeIds){HrmEmployeeDO e=employees.selectById(id);if(e!=null){Map<String,Object> person=new LinkedHashMap<>();person.put("id",id);person.put("name",e.getName());person.put("jobNumber",e.getJobNumber());people.add(person);}}
-  out.put("employees",people);out.put("departments",departments.getDeptList(deptIds));
+  out.put("employees",people);out.put("departments",departments.getDeptList(deptIds));out.put("categories",categories);
   List<Object> batchOptions=new ArrayList<>();for(HrmSalaryMonthRecordDO b:batches.selectList(new LambdaQueryWrapperX<HrmSalaryMonthRecordDO>().eq(HrmSalaryMonthRecordDO::getEntityId,entityId).in(HrmSalaryMonthRecordDO::getStatus,15,16,17,10).orderByDesc(HrmSalaryMonthRecordDO::getYear).orderByDesc(HrmSalaryMonthRecordDO::getMonth).orderByDesc(HrmSalaryMonthRecordDO::getId))) if(Arrays.asList(15,16,17,10).contains(b.getStatus())) {
    Map<String,Object> item=new LinkedHashMap<>();item.put("id",b.getId());item.put("title",b.getTitle());item.put("year",b.getYear());item.put("month",b.getMonth());batchOptions.add(item);
   }

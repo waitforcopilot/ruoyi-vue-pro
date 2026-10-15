@@ -23,6 +23,13 @@
       ><el-button :loading="loading" :disabled="!entityId || !period" @click="load">查询</el-button>
     </el-form>
     <el-tabs v-model="tab">
+      <el-tab-pane label="工资结构及环比" name="structure" lazy
+        ><WageStructure
+          :entity-id="entityId"
+          :period="period"
+          :departments="options.departments || []"
+          :categories="options.categories || []"
+      /></el-tab-pane>
       <el-tab-pane label="预算与实际分析" name="analysis">
         <el-alert
           v-if="analysis"
@@ -284,6 +291,7 @@
   >
 </template>
 <script setup lang="ts">
+import WageStructure from './WageStructure.vue'
 import request from '@/config/axios'
 import download from '@/utils/download'
 import dayjs from 'dayjs'
