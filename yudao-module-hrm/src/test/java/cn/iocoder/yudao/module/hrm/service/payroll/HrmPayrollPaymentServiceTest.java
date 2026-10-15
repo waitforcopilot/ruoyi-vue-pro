@@ -23,6 +23,13 @@ import org.springframework.context.annotation.Import;
 
 @Import({HrmPayrollPaymentService.class, HrmPayrollBatchService.class})
 class HrmPayrollPaymentServiceTest extends BaseDbUnitTest {
+    @org.springframework.boot.test.mock.mockito.MockBean
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRetroService retroService;
+    @org.junit.jupiter.api.BeforeEach
+    void setupRetroSource() {
+        org.mockito.Mockito.when(retroService.amount(org.mockito.ArgumentMatchers.any(),org.mockito.ArgumentMatchers.any())).thenReturn(java.math.BigDecimal.ZERO);
+    }
+
   @org.springframework.boot.test.mock.mockito.MockBean
   private HrmPayrollTaxWithholdingService taxWithholding;
 

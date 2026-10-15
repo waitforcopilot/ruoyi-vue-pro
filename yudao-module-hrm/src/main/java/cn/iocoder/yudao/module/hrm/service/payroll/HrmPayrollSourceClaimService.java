@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class HrmPayrollSourceClaimService {
   @Resource private HrmPayrollSourceClaimMapper claims;
+  @Resource private HrmPayrollRetroService retroService;
   @Resource private HrmPayrollLegalEntityMapper legalEntities;
   @Resource private HrmPayrollTaxWithholdingService taxWithholding;
   @Resource private HrmEmployeeMapper employees;
@@ -213,6 +214,9 @@ public class HrmPayrollSourceClaimService {
                 .add(q.getCorporateFund()));
       }
     }
+    retroService.validateInputSnapshot(base.getInputSnapshot(),batch.getId());
+    for(HrmPayrollRetroDO r:retroService.sources(batch.getId()))
+      add(out,batch,latest,r.getEmployeeId(),"RETRO_WAGE",r.getId().toString(),r.getDelta());
     for (Map.Entry<Long, String> entry : taxContexts(latest).entrySet()) {
       HrmPayrollTaxWithholdingService.Source source =
           JsonUtils.parseObject(entry.getValue(), HrmPayrollTaxWithholdingService.Source.class);

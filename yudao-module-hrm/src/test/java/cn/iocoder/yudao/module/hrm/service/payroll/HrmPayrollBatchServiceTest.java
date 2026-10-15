@@ -11,6 +11,13 @@ import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServic
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 @Import(HrmPayrollBatchService.class)
 class HrmPayrollBatchServiceTest extends BaseDbUnitTest {
+    @org.springframework.boot.test.mock.mockito.MockBean
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRetroService retroService;
+    @org.junit.jupiter.api.BeforeEach
+    void setupRetroSource() {
+        org.mockito.Mockito.when(retroService.amount(org.mockito.ArgumentMatchers.any(),org.mockito.ArgumentMatchers.any())).thenReturn(java.math.BigDecimal.ZERO);
+    }
+
   @org.springframework.boot.test.mock.mockito.MockBean private HrmPayrollTaxWithholdingService taxWithholding;
  @org.springframework.boot.test.mock.mockito.MockBean private HrmPayrollSourceClaimService sourceClaims;
 

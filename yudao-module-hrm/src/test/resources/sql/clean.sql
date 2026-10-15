@@ -119,3 +119,6 @@ DELETE FROM hrm_payroll_tax_correction;
 
 DELETE FROM hrm_payroll_tax_settlement_event;
 DELETE FROM hrm_payroll_tax_settlement;
+
+DELETE FROM hrm_payroll_retro;
+DELETE FROM hrm_payroll_retro_event;

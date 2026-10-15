@@ -8,6 +8,7 @@ import cn.iocoder.yudao.framework.common.exception.ErrorCode;
  * HRM 系统，使用 1-050-000-000 段
  */
 public interface ErrorCodeConstants {
+    ErrorCode PAYROLL_RETRO_INVALID = new ErrorCode(1_050_810_024, "工资补发/收回来源、金额或结算条件不符");
 
     // ========== 员工档案 1-050-100-000 ==========
     ErrorCode EMPLOYEE_NOT_EXISTS = new ErrorCode(1_050_100_000, "员工档案不存在");

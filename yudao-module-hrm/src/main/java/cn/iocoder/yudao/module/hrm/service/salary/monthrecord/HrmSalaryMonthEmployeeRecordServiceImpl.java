@@ -402,6 +402,8 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
         return monthEmployeeRecordMapper.selectPageByEmployeeId(reqVO, monthRecordIds);
     }
 
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRetroService retroService;
+
     private HrmSalaryMonthEmployeeRecordDO calculateMonthEmployeeRecord(
             HrmSalaryMonthEmployeeRecordDO employeeRecord, List<HrmSalaryOptionValueVO> optionValues,
             HrmSalaryTaxRuleDO taxRule, Map<Integer, HrmSalaryOptionDO> optionMap) {
@@ -415,6 +417,16 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
                 HrmSalaryOptionDO bonusOption=optionMap.get(140101);
                 if(bonusOption==null || !Objects.equals(bonusOption.getParentCode(),140) || !Boolean.FALSE.equals(bonusOption.getTaxEnabled()) || !Objects.equals(bonusOption.getType(),1) || Boolean.FALSE.equals(bonusOption.getEnabled())) throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_TAX_INVALID);
                 appendComputedValue(values,140101,"批准年终奖",bonus.getAmount());
+            }
+        }
+        if(employeeRecord.getEntityId()!=null) {
+            if(getOptionValue(values,10901).signum()!=0) throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_RETRO_INVALID);
+            BigDecimal retro=retroService.amount(employeeRecord.getMonthRecordId(),employeeRecord.getEmployeeId());
+            if(retro.signum()!=0) {
+                if(!isSalaryTaxRule(taxRule)) throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_RETRO_INVALID);
+                HrmSalaryOptionDO option=optionMap.get(10901);
+                if(option==null || !Objects.equals(option.getParentCode(),10) || !Boolean.TRUE.equals(option.getTaxEnabled()) || !Objects.equals(option.getType(),1) || Boolean.FALSE.equals(option.getEnabled())) throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_RETRO_INVALID);
+                appendComputedValue(values,10901,"批准工资补发/收回",retro);
             }
         }
         values = payrollFormulaService.calculate(values, optionMap,
@@ -764,7 +776,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
             valueMap.put(value.getCode(), value);
         }
         // Rebuild the approved bonus before formulas; prior computed earnings are not raw inputs.
-        if(governed) valueMap.remove(140101);
+        if(governed) {valueMap.remove(140101);valueMap.remove(10901);}
         return valueMap.values().stream()
                 .sorted(Comparator.comparing(HrmSalaryOptionValueVO::getCode))
                 .collect(Collectors.toList());

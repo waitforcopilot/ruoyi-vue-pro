@@ -77,6 +77,13 @@ import static org.mockito.Mockito.when;
  */
 @Import({HrmSalaryMonthRecordServiceImpl.class, cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollFormulaService.class})
 public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
+    @org.springframework.boot.test.mock.mockito.MockBean
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRetroService retroService;
+    @org.junit.jupiter.api.BeforeEach
+    void setupRetroSource() {
+        org.mockito.Mockito.when(retroService.amount(org.mockito.ArgumentMatchers.any(),org.mockito.ArgumentMatchers.any())).thenReturn(java.math.BigDecimal.ZERO);
+    }
+
     @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInputService payrollInputs;
 
     @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollAttendanceService payrollAttendanceService;
@@ -425,7 +432,7 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
     }
     @Test void scopedPayrollBlocksMissingCatalogInsteadOfDroppingMandatoryAmounts(){
         HrmSalaryMonthRecordDO b=buildMonthRecord(2026,7,5).setEntityId(1L);monthRecordMapper.insert(b);
-        assertServiceException(()->monthRecordService.computeMonthRecord(b.getId(),false,false,Collections.emptyList(),Collections.emptyList(),Collections.emptyList()),cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_SOURCE_CATALOG_INVALID,"个人社保");
+        assertServiceException(()->monthRecordService.computeMonthRecord(b.getId(),false,false,Collections.emptyList(),Collections.emptyList(),Collections.emptyList()),cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_SOURCE_CATALOG_INVALID,"批准工资补发/收回");
         org.mockito.Mockito.verifyNoInteractions(payrollInsurancePolicies,payrollInputs);assertEquals(5,monthRecordMapper.selectById(b.getId()).getStatus());
     }
     @Test

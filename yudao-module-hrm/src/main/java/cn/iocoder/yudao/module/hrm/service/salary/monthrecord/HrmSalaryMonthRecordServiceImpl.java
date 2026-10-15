@@ -92,6 +92,8 @@ import static cn.iocoder.yudao.module.hrm.util.HrmExcelUtils.parseAmount;
 @Service
 @Validated
 public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordService {
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRetroService retroService;
+
 
     private static final String MONTH_RECORD_TITLE_TEMPLATE = "%d年%d月工资表";
 
@@ -368,6 +370,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
 
         // 保存独立核算版本；重算不删除旧结果及规则快照。
         Map<String, Object> inputSnapshot = new LinkedHashMap<>();
+        if(monthRecord.getEntityId()!=null) inputSnapshot.put("retroSources",retroService.sources(id));
         inputSnapshot.put("entityScope",payrollScopeService.snapshot(monthRecord));
         inputSnapshot.put("entityPayrollDates",entityPayrollDates);
         inputSnapshot.put("salaryValues", employeeOptionValueMap);

@@ -63,6 +63,13 @@ import static org.mockito.Mockito.when;
  */
 @Import({HrmSalaryMonthEmployeeRecordServiceImpl.class, cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollFormulaService.class})
 public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest {
+    @org.springframework.boot.test.mock.mockito.MockBean
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRetroService retroService;
+    @org.junit.jupiter.api.BeforeEach
+    void setupRetroSource() {
+        org.mockito.Mockito.when(retroService.amount(org.mockito.ArgumentMatchers.any(),org.mockito.ArgumentMatchers.any())).thenReturn(java.math.BigDecimal.ZERO);
+    }
+
 
     @MockBean
     private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollBatchService payrollBatchService;
@@ -312,6 +319,40 @@ public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest 
                 monthEmployeeRecordService.calculateMonthEmployeeRecordList(Collections.singletonList(record),
                     Collections.singletonMap(1001L,values),Collections.singletonMap(1001L,rule)),
                 cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_TAX_INVALID);
+    }
+
+    @Test
+    public void approvedRetroEntersGrossTaxBaseAndRebuildsOnceOnAdjustment() {
+        when(salaryOptionService.getSalaryOptionList(false)).thenReturn(Arrays.asList(
+                salaryOption(10101,10,"基本工资",true,true),salaryOption(10901,10,"批准工资差额",true,true)));
+        HrmSalaryMonthEmployeeRecordDO record=randomMonthEmployeeRecord(2001L,1001L).setEntityId(10L)
+                .setTaxPaymentDate(LocalDate.of(2026,10,15));
+        HrmSalaryTaxRuleDO rule=HrmSalaryTaxRuleDO.builder().type(HrmSalaryTaxTypeEnum.SALARY.getType())
+                .taxEnabled(true).threshold(BigDecimal.ZERO).decimalScale(2).build();
+        when(salaryTaxRuleService.getSalaryTaxRuleList()).thenReturn(Collections.singletonList(rule));
+        when(retroService.amount(2001L,1001L)).thenReturn(new BigDecimal("1500"));
+        cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxWithholdingService.Source source=
+                new cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxWithholdingService.Source()
+                .setCurrentIncome(new BigDecimal("11500")).setCurrentSocialDeduction(BigDecimal.ZERO)
+                .setAdditionalDeduction(BigDecimal.ZERO).setDeductionValues(Collections.emptyMap())
+                .setPaid(new cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxCashLedgerVO()
+                  .setIncome(BigDecimal.ZERO).setBasicDeduction(BigDecimal.ZERO).setSocialDeduction(BigDecimal.ZERO).setWithheld(BigDecimal.ZERO))
+                .setQuote(new cn.iocoder.yudao.module.hrm.service.payroll.PayrollTaxPolicyEngine.Quote()
+                  .setBasicDeduction(new BigDecimal("5000")).setSalaryTaxable(new BigDecimal("6500"))
+                  .setCumulativeSalaryTax(new BigDecimal("195")).setCurrentWithholding(new BigDecimal("195")));
+        when(taxWithholding.calculateForBatch(eq(2001L),eq(10L),eq(1001L),any(),any(),any(),any())).thenReturn(source);
+        monthEmployeeRecordService.calculateMonthEmployeeRecordList(Collections.singletonList(record),
+                Collections.singletonMap(1001L,Collections.singletonList(salaryOptionValue(10101,"基本工资","10000"))),Collections.singletonMap(1001L,rule));
+        assertAmount("11500",record.getExpectedPaySalary());assertAmount("11305",record.getRealPaySalary());
+        verify(taxWithholding).calculateForBatch(eq(2001L),eq(10L),eq(1001L),any(),org.mockito.ArgumentMatchers.argThat(v->v.compareTo(new BigDecimal("11500"))==0),any(),any());
+        monthEmployeeRecordService.calculateMonthEmployeeRecord(record,Collections.emptyList());
+        assertAmount("11500",record.getExpectedPaySalary());
+        cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException(()->monthEmployeeRecordService.calculateMonthEmployeeRecord(record,
+                Collections.singletonList(salaryOptionValue(10901,"差额","999"))),cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INPUT_INVALID);
+        when(retroService.amount(2001L,1001L)).thenReturn(new BigDecimal("-500"));source.setCurrentIncome(new BigDecimal("9500"));
+        source.getQuote().setCurrentWithholding(new BigDecimal("135")).setSalaryTaxable(new BigDecimal("4500")).setCumulativeSalaryTax(new BigDecimal("135"));
+        monthEmployeeRecordService.calculateMonthEmployeeRecord(record,Collections.emptyList());
+        assertAmount("9500",record.getExpectedPaySalary());assertAmount("9365",record.getRealPaySalary());
     }
 
     @Test

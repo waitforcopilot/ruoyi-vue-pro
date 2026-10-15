@@ -84,6 +84,9 @@
         :closable="false"
       />
       <el-tabs class="mt-4">
+        <el-tab-pane v-if="checkPermi(['hrm:payroll:retro:query'])" lazy label="工资补发/收回">
+          <Retro :key="selected.id" :batch-id="selected.id!" :status="selected.status!" />
+        </el-tab-pane>
         <el-tab-pane v-if="checkPermi(['hrm:payroll:tax:query'])" lazy label="年终奖来源"
           ><Bonuses :key="selected.id" :batch-id="selected.id!" :status="selected.status!"
         /></el-tab-pane>
@@ -181,6 +184,7 @@
 </template>
 <script setup lang="ts">
 import Bonuses from './Bonuses.vue'
+import Retro from './Retro.vue'
 import { checkPermi } from '@/utils/permission'
 import { formatDate } from '@/utils/formatTime'
 import * as api from '@/api/hrm/payroll/batch'
@@ -190,6 +194,7 @@ const message = useMessage()
 const sourceClaims = ref<any[]>([])
 const claimKinds: Record<string, string> = {
   TAX_YEAR: '年度预扣串行占用',
+  RETRO_WAGE: '批准工资差额',
   BONUS_YEAR: '纳税人年度单独计税额度',
   WAGE_DAY: '计薪日期',
   OVERTIME: '认可加班',

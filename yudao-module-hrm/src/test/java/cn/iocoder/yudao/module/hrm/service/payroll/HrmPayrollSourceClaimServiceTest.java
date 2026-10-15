@@ -22,6 +22,13 @@ import org.springframework.context.annotation.Import;
 
 @Import(HrmPayrollSourceClaimService.class)
 class HrmPayrollSourceClaimServiceTest extends BaseDbUnitTest {
+    @org.springframework.boot.test.mock.mockito.MockBean
+    private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRetroService retroService;
+    @org.junit.jupiter.api.BeforeEach
+    void setupRetroSource() {
+        org.mockito.Mockito.when(retroService.amount(org.mockito.ArgumentMatchers.any(),org.mockito.ArgumentMatchers.any())).thenReturn(java.math.BigDecimal.ZERO);
+    }
+
   @Resource private HrmPayrollSourceClaimService service;
   @Resource private HrmPayrollSourceClaimMapper claims;
   @Resource private HrmPayrollRunMapper runs;
@@ -155,6 +162,23 @@ class HrmPayrollSourceClaimServiceTest extends BaseDbUnitTest {
     run.setInputSnapshot(JsonUtils.toJsonString(input));
     runs.updateById(run);
     return run;
+  }
+
+  @Test
+  void retroSourceIsReservedReleasedAndPermanentlyConsumedOnPayment() {
+    HrmSalaryMonthRecordDO b=batch(10L);
+    HrmPayrollRunDO r=run(b,Collections.singletonList(day(1)),false,false);
+    org.mockito.Mockito.when(retroService.sources(b.getId())).thenReturn(Collections.singletonList(
+      new HrmPayrollRetroDO().setId(1001L).setEmployeeId(employee).setDelta(new BigDecimal("-500"))));
+    service.reserve(b,r,1L);
+    assertTrue(claims.selectList().stream().anyMatch(c->"RETRO_WAGE".equals(c.getKind())&&"1001".equals(c.getSourceKey())&&"RESERVED".equals(c.getStatus())));
+    b.setStatus(15);batches.updateById(b);service.release(b.getId(),r.getId(),"未付款解冻",1L);
+    service.reserve(b,r,1L);service.paid(b.getId(),r.getId(),employee);
+    assertTrue(claims.selectList().stream().anyMatch(c->"RETRO_WAGE".equals(c.getKind())&&"PAID".equals(c.getStatus())));
+    HrmSalaryMonthRecordDO other=batch(20L);HrmPayrollRunDO next=run(other,Collections.singletonList(day(2)),false,false);
+    java.util.List<HrmPayrollRetroDO> source=retroService.sources(b.getId());
+    org.mockito.Mockito.when(retroService.sources(other.getId())).thenReturn(source);
+    assertServiceException(()->service.reserve(other,next,1L),PAYROLL_SOURCE_CLAIM_INVALID);
   }
 
   @Test
