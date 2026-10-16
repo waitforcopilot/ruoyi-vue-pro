@@ -166,13 +166,18 @@ public class HrmPayrollTaxCashLedgerService {
               || !"APPROVED".equals(correctedPolicy.getStatus())
               || !Objects.equals(
                   correction.getSourceDigest(), HrmPayrollTaxCorrectionService.digest(payment, run))
-              || correction.getIncome().compareTo(row.getIncome()) != 0
-              || correction.getSocialDeduction().compareTo(row.getSocialDeduction()) != 0
+              || correction.getIncome()==null||correction.getIncome().signum()<0
+              || correction.getSocialDeduction()==null||correction.getSocialDeduction().signum()<0
               || correction.getActualSalaryWithheld().compareTo(row.getWithheld()) != 0
               || correction.getSeparateBonusIncome().compareTo(row.getSeparateBonusIncome()) != 0
               || correction.getActualBonusWithheld().compareTo(row.getSeparateBonusTax()) != 0)
             throw new IllegalArgumentException("TAX_CORRECTION_STALE");
-          row.setBasicDeduction(correction.getBasicDeduction()).setCorrectionId(correction.getId());
+          if("DECLARE".equals(profile.getOpeningMode())&&!date.isAfter(profile.getOpeningAsOfDate())
+             &&(correction.getIncome().compareTo(row.getIncome())!=0||correction.getSocialDeduction().compareTo(row.getSocialDeduction())!=0||correction.getBasicDeduction().compareTo(row.getBasicDeduction())!=0)) {
+            cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxCorrectionReqVO confirmed=JsonUtils.parseObject(correction.getRequestSnapshot(),cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxCorrectionReqVO.class);
+            if(confirmed==null||!Boolean.TRUE.equals(confirmed.getOpeningAlreadyIncludesCorrection()))throw new IllegalArgumentException("TAX_CORRECTION_STALE");
+          }
+          row.setIncome(correction.getIncome()).setSocialDeduction(correction.getSocialDeduction()).setBasicDeduction(correction.getBasicDeduction()).setCorrectionId(correction.getId());
         }
       } catch (RuntimeException ex) {
         if ("TAX_SUBJECT_MISMATCH".equals(ex.getMessage()))

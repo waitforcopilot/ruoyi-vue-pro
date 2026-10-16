@@ -120,6 +120,13 @@ public class HrmPayrollTaxCorrectionService {
         || request.getBasicDeduction().compareTo(entitlement.getBasicDeduction()) > 0)
       throw exception(PAYROLL_TAX_INVALID);
     HrmPayrollTaxCorrectionDO prior = active(payment.getId());
+    if(!Objects.equals(request.getPriorCorrectionId(),prior==null?null:prior.getId()))throw exception(PAYROLL_VERSION_CONFLICT);
+    BigDecimal amendedIncome=request.getIncome()!=null?request.getIncome():prior==null?original.getIncome():prior.getIncome();
+    BigDecimal amendedSocial=request.getSocialDeduction()!=null?request.getSocialDeduction():prior==null?original.getSocialDeduction():prior.getSocialDeduction();
+    if("MERGED".equals(source.bonusMode())&&amendedIncome.compareTo(source.bonusAmount())<0)throw exception(PAYROLL_TAX_INVALID);
+    if("DECLARE".equals(profile.getOpeningMode())&&!payment.getValueDate().isAfter(profile.getOpeningAsOfDate())
+       &&(amendedIncome.compareTo(original.getIncome())!=0||amendedSocial.compareTo(original.getSocialDeduction())!=0||request.getBasicDeduction().compareTo(original.getBasicDeduction())!=0)
+       &&!Boolean.TRUE.equals(request.getOpeningAlreadyIncludesCorrection()))throw exception(PAYROLL_TAX_OPENING_CORRECTION_UNCONFIRMED);
     HrmPayrollTaxCorrectionDO row = new HrmPayrollTaxCorrectionDO();
     row.setPaymentId(payment.getId());
     row.setEntityId(b.getEntityId());
@@ -144,8 +151,8 @@ public class HrmPayrollTaxCorrectionService {
     row.setProfileVersion(profile.getVersion());
     row.setTaxRegistrationNumber(profile.getTaxRegistrationNumber());
     row.setTaxpayerKey(profile.getTaxpayerKey());
-    row.setIncome(original.getIncome());
-    row.setSocialDeduction(original.getSocialDeduction());
+    row.setIncome(amendedIncome);
+    row.setSocialDeduction(amendedSocial);
     row.setBasicDeduction(request.getBasicDeduction());
     row.setActualSalaryWithheld(original.getWithheld());
     row.setSeparateBonusIncome(original.getSeparateBonusIncome());
@@ -227,7 +234,10 @@ public class HrmPayrollTaxCorrectionService {
       if (!Objects.equals(row.getSourceDigest(), fresh.getSourceDigest())
           || !Objects.equals(row.getPolicyId(), fresh.getPolicyId())
           || !Objects.equals(row.getProfileId(), fresh.getProfileId())
-          || !Objects.equals(row.getPriorCorrectionId(), fresh.getPriorCorrectionId()))
+          || !Objects.equals(row.getPriorCorrectionId(), fresh.getPriorCorrectionId())
+          || row.getIncome().compareTo(fresh.getIncome())!=0
+          || row.getSocialDeduction().compareTo(fresh.getSocialDeduction())!=0
+          || row.getBasicDeduction().compareTo(fresh.getBasicDeduction())!=0)
         throw exception(PAYROLL_VERSION_CONFLICT);
       HrmPayrollTaxCorrectionDO prior = active(row.getPaymentId());
       if (prior != null) {

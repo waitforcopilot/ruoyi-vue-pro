@@ -1,6 +1,10 @@
 import request from '@/config/axios'
 export interface TaxCorrectionRequest {
   paymentId: number
+  priorCorrectionId?: number
+  income?: number
+  socialDeduction?: number
+  openingAlreadyIncludesCorrection?: boolean
   basicDeduction: number
   officialReference: string
   evidence: string

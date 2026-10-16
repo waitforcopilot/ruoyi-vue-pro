@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class HrmPayrollTaxCorrectionController {
   @Resource private HrmPayrollTaxCorrectionService service;
 
+  @cn.iocoder.yudao.framework.apilog.core.annotation.ApiAccessLog(requestEnable=false,responseEnable=false)
   @PostMapping("/preview")
   @PreAuthorize("@ss.hasPermission('hrm:payroll:tax:update')")
   public CommonResult<HrmPayrollTaxCorrectionDO> preview(
@@ -25,12 +26,14 @@ public class HrmPayrollTaxCorrectionController {
     return success(service.preview(r, getLoginUserId()));
   }
 
+  @cn.iocoder.yudao.framework.apilog.core.annotation.ApiAccessLog(requestEnable=false,responseEnable=false)
   @PostMapping("/submit")
   @PreAuthorize("@ss.hasPermission('hrm:payroll:tax:update')")
   public CommonResult<Long> submit(@Valid @RequestBody HrmPayrollTaxCorrectionReqVO r) {
     return success(service.submit(r, getLoginUserId()));
   }
 
+  @cn.iocoder.yudao.framework.apilog.core.annotation.ApiAccessLog(requestEnable=false,responseEnable=false)
   @PostMapping("/review")
   @PreAuthorize("@ss.hasPermission('hrm:payroll:tax:approve')")
   public CommonResult<Boolean> review(
@@ -39,6 +42,7 @@ public class HrmPayrollTaxCorrectionController {
     return success(true);
   }
 
+  @cn.iocoder.yudao.framework.apilog.core.annotation.ApiAccessLog(requestEnable=false,responseEnable=false)
   @GetMapping("/list")
   @PreAuthorize("@ss.hasPermission('hrm:payroll:tax:query')")
   public CommonResult<List<HrmPayrollTaxCorrectionDO>> list(@RequestParam Long paymentId) {

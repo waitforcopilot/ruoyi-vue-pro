@@ -1,12 +1,29 @@
 <template>
   <Dialog v-model="visible" title="已发工资税务来源更正" width="1000px">
     <el-alert
-      title="请依据正式更正资料核实减除费用及税务档案。已发工资、银行到账日期和实际预缴金额保留原始事实。"
+      title="请依据正式更正资料核实原到账年度的工资收入、专项扣除及减除费用。原工资、银行到账及实际预缴保留，员工退款和补退税另行结清。"
       type="info"
       :closable="false"
     />
     <el-form class="mt-16px" label-width="120px" :disabled="busy">
       <el-form-item label="支付明细">{{ draft.paymentId }}</el-form-item>
+      <el-form-item label="接续批准版本">{{ draft.priorCorrectionId || '首次更正' }}</el-form-item>
+      <el-form-item label="更正工资收入"
+        ><el-input-number v-model="draft.income" :min="0" :precision="2" /><span class="ml-2"
+          >留空沿用当前已核实收入，明确零请填0；不含单独计税奖金</span
+        ></el-form-item
+      >
+      <el-form-item label="更正专项扣除"
+        ><el-input-number v-model="draft.socialDeduction" :min="0" :precision="2" /><span
+          class="ml-2"
+          >留空沿用当前已核实个人缴费扣除</span
+        ></el-form-item
+      >
+      <el-form-item label="历史累计核实"
+        ><el-checkbox v-model="draft.openingAlreadyIncludesCorrection"
+          >如付款已被历史累计覆盖，已核实批准累计档案包含本次更正</el-checkbox
+        ></el-form-item
+      >
       <el-form-item label="更正减除费用"
         ><el-input-number v-model="draft.basicDeduction" :min="0" :precision="2"
       /></el-form-item>
@@ -60,6 +77,8 @@
         ><template #default="{ row }">{{ statuses[row.status] }}</template></el-table-column
       >
       <el-table-column label="正式资料" prop="officialReference" min-width="150" />
+      <el-table-column label="工资收入" prop="income" width="120" />
+      <el-table-column label="专项扣除" prop="socialDeduction" width="120" />
       <el-table-column label="减除费用" prop="basicDeduction" width="120" />
       <el-table-column label="原因" prop="reason" min-width="150" />
       <el-table-column label="复核意见" prop="reviewOpinion" min-width="150" />
@@ -114,7 +133,21 @@ async function load() {
   const id = draft.value.paymentId,
     seq = ++sequence
   const result = await api.list(id)
-  if (seq === sequence && draft.value.paymentId === id) rows.value = result
+  if (seq === sequence && draft.value.paymentId === id) {
+    rows.value = result
+    const active = result.find((r) => r.status === 'APPROVED')
+    if (draft.value.priorCorrectionId !== active?.id) {
+      draft.value = {
+        ...draft.value,
+        priorCorrectionId: active?.id,
+        income: active?.income,
+        socialDeduction: active?.socialDeduction,
+        basicDeduction: active?.basicDeduction ?? draft.value.basicDeduction,
+        openingAlreadyIncludesCorrection: false,
+        requestKey: crypto.randomUUID()
+      }
+    }
+  }
 }
 async function open(paymentId: number, basicDeduction: number) {
   sequence++
@@ -164,6 +197,7 @@ async function submit() {
     await api.submit(draft.value)
     message.success('已提交独立复核')
     await load()
+    draft.value.requestKey = crypto.randomUUID()
     prepared.value = undefined
     emit('changed')
   } finally {
