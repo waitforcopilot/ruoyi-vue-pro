@@ -94,6 +94,7 @@ import static cn.iocoder.yudao.module.hrm.util.HrmExcelUtils.parseAmount;
 public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordService {
     @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRetroService retroService;
     @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSupplementService supplements;
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInputIssueService inputIssues;
 
 
     private static final String MONTH_RECORD_TITLE_TEMPLATE = "%d年%d月工资表";
@@ -246,6 +247,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
                 throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_RETRO_INVALID);
             supplements.compute(id,cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId());return;
         }
+        inputIssues.assertResolved(id);
         LocalDateTime[] salaryTimes = LocalDateTimeUtils.getDateTimeRange(
                 monthRecord.getStartTime().toLocalDate(), monthRecord.getEndTime().toLocalDate());
         // 1.2 获得计薪周期内、且已分配薪资组的员工

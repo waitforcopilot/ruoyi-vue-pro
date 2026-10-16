@@ -77,6 +77,8 @@ import static org.mockito.Mockito.when;
  */
 @Import({HrmSalaryMonthRecordServiceImpl.class, cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollFormulaService.class})
 public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInputIssueService inputIssues;
+
  @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSupplementService supplements;
 
     @org.springframework.boot.test.mock.mockito.MockBean
@@ -132,6 +134,13 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
             .thenAnswer(call->monthRecordMapper.selectPage(call.getArgument(0)));
         org.mockito.Mockito.when(payrollScope.list(org.mockito.ArgumentMatchers.nullable(Integer.class)))
             .thenAnswer(call->monthRecordMapper.selectListByStatus(call.getArgument(0)));
+    }
+
+    @Test void unresolvedInputIssueBlocksTrialBeforeReplacingAnyResults() {
+        HrmSalaryMonthRecordDO b=buildMonthRecord(2026,7,5).setEntityId(1L);monthRecordMapper.insert(b);
+        org.mockito.Mockito.doThrow(cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INPUT_ISSUE_INVALID)).when(inputIssues).assertResolved(b.getId());
+        assertServiceException(()->monthRecordService.computeMonthRecord(b.getId(),false,false,Collections.emptyList(),Collections.emptyList(),Collections.emptyList()),cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INPUT_ISSUE_INVALID);
+        assertEquals(5,monthRecordMapper.selectById(b.getId()).getStatus());org.mockito.Mockito.verifyNoInteractions(monthEmployeeRecordService);
     }
 
     @Test

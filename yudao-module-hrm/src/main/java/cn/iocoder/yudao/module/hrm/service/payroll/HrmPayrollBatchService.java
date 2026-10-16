@@ -15,6 +15,7 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 public class HrmPayrollBatchService {
     @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.salary.slip.HrmSalarySlipSendRecordMapper slipSendMapper;
     @Resource private HrmPayrollRetroService retroService;
+    @Resource private HrmPayrollInputIssueService inputIssues;
     @Resource private HrmPayrollWorkService workService;
     @Resource private HrmPayrollScopeService scope;
     @Resource private HrmPayrollTaxWithholdingService taxWithholding;
@@ -122,6 +123,7 @@ public class HrmPayrollBatchService {
         }
         int target=nextStatus(batch.getStatus(),action);
         if("freeze".equals(action)){
+            inputIssues.assertResolved(batchId);
             sourceClaims.lockEmployees(run);
             HrmPayrollRunDO source=run;Set<Long> visited=new HashSet<>();
             while(source!=null){

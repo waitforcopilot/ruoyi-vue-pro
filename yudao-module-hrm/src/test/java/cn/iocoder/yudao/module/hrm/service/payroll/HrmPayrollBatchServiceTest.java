@@ -11,6 +11,8 @@ import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServic
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 @Import(HrmPayrollBatchService.class)
 class HrmPayrollBatchServiceTest extends BaseDbUnitTest {
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInputIssueService inputIssues;
+
     @org.springframework.boot.test.mock.mockito.MockBean
     private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRetroService retroService;
     @org.junit.jupiter.api.BeforeEach
@@ -29,6 +31,13 @@ class HrmPayrollBatchServiceTest extends BaseDbUnitTest {
     @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInsurancePolicyService payrollInsurancePolicies;
     @Resource private HrmPayrollBatchService service;
     @Resource private HrmSalaryMonthRecordMapper mapper;
+    @Test void unresolvedInputIssueBlocksFreezeBeforeReservingAnySources() {
+        HrmSalaryMonthRecordDO b=new HrmSalaryMonthRecordDO().setEntityId(10L).setYear(2026).setMonth(10).setStatus(11);mapper.insert(b);
+        Long run=service.snapshot(b.getId(),Collections.emptyMap(),Collections.emptyMap(),Collections.emptyList(),1L);mapper.updateById(new HrmSalaryMonthRecordDO().setId(b.getId()).setStatus(14));
+        org.mockito.Mockito.doThrow(cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception(PAYROLL_INPUT_ISSUE_INVALID)).when(inputIssues).assertResolved(b.getId());
+        assertServiceException(()->service.transition(b.getId(),run,"freeze","仍有缺口",3L),PAYROLL_INPUT_ISSUE_INVALID);assertEquals(14,mapper.selectById(b.getId()).getStatus());org.mockito.Mockito.verifyNoInteractions(sourceClaims);
+    }
+
     @Test void explicitPaymentPlanIsAuditedAndOldRunCannotApproveChangedDate() {
         HrmSalaryMonthRecordDO batch = new HrmSalaryMonthRecordDO().setEntityId(10L).setYear(2026).setMonth(12).setStatus(11);
         mapper.insert(batch);

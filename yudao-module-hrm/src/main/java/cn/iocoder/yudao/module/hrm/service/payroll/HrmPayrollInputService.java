@@ -501,30 +501,19 @@ public class HrmPayrollInputService {
             .orderByDesc(HrmPayrollInputDO::getId));
   }
 
-  public List<Readiness> readiness(Long batchId, Long actor) {
-    HrmSalaryMonthRecordDO b = batch(batchId, "READ", actor, false);
-    List<Readiness> result = new ArrayList<>();
-    for (HrmEmployeeDO e : roster(b))
-      for (String kind : KINDS) {
-        Readiness r = new Readiness();
-        r.setEmployeeId(e.getId());
-        r.setEmployeeName(e.getName());
-        r.setJobNumber(e.getJobNumber());
-        r.setKind(kind);
-        HrmPayrollInputDO row = latest(batchId, e.getId(), kind);
-        r.setInputId(row == null ? null : row.getId());
-        r.setStatus(row == null ? "MISSING" : row.getStatus());
-        r.setReason(row == null ? "尚未明确来源及零值/导入/同步状态" : row.getEvidence());
-        if (row != null && "APPROVED".equals(row.getStatus()))
-          try {
-            validate(b, e, row);
-          } catch (cn.iocoder.yudao.framework.common.exception.ServiceException ex) {
-            r.setStatus("STALE");
-            r.setReason(ex.getMessage());
-          }
-        result.add(r);
-      }
-    return result;
+  private Readiness describe(HrmSalaryMonthRecordDO b,HrmEmployeeDO e,String kind) {
+    Readiness r=new Readiness();r.setEmployeeId(e.getId());r.setEmployeeName(e.getName());r.setJobNumber(e.getJobNumber());r.setKind(kind);
+    HrmPayrollInputDO row=latest(b.getId(),e.getId(),kind);r.setInputId(row==null?null:row.getId());r.setStatus(row==null?"MISSING":row.getStatus());r.setReason(row==null?"尚未明确来源及零值/导入/同步状态":row.getEvidence());
+    if(row!=null&&"APPROVED".equals(row.getStatus()))try{validate(b,e,row);}catch(cn.iocoder.yudao.framework.common.exception.ServiceException ex){r.setStatus("STALE");r.setReason(ex.getMessage());}
+    return r;
+  }
+  public List<Readiness> readiness(Long batchId,Long actor) {
+    HrmSalaryMonthRecordDO b=batch(batchId,"READ",actor,false);List<Readiness> result=new ArrayList<>();
+    for(HrmEmployeeDO e:roster(b))for(String kind:KINDS)result.add(describe(b,e,kind));return result;
+  }
+  public Readiness readiness(Long batchId,Long employeeId,String kind,Long actor) {
+    HrmSalaryMonthRecordDO b=batch(batchId,"READ",actor,false);if(!KINDS.contains(kind))throw exception(PAYROLL_INPUT_INVALID);
+    HrmEmployeeDO employee=roster(b).stream().filter(e->Objects.equals(e.getId(),employeeId)).findFirst().orElseThrow(()->exception(PAYROLL_INPUT_INVALID));return describe(b,employee,kind);
   }
 
   public Map<Long, Map<String, HrmPayrollInputDO>> forPayroll(
