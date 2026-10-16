@@ -26,6 +26,7 @@ public class HrmPayrollPaymentService {
   @Resource private HrmPayrollPaymentMapper paymentMapper;
   @Resource private HrmPayrollScopeService scope;
   @Resource private HrmPayrollSourceClaimService sourceClaims;
+  @Resource private HrmPayrollOffsetService offsets;
   @Resource private HrmPayrollPaymentReceiptMapper receiptMapper;
   @Resource private HrmSalaryMonthRecordMapper batchMapper;
   @Resource private HrmPayrollRunMapper runMapper;
@@ -158,6 +159,7 @@ public class HrmPayrollPaymentService {
         .setZeroSettlementTime(java.time.LocalDateTime.now(java.time.ZoneId.of("Asia/Shanghai")));
     paymentMapper.updateById(payment);
     sourceClaims.paid(batch.getId(), run.getId(), payment.getEmployeeId());
+    offsets.consume(payment.getId(),actor);
     Map<String, Object> audit = new LinkedHashMap<>();
     audit.put("paymentId", payment.getId());
     audit.put("date", payment.getValueDate());
@@ -368,6 +370,7 @@ public class HrmPayrollPaymentService {
               .set(
                   HrmPayrollPaymentDO::getValueDate,
                   "SUCCESS".equals(row.getStatus()) ? row.getValueDate() : null));
+      if("SUCCESS".equals(row.getStatus()))offsets.consume(payment.getId(),actor);
     }
     Long runId = payments.values().iterator().next().getRunId();
     HrmPayrollBatchEventDO event = new HrmPayrollBatchEventDO();

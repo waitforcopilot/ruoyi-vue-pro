@@ -85,6 +85,7 @@ import static cn.iocoder.yudao.module.hrm.enums.LogRecordConstants.HRM_SALARY_MO
 @Validated
 public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEmployeeRecordService {
     @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollOffsetService offsets;
 
     private static final Set<Integer> EXPECTED_PAY_PARENT_CODES = HrmSalaryOptionCodeEnum.EXPECTED_PAY_PARENT_CODES;
     private static final Integer WITHHOLDING_PARENT_CODE = 100;
@@ -433,6 +434,15 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
                 appendComputedValue(values,10901,"批准工资补发/收回",retro);
             }
         }
+        if(employeeRecord.getEntityId()!=null){
+            for(Integer code:Arrays.asList(150901,160901))if(getOptionValue(values,code).signum()!=0)throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_OFFSET_INVALID);
+            Map<Integer,BigDecimal> settlementValues=offsets.values(employeeRecord.getMonthRecordId(),employeeRecord.getEmployeeId(),cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId());
+            for(Map.Entry<Integer,BigDecimal> entry:settlementValues.entrySet()){
+                HrmSalaryOptionDO option=optionMap.get(entry.getKey());int parent=entry.getKey()/1000,type=parent==150?1:2;
+                if(option==null||!Objects.equals(option.getParentCode(),parent)||!Objects.equals(option.getType(),type)||!Boolean.FALSE.equals(option.getTaxEnabled())||Boolean.FALSE.equals(option.getEnabled()))throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_OFFSET_INVALID);
+                appendComputedValue(values,entry.getKey(),option.getName(),entry.getValue());
+            }
+        }
         values = payrollFormulaService.calculate(values, optionMap,
                 employeeRecord.getFormulaDate() == null ? java.time.LocalDate.of(employeeRecord.getYear(), employeeRecord.getMonth(), 1) : employeeRecord.getFormulaDate(),
                 employeeRecord.getSalaryGroupId(), employeeRecord.getActualWorkDay(), employeeRecord.getNeedWorkDay());
@@ -461,6 +471,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
             employeeRecord.setTaxPaymentDate(date).setTaxSourceSnapshot(cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(taxSource));
         }
         SalaryComputeResult result = computeSalary(values, optionMap, taxRule,taxSource);
+        if(employeeRecord.getEntityId()!=null&&result.getRealPaySalary().signum()<0&&(getOptionValue(values,150901).signum()!=0||getOptionValue(values,160901).signum()!=0))throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_OFFSET_INVALID);
         return employeeRecord.setExpectedPaySalary(result.getExpectedPaySalary())
                 .setTaxableSalary(result.getTaxableSalary()).setPersonalTax(result.getPersonalTax())
                 .setRealPaySalary(result.getRealPaySalary())
@@ -780,7 +791,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
             valueMap.put(value.getCode(), value);
         }
         // Rebuild the approved bonus before formulas; prior computed earnings are not raw inputs.
-        if(governed) {valueMap.remove(140101);valueMap.remove(10901);}
+        if(governed) {valueMap.remove(140101);valueMap.remove(10901);valueMap.remove(150901);valueMap.remove(160901);}
         return valueMap.values().stream()
                 .sorted(Comparator.comparing(HrmSalaryOptionValueVO::getCode))
                 .collect(Collectors.toList());

@@ -23,6 +23,8 @@ import org.springframework.context.annotation.Import;
 
 @Import({HrmPayrollPaymentService.class, HrmPayrollBatchService.class})
 class HrmPayrollPaymentServiceTest extends BaseDbUnitTest {
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollOffsetService offsets;
+
  @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSalarySourceService salarySources;
 
  @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
@@ -59,6 +61,7 @@ class HrmPayrollPaymentServiceTest extends BaseDbUnitTest {
       payrollInsurancePolicies;
 
   @Resource private HrmPayrollPaymentService service;
+  @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollPaymentMapper paymentRecords;
   @Resource private HrmPayrollBatchService batches;
   @Resource private HrmSalaryMonthRecordMapper mapper;
   @MockBean private HrmEmployeeService employees;
@@ -66,6 +69,7 @@ class HrmPayrollPaymentServiceTest extends BaseDbUnitTest {
 
   @org.junit.jupiter.api.BeforeEach
   void configureScopedQueries() {
+    doAnswer(call->{cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollPaymentDO payment=paymentRecords.selectById((Long)call.getArgument(0));assertEquals("SUCCESS",payment.getStatus());assertNotNull(payment.getValueDate());if(payment.getAmount().signum()==0){assertNotNull(payment.getZeroSettlementReference());assertNotNull(payment.getZeroSettlementEvidence());}return null;}).when(offsets).consume(anyLong(),any());
     org.mockito.Mockito.when(
             payrollScope.page(
                 org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.anyBoolean()))
@@ -107,6 +111,8 @@ class HrmPayrollPaymentServiceTest extends BaseDbUnitTest {
     assertEquals(
         receipt, service.reconcileFile(batch.getId(), "bank-copy.xlsx", "checksum-v1", rows, 3L));
     assertEquals(1, service.receipts(batch.getId()).size());
+    verify(offsets,times(1)).consume(rows.get(0).getId(),3L);
+    verify(offsets,never()).consume(rows.get(1).getId(),3L);
     assertNull(service.receipts(batch.getId()).get(0).getDetails());
     assertEquals(16, mapper.selectById(batch.getId()).getStatus());
     assertServiceException(() -> service.retry(rows.get(0).getId(), 3L), PAYROLL_PAYMENT_INVALID);
@@ -121,7 +127,9 @@ class HrmPayrollPaymentServiceTest extends BaseDbUnitTest {
     retries.get(0).setValueDate(java.time.LocalDate.of(2026, 10, 2));
     service.reconcile(batch.getId(), retries, 3L);
     assertEquals(17, mapper.selectById(batch.getId()).getStatus());
+    verify(offsets,times(1)).consume(retries.get(0).getId(),3L);
     service.reconcile(batch.getId(), retries, 3L);
+    verify(offsets,times(1)).consume(retries.get(0).getId(),3L);
     assertTrue(service.list(batch.getId()).get(0).getBankAccount().startsWith("****"));
     assertNull(service.list(batch.getId()).get(1).getFailureReason());
     batches.transition(batch.getId(), run, "archive", "财务台账已核对", 3L);
@@ -251,6 +259,7 @@ class HrmPayrollPaymentServiceTest extends BaseDbUnitTest {
     service.settleZero(
         ids[2], java.time.LocalDate.of(2026, 10, 1), "ZERO-2026-10", "核对正式会计结算凭据及日期", 3L);
     verify(sourceClaims, times(1)).paid(ids[0], ids[1], 1L);
+    verify(offsets,times(1)).consume(ids[2],3L);
   }
 
   @Test

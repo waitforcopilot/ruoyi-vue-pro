@@ -22,6 +22,8 @@ public class HrmPayrollTaxCashLedgerVO {
     private Long paymentId, batchId, runId, employeeId;
     private Long correctionId;
     private Long taxSettlementId;
+    @com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+    private Long payrollOffsetId;
     private Integer taxOriginYear;
     private Integer taxOriginMonth;
     private String taxSettlementMode;

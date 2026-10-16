@@ -71,7 +71,7 @@ class HrmPayrollTaxWithholdingServiceTest extends BaseDbUnitTest {
             .setSocialDeduction(money("10000"))
             .setBasicDeduction(money("45000"))
             .setWithheld(money("1000"));
-    when(cash.forApprovedPayroll(eq(10L), eq(1L), eq(2026), any())).thenReturn(ledger);
+    when(cash.forApprovedPayrollForBatch(eq(10L), eq(1L), eq(2026), any(),any())).thenReturn(ledger);
     when(employment.forApprovedPayroll(10L, 1L, payDate))
         .thenReturn(
             new PayrollTaxEmploymentEngine.Result()

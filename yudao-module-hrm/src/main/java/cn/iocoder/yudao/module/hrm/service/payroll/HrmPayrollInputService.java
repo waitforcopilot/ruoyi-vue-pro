@@ -344,9 +344,9 @@ public class HrmPayrollInputService {
     } else if ("CUMULATIVE_TAX".equals(r.getKind()) && "CASH".equals(r.getMode())) {
       LocalDate paymentDate=b.getExpectedPaymentDate();
       if(paymentDate==null) throw exception(PAYROLL_INPUT_INVALID);
-      LocalDate today=LocalDate.now(ZoneId.of("Asia/Shanghai")), asOf=paymentDate.isAfter(today)?today:paymentDate;
+      LocalDate today=LocalDate.now(ZoneId.of("Asia/Shanghai")), monthEnd=YearMonth.from(paymentDate).atEndOfMonth(), asOf=monthEnd.isAfter(today)?today:monthEnd;
       if(asOf.getYear()!=paymentDate.getYear()) throw exception(PAYROLL_INPUT_INVALID);
-      cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxCashLedgerVO ledger=cashLedger.forApprovedPayroll(b.getEntityId(),e.getId(),paymentDate.getYear(),asOf);
+      cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxCashLedgerVO ledger=cashLedger.forApprovedPayrollForBatch(b.getEntityId(),e.getId(),paymentDate.getYear(),asOf,b.getId());
       if(ledger==null || !ledger.isReady()) throw exception(PAYROLL_INPUT_INVALID);
       values.put("250101",ledger.getIncome());values.put("250102",ledger.getBasicDeduction());
       values.put("250103",ledger.getSocialDeduction());values.put("250105",ledger.getWithheld());

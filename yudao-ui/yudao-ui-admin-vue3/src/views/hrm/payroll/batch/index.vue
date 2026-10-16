@@ -102,6 +102,16 @@
           label="年终奖来源"
           ><Bonuses :key="selected.id" :batch-id="selected.id!" :status="selected.status!"
         /></el-tab-pane>
+        <el-tab-pane
+          v-if="!selected.parentBatchId && checkPermi(['hrm:payroll:offset:query'])"
+          lazy
+          label="工资退补税"
+          ><Offsets
+            :key="selected.id"
+            :batch-id="selected.id!"
+            :status="selected.status!"
+            @changed="offsetChanged"
+        /></el-tab-pane>
         <el-tab-pane label="核算版本与差异">
           <el-select v-model="selectedRunId" style="width: 300px"
             ><el-option
@@ -198,6 +208,7 @@
 import request from '@/config/axios'
 import Bonuses from './Bonuses.vue'
 import Retro from './Retro.vue'
+import Offsets from './Offsets.vue'
 import { checkPermi } from '@/utils/permission'
 import { formatDate } from '@/utils/formatTime'
 import * as api from '@/api/hrm/payroll/batch'
@@ -208,6 +219,7 @@ const sourceClaims = ref<any[]>([])
 const claimKinds: Record<string, string> = {
   TAX_YEAR: '年度预扣串行占用',
   RETRO_WAGE: '批准工资差额',
+  SETTLEMENT_OFFSET: '批准工资退补税',
   BONUS_YEAR: '纳税人年度单独计税额度',
   WAGE_DAY: '计薪日期',
   OVERTIME: '认可加班',
@@ -320,6 +332,13 @@ const savePlan = async () => {
 watch(visible, (shown) => {
   if (!shown) detailSequence++
 })
+const offsetChanged = async () => {
+  const id = selected.value?.id
+  await load()
+  const row = rows.value.find((r) => r.id === id)
+  if (row) await open(row)
+  else visible.value = false
+}
 const open = async (row: SalaryMonthRecordVO) => {
   const version = ++detailSequence
   plannedDate.value = row.expectedPaymentDate

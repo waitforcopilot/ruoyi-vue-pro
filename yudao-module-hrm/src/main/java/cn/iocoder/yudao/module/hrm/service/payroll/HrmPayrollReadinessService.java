@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.*;
 @Service public class HrmPayrollReadinessService {
  public static final List<String> KINDS=Collections.unmodifiableList(Arrays.asList("PAYMENT_PLAN","SALARY_GROUP","SALARY_INFO","INSURANCE","TAX_POLICY","TAX_PROFILE","ATTENDANCE","OVERTIME","DEDUCTIONS","CUMULATIVE_TAX"));
  public static String label(String kind) {
-  switch(kind){case "PAYMENT_PLAN":return "发放日期";case "SALARY_GROUP":return "薪资组/计税配置";case "SALARY_INFO":return "生效薪资";case "INSURANCE":return "社保公积金";case "TAX_POLICY":return "年度税务政策";case "TAX_PROFILE":return "年度税务资料";case "ATTENDANCE":return "考勤";case "OVERTIME":return "工时与加班";case "DEDUCTIONS":return "累计专项扣除";case "CUMULATIVE_TAX":return "已发税务累计";default:return "来源核实";}
+  switch(kind){case "PAYMENT_PLAN":return "发放日期";case "SALARY_GROUP":return "薪资组/计税配置";case "SALARY_INFO":return "生效薪资";case "INSURANCE":return "社保公积金";case "TAX_POLICY":return "年度税务政策";case "TAX_PROFILE":return "年度税务资料";case "ATTENDANCE":return "考勤";case "OVERTIME":return "工时与加班";case "DEDUCTIONS":return "累计专项扣除";case "CUMULATIVE_TAX":return "累计计税基数";default:return "来源核实";}
  }
  @Resource private HrmSalaryMonthRecordMapper batches;
  @Resource private HrmEmployeeMapper employees;

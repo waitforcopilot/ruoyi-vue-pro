@@ -95,10 +95,11 @@ public class HrmPayrollTaxWithholdingService {
         deductions.values(declaration).values().stream().reduce(BigDecimal.ZERO, BigDecimal::add);
     if (additional.compareTo(confirmedAdditional) != 0) throw exception(PAYROLL_TAX_INVALID);
     LocalDate today = LocalDate.now(ZoneId.of("Asia/Shanghai"));
-    LocalDate asOf = payDate.isAfter(today) ? today : payDate;
+    LocalDate monthEnd=java.time.YearMonth.from(payDate).atEndOfMonth();
+    LocalDate asOf = monthEnd.isAfter(today) ? today : monthEnd;
     if (asOf.getYear() != payDate.getYear()) throw exception(PAYROLL_TAX_INVALID);
     HrmPayrollTaxCashLedgerVO ledger =
-        cash.forApprovedPayroll(entityId, employeeId, payDate.getYear(), asOf);
+        cash.forApprovedPayrollForBatch(entityId, employeeId, payDate.getYear(), asOf,batchId);
     PayrollTaxEmploymentEngine.Result months =
         employment.forApprovedPayroll(entityId, employeeId, payDate);
     if (!ledger.isReady() || ledger.getBasicDeduction().compareTo(months.getBasicDeduction()) > 0)

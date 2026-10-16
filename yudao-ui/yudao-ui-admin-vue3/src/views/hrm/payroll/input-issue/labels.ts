@@ -8,7 +8,7 @@ export const labels: Record<string, string> = {
   ATTENDANCE: '考勤',
   OVERTIME: '工时与加班',
   DEDUCTIONS: '累计专项扣除',
-  CUMULATIVE_TAX: '已发税务累计'
+  CUMULATIVE_TAX: '累计计税基数'
 }
 export const states: Record<string, string> = {
   OPEN: '待补正',

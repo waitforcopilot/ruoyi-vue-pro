@@ -250,11 +250,11 @@ const kinds: Record<string, string> = {
   ATTENDANCE: '考勤及实际出勤',
   OVERTIME: '工时制度与加班',
   DEDUCTIONS: '专项附加扣除',
-  CUMULATIVE_TAX: '本主体历史累计预扣'
+  CUMULATIVE_TAX: '本批次累计计税基数'
 }
 const modes: Record<string, string> = {
   SYNC: '同步已核实来源',
-  CASH: '按计划发放年度同步已发现金来源',
+  CASH: '现金年度累计基数（含本批次批准退补税）',
   ZERO: '确认无发生额',
   IMPORT: '提供完整导入数据'
 }

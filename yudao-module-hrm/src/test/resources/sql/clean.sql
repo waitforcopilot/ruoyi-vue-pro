@@ -135,3 +135,5 @@ DELETE FROM hrm_payroll_input_issue_event;
 DELETE FROM "hrm_payroll_config_guard";
 DELETE FROM "hrm_payroll_wage_recovery_event";
 DELETE FROM "hrm_payroll_wage_recovery";
+DELETE FROM "hrm_payroll_offset_event";
+DELETE FROM "hrm_payroll_offset";

@@ -94,6 +94,7 @@ import static cn.iocoder.yudao.module.hrm.util.HrmExcelUtils.parseAmount;
 @Validated
 public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordService {
     @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollOffsetService offsets;
     @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSalarySourceService salarySources;
     @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRetroService retroService;
     @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSupplementService supplements;
@@ -252,6 +253,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
             supplements.compute(id,cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId());return;
         }
         inputIssues.assertResolved(id);
+        offsets.assertReady(id);
         LocalDateTime[] salaryTimes = LocalDateTimeUtils.getDateTimeRange(
                 monthRecord.getStartTime().toLocalDate(), monthRecord.getEndTime().toLocalDate());
         // 1.2 获得计薪周期内、且已分配薪资组的员工
@@ -262,6 +264,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
         if(monthRecord.getEntityId()!=null && (CollUtil.isNotEmpty(attendanceRows)||CollUtil.isNotEmpty(additionalDeductionRows)||CollUtil.isNotEmpty(cumulativeTaxRows)))
             throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_INPUT_INVALID);
         payrollEmployees = filterList(payrollEmployees, employee -> salaryGroupMap.containsKey(employee.getId()));
+        offsets.assertEmployees(id,convertSet(payrollEmployees,HrmEmployeeDO::getId),cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId());
 
         // 2. 加载工资项、考勤、社保和导入数据
         List<HrmSalaryOptionDO> optionList = salaryOptionService.getSalaryOptionList(false);
@@ -386,6 +389,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
         Map<String, Object> inputSnapshot = new LinkedHashMap<>();
         if(monthRecord.getEntityId()!=null) inputSnapshot.put("retroSources",retroService.sources(id));
         inputSnapshot.put("entityScope",payrollScopeService.snapshot(monthRecord));
+        inputSnapshot.put("settlementOffsets",offsets.sources(id,cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId()));
         inputSnapshot.put("entityPayrollDates",entityPayrollDates);
         inputSnapshot.put("salaryValues", employeeOptionValueMap);
         inputSnapshot.put("employees", payrollEmployees);

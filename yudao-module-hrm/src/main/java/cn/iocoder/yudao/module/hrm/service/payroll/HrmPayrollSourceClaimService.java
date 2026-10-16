@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class HrmPayrollSourceClaimService {
   @Resource private HrmPayrollSourceClaimMapper claims;
+  @Resource private HrmPayrollOffsetService offsets;
   @Resource private HrmPayrollRetroService retroService;
   @Resource private HrmPayrollLegalEntityMapper legalEntities;
   @Resource private HrmPayrollTaxWithholdingService taxWithholding;
@@ -278,6 +279,14 @@ public class HrmPayrollSourceClaimService {
                 source.getProfile().getTaxpayerKey(), source.getExpectedPaymentDate().getYear()),
             source.bonusAmount());
       }
+    }
+    offsets.validateInputSnapshot(base.getInputSnapshot(),batch.getId(),cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId());
+    Set<Long> salaryEmployees=new HashSet<>();for(HrmSalaryMonthEmployeeRecordDO row:JsonUtils.parseArray(latest.getResultSnapshot(),HrmSalaryMonthEmployeeRecordDO.class))salaryEmployees.add(row.getEmployeeId());
+    List<HrmPayrollOffsetService.Source> settlementSources=input.get("settlementOffsets")==null?Collections.emptyList():JsonUtils.parseArray(input.get("settlementOffsets").toString(),HrmPayrollOffsetService.Source.class);
+    for(HrmPayrollOffsetService.Source source:settlementSources){if(!salaryEmployees.contains(source.getEmployeeId())||!Objects.equals(source.getBatchId(),batch.getId())||!Objects.equals(source.getEntityId(),batch.getEntityId()))throw exception(PAYROLL_OFFSET_INVALID);
+      add(out,batch,latest,source.getEmployeeId(),"SETTLEMENT_OFFSET",source.getId().toString(),source.getNetAmount());
+      HrmPayrollTaxWithholdingService.Source context=JsonUtils.parseObject(taxContexts(latest).get(source.getEmployeeId()),HrmPayrollTaxWithholdingService.Source.class);if(context==null||context.getProfile()==null||!Objects.equals(source.getTaxpayerKeyHash(),cn.hutool.crypto.digest.DigestUtil.sha256Hex(JsonUtils.toJsonString(context.getProfile().getTaxpayerKey()))))throw exception(PAYROLL_OFFSET_INVALID);
+      String prefix=cn.hutool.crypto.digest.DigestUtil.sha256Hex(batch.getEntityId()+":"+context.getProfile().getTaxpayerKey()+":"+source.getOriginYear());String key=prefix+":"+latest.getId();if(!out.containsKey("TAX_YEAR:"+key))add(out,batch,latest,source.getEmployeeId(),"TAX_YEAR",key,BigDecimal.ZERO);
     }
     return new ArrayList<>(out.values());
   }

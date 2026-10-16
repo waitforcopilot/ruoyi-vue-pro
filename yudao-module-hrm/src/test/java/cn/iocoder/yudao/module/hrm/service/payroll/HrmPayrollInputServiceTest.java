@@ -159,7 +159,7 @@ class HrmPayrollInputServiceTest extends BaseDbUnitTest {
         new cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxCashLedgerVO()
         .setReady(true).setIncome(new BigDecimal("10000")).setBasicDeduction(new BigDecimal("5000"))
         .setSocialDeduction(new BigDecimal("1000")).setWithheld(new BigDecimal("120"));
-    when(cashLedger.forApprovedPayroll(eq(entityId),eq(employeeId),eq(2026),any())).thenReturn(ledger);
+    when(cashLedger.forApprovedPayrollForBatch(eq(entityId),eq(employeeId),eq(2026),any(),any())).thenReturn(ledger);
     Long id=approved(request(employeeId,"CUMULATIVE_TAX","CASH"));
     assertEquals(new BigDecimal("120"),service.values(records.selectById(id)).get("250105"));
     ledger.setWithheld(new BigDecimal("150"));

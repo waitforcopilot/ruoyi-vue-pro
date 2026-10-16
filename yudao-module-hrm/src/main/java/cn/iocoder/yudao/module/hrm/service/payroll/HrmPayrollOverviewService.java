@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.*;
  @Resource private HrmPayrollReadinessService readiness;
  @Resource private HrmPayrollCostService costs;
  @Resource private HrmPayrollSupplementService supplements;
+ @Resource private HrmPayrollOffsetService offsets;
  @Data public static class Summary {
   private Long batchId,entityId,parentBatchId,runId,costReportId;
   private String title,batchKey,sourceMode,sourceStatus,costStatus;
@@ -55,6 +56,7 @@ import org.springframework.transaction.annotation.*;
   HrmPayrollRunDO run=latest(b.getId());
   if(run==null){out.setSourceStatus("尚无不可变核算版本，金额未知").setCostStatus("尚无冻结工资来源");return out;}
   out.setRunId(run.getId()).setVersion(run.getVersion()).setExpectedPaymentDate(run.getExpectedPaymentDate()).setSourceStatus(frozen(b)?"金额来自冻结核算快照":"金额来自最新试算；当前来源须另行检查");
+  if(Objects.equals(b.getStatus(),5))out.setSourceStatus("输入已修改，金额为上次试算，须重新核算");
   List<HrmSalaryMonthEmployeeRecordDO> rows=JsonUtils.parseArray(run.getResultSnapshot(),HrmSalaryMonthEmployeeRecordDO.class);if(rows==null||rows.isEmpty())throw exception(PAYROLL_VERSION_CONFLICT);
   BigDecimal gross=BigDecimal.ZERO,tax=BigDecimal.ZERO,net=BigDecimal.ZERO;BigDecimal[] fees={BigDecimal.ZERO,BigDecimal.ZERO,BigDecimal.ZERO,BigDecimal.ZERO};Set<Long> seen=new HashSet<>();boolean feesKnown=true;int count=0;
   for(HrmSalaryMonthEmployeeRecordDO row:rows){if(row.getEmployeeId()==null||!seen.add(row.getEmployeeId())||row.getExpectedPaySalary()==null||row.getPersonalTax()==null||row.getRealPaySalary()==null)throw exception(PAYROLL_VERSION_CONFLICT);if(selected!=null&&!selected.contains(row.getEmployeeId()))continue;count++;gross=gross.add(row.getExpectedPaySalary());tax=tax.add(row.getPersonalTax());net=net.add(row.getRealPaySalary());
@@ -109,6 +111,10 @@ import org.springframework.transaction.annotation.*;
    }
    else for(String kind:HrmPayrollReadinessService.KINDS){HrmPayrollReadinessService.Signal signal=frozen(b)?historical(b,run,original,salaries.get(id),kind):e==null?new HrmPayrollReadinessService.Signal().setBatchId(batchId).setEmployeeId(id).setKind(kind).setStatus("STALE_SCOPE").setReady(false).setReason("员工不再属于当前计薪范围，须重新核算"):readiness.inspect(batchId,id,kind,actor);signal.setEmployeeName(e==null?null:e.getName()).setJobNumber(e==null?null:e.getJobNumber());out.getSignals().add(signal);}
   }
+  if(!frozen(b)&&"REGULAR".equals(b.getBatchKey())){
+   Map<Long,List<HrmPayrollOffsetDO>> grouped=new LinkedHashMap<>();for(HrmPayrollOffsetDO row:offsets.list(batchId,actor))if(Arrays.asList("PENDING","APPROVED").contains(row.getStatus())&&(selected==null||selected.contains(row.getEmployeeId())))grouped.computeIfAbsent(row.getEmployeeId(),key->new ArrayList<>()).add(row);
+   for(Map.Entry<Long,List<HrmPayrollOffsetDO>> group:grouped.entrySet()){boolean ready=group.getValue().stream().allMatch(row->"APPROVED".equals(row.getStatus())&&Boolean.TRUE.equals(row.getSourceFresh()));HrmEmployeeDO employee=people.get(group.getKey());out.getSignals().add(new HrmPayrollReadinessService.Signal().setBatchId(batchId).setEmployeeId(group.getKey()).setEmployeeName(employee==null?null:employee.getName()).setKind("SETTLEMENT_OFFSETS").setReady(ready).setStatus(ready?"READY":"MISSING").setReason(ready?"批准工资退补税来源已核实，累计输入须与本批次基数一致":"工资退补税分配待审或来源失效，阻断核算"));}
+  }else if(frozen(b)&&original!=null){Object savedOffsets=map(original.getInputSnapshot()).get("settlementOffsets");if(savedOffsets instanceof List)for(HrmPayrollOffsetService.Source source:JsonUtils.parseArray(JsonUtils.toJsonString(savedOffsets),HrmPayrollOffsetService.Source.class))if(selected==null||selected.contains(source.getEmployeeId()))out.getSignals().add(new HrmPayrollReadinessService.Signal().setBatchId(batchId).setEmployeeId(source.getEmployeeId()).setKind("SETTLEMENT_OFFSETS").setReady(true).setStatus("SNAPSHOT_PRESENT").setReason("冻结版本保留的批准工资退补税分配，不改判当前来源"));}
   out.setSignalCount(out.getSignals().size());out.setReadyCount((int)out.getSignals().stream().filter(HrmPayrollReadinessService.Signal::isReady).count());return out;
  }
 }

@@ -1,0 +1,104 @@
+package cn.iocoder.yudao.module.hrm.service.payroll;
+import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
+import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
+import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
+import cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX;
+import cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollOffsetReqVO;
+import cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.*;
+import cn.iocoder.yudao.module.hrm.dal.dataobject.employee.info.HrmEmployeeDO;
+import cn.iocoder.yudao.module.hrm.dal.dataobject.salary.config.*;
+import cn.iocoder.yudao.module.hrm.dal.dataobject.salary.monthrecord.*;
+import cn.iocoder.yudao.module.hrm.dal.mysql.payroll.*;
+import cn.iocoder.yudao.module.hrm.dal.mysql.employee.info.HrmEmployeeMapper;
+import cn.iocoder.yudao.module.hrm.dal.mysql.salary.monthrecord.HrmSalaryMonthRecordMapper;
+import cn.iocoder.yudao.module.hrm.service.salary.config.*;
+import java.math.BigDecimal;
+import java.time.*;
+import java.util.*;
+import javax.annotation.Resource;
+import javax.validation.Validator;
+import lombok.Data;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.*;
+/** After-tax settlement, prospectively included only in its designated payroll's tax baseline. */
+@Service public class HrmPayrollOffsetService {
+ @Resource private HrmPayrollOffsetMapper offsets;
+ @Resource private HrmPayrollOffsetEventMapper events;
+ @Resource private HrmPayrollBatchEventMapper batchEvents;
+ @Resource private HrmPayrollTaxSettlementMapper settlements;
+ @Resource private HrmPayrollTaxSettlementEventMapper taxEvents;
+ @Resource private HrmPayrollPaymentMapper payments;
+ @Resource private HrmPayrollRunMapper runs;
+ @Resource private HrmSalaryMonthRecordMapper batches;
+ @Resource private HrmEmployeeMapper employees;
+ @Resource private HrmPayrollScopeService scope;
+ @Resource private HrmPayrollEntityService entities;
+ @Resource private HrmPayrollTaxProfileService profiles;
+ @Resource private HrmPayrollTaxSettlementService taxSettlements;
+ @Resource private HrmSalaryGroupService groups;
+ @Resource private HrmSalaryTaxRuleService taxRules;
+ @Resource private HrmPayrollInputService inputs;
+ @Resource private Validator validator;
+ @Data public static class Source {
+  private Long id,batchId,entityId,employeeId,sourceId;
+  private Integer originYear;
+  private String sourceType,sourceDigest,taxpayerKeyHash;
+  private BigDecimal netAmount;
+ }
+ private LocalDateTime now(){return LocalDateTime.now(ZoneId.of("Asia/Shanghai"));}
+ private void text(String value){if(value==null||value.trim().isEmpty()||value.length()>1000)throw exception(PAYROLL_OFFSET_INVALID);}
+ private boolean editable(HrmSalaryMonthRecordDO b){return b!=null&&"REGULAR".equals(b.getBatchKey())&&Arrays.asList(5,11).contains(b.getStatus());}
+ private HrmSalaryMonthRecordDO batch(Long id,String action,Long actor,boolean lock){HrmSalaryMonthRecordDO b=batches.selectById(id);if(b==null)throw exception(PAYROLL_OFFSET_INVALID);scope.check(b,"READ",actor);scope.check(b,action,actor);if(b.getEntityId()==null||!"REGULAR".equals(b.getBatchKey()))throw exception(PAYROLL_OFFSET_INVALID);if(lock){entities.lockApproved(b.getEntityId());b=batches.selectByIdForUpdate(id);}return b;}
+ private HrmPayrollOffsetDO get(Long id){HrmPayrollOffsetDO r=offsets.selectById(id);if(r==null)throw exception(PAYROLL_OFFSET_INVALID);return r;}
+ private String digest(Object value){return cn.hutool.crypto.digest.DigestUtil.sha256Hex(JsonUtils.toJsonString(value));}
+ public static String taxDigest(HrmPayrollTaxSettlementDO s){return cn.hutool.crypto.digest.DigestUtil.sha256Hex(JsonUtils.toJsonString(Arrays.asList(s.getId(),s.getFilingId(),s.getEntityId(),s.getEmployeeId(),s.getYear(),s.getMonth(),s.getTaxpayerKey(),s.getMode(),s.getKind(),s.getAmount().stripTrailingZeros().toPlainString(),s.getEmployeeAcknowledgement(),s.getEvidence(),s.getReviewedBy(),s.getReviewReason(),s.getAuthoritySnapshot())));}
+ private HrmPayrollTaxSettlementDO source(HrmPayrollOffsetDO r,Long actor){
+  if(!"TAX".equals(r.getSourceType()))throw exception(PAYROLL_OFFSET_INVALID);
+  HrmPayrollTaxSettlementDO s="CONSUMED".equals(r.getStatus())?settlements.selectById(r.getSourceId()):taxSettlements.approvedForPayroll(r.getSourceId(),actor);
+  if(s==null||!Objects.equals(s.getEntityId(),r.getEntityId())||s.getAmount()==null||s.getAmount().signum()<=0||!Arrays.asList("REFUND","RECOVERY").contains(s.getKind())||!Arrays.asList("RESIDENT_WAGE","SEPARATE_BONUS").contains(s.getMode()))throw exception(PAYROLL_OFFSET_INVALID);
+  if("CONSUMED".equals(r.getStatus())){HrmPayrollPaymentDO p=payments.selectById(r.getConsumedPaymentId());if(!"SETTLED".equals(s.getStatus())||p==null||!"SUCCESS".equals(p.getStatus())||!Objects.equals(p.getMonthRecordId(),r.getBatchId())||!Objects.equals(p.getEmployeeId(),r.getEmployeeId())||!Objects.equals(p.getValueDate(),s.getValueDate())||!Objects.equals(s.getBankReference(),"PAYROLL:"+p.getId()+":"+s.getId()))throw exception(PAYROLL_OFFSET_INVALID);}
+  return s;
+ }
+ private Source describe(HrmPayrollOffsetDO r,Long actor){
+  HrmPayrollTaxSettlementDO s=source(r,actor);if(!"CONSUMED".equals(r.getStatus())){HrmSalaryMonthRecordDO b=batches.selectById(r.getBatchId());if(b!=null&&Arrays.asList(5,11,12,13,14).contains(b.getStatus()))target(b,r.getEmployeeId(),s);}
+  String proof=taxDigest(s);BigDecimal net=HrmPayrollTaxSettlementService.signed(s).negate();if(!Objects.equals(r.getSourceDigest(),proof)||net.compareTo(r.getNetAmount())!=0)throw exception(PAYROLL_VERSION_CONFLICT);
+  return new Source().setId(r.getId()).setBatchId(r.getBatchId()).setEntityId(r.getEntityId()).setEmployeeId(r.getEmployeeId()).setSourceId(s.getId()).setSourceType("TAX").setOriginYear(s.getYear()).setTaxpayerKeyHash(digest(s.getTaxpayerKey())).setSourceDigest(proof).setNetAmount(net);
+ }
+ private void target(HrmSalaryMonthRecordDO b,Long employee,HrmPayrollTaxSettlementDO s){
+  if(b.getExpectedPaymentDate()==null||!scope.payrollDates(b).containsKey(employee)||inputs.roster(b).stream().noneMatch(person->Objects.equals(person.getId(),employee))||!YearMonth.from(b.getExpectedPaymentDate()).isAfter(YearMonth.of(s.getYear(),s.getMonth())))throw exception(PAYROLL_OFFSET_INVALID);
+  HrmEmployeeDO e=employees.selectById(employee);if(e==null)throw exception(PAYROLL_OFFSET_INVALID);HrmPayrollTaxProfileDO p=profiles.requireApproved(b.getEntityId(),employee,b.getExpectedPaymentDate().getYear());
+  if(!Objects.equals(p.getTaxpayerKey(),s.getTaxpayerKey())||!Boolean.TRUE.equals(p.getResidentThisYear()))throw exception(PAYROLL_OFFSET_INVALID);
+  HrmSalaryGroupDO g=groups.getEmployeeSalaryGroupMap(Collections.singletonList(e)).get(employee);HrmSalaryTaxRuleDO rule=g==null?null:taxRules.getSalaryTaxRuleMap(Collections.singleton(g.getTaxRuleId())).get(g.getTaxRuleId());if(rule==null||!Boolean.TRUE.equals(rule.getTaxEnabled())||!Objects.equals(rule.getType(),1))throw exception(PAYROLL_OFFSET_INVALID);
+ }
+ private void independent(HrmPayrollOffsetDO row,Long actor){HrmEmployeeDO target=employees.selectById(row.getEmployeeId());HrmPayrollTaxSettlementDO source=settlements.selectById(row.getSourceId());HrmEmployeeDO original=source==null?null:employees.selectById(source.getEmployeeId());if(actor==null||target==null||Objects.equals(actor,row.getSubmittedBy())||Objects.equals(actor,target.getUserId())||original!=null&&Objects.equals(actor,original.getUserId()))throw exception(PAYROLL_SELF_APPROVAL);}
+ private void event(HrmPayrollOffsetDO r,String action,String reason,Long actor){events.insert(new HrmPayrollOffsetEventDO().setOffsetId(r.getId()).setActorId(actor).setAction(action).setReason(reason).setSnapshot(JsonUtils.toJsonString(r)));}
+ private void dirty(HrmSalaryMonthRecordDO b,Long id,Long actor){if(!Objects.equals(b.getStatus(),5)){batches.updateById(new HrmSalaryMonthRecordDO().setId(b.getId()).setStatus(5));batchEvents.insert(new HrmPayrollBatchEventDO().setMonthRecordId(b.getId()).setAction("settlement_offset_inputs_changed").setActorId(actor).setFromStatus(b.getStatus()).setToStatus(5).setReason("工资退补税分配"+id+"变化，原试算保留并要求重新核算"));}}
+ @Transactional(rollbackFor=Exception.class,isolation=Isolation.READ_COMMITTED)
+ public Long create(HrmPayrollOffsetReqVO req,Long actor){if(actor==null||!validator.validate(req).isEmpty()||!"TAX".equals(req.getSourceType()))throw exception(PAYROLL_OFFSET_INVALID);HrmSalaryMonthRecordDO b=batch(req.getBatchId(),"MANAGE",actor,true);HrmPayrollOffsetDO replay=offsets.selectOne(HrmPayrollOffsetDO::getRequestKey,req.getRequestKey());String request=JsonUtils.toJsonString(req);if(replay!=null){if(!Objects.equals(replay.getSubmittedBy(),actor)||!Objects.equals(replay.getRequestSnapshot(),request))throw exception(PAYROLL_OFFSET_INVALID);return replay.getId();}if(!editable(b))throw exception(PAYROLL_OFFSET_INVALID);
+  HrmPayrollTaxSettlementDO s=taxSettlements.approvedForPayroll(req.getSourceId(),actor);if(!Objects.equals(s.getEntityId(),b.getEntityId()))throw exception(PAYROLL_OFFSET_INVALID);target(b,req.getEmployeeId(),s);
+  if(offsets.selectCount(new LambdaQueryWrapperX<HrmPayrollOffsetDO>().eq(HrmPayrollOffsetDO::getSourceType,"TAX").eq(HrmPayrollOffsetDO::getSourceId,s.getId()).in(HrmPayrollOffsetDO::getStatus,"PENDING","APPROVED","CONSUMED"))>0)throw exception(PAYROLL_OFFSET_INVALID);
+  HrmPayrollOffsetDO row=new HrmPayrollOffsetDO().setBatchId(b.getId()).setEntityId(b.getEntityId()).setEmployeeId(req.getEmployeeId()).setSourceType("TAX").setSourceId(s.getId()).setNetAmount(HrmPayrollTaxSettlementService.signed(s).negate()).setSourceDigest(taxDigest(s)).setStatus("PENDING").setEvidence(req.getEvidence()).setSubmittedBy(actor).setRequestKey(req.getRequestKey()).setRequestSnapshot(request);try{offsets.insert(row);}catch(org.springframework.dao.DuplicateKeyException conflict){throw exception(PAYROLL_OFFSET_INVALID);}event(row,"SUBMIT",req.getEvidence(),actor);dirty(b,row.getId(),actor);return row.getId();
+ }
+ @Transactional(rollbackFor=Exception.class,isolation=Isolation.READ_COMMITTED)
+ public void review(Long id,boolean approved,String reason,Long actor){text(reason);HrmPayrollOffsetDO candidate=get(id);HrmSalaryMonthRecordDO b=batch(candidate.getBatchId(),"REVIEW",actor,true);HrmPayrollOffsetDO r=offsets.selectOneForUpdate(HrmPayrollOffsetDO::getId,id);if(!editable(b)||!"PENDING".equals(r.getStatus()))throw exception(PAYROLL_OFFSET_INVALID);independent(r,actor);if(approved){HrmPayrollTaxSettlementDO s=source(r,actor);target(b,r.getEmployeeId(),s);describe(r,actor);}r.setStatus(approved?"APPROVED":"REJECTED").setReviewedBy(actor).setReviewReason(reason).setReviewedTime(now());offsets.updateById(r);event(r,approved?"APPROVE":"REJECT",reason,actor);}
+ @Transactional(rollbackFor=Exception.class,isolation=Isolation.READ_COMMITTED)
+ public void cancel(Long id,String reason,Long actor){text(reason);HrmPayrollOffsetDO candidate=get(id);HrmSalaryMonthRecordDO b=batch(candidate.getBatchId(),"MANAGE",actor,true);HrmPayrollOffsetDO r=offsets.selectOneForUpdate(HrmPayrollOffsetDO::getId,id);if(!editable(b)||!Arrays.asList("PENDING","APPROVED").contains(r.getStatus()))throw exception(PAYROLL_OFFSET_INVALID);r.setStatus("CANCELLED").setReviewReason(reason);offsets.updateById(r);event(r,"CANCEL",reason,actor);dirty(b,r.getId(),actor);}
+ public void assertReady(Long batch){if(offsets.selectCount(new LambdaQueryWrapperX<HrmPayrollOffsetDO>().eq(HrmPayrollOffsetDO::getBatchId,batch).eq(HrmPayrollOffsetDO::getStatus,"PENDING"))>0)throw exception(PAYROLL_OFFSET_INVALID);}
+ public List<Source> sources(Long batchId,Long actor){assertReady(batchId);List<Source> result=new ArrayList<>();for(HrmPayrollOffsetDO row:offsets.selectList(new LambdaQueryWrapperX<HrmPayrollOffsetDO>().eq(HrmPayrollOffsetDO::getBatchId,batchId).in(HrmPayrollOffsetDO::getStatus,"APPROVED","CONSUMED").orderByAsc(HrmPayrollOffsetDO::getId)))result.add(describe(row,actor));return result;}
+ public void assertEmployees(Long batchId,Set<Long> employees,Long actor){for(Source source:sources(batchId,actor))if(!employees.contains(source.getEmployeeId()))throw exception(PAYROLL_OFFSET_INVALID);}
+ public Map<Integer,BigDecimal> values(Long batchId,Long employee,Long actor){Map<Integer,BigDecimal> values=new TreeMap<>();for(Source source:sources(batchId,actor))if(Objects.equals(source.getEmployeeId(),employee)){int code=source.getNetAmount().signum()>0?150901:160901;values.merge(code,source.getNetAmount().abs(),BigDecimal::add);}return values;}
+ public void validateInputSnapshot(String input,Long batch,Long actor){Map<String,Object> map=JsonUtils.parseObject(input,Map.class);if(map.get("sourceRunId")!=null)return;Object saved=map.get("settlementOffsets");List<Source> current=sources(batch,actor);if(saved==null&&current.isEmpty())return;if(!(saved instanceof List)||!Objects.equals(JsonUtils.parseTree(JsonUtils.toJsonString(saved)),JsonUtils.parseTree(JsonUtils.toJsonString(current))))throw exception(PAYROLL_VERSION_CONFLICT);}
+ @Transactional(rollbackFor=Exception.class,isolation=Isolation.READ_COMMITTED)
+ public void consume(Long paymentId,Long actor){HrmPayrollPaymentDO payment=payments.selectById(paymentId);if(payment==null||!"SUCCESS".equals(payment.getStatus())||payment.getValueDate()==null||payment.getAmount()==null||payment.getAmount().signum()<0||payment.getAmount().signum()==0&&(payment.getZeroSettlementReference()==null||payment.getZeroSettlementEvidence()==null))throw exception(PAYROLL_OFFSET_INVALID);
+  HrmPayrollRunDO run=runs.selectById(payment.getRunId());if(run==null||!Objects.equals(run.getMonthRecordId(),payment.getMonthRecordId()))throw exception(PAYROLL_OFFSET_INVALID);
+  List<HrmSalaryMonthEmployeeRecordDO> wage=JsonUtils.parseArray(run.getResultSnapshot(),HrmSalaryMonthEmployeeRecordDO.class);long matched=wage.stream().filter(row->Objects.equals(row.getEmployeeId(),payment.getEmployeeId())&&row.getRealPaySalary()!=null&&row.getRealPaySalary().compareTo(payment.getAmount())==0).count();if(matched!=1)throw exception(PAYROLL_OFFSET_INVALID);
+  HrmPayrollRunDO base=run;Set<Long> visited=new HashSet<>();while(true){if(!visited.add(base.getId()))throw exception(PAYROLL_OFFSET_INVALID);Object parent=JsonUtils.parseObject(base.getInputSnapshot(),Map.class).get("sourceRunId");if(parent==null)break;if(!(parent instanceof Number))throw exception(PAYROLL_OFFSET_INVALID);HrmPayrollRunDO prior=runs.selectById(((Number)parent).longValue());if(prior==null||!Objects.equals(prior.getMonthRecordId(),run.getMonthRecordId())||prior.getVersion()>=base.getVersion())throw exception(PAYROLL_OFFSET_INVALID);base=prior;}
+  Object stored=JsonUtils.parseObject(base.getInputSnapshot(),Map.class).get("settlementOffsets");List<Source> saved=stored==null?Collections.emptyList():JsonUtils.parseArray(JsonUtils.toJsonString(stored),Source.class);Set<Long> expected=new HashSet<>();for(Source source:saved)if(Objects.equals(source.getEmployeeId(),payment.getEmployeeId()))expected.add(source.getId());
+  Set<Long> actual=new HashSet<>();for(HrmPayrollOffsetDO row:offsets.selectList(new LambdaQueryWrapperX<HrmPayrollOffsetDO>().eq(HrmPayrollOffsetDO::getBatchId,payment.getMonthRecordId()).eq(HrmPayrollOffsetDO::getEmployeeId,payment.getEmployeeId()).in(HrmPayrollOffsetDO::getStatus,"APPROVED","CONSUMED")))actual.add(row.getId());if(!expected.equals(actual))throw exception(PAYROLL_OFFSET_INVALID);
+  for(HrmPayrollOffsetDO candidate:offsets.selectList(new LambdaQueryWrapperX<HrmPayrollOffsetDO>().eq(HrmPayrollOffsetDO::getBatchId,payment.getMonthRecordId()).eq(HrmPayrollOffsetDO::getEmployeeId,payment.getEmployeeId()).in(HrmPayrollOffsetDO::getStatus,"APPROVED","CONSUMED"))){HrmPayrollOffsetDO row=offsets.selectOneForUpdate(HrmPayrollOffsetDO::getId,candidate.getId());if("CONSUMED".equals(row.getStatus())){if(!Objects.equals(row.getConsumedPaymentId(),paymentId))throw exception(PAYROLL_OFFSET_INVALID);describe(row,actor);continue;}describe(row,actor);HrmPayrollTaxSettlementDO s=settlements.selectOneForUpdate(HrmPayrollTaxSettlementDO::getId,row.getSourceId());if(row.getReviewedTime()==null||s.getReviewedTime()==null||payment.getValueDate().isBefore(row.getReviewedTime().toLocalDate())||payment.getValueDate().isBefore(s.getReviewedTime().toLocalDate()))throw exception(PAYROLL_OFFSET_INVALID);s.setStatus("SETTLED").setValueDate(payment.getValueDate()).setBankReference("PAYROLL:"+paymentId+":"+s.getId()).setBankEvidence("已批准工资抵扣"+row.getId()+(payment.getAmount().signum()==0?"；零实发核实付款":"；成功回盘付款")+paymentId+"；冻结运行"+payment.getRunId()).setConfirmedBy(actor).setConfirmedTime(now());settlements.updateById(s);taxEvents.insert(new HrmPayrollTaxSettlementEventDO().setSettlementId(s.getId()).setActorId(actor).setAction("SETTLE_PAYROLL").setReason(s.getBankEvidence()).setSnapshot(JsonUtils.toJsonString(s)));row.setStatus("CONSUMED").setConsumedPaymentId(paymentId);offsets.updateById(row);event(row,"CONSUME",s.getBankEvidence(),actor);}
+ }
+ @Transactional(readOnly=true,isolation=Isolation.REPEATABLE_READ)
+ public List<HrmPayrollOffsetDO> list(Long batchId,Long actor){batch(batchId,"READ",actor,false);List<HrmPayrollOffsetDO> rows=offsets.selectList(new LambdaQueryWrapperX<HrmPayrollOffsetDO>().eq(HrmPayrollOffsetDO::getBatchId,batchId).orderByDesc(HrmPayrollOffsetDO::getId));for(HrmPayrollOffsetDO row:rows){if("PENDING".equals(row.getStatus()))row.setSourceFresh(false).setSourceReason("待独立复核");else if(Arrays.asList("APPROVED","CONSUMED").contains(row.getStatus())){try{describe(row,actor);row.setSourceFresh(true).setSourceReason("CONSUMED".equals(row.getStatus())?"已结清来源证据保留":"批准来源与指定批次一致");}catch(cn.iocoder.yudao.framework.common.exception.ServiceException stale){row.setSourceFresh(false).setSourceReason("来源或适用条件已变更，需核实后重新分配");}}}return rows;}
+ public List<HrmPayrollOffsetEventDO> history(Long id,Long actor){HrmPayrollOffsetDO r=get(id);batch(r.getBatchId(),"READ",actor,false);return events.selectList(new LambdaQueryWrapperX<HrmPayrollOffsetEventDO>().eq(HrmPayrollOffsetEventDO::getOffsetId,id).orderByAsc(HrmPayrollOffsetEventDO::getId));}
+ public Map<String,Object> options(Long batchId,Long actor){HrmSalaryMonthRecordDO b=batch(batchId,"READ",actor,false);Map<String,Object> result=new LinkedHashMap<>();List<Object> people=new ArrayList<>();for(HrmEmployeeDO e:inputs.roster(b)){Map<String,Object> item=new LinkedHashMap<>();item.put("id",e.getId());item.put("name",e.getName());item.put("jobNumber",e.getJobNumber());people.add(item);}result.put("employees",people);List<Object> choices=new ArrayList<>();for(HrmPayrollTaxSettlementDO s:settlements.selectList(new LambdaQueryWrapperX<HrmPayrollTaxSettlementDO>().eq(HrmPayrollTaxSettlementDO::getEntityId,b.getEntityId()).eq(HrmPayrollTaxSettlementDO::getStatus,"APPROVED"))){Map<String,Object> item=new LinkedHashMap<>();item.put("id",s.getId());item.put("employeeId",s.getEmployeeId());item.put("year",s.getYear());item.put("month",s.getMonth());item.put("kind",s.getKind());item.put("amount",s.getAmount());choices.add(item);}result.put("taxSettlements",choices);return result;}
+}

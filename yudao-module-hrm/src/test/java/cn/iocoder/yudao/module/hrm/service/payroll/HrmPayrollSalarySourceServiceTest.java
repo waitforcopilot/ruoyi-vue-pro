@@ -25,6 +25,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 @Import({HrmPayrollBatchService.class,HrmPayrollSalarySourceService.class,HrmPayrollConfigGuardService.class})
 class HrmPayrollSalarySourceServiceTest extends BaseDbUnitTest {
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollOffsetService offsets;
+
  @Resource HrmPayrollBatchService batchService;
  @Resource HrmPayrollSalarySourceService service;
  @Resource HrmPayrollConfigGuardService guard;

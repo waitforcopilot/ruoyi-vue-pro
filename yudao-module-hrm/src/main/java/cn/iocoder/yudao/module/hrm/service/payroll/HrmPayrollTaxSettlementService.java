@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.*;
 @Service
 public class HrmPayrollTaxSettlementService {
   @Resource private HrmPayrollTaxSettlementMapper settlements;
+  @Resource private HrmPayrollOffsetMapper offsets;
   @Resource private HrmPayrollTaxFilingMapper filings;
   @Resource private HrmPayrollTaxProfileMapper profiles;
   @Resource private HrmPayrollTaxFilingService filingService;
@@ -207,12 +208,20 @@ public class HrmPayrollTaxSettlementService {
     event(s, approve ? "APPROVE" : "REJECT", reason, actor);
   }
 
+  /** Internal read for designated payroll; the caller already checks target batch scope. */
+  public HrmPayrollTaxSettlementDO approvedForPayroll(Long id,Long actor){
+    HrmPayrollTaxSettlementDO s=settlements.selectById(id);if(s==null||!"APPROVED".equals(s.getStatus()))throw exception(PAYROLL_OFFSET_INVALID);
+    HrmPayrollTaxFilingDO f=filing(s.getFilingId(),"READ",actor,false);ready(f,actor);
+    available(f,JsonUtils.parseObject(s.getRequestSnapshot(),HrmPayrollTaxSettlementReqVO.class),s.getId());return s;
+  }
+  private void assertNotScheduled(Long id){if(offsets.selectCount(new cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX<HrmPayrollOffsetDO>().eq(HrmPayrollOffsetDO::getSourceType,"TAX").eq(HrmPayrollOffsetDO::getSourceId,id).in(HrmPayrollOffsetDO::getStatus,"PENDING","APPROVED","CONSUMED"))>0)throw exception(PAYROLL_OFFSET_INVALID);}
   @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
   public void confirm(HrmPayrollTaxSettlementConfirmReqVO req, Long actor) {
     if (!validator.validate(req).isEmpty()) throw exception(PAYROLL_TAX_INVALID);
     HrmPayrollTaxSettlementDO candidate = settlements.selectById(req.getId());
     if (candidate == null) throw exception(PAYROLL_TAX_INVALID);
     filing(candidate.getFilingId(), "APPROVE", actor, true);
+    assertNotScheduled(candidate.getId());
     HrmPayrollTaxSettlementDO s =
         settlements.selectOneForUpdate(HrmPayrollTaxSettlementDO::getId, req.getId());
     avoidSelf(s, actor);
@@ -250,6 +259,7 @@ public class HrmPayrollTaxSettlementService {
     HrmPayrollTaxSettlementDO candidate = settlements.selectById(id);
     if (candidate == null) throw exception(PAYROLL_TAX_INVALID);
     filing(candidate.getFilingId(), "APPROVE", actor, true);
+    assertNotScheduled(candidate.getId());
     HrmPayrollTaxSettlementDO s =
         settlements.selectOneForUpdate(HrmPayrollTaxSettlementDO::getId, id);
     avoidSelf(s, actor);

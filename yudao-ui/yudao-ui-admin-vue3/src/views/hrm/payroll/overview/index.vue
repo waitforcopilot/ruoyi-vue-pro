@@ -205,7 +205,7 @@ const amounts = {
   approvedCost: '批准总成本',
   paidAmount: '成功回盘金额'
 }
-const allLabels = { ...labels, SUPPLEMENT: '独立补发证据' }
+const allLabels = { ...labels, SUPPLEMENT: '独立补发证据', SETTLEMENT_OFFSETS: '工资退补税分配' }
 const money = (v: any) =>
   v == null
     ? '未知'
