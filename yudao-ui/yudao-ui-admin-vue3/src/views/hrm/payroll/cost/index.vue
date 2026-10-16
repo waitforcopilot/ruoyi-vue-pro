@@ -1,7 +1,7 @@
 <template>
   <ContentWrap>
     <el-alert
-      title="成本来源为冻结工资版本：应发工资 + 单位社保公积金 + 批准配置的单位成本。分摊使用原核算历史归属，独立复核后方可正式导出。"
+      title="成本来源为冻结工资版本：应发工资 + 单位社保公积金 + 批准配置的单位成本 + 结清工资收回调整。分摊使用原核算历史归属，独立复核后方可正式导出。"
       type="info"
       :closable="false"
     />
@@ -88,16 +88,16 @@
               prop="projectCode"
               label="项目"
             /><el-table-column prop="percent" label="比例%" />
-            <el-table-column prop="gross" label="应发" /><el-table-column
-              prop="insurance"
-              label="单位社保"
-            /><el-table-column prop="fund" label="单位公积金" /><el-table-column
-              prop="employerCost"
-              label="配置单位成本"
-            /><el-table-column prop="total" label="总成本" /><el-table-column
-              prop="ruleId"
-              label="规则编号"
-            /> </el-table
+            <el-table-column prop="gross" label="冻结应发" /><el-table-column
+              prop="wageRecovery"
+              label="结清收回调整"
+            /><el-table-column prop="insurance" label="单位社保" /><el-table-column
+              prop="fund"
+              label="单位公积金"
+            /><el-table-column prop="employerCost" label="配置单位成本" /><el-table-column
+              prop="total"
+              label="总成本"
+            /><el-table-column prop="ruleId" label="规则编号" /> </el-table
         ></template>
       </el-tab-pane>
       <el-tab-pane label="分摊规则与历史版本" name="rules">
@@ -280,7 +280,11 @@ const percentTotal = computed(() => draft.parts.reduce((sum, p) => sum + Number(
 const summaries = ({ columns, data }: any) =>
   columns.map((column: any, index: number) => {
     if (index === 0) return '合计'
-    if (!['gross', 'insurance', 'fund', 'employerCost', 'total'].includes(column.property))
+    if (
+      !['gross', 'insurance', 'fund', 'employerCost', 'wageRecovery', 'total'].includes(
+        column.property
+      )
+    )
       return ''
     return data
       .reduce((sum: number, row: any) => sum + Number(row[column.property] || 0), 0)

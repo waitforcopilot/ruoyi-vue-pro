@@ -22,6 +22,8 @@ import org.springframework.transaction.annotation.*;
 
 /** Versioned allocation rules and immutable, independently approved reports from frozen payroll. */
 @Service public class HrmPayrollCostService {
+ @Resource private HrmPayrollWageRecoveryMapper wageRecoveries;
+
  @Resource private HrmPayrollCostRuleMapper rules;
  @Resource private HrmPayrollCostReportMapper reports;
  @Resource private HrmPayrollCostEventMapper events;
@@ -136,8 +138,23 @@ import org.springframework.transaction.annotation.*;
    if(previous==null||!Objects.equals(previous.getMonthRecordId(),run.getMonthRecordId())||previous.getVersion()>=row.getVersion())throw exception(PAYROLL_VERSION_CONFLICT);row=previous;
   }
  }
- private String digest(HrmPayrollRunDO run) {
-  List<Object> evidence=new ArrayList<>();Set<Long> visited=new HashSet<>();Deque<HrmPayrollRunDO> queue=new ArrayDeque<>();queue.add(run);
+ @lombok.Data private static class RecoveryEffect {private Long recoveryId,employeeId,paymentId,correctionId;private BigDecimal reduction;private LocalDate valueDate;private String proof;}
+ private List<RecoveryEffect> recoveryEffects(Long batchId) {
+  HrmSalaryMonthRecordDO batch=batches.selectById(batchId);Map<Long,HrmPayrollPaymentDO> paid=new HashMap<>();for(HrmPayrollPaymentDO p:payments.selectList(HrmPayrollPaymentDO::getMonthRecordId,batchId))paid.put(p.getId(),p);
+  List<RecoveryEffect> result=new ArrayList<>();if(paid.isEmpty())return result;
+  for(HrmPayrollWageRecoveryDO recovery:wageRecoveries.selectList(new LambdaQueryWrapperX<HrmPayrollWageRecoveryDO>().eq(HrmPayrollWageRecoveryDO::getEntityId,batch.getEntityId()).eq(HrmPayrollWageRecoveryDO::getStatus,"SETTLED"))) {
+   List<HrmPayrollWageRecoveryService.Allocation> allocations=JsonUtils.parseArray(recovery.getAllocationSnapshot(),HrmPayrollWageRecoveryService.Allocation.class);
+   if(allocations==null||recovery.getAmount()==null||recovery.getValueDate()==null||recovery.getReceiptReference()==null||allocations.stream().map(HrmPayrollWageRecoveryService.Allocation::getIncomeReduction).reduce(BigDecimal.ZERO,BigDecimal::add).compareTo(recovery.getAmount())!=0||!Objects.equals(recovery.getAllocationDigest(),cn.hutool.crypto.digest.DigestUtil.sha256Hex(JsonUtils.toJsonString(allocations))))throw exception(PAYROLL_COST_INVALID);
+   for(HrmPayrollWageRecoveryService.Allocation allocation:allocations)if(paid.containsKey(allocation.getPaymentId())){
+    HrmPayrollPaymentDO payment=paid.get(allocation.getPaymentId());if(!"SUCCESS".equals(payment.getStatus())||!Objects.equals(payment.getEmployeeId(),allocation.getEmployeeId())||allocation.getIncomeReduction().signum()<=0)throw exception(PAYROLL_COST_INVALID);
+    result.add(new RecoveryEffect().setRecoveryId(recovery.getId()).setEmployeeId(payment.getEmployeeId()).setPaymentId(payment.getId()).setCorrectionId(allocation.getCorrectionId()).setReduction(allocation.getIncomeReduction()).setValueDate(recovery.getValueDate()).setProof(recovery.getAllocationDigest()));
+   }
+  }
+  result.sort(Comparator.comparing(RecoveryEffect::getRecoveryId).thenComparing(RecoveryEffect::getCorrectionId));return result;
+ }
+ private String digest(HrmPayrollRunDO run){return digest(run,recoveryEffects(run.getMonthRecordId()));}
+ private String digest(HrmPayrollRunDO run,List<RecoveryEffect> recovered) {
+  List<Object> evidence=new ArrayList<>();if(!recovered.isEmpty())evidence.add(Arrays.asList("settledWageRecoveries",recovered));Set<Long> visited=new HashSet<>();Deque<HrmPayrollRunDO> queue=new ArrayDeque<>();queue.add(run);
   while(!queue.isEmpty()) {
    HrmPayrollRunDO current=queue.remove();if(!visited.add(current.getId()))continue;
    evidence.add(Arrays.asList(current.getId(),current.getInputSnapshot(),current.getRuleSnapshot(),current.getResultSnapshot()));
@@ -186,7 +203,7 @@ import org.springframework.transaction.annotation.*;
  }
  @Transactional(rollbackFor=Exception.class,isolation=Isolation.READ_COMMITTED)
  public Long build(Long batchId,String reason,Long actor) {
-  reason(reason);HrmSalaryMonthRecordDO b=frozen(batchId,"CALCULATE",actor);HrmPayrollRunDO run=latest(batchId);Map<String,Object> input=root(run);
+  reason(reason);HrmSalaryMonthRecordDO b=frozen(batchId,"CALCULATE",actor);HrmPayrollRunDO run=latest(batchId);Map<String,Object> input=root(run);List<RecoveryEffect> recovered=recoveryEffects(batchId);
   Object source=input.get("entityScope");if(!(source instanceof Map))throw exception(PAYROLL_COST_INVALID);
   List<HrmPayrollEntityMembershipDO> memberships=JsonUtils.parseArray(JsonUtils.toJsonString(((Map<?,?>)source).get("memberships")),HrmPayrollEntityMembershipDO.class);
   if(memberships==null)throw exception(PAYROLL_COST_INVALID);
@@ -213,19 +230,21 @@ import org.springframework.transaction.annotation.*;
     if(amount(values,110101).compareTo(insurance)!=0||amount(values,120101).compareTo(fund)!=0)throw exception(PAYROLL_COST_INVALID);
    }
    if(extra==null||insurance.signum()<0||fund.signum()<0)throw exception(PAYROLL_COST_INVALID);
+   BigDecimal recoveryAmount=recovered.stream().filter(effect->Objects.equals(effect.getEmployeeId(),salary.getEmployeeId())).map(RecoveryEffect::getReduction).reduce(BigDecimal.ZERO,BigDecimal::add).negate();
+   List<BigDecimal> recoveryShares=allocate(recoveryAmount,parts);
    List<BigDecimal> wages=allocate(salary.getExpectedPaySalary(),parts),ins=allocate(insurance,parts),funds=allocate(fund,parts),extras=allocate(extra,parts);
    HrmEmployeeDO e=names.containsKey(salary.getEmployeeId())?names.get(salary.getEmployeeId()):employees.selectById(salary.getEmployeeId());
    for(int i=0;i<parts.size();i++) {
     HrmPayrollCostRuleReqVO.Part part=parts.get(i);DeptRespDTO dept=departments.getDept(part.getDeptId());if(dept==null)throw exception(PAYROLL_COST_INVALID);
     result.add(new HrmPayrollCostRowVO().setEmployeeId(salary.getEmployeeId()).setEmployeeName(e==null?null:e.getName()).setEmployeeCategory(membership.getEmployeeCategory()).setSourceDeptId(membership.getDeptId())
      .setDeptId(part.getDeptId()).setDeptName(dept.getName()).setCostCenter(part.getCostCenter()).setProjectCode(part.getProjectCode()).setPercent(part.getPercent()).setRuleId(rule==null?null:rule.getId())
-     .setGross(wages.get(i)).setInsurance(ins.get(i)).setFund(funds.get(i)).setEmployerCost(extras.get(i)).setTotal(wages.get(i).add(ins.get(i)).add(funds.get(i)).add(extras.get(i))));
+     .setWageRecovery(recoveryShares.get(i)).setGross(wages.get(i)).setInsurance(ins.get(i)).setFund(funds.get(i)).setEmployerCost(extras.get(i)).setTotal(wages.get(i).add(ins.get(i)).add(funds.get(i)).add(extras.get(i)).add(recoveryShares.get(i))));
    }
-   Map<String,Object> evidence=new LinkedHashMap<>();evidence.put("employeeId",salary.getEmployeeId());evidence.put("membership",membership);evidence.put("rule",rule);evidence.put("attributionDate",attribution);selectedRules.add(evidence);
+   Map<String,Object> evidence=new LinkedHashMap<>();evidence.put("employeeId",salary.getEmployeeId());evidence.put("wageRecoveries",recovered.stream().filter(effect->Objects.equals(effect.getEmployeeId(),salary.getEmployeeId())).collect(java.util.stream.Collectors.toList()));evidence.put("membership",membership);evidence.put("rule",rule);evidence.put("attributionDate",attribution);selectedRules.add(evidence);
   }
   if(result.isEmpty())throw exception(PAYROLL_COST_INVALID);
   int version=reports.selectList(HrmPayrollCostReportDO::getBatchId,batchId).stream().mapToInt(HrmPayrollCostReportDO::getVersion).max().orElse(0)+1;
-  HrmPayrollCostReportDO report=new HrmPayrollCostReportDO().setBatchId(batchId).setRunId(run.getId()).setVersion(version).setStatus("PENDING").setSourceDigest(digest(run))
+  HrmPayrollCostReportDO report=new HrmPayrollCostReportDO().setBatchId(batchId).setRunId(run.getId()).setVersion(version).setStatus("PENDING").setSourceDigest(digest(run,recovered))
     .setInputSnapshot(JsonUtils.toJsonString(selectedRules)).setResultSnapshot(JsonUtils.toJsonString(result)).setReason(reason).setComputedBy(actor);
   reports.insert(report);event("REPORT",report.getId(),"BUILD",reason,report,actor);return report.getId();
  }
@@ -256,7 +275,7 @@ import org.springframework.transaction.annotation.*;
   HrmSalaryMonthRecordDO source=batches.selectById(batchId);scope.check(source,"READ",actor);
   if(source.getEntityId()==null||!Arrays.asList(15,16,17,10).contains(source.getStatus()))throw exception(SALARY_MONTH_RECORD_STATUS_INVALID);
   HrmPayrollCostReportDO report=reports.selectOne(new LambdaQueryWrapperX<HrmPayrollCostReportDO>().eq(HrmPayrollCostReportDO::getBatchId,batchId).eq(HrmPayrollCostReportDO::getStatus,"APPROVED").orderByDesc(HrmPayrollCostReportDO::getVersion).last("LIMIT 1"));
-  if(report!=null)validate(report);return report;
+  if(report!=null){try{validate(report);}catch(cn.iocoder.yudao.framework.common.exception.ServiceException stale){if(stale.getCode().equals(PAYROLL_VERSION_CONFLICT.getCode()))return null;throw stale;}}return report;
  }
  public List<HrmPayrollCostReportDO> reports(Long batchId,Long actor) {
   scope.check(batches.selectById(batchId),"READ",actor);

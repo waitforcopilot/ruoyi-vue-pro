@@ -10,6 +10,7 @@ public class HrmPayrollRetroDO extends BaseDO {
   private Long entityId, batchId, employeeId, paymentId, priorRetroId;
   private Integer version;
   private java.math.BigDecimal originalIncome, correctedIncome, delta;
+  private String settlementMode;
   private String evidence, requestKey, status, reviewReason, originalDigest;
   @com.fasterxml.jackson.annotation.JsonIgnore private String requestSnapshot;
   private Long submittedBy, reviewedBy;

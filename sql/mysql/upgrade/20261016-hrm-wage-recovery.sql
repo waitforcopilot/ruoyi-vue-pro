@@ -1,0 +1,17 @@
+SET NAMES utf8mb4;
+SET @ddl=IF((SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='hrm_payroll_retro' AND column_name='settlement_mode')=0,'ALTER TABLE hrm_payroll_retro ADD COLUMN settlement_mode varchar(32) DEFAULT ''PAYROLL''','SELECT 1');
+PREPARE stmt FROM @ddl; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+CREATE TABLE IF NOT EXISTS hrm_payroll_wage_recovery (
+ id bigint NOT NULL AUTO_INCREMENT PRIMARY KEY, retro_id bigint NOT NULL, entity_id bigint NOT NULL, employee_id bigint NOT NULL, payment_id bigint NOT NULL, submitted_by bigint, reviewed_by bigint, confirmed_by bigint,
+ amount decimal(20,2) NOT NULL, status varchar(32) NOT NULL, employee_acknowledgement varchar(1000), evidence varchar(1000), review_reason varchar(1000), receipt_reference varchar(100), receipt_evidence varchar(1000), request_key varchar(100) NOT NULL, allocation_snapshot LONGTEXT, allocation_digest varchar(64), request_snapshot LONGTEXT,
+ value_date date, reviewed_time datetime, confirmed_time datetime,
+ creator varchar(64) DEFAULT '', create_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, updater varchar(64) DEFAULT '', update_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, deleted bit NOT NULL DEFAULT FALSE, tenant_id bigint NOT NULL DEFAULT 0,
+ UNIQUE KEY uk_wage_recovery_retro(tenant_id,retro_id), UNIQUE KEY uk_wage_recovery_request(tenant_id,request_key), UNIQUE KEY uk_wage_recovery_receipt(tenant_id,receipt_reference),KEY idx_wage_recovery_scope(tenant_id,entity_id,employee_id,status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS hrm_payroll_wage_recovery_event (id bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,recovery_id bigint,actor_id bigint,action varchar(32),reason varchar(1000),snapshot LONGTEXT,creator varchar(64) DEFAULT '',create_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,updater varchar(64) DEFAULT '',update_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,deleted bit NOT NULL DEFAULT FALSE,tenant_id bigint NOT NULL DEFAULT 0) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+SET @parent=(SELECT id FROM system_menu WHERE path='/hrm-payroll' AND deleted=0 LIMIT 1);
+INSERT INTO system_menu(name,permission,type,parent_id,path,icon,component,component_name) SELECT '独立工资收回','hrm:payroll:recovery:query',2,@parent,'wage-recovery','ep:wallet','hrm/payroll/wage-recovery/index','HrmPayrollWageRecovery' WHERE @parent IS NOT NULL AND NOT EXISTS(SELECT 1 FROM system_menu WHERE permission='hrm:payroll:recovery:query' AND deleted=0);
+SET @recovery=(SELECT id FROM system_menu WHERE permission='hrm:payroll:recovery:query' AND deleted=0 LIMIT 1);
+INSERT INTO system_menu(name,permission,type,parent_id,path,component,component_name) SELECT '提交工资收回','hrm:payroll:recovery:update',3,@recovery,'','','' WHERE @recovery IS NOT NULL AND NOT EXISTS(SELECT 1 FROM system_menu WHERE permission='hrm:payroll:recovery:update' AND deleted=0);
+INSERT INTO system_menu(name,permission,type,parent_id,path,component,component_name) SELECT '独立复核工资收回','hrm:payroll:recovery:review',3,@recovery,'','','' WHERE @recovery IS NOT NULL AND NOT EXISTS(SELECT 1 FROM system_menu WHERE permission='hrm:payroll:recovery:review' AND deleted=0);
+INSERT INTO system_menu(name,permission,type,parent_id,path,component,component_name) SELECT '核实退款及撤销','hrm:payroll:recovery:confirm',3,@recovery,'','','' WHERE @recovery IS NOT NULL AND NOT EXISTS(SELECT 1 FROM system_menu WHERE permission='hrm:payroll:recovery:confirm' AND deleted=0);

@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.*;
 /** Approved wage differences enter a later payroll; original wage and cash facts are immutable. */
 @Service public class HrmPayrollRetroService {
  @Resource private HrmPayrollRetroMapper retros;
+ @Resource private HrmPayrollWageRecoveryMapper recoveries;
+ @Resource private HrmPayrollTaxCorrectionMapper taxCorrections;
  @Resource private HrmPayrollRetroEventMapper events;
  @Resource private HrmPayrollPaymentMapper payments;
  @Resource private HrmPayrollRunMapper runs;
@@ -38,17 +40,17 @@ import org.springframework.transaction.annotation.*;
   if(edit && b.getExpectedPaymentDate()==null) throw exception(PAYROLL_TAX_PAYMENT_DATE_MISSING);
   return b;
  }
- private HrmPayrollRetroDO latest(Long payment) {
+ HrmPayrollRetroDO latest(Long payment) {
   return retros.selectOne(new LambdaQueryWrapperX<HrmPayrollRetroDO>().eq(HrmPayrollRetroDO::getPaymentId,payment)
     .eq(HrmPayrollRetroDO::getStatus,"APPROVED").orderByDesc(HrmPayrollRetroDO::getVersion).last("LIMIT 1"));
  }
- private HrmPayrollPaymentDO paid(Long id) {
+ HrmPayrollPaymentDO paid(Long id) {
   HrmPayrollPaymentDO p=payments.selectOneForUpdate(HrmPayrollPaymentDO::getId,id);
   if(p==null || !"SUCCESS".equals(p.getStatus()) || p.getValueDate()==null) throw exception(PAYROLL_RETRO_INVALID);
   if(p.getAmount()==null || (p.getAmount().signum()==0 && (p.getZeroSettlementReference()==null || p.getZeroSettlementEvidence()==null))) throw exception(PAYROLL_RETRO_INVALID);
   return p;
  }
- private HrmSalaryMonthEmployeeRecordDO result(HrmPayrollPaymentDO p) {
+ HrmSalaryMonthEmployeeRecordDO result(HrmPayrollPaymentDO p) {
   HrmPayrollRunDO run=runs.selectById(p.getRunId());
   if(run==null || !Objects.equals(run.getMonthRecordId(),p.getMonthRecordId())) throw exception(PAYROLL_RETRO_INVALID);
   List<HrmSalaryMonthEmployeeRecordDO> matched=new ArrayList<>();
@@ -57,12 +59,12 @@ import org.springframework.transaction.annotation.*;
   if(matched.size()!=1 || matched.get(0).getRealPaySalary()==null || matched.get(0).getRealPaySalary().compareTo(p.getAmount())!=0) throw exception(PAYROLL_RETRO_INVALID);
   return matched.get(0);
  }
- private HrmPayrollTaxWithholdingService.Source tax(HrmPayrollPaymentDO p) {
+ HrmPayrollTaxWithholdingService.Source tax(HrmPayrollPaymentDO p) {
   HrmPayrollTaxWithholdingService.Source t=JsonUtils.parseObject(result(p).getTaxSourceSnapshot(),HrmPayrollTaxWithholdingService.Source.class);
   if(t==null || t.getCurrentIncome()==null || t.getProfile()==null || !Objects.equals(t.getEmployeeId(),p.getEmployeeId())) throw exception(PAYROLL_RETRO_INVALID);
   return t;
  }
- private String digest(HrmPayrollPaymentDO p) {
+ String digest(HrmPayrollPaymentDO p) {
   // Account details are deliberately excluded from audit materials.
   return cn.hutool.crypto.digest.DigestUtil.sha256Hex(JsonUtils.toJsonString(Arrays.asList(p.getId(),p.getRunId(),p.getMonthRecordId(),p.getEmployeeId(),p.getAmount(),p.getValueDate(),p.getZeroSettlementReference(),result(p))));
  }
@@ -72,12 +74,33 @@ import org.springframework.transaction.annotation.*;
     || b.getExpectedPaymentDate()==null || b.getExpectedPaymentDate().isBefore(p.getValueDate())
     || !scope.payrollDates(b).containsKey(p.getEmployeeId())) throw exception(PAYROLL_RETRO_INVALID);
   if(HrmPayrollSupplementService.isSupplement(b) && !Objects.equals(b.getParentBatchId(),original.getId())) throw exception(PAYROLL_RETRO_INVALID);
+  assertIncomeAmendmentsAccounted(p);
   HrmPayrollTaxWithholdingService.Source t=tax(p);
   HrmPayrollTaxProfileDO current=profiles.requireApproved(b.getEntityId(),p.getEmployeeId(),b.getExpectedPaymentDate().getYear());
   if(!Objects.equals(t.getEntityId(),b.getEntityId()) || t.getProfile().getTaxpayerKey()==null
     || !Objects.equals(t.getProfile().getTaxpayerKey(),current.getTaxpayerKey())) throw exception(PAYROLL_RETRO_INVALID);
  }
- private BigDecimal originalIncome(HrmPayrollPaymentDO payment) {
+ /** Actual payments on this entitlement chain; never arbitrary same-employee payments. */
+ Set<Long> relatedPayments(HrmPayrollPaymentDO original,HrmPayrollRetroDO prior) {
+  Set<Long> ids=new LinkedHashSet<>(),seen=new HashSet<>();ids.add(original.getId());
+  while(prior!=null){if(!seen.add(prior.getId()))throw exception(PAYROLL_RECOVERY_INVALID);
+   if(!"EXTERNAL_RECOVERY".equals(prior.getSettlementMode())){
+    for(HrmPayrollPaymentDO payment:payments.selectList(new LambdaQueryWrapperX<HrmPayrollPaymentDO>().eq(HrmPayrollPaymentDO::getMonthRecordId,prior.getBatchId()).eq(HrmPayrollPaymentDO::getEmployeeId,original.getEmployeeId()).eq(HrmPayrollPaymentDO::getStatus,"SUCCESS"))){HrmPayrollRunDO run=runs.selectById(payment.getRunId());if(run!=null&&snapshotIds(run).contains(prior.getId()))ids.add(payment.getId());}
+   }
+   prior=prior.getPriorRetroId()==null?null:retros.selectById(prior.getPriorRetroId());
+  }return ids;
+ }
+ private void assertIncomeAmendmentsAccounted(HrmPayrollPaymentDO original){
+  Map<Long,java.math.BigDecimal> settled=new HashMap<>();
+  for(HrmPayrollWageRecoveryDO recovery:recoveries.selectList(new LambdaQueryWrapperX<HrmPayrollWageRecoveryDO>().eq(HrmPayrollWageRecoveryDO::getEmployeeId,original.getEmployeeId()).eq(HrmPayrollWageRecoveryDO::getStatus,"SETTLED")))
+   for(cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWageRecoveryService.Allocation a:JsonUtils.parseArray(recovery.getAllocationSnapshot(),cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWageRecoveryService.Allocation.class))settled.merge(a.getPaymentId(),a.getIncomeReduction(),BigDecimal::add);
+  for(Long id:relatedPayments(original,latest(original.getId()))){HrmPayrollTaxCorrectionDO correction=taxCorrections.selectOne(new LambdaQueryWrapperX<HrmPayrollTaxCorrectionDO>().eq(HrmPayrollTaxCorrectionDO::getPaymentId,id).eq(HrmPayrollTaxCorrectionDO::getStatus,"APPROVED"));
+   if(correction!=null){HrmPayrollPaymentDO payment=payments.selectById(id);cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxCashLedgerVO.Row cash=new cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollTaxCashLedgerVO.Row();HrmPayrollTaxCashLedgerService.populate(cash,payment,runs.selectById(payment.getRunId()),false);
+    if(cash.getIncome().subtract(correction.getIncome()).compareTo(settled.getOrDefault(id,BigDecimal.ZERO))!=0)throw exception(PAYROLL_RECOVERY_TAX_UNMATCHED);
+   }
+  }
+ }
+ BigDecimal originalIncome(HrmPayrollPaymentDO payment) {
   HrmSalaryMonthEmployeeRecordDO salary=result(payment);
   if(salary.getOptionValues()==null)throw exception(PAYROLL_RETRO_INVALID);
   BigDecimal historical=BigDecimal.ZERO;boolean seen=false;
@@ -87,8 +110,13 @@ import org.springframework.transaction.annotation.*;
   BigDecimal basis=tax(payment).getCurrentIncome().subtract(historical);
   if(basis.signum()<0)throw exception(PAYROLL_RETRO_INVALID);return basis;
  }
- private BigDecimal baseline(HrmPayrollPaymentDO p,HrmPayrollRetroDO prior) {
+ BigDecimal baseline(HrmPayrollPaymentDO p,HrmPayrollRetroDO prior) {
   if(prior==null) return originalIncome(p);
+  if("EXTERNAL_RECOVERY".equals(prior.getSettlementMode())){
+   HrmPayrollWageRecoveryDO recovery=recoveries.selectOne(HrmPayrollWageRecoveryDO::getRetroId,prior.getId());
+   if(recovery==null||!"SETTLED".equals(recovery.getStatus())||recovery.getValueDate()==null||recovery.getReceiptReference()==null||recovery.getAmount().compareTo(prior.getDelta().negate())!=0||!Objects.equals(prior.getOriginalDigest(),digest(p)))throw exception(PAYROLL_RECOVERY_INVALID);
+   return prior.getCorrectedIncome();
+  }
   // A successor may only follow actual settlement of its predecessor.
   List<HrmPayrollPaymentDO> settled=payments.selectList(new LambdaQueryWrapperX<HrmPayrollPaymentDO>()
     .eq(HrmPayrollPaymentDO::getMonthRecordId,prior.getBatchId()).eq(HrmPayrollPaymentDO::getEmployeeId,prior.getEmployeeId()).eq(HrmPayrollPaymentDO::getStatus,"SUCCESS"));
@@ -97,7 +125,7 @@ import org.springframework.transaction.annotation.*;
   if(run==null || !snapshotIds(run).contains(prior.getId())) throw exception(PAYROLL_RETRO_INVALID);
   return prior.getCorrectedIncome();
  }
- private Set<Long> snapshotIds(HrmPayrollRunDO latest) {
+ Set<Long> snapshotIds(HrmPayrollRunDO latest) {
   Set<Long> ids=new HashSet<>(),visited=new HashSet<>();
   HrmPayrollRunDO row=latest;
   while(row!=null) {
@@ -134,7 +162,7 @@ import org.springframework.transaction.annotation.*;
   BigDecimal before=baseline(p,prior), delta=req.getCorrectedIncome().subtract(before);
   if((HrmPayrollSupplementService.isSupplement(b)&&delta.signum()<=0) || delta.signum()==0 || (delta.signum()<0 && p.getValueDate().getYear()!=b.getExpectedPaymentDate().getYear())) throw exception(PAYROLL_RETRO_INVALID);
   HrmPayrollRetroDO row=new HrmPayrollRetroDO().setBatchId(b.getId()).setEntityId(b.getEntityId()).setEmployeeId(p.getEmployeeId())
-    .setPaymentId(p.getId()).setPriorRetroId(req.getPriorRetroId()).setVersion(retros.selectList(new LambdaQueryWrapperX<HrmPayrollRetroDO>().eq(HrmPayrollRetroDO::getPaymentId,p.getId())).stream().mapToInt(HrmPayrollRetroDO::getVersion).max().orElse(0)+1)
+    .setSettlementMode("PAYROLL").setPaymentId(p.getId()).setPriorRetroId(req.getPriorRetroId()).setVersion(retros.selectList(new LambdaQueryWrapperX<HrmPayrollRetroDO>().eq(HrmPayrollRetroDO::getPaymentId,p.getId())).stream().mapToInt(HrmPayrollRetroDO::getVersion).max().orElse(0)+1)
     .setOriginalIncome(before).setCorrectedIncome(req.getCorrectedIncome()).setDelta(delta).setOriginalDigest(digest(p))
     .setEvidence(req.getEvidence()).setRequestKey(req.getRequestKey()).setRequestSnapshot(snapshot).setStatus("PENDING").setSubmittedBy(actor);
   retros.insert(row);event(row,"SUBMIT",req.getEvidence(),actor);return row.getId();
@@ -177,7 +205,7 @@ import org.springframework.transaction.annotation.*;
  }
  /** Internal source. Authorization is enforced by the enclosing payroll operation. */
  public List<HrmPayrollRetroDO> sources(Long batchId) {
-  List<HrmPayrollRetroDO> list=retros.selectList(new LambdaQueryWrapperX<HrmPayrollRetroDO>().eq(HrmPayrollRetroDO::getBatchId,batchId).eq(HrmPayrollRetroDO::getStatus,"APPROVED").orderByAsc(HrmPayrollRetroDO::getId));
+  List<HrmPayrollRetroDO> list=retros.selectList(new LambdaQueryWrapperX<HrmPayrollRetroDO>().eq(HrmPayrollRetroDO::getBatchId,batchId).eq(HrmPayrollRetroDO::getStatus,"APPROVED").and(w->w.isNull(HrmPayrollRetroDO::getSettlementMode).or().eq(HrmPayrollRetroDO::getSettlementMode,"PAYROLL")).orderByAsc(HrmPayrollRetroDO::getId));
   HrmSalaryMonthRecordDO b=batches.selectById(batchId);
   for(HrmPayrollRetroDO row:list) {
    HrmPayrollPaymentDO p=payments.selectById(row.getPaymentId());
@@ -208,7 +236,7 @@ import org.springframework.transaction.annotation.*;
  }
  public List<HrmPayrollRetroDO> list(Long batchId,Long actor) {
   batch(batchId,"READ",actor,false);
-  List<HrmPayrollRetroDO> rows=retros.selectList(new LambdaQueryWrapperX<HrmPayrollRetroDO>().eq(HrmPayrollRetroDO::getBatchId,batchId).orderByDesc(HrmPayrollRetroDO::getId));
+  List<HrmPayrollRetroDO> rows=retros.selectList(new LambdaQueryWrapperX<HrmPayrollRetroDO>().eq(HrmPayrollRetroDO::getBatchId,batchId).and(w->w.isNull(HrmPayrollRetroDO::getSettlementMode).or().eq(HrmPayrollRetroDO::getSettlementMode,"PAYROLL")).orderByDesc(HrmPayrollRetroDO::getId));
   for(HrmPayrollRetroDO row:rows) {
    HrmPayrollPaymentDO p=payments.selectById(row.getPaymentId());
    if(p==null) throw exception(PAYROLL_RETRO_INVALID);
