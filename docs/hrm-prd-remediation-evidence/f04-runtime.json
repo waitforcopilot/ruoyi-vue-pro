@@ -1,0 +1,50 @@
+{
+  "capturedAt": "2026-10-16T13:19:22.485065",
+  "cases": [
+    {
+      "case": "legacy-confirmation-reopened-idempotently",
+      "id": 44,
+      "status": "REVIEWING",
+      "version": 2,
+      "historyVersions": [
+        2,
+        1
+      ]
+    },
+    {
+      "case": "empty-mapping",
+      "code": 1050810036
+    },
+    {
+      "case": "bare-exemption",
+      "code": 1050810036
+    },
+    {
+      "case": "unknown-owner",
+      "code": 1050810037
+    },
+    {
+      "case": "unknown-reviewer",
+      "code": 1050810037
+    },
+    {
+      "case": "disabled-owner",
+      "code": 1050810037
+    },
+    {
+      "case": "confirmation-by-other-actor",
+      "code": 1050810036
+    },
+    {
+      "case": "valid-confirmation-does-not-change-readiness",
+      "id": 45,
+      "version": 2,
+      "readiness": "MISSING"
+    },
+    {
+      "case": "explicit-exemption-reopening-stale-version-and-history",
+      "historyAdded": 3,
+      "latestVersion": 4
+    }
+  ]
+}

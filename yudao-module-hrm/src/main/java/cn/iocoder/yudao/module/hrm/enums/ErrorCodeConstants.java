@@ -311,6 +311,8 @@ public interface ErrorCodeConstants {
     ErrorCode PAYROLL_OFFSET_INVALID = new ErrorCode(1_050_810_033, "工资收退来源、适用批次、批准状态或税后净额未就绪，请核实税款或缴费差额结算");
     ErrorCode PAYROLL_VERSION_CONFLICT = new ErrorCode(1_050_810_002, "记录已被更新，请刷新后重试");
     ErrorCode PAYROLL_REVIEW_INCOMPLETE = new ErrorCode(1_050_810_003, "请补齐责任人、评审依据、数据来源及验收条件");
+    ErrorCode PAYROLL_REQUIREMENT_CONFIRMATION_INVALID = new ErrorCode(1_050_810_036, "请填写字段映射（不适用需说明具体理由），并由评审负责人本人确认");
+    ErrorCode PAYROLL_REQUIREMENT_PERSON_INVALID = new ErrorCode(1_050_810_037, "来源或评审负责人不存在、已停用或不在可访问范围内");
     ErrorCode PAYROLL_REQUIREMENT_DUPLICATE = new ErrorCode(1_050_810_004, "需求编号重复");
 
     ErrorCode PAYROLL_SELF_APPROVAL = new ErrorCode(1_050_810_005, "核算、HR复核和财务审批必须由不同人员完成");

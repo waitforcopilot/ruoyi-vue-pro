@@ -16,6 +16,7 @@ import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionU
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 @Service
 public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementService {
+    @Resource private cn.iocoder.yudao.module.system.api.user.AdminUserApi users;
     @Resource private HrmPayrollRequirementMapper mapper;
     @Resource private HrmPayrollRequirementHistoryMapper historyMapper;
     private static final String[][] SEEDS = {
@@ -76,6 +77,14 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
             && (StrUtil.isBlank(request.getEvidence()) || request.getReviewerId()==null)) throw exception(PAYROLL_REVIEW_INCOMPLETE);
         if ("CONFIRMED".equals(request.getStatus()) && (StrUtil.isBlank(request.getAcceptance())
             || StrUtil.isBlank(request.getSourceSystem()) || request.getSourceOwnerId()==null)) throw exception(PAYROLL_REVIEW_INCOMPLETE);
+        if (java.util.Arrays.asList("CONFIRMED", "DISPUTED", "DEFERRED").contains(request.getStatus())) {
+            requireActiveUser(request.getReviewerId());
+        }
+        if ("CONFIRMED".equals(request.getStatus())) {
+            requireActiveUser(request.getSourceOwnerId());
+            if (!Objects.equals(actorId, request.getReviewerId()) || !meaningfulMapping(request.getFieldMapping()))
+                throw exception(PAYROLL_REQUIREMENT_CONFIRMATION_INVALID);
+        }
         HrmPayrollRequirementDO duplicate=mapper.selectOne(HrmPayrollRequirementDO::getCode,request.getCode());
         if (duplicate!=null && !Objects.equals(duplicate.getId(),request.getId())) throw exception(PAYROLL_REQUIREMENT_DUPLICATE);
         HrmPayrollRequirementDO record=BeanUtils.toBean(request,HrmPayrollRequirementDO.class);
@@ -103,6 +112,21 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         history.setActorId(actorId);history.setSnapshot(JsonUtils.toJsonString(record));historyMapper.insert(history);
         return record.getId();
     }
+    private void requireActiveUser(Long id) {
+        cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO user = id == null ? null : users.getUser(id);
+        if (user == null || !Objects.equals(user.getStatus(), 0)) throw exception(PAYROLL_REQUIREMENT_PERSON_INVALID);
+    }
+
+    private boolean meaningfulMapping(String mapping) {
+        if (StrUtil.isBlank(mapping)) return false;
+        String text = mapping.trim();
+        if (text.toUpperCase(java.util.Locale.ROOT).startsWith("N/A") || text.startsWith("不适用")
+                || text.equalsIgnoreCase("NA") || text.matches("(?is)^NA\\s*[:：].*")) {
+            return text.matches("(?is)^(N/A|NA|不适用)\\s*[:：]\\s*\\S.*$");
+        }
+        return true;
+    }
+
     @Override public List<HrmPayrollRequirementHistoryDO> history(Long id) {
         if (mapper.selectById(id)==null) throw exception(PAYROLL_REQUIREMENT_NOT_EXISTS);
         return historyMapper.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementHistoryDO>()

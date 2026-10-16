@@ -50,3 +50,4 @@ sql/mysql/upgrade/20261016-hrm-wage-recovery.sql
 sql/mysql/upgrade/20261016-hrm-tax-absorption.sql
 sql/mysql/upgrade/20261016-hrm-installer-charset.sql
 sql/mysql/upgrade/20261016-hrm-complete-salary-catalog.sql
+sql/mysql/upgrade/20261016-hrm-requirement-confirmation-repair.sql

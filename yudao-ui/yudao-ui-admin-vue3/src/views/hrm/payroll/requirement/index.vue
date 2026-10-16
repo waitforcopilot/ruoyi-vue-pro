@@ -1,7 +1,7 @@
 <template>
   <ContentWrap>
     <el-alert
-      title="业务确认状态与数据就绪状态分别维护；确认需求需填写负责人、来源、验收条件及依据。"
+      title="业务确认状态与数据就绪状态分别维护；确认需有效负责人、字段映射、来源、验收条件及依据，并由评审负责人本人操作。"
       type="info"
       :closable="false"
     />
@@ -76,7 +76,11 @@
         ><el-input v-model="form.description" type="textarea" :maxlength="1000"
       /></el-form-item>
       <el-form-item label="字段映射"
-        ><el-input v-model="form.fieldMapping" type="textarea" :maxlength="4000"
+        ><el-input
+          v-model="form.fieldMapping"
+          type="textarea"
+          :maxlength="4000"
+          placeholder="来源字段 → 本项目字段；不适用请填写：不适用：具体理由"
       /></el-form-item>
       <el-form-item label="来源系统"
         ><el-input v-model="form.sourceSystem" :maxlength="1000"
@@ -136,10 +140,14 @@
       <el-table-column prop="version" label="版本" width="70" />
       <el-table-column label="操作人" width="100"
         ><template #default="{ row }">{{
-          users.find((u) => u.id === row.actorId)?.nickname || row.actorId
+          row.actorId === 0
+            ? '系统校验'
+            : users.find((u) => u.id === row.actorId)?.nickname || row.actorId
         }}</template></el-table-column
       >
-      <el-table-column label="时间" width="180"><template #default="{ row }">{{ formatDate(row.createTime) }}</template></el-table-column>
+      <el-table-column label="时间" width="180"
+        ><template #default="{ row }">{{ formatDate(row.createTime) }}</template></el-table-column
+      >
       <el-table-column label="评审内容" min-width="300"
         ><template #default="{ row }">
           <div>{{ row.review.description }}</div
@@ -148,6 +156,7 @@
           <div>映射：{{ row.review.fieldMapping || '未填写' }}</div>
           <div>验收：{{ row.review.acceptance || '未填写' }}</div
           ><div>依据：{{ row.review.evidence || '未填写' }}</div>
+          <div v-if="row.review.validationReason">系统校验：{{ row.review.validationReason }}</div>
         </template></el-table-column
       >
     </el-table>
@@ -155,12 +164,14 @@
 </template>
 <script setup lang="ts">
 import { formatDate } from '@/utils/formatTime'
+import { useUserStore } from '@/store/modules/user'
 import * as api from '@/api/hrm/payroll/requirement'
 import type { PayrollRequirement } from '@/api/hrm/payroll/requirement'
 import download from '@/utils/download'
 import { getSimpleUserList, type UserVO } from '@/api/system/user'
 defineOptions({ name: 'HrmPayrollRequirement' })
 const message = useMessage()
+const userStore = useUserStore()
 const users = ref<UserVO[]>([])
 const modules: Record<string, string> = {
   OV: '薪酬总览',
@@ -226,6 +237,16 @@ const edit = (row?: PayrollRequirement) => {
 }
 const save = async () => {
   await formRef.value.validate()
+  if (form.value.status === 'CONFIRMED') {
+    if (!form.value.fieldMapping?.trim()) {
+      message.warning('请填写字段映射；不适用时需说明具体理由')
+      return
+    }
+    if (String(form.value.reviewerId) !== String(userStore.getUser.id)) {
+      message.warning('请由所选评审负责人登录后本人确认')
+      return
+    }
+  }
   saving.value = true
   try {
     await api.saveRequirement(form.value)

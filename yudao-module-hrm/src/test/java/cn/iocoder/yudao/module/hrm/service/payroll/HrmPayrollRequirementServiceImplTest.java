@@ -11,6 +11,11 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 @Import(HrmPayrollRequirementServiceImpl.class)
 class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
     @Resource private HrmPayrollRequirementService service;
+    @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.system.api.user.AdminUserApi users;
+    @org.junit.jupiter.api.BeforeEach void users() {
+        org.mockito.Mockito.when(users.getUser(2L)).thenReturn(new cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO().setId(2L).setStatus(0));
+        org.mockito.Mockito.when(users.getUser(3L)).thenReturn(new cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO().setId(3L).setStatus(0));
+    }
     private HrmPayrollRequirementSaveReqVO request() {
         HrmPayrollRequirementSaveReqVO r=new HrmPayrollRequirementSaveReqVO();
         r.setCode("PLAN-06");r.setModule("PLAN");r.setDescription("测试薪资方案规则");
@@ -25,7 +30,7 @@ class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
         HrmPayrollRequirementSaveReqVO r=request();Long id=service.save(r,1L);
         r.setId(id);r.setVersion(1);r.setStatus("CONFIRMED");
         assertServiceException(()->service.save(r,2L),PAYROLL_REVIEW_INCOMPLETE);
-        r.setReviewerId(2L);r.setEvidence("业务评审记录");r.setAcceptance("按规则版本核算");r.setSourceOwnerId(3L);r.setSourceSystem("HRM");
+        r.setReviewerId(2L);r.setEvidence("业务评审记录");r.setAcceptance("按规则版本核算");r.setSourceOwnerId(3L);r.setSourceSystem("HRM");r.setFieldMapping("员工编号 → employeeId");
         service.save(r,2L);
         HrmPayrollRequirementDO result=service.list("PLAN").get(0);
         assertEquals(2,result.getVersion());assertEquals(2L,result.getConfirmedBy());assertEquals("MISSING",result.getReadiness());assertEquals(2,service.history(id).size());
@@ -38,8 +43,37 @@ class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
         service.save(request(),1L);assertServiceException(()->service.save(request(),2L),PAYROLL_REQUIREMENT_DUPLICATE);
     }
     @Test void reopeningRemovesConfirmationButRetainsHistory() {
-        HrmPayrollRequirementSaveReqVO r=request();r.setStatus("CONFIRMED");r.setReviewerId(2L);r.setEvidence("评审记录");r.setAcceptance("验收场景");r.setSourceOwnerId(3L);r.setSourceSystem("HRM");
+        HrmPayrollRequirementSaveReqVO r=request();r.setStatus("CONFIRMED");r.setReviewerId(2L);r.setEvidence("评审记录");r.setAcceptance("验收场景");r.setSourceOwnerId(3L);r.setSourceSystem("HRM");r.setFieldMapping("员工编号 → employeeId");
         r.setId(service.save(r,2L));r.setVersion(1);r.setStatus("REVIEWING");service.save(r,3L);
         assertNull(service.list("PLAN").get(0).getConfirmedBy());assertEquals(2,service.history(r.getId()).size());
+    }
+    private HrmPayrollRequirementSaveReqVO confirmed() {
+        HrmPayrollRequirementSaveReqVO r=request();r.setStatus("CONFIRMED");r.setReviewerId(2L);
+        r.setEvidence("评审记录");r.setAcceptance("可验证场景");r.setSourceOwnerId(3L);r.setSourceSystem("HRM");
+        r.setFieldMapping("来源字段 → 本项目字段");return r;
+    }
+    @Test void confirmationRejectsEmptyMappingAndBareExemption() {
+        HrmPayrollRequirementSaveReqVO r=confirmed();
+        for(String mapping:new String[]{null," ","N/A","N/A\n ","不适用："}) {
+            r.setFieldMapping(mapping);
+            assertServiceException(()->service.save(r,2L),PAYROLL_REQUIREMENT_CONFIRMATION_INVALID);
+        }
+        assertTrue(service.list(null).isEmpty());
+    }
+    @Test void explicitExemptionWithReasonIsRetained() {
+        HrmPayrollRequirementSaveReqVO r=confirmed();r.setFieldMapping("不适用：本需求为评审操作规范，不涉及外部业务数据字段");
+        service.save(r,2L);assertEquals(r.getFieldMapping(),service.list(null).get(0).getFieldMapping());
+    }
+    @Test void nonexistentOrDisabledOwnersCannotConfirm() {
+        HrmPayrollRequirementSaveReqVO r=confirmed();r.setSourceOwnerId(99999991L);
+        assertServiceException(()->service.save(r,2L),PAYROLL_REQUIREMENT_PERSON_INVALID);
+        r.setSourceOwnerId(3L);org.mockito.Mockito.when(users.getUser(3L)).thenReturn(new cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO().setId(3L).setStatus(1));
+        assertServiceException(()->service.save(r,2L),PAYROLL_REQUIREMENT_PERSON_INVALID);
+    }
+    @Test void nonexistentReviewerAndForgedConfirmationAreRejected() {
+        HrmPayrollRequirementSaveReqVO r=confirmed();r.setReviewerId(99999992L);
+        assertServiceException(()->service.save(r,2L),PAYROLL_REQUIREMENT_PERSON_INVALID);
+        r.setReviewerId(2L);
+        assertServiceException(()->service.save(r,3L),PAYROLL_REQUIREMENT_CONFIRMATION_INVALID);
     }
 }
