@@ -1,0 +1,105 @@
+package cn.iocoder.yudao.module.hrm.service.payroll;
+import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
+import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
+import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
+import cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX;
+import cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.*;
+import cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.*;
+import cn.iocoder.yudao.module.hrm.dal.dataobject.salary.monthrecord.*;
+import cn.iocoder.yudao.module.hrm.dal.dataobject.employee.info.HrmEmployeeDO;
+import cn.iocoder.yudao.module.hrm.dal.mysql.payroll.*;
+import cn.iocoder.yudao.module.hrm.dal.mysql.salary.monthrecord.HrmSalaryMonthRecordMapper;
+import cn.iocoder.yudao.module.hrm.dal.mysql.employee.info.HrmEmployeeMapper;
+import java.math.BigDecimal;
+import java.time.*;
+import java.util.*;
+import javax.annotation.Resource;
+import javax.validation.Validator;
+import lombok.Data;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.*;
+/** Employee cash adjustments and historical employer costs; never rewrites paid wages or agency bills. */
+@Service public class HrmPayrollInsuranceAdjustmentService {
+ @Resource private HrmPayrollInsuranceAdjustmentMapper adjustments;
+ @Resource private HrmPayrollInsuranceAdjustmentEventMapper events;
+ @Resource private HrmPayrollInsuranceBillMapper bills;
+ @Resource private HrmPayrollInsuranceBillLineMapper lines;
+ @Resource private HrmPayrollTaxCorrectionMapper corrections;
+ @Resource private HrmPayrollTaxPolicyMapper policies;
+ @Resource private HrmPayrollPaymentMapper payments;
+ @Resource private HrmPayrollRunMapper runs;
+ @Resource private HrmSalaryMonthRecordMapper batches;
+ @Resource private HrmEmployeeMapper employees;
+ @Resource private HrmPayrollEntityService entities;
+ @Resource private HrmPayrollScopeService scope;
+ @Resource private HrmPayrollTaxProfileService profiles;
+ @Resource private Validator validator;
+ @Data public static class Proof {
+  private String paymentDigest;
+  private HrmPayrollInsurancePolicyService.Quote original;
+  private List<Object> billLines=new ArrayList<>(),settled=new ArrayList<>();
+  private Long billId,correctionId;
+  private Integer billVersion,correctionVersion;
+  private BigDecimal personalDelta,corporateDelta,correctedSocial;
+ }
+ private LocalDateTime now(){return LocalDateTime.now(ZoneId.of("Asia/Shanghai"));}
+ private void text(String value){if(value==null||value.trim().isEmpty()||value.length()>1000)throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);}
+ private String digest(Object value){return cn.hutool.crypto.digest.DigestUtil.sha256Hex(JsonUtils.toJsonString(value));}
+ private HrmPayrollInsuranceAdjustmentDO row(Long id){HrmPayrollInsuranceAdjustmentDO r=adjustments.selectById(id);if(r==null)throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);return r;}
+ private HrmSalaryMonthRecordDO original(Long paymentId,String action,Long actor,boolean lock){
+  HrmPayrollPaymentDO p=payments.selectById(paymentId);HrmSalaryMonthRecordDO b=p==null?null:batches.selectById(p.getMonthRecordId());if(b==null)throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);scope.check(b,"READ",actor);scope.check(b,action,actor);
+  if(lock){entities.lockApproved(b.getEntityId());b=batches.selectByIdForUpdate(b.getId());}
+  if(!"REGULAR".equals(b.getBatchKey())||!Arrays.asList(15,16,17,10).contains(b.getStatus())||!"SUCCESS".equals(p.getStatus())||p.getValueDate()==null)throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);return b;
+ }
+ private Map<String,Object> root(HrmPayrollRunDO run){Set<Long> seen=new HashSet<>();while(true){if(run==null||!seen.add(run.getId()))throw exception(PAYROLL_VERSION_CONFLICT);Map<String,Object> input=JsonUtils.parseObject(run.getInputSnapshot(),Map.class);Object parent=input.get("sourceRunId");if(parent==null)return input;if(!(parent instanceof Number))throw exception(PAYROLL_VERSION_CONFLICT);HrmPayrollRunDO prior=runs.selectById(((Number)parent).longValue());if(prior==null||!Objects.equals(prior.getMonthRecordId(),run.getMonthRecordId())||prior.getVersion()>=run.getVersion())throw exception(PAYROLL_VERSION_CONFLICT);run=prior;}}
+ private BigDecimal money(BigDecimal n){if(n==null||n.signum()<0)throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);try{return n.setScale(2,java.math.RoundingMode.UNNECESSARY);}catch(ArithmeticException invalid){throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);}}
+ private Proof proof(HrmPayrollInsuranceAdjustmentReqVO req,HrmSalaryMonthRecordDO batch,Long exclude){
+  HrmPayrollPaymentDO p=payments.selectById(req.getPaymentId());HrmPayrollRunDO run=runs.selectById(p.getRunId());if(run==null||!Objects.equals(run.getMonthRecordId(),batch.getId()))throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);
+  Object saved=root(run).get("insurancePolicySources");if(!(saved instanceof Map))throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);
+  HrmPayrollInsurancePolicyService.Quote q=JsonUtils.parseObject(JsonUtils.toJsonString(((Map<?,?>)saved).get(p.getEmployeeId().toString())),HrmPayrollInsurancePolicyService.Quote.class);
+  if(q==null||!Objects.equals(q.getEntityId(),batch.getEntityId())||!Objects.equals(q.getPayerEntityId(),batch.getEntityId())||!Objects.equals(q.getEmployeeId(),p.getEmployeeId())||!"INSURED".equals(q.getCoverage())||q.getYear()==null||q.getMonth()==null||q.getProjects()==null||q.getProjects().isEmpty())throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);
+  HrmPayrollInsuranceBillDO bill=bills.selectById(req.getBillId());if(bill==null||!"RECONCILED".equals(bill.getStatus())||!Objects.equals(bill.getEntityId(),batch.getEntityId())||!Objects.equals(bill.getYear(),q.getYear())||!Objects.equals(bill.getMonth(),q.getMonth())||bill.getApprovedBy()==null||bill.getReviewedBy()==null||Objects.equals(bill.getReviewedBy(),bill.getApprovedBy()))throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);
+  if(bills.selectCount(new LambdaQueryWrapperX<HrmPayrollInsuranceBillDO>().eq(HrmPayrollInsuranceBillDO::getEntityId,batch.getEntityId()).eq(HrmPayrollInsuranceBillDO::getYear,q.getYear()).eq(HrmPayrollInsuranceBillDO::getMonth,q.getMonth()).in(HrmPayrollInsuranceBillDO::getStatus,"APPROVED","RECONCILED").gt(HrmPayrollInsuranceBillDO::getVersion,bill.getVersion()))>0)throw exception(PAYROLL_VERSION_CONFLICT);
+  Proof proof=new Proof().setPaymentDigest(HrmPayrollTaxCorrectionService.digest(p,run)).setOriginal(q).setBillId(bill.getId()).setBillVersion(bill.getVersion());
+  Set<String> originalCodes=new HashSet<>(),finalCodes=new HashSet<>();BigDecimal oldPersonal=BigDecimal.ZERO,oldCorporate=BigDecimal.ZERO,newPersonal=BigDecimal.ZERO,newCorporate=BigDecimal.ZERO;
+  for(HrmPayrollInsurancePolicyService.ProjectAmount project:q.getProjects()){if(project.getCode()==null||!originalCodes.add(project.getCode()))throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);oldPersonal=oldPersonal.add(money(project.getPersonalAmount()));oldCorporate=oldCorporate.add(money(project.getCorporateAmount()));}
+  if(oldPersonal.compareTo(money(q.getPersonalInsurance()).add(money(q.getPersonalFund())))!=0||oldCorporate.compareTo(money(q.getCorporateInsurance()).add(money(q.getCorporateFund())))!=0)throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);
+  for(HrmPayrollInsuranceBillLineDO line:lines.selectList(new LambdaQueryWrapperX<HrmPayrollInsuranceBillLineDO>().eq(HrmPayrollInsuranceBillLineDO::getBillId,bill.getId()).eq(HrmPayrollInsuranceBillLineDO::getEmployeeId,p.getEmployeeId()).orderByAsc(HrmPayrollInsuranceBillLineDO::getProjectCode))){
+   if(!Objects.equals(line.getEntityId(),batch.getEntityId())||!finalCodes.add(line.getProjectCode())||!"MATCHED".equals(line.getStatus())||money(line.getExpectedPersonal()).compareTo(money(line.getActualPersonal()))!=0||money(line.getExpectedCorporate()).compareTo(money(line.getActualCorporate()))!=0)throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);
+   newPersonal=newPersonal.add(line.getActualPersonal());newCorporate=newCorporate.add(line.getActualCorporate());proof.getBillLines().add(Arrays.asList(line.getId(),line.getRevision(),line.getProjectCode(),line.getActualPersonal(),line.getActualCorporate()));
+  }
+  if(finalCodes.isEmpty()||!finalCodes.containsAll(originalCodes))throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);
+  BigDecimal personal=newPersonal.subtract(oldPersonal),corporate=newCorporate.subtract(oldCorporate),settledPersonal=BigDecimal.ZERO;
+  for(HrmPayrollInsuranceAdjustmentDO previous:adjustments.selectList(new LambdaQueryWrapperX<HrmPayrollInsuranceAdjustmentDO>().eq(HrmPayrollInsuranceAdjustmentDO::getPaymentId,p.getId()).in(HrmPayrollInsuranceAdjustmentDO::getStatus,"PENDING","APPROVED","SETTLED").orderByAsc(HrmPayrollInsuranceAdjustmentDO::getId))){if(Objects.equals(previous.getId(),exclude))continue;if(!"SETTLED".equals(previous.getStatus()))throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);personal=personal.subtract(previous.getPersonalDelta());corporate=corporate.subtract(previous.getCorporateDelta());settledPersonal=settledPersonal.add(previous.getPersonalDelta());proof.getSettled().add(Arrays.asList(previous.getId(),previous.getPersonalDelta(),previous.getCorporateDelta(),previous.getSourceDigest(),previous.getReceiptReference()));}
+  if(personal.signum()==0&&corporate.signum()==0)throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);
+  HrmPayrollTaxCashLedgerVO.Row raw=new HrmPayrollTaxCashLedgerVO.Row();HrmPayrollTaxCashLedgerService.populate(raw,p,run,false);
+  HrmPayrollTaxCorrectionDO c=corrections.selectOne(new LambdaQueryWrapperX<HrmPayrollTaxCorrectionDO>().eq(HrmPayrollTaxCorrectionDO::getPaymentId,p.getId()).eq(HrmPayrollTaxCorrectionDO::getStatus,"APPROVED"));
+  BigDecimal expectedSocial=raw.getSocialDeduction().add(settledPersonal).add(personal);
+  if(!Objects.equals(req.getCorrectionId(),c==null?null:c.getId())||expectedSocial.signum()<0|| (c==null?raw.getSocialDeduction():c.getSocialDeduction()).compareTo(expectedSocial)!=0)throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);
+  if(c!=null){HrmPayrollTaxProfileDO profile=profiles.requireApproved(batch.getEntityId(),p.getEmployeeId(),p.getValueDate().getYear());HrmPayrollTaxPolicyDO policy=policies.selectById(c.getPolicyId());if(!Objects.equals(c.getSourceDigest(),proof.getPaymentDigest())||!Objects.equals(c.getEntityId(),batch.getEntityId())||!Objects.equals(c.getEmployeeId(),p.getEmployeeId())||!Objects.equals(c.getValueDate(),p.getValueDate())||!Objects.equals(c.getProfileId(),profile.getId())||!Objects.equals(c.getProfileVersion(),profile.getVersion())||!Objects.equals(c.getTaxpayerKey(),profile.getTaxpayerKey())||policy==null||!"APPROVED".equals(policy.getStatus())||!Objects.equals(policy.getEntityId(),batch.getEntityId())||!Objects.equals(policy.getYear(),p.getValueDate().getYear())||!Objects.equals(policy.getVersion(),c.getPolicyVersion()))throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);proof.setCorrectionId(c.getId()).setCorrectionVersion(c.getVersion());}
+  return proof.setPersonalDelta(personal).setCorporateDelta(corporate).setCorrectedSocial(expectedSocial);
+ }
+ private void fresh(HrmPayrollInsuranceAdjustmentDO r,HrmSalaryMonthRecordDO b){Proof proof=proof(JsonUtils.parseObject(r.getRequestSnapshot(),HrmPayrollInsuranceAdjustmentReqVO.class),b,r.getId());if(!Objects.equals(r.getSourceDigest(),digest(proof))||r.getPersonalDelta().compareTo(proof.getPersonalDelta())!=0||r.getCorporateDelta().compareTo(proof.getCorporateDelta())!=0)throw exception(PAYROLL_VERSION_CONFLICT);}
+ private void independent(HrmPayrollInsuranceAdjustmentDO r,Long actor,boolean cashier){HrmEmployeeDO e=employees.selectById(r.getEmployeeId());if(actor==null||e==null||Objects.equals(actor,r.getSubmittedBy())||Objects.equals(actor,e.getUserId())||cashier&&Objects.equals(actor,r.getReviewedBy()))throw exception(PAYROLL_SELF_APPROVAL);}
+ private void event(HrmPayrollInsuranceAdjustmentDO r,String action,String reason,Long actor){events.insert(new HrmPayrollInsuranceAdjustmentEventDO().setAdjustmentId(r.getId()).setActorId(actor).setAction(action).setReason(reason).setSnapshot(JsonUtils.toJsonString(r)));}
+ @Transactional(rollbackFor=Exception.class,isolation=Isolation.READ_COMMITTED)
+ public Long create(HrmPayrollInsuranceAdjustmentReqVO req,Long actor){if(actor==null||!validator.validate(req).isEmpty())throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);HrmSalaryMonthRecordDO b=original(req.getPaymentId(),"MANAGE",actor,true);String request=JsonUtils.toJsonString(req);HrmPayrollInsuranceAdjustmentDO replay=adjustments.selectOne(HrmPayrollInsuranceAdjustmentDO::getRequestKey,req.getRequestKey());if(replay!=null){if(!Objects.equals(actor,replay.getSubmittedBy())||!Objects.equals(request,replay.getRequestSnapshot()))throw exception(PAYROLL_VERSION_CONFLICT);return replay.getId();}Proof proof=proof(req,b,null);HrmPayrollPaymentDO p=payments.selectById(req.getPaymentId());HrmPayrollInsuranceAdjustmentDO r=new HrmPayrollInsuranceAdjustmentDO().setEntityId(b.getEntityId()).setEmployeeId(p.getEmployeeId()).setPaymentId(p.getId()).setBillId(req.getBillId()).setCorrectionId(req.getCorrectionId()).setPersonalDelta(proof.getPersonalDelta()).setCorporateDelta(proof.getCorporateDelta()).setSourceSnapshot(JsonUtils.toJsonString(proof)).setSourceDigest(digest(proof)).setStatus("PENDING").setEmployeeAcknowledgement(req.getEmployeeAcknowledgement()).setEvidence(req.getEvidence()).setSubmittedBy(actor).setRequestKey(req.getRequestKey()).setRequestSnapshot(request);adjustments.insert(r);event(r,"SUBMIT",req.getEvidence(),actor);return r.getId();}
+ @Transactional(rollbackFor=Exception.class,isolation=Isolation.READ_COMMITTED)
+ public void review(Long id,boolean approve,String reason,Long actor){text(reason);HrmPayrollInsuranceAdjustmentDO candidate=row(id);HrmSalaryMonthRecordDO b=original(candidate.getPaymentId(),"REVIEW",actor,true);HrmPayrollInsuranceAdjustmentDO r=adjustments.selectOneForUpdate(HrmPayrollInsuranceAdjustmentDO::getId,id);if(!"PENDING".equals(r.getStatus()))throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);independent(r,actor,false);if(approve)fresh(r,b);r.setStatus(approve?"APPROVED":"REJECTED").setReviewedBy(actor).setReviewReason(reason).setReviewedTime(now());adjustments.updateById(r);event(r,approve?"APPROVE":"REJECT",reason,actor);}
+ @Transactional(rollbackFor=Exception.class,isolation=Isolation.READ_COMMITTED)
+ public void confirm(HrmPayrollInsuranceAdjustmentActionReqVO req,Long actor){if(!validator.validate(req).isEmpty()||req.getAmount()==null||req.getReference()==null||req.getReference().trim().isEmpty()||req.getValueDate()==null)throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);text(req.getEvidence());HrmPayrollInsuranceAdjustmentDO candidate=row(req.getId());HrmSalaryMonthRecordDO b=original(candidate.getPaymentId(),"APPROVE",actor,true);HrmPayrollInsuranceAdjustmentDO r=adjustments.selectOneForUpdate(HrmPayrollInsuranceAdjustmentDO::getId,req.getId());independent(r,actor,true);
+  if("SETTLED".equals(r.getStatus())){if(Objects.equals(r.getReceiptReference(),req.getReference())&&Objects.equals(r.getReceiptEvidence(),req.getEvidence())&&Objects.equals(r.getValueDate(),req.getValueDate())&&r.getPersonalDelta().abs().compareTo(req.getAmount())==0)return;throw exception(PAYROLL_VERSION_CONFLICT);}
+  if(!"APPROVED".equals(r.getStatus())||r.getPersonalDelta().abs().compareTo(req.getAmount())!=0||req.getValueDate().isAfter(now().toLocalDate())||req.getValueDate().isBefore(r.getReviewedTime().toLocalDate())||req.getValueDate().isBefore(payments.selectById(r.getPaymentId()).getValueDate())||adjustments.selectOne(HrmPayrollInsuranceAdjustmentDO::getReceiptReference,req.getReference())!=null)throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);fresh(r,b);r.setStatus("SETTLED").setValueDate(req.getValueDate()).setReceiptReference(req.getReference()).setReceiptEvidence(req.getEvidence()).setConfirmedBy(actor).setConfirmedTime(now());adjustments.updateById(r);event(r,r.getPersonalDelta().signum()==0?"CONFIRM_COST":r.getPersonalDelta().signum()>0?"RECEIVE":"REFUND",req.getEvidence(),actor);
+ }
+ @Transactional(rollbackFor=Exception.class,isolation=Isolation.READ_COMMITTED)
+ public void cancel(Long id,String reason,String voidEvidence,Long actor){text(reason);HrmPayrollInsuranceAdjustmentDO candidate=row(id);original(candidate.getPaymentId(),"APPROVE",actor,true);HrmPayrollInsuranceAdjustmentDO r=adjustments.selectOneForUpdate(HrmPayrollInsuranceAdjustmentDO::getId,id);independent(r,actor,false);if(!Arrays.asList("PENDING","APPROVED").contains(r.getStatus()))throw exception(PAYROLL_INSURANCE_ADJUSTMENT_INVALID);if("APPROVED".equals(r.getStatus()))text(voidEvidence);r.setStatus("CANCELLED").setReviewReason(reason);adjustments.updateById(r);event(r,"CANCEL",reason+(voidEvidence==null?"":"；收退指令作废依据："+voidEvidence),actor);}
+ public List<HrmPayrollInsuranceAdjustmentDO> list(Long entity,Long actor){entities.check(entity,"READ",actor);return adjustments.selectList(new LambdaQueryWrapperX<HrmPayrollInsuranceAdjustmentDO>().eq(HrmPayrollInsuranceAdjustmentDO::getEntityId,entity).orderByDesc(HrmPayrollInsuranceAdjustmentDO::getId));}
+ public List<HrmPayrollInsuranceAdjustmentEventDO> history(Long id,Long actor){HrmPayrollInsuranceAdjustmentDO r=row(id);original(r.getPaymentId(),"READ",actor,false);return events.selectList(new LambdaQueryWrapperX<HrmPayrollInsuranceAdjustmentEventDO>().eq(HrmPayrollInsuranceAdjustmentEventDO::getAdjustmentId,id).orderByAsc(HrmPayrollInsuranceAdjustmentEventDO::getId));}
+ public List<Map<String,Object>> entities(Long actor){List<Map<String,Object>> result=new ArrayList<>();for(Long id:entities.accessible("READ",actor)){Map<String,Object> e=new LinkedHashMap<>();e.put("id",id);e.put("name",entities.name(id));result.add(e);}return result;}
+ public Map<String,Object> options(Long entity,Long actor){entities.check(entity,"READ",actor);Map<String,Object> result=new LinkedHashMap<>();List<Object> paid=new ArrayList<>(),approvedBills=new ArrayList<>(),approvedCorrections=new ArrayList<>();
+  for(HrmSalaryMonthRecordDO b:batches.selectList(new LambdaQueryWrapperX<HrmSalaryMonthRecordDO>().eq(HrmSalaryMonthRecordDO::getEntityId,entity).eq(HrmSalaryMonthRecordDO::getBatchKey,"REGULAR").in(HrmSalaryMonthRecordDO::getStatus,15,16,17,10))){scope.check(b,"READ",actor);for(HrmPayrollPaymentDO p:payments.selectList(new LambdaQueryWrapperX<HrmPayrollPaymentDO>().eq(HrmPayrollPaymentDO::getMonthRecordId,b.getId()).eq(HrmPayrollPaymentDO::getStatus,"SUCCESS"))){Map<String,Object> item=new LinkedHashMap<>();item.put("id",p.getId());item.put("name",b.getTitle()+" · "+p.getEmployeeName()+" · "+p.getId());paid.add(item);for(HrmPayrollTaxCorrectionDO c:corrections.selectList(new LambdaQueryWrapperX<HrmPayrollTaxCorrectionDO>().eq(HrmPayrollTaxCorrectionDO::getPaymentId,p.getId()).eq(HrmPayrollTaxCorrectionDO::getStatus,"APPROVED"))){Map<String,Object> correction=new LinkedHashMap<>();correction.put("id",c.getId());correction.put("paymentId",p.getId());correction.put("name","更正"+c.getId()+" · 原年度个人扣除 "+c.getSocialDeduction());approvedCorrections.add(correction);}}}
+  for(HrmPayrollInsuranceBillDO b:bills.selectList(new LambdaQueryWrapperX<HrmPayrollInsuranceBillDO>().eq(HrmPayrollInsuranceBillDO::getEntityId,entity).eq(HrmPayrollInsuranceBillDO::getStatus,"RECONCILED"))){Map<String,Object> item=new LinkedHashMap<>();item.put("id",b.getId());item.put("name",b.getYear()+"-"+b.getMonth()+" · v"+b.getVersion()+" · "+b.getReference());approvedBills.add(item);}result.put("payments",paid);result.put("bills",approvedBills);result.put("corrections",approvedCorrections);return result;
+ }
+ @Transactional(readOnly=true,isolation=Isolation.REPEATABLE_READ)
+ public Proof preview(HrmPayrollInsuranceAdjustmentReqVO req,Long actor){return proof(req,original(req.getPaymentId(),"READ",actor,false),null);}
+}

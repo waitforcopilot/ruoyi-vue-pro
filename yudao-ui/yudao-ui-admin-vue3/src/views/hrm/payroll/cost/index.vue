@@ -89,15 +89,19 @@
               label="项目"
             /><el-table-column prop="percent" label="比例%" />
             <el-table-column prop="gross" label="冻结应发" /><el-table-column
-              prop="wageRecovery"
-              label="结清收回调整"
-            /><el-table-column prop="insurance" label="单位社保" /><el-table-column
-              prop="fund"
-              label="单位公积金"
-            /><el-table-column prop="employerCost" label="配置单位成本" /><el-table-column
-              prop="total"
-              label="总成本"
-            /><el-table-column prop="ruleId" label="规则编号" /> </el-table
+              prop="insuranceAdjustment"
+              label="社保公积金单位调整（元）"
+              min-width="180"
+            /><el-table-column prop="wageRecovery" label="结清收回调整" /><el-table-column
+              prop="insurance"
+              label="单位社保"
+            /><el-table-column prop="fund" label="单位公积金" /><el-table-column
+              prop="employerCost"
+              label="配置单位成本"
+            /><el-table-column prop="total" label="总成本" /><el-table-column
+              prop="ruleId"
+              label="规则编号"
+            /> </el-table
         ></template>
       </el-tab-pane>
       <el-tab-pane label="分摊规则与历史版本" name="rules">
@@ -281,9 +285,15 @@ const summaries = ({ columns, data }: any) =>
   columns.map((column: any, index: number) => {
     if (index === 0) return '合计'
     if (
-      !['gross', 'insurance', 'fund', 'employerCost', 'wageRecovery', 'total'].includes(
-        column.property
-      )
+      ![
+        'gross',
+        'insurance',
+        'fund',
+        'employerCost',
+        'wageRecovery',
+        'insuranceAdjustment',
+        'total'
+      ].includes(column.property)
     )
       return ''
     return data

@@ -23,6 +23,7 @@ import java.math.BigDecimal;
  @ExcelProperty("单位公积金分摊（元）") private BigDecimal fund;
  @ExcelProperty("配置单位成本分摊（元）") private BigDecimal employerCost;
  @ExcelProperty("结清工资收回调整（元）") private BigDecimal wageRecovery;
+ @ExcelProperty("结清社保公积金单位差额（元）") private BigDecimal insuranceAdjustment;
  @ExcelProperty("总成本（元）") private BigDecimal total;
  @ExcelProperty("分摊规则编号") private Long ruleId;
 }
