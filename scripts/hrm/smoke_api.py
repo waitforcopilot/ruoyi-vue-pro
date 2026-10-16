@@ -75,6 +75,22 @@ if args.initialize:
     assert result("/hrm/payroll/requirement/initialize", {}, "POST") == 0
     assert len(result("/hrm/payroll/requirement/list")) >= 43
     print("Passed: idempotent PRD initialization")
+    result("/hrm/salary/option/sync", {}, "PUT")
+    first_catalog = result("/hrm/salary/option/list")
+    result("/hrm/salary/option/sync", {}, "PUT")
+    assert first_catalog == result("/hrm/salary/option/list"), "Catalog sync must be idempotent"
+    from pathlib import Path
+    import re
+    enum_file = Path(__file__).resolve().parents[2] / "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/enums/salary/config/HrmSalaryOptionCodeEnum.java"
+    required = {int(code) for code in re.findall(r'^    [A-Z_]+\((\d+),', enum_file.read_text(), re.M)}
+    catalog = {row["code"]: row for row in first_catalog}
+    missing = required - catalog.keys()
+    assert not missing, f"Missing salary items {sorted(missing)}: apply complete-catalog migration and PUT /hrm/salary/option/sync"
+    for code in required:
+        item = catalog[code]
+        assert item["enabled"] and item["parentCode"] == code // 1000, f"Invalid salary item {code}"
+        assert catalog[item["parentCode"]]["enabled"], f"Disabled/missing category for {code}"
+    print("Passed: complete, enabled and idempotent salary catalog")
 assert call("/hrm/payroll/requirement/export")[:2] == b"PK"
 unauthenticated = json.loads(call("/hrm/payroll/requirement/list", authenticated=False))
 assert unauthenticated.get("code") == 401

@@ -3,6 +3,8 @@ package cn.iocoder.yudao.server.controller;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.util.servlet.ServletUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationContext;
+import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +22,9 @@ import static cn.iocoder.yudao.framework.common.exception.enums.GlobalErrorCodeC
 @RestController
 @Slf4j
 public class DefaultController {
+
+    @Resource
+    private ApplicationContext applicationContext;
 
     @RequestMapping("/admin-api/bpm/**")
     public CommonResult<Boolean> bpm404() {
@@ -79,6 +84,9 @@ public class DefaultController {
 
     @RequestMapping("/admin-api/hrm/**")
     public CommonResult<Boolean> hrm404() {
+        if (applicationContext.containsBean("hrmSalaryOptionController")) {
+            return CommonResult.error(404, "HRM 接口不存在，请检查请求路径及版本");
+        }
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
                 "[HRM 人力资源管理系统 yudao-module-hrm - 已禁用][参考 https://doc.iocoder.cn/hrm/build/ 开启]");
     }

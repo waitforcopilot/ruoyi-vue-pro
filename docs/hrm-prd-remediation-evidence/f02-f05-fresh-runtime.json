@@ -1,0 +1,14 @@
+{
+  "database": "hrm_remediation_20261016",
+  "freshMigrationCount": 51,
+  "templateCount": 68,
+  "rootCount": 27,
+  "tenantOptionsBeforeSync": 0,
+  "tenantOptionsAfterSync": 68,
+  "catalogIdempotent": true,
+  "tenantDisabledFlagPreserved": true,
+  "createdOptionId": 69,
+  "unknownRouteCode": 404,
+  "noBusinessCatalogSqlFixture": true,
+  "payrollCompute": "尚待完整正向链路验证"
+}
