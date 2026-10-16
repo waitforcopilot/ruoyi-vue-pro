@@ -30,7 +30,7 @@ public class FileTypeUtils {
      */
     @SneakyThrows
     public static String getMineType(byte[] data) {
-        return TIKA.detect(data);
+        return normalizeMimeType(TIKA.detect(data));
     }
 
     /**
@@ -40,7 +40,7 @@ public class FileTypeUtils {
      * @return mineType 无法识别时会返回“application/octet-stream”
      */
     public static String getMineType(String name) {
-        return TIKA.detect(name);
+        return normalizeMimeType(TIKA.detect(name));
     }
 
     /**
@@ -51,7 +51,12 @@ public class FileTypeUtils {
      * @return mineType 无法识别时会返回“application/octet-stream”
      */
     public static String getMineType(byte[] data, String name) {
-        return TIKA.detect(data, name);
+        return normalizeMimeType(TIKA.detect(data, name));
+    }
+
+    private static String normalizeMimeType(String mimeType) {
+        // Tika 的历史别名与上传白名单、浏览器使用的标准 Markdown MIME 类型保持一致。
+        return "text/x-web-markdown".equals(mimeType) ? "text/markdown" : mimeType;
     }
 
     /**
