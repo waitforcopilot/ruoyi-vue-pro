@@ -99,4 +99,7 @@ class HrmPayrollSupplementServiceTest extends BaseDbUnitTest {
   batches.updateById(new HrmSalaryMonthRecordDO().setId(original.getId()).setParentBatchId(999L).setBatchKey("SUPPLEMENT:derived"));
   assertServiceException(()->service.create(req(),1L),PAYROLL_RETRO_INVALID);assertEquals(1,batches.selectCount());
  }
+ @Test void readOnlyPreparationShowsPendingThenReadyWithoutWritingResults(){Long batch=service.create(req(),1L);assertFalse(service.readiness(batch,1L).get(employeeId));Long id=retro.list(batch,1L).get(0).getId();retro.review(id,true,"独立核实",2L);assertTrue(service.readiness(batch,1L).get(employeeId));assertEquals(5,batches.selectById(batch).getStatus());assertTrue(employeeRecords.selectListByMonthRecordId(batch).isEmpty());assertEquals(1,runs.selectCount());verifyNoInteractions(sourceClaims);}
+ @Test void preflightRechecksTaxAndOriginalPaymentWithoutLeakingPrivateErrors(){Long batch=approved();when(deductions.source(any(),any(),anyInt(),anyInt())).thenReturn(null);assertFalse(service.readiness(batch,1L).get(employeeId));when(deductions.source(any(),any(),anyInt(),anyInt())).thenReturn(new HrmPayrollTaxDeductionDO());assertTrue(service.readiness(batch,1L).get(employeeId));payments.updateById(new HrmPayrollPaymentDO().setId(paymentId).setAmount(new BigDecimal("8999")));assertFalse(service.readiness(batch,1L).get(employeeId));assertTrue(employeeRecords.selectListByMonthRecordId(batch).isEmpty());}
+
 }

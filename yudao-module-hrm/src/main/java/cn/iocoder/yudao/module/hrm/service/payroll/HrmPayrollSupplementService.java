@@ -69,24 +69,33 @@ import org.springframework.transaction.annotation.*;
  private HrmSalaryMonthEmployeeRecordDO.OptionValue value(int code,String name,BigDecimal amount) {
   return HrmSalaryMonthEmployeeRecordDO.OptionValue.builder().code(code).name(name).value(amount).build();
  }
- @Transactional(rollbackFor=Exception.class,isolation=Isolation.READ_COMMITTED)
- public Long compute(Long batchId,Long actor) {
-  HrmSalaryMonthRecordDO b=require(batchId,actor);
-  List<HrmPayrollRetroDO> sources=retro.sources(batchId);
-  if(sources.isEmpty() || retros.selectCount(new LambdaQueryWrapperX<HrmPayrollRetroDO>().eq(HrmPayrollRetroDO::getBatchId,batchId).eq(HrmPayrollRetroDO::getStatus,"PENDING"))>0) throw exception(PAYROLL_RETRO_INVALID);
+ /** Uses the same pure preparation as computation; no result writes or source reservations. */
+ @Transactional(readOnly=true,isolation=Isolation.REPEATABLE_READ)
+ public Map<Long,Boolean> readiness(Long batchId,Long actor) {
+  HrmSalaryMonthRecordDO b=batches.selectById(batchId);scope.check(b,"READ",actor);
+  if(!isSupplement(b)||Arrays.asList(15,16,17,10).contains(b.getStatus()))throw exception(PAYROLL_RETRO_INVALID);
+  Map<Long,Boolean> result=new TreeMap<>();
+  for(HrmPayrollRetroDO source:retros.selectList(new LambdaQueryWrapperX<HrmPayrollRetroDO>().eq(HrmPayrollRetroDO::getBatchId,batchId).in(HrmPayrollRetroDO::getStatus,"PENDING","APPROVED")))result.put(source.getEmployeeId(),false);
+  try{for(HrmSalaryMonthEmployeeRecordDO row:prepare(b))result.put(row.getEmployeeId(),true);}catch(cn.iocoder.yudao.framework.common.exception.ServiceException missing){/* Non-monetary missing state; preparation will explain failure at calculation. */}
+  return result;
+ }
+ private List<HrmSalaryMonthEmployeeRecordDO> prepare(HrmSalaryMonthRecordDO b) {
+  if(b.getExpectedPaymentDate()==null)throw exception(PAYROLL_TAX_PAYMENT_DATE_MISSING);
+  List<HrmPayrollRetroDO> sources=retro.sources(b.getId());
+  if(sources.isEmpty() || retros.selectCount(new LambdaQueryWrapperX<HrmPayrollRetroDO>().eq(HrmPayrollRetroDO::getBatchId,b.getId()).eq(HrmPayrollRetroDO::getStatus,"PENDING"))>0) throw exception(PAYROLL_RETRO_INVALID);
   HrmSalaryOptionDO option=options.getSalaryOptionList(false).stream().filter(o->Objects.equals(o.getCode(),10901)).findFirst().orElse(null);
   if(option==null||!Objects.equals(option.getParentCode(),10)||!Boolean.TRUE.equals(option.getTaxEnabled())||!Objects.equals(option.getType(),1)||Boolean.FALSE.equals(option.getEnabled())) throw exception(PAYROLL_RETRO_INVALID);
   Map<Long,BigDecimal> amounts=new TreeMap<>();for(HrmPayrollRetroDO row:sources) {
    if(row.getDelta().signum()<=0) throw exception(PAYROLL_RETRO_INVALID);
    amounts.merge(row.getEmployeeId(),row.getDelta(),BigDecimal::add);
   }
-  List<HrmSalaryMonthEmployeeRecordDO> results=new ArrayList<>();BigDecimal gross=BigDecimal.ZERO,withheld=BigDecimal.ZERO,net=BigDecimal.ZERO;
+  List<HrmSalaryMonthEmployeeRecordDO> results=new ArrayList<>();
   for(Map.Entry<Long,BigDecimal> item:amounts.entrySet()) {
    Long employee=item.getKey();BigDecimal amount=item.getValue();LocalDate date=b.getExpectedPaymentDate();
    HrmPayrollTaxDeductionDO declaration=deductions.source(b.getEntityId(),employee,date.getYear(),date.getMonthValue());
    if(declaration==null) throw exception(PAYROLL_TAX_INVALID);
    BigDecimal extra=deductions.values(declaration).values().stream().reduce(BigDecimal.ZERO,BigDecimal::add);
-   HrmPayrollTaxWithholdingService.Source source=tax.calculateForBatch(batchId,b.getEntityId(),employee,date,amount,BigDecimal.ZERO,extra);
+   HrmPayrollTaxWithholdingService.Source source=tax.calculateForBatch(b.getId(),b.getEntityId(),employee,date,amount,BigDecimal.ZERO,extra);
    if(source==null||source.bonusAmount().signum()!=0||source.getCurrentIncome().compareTo(amount)!=0||source.getCurrentSocialDeduction().signum()!=0) throw exception(PAYROLL_RETRO_INVALID);
    BigDecimal currentTax=source.getQuote().getCurrentWithholding();BigDecimal cash=amount.subtract(currentTax);
    BigDecimal taxable=amount.subtract(source.getQuote().getBasicDeduction().subtract(source.getPaid().getBasicDeduction())).max(BigDecimal.ZERO);
@@ -100,12 +109,22 @@ import org.springframework.transaction.annotation.*;
    values.add(value(270103,"累计专项扣除",source.getPaid().getSocialDeduction()));values.add(value(270104,"累计附加扣除",extra));
    values.add(value(270105,"累计应税",source.getQuote().getSalaryTaxable()));values.add(value(270106,"累计税额",source.getQuote().getCumulativeSalaryTax()));
    for(Map.Entry<String,BigDecimal> d:source.getDeductionValues().entrySet()) values.add(value(Integer.parseInt(d.getKey()),"批准累计扣除",d.getValue()));
-   HrmSalaryMonthEmployeeRecordDO row=new HrmSalaryMonthEmployeeRecordDO().setMonthRecordId(batchId).setEntityId(b.getEntityId()).setEmployeeId(employee)
+   HrmSalaryMonthEmployeeRecordDO row=new HrmSalaryMonthEmployeeRecordDO().setMonthRecordId(b.getId()).setEntityId(b.getEntityId()).setEmployeeId(employee)
      .setYear(b.getYear()).setMonth(b.getMonth()).setActualWorkDay(BigDecimal.ZERO).setNeedWorkDay(BigDecimal.ZERO)
      .setExpectedPaySalary(amount).setTaxableSalary(taxable).setPersonalTax(currentTax).setRealPaySalary(cash)
      .setTaxPaymentDate(date).setTaxSourceSnapshot(JsonUtils.toJsonString(source)).setOptionValues(values);
-   results.add(row);gross=gross.add(amount);withheld=withheld.add(currentTax);net=net.add(cash);
+   results.add(row);
   }
+  return results;
+ }
+ @Transactional(rollbackFor=Exception.class,isolation=Isolation.READ_COMMITTED)
+ public Long compute(Long batchId,Long actor) {
+  HrmSalaryMonthRecordDO b=require(batchId,actor);
+  List<HrmPayrollRetroDO> sources=retro.sources(batchId);
+  List<HrmSalaryMonthEmployeeRecordDO> results=prepare(b);
+  BigDecimal gross=BigDecimal.ZERO,withheld=BigDecimal.ZERO,net=BigDecimal.ZERO;
+  for(HrmSalaryMonthEmployeeRecordDO row:results){gross=gross.add(row.getExpectedPaySalary());withheld=withheld.add(row.getPersonalTax());net=net.add(row.getRealPaySalary());}
+  HrmSalaryOptionDO option=options.getSalaryOptionList(false).stream().filter(o->Objects.equals(o.getCode(),10901)).findFirst().orElse(null);
   // Draft rows may be replaced; immutable run snapshots retain every previous calculation.
   employeeRecords.delete(new LambdaQueryWrapperX<HrmSalaryMonthEmployeeRecordDO>().eq(HrmSalaryMonthEmployeeRecordDO::getMonthRecordId,batchId));
   for(HrmSalaryMonthEmployeeRecordDO row:results) employeeRecords.insert(row);
