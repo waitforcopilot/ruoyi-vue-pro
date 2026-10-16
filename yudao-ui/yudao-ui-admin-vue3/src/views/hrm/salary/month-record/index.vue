@@ -205,7 +205,9 @@ const computeFormRef = ref<InstanceType<typeof SalaryMonthComputeForm>>() // 核
 const slipSendFormRef = ref<InstanceType<typeof SalarySlipSendForm>>() // 工资条发放表单
 const readinessAlertRef = ref<InstanceType<typeof SalaryPayrollReadinessAlert>>() // 核算准备提示
 const isArchived = computed(() => record.value.status === HrmSalaryMonthStatus.HISTORY) // 是否已归档
-const canPublishSlip = computed(() => [15, 16, 17, 10].includes(record.value.status))
+const canPublishSlip = computed(
+  () => record.value.status !== undefined && [15, 16, 17, 10].includes(record.value.status)
+)
 const isWritable = computed(
   () =>
     record.value.status === HrmSalaryMonthStatus.UNCOMPUTED ||

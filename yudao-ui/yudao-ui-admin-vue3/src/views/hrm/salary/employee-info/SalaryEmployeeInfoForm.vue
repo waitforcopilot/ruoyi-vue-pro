@@ -158,7 +158,6 @@ import {
 
 defineOptions({ name: 'HrmSalaryEmployeeInfoForm' })
 
-const { t } = useI18n() // 国际化
 const message = useMessage() // 消息弹窗
 const dialogVisible = ref(false) // 弹窗是否显示
 const dialogTitle = ref('定薪/调薪') // 弹窗标题

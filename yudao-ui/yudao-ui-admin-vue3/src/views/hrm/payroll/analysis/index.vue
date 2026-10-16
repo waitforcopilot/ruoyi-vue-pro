@@ -481,8 +481,9 @@ async function importFile() {
   }
 }
 async function exportErrors() {
-  const blob = await request.postOriginal({
+  const blob = await request.download<Blob>({
     url: base + '/preview-errors',
+    method: 'POST',
     data: form(),
     headersType: 'multipart/form-data',
     responseType: 'blob'

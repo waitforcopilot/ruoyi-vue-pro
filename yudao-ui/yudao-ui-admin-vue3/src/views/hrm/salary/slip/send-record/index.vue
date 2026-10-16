@@ -134,7 +134,6 @@ import { formatHrmYearMonth } from '@/views/hrm/utils/format'
 defineOptions({ name: 'HrmSalarySlipSendRecord' })
 
 const message = useMessage() // 消息弹窗
-const { t } = useI18n() // 国际化
 const { push } = useRouter() // 路由
 const loading = ref(false) // 列表加载中
 const total = ref(0) // 列表总数
