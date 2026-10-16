@@ -239,4 +239,7 @@ class HrmPayrollTaxSettlementServiceTest extends BaseDbUnitTest {
         () -> service.submit(request("b", "REFUND", "100").setEmployeeId(99L), 2L),
         PAYROLL_TAX_INVALID);
   }
+ @Test void externalConfirmationMustRecheckFilingSourceAfterApproval(){Long id=approved("stale-external","REFUND","100");when(filingService.detail(anyLong(),anyLong())).thenReturn(Collections.singletonMap("sourceFresh",false));assertServiceException(()->service.confirm(bank(id,"stale-bank-reference","100"),3L),PAYROLL_TAX_INVALID);assertEquals("APPROVED",settlements.selectById(id).getStatus());}
+ @Test void anApprovalCannotSettleAgainstAChangedAuthoritySnapshot(){Long id=approved("changed-authority","REFUND","100");source.getRows().get(0).setExpectedSalaryWithholding(money("1"));filings.updateById(new HrmPayrollTaxFilingDO().setId(filing.getId()).setSourceSnapshot(JsonUtils.toJsonString(source)));assertServiceException(()->service.confirm(bank(id,"changed-authority-bank","100"),3L),PAYROLL_VERSION_CONFLICT);assertEquals("APPROVED",settlements.selectById(id).getStatus());}
+ @Test void settledExactRetryStillWorksAfterFilingSourcesBecomeStale(){Long id=approved("settled-replay","REFUND","100");service.confirm(bank(id,"settled-replay-bank","100"),3L);when(filingService.detail(anyLong(),anyLong())).thenReturn(Collections.singletonMap("sourceFresh",false));service.confirm(bank(id,"settled-replay-bank","100"),3L);assertEquals(3,events.selectCount());}
 }

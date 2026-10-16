@@ -151,6 +151,12 @@ public class HrmPayrollTaxSettlementService {
       throw exception(PAYROLL_TAX_INVALID);
   }
 
+  private void authority(HrmPayrollTaxSettlementDO settlement,HrmPayrollTaxFilingDO filing){
+    if(!Objects.equals(JsonUtils.parseTree(settlement.getAuthoritySnapshot()),JsonUtils.parseTree(filing.getSourceSnapshot())))throw exception(PAYROLL_VERSION_CONFLICT);
+    HrmPayrollTaxFilingSourceVO.Row worker=worker(filing,settlement.getEmployeeId(),settlement.getMode());HrmPayrollTaxProfileDO profile=profiles.selectById(worker.getProfileId());
+    if(profile==null||!Objects.equals(profile.getTaxpayerKey(),settlement.getTaxpayerKey())||!Objects.equals(settlement.getTaxRegistrationNumber(),source(filing).getTaxRegistrationNumber()))throw exception(PAYROLL_VERSION_CONFLICT);
+  }
+
   @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
   public Long submit(HrmPayrollTaxSettlementReqVO req, Long actor) {
     if (!validator.validate(req).isEmpty()) throw exception(PAYROLL_TAX_INVALID);
@@ -196,6 +202,7 @@ public class HrmPayrollTaxSettlementService {
     if (!"PENDING".equals(s.getStatus())) throw exception(PAYROLL_TAX_INVALID);
     avoidSelf(s, actor);
     if (approve) {
+      authority(s,f);
       ready(f, actor);
       available(
           f, JsonUtils.parseObject(s.getRequestSnapshot(), HrmPayrollTaxSettlementReqVO.class), id);
@@ -211,7 +218,7 @@ public class HrmPayrollTaxSettlementService {
   /** Internal read for designated payroll; the caller already checks target batch scope. */
   public HrmPayrollTaxSettlementDO approvedForPayroll(Long id,Long actor){
     HrmPayrollTaxSettlementDO s=settlements.selectById(id);if(s==null||!"APPROVED".equals(s.getStatus()))throw exception(PAYROLL_OFFSET_INVALID);
-    HrmPayrollTaxFilingDO f=filing(s.getFilingId(),"READ",actor,false);ready(f,actor);
+    HrmPayrollTaxFilingDO f=filing(s.getFilingId(),"READ",actor,false);authority(s,f);ready(f,actor);
     available(f,JsonUtils.parseObject(s.getRequestSnapshot(),HrmPayrollTaxSettlementReqVO.class),s.getId());return s;
   }
   private void assertNotScheduled(Long id){if(offsets.selectCount(new cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX<HrmPayrollOffsetDO>().eq(HrmPayrollOffsetDO::getSourceType,"TAX").eq(HrmPayrollOffsetDO::getSourceId,id).in(HrmPayrollOffsetDO::getStatus,"PENDING","APPROVED","CONSUMED"))>0)throw exception(PAYROLL_OFFSET_INVALID);}
@@ -220,7 +227,7 @@ public class HrmPayrollTaxSettlementService {
     if (!validator.validate(req).isEmpty()) throw exception(PAYROLL_TAX_INVALID);
     HrmPayrollTaxSettlementDO candidate = settlements.selectById(req.getId());
     if (candidate == null) throw exception(PAYROLL_TAX_INVALID);
-    filing(candidate.getFilingId(), "APPROVE", actor, true);
+    HrmPayrollTaxFilingDO f=filing(candidate.getFilingId(), "APPROVE", actor, true);
     assertNotScheduled(candidate.getId());
     HrmPayrollTaxSettlementDO s =
         settlements.selectOneForUpdate(HrmPayrollTaxSettlementDO::getId, req.getId());
@@ -237,6 +244,7 @@ public class HrmPayrollTaxSettlementService {
         || req.getValueDate().isAfter(LocalDate.now(ZoneId.of("Asia/Shanghai")))
         || req.getValueDate().isBefore(s.getReviewedTime().toLocalDate()))
       throw exception(PAYROLL_TAX_INVALID);
+    authority(s,f);ready(f,actor);available(f,JsonUtils.parseObject(s.getRequestSnapshot(),HrmPayrollTaxSettlementReqVO.class),s.getId());
     s.setStatus("SETTLED")
         .setValueDate(req.getValueDate())
         .setBankReference(req.getBankReference())
