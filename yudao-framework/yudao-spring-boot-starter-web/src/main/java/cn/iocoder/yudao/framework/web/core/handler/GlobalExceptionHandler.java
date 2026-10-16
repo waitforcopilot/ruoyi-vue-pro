@@ -187,6 +187,10 @@ public class GlobalExceptionHandler {
             InvalidFormatException invalidFormatException = (InvalidFormatException) ex.getCause();
             return CommonResult.error(BAD_REQUEST.getCode(), String.format("请求参数类型错误:%s", invalidFormatException.getValue()));
         }
+        if (ex.getCause() instanceof com.fasterxml.jackson.core.JsonProcessingException
+                && !(ex.getCause() instanceof com.fasterxml.jackson.databind.exc.InvalidDefinitionException)) {
+            return CommonResult.error(BAD_REQUEST.getCode(), "请求体格式或参数类型不正确");
+        }
         if (StrUtil.startWith(ex.getMessage(), "Required request body is missing")) {
             return CommonResult.error(BAD_REQUEST.getCode(), "请求参数类型错误: request body 缺失");
         }

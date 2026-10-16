@@ -150,6 +150,18 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
     }
 
     @Test
+    public void testCreateMonthRecord_rejectsPeriodOutsideSelectedMonth() {
+        HrmSalaryMonthRecordCreateReqVO request = new HrmSalaryMonthRecordCreateReqVO()
+                .setEntityId(1L).setYear(2026).setMonth(10)
+                .setStartTime(LocalDate.of(1970,1,1).atStartOfDay())
+                .setEndTime(LocalDate.of(1970,1,1).atStartOfDay());
+        when(salaryOptionService.getSalaryOptionList(false, true)).thenReturn(Collections.emptyList());
+        assertServiceException(() -> monthRecordService.createMonthRecord(request),
+                cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_DATA_ILLEGAL);
+        assertEquals(0, monthRecordMapper.selectCount());
+    }
+
+    @Test
     public void testCreateMonthRecord_success() {
         // 准备参数
         HrmSalaryMonthRecordCreateReqVO reqVO =

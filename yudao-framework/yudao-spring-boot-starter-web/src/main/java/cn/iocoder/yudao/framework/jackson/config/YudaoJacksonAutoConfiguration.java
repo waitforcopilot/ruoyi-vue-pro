@@ -35,7 +35,7 @@ public class YudaoJacksonAutoConfiguration {
                 .serializerByType(Long.class, NumberSerializer.INSTANCE)
                 .serializerByType(Long.TYPE, NumberSerializer.INSTANCE)
                 // LocalDate / LocalTime
-                .serializerByType(LocalDate.class, LocalDateSerializer.INSTANCE)
+                .serializerByType(LocalDate.class, new LocalDateSerializer(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE))
                 .deserializerByType(LocalDate.class, LocalDateDeserializer.INSTANCE)
                 .serializerByType(LocalTime.class, LocalTimeSerializer.INSTANCE)
                 .deserializerByType(LocalTime.class, LocalTimeDeserializer.INSTANCE)
@@ -54,7 +54,7 @@ public class YudaoJacksonAutoConfiguration {
         m.addSerializer(Long.class, NumberSerializer.INSTANCE);
         m.addSerializer(Long.TYPE, NumberSerializer.INSTANCE);
         // LocalDate / LocalTime
-        m.addSerializer(LocalDate.class, LocalDateSerializer.INSTANCE);
+        m.addSerializer(LocalDate.class, new LocalDateSerializer(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE));
         m.addDeserializer(LocalDate.class, LocalDateDeserializer.INSTANCE);
         m.addSerializer(LocalTime.class, LocalTimeSerializer.INSTANCE);
         m.addDeserializer(LocalTime.class, LocalTimeDeserializer.INSTANCE);
@@ -65,12 +65,20 @@ public class YudaoJacksonAutoConfiguration {
     }
 
     /**
-     * 初始化全局 JsonUtils，直接使用主 ObjectMapper
+     * 初始化全局 JsonUtils，保留历史快照的日期表示
      */
     @Bean
     @SuppressWarnings("InstantiationOfUtilityClass")
     public JsonUtils jsonUtils(ObjectMapper objectMapper) {
-        JsonUtils.init(objectMapper);
+        // HTTP dates use ISO strings. Keep the historical internal snapshot format so
+        // changing a wire representation does not invalidate frozen source digests.
+        ObjectMapper snapshotMapper = objectMapper.copy();
+        SimpleModule snapshotDates = new SimpleModule("SnapshotDateCompatibility");
+        snapshotDates.addSerializer(LocalDate.class, LocalDateSerializer.INSTANCE);
+        snapshotMapper.registerModule(snapshotDates);
+        snapshotMapper.configOverride(LocalDate.class).setFormat(
+                com.fasterxml.jackson.annotation.JsonFormat.Value.forShape(com.fasterxml.jackson.annotation.JsonFormat.Shape.ARRAY));
+        JsonUtils.init(snapshotMapper);
         log.debug("[init][初始化 JsonUtils 成功]");
         return new JsonUtils();
     }

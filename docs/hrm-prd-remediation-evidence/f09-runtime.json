@@ -1,0 +1,42 @@
+{
+  "capturedAt": "2026-10-16T13:08:54.407098",
+  "cases": [
+    {
+      "case": "iso-input-persists-correct-period",
+      "batchId": 4,
+      "expectedStartMillis": 1793462400000,
+      "actualStartMillis": 1793462400000
+    },
+    {
+      "case": "invalid-date-input-rejected",
+      "input": "invalid-date",
+      "code": 400
+    },
+    {
+      "case": "invalid-date-input-rejected",
+      "input": true,
+      "code": 400
+    },
+    {
+      "case": "invalid-date-input-rejected",
+      "input": 1.5,
+      "code": 400
+    },
+    {
+      "case": "invalid-date-input-rejected",
+      "input": {},
+      "code": 400
+    },
+    {
+      "case": "epoch-outside-payroll-period-rejected",
+      "code": 1050400014
+    },
+    {
+      "case": "approved-formula-iso-dates",
+      "id": 1,
+      "effectiveFrom": "2027-01-01",
+      "effectiveTo": "2027-12-31",
+      "status": "APPROVED"
+    }
+  ]
+}

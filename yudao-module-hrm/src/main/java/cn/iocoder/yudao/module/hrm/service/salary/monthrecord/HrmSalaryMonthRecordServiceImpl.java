@@ -172,6 +172,9 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
                 .setBatchKey("REGULAR").setEmployeeCount(0).setStatus(HrmSalaryMonthRecordStatusEnum.UNCOMPUTED.getStatus())
                 .setExpectedPaySalary(BigDecimal.ZERO).setPersonalTax(BigDecimal.ZERO).setRealPaySalary(BigDecimal.ZERO)
                 .setOptionHeaders(buildOptionHeaderList(salaryOptionService.getSalaryOptionList(false, true)));
+        if (monthRecord.getEndTime().toLocalDate().isBefore(yearMonth.atDay(1))
+                || monthRecord.getStartTime().toLocalDate().isAfter(yearMonth.atEndOfMonth()))
+            throw exception(SALARY_DATA_ILLEGAL);
         if(monthRecord.getEndTime().isBefore(monthRecord.getStartTime()) ||
                 java.time.temporal.ChronoUnit.DAYS.between(monthRecord.getStartTime().toLocalDate(),monthRecord.getEndTime().toLocalDate())>365)
             throw exception(SALARY_DATA_ILLEGAL);
