@@ -15,6 +15,68 @@ import static org.junit.jupiter.api.Assertions.*;
 /** Run against an isolated MySQL schema, never against business data. */
 @EnabledIfEnvironmentVariable(named = "HRM_MYSQL_TEST_URL", matches = ".+")
 class LockingSelectMySqlTest {
+    @com.baomidou.mybatisplus.annotation.TableName("hrm_mapper_lock_regression")
+    public static class Row {
+        @com.baomidou.mybatisplus.annotation.TableId private Long id;
+        private Long tenantId;
+        private Integer amount;
+        public Long getId() { return id; }
+        public void setId(Long value) { id = value; }
+        public Long getTenantId() { return tenantId; }
+        public void setTenantId(Long value) { tenantId = value; }
+        public Integer getAmount() { return amount; }
+        public void setAmount(Integer value) { amount = value; }
+    }
+
+    public interface RowMapper extends cn.iocoder.yudao.framework.mybatis.core.mapper.BaseMapperX<Row> { }
+
+    @Test
+    void mapperSelectOneUsesCallingTransactionAndTenantPipeline() throws Exception {
+        String url = System.getenv("HRM_MYSQL_TEST_URL");
+        String user = System.getenv().getOrDefault("HRM_MYSQL_TEST_USER", "root");
+        String password = System.getenv().getOrDefault("HRM_MYSQL_TEST_PASSWORD", "");
+        try (Connection setup = DriverManager.getConnection(url, user, password)) {
+            assertTrue(setup.getCatalog().startsWith("hrm_"), "Requires isolated hrm_ schema");
+            try (Statement ddl = setup.createStatement()) {
+                ddl.execute("CREATE TABLE hrm_mapper_lock_regression (id BIGINT PRIMARY KEY, tenant_id BIGINT NOT NULL, amount INT) ENGINE=InnoDB");
+            }
+            try {
+                try (Statement insert = setup.createStatement()) {
+                    insert.execute("INSERT INTO hrm_mapper_lock_regression VALUES(1,1,10),(2,2,20)");
+                }
+                com.baomidou.mybatisplus.core.MybatisConfiguration configuration = new com.baomidou.mybatisplus.core.MybatisConfiguration();
+                configuration.setEnvironment(new org.apache.ibatis.mapping.Environment("test",
+                        new org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory(),
+                        new org.apache.ibatis.datasource.unpooled.UnpooledDataSource("com.mysql.cj.jdbc.Driver", url, user, password)));
+                com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor pipeline = new com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor();
+                pipeline.addInnerInterceptor(new TenantLineInnerInterceptor(new TenantLineHandler() {
+                    @Override public Expression getTenantId() { return new LongValue(1); }
+                }));
+                pipeline.addInnerInterceptor(new LockingSelectInnerInterceptor());
+                configuration.addInterceptor(pipeline);
+                configuration.addMapper(RowMapper.class);
+                org.apache.ibatis.session.SqlSessionFactory factory = new com.baomidou.mybatisplus.core.MybatisSqlSessionFactoryBuilder().build(configuration);
+                try (org.apache.ibatis.session.SqlSession session = factory.openSession(false);
+                     Connection second = DriverManager.getConnection(url, user, password)) {
+                    RowMapper mapper = session.getMapper(RowMapper.class);
+                    Row row = mapper.selectFirstOneForUpdate(new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<Row>().orderByDesc(Row::getId));
+                    assertNotNull(row);
+                    assertEquals(Long.valueOf(1), row.getId());
+                    assertNull(mapper.selectOne(Row::getId, 2L));
+                    try (Statement competing = second.createStatement()) {
+                        competing.execute("SET SESSION innodb_lock_wait_timeout=1");
+                        SQLException blocked = assertThrows(SQLException.class, () -> competing.executeUpdate("UPDATE hrm_mapper_lock_regression SET amount=11 WHERE id=1"));
+                        assertEquals(1205, blocked.getErrorCode());
+                        session.rollback(true);
+                        assertEquals(1, competing.executeUpdate("UPDATE hrm_mapper_lock_regression SET amount=11 WHERE id=1"));
+                    }
+                }
+            } finally {
+                try (Statement cleanup = setup.createStatement()) { cleanup.execute("DROP TABLE hrm_mapper_lock_regression"); }
+            }
+        }
+    }
+
     @Test
     void tenantOrderedQueriesExecuteAndHoldRowLocks() throws Exception {
         String url = System.getenv("HRM_MYSQL_TEST_URL");

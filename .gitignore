@@ -54,3 +54,6 @@ application-my.yaml
 .DS_Store
 **/.DS_Store
 outputs/
+
+# Python runtime verification helpers
+__pycache__/

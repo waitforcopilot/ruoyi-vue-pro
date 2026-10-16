@@ -99,6 +99,29 @@ public interface BaseMapperX<T> extends MPJBaseMapper<T> {
         return new PageResult<>(mpPage.getRecords(), mpPage.getTotal());
     }
 
+    /**
+     * MP 3.5.17's cursor implementation opens a separate SqlSession, bypassing
+     * query-stage data permission interceptors and releasing row locks early.
+     * Keep single-row reads in the caller's session and transaction.
+     */
+    @Override
+    default T selectOne(Wrapper<T> queryWrapper) {
+        return selectOne(queryWrapper, true);
+    }
+
+    @Override
+    default T selectOne(Wrapper<T> queryWrapper, boolean throwEx) {
+        List<T> rows = selectList(queryWrapper);
+        if (rows.isEmpty()) {
+            return null;
+        }
+        if (rows.size() > 1 && throwEx) {
+            throw new org.apache.ibatis.exceptions.TooManyResultsException(
+                    "Expected one result (or null) but found " + rows.size());
+        }
+        return rows.get(0);
+    }
+
     default T selectOne(String field, Object value) {
         return selectOne(new QueryWrapper<T>().eq(field, value));
     }

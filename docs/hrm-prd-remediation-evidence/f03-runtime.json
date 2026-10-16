@@ -1,0 +1,47 @@
+{
+  "capturedAt": "2026-10-16T12:58:15.784394",
+  "database": "hrm_remediation_20261016",
+  "cases": [
+    {
+      "dataScope": 2,
+      "departments": [
+        103
+      ],
+      "expectedEmployeeId": 1,
+      "previewEmployeeIds": [
+        "1"
+      ],
+      "baseEmployeeIds": [
+        1
+      ],
+      "attendanceEmployeeIds": [
+        1
+      ]
+    },
+    {
+      "dataScope": 5,
+      "departments": [],
+      "expectedEmployeeId": 2,
+      "previewEmployeeIds": [
+        "2"
+      ],
+      "baseEmployeeIds": [
+        2,
+        2,
+        2
+      ],
+      "attendanceEmployeeIds": [
+        2
+      ]
+    },
+    {
+      "case": "manager-cannot-write-outside-department",
+      "code": 1050100000
+    },
+    {
+      "case": "mixed-department-batch-hidden-from-detail-and-list",
+      "batchId": 3,
+      "detailCode": 0
+    }
+  ]
+}
