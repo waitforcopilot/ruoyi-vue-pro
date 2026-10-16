@@ -3,7 +3,9 @@ import request from '@/config/axios'
 // MES SN 码 VO
 export interface WmSnVO {
   id: number
-  snCode: string
+  uuid: string
+  code: string
+  unitName: string
   itemId: number
   itemCode: string
   itemName: string
@@ -13,12 +15,16 @@ export interface WmSnVO {
   createTime: string
 }
 
+export interface WmSnGroupVO extends Omit<WmSnVO, 'id' | 'code'> {
+  count: number
+}
+
 // MES SN 码生成 VO
 export interface WmSnGenerateVO {
   itemId: number
   batchCode?: string
   workOrderId?: number
-  snNum: number
+  count: number
 }
 
 // MES SN 码 API
@@ -30,16 +36,20 @@ export const WmSnApi = {
 
   // 查询 SN 码分页
   getSnPage: async (params: any) => {
-    return await request.get({ url: '/mes/wm/sn/page', params })
+    return await request.get({ url: '/mes/wm/sn/group-page', params })
+  },
+
+  getSnListByUuid: async (uuid: string): Promise<WmSnVO[]> => {
+    return await request.get({ url: '/mes/wm/sn/list-by-uuid', params: { uuid } })
   },
 
   // 批量删除 SN 码
-  deleteSnBatch: async (ids: string) => {
-    return await request.delete({ url: '/mes/wm/sn/delete-batch', params: { ids } })
+  deleteSnBatch: async (uuid: string) => {
+    return await request.delete({ url: '/mes/wm/sn/delete-batch', params: { uuid } })
   },
 
   // 导出 SN 码 Excel
   exportSnExcel: async (params: any) => {
-    return await request.download({ url: '/mes/wm/sn/export-excel', params })
+    return await request.download({ url: '/mes/wm/sn/group-export-excel', params })
   }
 }

@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import * as WmSnApi from '@/api/mes/wm/sn'
+import { WmSnApi, type WmSnGenerateVO } from '@/api/mes/wm/sn'
 import MdItemSelect from '@/views/mes/md/item/components/MdItemSelect.vue'
 
 defineOptions({ name: 'WmSnGenerateForm' })
@@ -28,7 +28,7 @@ const message = useMessage() // 消息弹窗
 
 const dialogVisible = ref(false) // 弹窗的是否展示
 const formLoading = ref(false) // 表单的加载中：提交的按钮禁用
-const formData = ref<WmSnApi.WmSnGenerateVO>({
+const formData = ref<Omit<WmSnGenerateVO, 'itemId'> & { itemId?: number }>({
   // 表单数据
   itemId: undefined,
   batchCode: undefined,
@@ -64,7 +64,9 @@ const submitForm = async () => {
   await formRef.value.validate()
   formLoading.value = true
   try {
-    await WmSnApi.generateSnCodes(formData.value)
+    const itemId = formData.value.itemId
+    if (itemId === undefined) return
+    await WmSnApi.generateSnCodes({ ...formData.value, itemId })
     message.success('生成成功')
     dialogVisible.value = false
     emit('success')

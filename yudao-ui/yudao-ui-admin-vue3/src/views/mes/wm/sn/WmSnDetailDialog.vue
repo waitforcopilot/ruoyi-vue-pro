@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import { dateFormatter } from '@/utils/formatTime'
-import * as WmSnApi from '@/api/mes/wm/sn'
+import { WmSnApi, type WmSnGroupVO, type WmSnVO } from '@/api/mes/wm/sn'
 import { BarcodeDetail } from '@/views/mes/wm/barcode/components'
 import { BarcodeBizTypeEnum } from '@/views/mes/utils/constants'
 
@@ -54,11 +54,11 @@ defineOptions({ name: 'WmSnDetailDialog' })
 
 const dialogVisible = ref(false) // 明细弹窗是否展示
 const detailLoading = ref(false) // 明细列表的加载中
-const detailGroup = ref<WmSnApi.WmSnGroupVO>()
-const detailList = ref<WmSnApi.WmSnVO[]>([]) // 明细列表的数据
+const detailGroup = ref<WmSnGroupVO>()
+const detailList = ref<WmSnVO[]>([]) // 明细列表的数据
 
 /** 查看 SN 码明细 */
-const open = async (row: WmSnApi.WmSnGroupVO) => {
+const open = async (row: WmSnGroupVO) => {
   if (!row.uuid) {
     return
   }
@@ -76,7 +76,7 @@ defineExpose({ open })
 
 /** 查看 SN 码条码 */
 const barcodeDetailRef = ref()
-const handleBarcode = async (row: WmSnApi.WmSnVO) => {
+const handleBarcode = async (row: WmSnVO) => {
   if (!row.id) {
     return
   }
