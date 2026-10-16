@@ -54,7 +54,7 @@ class HrmPayrollScopeServiceTest extends BaseDbUnitTest {
 
     @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInsurancePolicyService payrollInsurancePolicies;
   @Resource private HrmPayrollScopeService scope;
-  @Resource private HrmPayrollEntityService entities;
+  @org.springframework.boot.test.mock.mockito.SpyBean private HrmPayrollEntityService entities;
   @Resource private HrmPayrollBatchService approvals;
   @Resource private HrmPayrollPaymentService payments;
   @Resource private HrmSalaryMonthRecordMapper batches;
@@ -208,4 +208,18 @@ class HrmPayrollScopeServiceTest extends BaseDbUnitTest {
     batches.deleteById(b.getId());
     assertServiceException(() -> scope.validateInputSnapshot(snapshot), PAYROLL_ENTITY_INVALID);
   }
+ @Resource private org.springframework.transaction.PlatformTransactionManager transactionManager;
+ @Test void freezeAndHistoricalCorrectionAcquireEntityBeforeBatchWithoutDeadlock() throws Exception {
+  Long entityId=entity("LOCK-ORDER");HrmSalaryMonthRecordDO batch=batch(entityId,11);Long run=approvals.snapshot(batch.getId(),Collections.singletonMap("entityScope",scope.snapshot(batch)),Collections.emptyMap(),Collections.emptyList(),1L);batches.updateById(new HrmSalaryMonthRecordDO().setId(batch.getId()).setStatus(14));
+  java.util.concurrent.CountDownLatch correctionHasEntity=new java.util.concurrent.CountDownLatch(1),freezeAttemptsEntity=new java.util.concurrent.CountDownLatch(1),correctionMayLockBatch=new java.util.concurrent.CountDownLatch(1);
+  doAnswer(call->{if(Thread.currentThread().getName().contains("freeze-worker"))freezeAttemptsEntity.countDown();return call.callRealMethod();}).when(entities).lockApproved(entityId);
+  doAnswer(call->{entities.lockApproved(entityId);return null;}).when(sourceClaims).reserve(any(),any(),any());
+  java.util.concurrent.ExecutorService executor=java.util.concurrent.Executors.newFixedThreadPool(2);
+  try{
+   java.util.concurrent.Future<?> correction=executor.submit(()->new org.springframework.transaction.support.TransactionTemplate(transactionManager).execute(status->{entities.lockApproved(entityId);correctionHasEntity.countDown();try{assertTrue(correctionMayLockBatch.await(5,java.util.concurrent.TimeUnit.SECONDS));}catch(InterruptedException e){throw new IllegalStateException(e);}assertNotNull(batches.selectByIdForUpdate(batch.getId()));return null;}));
+   assertTrue(correctionHasEntity.await(5,java.util.concurrent.TimeUnit.SECONDS));
+   java.util.concurrent.Future<?> freeze=executor.submit(()->{Thread.currentThread().setName("freeze-worker");approvals.transition(batch.getId(),run,"freeze","并发历史税务更正",2L);});
+   if(!freezeAttemptsEntity.await(5,java.util.concurrent.TimeUnit.SECONDS)){correctionMayLockBatch.countDown();freeze.get(1,java.util.concurrent.TimeUnit.SECONDS);fail("freeze did not attempt the entity lock");}correctionMayLockBatch.countDown();correction.get(10,java.util.concurrent.TimeUnit.SECONDS);freeze.get(10,java.util.concurrent.TimeUnit.SECONDS);assertEquals(15,batches.selectById(batch.getId()).getStatus());
+  }finally{correctionMayLockBatch.countDown();executor.shutdownNow();}
+ }
 }

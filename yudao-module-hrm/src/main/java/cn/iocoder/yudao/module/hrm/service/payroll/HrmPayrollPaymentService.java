@@ -65,6 +65,7 @@ public class HrmPayrollPaymentService {
 
   @Transactional(rollbackFor = Exception.class)
   public void prepare(Long batchId, Long runId, Long actor) {
+    scope.lockBatch(batchId,actor);
     scope.check(batchMapper.selectByIdForUpdate(batchId), "APPROVE", actor);
     HrmSalaryMonthRecordDO batch = batchMapper.selectByIdForUpdate(batchId);
     if (batch == null) throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);
@@ -116,6 +117,7 @@ public class HrmPayrollPaymentService {
       Long id, java.time.LocalDate date, String reference, String evidence, Long actor) {
     HrmPayrollPaymentDO candidate = paymentMapper.selectById(id);
     if (candidate == null) throw exception(PAYROLL_PAYMENT_INVALID);
+    scope.lockBatch(candidate.getMonthRecordId(),actor);
     HrmSalaryMonthRecordDO batch = batchMapper.selectByIdForUpdate(candidate.getMonthRecordId());
     scope.check(batch, "APPROVE", actor);
     HrmPayrollPaymentDO payment = paymentMapper.selectOneForUpdate(HrmPayrollPaymentDO::getId, id);
@@ -182,6 +184,7 @@ public class HrmPayrollPaymentService {
       rollbackFor = Exception.class,
       isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public void cancelZeroPreparation(Long batchId, String reason, Long actor) {
+    scope.lockBatch(batchId,actor);
     HrmSalaryMonthRecordDO batch = batchMapper.selectByIdForUpdate(batchId);
     scope.check(batch, "APPROVE", actor);
     List<HrmPayrollPaymentDO> payments = rawList(batchId);
@@ -291,6 +294,7 @@ public class HrmPayrollPaymentService {
   @Transactional(rollbackFor = Exception.class)
   public Long reconcileFile(
       Long batchId, String fileName, String digest, List<HrmPayrollBankRowVO> rows, Long actor) {
+    scope.lockBatch(batchId,actor);
     scope.check(batchMapper.selectByIdForUpdate(batchId), "APPROVE", actor);
     if (batchMapper.selectByIdForUpdate(batchId) == null)
       throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);
@@ -326,6 +330,7 @@ public class HrmPayrollPaymentService {
 
   @Transactional(rollbackFor = Exception.class)
   public void reconcile(Long batchId, List<HrmPayrollBankRowVO> rows, Long actor) {
+    scope.lockBatch(batchId,actor);
     scope.check(batchMapper.selectByIdForUpdate(batchId), "APPROVE", actor);
     HrmSalaryMonthRecordDO batch = batchMapper.selectByIdForUpdate(batchId);
     if (batch == null || !(batch.getStatus() == 16 || batch.getStatus() == 17))
@@ -389,6 +394,7 @@ public class HrmPayrollPaymentService {
   public void retry(Long id, Long actor) {
     HrmPayrollPaymentDO candidate = paymentMapper.selectById(id);
     if (candidate == null) throw exception(PAYROLL_PAYMENT_INVALID);
+    scope.lockBatch(candidate.getMonthRecordId(),actor);
     HrmSalaryMonthRecordDO batch = batchMapper.selectByIdForUpdate(candidate.getMonthRecordId());
     scope.check(batch, "APPROVE", actor);
     HrmPayrollPaymentDO row = paymentMapper.selectById(id);

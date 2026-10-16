@@ -567,6 +567,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
 
     @Override
     public HrmSalaryMonthRecordDO validateMonthRecordExistsForUpdate(Long id) {
+        payrollScopeService.lockBatch(id,cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId());
         HrmSalaryMonthRecordDO monthRecord = monthRecordMapper.selectByIdForUpdate(id);
         if (monthRecord == null) {
             throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);

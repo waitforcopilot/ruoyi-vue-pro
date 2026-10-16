@@ -31,6 +31,7 @@ public class HrmPayrollBatchService {
     @Resource private HrmSalaryMonthRecordMapper batchMapper;
     @Transactional(rollbackFor=Exception.class)
     public Long snapshot(Long batchId,Object inputs,Object rules,List<HrmSalaryMonthEmployeeRecordDO> results,Long actor) {
+        scope.lockBatch(batchId,actor);
         HrmSalaryMonthRecordDO batch=batchMapper.selectByIdForUpdate(batchId);
         if(batch==null)throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);
         scope.check(batch,"CALCULATE",actor);
@@ -53,6 +54,7 @@ public class HrmPayrollBatchService {
     }
     @Transactional(rollbackFor=Exception.class,isolation=org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
     public void paymentPlan(Long batchId,java.time.LocalDate date,String reason,Long actor) {
+        scope.lockBatch(batchId,actor);
         HrmSalaryMonthRecordDO batch=batchMapper.selectByIdForUpdate(batchId);
         if(batch==null) throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);
         scope.check(batch,"MANAGE",actor);
@@ -102,6 +104,7 @@ public class HrmPayrollBatchService {
     public void transition(Long batchId,Long runId,String action,String reason,Long actor){
         if("freeze".equals(action))configGuard.lock();
         if(reason==null||reason.trim().isEmpty())throw exception(PAYROLL_REVIEW_INCOMPLETE);
+        scope.lockBatch(batchId,actor);
         HrmSalaryMonthRecordDO batch=batchMapper.selectByIdForUpdate(batchId);
         if(batch==null)throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);
         String permission="review".equals(action)?"REVIEW": "submit".equals(action)?"CALCULATE":

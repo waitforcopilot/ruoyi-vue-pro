@@ -296,6 +296,7 @@ public class HrmPayrollSourceClaimService {
       isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public void reserve(HrmSalaryMonthRecordDO batch, HrmPayrollRunDO run, Long actor) {
     scope.check(batch, "APPROVE", actor);
+    scope.lockBatch(batch.getId(),actor);
     lockEmployees(run);
     List<HrmPayrollSourceClaimDO> required = required(batch, run);
     if (required.stream().anyMatch(c -> "TAX_YEAR".equals(c.getKind()))) {
@@ -337,6 +338,7 @@ public class HrmPayrollSourceClaimService {
 
   @Transactional(rollbackFor = Exception.class)
   public void release(Long batchId, Long runId, String reason, Long actor) {
+    scope.lockBatch(batchId,actor);
     HrmSalaryMonthRecordDO batch = batches.selectByIdForUpdate(batchId);
     scope.check(batch, "MANAGE", actor);
     if (!Objects.equals(batch.getStatus(), 15)
@@ -394,11 +396,13 @@ public class HrmPayrollSourceClaimService {
                     .eq(HrmPayrollSourceClaimDO::getKind, "TAX_YEAR"))
             > 0;
     if (tax) {
-      if (employees.selectOneForUpdate(HrmEmployeeDO::getId, employeeId) == null)
-        throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
       HrmSalaryMonthRecordDO batch = batches.selectById(batchId);
       if (batch == null) throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
       lockTaxEntity(batch.getEntityId());
+      HrmSalaryMonthRecordDO locked=batches.selectByIdForUpdate(batchId);
+      if(locked==null||!Objects.equals(batch.getEntityId(),locked.getEntityId()))throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
+      if (employees.selectOneForUpdate(HrmEmployeeDO::getId, employeeId) == null)
+        throw exception(PAYROLL_SOURCE_CLAIM_INVALID);
     }
     List<HrmPayrollSourceClaimDO> rows =
         claims.selectList(

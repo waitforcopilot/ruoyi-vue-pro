@@ -87,6 +87,15 @@ public class HrmPayrollScopeService {
     return entities.accessible("CALCULATE", getLoginUserId());
   }
 
+  /** Shared mutation order: optional config guard, entity, batch, then employee/source rows. */
+  @org.springframework.transaction.annotation.Transactional(propagation=org.springframework.transaction.annotation.Propagation.MANDATORY,rollbackFor=Exception.class)
+  public void lockBatch(Long batchId,Long actor){
+    HrmSalaryMonthRecordDO before=batches.selectById(batchId);check(before,"READ",actor);
+    if(before.getEntityId()!=null)entities.lockApproved(before.getEntityId());
+    HrmSalaryMonthRecordDO locked=batches.selectByIdForUpdate(batchId);
+    if(locked==null||!Objects.equals(before.getEntityId(),locked.getEntityId()))throw exception(PAYROLL_VERSION_CONFLICT);
+  }
+
   public void check(HrmSalaryMonthRecordDO batch, String action) {
     check(batch, action, getLoginUserId());
   }

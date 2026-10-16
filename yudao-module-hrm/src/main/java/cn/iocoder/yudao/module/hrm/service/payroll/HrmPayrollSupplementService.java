@@ -58,6 +58,7 @@ import org.springframework.transaction.annotation.*;
   return b.getId();
  }
  private HrmSalaryMonthRecordDO require(Long id,Long actor) {
+  scope.lockBatch(id,actor);
   HrmSalaryMonthRecordDO b=batches.selectByIdForUpdate(id);scope.check(b,"CALCULATE",actor);
   if(!isSupplement(b)) throw exception(PAYROLL_RETRO_INVALID);
   if(!(Objects.equals(b.getStatus(),5)||Objects.equals(b.getStatus(),11))) throw exception(SALARY_MONTH_RECORD_STATUS_INVALID);
