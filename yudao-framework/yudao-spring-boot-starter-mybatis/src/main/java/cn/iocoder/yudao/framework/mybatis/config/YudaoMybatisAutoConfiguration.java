@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.framework.mybatis.core.handler.DefaultDBFieldHandler;
+import cn.iocoder.yudao.framework.mybatis.core.interceptor.LockingSelectInnerInterceptor;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.baomidou.mybatisplus.core.handlers.IJsonTypeHandler;
@@ -48,6 +49,7 @@ public class YudaoMybatisAutoConfiguration {
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor mybatisPlusInterceptor = new MybatisPlusInterceptor();
         mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor()); // 分页插件
+        mybatisPlusInterceptor.addInnerInterceptor(new LockingSelectInnerInterceptor()); // 必须在 SQL 改写插件之后
         // ↓↓↓ 按需开启，可能会影响到 updateBatch 的地方：例如说文件配置管理 ↓↓↓
         // mybatisPlusInterceptor.addInnerInterceptor(new BlockAttackInnerInterceptor()); // 拦截没有指定条件的 update 和 delete 语句
         return mybatisPlusInterceptor;

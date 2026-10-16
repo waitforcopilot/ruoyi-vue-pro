@@ -1,0 +1,36 @@
+{
+  "capturedAt": "2026-10-16T12:35:11.154163",
+  "isolatedDatabase": "hrm_acceptance_20261016_final",
+  "extraSqlFixture": false,
+  "note": "复用报告的隔离目录夹具，所有新增与批准均为真实API；全新库验收另行执行",
+  "cases": [
+    {
+      "case": "salary-option-create",
+      "id": 11,
+      "code": 0
+    },
+    {
+      "case": "formula-self-approval-denied",
+      "code": 1050810005
+    },
+    {
+      "case": "formula-independent-approval",
+      "id": 2,
+      "code": 0
+    },
+    {
+      "case": "grade-policy-create",
+      "id": 1,
+      "code": 0
+    },
+    {
+      "case": "grade-self-approval-denied",
+      "code": 1050810005
+    },
+    {
+      "case": "grade-independent-approval",
+      "id": 1,
+      "code": 0
+    }
+  ]
+}
