@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- HRM payroll requirements; additive, safe to reapply.
 CREATE TABLE IF NOT EXISTS `hrm_payroll_requirement` (
  `id` bigint NOT NULL AUTO_INCREMENT,

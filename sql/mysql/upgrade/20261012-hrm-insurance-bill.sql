@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Monthly insurance statements, immutable differences and independently approved receipt settlements.
 CREATE TABLE IF NOT EXISTS `hrm_payroll_insurance_bill` (
  `id` bigint NOT NULL AUTO_INCREMENT,

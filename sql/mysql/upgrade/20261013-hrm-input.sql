@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Required payroll input confirmations and immutable import previews.
 CREATE TABLE IF NOT EXISTS `hrm_payroll_input` (
  `id` bigint NOT NULL AUTO_INCREMENT,

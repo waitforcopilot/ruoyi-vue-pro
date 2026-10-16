@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Zero net is an accounting settlement, not an automatically completed bank transfer.
 SET @hrm_alter=IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='hrm_payroll_payment' AND COLUMN_NAME='zero_settlement_reference')=0, 'ALTER TABLE `hrm_payroll_payment` ADD COLUMN `zero_settlement_reference` varchar(100) NULL', 'SELECT 1');
 PREPARE hrm_stmt FROM @hrm_alter; EXECUTE hrm_stmt; DEALLOCATE PREPARE hrm_stmt;

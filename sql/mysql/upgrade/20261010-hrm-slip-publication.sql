@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Approved payroll version binding and retained withdrawal audit; safe to reapply.
 SET @hrm_slip_ddl = IF((SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='hrm_salary_slip_send_record' AND column_name='run_id')=0, 'ALTER TABLE hrm_salary_slip_send_record ADD COLUMN run_id bigint NULL', 'SELECT 1');
 PREPARE hrm_slip_stmt FROM @hrm_slip_ddl;

@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Existing historical batches remain explicitly unbound until attributed with audit evidence.
 SET @hrm_scope_ddl = IF((SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='hrm_salary_month_record' AND column_name='entity_id')=0, 'ALTER TABLE hrm_salary_month_record ADD COLUMN entity_id bigint NULL', 'SELECT 1');
 PREPARE hrm_scope_stmt FROM @hrm_scope_ddl; EXECUTE hrm_scope_stmt; DEALLOCATE PREPARE hrm_scope_stmt;

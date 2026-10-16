@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Evidence-based work versus schedule cases, with independent review and immutable events.
 CREATE TABLE IF NOT EXISTS `hrm_payroll_work_variance` (
  `id` bigint NOT NULL AUTO_INCREMENT, `entity_id` bigint, `employee_id` bigint, `work_date` date,

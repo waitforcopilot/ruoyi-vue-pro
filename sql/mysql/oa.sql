@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- OA schema required by HRM approved-document adapters; additive only.
 CREATE TABLE IF NOT EXISTS `oa_attendance` (
     `id` bigint NOT NULL AUTO_INCREMENT,

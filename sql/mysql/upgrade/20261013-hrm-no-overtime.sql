@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Independently reviewed declarations; approval alone does not prove overtime actually occurred.
 CREATE TABLE IF NOT EXISTS `hrm_payroll_no_overtime` (
  `id` bigint NOT NULL AUTO_INCREMENT,

@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- BPM application tables. Flowable ACT_* tables are created by its supported schema updater.
 CREATE TABLE IF NOT EXISTS `bpm_user_group` (
     `id` bigint NOT NULL AUTO_INCREMENT,

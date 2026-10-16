@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Attendance source reconciliation and reviewed correction work orders.
 CREATE TABLE IF NOT EXISTS `hrm_payroll_attendance_issue` (
  `id` bigint NOT NULL AUTO_INCREMENT,

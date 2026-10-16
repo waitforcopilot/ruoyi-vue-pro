@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Explicit authorized monthly cumulative deduction declarations; no inferred family eligibility.
 CREATE TABLE IF NOT EXISTS `hrm_payroll_tax_deduction` (
  `id` bigint NOT NULL AUTO_INCREMENT, `entity_id` bigint, `employee_id` bigint, `prior_declaration_id` bigint,

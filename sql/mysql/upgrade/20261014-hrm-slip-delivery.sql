@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Durable salary-slip delivery. Configure the HTTPS employee portal URL and channel templates before enabling the job.
 SET @hrm_ddl=IF((SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='hrm_salary_slip_send_record' AND column_name='delivery_channels')=0,'ALTER TABLE hrm_salary_slip_send_record ADD COLUMN delivery_channels varchar(64) NULL','SELECT 1');
 PREPARE hrm_stmt FROM @hrm_ddl; EXECUTE hrm_stmt; DEALLOCATE PREPARE hrm_stmt;

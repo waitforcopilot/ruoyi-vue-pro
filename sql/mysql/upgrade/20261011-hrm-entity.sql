@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Versioned legal entities, time-bound authorization and employee affiliation.
 CREATE TABLE IF NOT EXISTS `hrm_payroll_legal_entity` (
  `id` bigint NOT NULL AUTO_INCREMENT,

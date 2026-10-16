@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 CREATE TABLE IF NOT EXISTS `hrm_payroll_bonus` (
  `id` bigint NOT NULL AUTO_INCREMENT, `batch_id` bigint, `entity_id` bigint, `employee_id` bigint, `profile_id` bigint, `prior_bonus_id` bigint,
  `version` int, `expected_payment_date` date, `amount` decimal(20,2), `mode` varchar(32), `evidence` varchar(1000),

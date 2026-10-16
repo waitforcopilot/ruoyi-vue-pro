@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Approved insurance policies and annual declaration history. Repeatable upgrade.
 CREATE TABLE IF NOT EXISTS `hrm_payroll_insurance_policy` (
  `id` bigint NOT NULL AUTO_INCREMENT,

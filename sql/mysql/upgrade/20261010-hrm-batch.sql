@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- HRM payroll batch; additive, safe to reapply.
 CREATE TABLE IF NOT EXISTS `hrm_payroll_run` (
  `id` bigint NOT NULL AUTO_INCREMENT, `month_record_id` bigint NOT NULL,

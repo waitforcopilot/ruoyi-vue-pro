@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Versioned annual resident withholding policy; templates require formal source and approval.
 CREATE TABLE IF NOT EXISTS `hrm_payroll_tax_policy` (
  `id` bigint NOT NULL AUTO_INCREMENT, `entity_id` bigint, `year` int, `version` int, `prior_policy_id` bigint,

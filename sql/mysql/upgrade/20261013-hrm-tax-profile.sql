@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Encrypted yearly taxpayer identity and explicitly evidenced opening balances.
 CREATE TABLE IF NOT EXISTS `hrm_payroll_tax_profile` (
  `id` bigint NOT NULL AUTO_INCREMENT, `entity_id` bigint, `employee_id` bigint, `year` int, `version` int, `prior_profile_id` bigint,

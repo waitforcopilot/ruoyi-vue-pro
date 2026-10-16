@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Residency/first-income qualification is explicit; historical unknown flags stay NULL.
 SET @hrm_alter=IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='hrm_payroll_tax_profile' AND COLUMN_NAME='resident_this_year')=0, 'ALTER TABLE `hrm_payroll_tax_profile` ADD COLUMN `resident_this_year` bit NULL', 'SELECT 1');
 PREPARE hrm_stmt FROM @hrm_alter; EXECUTE hrm_stmt; DEALLOCATE PREPARE hrm_stmt;

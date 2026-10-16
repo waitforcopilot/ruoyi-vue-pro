@@ -6,41 +6,21 @@
 
 已有 yudao 数据库按顺序执行 `sql/mysql/hrm.sql`、`sql/mysql/bpm.sql`、`sql/mysql/oa.sql`，再执行已交付模块的增量脚本：
 
-必须先执行需求脚本创建薪酬父菜单，然后按以下顺序安装已交付功能（同日脚本也有依赖，不能直接按文件名字母排序）：
+完整依赖顺序由 `scripts/hrm/migrations.txt` 维护，覆盖基础业务表及全部已交付增量；不能按同日文件名字母排序推导依赖。安装器使用显式指定数据库，普通升级不执行上游删表脚本：
 
-- `sql/mysql/upgrade/20261010-hrm-requirements.sql`
-- `sql/mysql/upgrade/20261010-hrm-batch.sql`
-- `sql/mysql/upgrade/20261010-hrm-payment.sql`
-- `sql/mysql/upgrade/20261010-hrm-slip-publication.sql`
-- `sql/mysql/upgrade/20261010-hrm-formula.sql`
-- `sql/mysql/upgrade/20261010-hrm-salary-proposal.sql`
-- `sql/mysql/upgrade/20261010-hrm-work.sql`
-- `sql/mysql/upgrade/20261011-hrm-grade.sql`
-- `sql/mysql/upgrade/20261011-hrm-attendance.sql`
-- `sql/mysql/upgrade/20261011-hrm-entity.sql`
-- `sql/mysql/upgrade/20261011-hrm-batch-scope.sql`
-- `sql/mysql/upgrade/20261012-hrm-insurance-policy.sql`
-- `sql/mysql/upgrade/20261012-hrm-insurance-bill.sql`
-- `sql/mysql/upgrade/20261013-hrm-input.sql`
-- `sql/mysql/upgrade/20261013-hrm-source-claim.sql`
-- `sql/mysql/upgrade/20261013-hrm-time-off-leave.sql`
-- `sql/mysql/upgrade/20261013-hrm-work-entity.sql`
-- `sql/mysql/upgrade/20261013-hrm-no-overtime.sql`
-- `sql/mysql/upgrade/20261013-hrm-work-version.sql`
-- `sql/mysql/upgrade/20261013-hrm-work-variance.sql`
-- `sql/mysql/upgrade/20261013-hrm-tax-policy.sql`
-- `sql/mysql/upgrade/20261013-hrm-tax-profile.sql`
-- `sql/mysql/upgrade/20261013-hrm-bank-value-date.sql`
-- `sql/mysql/upgrade/20261014-hrm-tax-deduction.sql`
-- `sql/mysql/upgrade/20261014-hrm-payment-plan.sql`
-- `sql/mysql/upgrade/20261014-hrm-tax-withholding.sql`
-- `sql/mysql/upgrade/20261014-hrm-tax-profile-identity-reuse.sql`
-- `sql/mysql/upgrade/20261014-hrm-bonus.sql`
-- `sql/mysql/upgrade/20261014-hrm-bonus-calculation.sql`
-- `sql/mysql/upgrade/20261014-hrm-tax-filing.sql`
-- `sql/mysql/upgrade/20261014-hrm-zero-settlement.sql`
+```bash
+python3 scripts/hrm/migrate.py --container <测试MySQL容器> --database <已有测试库>
+```
 
-安装扣除资料迁移后，对每个使用薪酬的租户执行现有 `PUT /hrm/salary-option/sync`（`hrm:salary:option:update`）同步新增 `260106` 婴幼儿照护目录项；保留原启用/展示设置。目录项缺失或归属错误时主体工资核算会阻断，不静默忽略非零扣除。旧已复核的五项扣除输入需按六项模板明确补齐并重新复核；不能自行给缺项补零。
+仅对新的隔离测试库使用 `--fresh`：先创建数据库再安装上游基础表；若数据库已存在则拒绝执行。已有业务库在升级前执行一致性备份，不使用 `--fresh`。所有业务与增量脚本显式初始化 UTF-8，不依赖客户端默认连接字符集。
+
+```bash
+python3 scripts/hrm/migrate.py --container <测试MySQL容器> --database <全新隔离库> --fresh
+```
+
+最后的 `20261016-hrm-installer-charset.sql` 只修复与已提交安装标签完全相等的 latin1 误解码，按菜单组件/权限、模板编码、任务处理器或工资项编码限定；保留自定义标签、审批、金额和任务启停。模板修复同时覆盖保持原安装名称的租户工资项，不覆盖人工改名。
+
+安装扣除资料迁移后，对每个使用薪酬的租户执行现有 `PUT /hrm/salary-option/sync`（`hrm:salary:option:update`）同步新增 `260106` 婴幼儿照护、`10901` 工资差额、`150901/160901` 税款收退及 `150902/160902` 缴费差额目录项；保留原启用/展示设置。目录项缺失或归属错误时主体工资核算会阻断，不静默忽略非零扣除。旧已复核的五项扣除输入需按六项模板明确补齐并重新复核；不能自行给缺项补零。
 
 三个基础模块脚本仅创建缺失业务表。Flowable 使用项目现有的自动升级配置创建流程引擎表。后续模块的增量脚本应随相应功能交付安装，不能仅凭文件存在判断已验收。
 
@@ -62,7 +42,7 @@ Vue3 目录安装锁定依赖后运行 `pnpm dev`，使用 development 模式；
 
 ## 可重复检查
 
-数据库实体字段检查：
+数据库实体字段检查（需要 JDK 的 `java`、`javac` 在 PATH 上；包含继承及租户列）：
 
 ```bash
 python3 scripts/hrm/check_schema.py --container <测试MySQL容器> --database <测试库>
@@ -184,3 +164,13 @@ Chromium 浏览器完成登录并打开需求评审、核算审批、银行代�
 共享批次加锁入口先验证读取范围，按主体→批次顺序加锁并验证绑定未改变，再由原入口检查对应写操作授权。核算、运行快照、冻结/解冻、代发准备、回盘、零实发、重试和来源占用使用该顺序；需要薪资配置锁的流程保留配置锁在最前。结清来源改为主体→批次→员工。未绑定历史批次仍沿原管理员校验，绑定并发改变则显式版本冲突。
 
 修复后并发用例与批次、回盘、来源占用、税务更正及工资收退集成回归通过，保留原权限、状态和冻结证据校验。完整回归在最终代码收敛后重新执行。
+
+
+### 2026-10-16：全新安装、重复升级及备份恢复
+
+- 在全新隔离库 `hrm_acceptance_20261016` 按清单执行上游基础表及完整 HRM/OA/BPM 增量，再对同库重复升级成功。每次 MySQL 客户端故意以 latin1 连接，验证各脚本自行初始化 UTF-8。既有开发测试库也执行了受限标签修复。
+- 使用事务注入“薪酬总览”的精确安装乱码及另一个自定义核算菜单标签：修复后安装标签恢复，自定义标签及定时任务启停不变，验证事务回滚。
+- 对该隔离库执行 `mysqldump --single-transaction --no-tablespaces --set-gtid-purged=OFF`，将备份恢复至另一个新库 `hrm_restore_20261016`。219张表的扩展数据校验和全部一致；安装库、恢复库分别通过171表3011字段检查。备份只留本地受限文件，未纳入Git。
+- 并发锁修复后再次完整执行HRM回归：1086项，0失败、0错误、0跳过。
+
+部署恢复时同时保全数据库、附件及凭证文件存储、独立税务身份加密/指纹密钥和版本化配置。先在隔离环境验证恢复、校验表/字段及业务来源证据，再切换应用；数据库恢复不能替代密钥或附件恢复。本轮实际演练为隔离MySQL数据及结构恢复，未执行生产切换或外部发送。

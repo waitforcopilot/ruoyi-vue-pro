@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 CREATE TABLE IF NOT EXISTS hrm_payroll_retro (
  id bigint NOT NULL AUTO_INCREMENT, entity_id bigint, batch_id bigint, employee_id bigint, payment_id bigint, prior_retro_id bigint,
  version int, original_income decimal(20,2), corrected_income decimal(20,2), delta decimal(20,2),

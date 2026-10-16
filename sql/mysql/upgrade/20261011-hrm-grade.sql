@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Immutable salary grades and position coefficients.
 CREATE TABLE IF NOT EXISTS `hrm_payroll_grade_policy` (
  `id` bigint NOT NULL AUTO_INCREMENT,

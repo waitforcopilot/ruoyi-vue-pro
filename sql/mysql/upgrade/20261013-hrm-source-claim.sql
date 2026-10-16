@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Cross-batch payroll source claims; released records remain auditable.
 CREATE TABLE IF NOT EXISTS `hrm_payroll_source_claim` (
  `id` bigint NOT NULL AUTO_INCREMENT,

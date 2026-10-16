@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 CREATE TABLE IF NOT EXISTS `hrm_payroll_formula` (
  `id` bigint NOT NULL AUTO_INCREMENT,
  `salary_group_id` bigint, `option_code` int NOT NULL, `expression` varchar(1000) NOT NULL,

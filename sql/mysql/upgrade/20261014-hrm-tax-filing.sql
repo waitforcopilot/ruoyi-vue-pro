@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 CREATE TABLE IF NOT EXISTS `hrm_payroll_tax_filing` (
  `id` bigint NOT NULL AUTO_INCREMENT, `entity_id` bigint, `prior_filing_id` bigint, `year` int, `month` int, `version` int, `zero_declaration` bit,
  `request_key` varchar(100), `request_snapshot` LONGTEXT, `source_snapshot` LONGTEXT, `status` varchar(32), `evidence` varchar(1000), `review_reason` varchar(1000),

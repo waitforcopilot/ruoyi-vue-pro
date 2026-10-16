@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 CREATE TABLE IF NOT EXISTS hrm_payroll_cost_rule (id bigint NOT NULL AUTO_INCREMENT PRIMARY KEY, entity_id bigint, employee_id bigint, prior_rule_id bigint, version int,
  effective_from date, effective_to date, parts LONGTEXT, evidence varchar(1000), status varchar(32), request_key varchar(100), request_snapshot LONGTEXT,
  employer_cost decimal(20,2), submitted_by bigint, reviewed_by bigint, reviewed_time datetime, review_reason varchar(1000), creator varchar(64) DEFAULT '', create_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, updater varchar(64) DEFAULT '', update_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, deleted bit NOT NULL DEFAULT FALSE, tenant_id bigint NOT NULL DEFAULT 0, UNIQUE KEY uk_cost_rule_request(tenant_id,request_key), UNIQUE KEY uk_cost_rule_version(tenant_id,entity_id,employee_id,version)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

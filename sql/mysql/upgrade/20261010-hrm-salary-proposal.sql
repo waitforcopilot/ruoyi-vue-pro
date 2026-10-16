@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Immutable salary proposals and separate HR/finance approval.
 CREATE TABLE IF NOT EXISTS `hrm_payroll_salary_proposal` (
  `id` bigint NOT NULL AUTO_INCREMENT,

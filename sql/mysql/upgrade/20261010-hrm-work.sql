@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- Approved work rules, verified overtime, expiring time-off lots and cycle settlements.
 CREATE TABLE IF NOT EXISTS `hrm_payroll_work_rule` (
  `id` bigint NOT NULL AUTO_INCREMENT,

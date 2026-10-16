@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- HRM production schema. Apply after ruoyi-vue-pro.sql; no destructive drops.
 CREATE TABLE IF NOT EXISTS `hrm_employee` (
     `id` bigint NOT NULL AUTO_INCREMENT,

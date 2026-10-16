@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 CREATE TABLE IF NOT EXISTS hrm_payroll_tax_correction (
  id bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,
  entity_id bigint NULL,
