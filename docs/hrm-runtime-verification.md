@@ -163,3 +163,10 @@ Chromium 浏览器完成登录并打开需求评审、核算审批、银行代�
 - 前端生产构建 55.98 秒成功；新增缴费差额与成本页面 SFC 编译成功。
 - 在本地测试 MySQL 执行两次 `20261016-hrm-insurance-wage-adjustment.sql` 均成功。新增差额和履历表、查询/提交/复核/确认权限及菜单；无外部付款或税务操作。
 - 成本只纳入 SETTLED 单位差额，原个人收退金额不作为单位成本。新结清事实要求历史成本报表重建及重新批准。
+
+### 2026-10-16：缴费差额指定工资结算
+
+- `HrmPayrollOffsetIntegrationTest,HrmPayrollInsuranceAdjustmentServiceTest,HrmPayrollCostServiceTest,HrmPayrollOverviewServiceTest,HrmSalaryMonthEmployeeRecordServiceImplTest`：88 项，0 失败、0 错误。
+- 个人缴费补收200元只减少本期净额200元，退还200元只增加净额200元；本期个税保持一致。批准缴费差额不作为税款加入待结算已扣税基数，单位差额继续归历史原付款成本。
+- `20261016-hrm-insurance-payroll-offset.sql` 在测试 MySQL 重复执行通过；新增150902/160902模板后需各租户同步目录。前端生产构建69秒通过。
+- 此前独立缴费差额模块联动回归为61项通过；本轮扩大至88项，不将多个重复回归数量累加为独立用例数。尚需完整HRM回归及最终运行验收。

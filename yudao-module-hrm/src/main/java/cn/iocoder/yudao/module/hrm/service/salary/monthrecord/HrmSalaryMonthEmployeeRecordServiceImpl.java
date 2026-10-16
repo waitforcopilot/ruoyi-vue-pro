@@ -435,7 +435,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
             }
         }
         if(employeeRecord.getEntityId()!=null){
-            for(Integer code:Arrays.asList(150901,160901))if(getOptionValue(values,code).signum()!=0)throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_OFFSET_INVALID);
+            for(Integer code:Arrays.asList(150901,160901,150902,160902))if(getOptionValue(values,code).signum()!=0)throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_OFFSET_INVALID);
             Map<Integer,BigDecimal> settlementValues=offsets.values(employeeRecord.getMonthRecordId(),employeeRecord.getEmployeeId(),cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId());
             for(Map.Entry<Integer,BigDecimal> entry:settlementValues.entrySet()){
                 HrmSalaryOptionDO option=optionMap.get(entry.getKey());int parent=entry.getKey()/1000,type=parent==150?1:2;
@@ -471,7 +471,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
             employeeRecord.setTaxPaymentDate(date).setTaxSourceSnapshot(cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(taxSource));
         }
         SalaryComputeResult result = computeSalary(values, optionMap, taxRule,taxSource);
-        if(employeeRecord.getEntityId()!=null&&result.getRealPaySalary().signum()<0&&(getOptionValue(values,150901).signum()!=0||getOptionValue(values,160901).signum()!=0))throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_OFFSET_INVALID);
+        if(employeeRecord.getEntityId()!=null&&result.getRealPaySalary().signum()<0&&(getOptionValue(values,150901).signum()!=0||getOptionValue(values,160901).signum()!=0||getOptionValue(values,150902).signum()!=0||getOptionValue(values,160902).signum()!=0))throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_OFFSET_INVALID);
         return employeeRecord.setExpectedPaySalary(result.getExpectedPaySalary())
                 .setTaxableSalary(result.getTaxableSalary()).setPersonalTax(result.getPersonalTax())
                 .setRealPaySalary(result.getRealPaySalary())
@@ -791,7 +791,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
             valueMap.put(value.getCode(), value);
         }
         // Rebuild the approved bonus before formulas; prior computed earnings are not raw inputs.
-        if(governed) {valueMap.remove(140101);valueMap.remove(10901);valueMap.remove(150901);valueMap.remove(160901);}
+        if(governed) {valueMap.remove(140101);valueMap.remove(10901);valueMap.remove(150901);valueMap.remove(160901);valueMap.remove(150902);valueMap.remove(160902);}
         return valueMap.values().stream()
                 .sorted(Comparator.comparing(HrmSalaryOptionValueVO::getCode))
                 .collect(Collectors.toList());

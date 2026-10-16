@@ -105,7 +105,7 @@
         <el-tab-pane
           v-if="!selected.parentBatchId && checkPermi(['hrm:payroll:offset:query'])"
           lazy
-          label="工资退补税"
+          label="工资收退差额"
           ><Offsets
             :key="selected.id"
             :batch-id="selected.id!"
@@ -219,7 +219,7 @@ const sourceClaims = ref<any[]>([])
 const claimKinds: Record<string, string> = {
   TAX_YEAR: '年度预扣串行占用',
   RETRO_WAGE: '批准工资差额',
-  SETTLEMENT_OFFSET: '批准工资退补税',
+  SETTLEMENT_OFFSET: '批准工资收退差额',
   BONUS_YEAR: '纳税人年度单独计税额度',
   WAGE_DAY: '计薪日期',
   OVERTIME: '认可加班',

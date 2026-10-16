@@ -24,6 +24,8 @@ public enum HrmSalaryOptionCodeEnum implements ArrayValuable<Integer> {
     POST_SALARY(10102, "岗位工资"),
     MEAL_ALLOWANCE(20104, "餐补"),
 
+    INSURANCE_REFUND_OFFSET(150902, "批准缴费差额工资退还"),
+    INSURANCE_RECOVERY_OFFSET(160902, "批准缴费差额工资补扣"),
     TAX_REFUND_OFFSET(150901, "批准税款工资退还"),
     TAX_RECOVERY_OFFSET(160901, "批准税款工资补扣"),
     RETRO_WAGE(10901, "批准工资补发/收回"),
@@ -86,7 +88,7 @@ public enum HrmSalaryOptionCodeEnum implements ArrayValuable<Integer> {
 
     /** 金额来自经复核的外部输入或法定计算，不允许用通用公式/人工调整改写。 */
     public static final Set<Integer> SOURCE_CONTROLLED_CODES=Collections.unmodifiableSet(SetUtils.asSet(
-        150901,160901,10901,140101,100101,100102,110101,120101,180101,190101,190102,190103,190104,190105,190106,200101,
+        150901,160901,150902,160902,10901,140101,100101,100102,110101,120101,180101,190101,190102,190103,190104,190105,190106,200101,
         250101,250102,250103,250105,260101,260102,260103,260104,260105,260106));
 
     public static final Set<Integer> SOURCE_CONTROLLED_PARENT_CODES=Collections.unmodifiableSet(SetUtils.asSet(100,110,120,180,190,200,250,260));

@@ -1,20 +1,24 @@
 <template>
   <el-alert
-    title="先分配并独立复核税款，再重新同步/复核累计个税输入、核算和审批发放。本批次将使用批准待结算基数避免重复扣税；成功回盘后才实际核销，失败保留待结算。"
+    title="分配并独立复核税款或缴费差额后，重新同步/复核累计个税输入并核算。税款采用本批次待结算基数；缴费差额只调整税后净额，原年度扣除沿正式更正。成功结算后才核销，失败保留待结算。"
     type="info"
     :closable="false"
   />
   <el-space class="my-4"
     ><el-button :loading="loading" @click="load">刷新</el-button
     ><el-button v-if="editable" v-hasPermi="['hrm:payroll:offset:update']" @click="open"
-      >分配批准税款</el-button
+      >分配批准收退</el-button
     ></el-space
   >
   <el-table :data="rows" v-loading="loading"
     ><el-table-column prop="id" label="分配编号" width="100" /><el-table-column
       prop="employeeId"
       label="本批次员工"
-    /><el-table-column prop="sourceId" label="批准税款结算" /><el-table-column label="工资净额调整"
+    /><el-table-column label="来源类型"
+      ><template #default="{ row }">{{
+        row.sourceType === 'INSURANCE' ? '缴费差额' : '税款'
+      }}</template></el-table-column
+    ><el-table-column prop="sourceId" label="批准来源编号" /><el-table-column label="工资净额调整"
       ><template #default="{ row }"
         >{{ Number(row.netAmount) > 0 ? '+' : '' }}{{ row.netAmount }}</template
       ></el-table-column
@@ -58,15 +62,20 @@
       ></el-table-column
     ></el-table
   >
-  <Dialog v-model="visible" title="指定工资批次退补税" width="650px"
+  <Dialog v-model="visible" title="指定工资批次收退差额" width="650px"
     ><el-form label-width="135px"
-      ><el-form-item label="已批准税款结算"
+      ><el-form-item label="来源类型"
+        ><el-select v-model="draft.sourceType" @change="draft.sourceId = undefined"
+          ><el-option label="批准退补税" value="TAX" /><el-option
+            label="批准缴费个人差额"
+            value="INSURANCE" /></el-select></el-form-item
+      ><el-form-item label="已批准收退来源"
         ><el-select v-model="draft.sourceId" filterable style="width: 100%"
           ><el-option
-            v-for="s in options.taxSettlements"
+            v-for="s in sourceOptions"
             :key="s.id"
             :value="s.id"
-            :label="`结算 ${s.id} · 原员工 ${s.employeeId} · ${s.year}-${s.month} · ${s.kind === 'REFUND' ? '退还' : '补收'} ${s.amount}`" /></el-select></el-form-item
+            :label="`结算 ${s.id} · 原员工 ${s.employeeId} · ${s.year ? `${s.year}-${s.month}` : '缴费差额'} · ${s.kind === 'REFUND' ? '退还' : '补收'} ${s.amount}`" /></el-select></el-form-item
       ><el-form-item label="本批次收付员工"
         ><el-select v-model="draft.employeeId" filterable style="width: 100%"
           ><el-option
@@ -75,7 +84,7 @@
             :value="e.id"
             :label="`${e.name} · ${e.jobNumber || e.id}`" /></el-select></el-form-item
       ><el-alert
-        title="本批次发放月份须晚于原申报月份。重新入职可选择同主体、同纳税身份的新员工记录。新增或撤销分配会将旧试算改为待重新核算。"
+        title="本批次发放月份须晚于原申报或原工资到账月份。重新入职可选择同主体、同纳税身份的新员工记录。新增或撤销分配会将旧试算改为待重新核算。"
         :closable="false"
         type="info" /><el-form-item label="分配依据" class="mt-4"
         ><el-input
@@ -92,7 +101,7 @@
       ></template
     ></Dialog
   >
-  <Dialog v-model="historyVisible" title="工资退补税履历"
+  <Dialog v-model="historyVisible" title="工资收退差额履历"
     ><el-table :data="events"
       ><el-table-column prop="action" label="动作" /><el-table-column
         prop="actorId"
@@ -110,7 +119,7 @@ const props = defineProps<{ batchId: number; status: number }>(),
   base = '/hrm/payroll/offset',
   rows = ref<any[]>([]),
   events = ref<any[]>([]),
-  options = reactive<any>({ employees: [], taxSettlements: [] }),
+  options = reactive<any>({ employees: [], taxSettlements: [], insuranceAdjustments: [] }),
   draft = reactive<any>({ evidence: '' }),
   loading = ref(false),
   saving = ref(false),
@@ -123,6 +132,9 @@ const states = {
   CANCELLED: '已撤销分配',
   CONSUMED: '已随工资实际结清'
 }
+const sourceOptions = computed(() =>
+  draft.sourceType === 'INSURANCE' ? options.insuranceAdjustments : options.taxSettlements
+)
 const editable = computed(() => [5, 11].includes(props.status))
 async function load() {
   loading.value = true
@@ -167,13 +179,15 @@ async function note(title: string) {
   return value
 }
 async function review(id: number, approved: boolean) {
-  const reason = await note(approved ? '请填写独立核实税款与本批次收付人的依据' : '请填写驳回原因')
+  const reason = await note(
+    approved ? '请填写独立核实收退差额与本批次收付人的依据' : '请填写驳回原因'
+  )
   await request.post({ url: base + '/review', data: { id, approved, reason } })
   await load()
   emit('changed')
 }
 async function cancel(id: number) {
-  const reason = await note('请说明撤销本次工资分配的原因，原批准税款结算保留')
+  const reason = await note('请说明撤销本次工资分配的原因，原批准收退来源保留')
   await request.post({ url: base + '/cancel', data: { id, reason } })
   await load()
   emit('changed')
