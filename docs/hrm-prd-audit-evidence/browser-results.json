@@ -1,0 +1,496 @@
+{
+  "observations": [
+    {
+      "route": "overview",
+      "loaded": true,
+      "apiErrors": [],
+      "jsErrors": [],
+      "hasLocalRequirementPanel": false,
+      "buttons": [
+        "",
+        "",
+        "隔离薪酬验收操作人",
+        " 首页 ",
+        " 薪酬总览 ",
+        "",
+        "",
+        "",
+        "查询历史"
+      ],
+      "filters": [
+        "法人主体",
+        "计薪年度",
+        "月份",
+        "批次类型",
+        "状态"
+      ]
+    },
+    {
+      "route": "requirement",
+      "loaded": true,
+      "apiErrors": [],
+      "jsErrors": [],
+      "hasLocalRequirementPanel": false,
+      "buttons": [
+        "",
+        "",
+        "隔离薪酬验收操作人",
+        " 首页 ",
+        " 需求评审 ",
+        "",
+        "刷新",
+        "新增需求",
+        "初始化 PRD 清单",
+        "导出评审清单",
+        "编辑",
+        "历史",
+        "编辑",
+        "历史",
+        "编辑",
+        "历史",
+        "编辑",
+        "历史",
+        "编辑",
+        "历史",
+        "编辑",
+        "历史",
+        "编辑",
+        "历史",
+        "编辑",
+        "历史",
+        "编辑",
+        "历史",
+        "编辑",
+        "历史",
+        "编辑",
+        "历史",
+        "编辑",
+        "历史",
+        "编辑"
+      ],
+      "filters": []
+    },
+    {
+      "route": "formula",
+      "loaded": true,
+      "apiErrors": [],
+      "jsErrors": [],
+      "hasLocalRequirementPanel": false,
+      "buttons": [
+        "",
+        "",
+        "隔离薪酬验收操作人",
+        " 首页 ",
+        " 薪资公式 ",
+        "",
+        "新增公式版本",
+        "试算",
+        "审批"
+      ],
+      "filters": []
+    },
+    {
+      "route": "grade",
+      "loaded": true,
+      "apiErrors": [],
+      "jsErrors": [],
+      "hasLocalRequirementPanel": false,
+      "buttons": [
+        "",
+        "",
+        "隔离薪酬验收操作人",
+        " 首页 ",
+        " 薪级薪档 ",
+        "",
+        "新增方案版本",
+        "下载导入模板"
+      ],
+      "filters": []
+    },
+    {
+      "route": "salary-proposal",
+      "loaded": true,
+      "apiErrors": [],
+      "jsErrors": [],
+      "hasLocalRequirementPanel": false,
+      "buttons": [
+        "",
+        "",
+        "隔离薪酬验收操作人",
+        " 首页 ",
+        " 定调薪审批 ",
+        "",
+        "刷新"
+      ],
+      "filters": []
+    },
+    {
+      "route": "batch",
+      "loaded": true,
+      "apiErrors": [],
+      "jsErrors": [],
+      "hasLocalRequirementPanel": false,
+      "buttons": [
+        "",
+        "",
+        "隔离薪酬验收操作人",
+        " 首页 ",
+        " 核算审批 ",
+        "",
+        "查询",
+        "审批与版本",
+        "",
+        ""
+      ],
+      "filters": [
+        "状态"
+      ]
+    },
+    {
+      "route": "payment",
+      "loaded": true,
+      "apiErrors": [],
+      "jsErrors": [],
+      "hasLocalRequirementPanel": false,
+      "buttons": [
+        "",
+        "",
+        "隔离薪酬验收操作人",
+        " 首页 ",
+        " 银行代发 ",
+        "",
+        "刷新",
+        "新增银行模板版本"
+      ],
+      "filters": []
+    },
+    {
+      "route": "tax-policy",
+      "loaded": true,
+      "apiErrors": [],
+      "jsErrors": [],
+      "hasLocalRequirementPanel": false,
+      "buttons": [
+        "",
+        "",
+        "隔离薪酬验收操作人",
+        " 首页 ",
+        " 年度税务政策 ",
+        "",
+        "",
+        "",
+        "查询",
+        "提交年度政策版本",
+        "参数与依据",
+        "履历",
+        "试算",
+        "查询税务档案",
+        "提交年度档案",
+        "查询扣除来源",
+        "提交申报资料",
+        "查询",
+        "生成申报版本"
+      ],
+      "filters": [
+        "纳税主体",
+        "年度",
+        "员工",
+        "报告月份",
+        "收入月份"
+      ]
+    },
+    {
+      "route": "attendance",
+      "loaded": true,
+      "apiErrors": [],
+      "jsErrors": [],
+      "hasLocalRequirementPanel": false,
+      "buttons": [
+        "",
+        "",
+        "隔离薪酬验收操作人",
+        " 首页 ",
+        " 考勤归集与异常 ",
+        "",
+        "查询",
+        "分配异常工单",
+        "考勤归集",
+        "导出"
+      ],
+      "filters": [
+        "员工",
+        "状态",
+        "实际计薪区间"
+      ]
+    },
+    {
+      "route": "work",
+      "loaded": true,
+      "apiErrors": [],
+      "jsErrors": [],
+      "hasLocalRequirementPanel": false,
+      "buttons": [
+        "",
+        "",
+        "隔离薪酬验收操作人",
+        " 首页 ",
+        " 工时与加班 ",
+        "",
+        "查询",
+        "新建工时制度",
+        "核实加班",
+        "登记加班未发生差异",
+        "占用调休",
+        "登记工时排班差异"
+      ],
+      "filters": [
+        "法人主体",
+        "员工",
+        "统计区间"
+      ]
+    },
+    {
+      "route": "insurance-policy",
+      "loaded": true,
+      "apiErrors": [],
+      "jsErrors": [],
+      "hasLocalRequirementPanel": false,
+      "buttons": [
+        "",
+        "",
+        "隔离薪酬验收操作人",
+        " 首页 ",
+        " 缴费政策与年度调基 ",
+        "",
+        "刷新",
+        "新建政策版本",
+        "申报或年度调基"
+      ],
+      "filters": [
+        "缴费主体",
+        "缴费月份",
+        "模板政策"
+      ]
+    },
+    {
+      "route": "insurance-bill",
+      "loaded": true,
+      "apiErrors": [],
+      "jsErrors": [],
+      "hasLocalRequirementPanel": false,
+      "buttons": [
+        "",
+        "",
+        "隔离薪酬验收操作人",
+        " 首页 ",
+        " 缴费实缴对账 ",
+        "",
+        "刷新",
+        "导入实缴账单",
+        "下载账单模板"
+      ],
+      "filters": [
+        "缴费主体"
+      ]
+    },
+    {
+      "route": "input",
+      "loaded": true,
+      "apiErrors": [],
+      "jsErrors": [],
+      "hasLocalRequirementPanel": false,
+      "buttons": [
+        "",
+        "",
+        "隔离薪酬验收操作人",
+        " 首页 ",
+        " 核算输入与就绪 ",
+        "",
+        "",
+        "",
+        "创建工资批次",
+        "刷新"
+      ],
+      "filters": [
+        "法人主体",
+        "年份",
+        "批次",
+        "模板类型",
+        "处理方式"
+      ]
+    },
+    {
+      "route": "input-issue",
+      "loaded": true,
+      "apiErrors": [],
+      "jsErrors": [],
+      "hasLocalRequirementPanel": false,
+      "buttons": [
+        "",
+        "",
+        "隔离薪酬验收操作人",
+        " 首页 ",
+        " 薪酬输入缺口工单 ",
+        "",
+        "刷新"
+      ],
+      "filters": [
+        "法人主体",
+        "工资批次",
+        "检查员工"
+      ]
+    },
+    {
+      "route": "cost",
+      "loaded": true,
+      "apiErrors": [],
+      "jsErrors": [],
+      "hasLocalRequirementPanel": false,
+      "buttons": [
+        "",
+        "",
+        "隔离薪酬验收操作人",
+        " 首页 ",
+        " 薪酬成本分摊 ",
+        "",
+        "刷新",
+        "生成新版本"
+      ],
+      "filters": [
+        "法人主体",
+        "冻结工资批次"
+      ]
+    },
+    {
+      "route": "analysis",
+      "loaded": true,
+      "apiErrors": [],
+      "jsErrors": [],
+      "hasLocalRequirementPanel": false,
+      "buttons": [
+        "",
+        "",
+        "隔离薪酬验收操作人",
+        " 首页 ",
+        " 预算与成本分析 ",
+        "",
+        "查询",
+        "导出当前范围"
+      ],
+      "filters": [
+        "法人主体",
+        "期间",
+        "分析范围"
+      ]
+    },
+    {
+      "route": "entity",
+      "loaded": true,
+      "apiErrors": [],
+      "jsErrors": [],
+      "hasLocalRequirementPanel": false,
+      "buttons": [
+        "",
+        "",
+        "隔离薪酬验收操作人",
+        " 首页 ",
+        " 法人主体与归属 ",
+        "",
+        "新建法人主体",
+        "刷新"
+      ],
+      "filters": []
+    },
+    {
+      "route": "wage-recovery",
+      "loaded": true,
+      "apiErrors": [],
+      "jsErrors": [],
+      "hasLocalRequirementPanel": false,
+      "buttons": [
+        "",
+        "",
+        "隔离薪酬验收操作人",
+        " 首页 ",
+        " 独立工资收回 ",
+        "",
+        "刷新",
+        "登记独立收回"
+      ],
+      "filters": [
+        "法人主体"
+      ]
+    },
+    {
+      "route": "insurance-adjustment",
+      "loaded": true,
+      "apiErrors": [],
+      "jsErrors": [],
+      "hasLocalRequirementPanel": false,
+      "buttons": [
+        "",
+        "",
+        "隔离薪酬验收操作人",
+        " 首页 ",
+        " 社保公积金工资差额 ",
+        "",
+        "刷新",
+        "登记工资缴费差额"
+      ],
+      "filters": [
+        "法人主体"
+      ]
+    },
+    {
+      "case": "browser-create-requirement",
+      "code": "COL-202619",
+      "persistedAfterRefresh": true
+    },
+    {
+      "case": "browser-formula-approval",
+      "apiErrors": [
+        {
+          "path": "/hrm/payroll/formula/approve",
+          "code": 500
+        }
+      ],
+      "visibleMessages": [
+        "服务器错误,请联系管理员!"
+      ]
+    },
+    {
+      "case": "browser-financial-budget",
+      "selectedEntity": true,
+      "expectedBudget": 100000,
+      "displayed": true
+    },
+    {
+      "case": "mobile-requirement-form",
+      "viewportWidth": 390,
+      "hasTouch": true,
+      "openedDirectly": false,
+      "openedAfterMenuToggle": false,
+      "openedAfterClosingBackdrop": true,
+      "dialogBounds": {
+        "x": 0,
+        "y": 108.85110473632812,
+        "width": 720,
+        "height": 844.9999694824219
+      },
+      "dialogOverflowsViewport": true,
+      "saveButtonBounds": {
+        "x": 644,
+        "y": 908.0133056640625,
+        "width": 60,
+        "height": 32
+      },
+      "saveTapReachable": true,
+      "persistedAfterRefresh": true,
+      "bodyHorizontalOverflow": false
+    }
+  ],
+  "uncaughtErrors": [
+    "Object"
+  ],
+  "hrmApiErrors": []
+}

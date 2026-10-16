@@ -1,0 +1,33 @@
+{
+  "backendJar": {
+    "path": "/workspace/ruoyi-vue-pro/yudao-server/target/yudao-server.jar",
+    "sha256": "2121394fa8ca774fc4d3f22a41505bf9368cfdf8e12c7ba56d636c9f09aaba86",
+    "bytes": 178822497
+  },
+  "frontendEntry": {
+    "path": "/tmp/hrm-cloud-runtime-20261016/index.html",
+    "sha256": "54f095d26fce4fc6762a8404919a4b0e3c81a4b35ceed031c5bfa441c8977556",
+    "bytes": 156253
+  },
+  "prd": {
+    "path": "/workspace/ruoyi-vue-pro/docs/hrm-prd-audit-inputs/hrm-payroll-prd.md",
+    "sha256": "6e58683b646a055c9473b1a0e7597ce2f1f0548e2c57d16c0c1613a7765a7970",
+    "bytes": 32990
+  },
+  "prototype": {
+    "path": "/workspace/ruoyi-vue-pro/docs/hrm-prd-audit-inputs/薪酬管理模块原型.html",
+    "sha256": "6898065e01c0e38f35bbb09a65184bc385b2e2e10334c1f80bca74b188908839",
+    "bytes": 65819
+  },
+  "codeBaseline": "775165171ac547929db712fce7e0119925e2d5fd",
+  "environment": {
+    "java": "8u472",
+    "database": "hrm_acceptance_20261016_final",
+    "mockLogin": false,
+    "automaticJobs": false,
+    "schemaTables": 171,
+    "schemaFields": 3017,
+    "schemaMissing": 0
+  },
+  "auditEvidenceCapturedAtShanghai": "2026-10-16T20:19:48.391291+08:00"
+}

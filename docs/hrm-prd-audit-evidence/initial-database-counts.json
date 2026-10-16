@@ -1,0 +1,13 @@
+{
+  "hrm_employee": 0,
+  "hrm_salary_month_record": 0,
+  "hrm_salary_month_employee_record": 0,
+  "hrm_payroll_payment": 0,
+  "hrm_payroll_formula": 0,
+  "hrm_payroll_tax_policy": 0,
+  "hrm_payroll_insurance_policy": 0,
+  "hrm_payroll_time_entry": 0,
+  "hrm_payroll_work_rule": 0,
+  "hrm_salary_slip_send_record": 0,
+  "hrm_payroll_requirement": 43
+}

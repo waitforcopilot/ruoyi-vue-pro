@@ -1,0 +1,14 @@
+{
+  "entityId": 1,
+  "employeeIds": [
+    1,
+    2
+  ],
+  "formulaId": 1,
+  "gradeId": null,
+  "insurancePolicyId": 1,
+  "workRuleId": 1,
+  "taxPolicyId": 1,
+  "requirementId": 44,
+  "batchId": 1
+}

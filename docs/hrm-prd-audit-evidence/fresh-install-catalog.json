@@ -1,0 +1,43 @@
+{
+  "database": "hrm_cloud_full_20261016_0754",
+  "note": "完整50迁移的独立新库，未加入本轮审计目录夹具",
+  "templateCount": 7,
+  "rootCategoryCount": 0,
+  "items": [
+    {
+      "code": "10901",
+      "parentCode": "10",
+      "name": "批准工资补发/收回"
+    },
+    {
+      "code": "140101",
+      "parentCode": "140",
+      "name": "批准年终奖"
+    },
+    {
+      "code": "150901",
+      "parentCode": "150",
+      "name": "批准税款工资退还"
+    },
+    {
+      "code": "150902",
+      "parentCode": "150",
+      "name": "批准缴费差额工资退还"
+    },
+    {
+      "code": "160901",
+      "parentCode": "160",
+      "name": "批准税款工资补扣"
+    },
+    {
+      "code": "160902",
+      "parentCode": "160",
+      "name": "批准缴费差额工资补扣"
+    },
+    {
+      "code": "260106",
+      "parentCode": "260",
+      "name": "累计婴幼儿照护"
+    }
+  ]
+}

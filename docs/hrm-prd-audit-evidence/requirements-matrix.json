@@ -1,0 +1,278 @@
+[
+  {
+    "code": "OV-01",
+    "requirement": "总览层汇总指标（应发/实发/法定成本/个税）的统计口径定义",
+    "auditStatus": "部分验证",
+    "evidenceAndLimits": "OV-01-history：草稿金额为未知；未完成已付工资总额与分摊核对。"
+  },
+  {
+    "code": "OV-02",
+    "requirement": "核算期间切换与历史批次查询",
+    "auditStatus": "部分验证",
+    "evidenceAndLimits": "可查2026年10月真实草稿；未验证已归档、多批次历史金额。"
+  },
+  {
+    "code": "OV-03",
+    "requirement": "各数据要素(考勤/加班/工时/社保)归集完成度看板",
+    "auditStatus": "部分验证",
+    "evidenceAndLimits": "CALC-02-input-readiness返回空列表；目录缺项阻断，尚未验证真实归集完成度。"
+  },
+  {
+    "code": "OV-04",
+    "requirement": "异常数据触发核对的规则与提醒",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "缺口责任工单的触发、催办、补正关闭未完成运行验证。"
+  },
+  {
+    "code": "PLAN-01",
+    "requirement": "薪酬结构与各项目的规则可配置化",
+    "auditStatus": "不满足",
+    "evidenceAndLimits": "PLAN-02-formula-trial得到20；实际独立审批500（F-01）。"
+  },
+  {
+    "code": "PLAN-02",
+    "requirement": "薪级薪档表的维护与批量导入",
+    "auditStatus": "不满足",
+    "evidenceAndLimits": "真实Excel模板与重复行校验成功；创建薪级方案500（F-01）。"
+  },
+  {
+    "code": "PLAN-03",
+    "requirement": "定薪/调薪流程（含审批链与生效追溯）",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "未完成真实定调薪申请→HR/财务审批→生效→历史追溯。"
+  },
+  {
+    "code": "PLAN-04",
+    "requirement": "薪酬方案版本管理与历史对比",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "公式无法批准，未完成已批准方案的不可变版本对比。"
+  },
+  {
+    "code": "CALC-01",
+    "requirement": "核算批次生命周期（草稿→试算→审批→发放→归档）",
+    "auditStatus": "不满足",
+    "evidenceAndLimits": "草稿创建成功；核算因个人社保目录缺失被阻断（F-02），未到发放归档。"
+  },
+  {
+    "code": "CALC-02",
+    "requirement": "算薪公式引擎（各薪酬项目自动计算与调整）",
+    "auditStatus": "不满足",
+    "evidenceAndLimits": "小公式试算成功；真实工资核算未生成有效结果或快照（F-01/F-02）。"
+  },
+  {
+    "code": "CALC-03",
+    "requirement": "异常数据拦截与人工核对",
+    "auditStatus": "部分验证",
+    "evidenceAndLimits": "缺失法定工资项正确拦截；全量输入导入、逐人异常补正未完成。"
+  },
+  {
+    "code": "CALC-04",
+    "requirement": "银行代发文件生成与回盘核对",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "无冻结批次；未实际生成代发文件、导入部分成功回盘或重试。"
+  },
+  {
+    "code": "CALC-05",
+    "requirement": "工资条生成与员工自助查看",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "无正式工资条；本人查询、他人拒绝、撤回需带发布数据复测。"
+  },
+  {
+    "code": "TAX-01",
+    "requirement": "个税累计预扣法自动计算",
+    "auditStatus": "部分验证",
+    "evidenceAndLimits": "TAX-02：独立计算150元一致；未验证实际工资跨批次累计。"
+  },
+  {
+    "code": "TAX-02",
+    "requirement": "专项附加扣除采集与同步",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "未实际建立、同步并审批六项扣除资料进入工资。"
+  },
+  {
+    "code": "TAX-03",
+    "requirement": "工资条模板配置与多渠道推送(自助端/邮件/短信)",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "无正式发布工资条；模板、员工自助、邮件/短信失败重试均未端到端验证。"
+  },
+  {
+    "code": "TAX-04",
+    "requirement": "个税申报表与完税数据导出",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "未完成真实批次申报导出与完税导入对账。"
+  },
+  {
+    "code": "TAX-05",
+    "requirement": "年终奖单独计税处理",
+    "auditStatus": "部分验证",
+    "evidenceAndLimits": "TAX-03/04：独立奖金税1080元，重复使用标记被拒；实际发放年度占用未验证。"
+  },
+  {
+    "code": "ATT-01",
+    "requirement": "考勤数据按日/按月归集与汇总",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "员工选择列表可读不等于日/月归集；未完成带班次打卡的实际归集。"
+  },
+  {
+    "code": "ATT-02",
+    "requirement": "请假/出差/外出单据与打卡数据自动关联",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "未跑批准请假/出差/外出/补卡与打卡自动关联。"
+  },
+  {
+    "code": "ATT-03",
+    "requirement": "迟到/早退/缺勤/旷工规则判定",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "未用实际班次打卡验证迟到、早退、旷工与舍入边界。"
+  },
+  {
+    "code": "ATT-04",
+    "requirement": "异常考勤提醒与人工处理闭环",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "未完成真实异常→责任人补正→独立复核→关闭与重开。"
+  },
+  {
+    "code": "ATT-05",
+    "requirement": "考勤结果与薪酬计算的联动",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "未完成考勤金额进入冻结工资及源变更阻断验证。"
+  },
+  {
+    "code": "OT-01",
+    "requirement": "加班申请与审批流（关联考勤打卡时长）",
+    "auditStatus": "部分验证",
+    "evidenceAndLimits": "不存在的OA审批/打卡来源被拒；真实OA审批与认可尚未完成。"
+  },
+  {
+    "code": "OT-02",
+    "requirement": "加班时长统计与倍率规则计算",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "有制度倍率配置；未跑已批准加班、跨日切分与认可时长计价。"
+  },
+  {
+    "code": "OT-03",
+    "requirement": "加班费自动生成并进入工资核算",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "没有正式认可加班及工资结果，无法验证自动入薪。"
+  },
+  {
+    "code": "OT-04",
+    "requirement": "调休/补休管理",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "未跑真实调休额度产生、占用、扣减与退回。"
+  },
+  {
+    "code": "OT-05",
+    "requirement": "加班合规上限提醒",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "未构造超限认可工时验证提醒和责任人。"
+  },
+  {
+    "code": "HOUR-01",
+    "requirement": "不同工时制度的员工适用维护",
+    "auditStatus": "部分验证",
+    "evidenceAndLimits": "HOUR-01/02：标准制度独立批准，禁止自批；综合/不定时未运行验证。"
+  },
+  {
+    "code": "HOUR-02",
+    "requirement": "综合/不定时工时周期结算",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "未完成综合/不定时跨月周期结算与中途变更。"
+  },
+  {
+    "code": "HOUR-03",
+    "requirement": "工时报表生成与异常提醒",
+    "auditStatus": "部分验证",
+    "evidenceAndLimits": "零来源汇总接口可用；非零报表、差异与提醒未验证。"
+  },
+  {
+    "code": "HOUR-04",
+    "requirement": "工时数据与加班费/考勤扣款的联动",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "缺少正式工资结果，未验证工时驱动金额。"
+  },
+  {
+    "code": "HOUR-05",
+    "requirement": "工时与排班表关联核对",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "未构造真实排班/打卡差异完成核对关闭。"
+  },
+  {
+    "code": "INS-01",
+    "requirement": "缴存基数申报与年度调基",
+    "auditStatus": "部分验证",
+    "evidenceAndLimits": "两名员工基数经HR、财务分别批准；年度替换/批量调基尚未完成。"
+  },
+  {
+    "code": "INS-02",
+    "requirement": "比例与基数按城市/政策配置",
+    "auditStatus": "样例通过",
+    "evidenceAndLimits": "INS-01/02：真实城市政策配置批准，5000×8%/16%=400/800；仅限此样例。"
+  },
+  {
+    "code": "INS-03",
+    "requirement": "个人扣款自动进入工资核算",
+    "auditStatus": "部分验证",
+    "evidenceAndLimits": "个人金额400正确；工资目录缺项，未验证自动扣入工资。"
+  },
+  {
+    "code": "INS-04",
+    "requirement": "单位缴费计入用工成本报表",
+    "auditStatus": "部分验证",
+    "evidenceAndLimits": "单位金额800正确；无已批准工资成本报表，未验证入账分摊。"
+  },
+  {
+    "code": "INS-05",
+    "requirement": "社保公积金月度缴纳台账与对账",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "未实际导入机构实缴账单完成月度补缴/退款闭环。"
+  },
+  {
+    "code": "RPT-01",
+    "requirement": "薪酬成本按部门/成本中心/项目分摊",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "无冻结工资/批准成本，未完成按部门/项目精确分摊与总分对账。"
+  },
+  {
+    "code": "RPT-02",
+    "requirement": "人力成本率与人均指标计算",
+    "auditStatus": "部分验证",
+    "evidenceAndLimits": "未齐成本、营收/编制时返回null，未造零指标；非零人效未验证。"
+  },
+  {
+    "code": "RPT-03",
+    "requirement": "薪酬结构多维分析(占比/变动)",
+    "auditStatus": "未验证",
+    "evidenceAndLimits": "无冻结工资结构数据，未验证多维占比及环比。"
+  },
+  {
+    "code": "RPT-04",
+    "requirement": "工资总额预算与实际对比",
+    "auditStatus": "部分验证",
+    "evidenceAndLimits": "真实批准预算100000在页面可查；未完成实际成本差额及版本变更。"
+  },
+  {
+    "code": "RPT-05",
+    "requirement": "报表口径与导出格式",
+    "auditStatus": "部分验证",
+    "evidenceAndLimits": "缺冻结成本时导出被阻断是正确保护；成功报表导出未完成。"
+  },
+  {
+    "code": "COL-01",
+    "requirement": "按模块汇总、新增功能与数据源及唯一编号",
+    "auditStatus": "样例通过",
+    "evidenceAndLimits": "43原始功能准确对应；API及浏览器新增后刷新仍存在，重复编号被拒。"
+  },
+  {
+    "code": "COL-02",
+    "requirement": "确认/待确认/异议及负责人、时间、依据和独立数据就绪",
+    "auditStatus": "不满足",
+    "evidenceAndLimits": "状态/历史/版本冲突可用，但不存在的责任人及空映射仍可确认（F-04）。"
+  },
+  {
+    "code": "COL-03",
+    "requirement": "字段映射、负责人、优先级与版本化导出",
+    "auditStatus": "样例通过",
+    "evidenceAndLimits": "真实写入映射/来源/负责人/优先级；实际Excel含版本、状态、来源及新增条目。"
+  }
+]

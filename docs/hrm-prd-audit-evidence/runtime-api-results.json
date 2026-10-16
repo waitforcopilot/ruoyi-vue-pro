@@ -1,0 +1,715 @@
+[
+  {
+    "case": "REQ-01-create",
+    "observed": {
+      "id": 44,
+      "persisted": true
+    }
+  },
+  {
+    "case": "REQ-02-stale-version",
+    "observed": {
+      "code": 1050810002,
+      "message": "记录已被更新，请刷新后重试"
+    }
+  },
+  {
+    "case": "REQ-03-history",
+    "observed": {
+      "versions": [
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ]
+    }
+  },
+  {
+    "case": "REQ-04-export",
+    "observed": {
+      "header": [
+        "id",
+        "需求编号",
+        "模块",
+        "功能",
+        "字段映射",
+        "数据来源",
+        "来源负责人",
+        "评审负责人",
+        "优先级",
+        "评审状态",
+        "数据就绪",
+        "验收条件",
+        "确认依据及异议",
+        "版本",
+        "确认人",
+        "确认时间",
+        "createTime",
+        "updateTime",
+        "creator",
+        "updater",
+        "deleted"
+      ],
+      "containsNewCode": true
+    }
+  },
+  {
+    "case": "REQ-05-invalid-owners-empty-mapping-confirm",
+    "observed": {
+      "code": 0,
+      "status": "CONFIRMED",
+      "nonexistentUserIds": [
+        99999991,
+        99999992
+      ],
+      "matchingUserCountInDatabase": 0
+    }
+  },
+  {
+    "case": "SETUP-01-before-options",
+    "observed": {
+      "count": 7
+    }
+  },
+  {
+    "case": "SETUP-02-documented-sync",
+    "observed": {
+      "code": 501
+    }
+  },
+  {
+    "case": "SETUP-02-after-sync",
+    "observed": {
+      "count": 7,
+      "sample": [
+        {
+          "code": 10901,
+          "name": "批准工资补发/收回",
+          "parent": 10
+        },
+        {
+          "code": 140101,
+          "name": "批准年终奖",
+          "parent": 140
+        },
+        {
+          "code": 150901,
+          "name": "批准税款工资退还",
+          "parent": 150
+        },
+        {
+          "code": 150902,
+          "name": "批准缴费差额工资退还",
+          "parent": 150
+        },
+        {
+          "code": 160901,
+          "name": "批准税款工资补扣",
+          "parent": 160
+        },
+        {
+          "code": 160902,
+          "name": "批准缴费差额工资补扣",
+          "parent": 160
+        },
+        {
+          "code": 260106,
+          "name": "累计婴幼儿照护",
+          "parent": 260
+        }
+      ]
+    }
+  },
+  {
+    "case": "SETUP-03-create-base-before-fixture",
+    "observed": {
+      "code": 500,
+      "msg": "系统异常",
+      "data": null
+    }
+  },
+  {
+    "case": "SETUP-04-manual-catalog-fixture",
+    "observed": {
+      "extraSqlFixture": true,
+      "catalogCount": 9,
+      "note": "普通工资项API创建返回500，仅为继续审计而通过SQL准备两项虚构工资项"
+    }
+  },
+  {
+    "case": "PLAN-01-formula-approve-maker",
+    "observed": {
+      "code": 500,
+      "message": "系统异常"
+    }
+  },
+  {
+    "case": "PLAN-01-formula-approve-independent",
+    "observed": {
+      "code": 500,
+      "message": "系统异常"
+    }
+  },
+  {
+    "case": "PLAN-02-formula-trial",
+    "observed": {
+      "code": 0,
+      "msg": "",
+      "data": {
+        "item_1000100001": 10,
+        "item_1000100002": 20
+      }
+    }
+  },
+  {
+    "case": "PLAN-03-missing-input",
+    "observed": {
+      "code": 1050810009,
+      "msg": "薪资公式、变量、审批状态或生效区间不合法",
+      "data": null
+    }
+  },
+  {
+    "case": "PLAN-04-grade-create",
+    "observed": {
+      "code": 500,
+      "note": "实际请求返回500，MySQL锁定排序SQL语法错误；未创建成功"
+    }
+  },
+  {
+    "case": "ENTITY-01-approved-memberships",
+    "observed": {
+      "employeeIds": [
+        1,
+        2
+      ],
+      "departments": [
+        103,
+        104
+      ]
+    }
+  },
+  {
+    "case": "INS-01-self-approve",
+    "observed": {
+      "code": 1050810005,
+      "message": "核算、HR复核和财务审批必须由不同人员完成"
+    }
+  },
+  {
+    "case": "INS-02-quote",
+    "observed": {
+      "1": {
+        "entityId": 1,
+        "employeeId": 1,
+        "payerEntityId": 1,
+        "baseId": 1,
+        "policyId": 1,
+        "policyVersion": 1,
+        "year": 2026,
+        "month": 10,
+        "coverage": "INSURED",
+        "baseEvidence": "虚构审计工资基数",
+        "policyEvidence": "仅供数学验算的虚构缴费参数，不代表实际地区政策",
+        "incomeYear": 2025,
+        "personalInsurance": 400.0,
+        "personalFund": 0,
+        "corporateInsurance": 800.0,
+        "corporateFund": 0,
+        "projects": [
+          {
+            "code": "PENSION",
+            "name": "审计养老",
+            "type": 1,
+            "declaredBase": 5000,
+            "appliedBase": 5000,
+            "personalRate": 8,
+            "corporateRate": 16,
+            "minimumBase": 3000,
+            "maximumBase": 20000,
+            "personalFixed": 0,
+            "corporateFixed": 0,
+            "personalAmount": 400.0,
+            "corporateAmount": 800.0
+          }
+        ]
+      },
+      "2": {
+        "entityId": 1,
+        "employeeId": 2,
+        "payerEntityId": 1,
+        "baseId": 2,
+        "policyId": 1,
+        "policyVersion": 1,
+        "year": 2026,
+        "month": 10,
+        "coverage": "INSURED",
+        "baseEvidence": "虚构审计工资基数",
+        "policyEvidence": "仅供数学验算的虚构缴费参数，不代表实际地区政策",
+        "incomeYear": 2025,
+        "personalInsurance": 400.0,
+        "personalFund": 0,
+        "corporateInsurance": 800.0,
+        "corporateFund": 0,
+        "projects": [
+          {
+            "code": "PENSION",
+            "name": "审计养老",
+            "type": 1,
+            "declaredBase": 5000,
+            "appliedBase": 5000,
+            "personalRate": 8,
+            "corporateRate": 16,
+            "minimumBase": 3000,
+            "maximumBase": 20000,
+            "personalFixed": 0,
+            "corporateFixed": 0,
+            "personalAmount": 400.0,
+            "corporateAmount": 800.0
+          }
+        ]
+      }
+    }
+  },
+  {
+    "case": "HOUR-01-self-approve",
+    "observed": {
+      "code": 1050810005,
+      "message": "核算、HR复核和财务审批必须由不同人员完成"
+    }
+  },
+  {
+    "case": "HOUR-02-rule-persisted",
+    "observed": {
+      "id": 1,
+      "status": "APPROVED"
+    }
+  },
+  {
+    "case": "TAX-01-self-review",
+    "observed": {
+      "code": 1050810005,
+      "message": "核算、HR复核和财务审批必须由不同人员完成"
+    }
+  },
+  {
+    "case": "TAX-02-cumulative-trial",
+    "observed": {
+      "expected": 150,
+      "actual": {
+        "policyId": 1,
+        "policyVersion": 1,
+        "year": 2026,
+        "taxRegistrationNumber": "TESTENTITY20260001",
+        "policyStatus": "APPROVED",
+        "bonusMode": "NONE",
+        "basicDeduction": 5000.0,
+        "salaryTaxable": 5000.0,
+        "cumulativeSalaryTax": 150.0,
+        "currentSalaryWithholding": 150.0,
+        "separateBonusTax": 0.0,
+        "currentWithholding": 150.0,
+        "creditToReconcile": 0
+      }
+    }
+  },
+  {
+    "case": "TAX-03-bonus-trial",
+    "observed": {
+      "expectedBonusTax": 1080,
+      "actual": {
+        "policyId": 1,
+        "policyVersion": 1,
+        "year": 2026,
+        "taxRegistrationNumber": "TESTENTITY20260001",
+        "policyStatus": "APPROVED",
+        "bonusMode": "SEPARATE",
+        "basicDeduction": 5000.0,
+        "salaryTaxable": 5000.0,
+        "cumulativeSalaryTax": 150.0,
+        "currentSalaryWithholding": 150.0,
+        "separateBonusTax": 1080.0,
+        "currentWithholding": 1230.0,
+        "creditToReconcile": 0
+      }
+    }
+  },
+  {
+    "case": "TAX-04-bonus-double-use",
+    "observed": {
+      "code": 1050810020,
+      "message": "年度税务政策、年度金额、年终奖策略、审批或纳税主体不合法或未就绪"
+    }
+  },
+  {
+    "case": "SEC-01-department-scope",
+    "observed": {
+      "configuredDepartments": [
+        103
+      ],
+      "outsideDepartmentEmployeeId": 2,
+      "returnedEmployeeIds": [
+        "1",
+        "2"
+      ],
+      "outsideEmployeeVisible": true,
+      "outsideEmployeeQuote": {
+        "entityId": 1,
+        "employeeId": 2,
+        "payerEntityId": 1,
+        "baseId": 2,
+        "policyId": 1,
+        "policyVersion": 1,
+        "year": 2026,
+        "month": 10,
+        "coverage": "INSURED",
+        "baseEvidence": "虚构审计工资基数",
+        "policyEvidence": "仅供数学验算的虚构缴费参数，不代表实际地区政策",
+        "incomeYear": 2025,
+        "personalInsurance": 400.0,
+        "personalFund": 0,
+        "corporateInsurance": 800.0,
+        "corporateFund": 0,
+        "projects": [
+          {
+            "code": "PENSION",
+            "name": "审计养老",
+            "type": 1,
+            "declaredBase": 5000,
+            "appliedBase": 5000,
+            "personalRate": 8,
+            "corporateRate": 16,
+            "minimumBase": 3000,
+            "maximumBase": 20000,
+            "personalFixed": 0,
+            "corporateFixed": 0,
+            "personalAmount": 400.0,
+            "corporateAmount": 800.0
+          }
+        ]
+      }
+    }
+  },
+  {
+    "case": "SEC-02-attendance-employees",
+    "observed": {
+      "configuredDepartments": [
+        103
+      ],
+      "employeeIds": [
+        1,
+        2
+      ],
+      "outsideEmployeeVisible": true
+    }
+  },
+  {
+    "case": "RPT-01-analysis-approved-budget",
+    "observed": {
+      "code": 0,
+      "msg": "",
+      "data": {
+        "ready": false,
+        "missingBatchIds": [],
+        "reportIds": [],
+        "sourceStatus": "本期间无可用冻结工资",
+        "rows": [
+          {
+            "entityId": 1,
+            "entityName": "隔离验收主体（虚构）",
+            "year": 2026,
+            "month": 10,
+            "costReportIds": "",
+            "dimension": "ENTITY",
+            "dimensionKey": "ALL",
+            "name": "ALL",
+            "actualCost": null,
+            "employees": null,
+            "headcount": 20.0,
+            "budget": 100000.0,
+            "revenue": 500000.0,
+            "budgetVariance": null,
+            "budgetVarianceRate": null,
+            "costRevenueRate": null,
+            "costPerEmployee": null,
+            "costPerPosition": null,
+            "staffingVariance": null,
+            "sourceStatus": "冻结工资/批准成本报表未齐",
+            "planId": 1,
+            "planVersion": 1
+          }
+        ]
+      }
+    }
+  },
+  {
+    "case": "RPT-02-unknown-plan-month",
+    "observed": {
+      "code": 0,
+      "msg": "",
+      "data": {
+        "ready": false,
+        "missingBatchIds": [],
+        "reportIds": [],
+        "sourceStatus": "本期间无可用冻结工资",
+        "rows": [
+          {
+            "entityId": 1,
+            "entityName": "隔离验收主体（虚构）",
+            "year": 2026,
+            "month": 9,
+            "costReportIds": "",
+            "dimension": "ENTITY",
+            "dimensionKey": "ALL",
+            "name": "隔离验收主体（虚构）",
+            "actualCost": null,
+            "employees": null,
+            "headcount": null,
+            "budget": null,
+            "revenue": null,
+            "budgetVariance": null,
+            "budgetVarianceRate": null,
+            "costRevenueRate": null,
+            "costPerEmployee": null,
+            "costPerPosition": null,
+            "staffingVariance": null,
+            "sourceStatus": "冻结工资/批准成本报表未齐；未提供营收；未提供预算；未确认编制",
+            "planId": null,
+            "planVersion": null
+          }
+        ]
+      }
+    }
+  },
+  {
+    "case": "RPT-03-real-excel",
+    "observed": {
+      "code": 1050810026,
+      "msg": "预算/营收/编制的期间、金额、范围、来源、版本或审批状态不合法或不齐备",
+      "data": null
+    }
+  },
+  {
+    "case": "HOUR-03-summary-no-source",
+    "observed": {
+      "code": 0,
+      "msg": "",
+      "data": {
+        "recognizedMinutes": 0,
+        "amount": 0,
+        "timeOffBalance": 0,
+        "monthlyMinutes": {},
+        "limitExceeded": false,
+        "cycles": []
+      }
+    }
+  },
+  {
+    "case": "OT-01-unapproved-fake-source",
+    "observed": {
+      "code": 1050810007,
+      "msg": "工时规则、审批来源、打卡时段、周期结算或调休余额不合法",
+      "data": null
+    }
+  },
+  {
+    "case": "CALC-01-create-draft",
+    "observed": {
+      "code": 0,
+      "msg": "",
+      "data": 1
+    }
+  },
+  {
+    "case": "OV-01-history",
+    "observed": {
+      "code": 0,
+      "msg": "",
+      "data": [
+        {
+          "batchId": 1,
+          "entityId": 1,
+          "parentBatchId": null,
+          "runId": null,
+          "costReportId": null,
+          "title": "隔离原始PRD审计工资表",
+          "batchKey": "REGULAR",
+          "sourceMode": "CURRENT_TRIAL",
+          "sourceStatus": "尚无不可变核算版本，金额未知",
+          "costStatus": "尚无冻结工资来源",
+          "year": 2026,
+          "month": 10,
+          "status": 5,
+          "version": null,
+          "employeeCount": null,
+          "openIssues": 0,
+          "paymentSuccess": null,
+          "paymentPending": null,
+          "paymentFailed": null,
+          "expectedPaymentDate": null,
+          "gross": null,
+          "tax": null,
+          "net": null,
+          "personalInsurance": null,
+          "personalFund": null,
+          "corporateInsurance": null,
+          "corporateFund": null,
+          "approvedCost": null,
+          "paidAmount": null
+        }
+      ]
+    }
+  },
+  {
+    "case": "CALC-02-input-readiness",
+    "observed": {
+      "code": 0,
+      "msg": "",
+      "data": []
+    }
+  },
+  {
+    "case": "CALC-03-compute-missing-input",
+    "observed": {
+      "code": 1050810017,
+      "msg": "必需工资项[个人社保]未启用或类别/加减类型错误，请检查工资项配置",
+      "data": null
+    }
+  },
+  {
+    "case": "IMPORT-01-grade-template",
+    "observed": {
+      "header": [
+        "类型 GRADE/POST",
+        "薪级编码",
+        "薪档编码",
+        "最低金额",
+        "标准金额",
+        "最高金额",
+        "岗位名称",
+        "岗位系数"
+      ],
+      "rows": 3
+    }
+  },
+  {
+    "case": "IMPORT-02-grade-valid-preview",
+    "observed": {
+      "code": 0,
+      "msg": "",
+      "data": []
+    }
+  },
+  {
+    "case": "IMPORT-03-grade-duplicate-preview",
+    "observed": {
+      "code": 0,
+      "msg": "",
+      "data": [
+        {
+          "row": 4,
+          "reason": "薪级与薪档重复"
+        }
+      ]
+    }
+  },
+  {
+    "case": "REQ-06-duplicate-code",
+    "observed": {
+      "code": 1050810004,
+      "message": "需求编号重复"
+    }
+  },
+  {
+    "case": "SEC-03-persisted-role-and-outside-quote",
+    "observed": {
+      "roleId": 169,
+      "roleCode": "hrmacceptread",
+      "persistedDataScope": 2,
+      "persistedDepartmentIds": [
+        103
+      ],
+      "outsideEmployeeId": 2,
+      "returnedEmployeeIds": [
+        "1",
+        "2"
+      ],
+      "outsideEmployeeQuote": {
+        "entityId": 1,
+        "employeeId": 2,
+        "payerEntityId": 1,
+        "baseId": 2,
+        "policyId": 1,
+        "policyVersion": 1,
+        "year": 2026,
+        "month": 10,
+        "coverage": "INSURED",
+        "baseEvidence": "虚构审计工资基数",
+        "policyEvidence": "仅供数学验算的虚构缴费参数，不代表实际地区政策",
+        "incomeYear": 2025,
+        "personalInsurance": 400.0,
+        "personalFund": 0,
+        "corporateInsurance": 800.0,
+        "corporateFund": 0,
+        "projects": [
+          {
+            "code": "PENSION",
+            "name": "审计养老",
+            "type": 1,
+            "declaredBase": 5000,
+            "appliedBase": 5000,
+            "personalRate": 8,
+            "corporateRate": 16,
+            "minimumBase": 3000,
+            "maximumBase": 20000,
+            "personalFixed": 0,
+            "corporateFixed": 0,
+            "personalAmount": 400.0,
+            "corporateAmount": 800.0
+          }
+        ]
+      }
+    }
+  },
+  {
+    "case": "AUTH-01-no-session",
+    "observed": {
+      "code": 401,
+      "message": "账号未登录"
+    }
+  },
+  {
+    "case": "AUTH-02-mock-token",
+    "observed": {
+      "code": 401,
+      "message": "账号未登录"
+    }
+  },
+  {
+    "case": "AUTH-03-wrong-tenant",
+    "observed": {
+      "code": 403
+    }
+  },
+  {
+    "case": "UI-01-date-serialization",
+    "observed": {
+      "id": 1,
+      "effectiveFrom": [
+        2026,
+        1,
+        1
+      ],
+      "effectiveTo": [
+        2026,
+        12,
+        31
+      ],
+      "status": "PENDING"
+    }
+  }
+]

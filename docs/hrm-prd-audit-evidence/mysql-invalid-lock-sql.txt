@@ -1,0 +1,2 @@
+SELECT id, template_id, code, parent_code, name, remark, system_flag, type, visible, enabled, tax_enabled, calculate_enabled, create_time, update_time, creator, updater, deleted FROM hrm_salary_option WHERE deleted = 0 AND (code = ?) AND tenant_id = 1 FOR UPDATE ORDER BY id DESC LIMIT 1
+SELECT id, template_id, code, parent_code, name, remark, system_flag, type, visible, enabled, tax_enabled, calculate_enabled, create_time, update_time, creator, updater, deleted FROM hrm_salary_option WHERE deleted = 0 AND tenant_id = 1 FOR UPDATE ORDER BY id ASC
