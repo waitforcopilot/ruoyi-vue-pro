@@ -3,6 +3,9 @@
 import argparse
 import re
 import subprocess
+import tempfile
+import shutil
+import os
 from pathlib import Path
 
 parser = argparse.ArgumentParser(description=__doc__)
@@ -25,33 +28,52 @@ for line in data.splitlines():
     table, column = line.split("\t")
     columns.setdefault(table, set()).add(column)
 
-errors, tables, field_count = [], set(), 0
+# javac parses comma declarators, initializers, generics and annotations correctly.
+# No application classes are loaded; nested DTO members are deliberately excluded.
+files = []
 for module in ("hrm", "oa", "bpm"):
     directory = args.source_root / f"yudao-module-{module}/src/main/java/cn/iocoder/yudao/module/{module}/dal/dataobject"
-    for file in directory.rglob("*.java"):
-        source = file.read_text()
-        table = re.search(r'@TableName\((?:value\s*=\s*)?"([^"]+)"', source)
-        if not table:
-            continue
-        name = table[1]
-        tables.add(name)
-        if name not in columns:
-            errors.append(f"Missing table: {name}")
-            continue
-        # Keep fields of the outer data object, excluding nested DTO properties.
-        code = re.sub(r"/\*[\s\S]*?\*/|//[^\n]*", "", source)
-        for match in re.finditer(r"private\s+([\w<>., ?\[\]]+)\s+(\w+)\s*;", code):
-            prefix = code[:match.start()]
-            if prefix.count("{") - prefix.count("}") != 1 or "static" in match[1].split():
-                continue
-            annotations = prefix[prefix.rfind(";") + 1:]
-            if re.search(r"@TableField\([^)]*exist\s*=\s*false", annotations):
-                continue
-            override = re.search(r'@TableField\((?:value\s*=\s*)?"([^"]+)"', annotations)
-            column = override[1] if override else re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", match[2]).lower()
-            field_count += 1
-            if column not in columns[name]:
-                errors.append(f"Missing column: {name}.{column} ({file.name})")
+    files.extend(str(file) for file in sorted(directory.rglob("*.java")))
+files.append(str(args.source_root / "yudao-framework/yudao-spring-boot-starter-mybatis/src/main/java/cn/iocoder/yudao/framework/mybatis/core/dataobject/BaseDO.java"))
+helper = Path(__file__).with_name("SchemaFields.java")
+with tempfile.TemporaryDirectory(prefix="hrm-schema-") as compiled:
+    compiler = shutil.which("javac")
+    if not compiler:
+        parser.error("Install a JDK and put javac on PATH")
+    tools_jar = Path(compiler).resolve().parents[1] / "lib/tools.jar"
+    classpath = os.pathsep.join([compiled, str(tools_jar)]) if tools_jar.exists() else compiled
+    subprocess.run([compiler, "-cp", classpath, "-encoding", "UTF-8", "-d", compiled, str(helper)], check=True)
+    declarations = subprocess.check_output(["java", "-cp", classpath, "SchemaFields", *files], text=True)
+errors, tables, expected, inherited, tenant_ignored = [], set(), {}, set(), set()
+for line in declarations.splitlines():
+    name, column, file = line.split("\t")
+    if name == "@base":
+        if column != "-":
+            inherited.add(column)
+        continue
+    tables.add(name)
+    expected.setdefault(name, {})
+    if column == "@tenant-ignore":
+        tenant_ignored.add(name)
+        continue
+    if column != "-":
+        expected[name][column] = file
+if not inherited:
+    raise RuntimeError("BaseDO fields were not parsed; refusing an incomplete check")
+field_count = 0
+for name in sorted(tables):
+    for column in inherited:
+        expected[name].setdefault(column, "BaseDO.java")
+    # The tenant interceptor requires this storage column, independently of BaseDO.
+    if name not in tenant_ignored:
+        expected[name].setdefault("tenant_id", "tenant interceptor")
+    field_count += len(expected[name])
+    if name not in columns:
+        errors.append(f"Missing table: {name}")
+        continue
+    for column, file in sorted(expected[name].items()):
+        if column not in columns[name]:
+            errors.append(f"Missing column: {name}.{column} ({file})")
 
 for error in errors:
     print(error)
