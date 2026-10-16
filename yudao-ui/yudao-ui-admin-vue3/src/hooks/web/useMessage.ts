@@ -1,4 +1,5 @@
 import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
+import type { ElMessageBoxOptions } from 'element-plus'
 import { useI18n } from './useI18n'
 export const useMessage = () => {
   const { t } = useI18n()
@@ -20,8 +21,8 @@ export const useMessage = () => {
       ElMessage.warning(content)
     },
     // 弹出提示
-    alert(content: string) {
-      ElMessageBox.alert(content, t('common.confirmTitle'))
+    alert(content: string, tip = t('common.confirmTitle')) {
+      return ElMessageBox.alert(content, tip)
     },
     // 错误提示
     alertError(content: string) {
@@ -84,11 +85,12 @@ export const useMessage = () => {
       )
     },
     // 提交内容
-    prompt(content: string, tip: string) {
+    prompt(content: string, tip = t('common.confirmTitle'), options: ElMessageBoxOptions = {}) {
       return ElMessageBox.prompt(content, tip, {
         confirmButtonText: t('common.ok'),
         cancelButtonText: t('common.cancel'),
-        type: 'warning'
+        type: 'warning',
+        ...options
       })
     }
   }
