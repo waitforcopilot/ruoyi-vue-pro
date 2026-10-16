@@ -1,7 +1,7 @@
 <template>
   <Dialog v-model="visible" title="员工税款补扣与退税结算" width="1100px">
     <el-alert
-      title="依据已完成完税对账的批准申报核实员工差额。申请和复核不代表已付款；核实实际银行收付款后才结清。"
+      title="依据已完成完税对账的批准申报核实员工差额。申请和复核不代表已付款；核实实际银行收付款后才结清。若后续工资累计已对平，引用原年度最新申报及真实工资无现金核销，避免重复收退。"
       type="info"
       :closable="false"
     />
@@ -45,7 +45,14 @@
       <el-table-column prop="reviewReason" label="复核意见" min-width="120" />
       <el-table-column prop="valueDate" label="实际收付款日" width="140" />
       <el-table-column prop="bankReference" label="银行流水" min-width="140" />
-      <el-table-column label="操作" width="230"
+      <el-table-column prop="accountingFilingId" label="核销申报" width="100" />
+      <el-table-column
+        prop="accountingEvidence"
+        label="核销依据"
+        min-width="130"
+        show-overflow-tooltip
+      />
+      <el-table-column label="操作" width="320"
         ><template #default="{ row }">
           <template v-if="row.status === 'PENDING'">
             <el-button
@@ -73,6 +80,14 @@
             :disabled="loading"
             @click="openBank(row)"
             >确认银行凭据</el-button
+          >
+          <el-button
+            v-if="row.status === 'APPROVED' && row.mode === 'RESIDENT_WAGE'"
+            v-hasPermi="['hrm:payroll:tax:approve']"
+            link
+            :disabled="loading"
+            @click="absorb(row)"
+            >累计对平核销</el-button
           >
           <el-button
             v-if="['PENDING', 'APPROVED'].includes(row.status)"
@@ -168,8 +183,28 @@ const statuses: Record<string, string> = {
   PENDING: '待复核',
   APPROVED: '待银行确认',
   SETTLED: '实际已结清',
+  ABSORBED: '后续工资已吸收',
   REJECTED: '已驳回',
   CANCELLED: '已作废'
+}
+async function absorb(row: any) {
+  const choices = await api.absorptionOptions(row.id)
+  if (choices.length !== 1) {
+    message.warning('尚无已对平的原年度最新申报及实际工资证据')
+    return
+  }
+  const proof = choices[0]
+  const { value } = await message.prompt(
+    `后续申报 ${proof.id}、实际工资 ${proof.paymentIds.join('、')} 累计已对平。请填写不再收退现金的核实依据`,
+    '累计对平无现金核销',
+    {
+      inputType: 'textarea',
+      inputValidator: (v: string) => (!!v?.trim() && v.length <= 1000) || '请填写1～1000字的依据'
+    }
+  )
+  await api.absorb({ id: row.id, accountingFilingId: proof.id, evidence: value })
+  message.success('已记录后续工资吸收，无新增银行收付款')
+  await load()
 }
 let sequence = 0
 async function open(id: number) {

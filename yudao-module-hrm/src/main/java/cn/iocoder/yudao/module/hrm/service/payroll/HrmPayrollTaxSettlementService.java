@@ -21,6 +21,9 @@ import org.springframework.transaction.annotation.*;
 @Service
 public class HrmPayrollTaxSettlementService {
   @Resource private HrmPayrollTaxSettlementMapper settlements;
+  @Resource private HrmPayrollPaymentMapper payments;
+  @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.salary.monthrecord.HrmSalaryMonthRecordMapper batches;
+  @Resource private HrmPayrollTaxCashLedgerService cash;
   @Resource private HrmPayrollOffsetMapper offsets;
   @Resource private HrmPayrollTaxFilingMapper filings;
   @Resource private HrmPayrollTaxProfileMapper profiles;
@@ -88,7 +91,7 @@ public class HrmPayrollTaxSettlementService {
     BigDecimal paid = BigDecimal.ZERO, refund = BigDecimal.ZERO, recovery = BigDecimal.ZERO;
     for (HrmPayrollTaxSettlementDO s : period(f, p.getTaxpayerKey(), row.getMode())) {
       if (Objects.equals(s.getId(), exclude)) continue;
-      if ("SETTLED".equals(s.getStatus())) paid = paid.add(signed(s));
+      if (Arrays.asList("SETTLED","ABSORBED").contains(s.getStatus())) paid = paid.add(signed(s));
       else if (Arrays.asList("PENDING", "APPROVED").contains(s.getStatus())) {
         if ("REFUND".equals(s.getKind())) refund = refund.add(s.getAmount());
         else recovery = recovery.add(s.getAmount());
@@ -150,6 +153,21 @@ public class HrmPayrollTaxSettlementService {
     if (available.signum() <= 0 || req.getAmount().compareTo(available) > 0)
       throw exception(PAYROLL_TAX_INVALID);
   }
+
+  @Data private static class LaterProof {private Long filingId;private String filingSnapshot;private HrmPayrollTaxCashLedgerVO cash;private BigDecimal balance;private List<Long> paymentIds;}
+  private List<HrmPayrollPaymentDO> laterPayments(HrmPayrollTaxSettlementDO s){
+    if(!"RESIDENT_WAGE".equals(s.getMode()))return Collections.emptyList();Set<Long> ids=new HashSet<>();for(HrmPayrollTaxProfileDO p:profiles.selectList(new LambdaQueryWrapper<HrmPayrollTaxProfileDO>().eq(HrmPayrollTaxProfileDO::getEntityId,s.getEntityId()).eq(HrmPayrollTaxProfileDO::getYear,s.getYear()).eq(HrmPayrollTaxProfileDO::getTaxpayerKey,s.getTaxpayerKey())))ids.add(p.getEmployeeId());if(ids.isEmpty())throw exception(PAYROLL_TAX_INVALID);
+    List<HrmPayrollPaymentDO> out=new ArrayList<>();for(HrmPayrollPaymentDO p:payments.selectList(new LambdaQueryWrapper<HrmPayrollPaymentDO>().in(HrmPayrollPaymentDO::getEmployeeId,ids).eq(HrmPayrollPaymentDO::getStatus,"SUCCESS").gt(HrmPayrollPaymentDO::getValueDate,YearMonth.of(s.getYear(),s.getMonth()).atEndOfMonth()).le(HrmPayrollPaymentDO::getValueDate,LocalDate.of(s.getYear(),12,31)))){cn.iocoder.yudao.module.hrm.dal.dataobject.salary.monthrecord.HrmSalaryMonthRecordDO b=batches.selectById(p.getMonthRecordId());if(b!=null&&Objects.equals(b.getEntityId(),s.getEntityId()))out.add(p);}return out;
+  }
+  private LaterProof later(HrmPayrollTaxSettlementDO s,Long actor,boolean required){
+    List<HrmPayrollPaymentDO> paid=laterPayments(s);if(paid.isEmpty())return null;YearMonth last=paid.stream().map(p->YearMonth.from(p.getValueDate())).max(Comparator.naturalOrder()).get();
+    HrmPayrollTaxFilingDO latest=filings.selectOne(new LambdaQueryWrapper<HrmPayrollTaxFilingDO>().eq(HrmPayrollTaxFilingDO::getEntityId,s.getEntityId()).eq(HrmPayrollTaxFilingDO::getYear,last.getYear()).eq(HrmPayrollTaxFilingDO::getMonth,last.getMonthValue()).eq(HrmPayrollTaxFilingDO::getStatus,"RECONCILED").orderByDesc(HrmPayrollTaxFilingDO::getVersion).last("LIMIT 1"));
+    if(latest==null){if(required)throw exception(PAYROLL_TAX_LATER_PAYROLL_RECONCILIATION_REQUIRED);return null;}ready(latest,actor);
+    List<HrmPayrollTaxFilingSourceVO.Row> matching=new ArrayList<>();for(HrmPayrollTaxFilingSourceVO.Row r:source(latest).getRows()){HrmPayrollTaxProfileDO p=profiles.selectById(r.getProfileId());if(p!=null&&Objects.equals(p.getTaxpayerKey(),s.getTaxpayerKey())&&Objects.equals(p.getEntityId(),s.getEntityId())&&"RESIDENT_WAGE".equals(r.getMode()))matching.add(r);}if(matching.size()!=1)throw exception(PAYROLL_TAX_INVALID);HrmPayrollTaxFilingSourceVO.Row row=matching.get(0);List<Long> ids=new ArrayList<>();for(HrmPayrollPaymentDO p:paid)if(YearMonth.from(p.getValueDate()).equals(last)){if(!row.getPaymentIds().contains(p.getId()))throw exception(PAYROLL_TAX_INVALID);ids.add(p.getId());}Collections.sort(ids);
+    HrmPayrollTaxCashLedgerVO ledger=cash.forTaxFiling(s.getEntityId(),s.getEmployeeId(),s.getYear(),last.atEndOfMonth().isAfter(LocalDate.now(ZoneId.of("Asia/Shanghai")))?LocalDate.now(ZoneId.of("Asia/Shanghai")):last.atEndOfMonth());if(ledger==null||!ledger.isReady()||row.getCumulativeTax()==null||ledger.getWithheld()==null)throw exception(PAYROLL_TAX_INVALID);BigDecimal remaining=row.getCumulativeTax().subtract(ledger.getWithheld());if(row.getCumulativeTaxBalance()!=null&&row.getCumulativeTaxBalance().compareTo(remaining)!=0)throw exception(PAYROLL_TAX_INVALID);
+    return new LaterProof().setFilingId(latest.getId()).setFilingSnapshot(latest.getSourceSnapshot()).setCash(ledger).setBalance(remaining).setPaymentIds(ids);
+  }
+  private void outstanding(HrmPayrollTaxSettlementDO s,Long actor,boolean required){LaterProof proof=later(s,actor,required);if(proof!=null&&("RECOVERY".equals(s.getKind())?proof.getBalance():proof.getBalance().negate()).compareTo(s.getAmount())<0)throw exception(PAYROLL_TAX_LATER_PAYROLL_RECONCILIATION_REQUIRED);}
 
   private void authority(HrmPayrollTaxSettlementDO settlement,HrmPayrollTaxFilingDO filing){
     if(!Objects.equals(JsonUtils.parseTree(settlement.getAuthoritySnapshot()),JsonUtils.parseTree(filing.getSourceSnapshot())))throw exception(PAYROLL_VERSION_CONFLICT);
@@ -219,7 +237,7 @@ public class HrmPayrollTaxSettlementService {
   public HrmPayrollTaxSettlementDO approvedForPayroll(Long id,Long actor){
     HrmPayrollTaxSettlementDO s=settlements.selectById(id);if(s==null||!"APPROVED".equals(s.getStatus()))throw exception(PAYROLL_OFFSET_INVALID);
     HrmPayrollTaxFilingDO f=filing(s.getFilingId(),"READ",actor,false);authority(s,f);ready(f,actor);
-    available(f,JsonUtils.parseObject(s.getRequestSnapshot(),HrmPayrollTaxSettlementReqVO.class),s.getId());return s;
+    available(f,JsonUtils.parseObject(s.getRequestSnapshot(),HrmPayrollTaxSettlementReqVO.class),s.getId());outstanding(s,actor,false);return s;
   }
   private void assertNotScheduled(Long id){if(offsets.selectCount(new cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX<HrmPayrollOffsetDO>().eq(HrmPayrollOffsetDO::getSourceType,"TAX").eq(HrmPayrollOffsetDO::getSourceId,id).in(HrmPayrollOffsetDO::getStatus,"PENDING","APPROVED","CONSUMED"))>0)throw exception(PAYROLL_OFFSET_INVALID);}
   @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
@@ -245,6 +263,7 @@ public class HrmPayrollTaxSettlementService {
         || req.getValueDate().isBefore(s.getReviewedTime().toLocalDate()))
       throw exception(PAYROLL_TAX_INVALID);
     authority(s,f);ready(f,actor);available(f,JsonUtils.parseObject(s.getRequestSnapshot(),HrmPayrollTaxSettlementReqVO.class),s.getId());
+    outstanding(s,actor,true);
     s.setStatus("SETTLED")
         .setValueDate(req.getValueDate())
         .setBankReference(req.getBankReference())
@@ -260,6 +279,13 @@ public class HrmPayrollTaxSettlementService {
     }
     event(s, "SETTLE", req.getEvidence(), actor);
   }
+
+  @Transactional(rollbackFor=Exception.class,isolation=Isolation.READ_COMMITTED)
+  public void absorb(HrmPayrollTaxAbsorptionReqVO req,Long actor){if(!validator.validate(req).isEmpty())throw exception(PAYROLL_TAX_INVALID);HrmPayrollTaxSettlementDO candidate=settlements.selectById(req.getId());if(candidate==null)throw exception(PAYROLL_TAX_INVALID);HrmPayrollTaxFilingDO f=filing(candidate.getFilingId(),"APPROVE",actor,true);assertNotScheduled(candidate.getId());HrmPayrollTaxSettlementDO s=settlements.selectOneForUpdate(HrmPayrollTaxSettlementDO::getId,req.getId());avoidSelf(s,actor);
+    if("ABSORBED".equals(s.getStatus())){if(Objects.equals(s.getAccountingRequest(),JsonUtils.toJsonString(req)))return;throw exception(PAYROLL_VERSION_CONFLICT);}if(!"APPROVED".equals(s.getStatus())||!"RESIDENT_WAGE".equals(s.getMode()))throw exception(PAYROLL_TAX_INVALID);authority(s,f);ready(f,actor);available(f,JsonUtils.parseObject(s.getRequestSnapshot(),HrmPayrollTaxSettlementReqVO.class),s.getId());LaterProof proof=later(s,actor,true);if(proof==null||!Objects.equals(proof.getFilingId(),req.getAccountingFilingId())||proof.getBalance().signum()!=0)throw exception(PAYROLL_TAX_LATER_PAYROLL_RECONCILIATION_REQUIRED);
+    s.setStatus("ABSORBED").setAccountingFilingId(proof.getFilingId()).setAccountingEvidence(req.getEvidence()).setAccountingSnapshot(JsonUtils.toJsonString(proof)).setAccountingRequest(JsonUtils.toJsonString(req)).setAccountedBy(actor).setAccountedTime(LocalDateTime.now(ZoneId.of("Asia/Shanghai")));settlements.updateById(s);event(s,"ABSORB_PAYROLL",req.getEvidence(),actor);
+  }
+  public List<Map<String,Object>> absorptionOptions(Long id,Long actor){HrmPayrollTaxSettlementDO s=settlements.selectById(id);if(s==null)throw exception(PAYROLL_TAX_INVALID);filing(s.getFilingId(),"READ",actor,false);LaterProof proof=later(s,actor,true);if(proof==null||proof.getBalance().signum()!=0)return Collections.emptyList();Map<String,Object> option=new LinkedHashMap<>();option.put("id",proof.getFilingId());option.put("paymentIds",proof.getPaymentIds());option.put("balance",proof.getBalance());return Collections.singletonList(option);}
 
   @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
   public void cancel(Long id, String reason, String bankVoidEvidence, Long actor) {

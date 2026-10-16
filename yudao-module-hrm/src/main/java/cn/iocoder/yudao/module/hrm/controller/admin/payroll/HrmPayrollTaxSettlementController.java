@@ -8,6 +8,7 @@ import cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.*;
 import cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.*;
 import cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxSettlementService;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -61,4 +62,8 @@ public class HrmPayrollTaxSettlementController {
     service.cancel(id, reason, bankVoidEvidence, getLoginUserId());
     return success(true);
   }
+  @PostMapping("/absorb") @PreAuthorize("@ss.hasPermission('hrm:payroll:tax:approve')")
+  public CommonResult<Boolean> absorb(@Valid @RequestBody HrmPayrollTaxAbsorptionReqVO req){service.absorb(req,getLoginUserId());return success(true);}
+  @GetMapping("/absorption-options") @PreAuthorize("@ss.hasPermission('hrm:payroll:tax:query')")
+  public CommonResult<List<Map<String,Object>>> absorptionOptions(@RequestParam Long id){return success(service.absorptionOptions(id,getLoginUserId()));}
 }

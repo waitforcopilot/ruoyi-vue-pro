@@ -306,6 +306,7 @@ public interface ErrorCodeConstants {
     ErrorCode PAYROLL_TAX_OPENING_CORRECTION_UNCONFIRMED = new ErrorCode(1_050_810_030, "该付款已被历史累计覆盖，请先核实批准累计档案已包含本次更正，并明确确认");
     ErrorCode PAYROLL_RECOVERY_INVALID = new ErrorCode(1_050_810_031, "工资收回来源、核定版本、税务分配或实际退款凭证未就绪");
     ErrorCode PAYROLL_RECOVERY_TAX_UNMATCHED = new ErrorCode(1_050_810_032, "已有收入更正尚未与独立工资收回对账，不能再次在工资中抵减同一收入");
+    ErrorCode PAYROLL_TAX_LATER_PAYROLL_RECONCILIATION_REQUIRED = new ErrorCode(1_050_810_035, "后续工资已影响原年度累计预扣，请先核对最新申报；累计已对平的旧期间差额应无现金核销，不得重复收退");
     ErrorCode PAYROLL_INSURANCE_ADJUSTMENT_INVALID = new ErrorCode(1_050_810_034, "社保公积金工资差额、原年度扣除更正或收退凭证不一致，请核实最终对账账单及历史调整");
     ErrorCode PAYROLL_OFFSET_INVALID = new ErrorCode(1_050_810_033, "工资收退来源、适用批次、批准状态或税后净额未就绪，请核实税款或缴费差额结算");
     ErrorCode PAYROLL_VERSION_CONFLICT = new ErrorCode(1_050_810_002, "记录已被更新，请刷新后重试");

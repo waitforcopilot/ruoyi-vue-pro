@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.*;
 /** Source assembly for resident withholding. Only scoped payroll services may call it. */
 @Service
 public class HrmPayrollTaxWithholdingService {
+  @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollOffsetMapper offsets;
+  @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollTaxSettlementMapper settlements;
   @Resource private HrmPayrollTaxPolicyService policies;
   @Resource private HrmPayrollBonusService bonuses;
   @Resource private HrmPayrollTaxProfileService profiles;
@@ -127,6 +129,10 @@ public class HrmPayrollTaxWithholdingService {
             .setBonusAmount(bonusAmount)
             .setBonusMode(bonusMode)
             .setSeparateBonusAlreadyUsed(separateUsed);
+    PayrollTaxPolicyEngine.Quote quote=PayrollTaxPolicyEngine.quote(policy,request);
+    if(batchId!=null&&quote.getCreditToReconcile()!=null&&quote.getCreditToReconcile().signum()>0){
+      for(HrmPayrollOffsetDO offset:offsets.selectList(new cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX<HrmPayrollOffsetDO>().eq(HrmPayrollOffsetDO::getBatchId,batchId).eq(HrmPayrollOffsetDO::getEmployeeId,employeeId).eq(HrmPayrollOffsetDO::getSourceType,"TAX").eq(HrmPayrollOffsetDO::getStatus,"APPROVED"))){HrmPayrollTaxSettlementDO settlement=settlements.selectById(offset.getSourceId());if(settlement!=null&&Objects.equals(settlement.getYear(),payDate.getYear())&&"RESIDENT_WAGE".equals(settlement.getMode())&&"RECOVERY".equals(settlement.getKind()))throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_TAX_LATER_PAYROLL_RECONCILIATION_REQUIRED);}
+    }
     return new Source()
         .setBatchId(batchId)
         .setBonus(bonus)
@@ -142,7 +148,7 @@ public class HrmPayrollTaxWithholdingService {
         .setCurrentIncome(currentIncome)
         .setCurrentSocialDeduction(currentSocial)
         .setAdditionalDeduction(additional)
-        .setQuote(PayrollTaxPolicyEngine.quote(policy, request));
+        .setQuote(quote);
   }
 
   public void validateInputSnapshot(

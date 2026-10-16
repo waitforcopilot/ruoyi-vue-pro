@@ -1,0 +1,13 @@
+SET NAMES utf8mb4;
+SET @hrm_alter=IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='hrm_payroll_tax_settlement' AND COLUMN_NAME='accounting_filing_id')=0,'ALTER TABLE hrm_payroll_tax_settlement ADD COLUMN accounting_filing_id bigint NULL','SELECT 1');
+PREPARE hrm_stmt FROM @hrm_alter; EXECUTE hrm_stmt; DEALLOCATE PREPARE hrm_stmt;
+SET @hrm_alter=IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='hrm_payroll_tax_settlement' AND COLUMN_NAME='accounted_by')=0,'ALTER TABLE hrm_payroll_tax_settlement ADD COLUMN accounted_by bigint NULL','SELECT 1');
+PREPARE hrm_stmt FROM @hrm_alter; EXECUTE hrm_stmt; DEALLOCATE PREPARE hrm_stmt;
+SET @hrm_alter=IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='hrm_payroll_tax_settlement' AND COLUMN_NAME='accounted_time')=0,'ALTER TABLE hrm_payroll_tax_settlement ADD COLUMN accounted_time datetime NULL','SELECT 1');
+PREPARE hrm_stmt FROM @hrm_alter; EXECUTE hrm_stmt; DEALLOCATE PREPARE hrm_stmt;
+SET @hrm_alter=IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='hrm_payroll_tax_settlement' AND COLUMN_NAME='accounting_evidence')=0,'ALTER TABLE hrm_payroll_tax_settlement ADD COLUMN accounting_evidence varchar(1000) NULL','SELECT 1');
+PREPARE hrm_stmt FROM @hrm_alter; EXECUTE hrm_stmt; DEALLOCATE PREPARE hrm_stmt;
+SET @hrm_alter=IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='hrm_payroll_tax_settlement' AND COLUMN_NAME='accounting_snapshot')=0,'ALTER TABLE hrm_payroll_tax_settlement ADD COLUMN accounting_snapshot LONGTEXT NULL','SELECT 1');
+PREPARE hrm_stmt FROM @hrm_alter; EXECUTE hrm_stmt; DEALLOCATE PREPARE hrm_stmt;
+SET @hrm_alter=IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='hrm_payroll_tax_settlement' AND COLUMN_NAME='accounting_request')=0,'ALTER TABLE hrm_payroll_tax_settlement ADD COLUMN accounting_request LONGTEXT NULL','SELECT 1');
+PREPARE hrm_stmt FROM @hrm_alter; EXECUTE hrm_stmt; DEALLOCATE PREPARE hrm_stmt;

@@ -14,3 +14,8 @@ export const cancel = (id: number, reason: string, bankVoidEvidence?: string) =>
     url: '/hrm/payroll/tax-settlement/cancel',
     params: { id, reason, bankVoidEvidence }
   })
+
+export const absorptionOptions = (id: number) =>
+  request.get({ url: '/hrm/payroll/tax-settlement/absorption-options', params: { id } })
+export const absorb = (data: any) =>
+  request.post({ url: '/hrm/payroll/tax-settlement/absorb', data })

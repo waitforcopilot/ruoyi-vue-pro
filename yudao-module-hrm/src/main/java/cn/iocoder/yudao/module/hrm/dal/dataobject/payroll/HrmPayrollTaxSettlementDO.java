@@ -36,4 +36,8 @@ public class HrmPayrollTaxSettlementDO extends BaseDO {
  private String requestKey;
  @JsonIgnore private String requestSnapshot;
  @JsonIgnore private String authoritySnapshot;
+ private Long accountingFilingId,accountedBy;
+ private LocalDateTime accountedTime;
+ private String accountingEvidence;
+ @JsonIgnore private String accountingSnapshot,accountingRequest;
 }

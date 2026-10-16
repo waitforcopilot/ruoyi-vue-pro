@@ -322,8 +322,8 @@ public class HrmPayrollTaxCashLedgerService {
                     .eq(HrmPayrollTaxSettlementDO::getMonth, filing.getMonth())
                     .eq(HrmPayrollTaxSettlementDO::getMode, worker.getMode())
                     .eq(HrmPayrollTaxSettlementDO::getTaxpayerKey, profile.getTaxpayerKey())
-                    .in(HrmPayrollTaxSettlementDO::getStatus, "SETTLED","APPROVED")))
-          if("SETTLED".equals(settled.getStatus())||plannedSettlements.contains(settled.getId()))difference = difference.subtract(HrmPayrollTaxSettlementService.signed(settled));
+                    .in(HrmPayrollTaxSettlementDO::getStatus, "SETTLED","ABSORBED","APPROVED")))
+          if(Arrays.asList("SETTLED","ABSORBED").contains(settled.getStatus())||plannedSettlements.contains(settled.getId()))difference = difference.subtract(HrmPayrollTaxSettlementService.signed(settled));
         if (difference.signum() != 0)
           result
               .getBlockers()

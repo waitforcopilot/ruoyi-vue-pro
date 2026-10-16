@@ -47,4 +47,5 @@ sql/mysql/upgrade/20261016-hrm-overview.sql
 sql/mysql/upgrade/20261016-hrm-payroll-offset.sql
 sql/mysql/upgrade/20261016-hrm-salary-source-guard.sql
 sql/mysql/upgrade/20261016-hrm-wage-recovery.sql
+sql/mysql/upgrade/20261016-hrm-tax-absorption.sql
 sql/mysql/upgrade/20261016-hrm-installer-charset.sql
