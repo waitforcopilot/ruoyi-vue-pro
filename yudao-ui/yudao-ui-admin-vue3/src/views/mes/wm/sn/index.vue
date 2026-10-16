@@ -249,7 +249,7 @@ const handleExport = async () => {
   try {
     await message.exportConfirm()
     exportLoading.value = true
-    download.excel(await WmSnApi.exportSnExcel(queryParams), 'SN码分组.xlsx')
+    download.excel(await WmSnApi.exportSnExcel(queryParams), 'SN码分组.xls')
   } catch {
   } finally {
     exportLoading.value = false
