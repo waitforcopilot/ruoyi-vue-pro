@@ -6,6 +6,7 @@ import cn.iocoder.yudao.module.hrm.service.salary.config.HrmSalaryOptionService;
 import cn.iocoder.yudao.module.hrm.service.salary.config.HrmSalaryTaxRuleService;
 import cn.iocoder.yudao.module.hrm.service.salary.employee.HrmSalaryEmployeeInfoService;
 import cn.hutool.core.collection.CollUtil;
+import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
@@ -92,6 +93,8 @@ import static cn.iocoder.yudao.module.hrm.util.HrmExcelUtils.parseAmount;
 @Service
 @Validated
 public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordService {
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSalarySourceService salarySources;
     @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRetroService retroService;
     @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSupplementService supplements;
     @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInputIssueService inputIssues;
@@ -240,6 +243,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
                                    List<Map<Integer, String>> attendanceRows,
                                    List<Map<Integer, String>> additionalDeductionRows,
                                    List<Map<Integer, String>> cumulativeTaxRows) {
+        configGuard.lock();
         // 1.1 校验工资表并构造计薪周期
         HrmSalaryMonthRecordDO monthRecord = validateMonthRecordEditableForUpdate(id);
         if(cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSupplementService.isSupplement(monthRecord)) {
@@ -299,6 +303,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
         // 3. 逐个员工核算工资
         List<HrmSalaryMonthEmployeeRecordDO> employeeRecords = new ArrayList<>();
         Map<Long, List<HrmSalaryOptionValueVO>> employeeOptionValueMap = new LinkedHashMap<>();
+        Map<Long,Object> effectiveSalaryValues=new LinkedHashMap<>();
         Map<Long, HrmSalaryTaxRuleDO> employeeTaxRuleMap = new LinkedHashMap<>();
         for (HrmEmployeeDO employee : payrollEmployees) {
             // 3.1 获得本周期生效薪资；没有薪资档案时继承上月可维护薪资项
@@ -307,6 +312,7 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
                     monthRecord.getEntityId()==null?salaryEmployeeInfoService.getEffectiveSalaryOptionList(employee, salaryTimes):
                             salaryEmployeeInfoService.getEffectiveSalaryOptionList(employee,salaryTimes,entityPayrollDates.get(employee.getId())),
                     HrmSalaryOptionValueVO.class);
+            effectiveSalaryValues.put(employee.getId(),JsonUtils.parseTree(JsonUtils.toJsonString(values)));
             if (monthRecord.getEntityId()!=null && CollUtil.isEmpty(values)) throw exception(SALARY_DATA_ILLEGAL);
             if (CollUtil.isEmpty(values)) {
                 YearMonth previousMonth = YearMonth.of(monthRecord.getYear(), monthRecord.getMonth()).minusMonths(1);
@@ -401,6 +407,11 @@ public class HrmSalaryMonthRecordServiceImpl implements HrmSalaryMonthRecordServ
         ruleSnapshot.put("workRules",payrollEmployees.stream().collect(java.util.stream.Collectors.toMap(HrmEmployeeDO::getId,e->payrollWorkService.rules(e.getId()))));
         ruleSnapshot.put("taxRules", employeeTaxRuleMap);
         ruleSnapshot.put("salaryGroups", salaryGroupMap);
+        if(monthRecord.getEntityId()!=null){
+            inputSnapshot.put("effectiveSalaryValues",effectiveSalaryValues);
+            inputSnapshot.put("salarySourceConfig",salaryConfig);
+            inputSnapshot.put("salarySourceDigest",salarySources.digest(effectiveSalaryValues,salaryGroupMap,employeeTaxRuleMap,optionList,ruleSnapshot.get("formulas"),salaryConfig));
+        }
         payrollBatchService.snapshot(id, inputSnapshot, ruleSnapshot, employeeRecords,
                 cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId());
         // 5. 记录操作日志上下文

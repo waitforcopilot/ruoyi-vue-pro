@@ -302,6 +302,7 @@ public interface ErrorCodeConstants {
 
     // ========== 薪酬需求评审 ==========
     ErrorCode PAYROLL_REQUIREMENT_NOT_EXISTS = new ErrorCode(1_050_810_001, "薪酬需求不存在");
+    ErrorCode PAYROLL_SALARY_SOURCE_STALE = new ErrorCode(1_050_810_029, "生效薪资或核算配置已变化，或旧试算缺少来源证据，请重新核算");
     ErrorCode PAYROLL_VERSION_CONFLICT = new ErrorCode(1_050_810_002, "记录已被更新，请刷新后重试");
     ErrorCode PAYROLL_REVIEW_INCOMPLETE = new ErrorCode(1_050_810_003, "请补齐责任人、评审依据、数据来源及验收条件");
     ErrorCode PAYROLL_REQUIREMENT_DUPLICATE = new ErrorCode(1_050_810_004, "需求编号重复");

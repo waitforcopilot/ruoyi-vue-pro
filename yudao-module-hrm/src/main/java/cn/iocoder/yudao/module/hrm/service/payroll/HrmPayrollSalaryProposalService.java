@@ -19,6 +19,8 @@ import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUti
 
 @Service
 public class HrmPayrollSalaryProposalService {
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
+
     @Resource private HrmPayrollSalaryProposalMapper mapper;
     @Resource private HrmEmployeeMapper employeeMapper;
     @Resource @Lazy private HrmSalaryEmployeeInfoService salaryService;
@@ -40,6 +42,7 @@ public class HrmPayrollSalaryProposalService {
     }
     @Transactional(rollbackFor=Exception.class)
     public void transition(Long id,String action,String reason,Long actor) {
+        configGuard.lock();
         HrmPayrollSalaryProposalDO proposal=mapper.selectById(id);
         if(proposal==null)throw exception(SALARY_CHANGE_RECORD_STATUS_INVALID);
         // Same employee lock as submission and application avoids conflicting approvals.

@@ -1,0 +1,2 @@
+SET NAMES utf8mb4;
+CREATE TABLE IF NOT EXISTS hrm_payroll_config_guard (id bigint NOT NULL, tenant_id bigint NOT NULL DEFAULT 0, creator varchar(64) DEFAULT '', create_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, updater varchar(64) DEFAULT '', update_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, deleted bit NOT NULL DEFAULT FALSE, PRIMARY KEY(tenant_id,id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

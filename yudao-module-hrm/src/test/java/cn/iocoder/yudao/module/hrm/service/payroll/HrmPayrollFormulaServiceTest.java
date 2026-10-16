@@ -18,6 +18,8 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 
 @Import(HrmPayrollFormulaService.class)
 class HrmPayrollFormulaServiceTest extends BaseDbUnitTest {
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
+
     @Resource private HrmPayrollFormulaService service;
     @Resource private HrmPayrollFormulaMapper mapper;
     @Resource private HrmSalaryOptionMapper optionMapper;

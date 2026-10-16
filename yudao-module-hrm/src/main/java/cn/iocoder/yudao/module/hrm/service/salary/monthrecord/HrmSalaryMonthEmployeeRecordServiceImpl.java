@@ -84,6 +84,7 @@ import static cn.iocoder.yudao.module.hrm.enums.LogRecordConstants.HRM_SALARY_MO
 @Service
 @Validated
 public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEmployeeRecordService {
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
 
     private static final Set<Integer> EXPECTED_PAY_PARENT_CODES = HrmSalaryOptionCodeEnum.EXPECTED_PAY_PARENT_CODES;
     private static final Integer WITHHOLDING_PARENT_CODE = 100;
@@ -122,6 +123,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
     @Transactional(rollbackFor = Exception.class)
     public void saveMonthEmployeeRecordList(
             Long monthRecordId, Collection<HrmSalaryMonthEmployeeRecordDO> employeeRecords) {
+        configGuard.lock();
         // 1. 锁定月度工资表，避免并发核算生成重复的员工记录
         if(cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSupplementService.isSupplement(monthRecordService.validateMonthRecordEditableForUpdate(monthRecordId)))
             throw exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_RETRO_INVALID);
@@ -189,6 +191,7 @@ public class HrmSalaryMonthEmployeeRecordServiceImpl implements HrmSalaryMonthEm
             bizNo = "{{#salaryMonthRecord.id}}", success = HRM_SALARY_MONTH_EMPLOYEE_UPDATE_SUCCESS,
             condition = "{{#reqVOs != null && !#reqVOs.isEmpty()}}")
     public void updateMonthEmployeeRecordList(List<HrmSalaryMonthEmployeeRecordUpdateReqVO> reqVOs) {
+        configGuard.lock();
         // 1. 校验员工月度工资记录属于同一张可编辑工资表
         if (CollUtil.isEmpty(reqVOs)) {
             return;

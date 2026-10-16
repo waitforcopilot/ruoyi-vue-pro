@@ -30,6 +30,8 @@ import static org.mockito.Mockito.verifyNoInteractions;
  */
 @Import(HrmSalaryConfigServiceImpl.class)
 public class HrmSalaryConfigServiceImplTest extends BaseDbUnitTest {
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
+
 
     @Resource
     private HrmSalaryConfigServiceImpl salaryConfigService;

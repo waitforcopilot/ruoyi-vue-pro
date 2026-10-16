@@ -33,6 +33,8 @@ import static cn.iocoder.yudao.module.hrm.enums.LogRecordConstants.*;
 @Service
 @Validated
 public class HrmSalaryTaxRuleServiceImpl implements HrmSalaryTaxRuleService {
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
+
 
     @Resource
     private HrmSalaryTaxRuleMapper salaryTaxRuleMapper;
@@ -46,6 +48,7 @@ public class HrmSalaryTaxRuleServiceImpl implements HrmSalaryTaxRuleService {
     @LogRecord(type = HRM_SALARY_TAX_RULE_TYPE, subType = HRM_SALARY_TAX_RULE_CREATE_SUB_TYPE,
             bizNo = "{{#salaryTaxRule.id}}", success = HRM_SALARY_TAX_RULE_CREATE_SUCCESS)
     public Long createSalaryTaxRule(HrmSalaryTaxRuleSaveReqVO createReqVO) {
+        configGuard.lock();
         // 1. 校验计税规则名称唯一
         validateSalaryTaxRuleNameUnique(null, createReqVO.getName());
 
@@ -63,6 +66,7 @@ public class HrmSalaryTaxRuleServiceImpl implements HrmSalaryTaxRuleService {
     @LogRecord(type = HRM_SALARY_TAX_RULE_TYPE, subType = HRM_SALARY_TAX_RULE_UPDATE_SUB_TYPE,
             bizNo = "{{#updateReqVO.id}}", success = HRM_SALARY_TAX_RULE_UPDATE_SUCCESS)
     public void updateSalaryTaxRule(HrmSalaryTaxRuleSaveReqVO updateReqVO) {
+        configGuard.lock();
         // 1. 校验计税规则
         HrmSalaryTaxRuleDO oldSalaryTaxRule = validateSalaryTaxRuleExists(updateReqVO.getId());
         validateSalaryTaxRuleNameUnique(updateReqVO.getId(), updateReqVO.getName());
@@ -81,6 +85,7 @@ public class HrmSalaryTaxRuleServiceImpl implements HrmSalaryTaxRuleService {
     @LogRecord(type = HRM_SALARY_TAX_RULE_TYPE, subType = HRM_SALARY_TAX_RULE_DELETE_SUB_TYPE,
             bizNo = "{{#salaryTaxRule.id}}", success = HRM_SALARY_TAX_RULE_DELETE_SUCCESS)
     public void deleteSalaryTaxRule(Long id) {
+        configGuard.lock();
         // 1. 校验计税规则存在且未被薪资组使用
         HrmSalaryTaxRuleDO salaryTaxRule = validateSalaryTaxRuleExists(id);
         if (salaryGroupService.getSalaryGroupCountByTaxRuleId(id) > 0) {

@@ -31,6 +31,8 @@ import static cn.iocoder.yudao.module.hrm.enums.LogRecordConstants.HRM_SALARY_CO
 @Service
 @Validated
 public class HrmSalaryConfigServiceImpl implements HrmSalaryConfigService {
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
+
 
     @Resource
     private HrmSalaryConfigMapper salaryConfigMapper;
@@ -42,6 +44,7 @@ public class HrmSalaryConfigServiceImpl implements HrmSalaryConfigService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long createSalaryConfig(HrmSalaryConfigCreateReqVO createReqVO) {
+        configGuard.lock();
         // 1. 校验计薪配置不存在
         validateSalaryConfigNotExists();
 
@@ -60,7 +63,9 @@ public class HrmSalaryConfigServiceImpl implements HrmSalaryConfigService {
     @Override
     @LogRecord(type = HRM_SALARY_CONFIG_TYPE, subType = HRM_SALARY_CONFIG_UPDATE_SUB_TYPE,
             bizNo = "{{#salaryConfig.id}}", success = HRM_SALARY_CONFIG_UPDATE_SUCCESS)
+    @org.springframework.transaction.annotation.Transactional(rollbackFor=Exception.class)
     public void updateSalaryConfig(HrmSalaryConfigUpdateReqVO updateReqVO) {
+        configGuard.lock();
         // 1. 校验计薪配置存在
         HrmSalaryConfigDO config = validateSalaryConfigExists();
 

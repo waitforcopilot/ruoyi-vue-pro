@@ -85,6 +85,8 @@ import static cn.iocoder.yudao.module.hrm.util.HrmExcelUtils.parseDate;
 @Service
 @Validated
 public class HrmSalaryEmployeeInfoServiceImpl implements HrmSalaryEmployeeInfoService {
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
+
 
     @Resource
     @Lazy
@@ -139,6 +141,7 @@ public class HrmSalaryEmployeeInfoServiceImpl implements HrmSalaryEmployeeInfoSe
     @LogRecord(type = HRM_SALARY_EMPLOYEE_TYPE, subType = HRM_SALARY_EMPLOYEE_SET_SUB_TYPE,
             bizNo = "{{#reqVO.employeeId}}", success = HRM_SALARY_EMPLOYEE_SET_SUCCESS)
     public Long applyApprovedSalaryEmployeeInfo(HrmSalaryEmployeeInfoUpdateReqVO reqVO) {
+        configGuard.lock();
         // 1. 校验员工和定薪、调薪记录
         HrmEmployeeDO employee = employeeService.validateEmployeeExists(reqVO.getEmployeeId());
         HrmSalaryChangeRecordDO oldRecord = validateEditableChangeRecord(reqVO);
@@ -381,6 +384,7 @@ public class HrmSalaryEmployeeInfoServiceImpl implements HrmSalaryEmployeeInfoSe
     @Override
     @Transactional(rollbackFor = Exception.class)
     public List<Long> applyDueSalaryChanges(LocalDate targetDate) {
+        configGuard.lock();
         // 1. 加载薪资项配置和待生效记录
         List<Long> employeeIds = new ArrayList<>();
         Map<Integer, HrmSalaryOptionDO> optionMap = getSalaryOptionMap();

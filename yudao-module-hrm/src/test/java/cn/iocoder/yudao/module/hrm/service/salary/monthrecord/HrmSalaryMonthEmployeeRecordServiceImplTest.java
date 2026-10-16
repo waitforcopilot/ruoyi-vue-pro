@@ -63,6 +63,8 @@ import static org.mockito.Mockito.when;
  */
 @Import({HrmSalaryMonthEmployeeRecordServiceImpl.class, cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollFormulaService.class})
 public class HrmSalaryMonthEmployeeRecordServiceImplTest extends BaseDbUnitTest {
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
+
     @org.springframework.boot.test.mock.mockito.MockBean
     private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRetroService retroService;
     @org.junit.jupiter.api.BeforeEach

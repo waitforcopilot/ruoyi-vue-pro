@@ -21,6 +21,8 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 /** Immutable, separately approved arithmetic rules effective at payroll period start. */
 @Service
 public class HrmPayrollFormulaService {
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
+
     @Resource private HrmPayrollFormulaMapper mapper;
     @Resource private HrmSalaryOptionMapper optionMapper;
     @Resource private HrmSalaryGroupMapper groupMapper;
@@ -55,6 +57,7 @@ public class HrmPayrollFormulaService {
     }
     @Transactional(rollbackFor=Exception.class)
     public void approve(Long id,Long actor) {
+        configGuard.lock();
         // A common ordered catalog lock prevents simultaneous approvals of mutually dependent outputs.
         optionMapper.selectList(new LambdaQueryWrapperX<HrmSalaryOptionDO>().orderByAsc(HrmSalaryOptionDO::getId).last("FOR UPDATE"));
         HrmPayrollFormulaDO rule=mapper.selectOneForUpdate(HrmPayrollFormulaDO::getId,id);

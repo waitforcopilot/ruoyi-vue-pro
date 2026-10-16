@@ -27,6 +27,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 @Import(HrmSalaryOptionServiceImpl.class)
 public class HrmSalaryOptionServiceImplTest extends BaseDbUnitTest {
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
+
 
     @Resource
     private HrmSalaryOptionServiceImpl salaryOptionService;

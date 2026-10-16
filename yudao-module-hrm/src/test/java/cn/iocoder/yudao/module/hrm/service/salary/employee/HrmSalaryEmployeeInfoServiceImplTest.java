@@ -58,6 +58,8 @@ import static org.mockito.Mockito.when;
  */
 @Import(HrmSalaryEmployeeInfoServiceImpl.class)
 public class HrmSalaryEmployeeInfoServiceImplTest extends BaseDbUnitTest {
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
+
 
     @Resource
     private HrmSalaryEmployeeInfoServiceImpl salaryEmployeeInfoService;

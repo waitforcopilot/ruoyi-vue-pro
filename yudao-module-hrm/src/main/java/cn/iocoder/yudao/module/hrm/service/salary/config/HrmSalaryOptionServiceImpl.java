@@ -40,6 +40,8 @@ import static cn.iocoder.yudao.module.hrm.enums.LogRecordConstants.*;
 @Service
 @Validated
 public class HrmSalaryOptionServiceImpl implements HrmSalaryOptionService {
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
+
 
     @Resource
     private HrmSalaryOptionMapper salaryOptionMapper;
@@ -51,6 +53,7 @@ public class HrmSalaryOptionServiceImpl implements HrmSalaryOptionService {
     @LogRecord(type = HRM_SALARY_OPTION_TYPE, subType = HRM_SALARY_OPTION_CREATE_SUB_TYPE,
             bizNo = "{{#salaryOption.id}}", success = HRM_SALARY_OPTION_CREATE_SUCCESS)
     public Long createSalaryOption(HrmSalaryOptionSaveReqVO createReqVO) {
+        configGuard.lock();
         // 1. 校验薪资项分类
         HrmSalaryOptionDO category = validateSalaryOptionCategory(createReqVO.getParentCode());
 
@@ -72,6 +75,7 @@ public class HrmSalaryOptionServiceImpl implements HrmSalaryOptionService {
     @LogRecord(type = HRM_SALARY_OPTION_TYPE, subType = HRM_SALARY_OPTION_UPDATE_ENABLED_SUB_TYPE,
             bizNo = "{{#salaryOption.id}}", success = HRM_SALARY_OPTION_UPDATE_ENABLED_SUCCESS)
     public void updateSalaryOptionEnabled(Long id, Boolean enabled) {
+        configGuard.lock();
         // 1. 校验薪资项
         HrmSalaryOptionDO option = validateSalaryOptionExists(id);
         if (Boolean.TRUE.equals(option.getSystemFlag())) {
@@ -91,6 +95,7 @@ public class HrmSalaryOptionServiceImpl implements HrmSalaryOptionService {
     @LogRecord(type = HRM_SALARY_OPTION_TYPE, subType = HRM_SALARY_OPTION_UPDATE_VISIBLE_SUB_TYPE,
             bizNo = "{{#salaryOption.id}}", success = HRM_SALARY_OPTION_UPDATE_VISIBLE_SUCCESS)
     public void updateSalaryOptionVisible(Long id, Boolean visible) {
+        configGuard.lock();
         // 1. 校验薪资项
         HrmSalaryOptionDO option = validateSalaryOptionExists(id);
         if (Boolean.FALSE.equals(option.getSystemFlag())) {
@@ -110,6 +115,7 @@ public class HrmSalaryOptionServiceImpl implements HrmSalaryOptionService {
     @LogRecord(type = HRM_SALARY_OPTION_TYPE, subType = HRM_SALARY_OPTION_DELETE_SUB_TYPE,
             bizNo = "{{#salaryOption.id}}", success = HRM_SALARY_OPTION_DELETE_SUCCESS)
     public void deleteSalaryOption(Long id) {
+        configGuard.lock();
         // 1. 校验薪资项允许删除
         HrmSalaryOptionDO option = validateSalaryOptionExists(id);
         validateCustomSalaryOption(option);
@@ -124,6 +130,7 @@ public class HrmSalaryOptionServiceImpl implements HrmSalaryOptionService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public synchronized void syncSalaryOption() {
+        configGuard.lock();
         // 1. 查询标准薪资项目录
         List<HrmSalaryOptionTemplateDO> templates = salaryOptionTemplateMapper.selectListOrderByCode();
         if (CollUtil.isEmpty(templates)) {

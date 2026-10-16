@@ -13,6 +13,8 @@ import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionU
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 @Service
 public class HrmPayrollBatchService {
+    @Resource private HrmPayrollConfigGuardService configGuard;
+    @Resource private HrmPayrollSalarySourceService salarySources;
     @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.salary.slip.HrmSalarySlipSendRecordMapper slipSendMapper;
     @Resource private HrmPayrollRetroService retroService;
     @Resource private HrmPayrollInputIssueService inputIssues;
@@ -97,6 +99,7 @@ public class HrmPayrollBatchService {
     }
     @Transactional(rollbackFor=Exception.class,isolation=org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
     public void transition(Long batchId,Long runId,String action,String reason,Long actor){
+        if("freeze".equals(action))configGuard.lock();
         if(reason==null||reason.trim().isEmpty())throw exception(PAYROLL_REVIEW_INCOMPLETE);
         HrmSalaryMonthRecordDO batch=batchMapper.selectByIdForUpdate(batchId);
         if(batch==null)throw exception(SALARY_MONTH_RECORD_NOT_EXISTS);
@@ -128,6 +131,7 @@ public class HrmPayrollBatchService {
             HrmPayrollRunDO source=run;Set<Long> visited=new HashSet<>();
             while(source!=null){
                 if(!visited.add(source.getId()))throw exception(PAYROLL_VERSION_CONFLICT);
+                salarySources.validate(batch,source);
                 retroService.validateInputSnapshot(source.getInputSnapshot(),batchId);
                 scope.validateInputSnapshot(source.getInputSnapshot());
                 insurance.validateInputSnapshot(source.getInputSnapshot());

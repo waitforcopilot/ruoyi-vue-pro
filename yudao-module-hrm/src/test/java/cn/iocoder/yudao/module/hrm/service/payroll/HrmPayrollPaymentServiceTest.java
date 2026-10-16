@@ -23,6 +23,10 @@ import org.springframework.context.annotation.Import;
 
 @Import({HrmPayrollPaymentService.class, HrmPayrollBatchService.class})
 class HrmPayrollPaymentServiceTest extends BaseDbUnitTest {
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSalarySourceService salarySources;
+
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
+
  @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInputIssueService inputIssues;
 
     @org.springframework.boot.test.mock.mockito.MockBean

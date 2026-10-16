@@ -21,6 +21,8 @@ import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.any;
 @Import({HrmPayrollSalaryProposalService.class,HrmSalaryEmployeeInfoServiceImpl.class})
 class HrmPayrollSalaryProposalIntegrationTest extends BaseDbUnitTest {
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
+
     @Resource private HrmSalaryEmployeeInfoService salaryService;
     @Resource private HrmPayrollSalaryProposalService proposalService;
     @Resource private HrmEmployeeMapper employeeMapper;

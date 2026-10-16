@@ -77,6 +77,10 @@ import static org.mockito.Mockito.when;
  */
 @Import({HrmSalaryMonthRecordServiceImpl.class, cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollFormulaService.class})
 public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSalarySourceService salarySources;
+
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
+
  @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInputIssueService inputIssues;
 
  @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSupplementService supplements;
@@ -415,6 +419,11 @@ public class HrmSalaryMonthRecordServiceImplTest extends BaseDbUnitTest {
         ArgumentCaptor<Map<String,Object>> snapshot=ArgumentCaptor.forClass(Map.class);
         verify(payrollBatchService).snapshot(eq(batch.getId()),snapshot.capture(),any(),any(),any());
         assertEquals(Collections.singletonMap(1L,q),snapshot.getValue().get("insurancePolicySources"));
+        List<HrmSalaryOptionValueVO> raw=cn.iocoder.yudao.framework.common.util.json.JsonUtils.parseArray(cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString(((Map<?,?>)snapshot.getValue().get("effectiveSalaryValues")).get(1L)),HrmSalaryOptionValueVO.class);
+        assertAmount("999",raw.stream().filter(v->v.getCode()==100101).findFirst().get().getValue());
+        assertTrue(raw.stream().anyMatch(v->v.getCode()==4001000)); // Raw source survives controlled-input replacement.
+        assertAmount("10000",raw.stream().filter(v->v.getCode()==10101).findFirst().get().getValue());
+
         org.mockito.Mockito.verifyNoInteractions(insuranceMonthRecordService,insuranceMonthEmployeeRecordService);
     }
 

@@ -46,6 +46,8 @@ import static cn.iocoder.yudao.module.hrm.enums.LogRecordConstants.*;
 @Service
 @Validated
 public class HrmSalaryGroupServiceImpl implements HrmSalaryGroupService {
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollConfigGuardService configGuard;
+
 
     @Resource
     private HrmSalaryGroupMapper salaryGroupMapper;
@@ -61,7 +63,9 @@ public class HrmSalaryGroupServiceImpl implements HrmSalaryGroupService {
     @Override
     @LogRecord(type = HRM_SALARY_GROUP_TYPE, subType = HRM_SALARY_GROUP_CREATE_SUB_TYPE,
             bizNo = "{{#salaryGroup.id}}", success = HRM_SALARY_GROUP_CREATE_SUCCESS)
+    @org.springframework.transaction.annotation.Transactional(rollbackFor=Exception.class)
     public Long createSalaryGroup(HrmSalaryGroupSaveReqVO createReqVO) {
+        configGuard.lock();
         // 1. 校验薪资组
         validateSalaryGroupForCreateOrUpdate(null, createReqVO);
 
@@ -78,7 +82,9 @@ public class HrmSalaryGroupServiceImpl implements HrmSalaryGroupService {
     @Override
     @LogRecord(type = HRM_SALARY_GROUP_TYPE, subType = HRM_SALARY_GROUP_UPDATE_SUB_TYPE,
             bizNo = "{{#updateReqVO.id}}", success = HRM_SALARY_GROUP_UPDATE_SUCCESS)
+    @org.springframework.transaction.annotation.Transactional(rollbackFor=Exception.class)
     public void updateSalaryGroup(HrmSalaryGroupSaveReqVO updateReqVO) {
+        configGuard.lock();
         // 1. 校验薪资组
         HrmSalaryGroupDO oldSalaryGroup = validateSalaryGroupForCreateOrUpdate(
                 updateReqVO.getId(), updateReqVO);
@@ -96,7 +102,9 @@ public class HrmSalaryGroupServiceImpl implements HrmSalaryGroupService {
     @Override
     @LogRecord(type = HRM_SALARY_GROUP_TYPE, subType = HRM_SALARY_GROUP_DELETE_SUB_TYPE,
             bizNo = "{{#salaryGroup.id}}", success = HRM_SALARY_GROUP_DELETE_SUCCESS)
+    @org.springframework.transaction.annotation.Transactional(rollbackFor=Exception.class)
     public void deleteSalaryGroup(Long id) {
+        configGuard.lock();
         // 1. 校验薪资组存在
         HrmSalaryGroupDO salaryGroup = validateSalaryGroupExists(id);
 
