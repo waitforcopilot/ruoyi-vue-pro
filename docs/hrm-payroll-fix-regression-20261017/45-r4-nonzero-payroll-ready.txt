@@ -1,0 +1,555 @@
+Browser tab: 1, Title: "芋道管理系统 - 月度工资表", URL: "http://127.0.0.1:5173/hrm/salary/month-record".
+1 AXWebArea 芋道管理系统 - 月度工资表, URL: 127.0.0.1:5173/hrm/salary/month-record
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 作者动态
+				8 text 作者动态
+			9 Boot 开发文档
+				10 text Boot 开发文档
+			11 Cloud 开发文档
+				12 text Cloud 开发文档
+			13 (collapsed) 系统管理, Secondary Actions: Expand
+				14 container
+					15 text 系统管理
+					16 image
+			17 (collapsed) 基础设施, Secondary Actions: Expand
+				18 container
+					19 text 基础设施
+					20 image
+			21 (collapsed) 支付管理, Secondary Actions: Expand
+				22 container
+					23 text 支付管理
+					24 image
+			25 (collapsed) 报表管理, Secondary Actions: Expand
+				26 container
+					27 text 报表管理
+					28 image
+			29 (collapsed) 工作流程, Secondary Actions: Expand
+				30 container
+					31 text 工作流程
+					32 image
+			33 (collapsed) 会员中心, Secondary Actions: Expand
+				34 container
+					35 text 会员中心
+					36 image
+			37 (collapsed) 薪酬管理, Secondary Actions: Expand
+				38 container
+					39 text 薪酬管理
+					40 image
+			41 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				42 container
+					43 text MALL 商城系统
+					44 image
+			45 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				46 container
+					47 text EAM 资产管理
+					48 image
+			49 (collapsed) CRM 系统, Secondary Actions: Expand
+				50 container
+					51 text CRM 系统
+					52 image
+			53 (collapsed) ERP 系统, Secondary Actions: Expand
+				54 container
+					55 text ERP 系统
+					56 image
+			57 (collapsed) WMS 系统, Secondary Actions: Expand
+				58 container
+					59 text WMS 系统
+					60 image
+			61 (collapsed) MES 系统, Secondary Actions: Expand
+				62 container
+					63 text MES 系统
+					64 image
+			65 (collapsed) OA 办公协同, Secondary Actions: Expand
+				66 container
+					67 text OA 办公协同
+					68 image
+			69 (expanded) HRM 人力资源, Secondary Actions: Collapse
+				70 container
+					71 text HRM 人力资源
+					72 image
+				73 menu
+					74 HR 工作台
+						75 text HR 工作台
+					76 团队工作台
+						77 text 团队工作台
+					78 组织管理
+						79 text 组织管理
+					80 (collapsed) 招聘管理, Secondary Actions: Expand
+						81 container
+							82 text 招聘管理
+							83 image
+					84 (collapsed) 员工管理, Secondary Actions: Expand
+						85 container
+							86 text 员工管理
+							87 image
+					88 (collapsed) 考勤管理, Secondary Actions: Expand
+						89 container
+							90 text 考勤管理
+							91 image
+					92 (collapsed) 社保管理, Secondary Actions: Expand
+						93 container
+							94 text 社保管理
+							95 image
+					96 (expanded) 薪资管理, Secondary Actions: Collapse
+						97 container
+							98 text 薪资管理
+							99 image
+						100 menu
+							101 月度工资表
+								102 text 月度工资表
+							103 历史工资表
+								104 text 历史工资表
+							105 薪资档案
+								106 text 薪资档案
+							107 发放记录
+								108 text 发放记录
+							109 (collapsed) 薪资设置, Secondary Actions: Expand
+								110 container
+									111 text 薪资设置
+									112 image
+					113 (collapsed) 绩效管理, Secondary Actions: Expand
+						114 container
+							115 text 绩效管理
+							116 image
+					117 (collapsed) HRM 员工端, Secondary Actions: Expand
+						118 container
+							119 text HRM 员工端
+							120 image
+			121 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				122 container
+					123 text FMS 财务管理
+					124 image
+			125 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				126 container
+					127 text PMS 项目管理
+					128 image
+			129 (collapsed) AI 大模型, Secondary Actions: Expand
+				130 container
+					131 text AI 大模型
+					132 image
+			133 (collapsed) IoT 物联网, Secondary Actions: Expand
+				134 container
+					135 text IoT 物联网
+					136 image
+			137 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				138 container
+					139 text IM 即时通讯
+					140 image
+			141 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				142 container
+					143 text MP 公众号管理
+					144 image
+			145 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				146 container
+					147 text CMS 内容管理
+					148 image
+		149 container
+			150 container v-tool-header
+				151 container 面包屑
+					152 link HRM 人力资源
+						153 text HRM 人力资源
+					154 text /
+					155 link 薪资管理
+						156 text 薪资管理
+					157 text /
+					158 link 月度工资表
+						159 text 月度工资表
+				160 container
+					161 combo box (collapsed, settable) ID: el-id-9119-68, Secondary Actions: Expand
+					162 text 请选择租户
+					163 image
+				164 container
+					165 container
+						166 combo box (collapsed, settable) ID: el-id-9119-69, Secondary Actions: Expand
+						167 text 请输入菜单内容
+				168 pop up button (collapsed) ID: el-id-9119-6, Secondary Actions: Expand
+				169 pop up button (collapsed) ID: el-id-9119-11, Secondary Actions: Expand
+				170 pop up button (collapsed) 隔离工时STANDARD, ID: el-id-9119-16, Secondary Actions: Expand
+			171 container v-tags-view
+				172 container
+					173 pop up button (collapsed) 首页, ID: el-id-9119-22, Secondary Actions: Expand
+						174 container
+							175 text 首页
+					176 pop up button (collapsed) 月度工资表, ID: el-id-9119-30, Secondary Actions: Expand
+						177 container
+							178 text 月度工资表
+				179 pop up button (collapsed) ID: el-id-9119-38, Secondary Actions: Expand
+			180 container
+				181 image
+				182 text 【【薪资】月度工资、工资条】文档地址：https://doc.iocoder.cn/hrm/salary/payroll/
+				183 image
+			184 container
+				185 text 法人主体
+				186 container
+					187 combo box (collapsed, settable) 法人主体, ID: el-id-9119-70, Secondary Actions: Expand
+					188 text 请选择
+					189 image
+				190 text 年份
+				191 container
+					192 button 减少数值
+					193 button 增加数值
+					194 stepper (settable, integer) 年份, Value: 2026, ID: el-id-9119-71
+				195 text 批次
+				196 container
+					197 combo box (collapsed, settable) 批次, ID: el-id-9119-72, Secondary Actions: Expand
+					198 text 隔离历史工资申报主体（虚构） · 隔离年度奖金重复占用对照批次 · #5
+					199 image
+				200 button 创建工资批次
+			201 container
+				202 text 月度工资表 （计薪周期：2026-11-01 至 2026-11-30）
+				203 container
+					204 text 员工姓名
+					205 text field (settable) 员工姓名, ID: el-id-9119-102
+				206 container
+					207 text 工号
+					208 text field (settable) 工号, ID: el-id-9119-103
+				209 container
+					210 text 部门
+					211 container
+						212 combo box (collapsed, settable) 部门, ID: el-id-9119-104, Secondary Actions: Expand
+						213 text 请选择部门
+						214 image
+				215 container
+					216 button 搜索
+						217 text 搜索
+					218 button 重置
+						219 text 重置
+					220 button 在线编辑
+						221 text 在线编辑
+					222 button 核算工资
+						223 text 核算工资
+					224 button 创建下月工资表
+						225 text 创建下月工资表
+					226 button 删除工资表
+						227 text 删除工资表
+			228 tab group
+				229 tab (selected, settable, boolean) 计薪人数（1）, Value: 1, ID: tab-0
+				230 tab (selectable, settable, boolean) 新入职（0）, Value: 0, ID: tab-1
+				231 tab (selectable, settable, boolean) 离职（0）, Value: 0, ID: tab-2
+				232 tab (selectable, settable, boolean) 转正（0）, Value: 0, ID: tab-3
+				233 tab (selectable, settable, boolean) 调岗（0）, Value: 0, ID: tab-4
+			234 container Description: 计薪人数（1）, ID: pane-0
+			235 container
+				236 table
+					237 row
+						238 cell
+							239 text 姓名
+						240 cell
+							241 text 工号
+						242 cell
+							243 text 部门
+						244 cell
+							245 text 岗位
+						246 cell
+							247 text 计薪天数
+						248 cell
+							249 text 实际计薪天数
+						250 cell
+							251 text 基本工资
+						252 cell
+							253 text 岗位工资
+						254 cell
+							255 text 批准工资补发/收回
+						256 cell
+							257 text 新库正常API工资项
+						258 cell
+							259 text 餐补
+						260 cell
+							261 text 个人社保
+						262 cell
+							263 text 个人公积金
+						264 cell
+							265 text 公司社保
+						266 cell
+							267 text 公司公积金
+						268 cell
+							269 text 批准年终奖
+						270 cell
+							271 text 批准税款工资退还
+						272 cell
+							273 text 批准缴费差额工资退还
+						274 cell
+							275 text 批准税款工资补扣
+						276 cell
+							277 text 批准缴费差额工资补扣
+						278 cell
+							279 text 加班工资
+						280 cell
+							281 text 迟到扣款
+						282 cell
+							283 text 早退扣款
+						284 cell
+							285 text 旷工扣款
+						286 cell
+							287 text 假期扣款
+						288 cell
+							289 text 缺卡扣款
+						290 cell
+							291 text 综合扣款
+						292 cell
+							293 text 考勤扣款合计
+						294 cell
+							295 text 应发工资
+						296 cell
+							297 text 应税工资
+						298 cell
+							299 text 个人所得税
+						300 cell
+							301 text 实发工资
+						302 cell
+							303 text 累计收入额（截至上月）
+						304 cell
+							305 text 累计减除费用（截至上月）
+						306 cell
+							307 text 累计专项扣除（截至上月）
+						308 cell
+							309 text 累计已预缴税额
+						310 cell
+							311 text 累计子女教育
+						312 cell
+							313 text 累计住房租金
+						314 cell
+							315 text 累计住房贷款利息
+						316 cell
+							317 text 累计赡养老人
+						318 cell
+							319 text 累计继续教育
+						320 cell
+							321 text 累计婴幼儿照护
+						322 cell
+							323 text 累计收入额
+						324 cell
+							325 text 累计减除费用
+						326 cell
+							327 text 累计专项扣除
+						328 cell
+							329 text 累计专项附加扣除
+						330 cell
+							331 text 累计应纳税所得额
+						332 cell
+							333 text 累计应纳税额
+				334 table
+					335 row
+						336 cell
+							337 text 隔离历史工资员工
+						338 cell
+							339 text ACCEPT_TAX_HISTORY
+						340 cell
+							341 text 研发部门
+						342 cell
+							343 text 验收岗位
+						344 cell
+							345 text 22
+						346 cell
+							347 text 22
+						348 cell
+							349 text 9000.00
+						350 cell
+							351 text 0.00
+						352 cell
+							353 text 0.00
+						354 cell
+							355 text 0.00
+						356 cell
+							357 text 0.00
+						358 cell
+							359 text 400.00
+						360 cell
+							361 text 0.00
+						362 cell
+							363 text 800.00
+						364 cell
+							365 text 0.00
+						366 cell
+							367 text 6000.00
+						368 cell
+							369 text 0.00
+						370 cell
+							371 text 0.00
+						372 cell
+							373 text 0.00
+						374 cell
+							375 text 0.00
+						376 cell
+							377 text 0.00
+						378 cell
+							379 text 0.00
+						380 cell
+							381 text 0.00
+						382 cell
+							383 text 0.00
+						384 cell
+							385 text 0.00
+						386 cell
+							387 text 0.00
+						388 cell
+							389 text 0.00
+						390 cell
+							391 text 0.00
+						392 cell
+							393 text 15000.00
+						394 cell
+							395 text 14600.00
+						396 cell
+							397 text 438.00
+						398 cell
+							399 text 14162.00
+						400 cell
+							401 text 61548.39
+						402 cell
+							403 text 50000.00
+						404 cell
+							405 text 4000.00
+						406 cell
+							407 text 226.45
+						408 cell
+							409 text 0.00
+						410 cell
+							411 text 0.00
+						412 cell
+							413 text 0.00
+						414 cell
+							415 text 0.00
+						416 cell
+							417 text 0.00
+						418 cell
+							419 text 0.00
+						420 cell
+							421 text 76548.39
+						422 cell
+							423 text 50000.00
+						424 cell
+							425 text 4400.00
+						426 cell
+							427 text 0.00
+						428 cell
+							429 text 22148.39
+						430 cell
+							431 text 664.45
+				432 table
+					433 row
+						434 cell
+							435 text 合计
+						436 cell
+							437 text 9000.00
+						438 cell
+							439 text 0.00
+						440 cell
+							441 text 0.00
+						442 cell
+							443 text 0.00
+						444 cell
+							445 text 0.00
+						446 cell
+							447 text 400.00
+						448 cell
+							449 text 0.00
+						450 cell
+							451 text 800.00
+						452 cell
+							453 text 0.00
+						454 cell
+							455 text 6000.00
+						456 cell
+							457 text 0.00
+						458 cell
+							459 text 0.00
+						460 cell
+							461 text 0.00
+						462 cell
+							463 text 0.00
+						464 cell
+							465 text 0.00
+						466 cell
+							467 text 0.00
+						468 cell
+							469 text 0.00
+						470 cell
+							471 text 0.00
+						472 cell
+							473 text 0.00
+						474 cell
+							475 text 0.00
+						476 cell
+							477 text 0.00
+						478 cell
+							479 text 0.00
+						480 cell
+							481 text 15000.00
+						482 cell
+							483 text 14600.00
+						484 cell
+							485 text 438.00
+						486 cell
+							487 text 14162.00
+						488 cell
+							489 text 61548.39
+						490 cell
+							491 text 50000.00
+						492 cell
+							493 text 4000.00
+						494 cell
+							495 text 226.45
+						496 cell
+							497 text 0.00
+						498 cell
+							499 text 0.00
+						500 cell
+							501 text 0.00
+						502 cell
+							503 text 0.00
+						504 cell
+							505 text 0.00
+						506 cell
+							507 text 0.00
+						508 cell
+							509 text 76548.39
+						510 cell
+							511 text 50000.00
+						512 cell
+							513 text 4400.00
+						514 cell
+							515 text 0.00
+						516 cell
+							517 text 22148.39
+						518 cell
+							519 text 664.45
+			520 text 共 1 条
+			521 container
+				522 combo box (collapsed, settable) ID: el-id-9119-105, Secondary Actions: Expand
+				523 text 10条/页
+				524 image
+			525 button (disabled) 上一页
+			526 content list
+				527 container 第 1 页
+					528 text 1
+			529 button (disabled) 下一页
+			530 text 前往
+			531 stepper (settable, integer) Description: 页, Value: 1, ID: el-id-9119-106
+			532 text 页
+			533 container 确 定 取 消
+				534 container
+					535 text 核算工资表
+				536 container
+					537 container 工资表
+						538 text 工资表
+						539 text 隔离年度奖金重复占用对照批次
+					540 container 计薪人员
+						541 text 计薪人员
+						542 text 1 人
+					543 container 社保数据
+						544 text 社保数据
+						545 text 按批准的缴费主体、政策版本及申报基数计算；未核定来源不能核算。
+					546 container 必需输入
+						547 text 必需输入
+						548 text 使用“核算输入与就绪”中经独立复核的版本；未准备或来源变更时不能核算。
+				549 container
+					550 button 确 定
+					551 button 取 消
+			552 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 533 container 确 定 取 消

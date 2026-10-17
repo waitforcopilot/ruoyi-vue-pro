@@ -9,10 +9,23 @@
           :label="`${employee.jobNumber} ${employee.name}`" /></el-select
     ></el-form-item>
     <el-button :loading="loading" @click="load">查询税务档案</el-button>
-    <el-button v-hasPermi="['hrm:payroll:tax:update']" :disabled="!employeeId" @click="open"
+    <el-button
+      v-hasPermi="['hrm:payroll:tax:update']"
+      :disabled="!employeeId || !policyReady"
+      @click="open"
       >提交年度档案</el-button
     >
   </el-form>
+  <el-alert
+    v-if="!policyReady"
+    :title="policyHint"
+    type="warning"
+    :closable="false"
+    show-icon
+    class="mb-10px"
+  >
+    <el-button link type="primary" @click="$emit('review-policy')">查看上方年度政策</el-button>
+  </el-alert>
   <el-alert
     title="历史累计只填写本扣缴单位所属年度金额。零累计须明确声明；居民身份、首次工资在新入职前的资格及外单位奖金使用情况须提供可核实依据。"
     type="info"
@@ -242,7 +255,13 @@ import dayjs from 'dayjs'
 import TaxDeductions from './TaxDeductions.vue'
 import TaxCorrection from './TaxCorrection.vue'
 const taxCorrectionRef = ref<InstanceType<typeof TaxCorrection>>()
-const props = defineProps<{ entityId?: number; year: number }>()
+const props = defineProps<{
+  entityId?: number
+  year: number
+  policyReady: boolean
+  policyHint: string
+}>()
+defineEmits<{ 'review-policy': [] }>()
 const message = useMessage()
 const employees = ref<any[]>([]),
   employeeId = ref<number>(),
@@ -376,7 +395,7 @@ async function open() {
   const version = sequence
   const entityId = props.entityId,
     targetId = employeeId.value
-  if (!entityId || !targetId) return
+  if (!entityId || !targetId || !props.policyReady) return
   savedIdentity.value = undefined
   reuseIdentity.value = false
   const source = await api.identitySource({ entityId, employeeId: targetId, year: props.year })
@@ -435,6 +454,10 @@ watch(
   { flush: 'sync' }
 )
 async function save() {
+  if (!props.policyReady) {
+    message.warning(props.policyHint)
+    return
+  }
   saving.value = true
   try {
     await api.create(draft.value)

@@ -23,7 +23,7 @@
       :closable="false"
       title="政策版本须填写正式适用出处并独立批准。政策试算用于核对参数；员工实际累计、扣除与发放来源按税务档案确认。"
     />
-    <el-table :data="rows" class="mt-10px">
+    <el-table ref="policyTableRef" :data="rows" class="mt-10px">
       <el-table-column prop="year" label="年度" width="90" /><el-table-column
         prop="version"
         label="版本"
@@ -64,7 +64,13 @@
       >
     </el-table>
     <el-divider>员工年度税务身份与历史累计</el-divider>
-    <TaxProfiles :entity-id="entityId" :year="year" />
+    <TaxProfiles
+      :entity-id="entityId"
+      :year="year"
+      :policy-ready="policyReady"
+      :policy-hint="policyHint"
+      @review-policy="policyTableRef?.$el.scrollIntoView({ behavior: 'smooth', block: 'center' })"
+    />
     <TaxFilings :entity-id="entityId" :year="year" />
   </ContentWrap>
   <Dialog v-model="visible" title="年度政策版本（待独立审批）" width="850px">
@@ -191,6 +197,20 @@ const entities = ref<any[]>([]),
   entityId = ref<number>(),
   year = ref(dayjs().year()),
   rows = ref<any[]>([])
+const policyTableRef = ref()
+const policyLoaded = ref(false)
+const policyReady = computed(
+  () => policyLoaded.value && !loading.value && rows.value.some((row) => row.status === 'APPROVED')
+)
+const policyHint = computed(() =>
+  !entityId.value
+    ? '请先选择纳税主体'
+    : loading.value
+      ? '正在核对年度税务政策，请稍候'
+      : !policyLoaded.value
+        ? '年度税务政策未加载成功，请点击上方查询重试'
+        : `请先批准该主体 ${year.value} 年度税务政策，再提交员工年度档案`
+)
 const loading = ref(false),
   visible = ref(false),
   saving = ref(false),
@@ -225,11 +245,15 @@ let sequence = 0,
 async function load() {
   const version = ++sequence
   rows.value = []
+  policyLoaded.value = false
   if (!entityId.value) return
   loading.value = true
   try {
     const result = await api.list({ entityId: entityId.value, year: year.value })
-    if (version === sequence) rows.value = result
+    if (version === sequence) {
+      rows.value = result
+      policyLoaded.value = true
+    }
   } finally {
     if (version === sequence) loading.value = false
   }

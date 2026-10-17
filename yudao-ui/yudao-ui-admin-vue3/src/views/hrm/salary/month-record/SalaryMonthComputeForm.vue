@@ -1,6 +1,19 @@
 <template>
   <Dialog v-model="dialogVisible" title="核算工资表" width="760">
-    <el-form v-loading="formLoading" label-width="112px">
+    <el-alert
+      v-if="!readinessLoading && !payrollEmployeeCount"
+      type="warning"
+      :closable="false"
+      show-icon
+      class="mb-12px"
+      :title="
+        readinessError || '当前没有可计薪人员，请检查批准的人员归属、生效期间及薪资组后重新加载'
+      "
+    >
+      <el-button link type="primary" @click="checkMembership">检查人员归属</el-button>
+      <el-button link type="primary" @click="getPayrollEmployeeCount">重新加载人员</el-button>
+    </el-alert>
+    <el-form v-loading="formLoading || readinessLoading" label-width="112px">
       <!-- 核算配置 -->
       <el-form-item label="工资表">
         <span>{{ currentRecord?.title || '-' }}</span>
@@ -85,7 +98,12 @@
     </el-form>
     <!-- 表单按钮 -->
     <template #footer>
-      <el-button :disabled="formLoading" type="primary" @click="submitForm">确 定</el-button>
+      <el-button
+        :disabled="formLoading || readinessLoading || !payrollEmployeeCount"
+        type="primary"
+        @click="submitForm"
+        >确 定</el-button
+      >
       <el-button @click="dialogVisible = false">取 消</el-button>
     </template>
   </Dialog>
@@ -98,6 +116,14 @@ import download from '@/utils/download'
 
 defineOptions({ name: 'HrmSalaryMonthComputeForm' })
 
+const router = useRouter()
+const readinessLoading = ref(false)
+const readinessError = ref('')
+let readinessSequence = 0
+function checkMembership() {
+  dialogVisible.value = false
+  void router.push('/hrm-payroll/entity')
+}
 const message = useMessage() // 消息弹窗
 const { t } = useI18n() // 国际化
 
@@ -129,8 +155,20 @@ const emit = defineEmits(['success']) // 定义 success 事件
 
 /** 查询当前可计薪人数 */
 async function getPayrollEmployeeCount() {
-  const readiness = await SalaryMonthRecordApi.getSalaryPayrollReadiness(currentRecord.value?.id)
-  payrollEmployeeCount.value = readiness.payrollEmployeeCount || 0
+  const version = ++readinessSequence
+  const batchId = currentRecord.value?.id
+  readinessLoading.value = true
+  readinessError.value = ''
+  payrollEmployeeCount.value = 0
+  try {
+    const readiness = await SalaryMonthRecordApi.getSalaryPayrollReadiness(batchId)
+    if (version === readinessSequence)
+      payrollEmployeeCount.value = readiness.payrollEmployeeCount || 0
+  } catch {
+    if (version === readinessSequence) readinessError.value = '计薪人员加载失败，请重新加载后再核算'
+  } finally {
+    if (version === readinessSequence) readinessLoading.value = false
+  }
 }
 
 /** 下载导入模板 */
@@ -160,7 +198,7 @@ function appendFile(formData: FormData, field: string, files: UploadUserFile[]) 
 
 /** 提交核算 */
 async function submitForm() {
-  if (!currentRecord.value?.id) {
+  if (!currentRecord.value?.id || readinessLoading.value || !payrollEmployeeCount.value) {
     return
   }
   // 提交请求
