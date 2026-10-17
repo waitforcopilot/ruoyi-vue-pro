@@ -162,6 +162,12 @@ public interface ErrorCodeConstants {
     // ========== 员工薪资信息 1-050-400-006 ==========
     ErrorCode SALARY_EMPLOYEE_INFO_NOT_EXISTS = new ErrorCode(1_050_400_006, "员工薪资信息不存在");
     ErrorCode SALARY_DATA_ILLEGAL = new ErrorCode(1_050_400_014, "薪资数据不合法");
+    ErrorCode SALARY_PROPOSAL_OPTION_INVALID = new ErrorCode(1_050_400_060,
+            "薪资项 {} 不存在、已停用或不可定调薪，请刷新项目清单");
+    ErrorCode SALARY_PROPOSAL_AMOUNT_INVALID = new ErrorCode(1_050_400_061,
+            "薪资项 {} 金额须为非负数且最多两位小数");
+    ErrorCode SALARY_PROPOSAL_OPTION_DUPLICATE = new ErrorCode(1_050_400_062,
+            "薪资项 {} 重复，请每类薪资清单仅填写一次");
     ErrorCode SALARY_IMPORT_LIST_IS_EMPTY = new ErrorCode(1_050_400_015, "导入薪资档案数据不能为空");
 
     // ========== 定薪调薪记录 1-050-400-007 ==========

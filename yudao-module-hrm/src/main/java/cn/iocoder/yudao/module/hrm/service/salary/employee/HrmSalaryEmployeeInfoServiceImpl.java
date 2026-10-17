@@ -69,6 +69,9 @@ import static cn.iocoder.yudao.module.hrm.dal.dataobject.salary.config.HrmSalary
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_CHANGE_RECORD_STATUS_INVALID;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_CHANGE_EFFECT_DATE_INVALID;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_DATA_ILLEGAL;
+import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_PROPOSAL_OPTION_INVALID;
+import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_PROPOSAL_AMOUNT_INVALID;
+import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_PROPOSAL_OPTION_DUPLICATE;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_EMPLOYEE_INFO_NOT_EXISTS;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_IMPORT_LIST_IS_EMPTY;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_PENDING_CHANGE_RECORD_EXISTS;
@@ -134,6 +137,35 @@ public class HrmSalaryEmployeeInfoServiceImpl implements HrmSalaryEmployeeInfoSe
     @Override
     public Long updateSalaryEmployeeInfo(HrmSalaryEmployeeInfoUpdateReqVO reqVO) {
         return salaryProposalService.create(reqVO);
+    }
+
+    @Override
+    public void validateSalaryProposalOptions(HrmSalaryEmployeeInfoUpdateReqVO reqVO) {
+        Map<Integer, HrmSalaryOptionDO> options = getSalaryOptionMap();
+        validateProposalOptionList(reqVO.getSalaryOptions(), options);
+        validateProposalOptionList(reqVO.getProbationSalaryOptions(), options);
+    }
+
+    private void validateProposalOptionList(List<HrmSalaryOptionValueVO> values,
+                                           Map<Integer, HrmSalaryOptionDO> options) {
+        if (values == null) {
+            return;
+        }
+        java.util.Set<Integer> codes = new java.util.HashSet<>();
+        for (HrmSalaryOptionValueVO value : values) {
+            Integer code = value == null ? null : value.getCode();
+            HrmSalaryOptionDO option = options.get(code);
+            if (option == null) {
+                throw exception(SALARY_PROPOSAL_OPTION_INVALID, code);
+            }
+            if (!codes.add(code)) {
+                throw exception(SALARY_PROPOSAL_OPTION_DUPLICATE, code);
+            }
+            BigDecimal amount = defaultIfNull(value.getValue(), BigDecimal.ZERO);
+            if (amount.signum() < 0 || Math.max(amount.stripTrailingZeros().scale(), 0) > 2) {
+                throw exception(SALARY_PROPOSAL_AMOUNT_INVALID, option.getName() + "(" + code + ")");
+            }
+        }
     }
 
     @Override

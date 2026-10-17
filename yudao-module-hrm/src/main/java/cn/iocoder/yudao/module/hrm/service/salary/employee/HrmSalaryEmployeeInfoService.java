@@ -52,6 +52,9 @@ public interface HrmSalaryEmployeeInfoService {
      */
     Long updateSalaryEmployeeInfo(@Valid HrmSalaryEmployeeInfoUpdateReqVO reqVO);
 
+    /** Validate both salary lists against the same adjustable items used at application. */
+    void validateSalaryProposalOptions(HrmSalaryEmployeeInfoUpdateReqVO reqVO);
+
     /** Internal application after HR and finance approve the immutable proposal. */
     Long applyApprovedSalaryEmployeeInfo(@Valid HrmSalaryEmployeeInfoUpdateReqVO reqVO);
 

@@ -16,6 +16,9 @@ import org.junit.jupiter.api.*;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Arrays;
+import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
+import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -30,13 +33,20 @@ class HrmPayrollSalaryProposalIntegrationTest extends BaseDbUnitTest {
     @MockBean private HrmSalaryChangeRecordService changes;
     @MockBean private HrmEmployeeService employees;
     @MockBean private HrmSalaryMonthRecordService months;
-    @AfterEach void clear(){org.springframework.security.core.context.SecurityContextHolder.clearContext();}
-    @Test void publicSalaryUpdateSubmitsProposalAndOnlyFinalApprovalWritesSalary() {
+    private HrmEmployeeDO employee;
+    @BeforeEach void setup() {
         cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.setLoginUser(
                 new cn.iocoder.yudao.framework.security.core.LoginUser().setId(1L).setUserType(2),new org.springframework.mock.web.MockHttpServletRequest());
-        HrmEmployeeDO employee=new HrmEmployeeDO().setName("审批集成员工").setJobNumber("APPROVAL-INTEGRATION");employeeMapper.insert(employee);
+        employee=new HrmEmployeeDO().setName("审批集成员工").setJobNumber("APPROVAL-INTEGRATION");employeeMapper.insert(employee);
         when(employees.validateEmployeeExists(employee.getId())).thenReturn(employee);
         when(options.getSalaryOptionList(true)).thenReturn(Collections.singletonList(HrmSalaryOptionDO.builder().code(10101).parentCode(10).name("基本工资").type(1).calculateEnabled(true).enabled(true).build()));
+    }
+    private HrmSalaryEmployeeInfoUpdateReqVO request(int code, String amount) {
+        return new HrmSalaryEmployeeInfoUpdateReqVO().setEmployeeId(employee.getId()).setRecordType(1).setChangeReason(1)
+                .setSalaryOptions(Collections.singletonList(new HrmSalaryOptionValueVO().setCode(code).setValue(new BigDecimal(amount))));
+    }
+    @AfterEach void clear(){org.springframework.security.core.context.SecurityContextHolder.clearContext();}
+    @Test void publicSalaryUpdateSubmitsProposalAndOnlyFinalApprovalWritesSalary() {
         doAnswer(invocation->{((HrmSalaryChangeRecordDO)invocation.getArgument(0)).setId(99L);return null;}).when(changes).createSalaryChangeRecord(any());
         HrmSalaryEmployeeInfoUpdateReqVO request=new HrmSalaryEmployeeInfoUpdateReqVO().setEmployeeId(employee.getId()).setRecordType(1).setChangeReason(1)
                 .setSalaryOptions(Collections.singletonList(new HrmSalaryOptionValueVO().setCode(10101).setValue(new BigDecimal("5000.00"))));
@@ -47,4 +57,34 @@ class HrmPayrollSalaryProposalIntegrationTest extends BaseDbUnitTest {
         proposalService.transition(proposal,"approve","财务批准",3L);
         assertEquals(0,new BigDecimal("5000.00").compareTo(salaryService.getSalaryEmployeeInfoByEmployeeId(employee.getId()).getRegularSalary()));
     }
+    @Test void computedItemIsRejectedAtSubmissionEvenWhenZero() {
+        assertServiceException(() -> salaryService.updateSalaryEmployeeInfo(request(240101, "0")),
+                SALARY_PROPOSAL_OPTION_INVALID, 240101);
+        assertTrue(proposalService.list().isEmpty());
+        assertNull(salaryService.getSalaryEmployeeInfoByEmployeeId(employee.getId()));
+    }
+    @Test void probationItemsAndAmountsAreValidatedBeforeSnapshot() {
+        HrmSalaryEmployeeInfoUpdateReqVO request = request(10101, "6000");
+        request.setProbationSalaryOptions(Collections.singletonList(new HrmSalaryOptionValueVO().setCode(230101).setValue(BigDecimal.ZERO)));
+        assertServiceException(() -> salaryService.updateSalaryEmployeeInfo(request), SALARY_PROPOSAL_OPTION_INVALID, 230101);
+        request.setProbationSalaryOptions(Collections.singletonList(new HrmSalaryOptionValueVO().setCode(10101).setValue(new BigDecimal("-1"))));
+        assertServiceException(() -> salaryService.updateSalaryEmployeeInfo(request), SALARY_PROPOSAL_AMOUNT_INVALID, "基本工资(10101)");
+        assertServiceException(() -> salaryService.updateSalaryEmployeeInfo(request(10101, "0.001")), SALARY_PROPOSAL_AMOUNT_INVALID, "基本工资(10101)");
+        assertTrue(proposalService.list().isEmpty());
+    }
+    @Test void duplicateItemCannotInflateSalary() {
+        HrmSalaryEmployeeInfoUpdateReqVO request = request(10101, "6000");
+        request.setSalaryOptions(Arrays.asList(request.getSalaryOptions().get(0), request.getSalaryOptions().get(0)));
+        assertServiceException(() -> salaryService.updateSalaryEmployeeInfo(request), SALARY_PROPOSAL_OPTION_DUPLICATE, 10101);
+        assertTrue(proposalService.list().isEmpty());
+    }
+    @Test void itemDisabledAfterSubmissionStillBlocksFinalApplication() {
+        Long id = salaryService.updateSalaryEmployeeInfo(request(10101, "6000"));
+        proposalService.transition(id, "review", "复核通过", 2L);
+        when(options.getSalaryOptionList(true)).thenReturn(Collections.emptyList());
+        assertServiceException(() -> proposalService.transition(id, "approve", "财务批准", 3L), SALARY_DATA_ILLEGAL);
+        assertEquals("FINANCE_REVIEW", proposalService.list().get(0).getStatus());
+        assertNull(salaryService.getSalaryEmployeeInfoByEmployeeId(employee.getId()));
+    }
+
 }

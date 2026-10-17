@@ -33,6 +33,7 @@ public class HrmPayrollSalaryProposalService {
         List<HrmPayrollSalaryProposalDO> pending=mapper.selectList(new LambdaQueryWrapperX<HrmPayrollSalaryProposalDO>()
                 .eq(HrmPayrollSalaryProposalDO::getEmployeeId,request.getEmployeeId()).in(HrmPayrollSalaryProposalDO::getStatus,Arrays.asList("HR_REVIEW","FINANCE_REVIEW")));
         if(!pending.isEmpty())throw exception(SALARY_PENDING_CHANGE_RECORD_EXISTS);
+        salaryService.validateSalaryProposalOptions(request);
         if(request.getEffectTime()==null&&Objects.equals(request.getRecordType(),1)&&request.getId()==null)
             request.setEffectTime(java.time.LocalDate.now().withDayOfMonth(1).atStartOfDay());
         HrmPayrollSalaryProposalDO proposal=new HrmPayrollSalaryProposalDO();proposal.setEmployeeId(request.getEmployeeId());
