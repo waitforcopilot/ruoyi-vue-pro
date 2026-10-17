@@ -14,6 +14,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class FileTypeUtilsTest {
 
     @Test
+    public void testMarkdownDetectionUsesRegisteredMimeType() {
+        byte[] content = "# Payroll requirements\n\nConfirmed sources".getBytes(StandardCharsets.UTF_8);
+        assertEquals("text/markdown", FileTypeUtils.getMineType("requirements.md"));
+        assertEquals("text/markdown", FileTypeUtils.getMineType("requirements.markdown"));
+        assertEquals("text/markdown", FileTypeUtils.getMineType(content, "requirements.md"));
+        assertEquals(".md", FileTypeUtils.getExtension("text/markdown"));
+    }
+
+    @Test
     public void testWriteAttachment_contentDispositionEncodeFilename() throws Exception {
         // 准备参数
         MockHttpServletResponse response = new MockHttpServletResponse();
