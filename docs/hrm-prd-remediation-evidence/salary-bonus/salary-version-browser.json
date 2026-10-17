@@ -1,0 +1,18 @@
+{
+  "batchId": 4,
+  "versions": [
+    {
+      "version": 2,
+      "gross": 43548.39,
+      "net": 42003.94,
+      "employeeNameVisible": true
+    },
+    {
+      "version": 1,
+      "gross": 7548.39,
+      "net": 7083.94,
+      "employeeNameVisible": true
+    }
+  ],
+  "pageErrors": []
+}

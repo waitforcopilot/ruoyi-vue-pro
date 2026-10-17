@@ -1,0 +1,10 @@
+{
+  "case": "real-browser-confirmation",
+  "requirementCode": "COL-235552",
+  "confirmedBy": 251,
+  "status": "CONFIRMED",
+  "readiness": "MISSING",
+  "missingMappingBlocked": true,
+  "wrongReviewerBlocked": true,
+  "pageErrors": []
+}

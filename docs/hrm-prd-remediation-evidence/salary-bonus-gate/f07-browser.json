@@ -1,0 +1,61 @@
+{
+  "cases": [
+    {
+      "viewportWidth": 390,
+      "hasTouch": true,
+      "dialogBounds": {
+        "x": 12,
+        "y": -1.7486610412597656,
+        "width": 366,
+        "height": 815.0000038146973
+      },
+      "initialSaveButtonBounds": {
+        "x": 302,
+        "y": 765.2513427734375,
+        "width": 60,
+        "height": 32
+      },
+      "requirementCode": "COL-620323",
+      "persistedAfterRefresh": true,
+      "pageErrors": []
+    },
+    {
+      "viewportWidth": 768,
+      "hasTouch": true,
+      "dialogBounds": {
+        "x": 24,
+        "y": -1.747549057006836,
+        "width": 720,
+        "height": 814.9999904632568
+      },
+      "initialSaveButtonBounds": {
+        "x": 668,
+        "y": 767.4230346679688,
+        "width": 60,
+        "height": 32
+      },
+      "requirementCode": "COL-583608",
+      "persistedAfterRefresh": true,
+      "pageErrors": []
+    },
+    {
+      "viewportWidth": 1440,
+      "hasTouch": true,
+      "dialogBounds": {
+        "x": 360,
+        "y": -1.7461013793945312,
+        "width": 720,
+        "height": 815.0000076293945
+      },
+      "initialSaveButtonBounds": {
+        "x": 1004,
+        "y": 767.4150390625,
+        "width": 60,
+        "height": 32
+      },
+      "requirementCode": "COL-250033",
+      "persistedAfterRefresh": true,
+      "pageErrors": []
+    }
+  ]
+}

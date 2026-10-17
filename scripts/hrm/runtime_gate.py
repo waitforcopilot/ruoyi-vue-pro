@@ -113,6 +113,9 @@ try:
     for phase in ('sources','payroll'):
         run('runtime_payroll_regression.py','--state-file',tax_state,'--output-dir',tax_output,'--phase',phase)
     run('runtime_tax_filing_regression.py','--state-file',tax_state,'--output-dir',tax_output)
+    bonus_state = private/'salary-bonus.json'
+    bonus_output = output/'salary-bonus'
+    run('runtime_salary_bonus_regression.py','--base-state',tax_state,'--state-file',bonus_state,'--output-dir',bonus_output)
     facts = json.loads((output/'f08-payment-cost-runtime.json').read_text())
     assert all(facts[key] for key in ('archived','concurrentReplayPassed','amountMismatchRejected','staleAttemptRejected','frozenRecomputeRejected')), facts
     with (private/'preview.log').open('w') as log:
@@ -131,7 +134,8 @@ try:
         run('runtime_browser_workflows.py','--state-file',state,'--output-dir',output,'--case',case)
     run('runtime_browser_workflows.py','--state-file',personnel_state,'--output-dir',personnel_output,'--case','payroll')
     run('runtime_browser_workflows.py','--state-file',tax_state,'--output-dir',tax_output,'--case','tax')
-    (output/'gate-result.json').write_text(json.dumps({'passed':True,'database':a.database,'fixtureDate':today.isoformat(),'freshInstallAndRepeatUpgrade':True,'realAuthentication':True,'uiCases':['confirmation','context','mobile','payroll'],'personnelScenarios':['standard','mid-month regularization','mid-month entry'],'closedPeriodTaxFiling':'RECONCILED'},indent=2))
+    run('runtime_browser_workflows.py','--state-file',bonus_state,'--output-dir',bonus_output,'--case','versions')
+    (output/'gate-result.json').write_text(json.dumps({'passed':True,'database':a.database,'fixtureDate':today.isoformat(),'freshInstallAndRepeatUpgrade':True,'realAuthentication':True,'uiCases':['confirmation','context','mobile','payroll'],'personnelScenarios':['standard','mid-month regularization','mid-month entry'],'closedPeriodTaxFiling':'RECONCILED','salaryAndBonusVersions':2,'annualSeparateBonusDuplicateRejected':True},indent=2))
     print('PASSED: fresh MySQL, real authentication, payroll/payment/slips/cost and browser gate', flush=True)
 finally:
     for process in (preview, backend):

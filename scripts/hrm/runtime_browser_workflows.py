@@ -4,6 +4,7 @@ import argparse
 import asyncio
 import json
 import os
+import re
 from pathlib import Path
 import time
 from decimal import Decimal
@@ -15,7 +16,7 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--state-file', required=True)
 parser.add_argument('--base-url', default='http://127.0.0.1:4173')
 parser.add_argument('--output-dir', type=Path, required=True)
-parser.add_argument('--case', choices=['confirmation', 'context', 'mobile', 'payroll', 'tax'], default='confirmation')
+parser.add_argument('--case', choices=['confirmation', 'context', 'mobile', 'payroll', 'tax', 'versions'], default='confirmation')
 args = parser.parse_args()
 if urllib.parse.urlparse(args.base_url).hostname not in ('127.0.0.1', 'localhost'):
     parser.error('Only local isolated frontends are supported')
@@ -159,6 +160,37 @@ async def tax_workflow(page, errors):
     (args.output_dir/'tax-filing-browser.json').write_text(json.dumps({'entityId':c.state['entityId'],'filingId':c.state['taxFilingId'],'status':'已对账','expectedTax':18,'paid':18,'difference':0,'pageErrors':errors},ensure_ascii=False,indent=2))
     print('Passed: real browser closed-period tax filing and reconciled zero difference')
 
+async def versions_workflow(page, errors):
+    await page.goto(args.base_url+'/hrm-payroll/batch',wait_until='networkidle')
+    row=page.get_by_role('row').filter(has_text=c.state['batchTitle'])
+    await row.get_by_role('button',name='审批与版本',exact=True).click()
+    dialog=page.locator('.el-dialog:visible')
+    await dialog.get_by_role('tab',name='核算版本与差异',exact=True).click()
+    pane=dialog.get_by_role('tabpanel',name='核算版本与差异')
+    first=pane.locator('.el-table__body tbody tr').first
+    name=await first.locator('td').first.inner_text()
+    if not name.strip():
+        await page.screenshot(path=str(args.output_dir/'salary-version-before-fix.png'),full_page=True)
+    assert name.strip()=='隔离历史工资员工',repr(name)
+    runs=c.ok('/hrm/payroll/batch/versions?batchId='+str(c.state['batchId']))
+    results=[]
+    for index,run in enumerate(runs):
+        await pane.locator('.el-select').click()
+        await page.locator('.el-select-dropdown:visible').get_by_text(re.compile('^版本 '+str(run['version'])+' ·')).click()
+        await page.locator('.el-select-dropdown:visible').wait_for(state='hidden')
+        record=json.loads(run['resultSnapshot'])[0]
+        await expect(first.locator('td').nth(1)).to_have_text(str(record['expectedPaySalary']))
+        await expect(first.locator('td').nth(2)).to_have_text(str(record['realPaySalary']))
+        await expect(first.locator('td').first).to_have_text('隔离历史工资员工')
+        prior_net=json.loads(runs[index+1]['resultSnapshot'])[0]['realPaySalary'] if index+1<len(runs) else 0
+        delta=Decimal(str(record['realPaySalary']))-Decimal(str(prior_net))
+        await expect(first.locator('td').nth(3)).to_have_text(f'{delta:.2f}')
+        results.append({'version':run['version'],'gross':record['expectedPaySalary'],'net':record['realPaySalary'],'employeeNameVisible':True})
+    assert not errors,errors
+    await page.screenshot(path=str(args.output_dir/'salary-version-browser.png'),full_page=True)
+    (args.output_dir/'salary-version-browser.json').write_text(json.dumps({'batchId':c.state['batchId'],'versions':results,'pageErrors':errors},ensure_ascii=False,indent=2))
+    print('Passed: real browser selects both immutable salary/bonus versions with historical employee names')
+
 async def main():
     async with async_playwright() as playwright:
         browser = await playwright.chromium.launch(executable_path=os.environ.get('HRM_CHROMIUM_PATH', '/usr/bin/chromium'), headless=True, args=['--no-sandbox', '--disable-dev-shm-usage'])
@@ -183,6 +215,10 @@ async def main():
         errors = []
         page.on('pageerror', lambda error: errors.append(str(error)))
         await login(page)
+        if args.case == 'versions':
+            await versions_workflow(page, errors)
+            await browser.close()
+            return
         if args.case == 'tax':
             await tax_workflow(page, errors)
             await browser.close()

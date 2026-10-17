@@ -1,0 +1,23 @@
+{
+  "entityId": 3,
+  "filingId": 1,
+  "period": "2026-09",
+  "status": "RECONCILED",
+  "income": 6000,
+  "withheld": 18,
+  "officialPaid": 18,
+  "difference": 0,
+  "receiptIds": [
+    1,
+    2
+  ],
+  "unclosedPeriodRejected": true,
+  "importReplayIdempotent": true,
+  "selfReviewRejected": true,
+  "partialReceiptMismatchRejected": true,
+  "filingExcelRead": true,
+  "receiptExcelRead": true,
+  "crossSubjectDeniedCode": 1050810013,
+  "privateExportDeniedCode": 403,
+  "externalSubmissions": 0
+}

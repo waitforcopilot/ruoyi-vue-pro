@@ -1,0 +1,121 @@
+{
+  "cases": [
+    {
+      "module": "OV",
+      "route": "overview",
+      "requirementCodes": [
+        "OV-01",
+        "OV-02",
+        "OV-03",
+        "OV-04"
+      ],
+      "candidateSourceChecked": "DS-01",
+      "returnSucceeded": true
+    },
+    {
+      "module": "PLAN",
+      "route": "formula",
+      "requirementCodes": [
+        "PLAN-01",
+        "PLAN-02",
+        "PLAN-03",
+        "PLAN-04"
+      ],
+      "candidateSourceChecked": "DS-05",
+      "returnSucceeded": true
+    },
+    {
+      "module": "CALC",
+      "route": "batch",
+      "requirementCodes": [
+        "CALC-01",
+        "CALC-02",
+        "CALC-03",
+        "CALC-04",
+        "CALC-05"
+      ],
+      "candidateSourceChecked": "DS-12",
+      "returnSucceeded": true
+    },
+    {
+      "module": "TAX",
+      "route": "tax-policy",
+      "requirementCodes": [
+        "TAX-01",
+        "TAX-02",
+        "TAX-03",
+        "TAX-04",
+        "TAX-05"
+      ],
+      "candidateSourceChecked": "DS-07",
+      "returnSucceeded": true
+    },
+    {
+      "module": "ATT",
+      "route": "attendance",
+      "requirementCodes": [
+        "ATT-01",
+        "ATT-02",
+        "ATT-03",
+        "ATT-04",
+        "ATT-05"
+      ],
+      "candidateSourceChecked": "DS-02",
+      "returnSucceeded": true
+    },
+    {
+      "module": "OT",
+      "route": "work",
+      "requirementCodes": [
+        "OT-01",
+        "OT-02",
+        "OT-03",
+        "OT-04",
+        "OT-05"
+      ],
+      "candidateSourceChecked": "DS-03",
+      "returnSucceeded": true
+    },
+    {
+      "module": "HOUR",
+      "route": "work",
+      "requirementCodes": [
+        "HOUR-01",
+        "HOUR-02",
+        "HOUR-03",
+        "HOUR-04",
+        "HOUR-05"
+      ],
+      "candidateSourceChecked": "DS-04",
+      "returnSucceeded": true
+    },
+    {
+      "module": "INS",
+      "route": "insurance-policy",
+      "requirementCodes": [
+        "INS-01",
+        "INS-02",
+        "INS-03",
+        "INS-04",
+        "INS-05"
+      ],
+      "candidateSourceChecked": "DS-06",
+      "returnSucceeded": true
+    },
+    {
+      "module": "RPT",
+      "route": "analysis",
+      "requirementCodes": [
+        "RPT-01",
+        "RPT-02",
+        "RPT-03",
+        "RPT-04",
+        "RPT-05"
+      ],
+      "candidateSourceChecked": "DS-10",
+      "returnSucceeded": true
+    }
+  ],
+  "untrustedReturnTargetIgnored": true,
+  "pageErrors": []
+}

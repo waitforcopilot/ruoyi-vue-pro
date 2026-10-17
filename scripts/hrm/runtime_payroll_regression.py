@@ -87,7 +87,7 @@ if args.phase == 'sources':
         profile = remember(f'e2eTaxProfile{employee}', lambda: c.ok('/hrm/payroll/tax-profile/create', {'entityId': entity, 'employeeId': employee, 'year': year, 'requestKey': f'ACCEPT_PROFILE_{employee}', 'taxpayerName': next(row['name'] for row in c.ok('/hrm/payroll/salary-proposal/employees') if row['id'] == employee), 'identifierType': 'PASSPORT', 'identifierCountry': 'CN', 'identifier': f'TESTONLY{employee:08d}', 'residentThisYear': True, 'noPriorContinuousRemunerationBeforeEntry': first_salary, 'firstSalaryThisYear': first_salary, 'noPriorSalaryThisYear': first_salary, 'separateBonusUsedElsewhere': False, 'openingMode': 'ZERO' if first_salary else 'DECLARE', 'openingAsOfDate': opening_date.isoformat(), 'openingIncome': 6000 * prior_months, 'openingSocialDeduction': 400 * prior_months, 'openingBasicDeduction': 5000 * prior_months, 'openingWithheld': 18 * prior_months, 'officialReference': evidence, 'evidence': evidence}))
         if next(row['status'] for row in c.ok(f'/hrm/payroll/tax-profile/list?entityId={entity}&year={year}&employeeId={employee}') if row['id'] == profile) != 'APPROVED':
             approve('/hrm/payroll/tax-profile/review', profile)
-        deduction = remember(f'e2eDeduction{employee}', lambda: c.ok('/hrm/payroll/tax-deduction/create', {'entityId': entity, 'employeeId': employee, 'year': year, 'month': month, 'requestKey': f'ACCEPT_DEDUCTION_{employee}', 'sourceDate': max(f'{year}-{month:02d}-01', person.get('entryDate',from_date)), 'mode': 'ZERO', 'values': {str(code): 0 for code in range(260101,260107)}, 'officialReference': evidence, 'evidence': evidence}))
+        deduction = remember(f'e2eDeduction{employee}', lambda: c.ok('/hrm/payroll/tax-deduction/create', {'entityId': entity, 'employeeId': employee, 'year': year, 'month': month, 'requestKey': f'ACCEPT_DEDUCTION_{employee}_{year}_{month}', 'sourceDate': max(f'{year}-{month:02d}-01', person.get('entryDate',from_date)), 'mode': 'ZERO', 'values': {str(code): 0 for code in range(260101,260107)}, 'officialReference': evidence, 'evidence': evidence}))
         if next(row['status'] for row in c.ok(f'/hrm/payroll/tax-deduction/list?entityId={entity}&year={year}&month={month}&employeeId={employee}') if row['id'] == deduction) != 'APPROVED':
             approve('/hrm/payroll/tax-deduction/review', deduction)
         print(f'Approved salary, work and tax sources for synthetic employee {employee}', flush=True)
@@ -216,7 +216,9 @@ elif args.phase == 'payroll':
     assert sum(Decimal(str(row['gross'])) for row in costs) == gross_total
     assert sum(Decimal(str(row['insurance'])) for row in costs) == unit_insurance_total
     assert sum(Decimal(str(row['total'])) for row in costs) == cost_total
-    assert sorted(Decimal(str(row['total'])) for row in costs if row['employeeId'] == employees[0]) == [Decimal('2720'), Decimal('4080')]
+    first_cost = expected(employees[0],'gross') + 800
+    sixty = rounded(first_cost * Decimal('0.6'))
+    assert sorted(money(row['total']) for row in costs if row['employeeId'] == employees[0]) == sorted([sixty, first_cost-sixty])
     analysis = c.ok(f'/hrm/payroll/financial/analysis?entityId={entity}&year={period_year}&month={period_month}')
     assert analysis['ready'], analysis
     entity_row = next(row for row in analysis['rows'] if row['dimension'] == 'ENTITY')

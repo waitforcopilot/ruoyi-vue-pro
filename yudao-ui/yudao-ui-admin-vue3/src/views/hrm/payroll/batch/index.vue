@@ -360,15 +360,42 @@ const open = async (row: SalaryMonthRecordVO) => {
   selectedRunId.value = runs.value[0]?.id
   visible.value = true
 }
+// Resolve names from the selected version's frozen inputs, including adjustment chains.
+const historicalEmployeeNames = (run?: api.PayrollRun): Map<string, string> => {
+  const names = new Map<string, string>()
+  const visited = new Set<number>()
+  let current = run
+  while (current && !visited.has(current.id)) {
+    visited.add(current.id)
+    let snapshot: any
+    try {
+      snapshot = JSON.parse(current.inputSnapshot || '{}') || {}
+    } catch {
+      break // Legacy snapshots without readable HR metadata still show employee IDs.
+    }
+    for (const employee of Array.isArray(snapshot.employees) ? snapshot.employees : []) {
+      if (employee.id != null && typeof employee.name === 'string' && employee.name.trim()) {
+        const key = String(employee.id)
+        if (!names.has(key)) names.set(key, employee.name)
+      }
+    }
+    current = runs.value.find((candidate) => String(candidate.id) === String(snapshot.sourceRunId))
+  }
+  return names
+}
 const differenceRows = computed(() => {
   const index = runs.value.findIndex((r) => r.id === selectedRunId.value)
   if (index < 0) return []
   const current = JSON.parse(runs.value[index].resultSnapshot),
     previous = index + 1 < runs.value.length ? JSON.parse(runs.value[index + 1].resultSnapshot) : []
+  const currentNames = historicalEmployeeNames(runs.value[index])
+  const previousNames = historicalEmployeeNames(runs.value[index + 1])
   const all = new Map<number, any>()
   for (const row of previous)
     all.set(row.employeeId, {
       ...row,
+      employeeName:
+        previousNames.get(String(row.employeeId)) || row.employeeName || `员工 #${row.employeeId}`,
       expectedPaySalary: 0,
       realPaySalary: 0,
       delta: -Number(row.realPaySalary || 0)
@@ -377,6 +404,11 @@ const differenceRows = computed(() => {
     const before = previous.find((item: any) => item.employeeId === row.employeeId)
     all.set(row.employeeId, {
       ...row,
+      employeeName:
+        currentNames.get(String(row.employeeId)) ||
+        row.employeeName ||
+        previousNames.get(String(row.employeeId)) ||
+        `员工 #${row.employeeId}`,
       delta: (Number(row.realPaySalary || 0) - Number(before?.realPaySalary || 0)).toFixed(2)
     })
   }

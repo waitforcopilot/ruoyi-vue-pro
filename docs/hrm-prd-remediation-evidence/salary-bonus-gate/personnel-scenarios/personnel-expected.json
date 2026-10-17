@@ -1,0 +1,43 @@
+{
+  "period": "2026-09",
+  "paymentDate": "2026-10-17",
+  "policy": "虚构隔离人员金标；按周期自然日加权，归属日期内全勤；非正式业务签字",
+  "scenarios": {
+    "3": {
+      "name": "普通工资",
+      "entryDate": "2026-01-01",
+      "salaryEffectDate": "2026-09-01",
+      "expected": {
+        "gross": "6000",
+        "tax": "18",
+        "net": "5582"
+      }
+    },
+    "4": {
+      "name": "月中转正且年度首次工资",
+      "entryDate": "2026-09-01",
+      "salaryEffectDate": "2026-09-01",
+      "probationSalary": 4500,
+      "regularSalary": 6000,
+      "firstSalary": true,
+      "expected": {
+        "gross": "5250.00",
+        "tax": "0",
+        "net": "4850.00"
+      }
+    },
+    "5": {
+      "name": "月中入职且年度首次工资",
+      "entryDate": "2026-09-16",
+      "salaryEffectDate": "2026-09-16",
+      "firstSalary": true,
+      "actualDays": 11,
+      "needDays": 11,
+      "expected": {
+        "gross": "3000.00",
+        "tax": "0",
+        "net": "2600.00"
+      }
+    }
+  }
+}
