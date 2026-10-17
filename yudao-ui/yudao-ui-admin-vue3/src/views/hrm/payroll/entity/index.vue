@@ -5,14 +5,29 @@
       >新建法人主体</el-button
     >
     <el-button :loading="loading" @click="load">刷新</el-button>
-    <el-table :data="entities" highlight-current-row @current-change="select">
+    <el-alert
+      v-if="!selected"
+      title="点击主体行或“人员归属/配置”，查看该主体的人员归属、授权与审批履历。"
+      type="info"
+      :closable="false"
+      show-icon
+      class="mt-10px mb-10px"
+    />
+    <el-table ref="entityTableRef" :data="entities" highlight-current-row @row-click="select">
       <el-table-column prop="code" label="主体编码" />
       <el-table-column prop="name" label="主体名称" />
       <el-table-column prop="taxRegistrationNumber" label="纳税识别号" />
       <el-table-column prop="status" label="审批状态" />
       <el-table-column prop="evidence" label="登记依据" show-overflow-tooltip />
-      <el-table-column label="操作" width="180"
+      <el-table-column label="操作" width="260"
         ><template #default="{ row }">
+          <el-button
+            v-if="row.allowedActions.includes('READ')"
+            link
+            type="primary"
+            @click.stop="select(row)"
+            >人员归属/配置</el-button
+          >
           <el-button
             v-if="row.status === 'PENDING' && row.allowedActions.includes('MANAGE')"
             v-hasPermi="['hrm:payroll:entity:update']"
@@ -258,12 +273,14 @@ const actions = [
   ['EXPORT', '导出'],
   ['MANAGE', '维护']
 ]
+const entityTableRef = ref()
 const manage = computed(() => !!selected.value?.allowedActions.includes('MANAGE'))
 const canApprove = computed(() => !!selected.value?.allowedActions.includes('APPROVE'))
 let selectionVersion = 0
 const select = async (row?: api.Entity) => {
   const version = ++selectionVersion
   selected.value = row
+  entityTableRef.value?.setCurrentRow(row)
   memberships.value = []
   grants.value = []
   events.value = []
@@ -283,6 +300,7 @@ const load = async () => {
   try {
     const id = selected.value?.id
     entities.value = await api.list()
+    await nextTick()
     await select(entities.value.find((e) => e.id === id))
   } finally {
     loading.value = false
