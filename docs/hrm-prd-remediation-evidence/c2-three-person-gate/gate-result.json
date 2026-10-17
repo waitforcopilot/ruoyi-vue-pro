@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "database": "hrm_remediation_gate_20261017e",
+  "fixtureDate": "2026-10-17",
+  "freshInstallAndRepeatUpgrade": true,
+  "realAuthentication": true,
+  "uiCases": [
+    "confirmation",
+    "context",
+    "mobile",
+    "payroll"
+  ],
+  "personnelScenarios": [
+    "standard",
+    "mid-month regularization",
+    "mid-month entry"
+  ]
+}

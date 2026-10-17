@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import time
+from decimal import Decimal
 import urllib.parse
 from playwright.async_api import async_playwright, expect
 from runtime_client import RuntimeClient
@@ -104,7 +105,7 @@ async def login(page, username='hrmacceptoperator', password_key='browserPasswor
 
 async def payroll_workflow(browser, page, errors):
     await page.goto(args.base_url + '/hrm-payroll/batch', wait_until='networkidle')
-    await page.get_by_text('隔离全链路验收工资表', exact=True).first.wait_for()
+    await page.get_by_text(c.state.get('batchTitle','隔离全链路验收工资表'), exact=True).first.wait_for()
     await page.screenshot(path=str(args.output_dir / 'f08-archived-batch-browser.png'), full_page=True)
     original = c.ok(f"/system/permission/list-role-menus?roleId={c.state['readerRoleId']}")
     menus = c.ok('/system/menu/list')
@@ -120,13 +121,14 @@ async def payroll_workflow(browser, page, errors):
         context = await browser.new_context(viewport={'width':1440, 'height':1000})
         owner = await context.new_page()
         owner.on('pageerror', lambda error: errors.append(str(error)))
-        await login(owner, 'hrmacceptread', 'readerPassword')
+        await login(owner, c.state.get('readerUsername','hrmacceptread'), 'readerPassword')
         await owner.goto(args.base_url + '/hrm/portal/salary/slip', wait_until='networkidle')
         await owner.get_by_text('我的工资条', exact=True).first.wait_for()
-        await owner.get_by_text('¥ 5582.00', exact=True).first.wait_for()
+        expected_net = Decimal(str(c.state.get('payrollScenarios',{}).get(str(c.state['scopeEmployeeIds'][1]),{}).get('expected',{}).get('net',5582)))
+        await owner.get_by_text(f'¥ {expected_net:.2f}', exact=True).first.wait_for()
         await owner.screenshot(path=str(args.output_dir / 'f08-owner-slip-browser.png'), full_page=True)
         assert not errors, errors
-        (args.output_dir / 'f08-browser.json').write_text(json.dumps({'archivedBatchVisible':True, 'ownerActualSalaryVisible':5582, 'realLogin':True, 'pageErrors':errors}, ensure_ascii=False, indent=2))
+        (args.output_dir / 'f08-browser.json').write_text(json.dumps({'archivedBatchVisible':True, 'ownerActualSalaryVisible':str(expected_net), 'realLogin':True, 'pageErrors':errors}, ensure_ascii=False, indent=2))
         await context.close()
     finally:
         c.ok('/system/permission/assign-role-menu', {'roleId': c.state['readerRoleId'], 'menuIds': original})

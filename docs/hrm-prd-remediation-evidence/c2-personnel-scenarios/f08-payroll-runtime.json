@@ -1,0 +1,25 @@
+{
+  "batchId": 2,
+  "runId": 2,
+  "status": 17,
+  "employees": [
+    {
+      "employeeId": 3,
+      "expectedPaySalary": 6000.0,
+      "personalTax": 18.0,
+      "realPaySalary": 5582.0
+    },
+    {
+      "employeeId": 4,
+      "expectedPaySalary": 5274.19,
+      "personalTax": 0.0,
+      "realPaySalary": 4874.19
+    },
+    {
+      "employeeId": 5,
+      "expectedPaySalary": 3096.77,
+      "personalTax": 0.0,
+      "realPaySalary": 2696.77
+    }
+  ]
+}
