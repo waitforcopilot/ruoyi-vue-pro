@@ -63,7 +63,7 @@ public class HrmPayrollPaymentService {
     return new cn.iocoder.yudao.framework.common.pojo.PageResult<>(rows, page.getTotal());
   }
 
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional(rollbackFor = Exception.class, isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public void prepare(Long batchId, Long runId, Long actor) {
     scope.lockBatch(batchId,actor);
     scope.check(batchMapper.selectByIdForUpdate(batchId), "APPROVE", actor);
@@ -291,7 +291,7 @@ public class HrmPayrollPaymentService {
     return differences;
   }
 
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional(rollbackFor = Exception.class, isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public Long reconcileFile(
       Long batchId, String fileName, String digest, List<HrmPayrollBankRowVO> rows, Long actor) {
     scope.lockBatch(batchId,actor);
@@ -328,7 +328,7 @@ public class HrmPayrollPaymentService {
     return rows;
   }
 
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional(rollbackFor = Exception.class, isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public void reconcile(Long batchId, List<HrmPayrollBankRowVO> rows, Long actor) {
     scope.lockBatch(batchId,actor);
     scope.check(batchMapper.selectByIdForUpdate(batchId), "APPROVE", actor);
@@ -390,7 +390,7 @@ public class HrmPayrollPaymentService {
     completeIfPaid(batchId, runId, actor);
   }
 
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional(rollbackFor = Exception.class, isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
   public void retry(Long id, Long actor) {
     HrmPayrollPaymentDO candidate = paymentMapper.selectById(id);
     if (candidate == null) throw exception(PAYROLL_PAYMENT_INVALID);
