@@ -65,7 +65,7 @@ def run(script, *args):
 run('migrate.py', '--container', 'codex-ruoyi-mysql', '--database', a.database, '--fresh')
 run('migrate.py', '--container', 'codex-ruoyi-mysql', '--database', a.database)
 hash_value = bcrypt.hashpw(password.encode(), bcrypt.gensalt(rounds=10)).decode()
-subprocess.run(['docker','exec','-i','codex-ruoyi-mysql','mysql',a.database], input=f"UPDATE system_users SET password='{hash_value}' WHERE id=1;", text=True, check=True)
+subprocess.run(['docker','exec','-i','codex-ruoyi-mysql','mysql',a.database], input=f"UPDATE system_users SET password='{hash_value}' WHERE id=1; UPDATE system_sms_channel SET status=1; UPDATE system_sms_template SET status=1;", text=True, check=True)
 url = f'jdbc:mysql://127.0.0.1:{a.mysql_port}/{a.database}?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&useUnicode=true&characterEncoding=UTF-8'
 config = {
     'server': {'address':'127.0.0.1','port':48080},
