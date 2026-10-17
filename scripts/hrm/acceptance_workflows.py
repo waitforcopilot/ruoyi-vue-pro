@@ -27,6 +27,7 @@ if session_file==root or root in session_file.parents or args.state_file.is_syml
 s=json.loads(session_file.read_text()) if session_file.exists() else {}
 if s.get('baseUrl',args.base_url)!=args.base_url:parser.error('Use separate fixture state for each verification environment')
 s['baseUrl']=args.base_url
+year,month=s.get('fixtureYear',2026),s.get('fixtureMonth',10)
 base=args.base_url.rstrip('/')
 opener=urllib.request.build_opener(urllib.request.ProxyHandler({}))
 def call(path,data=None,token=None,method=None):
@@ -78,20 +79,20 @@ for grant in ok(f'/hrm/payroll/entity/grants?id={entity}'):
  if grant['userId']==s['readerId']:
   postq('/hrm/payroll/entity/revoke',{'id':grant['id'],'reason':'重复隔离验收先恢复无主体权限状态'})
 assert ok('/hrm/payroll/overview/entities',token=reader)==[]
-assert call(f'/hrm/payroll/overview/history?entityId={entity}&year=2026',token=reader)['code']!=0
+assert call(f'/hrm/payroll/overview/history?entityId={entity}&year={year}',token=reader)['code']!=0
 today=datetime.date.today();ok('/hrm/payroll/entity/grant',{'entityId':entity,'userId':s['readerId'],'actions':['READ'],'effectiveFrom':(today-datetime.timedelta(days=1)).isoformat(),'effectiveTo':(today+datetime.timedelta(days=30)).isoformat(),'reason':'验收主体只读范围'})
 assert len(ok('/hrm/payroll/overview/entities',token=reader))==1
-assert call('/hrm/payroll/financial/plans?'+urllib.parse.urlencode({'entityId':entity,'year':2026,'month':10}),token=reader)['code']==403
+assert call('/hrm/payroll/financial/plans?'+urllib.parse.urlencode({'entityId':entity,'year':year,'month':month}),token=reader)['code']==403
 print('Passed: real menu denial; subject scope denial; explicit read grant; writer API denial')
 if 'financialPlanId' not in s:
- request={'entityId':entity,'year':2026,'month':10,'dimension':'ENTITY','dimensionKey':'ALL','budget':100000,'revenue':500000,'headcount':20,'evidence':'隔离验收预算、营收及编制虚构数据','sourceReference':'ACCEPTANCE-LOCAL','requestKey':'runtime-accept-plan-v1'}
+ request={'entityId':entity,'year':year,'month':month,'dimension':'ENTITY','dimensionKey':'ALL','budget':100000,'revenue':500000,'headcount':20,'evidence':'隔离验收预算、营收及编制虚构数据','sourceReference':'ACCEPTANCE-LOCAL','requestKey':'runtime-accept-plan-v1'}
  s['financialPlanId']=ok('/hrm/payroll/financial/create',request);save();assert ok('/hrm/payroll/financial/create',request)==s['financialPlanId']
-if next(p for p in ok(f'/hrm/payroll/financial/plans?entityId={entity}&year=2026&month=10') if p['id']==s['financialPlanId'])['status']!='APPROVED':
+if next(p for p in ok(f'/hrm/payroll/financial/plans?entityId={entity}&year={year}&month={month}') if p['id']==s['financialPlanId'])['status']!='APPROVED':
  assert call('/hrm/payroll/financial/review?'+urllib.parse.urlencode({'id':s['financialPlanId'],'approved':'true','reason':'本人不能复核'}),{})['code']!=0
  postq('/hrm/payroll/financial/review',{'id':s['financialPlanId'],'approved':'true','reason':'独立复核隔离测试计划'},reviewer)
-analysis=ok(f'/hrm/payroll/financial/analysis?entityId={entity}&year=2026&month=10')
+analysis=ok(f'/hrm/payroll/financial/analysis?entityId={entity}&year={year}&month={month}')
 print('Passed: real financial-plan idempotency, independent review and analysis')
-for path in [f'/hrm/payroll/entity/options?id={entity}',f'/hrm/payroll/overview/history?entityId={entity}&year=2026',f'/hrm/payroll/insurance-policy/options?entityId={entity}',f'/hrm/payroll/insurance-policy/policies?entityId={entity}',f'/hrm/payroll/insurance-policy/bases?entityId={entity}',f'/hrm/payroll/insurance-bill/list?entityId={entity}',f'/hrm/payroll/work/employees?entityId={entity}&from=2026-10-01&to=2026-10-31',f'/hrm/payroll/work/rules?entityId={entity}',f'/hrm/payroll/cost/options?entityId={entity}',f'/hrm/payroll/wage-recovery/list?entityId={entity}',f'/hrm/payroll/insurance-adjustment/list?entityId={entity}',f'/hrm/payroll/financial/wage-structure?entityId={entity}&year=2026&month=10']:
+for path in [f'/hrm/payroll/entity/options?id={entity}',f'/hrm/payroll/overview/history?entityId={entity}&year={year}',f'/hrm/payroll/insurance-policy/options?entityId={entity}',f'/hrm/payroll/insurance-policy/policies?entityId={entity}',f'/hrm/payroll/insurance-policy/bases?entityId={entity}',f'/hrm/payroll/insurance-bill/list?entityId={entity}',f'/hrm/payroll/work/employees?entityId={entity}&from={year}-01-01&to={year}-12-31',f'/hrm/payroll/work/rules?entityId={entity}',f'/hrm/payroll/cost/options?entityId={entity}',f'/hrm/payroll/wage-recovery/list?entityId={entity}',f'/hrm/payroll/insurance-adjustment/list?entityId={entity}',f'/hrm/payroll/financial/wage-structure?entityId={entity}&year={year}&month={month}']:
  ok(path);print('Passed:',path.split('?')[0])
 
 if 'browserUserId' not in s:

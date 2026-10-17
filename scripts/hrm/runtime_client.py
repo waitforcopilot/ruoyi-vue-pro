@@ -39,6 +39,21 @@ class RuntimeClient:
             body = error.read()
         return json.loads(body) if body[:1] in (b'{', b'[') else body
 
+    def upload(self, path, filename, content, token=None):
+        boundary = 'hrm-runtime-' + os.urandom(16).hex()
+        body = (f'--{boundary}\r\nContent-Disposition: form-data; name="file"; filename="{filename}"\r\n'
+                'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet\r\n\r\n').encode()
+        body += content + f'\r\n--{boundary}--\r\n'.encode()
+        request = urllib.request.Request(self.base + path, data=body, headers={
+            'tenant-id': '1', 'Authorization': 'Bearer ' + (self.token if token is None else token),
+            'Content-Type': 'multipart/form-data; boundary=' + boundary}, method='POST')
+        try:
+            with self.opener.open(request, timeout=60) as response:
+                result = json.loads(response.read())
+        except urllib.error.HTTPError as error:
+            result = json.loads(error.read())
+        return result
+
     def ok(self, path, data=None, token=None, method=None):
         result = self.request(path, data, token, method)
         if not isinstance(result, dict) or result.get('code') != 0:

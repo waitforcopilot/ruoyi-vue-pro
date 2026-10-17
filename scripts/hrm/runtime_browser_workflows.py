@@ -7,14 +7,14 @@ import os
 from pathlib import Path
 import time
 import urllib.parse
-from playwright.async_api import async_playwright
+from playwright.async_api import async_playwright, expect
 from runtime_client import RuntimeClient
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--state-file', required=True)
 parser.add_argument('--base-url', default='http://127.0.0.1:4173')
 parser.add_argument('--output-dir', type=Path, required=True)
-parser.add_argument('--case', choices=['confirmation', 'context', 'mobile'], default='confirmation')
+parser.add_argument('--case', choices=['confirmation', 'context', 'mobile', 'payroll'], default='confirmation')
 args = parser.parse_args()
 if urllib.parse.urlparse(args.base_url).hostname not in ('127.0.0.1', 'localhost'):
     parser.error('Only local isolated frontends are supported')
@@ -38,7 +38,9 @@ async def context_workflow(page, errors):
         await page.wait_for_url(lambda url: '/requirement?' in url and 'module=' + module in url)
         await page.wait_for_load_state('networkidle')
         expected = [row['code'] for row in c.ok('/hrm/payroll/requirement/list?module=' + module)]
-        codes = await page.locator('[data-testid="payroll-requirements"] .el-table__body tbody tr td:first-child .cell').all_text_contents()
+        cells = page.locator('[data-testid="payroll-requirements"] .el-table__body tbody tr td:first-child .cell')
+        await expect(cells).to_have_text(expected, timeout=15000)
+        codes = await cells.all_text_contents()
         assert codes == expected, (module, codes, expected)
         await page.get_by_text(label + '候选数据源与字段', exact=True).click()
         await page.get_by_text(source, exact=True).first.wait_for(state='visible')
@@ -92,13 +94,43 @@ async def mobile_workflow(page, errors, width):
             'initialSaveButtonBounds': footer, 'requirementCode': code,
             'persistedAfterRefresh': True, 'pageErrors': errors}
 
-async def login(page):
+async def login(page, username='hrmacceptoperator', password_key='browserPassword'):
     await page.goto(args.base_url + '/login?redirect=/hrm-payroll/requirement', wait_until='networkidle')
     await page.locator('input[placeholder="请输入租户名称"]:visible').fill('芋道源码')
-    await page.locator('input[placeholder="请输入用户名"]:visible').fill('hrmacceptoperator')
-    await page.locator('input[placeholder="请输入密码"]:visible').fill(c.state['browserPassword'])
+    await page.locator('input[placeholder="请输入用户名"]:visible').fill(username)
+    await page.locator('input[placeholder="请输入密码"]:visible').fill(c.state[password_key])
     await page.get_by_role('button', name='登录', exact=True).click()
     await page.wait_for_url(lambda url: '/login' not in url, timeout=60000)
+
+async def payroll_workflow(browser, page, errors):
+    await page.goto(args.base_url + '/hrm-payroll/batch', wait_until='networkidle')
+    await page.get_by_text('隔离全链路验收工资表', exact=True).first.wait_for()
+    await page.screenshot(path=str(args.output_dir / 'f08-archived-batch-browser.png'), full_page=True)
+    original = c.ok(f"/system/permission/list-role-menus?roleId={c.state['readerRoleId']}")
+    menus = c.ok('/system/menu/list')
+    by_id = {row['id']: row for row in menus}
+    selected = set(original)
+    for row in menus:
+        if row.get('component') == 'hrm/portal/salary/slip/index':
+            while row:
+                selected.add(row['id'])
+                row = by_id.get(row.get('parentId'))
+    try:
+        c.ok('/system/permission/assign-role-menu', {'roleId': c.state['readerRoleId'], 'menuIds': sorted(selected)})
+        context = await browser.new_context(viewport={'width':1440, 'height':1000})
+        owner = await context.new_page()
+        owner.on('pageerror', lambda error: errors.append(str(error)))
+        await login(owner, 'hrmacceptread', 'readerPassword')
+        await owner.goto(args.base_url + '/hrm/portal/salary/slip', wait_until='networkidle')
+        await owner.get_by_text('我的工资条', exact=True).first.wait_for()
+        await owner.get_by_text('¥ 5582.00', exact=True).first.wait_for()
+        await owner.screenshot(path=str(args.output_dir / 'f08-owner-slip-browser.png'), full_page=True)
+        assert not errors, errors
+        (args.output_dir / 'f08-browser.json').write_text(json.dumps({'archivedBatchVisible':True, 'ownerActualSalaryVisible':5582, 'realLogin':True, 'pageErrors':errors}, ensure_ascii=False, indent=2))
+        await context.close()
+    finally:
+        c.ok('/system/permission/assign-role-menu', {'roleId': c.state['readerRoleId'], 'menuIds': original})
+    print('Passed: real browser archived batch and owner salary slip')
 
 async def main():
     async with async_playwright() as playwright:
@@ -124,6 +156,10 @@ async def main():
         errors = []
         page.on('pageerror', lambda error: errors.append(str(error)))
         await login(page)
+        if args.case == 'payroll':
+            await payroll_workflow(browser, page, errors)
+            await browser.close()
+            return
         if args.case == 'context':
             await context_workflow(page, errors)
             await browser.close()

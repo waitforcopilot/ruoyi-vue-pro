@@ -1,0 +1,112 @@
+{
+  "command": "mvn -B -ntp -fae -pl yudao-server -am test",
+  "buildSuccess": true,
+  "realMySqlLockTestsEnabled": true,
+  "totals": {
+    "tests": 2780,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 38
+  },
+  "modules": {
+    "yudao-framework/yudao-common": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "yudao-framework/yudao-spring-boot-starter-biz-data-permission": {
+      "tests": 43,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "yudao-framework/yudao-spring-boot-starter-biz-ip": {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "yudao-framework/yudao-spring-boot-starter-excel": {
+      "tests": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "yudao-framework/yudao-spring-boot-starter-mybatis": {
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "yudao-framework/yudao-spring-boot-starter-protection": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "yudao-framework/yudao-spring-boot-starter-web": {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "yudao-module-bpm": {
+      "tests": 56,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 6
+    },
+    "yudao-module-hrm": {
+      "tests": 1105,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "yudao-module-infra": {
+      "tests": 207,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 10
+    },
+    "yudao-module-oa": {
+      "tests": 795,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 14
+    },
+    "yudao-module-system": {
+      "tests": 479,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 8
+    },
+    "yudao-server": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "followUp": {
+    "change": "Payment mutations use READ_COMMITTED after concurrent replay exposed stale MySQL snapshots",
+    "test": "HrmPayrollPaymentServiceTest",
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "frontend": {
+    "vueTscNoEmit": true,
+    "runtimeBuild": true,
+    "runtimeMode": "development",
+    "productionBuild": true,
+    "deploymentBuildMode": "prod"
+  },
+  "schema": {
+    "database": "hrm_remediation_gate_20261017c",
+    "tables": 171,
+    "fields": 3017,
+    "missingItems": 0
+  }
+}

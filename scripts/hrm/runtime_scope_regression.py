@@ -17,27 +17,29 @@ if not args.database.startswith('hrm_remediation_') or not args.database.replace
     parser.error('Requires an isolated hrm_remediation_ database')
 c = RuntimeClient(args.state_file)
 s = c.state
+year, month = s.get('fixtureYear', 2026), s.get('fixtureMonth', 10)
+start_date, end_date = f'{year}-01-01', f'{year}-12-31'
 e = s['entityId']
 review = c.login('hrmacceptreview', 'reviewerPassword')
 finance = c.login('hrmacceptoperator', 'browserPassword')
 if args.prepare_fixtures and 'scopeEmployeeIds' not in s:
     # Employee creation normally notifies contacts; direct SQL is only test fixture setup.
     statement = ("INSERT INTO hrm_employee(name,job_number,user_id,dept_id,entry_status,status,type,entry_time,post_name,work_city,remark,tenant_id) "
-                 "VALUES('隔离范围员工103','ACCEPT_SCOPE_103',NULL,103,1,1,1,'2026-01-01','验收岗位','验收城市','虚构隔离夹具',1),"
-                 f"('隔离范围员工104','ACCEPT_SCOPE_104',{int(s['readerId'])},104,1,1,1,'2026-01-01','验收岗位','验收城市','虚构隔离夹具',1); "
+                 f"VALUES('隔离范围员工103','ACCEPT_SCOPE_103',{int(s['browserUserId'])},103,1,1,1,'{year}-01-01','验收岗位','验收城市','虚构隔离夹具',1),"
+                 f"('隔离范围员工104','ACCEPT_SCOPE_104',{int(s['readerId'])},104,1,1,1,'{year}-01-01','验收岗位','验收城市','虚构隔离夹具',1); "
                  "SELECT id FROM hrm_employee WHERE job_number IN ('ACCEPT_SCOPE_103','ACCEPT_SCOPE_104') ORDER BY dept_id;")
     rows = subprocess.check_output(['docker', 'exec', '-i', 'codex-ruoyi-mysql', 'mysql', '--default-character-set=utf8mb4', '--batch', '--skip-column-names', args.database], input=statement, text=True)
     s['scopeEmployeeIds'] = [int(row) for row in rows.splitlines()]
     c.save()
     for employee, dept in zip(s['scopeEmployeeIds'], [103, 104]):
-        member = c.ok('/hrm/payroll/entity/assign', {'entityId': e, 'employeeId': employee, 'deptId': dept, 'employeeCategory': 'REGULAR', 'workCity': '验收城市', 'effectiveFrom': '2026-01-01', 'effectiveTo': '2026-12-31', 'evidence': '虚构隔离归属'})
+        member = c.ok('/hrm/payroll/entity/assign', {'entityId': e, 'employeeId': employee, 'deptId': dept, 'employeeCategory': 'REGULAR', 'workCity': '验收城市', 'effectiveFrom': start_date, 'effectiveTo': end_date, 'evidence': '虚构隔离归属'})
         c.query('/hrm/payroll/entity/membership/approve', {'id': member, 'reason': '独立复核隔离归属'}, review)
-    policy = c.ok('/hrm/payroll/insurance-policy/policy', {'entityId': e, 'code': 'ACCEPT_SCOPE_POLICY', 'city': '验收城市', 'effectiveFrom': '2026-01-01', 'effectiveTo': '2026-12-31', 'evidence': '虚构参数，非真实地区政策', 'projects': [{'code': 'PENSION', 'name': '验收养老', 'type': 1, 'minimumBase': 3000, 'maximumBase': 20000, 'personalRate': 8, 'corporateRate': 16}]})
+    policy = c.ok('/hrm/payroll/insurance-policy/policy', {'entityId': e, 'code': 'ACCEPT_SCOPE_POLICY', 'city': '验收城市', 'effectiveFrom': start_date, 'effectiveTo': end_date, 'evidence': '虚构参数，非真实地区政策', 'projects': [{'code': 'PENSION', 'name': '验收养老', 'type': 1, 'minimumBase': 3000, 'maximumBase': 20000, 'personalRate': 8, 'corporateRate': 16}]})
     c.query('/hrm/payroll/insurance-policy/policy/approve', {'id': policy, 'reason': '独立复核虚构参数'}, review)
     s['scopePolicyId'] = policy
     c.save()
     for employee in s['scopeEmployeeIds']:
-        base = c.ok('/hrm/payroll/insurance-policy/base', {'entityId': e, 'employeeId': employee, 'policyId': policy, 'coverage': 'INSURED', 'incomeYear': 2025, 'effectiveFrom': '2026-01-01', 'effectiveTo': '2026-12-31', 'declaredBases': {'PENSION': 5000}, 'evidence': '虚构缴费申报'})
+        base = c.ok('/hrm/payroll/insurance-policy/base', {'entityId': e, 'employeeId': employee, 'policyId': policy, 'coverage': 'INSURED', 'incomeYear': year - 1, 'effectiveFrom': start_date, 'effectiveTo': end_date, 'declaredBases': {'PENSION': 5000}, 'evidence': '虚构缴费申报'})
         c.query('/hrm/payroll/insurance-policy/base/review', {'id': base, 'reason': '独立HR复核'}, review)
         c.query('/hrm/payroll/insurance-policy/base/approve', {'id': base, 'reason': '独立财务批准'}, finance)
     print('Prepared synthetic department fixtures')
@@ -54,7 +56,7 @@ try:
     for scope, depts, expected in [(2, [103], own), (5, [], outside)]:
         c.ok('/system/permission/assign-role-data-scope', {'roleId': s['readerRoleId'], 'dataScope': scope, 'dataScopeDeptIds': depts})
         reader = c.login('hrmacceptread', 'readerPassword')
-        quote = c.ok(f'/hrm/payroll/insurance-policy/preview?entityId={e}&year=2026&month=10', token=reader)
+        quote = c.ok(f'/hrm/payroll/insurance-policy/preview?entityId={e}&year={year}&month={month}', token=reader)
         assert set(quote) == {str(expected)}, quote
         assert quote[str(expected)]['personalInsurance'] == 400
         bases = c.ok(f'/hrm/payroll/insurance-policy/bases?entityId={e}', token=reader)
@@ -68,12 +70,12 @@ finally:
 # A role with real management permissions must also respect the department boundary.
 operator_role = c.ok('/system/role/get?id=' + str(s['browserRoleId']))
 if 'batchId' not in s:
-    s['batchId'] = c.ok('/hrm/salary/month-record/create', {'entityId': e, 'year': 2026, 'month': 10, 'title': '隔离全链路验收工资表', 'startTime': 1790784000000, 'endTime': 1793462399000})
+    s['batchId'] = c.ok('/hrm/salary/month-record/create', {'entityId': e, 'year': year, 'month': month, 'title': '隔离全链路验收工资表', 'startTime': f'{year}-{month:02d}-01T00:00:00', 'endTime': ((datetime.date(year, month, 28) + datetime.timedelta(days=4)).replace(day=1) - datetime.timedelta(days=1)).isoformat() + 'T00:00:00'})
     c.save()
 try:
     c.ok('/system/permission/assign-role-data-scope', {'roleId': s['browserRoleId'], 'dataScope': 2, 'dataScopeDeptIds': [103]})
     operator = c.login('hrmacceptoperator', 'browserPassword')
-    refused = c.request('/hrm/payroll/insurance-policy/base', {'entityId': e, 'employeeId': outside, 'policyId': s['scopePolicyId'], 'coverage': 'INSURED', 'incomeYear': 2025, 'effectiveFrom': '2026-01-01', 'effectiveTo': '2026-12-31', 'declaredBases': {'PENSION': 6000}, 'evidence': '越权负向验收'}, token=operator)
+    refused = c.request('/hrm/payroll/insurance-policy/base', {'entityId': e, 'employeeId': outside, 'policyId': s['scopePolicyId'], 'coverage': 'INSURED', 'incomeYear': year - 1, 'effectiveFrom': start_date, 'effectiveTo': end_date, 'declaredBases': {'PENSION': 6000}, 'evidence': '越权负向验收'}, token=operator)
     assert refused['code'] not in (0, 500), refused
     batch = c.request('/hrm/salary/month-record/get?id=' + str(s['batchId']), token=operator)
     assert (batch['code'] == 0 and batch.get('data') is None) or batch['code'] not in (0, 500), batch

@@ -1,0 +1,4 @@
+# Runtime gate: real Excel files, isolated password hashes and Chromium workflows.
+bcrypt==5.0.0
+openpyxl==3.1.5
+playwright==1.62.0

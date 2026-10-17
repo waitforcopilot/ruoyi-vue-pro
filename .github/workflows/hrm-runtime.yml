@@ -1,0 +1,92 @@
+name: HRM MySQL and browser acceptance
+
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - 'yudao-framework/**'
+      - 'yudao-module-hrm/**'
+      - 'yudao-module-system/**'
+      - 'yudao-module-infra/**'
+      - 'yudao-module-bpm/**'
+      - 'yudao-module-oa/**'
+      - 'yudao-dependencies/**'
+      - 'yudao-server/**'
+      - 'yudao-ui/yudao-ui-admin-vue3/**'
+      - 'sql/**'
+      - 'scripts/hrm/**'
+      - 'pom.xml'
+      - '.github/workflows/hrm-runtime.yml'
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: hrm-runtime-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TZ: Asia/Shanghai
+  MAVEN_OPTS: -Xmx2g -Duser.timezone=Asia/Shanghai
+
+jobs:
+  runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          java-version: '8'
+          distribution: temurin
+          cache: maven
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: pnpm
+          cache-dependency-path: yudao-ui/yudao-ui-admin-vue3/pnpm-lock.yaml
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Start isolated MySQL and Redis
+        run: |
+          docker run -d --name codex-ruoyi-mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -p 127.0.0.1:13306:3306 mysql:8.0
+          docker run -d --name codex-ruoyi-redis -p 127.0.0.1:16380:6379 redis:7-alpine
+          for attempt in $(seq 1 60); do
+            if docker exec codex-ruoyi-mysql mysqladmin ping --silent; then exit 0; fi
+            sleep 1
+          done
+          exit 1
+      - name: Run real Mapper transaction and tenant-lock tests
+        run: |
+          docker exec codex-ruoyi-mysql mysql -e 'CREATE DATABASE hrm_remediation_lock;'
+          HRM_MYSQL_TEST_URL='jdbc:mysql://127.0.0.1:13306/hrm_remediation_lock?useSSL=false&allowPublicKeyRetrieval=true' \
+          mvn -B -ntp -s .github/maven-settings.xml -pl yudao-framework/yudao-spring-boot-starter-mybatis -am test \
+            -Dtest=LockingSelectInnerInterceptorTest,LockingSelectMySqlTest -Dsurefire.failIfNoSpecifiedTests=false
+      - name: Package backend
+        run: mvn -B -ntp -s .github/maven-settings.xml -pl yudao-server -am package -Dmaven.test.skip=true
+      - name: Build runtime frontend
+        working-directory: yudao-ui/yudao-ui-admin-vue3
+        run: |
+          pnpm install --frozen-lockfile
+          node --max_old_space_size=4096 node_modules/vite/bin/vite.js build --mode development --outDir /tmp/hrm-runtime-ui
+      - name: Install runtime verification dependencies
+        run: |
+          python -m pip install -r scripts/hrm/requirements-runtime.txt
+          python -m playwright install --with-deps chromium
+          python -c "from playwright.sync_api import sync_playwright; p=sync_playwright().start(); print('HRM_CHROMIUM_PATH='+p.chromium.executable_path)" >> "$GITHUB_ENV"
+      - name: Fresh database and full payroll runtime gate
+        run: python scripts/hrm/runtime_gate.py --database hrm_remediation_ci --ui-dir /tmp/hrm-runtime-ui --output-dir /tmp/hrm-runtime-evidence
+      - name: Upload sanitized runtime evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hrm-runtime-evidence
+          path: /tmp/hrm-runtime-evidence/
+          if-no-files-found: error
+          retention-days: 14
