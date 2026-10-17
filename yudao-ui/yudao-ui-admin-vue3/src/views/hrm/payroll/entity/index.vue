@@ -1,5 +1,6 @@
 <template>
   <ContentWrap>
+    <RequirementContext module="CALC" />
     <el-button v-hasPermi="['hrm:payroll:entity:update']" @click="open('entity')"
       >新建法人主体</el-button
     >
@@ -221,6 +222,7 @@
   </el-dialog>
 </template>
 <script setup lang="ts">
+import RequirementContext from '../components/RequirementContext.vue'
 import * as api from '@/api/hrm/payroll/entity'
 import * as DeptApi from '@/api/system/dept'
 import { ElMessageBox } from 'element-plus'

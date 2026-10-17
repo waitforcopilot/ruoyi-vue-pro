@@ -1,5 +1,6 @@
 <template>
   <ContentWrap>
+    <RequirementContext module="PLAN" />
     <el-alert
       title="公式按核算期间起始日选取版本。已批准规则不可修改；变更请新增生效版本，由其他人员审批。"
       type="info"
@@ -128,6 +129,7 @@
   </Dialog>
 </template>
 <script setup lang="ts">
+import RequirementContext from '../components/RequirementContext.vue'
 import * as api from '@/api/hrm/payroll/formula'
 import type { FormInstance } from 'element-plus'
 defineOptions({ name: 'HrmPayrollFormula' })

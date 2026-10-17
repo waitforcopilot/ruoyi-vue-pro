@@ -1,5 +1,6 @@
 <template>
   <ContentWrap>
+    <RequirementContext module="INS" />
     <el-form inline>
       <el-form-item label="缴费主体"
         ><el-select v-model="entityId" filterable style="width: 260px" @change="load"
@@ -434,6 +435,7 @@
   </el-dialog>
 </template>
 <script setup lang="ts">
+import RequirementContext from '../components/RequirementContext.vue'
 import * as api from '@/api/hrm/payroll/insurance-policy'
 import * as EntityApi from '@/api/hrm/payroll/entity'
 import dayjs from 'dayjs'

@@ -1,6 +1,7 @@
 <template>
   <SalarySubjectBatchSelector v-model="batchId" @change="load" />
   <ContentWrap>
+    <RequirementContext module="CALC" />
     <el-alert
       title="考勤、加班、专项附加扣除和历史累计需要明确来源并由独立人员复核。同步来源变化或新版本在审时，核算与冻结会阻断；缺失不按满勤或零金额处理。"
       type="info"
@@ -227,6 +228,7 @@
   >
 </template>
 <script setup lang="ts">
+import RequirementContext from '../components/RequirementContext.vue'
 import * as api from '@/api/hrm/payroll/input'
 import * as EntityApi from '@/api/hrm/payroll/entity'
 import * as BatchApi from '@/api/hrm/salary/month-record'

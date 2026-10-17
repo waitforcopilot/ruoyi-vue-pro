@@ -1,5 +1,6 @@
 <template>
   <ContentWrap>
+    <RequirementContext module="TAX" />
     <el-form inline>
       <el-form-item label="纳税主体"
         ><el-select v-model="entityId" style="width: 240px"
@@ -179,6 +180,7 @@
   </Dialog>
 </template>
 <script setup lang="ts">
+import RequirementContext from '../components/RequirementContext.vue'
 import dayjs from 'dayjs'
 import * as api from '@/api/hrm/payroll/tax-policy'
 import TaxProfiles from './TaxProfiles.vue'

@@ -14,13 +14,49 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--state-file', required=True)
 parser.add_argument('--base-url', default='http://127.0.0.1:4173')
 parser.add_argument('--output-dir', type=Path, required=True)
-parser.add_argument('--case', choices=['confirmation'], default='confirmation')
+parser.add_argument('--case', choices=['confirmation', 'context'], default='confirmation')
 args = parser.parse_args()
 if urllib.parse.urlparse(args.base_url).hostname not in ('127.0.0.1', 'localhost'):
     parser.error('Only local isolated frontends are supported')
 c = RuntimeClient(args.state_file)
 args.output_dir.mkdir(parents=True, exist_ok=True)
 
+
+
+async def context_workflow(page, errors):
+    cases = [
+        ('overview', 'OV', '薪酬总览', 'DS-01'), ('formula', 'PLAN', '薪酬方案', 'DS-05'),
+        ('batch', 'CALC', '工资核算', 'DS-12'), ('tax-policy', 'TAX', '个税与工资条', 'DS-07'),
+        ('attendance', 'ATT', '考勤', 'DS-02'), ('work', 'OT', '加班', 'DS-03'),
+        ('work', 'HOUR', '工时', 'DS-04'), ('insurance-policy', 'INS', '社保公积金', 'DS-06'),
+        ('analysis', 'RPT', '报表分析', 'DS-10'),
+    ]
+    results = []
+    for path, module, label, source in cases:
+        await page.goto(args.base_url + '/hrm-payroll/' + path, wait_until='networkidle')
+        await page.get_by_role('button', name=f'本模块需求（{label}）', exact=True).click()
+        await page.wait_for_url(lambda url: '/requirement?' in url and 'module=' + module in url)
+        await page.wait_for_load_state('networkidle')
+        expected = [row['code'] for row in c.ok('/hrm/payroll/requirement/list?module=' + module)]
+        codes = await page.locator('[data-testid="payroll-requirements"] .el-table__body tbody tr td:first-child .cell').all_text_contents()
+        assert codes == expected, (module, codes, expected)
+        await page.get_by_text(label + '候选数据源与字段', exact=True).click()
+        await page.get_by_text(source, exact=True).first.wait_for(state='visible')
+        if module == 'PLAN':
+            await page.get_by_role('button', name='新增需求', exact=True).click()
+            dialog = page.locator('.el-dialog:visible')
+            assert label in await dialog.locator('.el-form-item').filter(has_text='模块').inner_text()
+            await dialog.get_by_role('button', name='取消', exact=True).click()
+            await dialog.wait_for(state='hidden')
+            await page.screenshot(path=str(args.output_dir / 'f06-context-browser.png'), full_page=True)
+        await page.get_by_role('button', name='返回业务模块', exact=True).click()
+        await page.wait_for_url(lambda url: urllib.parse.urlparse(url).path == '/hrm-payroll/' + path)
+        results.append({'module': module, 'route': path, 'requirementCodes': codes, 'candidateSourceChecked': source, 'returnSucceeded': True})
+    await page.goto(args.base_url + '/hrm-payroll/requirement?module=UNKNOWN&from=https://example.invalid/', wait_until='networkidle')
+    assert await page.get_by_role('button', name='返回业务模块', exact=True).count() == 0
+    assert not errors, errors
+    (args.output_dir / 'f06-browser.json').write_text(json.dumps({'cases': results, 'untrustedReturnTargetIgnored': True, 'pageErrors': errors}, ensure_ascii=False, indent=2))
+    print('Passed: all nine module contexts, source dictionaries, form defaults and return navigation')
 
 async def main():
     async with async_playwright() as playwright:
@@ -36,6 +72,10 @@ async def main():
         await page.locator('input[placeholder="请输入密码"]:visible').fill(c.state['browserPassword'])
         await page.get_by_role('button', name='登录', exact=True).click()
         await page.wait_for_url(lambda url: '/login' not in url, timeout=60000)
+        if args.case == 'context':
+            await context_workflow(page, errors)
+            await browser.close()
+            return
         await page.goto(args.base_url + '/hrm-payroll/requirement', wait_until='networkidle')
         await page.get_by_role('button', name='新增需求', exact=True).click()
         dialog = page.locator('.el-dialog:visible')

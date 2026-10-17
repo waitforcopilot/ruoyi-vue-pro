@@ -1,5 +1,6 @@
 <template>
   <ContentWrap>
+    <RequirementContext module="RPT" />
     <el-alert
       title="实际采用已批准的冻结工资成本报表，按计薪期间归集；金额单位为元，编制单位为人。空白营收/预算/编制表示未提供，确认零值另行保存；分母缺失或为零时不计算比率。"
       type="info"
@@ -291,6 +292,7 @@
   >
 </template>
 <script setup lang="ts">
+import RequirementContext from '../components/RequirementContext.vue'
 import WageStructure from './WageStructure.vue'
 import request from '@/config/axios'
 import download from '@/utils/download'

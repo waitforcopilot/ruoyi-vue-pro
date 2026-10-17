@@ -1,5 +1,6 @@
 <template>
   <ContentWrap>
+    <RequirementContext module="CALC" />
     <el-alert
       title="独立收回核定的税前多发工资。须有员工确认、按原到账年度批准的收入更正及真实退款凭证；原银行付款和已扣税额保留，补退税另行结清。"
       :closable="false"
@@ -192,6 +193,7 @@
   ></Dialog>
 </template>
 <script setup lang="ts">
+import RequirementContext from '../components/RequirementContext.vue'
 import request from '@/config/axios'
 defineOptions({ name: 'HrmPayrollWageRecovery' })
 const base = '/hrm/payroll/wage-recovery',

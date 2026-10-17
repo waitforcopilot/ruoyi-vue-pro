@@ -1,5 +1,6 @@
 <template>
   <ContentWrap>
+    <RequirementContext module="PLAN" />
     <el-alert
       title="薪级薪档和岗位系数按方案版本维护。应用已批准方案会提交定调薪申请，HR及财务批准后生效。"
       type="info"
@@ -218,6 +219,7 @@
   </Dialog>
 </template>
 <script setup lang="ts">
+import RequirementContext from '../components/RequirementContext.vue'
 import * as api from '@/api/hrm/payroll/grade'
 import download from '@/utils/download'
 import type { FormInstance, UploadFile, UploadUserFile } from 'element-plus'

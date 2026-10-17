@@ -1,5 +1,6 @@
 <template>
   <ContentWrap>
+    <RequirementContext module="CALC" />
     <el-alert
       title="先在对应业务中补正真实来源，再提交材料并由指定复核人确认。未关闭工单将阻断核算与冻结。"
       type="info"
@@ -186,6 +187,7 @@
   ></Dialog>
 </template>
 <script setup lang="ts">
+import RequirementContext from '../components/RequirementContext.vue'
 import request from '@/config/axios'
 import dayjs from 'dayjs'
 import { labels, states, actions } from './labels'

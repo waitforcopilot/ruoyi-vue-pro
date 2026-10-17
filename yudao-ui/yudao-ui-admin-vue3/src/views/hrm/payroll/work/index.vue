@@ -1,5 +1,6 @@
 <template>
   <ContentWrap>
+    <RequirementContext :module="['OT', 'HOUR']" />
     <el-form inline>
       <el-form-item label="法人主体"
         ><el-select v-model="entityId" placeholder="请选择主体" style="width: 240px">
@@ -334,6 +335,7 @@
   </Dialog>
 </template>
 <script setup lang="ts">
+import RequirementContext from '../components/RequirementContext.vue'
 import * as api from '@/api/hrm/payroll/work'
 import WorkVariance from './WorkVariance.vue'
 import dayjs from 'dayjs'

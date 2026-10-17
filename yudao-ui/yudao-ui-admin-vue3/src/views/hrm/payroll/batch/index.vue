@@ -1,5 +1,6 @@
 <template>
   <ContentWrap>
+    <RequirementContext module="CALC" />
     <el-alert
       title="核算、HR 复核和财务审批由不同人员执行。冻结后不可编辑；需修改时先解冻，再重新核算并提交审批。"
       :closable="false"
@@ -205,6 +206,7 @@
   </Dialog>
 </template>
 <script setup lang="ts">
+import RequirementContext from '../components/RequirementContext.vue'
 import request from '@/config/axios'
 import Bonuses from './Bonuses.vue'
 import Retro from './Retro.vue'

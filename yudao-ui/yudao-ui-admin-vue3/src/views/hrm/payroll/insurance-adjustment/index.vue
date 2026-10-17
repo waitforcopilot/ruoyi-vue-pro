@@ -1,5 +1,6 @@
 <template>
   <ContentWrap>
+    <RequirementContext module="INS" />
     <el-alert
       title="按原工资个人扣款与最终核实缴费账单结算差额。个人补收为正、退还为负；单位差额单独调整历史成本。原年度扣除须先正式更正，税款另行结清。"
       type="info"
@@ -184,6 +185,7 @@
   ></Dialog>
 </template>
 <script setup lang="ts">
+import RequirementContext from '../components/RequirementContext.vue'
 import request from '@/config/axios'
 defineOptions({ name: 'HrmPayrollInsuranceAdjustment' })
 const base = '/hrm/payroll/insurance-adjustment',

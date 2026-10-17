@@ -1,5 +1,6 @@
 <template>
   <ContentWrap>
+    <RequirementContext module="OV" />
     <el-form inline>
       <el-form-item label="法人主体"
         ><el-select v-model="entityId" @change="reset"
@@ -165,6 +166,7 @@
   </ContentWrap>
 </template>
 <script setup lang="ts">
+import RequirementContext from '../components/RequirementContext.vue'
 import request from '@/config/axios'
 import { labels } from '../input-issue/labels'
 defineOptions({ name: 'HrmPayrollOverview' })

@@ -6,12 +6,16 @@
       :closable="false"
     />
     <el-space class="my-4" wrap>
+      <el-button v-if="returnTarget" @click="router.push(returnTarget)">返回业务模块</el-button>
+      <el-button v-else-if="businessTarget" @click="router.push(businessTarget)"
+        >进入业务模块</el-button
+      >
       <el-select
         v-model="module"
         clearable
         placeholder="全部模块"
         style="width: 180px"
-        @change="load"
+        @change="changeModule"
       >
         <el-option v-for="(label, key) in modules" :key="key" :label="label" :value="key" />
       </el-select>
@@ -29,7 +33,25 @@
         >导出评审清单</el-button
       >
     </el-space>
-    <el-table v-loading="loading" :data="rows" stripe>
+    <el-collapse v-model="expandedSources" class="mb-4">
+      <el-collapse-item
+        name="sources"
+        :title="`${module ? modules[module] : '全部模块'}候选数据源与字段`"
+      >
+        <div class="mb-2"
+          >以下为候选目录；实际来源、字段映射、责任人及依据由评审人员维护，需求确认与数据就绪分别核实。</div
+        >
+        <el-table :data="sources" stripe>
+          <el-table-column prop="id" label="来源编号" width="100" />
+          <el-table-column prop="name" label="候选来源" min-width="180" />
+          <el-table-column label="必要字段" min-width="320"
+            ><template #default="{ row }">{{ row.fields.join('、') }}</template></el-table-column
+          >
+          <el-table-column prop="owner" label="候选确认方" min-width="160" />
+        </el-table>
+      </el-collapse-item>
+    </el-collapse>
+    <el-table data-testid="payroll-requirements" v-loading="loading" :data="rows" stripe>
       <el-table-column prop="code" label="编号" width="110" />
       <el-table-column label="模块" width="130"
         ><template #default="{ row }">{{
@@ -165,6 +187,14 @@
 <script setup lang="ts">
 import { formatDate } from '@/utils/formatTime'
 import { useUserStore } from '@/store/modules/user'
+import {
+  payrollModules,
+  payrollModule,
+  payrollModuleRoutes,
+  payrollReturnTarget,
+  sourcesForModules,
+  type PayrollModule
+} from '../requirements'
 import * as api from '@/api/hrm/payroll/requirement'
 import type { PayrollRequirement } from '@/api/hrm/payroll/requirement'
 import download from '@/utils/download'
@@ -173,18 +203,18 @@ defineOptions({ name: 'HrmPayrollRequirement' })
 const message = useMessage()
 const userStore = useUserStore()
 const users = ref<UserVO[]>([])
-const modules: Record<string, string> = {
-  OV: '薪酬总览',
-  PLAN: '薪酬方案',
-  CALC: '工资核算',
-  TAX: '个税与工资条',
-  ATT: '考勤',
-  OT: '加班',
-  HOUR: '工时',
-  INS: '社保公积金',
-  RPT: '报表分析',
-  COL: '需求征集'
-}
+const modules = payrollModules
+const route = useRoute()
+const router = useRouter()
+const returnTarget = computed(() => payrollReturnTarget(route.query.from))
+const businessTarget = computed(() =>
+  module.value ? payrollModuleRoutes[module.value] : undefined
+)
+const expandedSources = ref<string[]>([])
+const sources = computed(() =>
+  sourcesForModules(module.value ? [module.value] : (Object.keys(modules) as PayrollModule[]))
+)
+
 const states: Record<string, string> = {
   PENDING: '待确认',
   REVIEWING: '评审中',
@@ -199,7 +229,7 @@ const readiness: Record<string, string> = {
   EXEMPT: '不适用'
 }
 const rows = ref<PayrollRequirement[]>([])
-const module = ref<string>()
+const module = ref<PayrollModule | undefined>(payrollModule(route.query.module))
 const loading = ref(false),
   saving = ref(false),
   visible = ref(false),
@@ -208,7 +238,7 @@ const histories = ref<any[]>([]),
   formRef = ref()
 const empty = (): PayrollRequirement => ({
   code: '',
-  module: 'OV',
+  module: module.value || 'OV',
   description: '',
   priority: 2,
   status: 'PENDING',
@@ -231,6 +261,15 @@ const load = async () => {
     loading.value = false
   }
 }
+const changeModule = () =>
+  router.replace({ query: { ...route.query, module: module.value || undefined } })
+watch(
+  () => route.query.module,
+  async (value) => {
+    module.value = payrollModule(value)
+    await load()
+  }
+)
 const edit = (row?: PayrollRequirement) => {
   form.value = row ? { ...row } : empty()
   visible.value = true

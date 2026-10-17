@@ -1,5 +1,6 @@
 <template>
   <ContentWrap>
+    <RequirementContext module="CALC" />
     <el-alert
       title="代发使用冻结版本。成功明细不可再次发放；重试只包含失败明细。回盘需匹配明细编号、发放次数、银行账户和金额。"
       :closable="false"
@@ -236,6 +237,7 @@
   <Supplement ref="supplementRef" />
 </template>
 <script setup lang="ts">
+import RequirementContext from '../components/RequirementContext.vue'
 import { checkPermi } from '@/utils/permission'
 import Supplement from './Supplement.vue'
 const supplementRef = ref<InstanceType<typeof Supplement>>()

@@ -1,5 +1,6 @@
 <template>
   <ContentWrap>
+    <RequirementContext module="RPT" />
     <el-alert
       title="成本来源为冻结工资版本：应发工资 + 单位社保公积金 + 批准配置的单位成本 + 结清工资收回调整。分摊使用原核算历史归属，独立复核后方可正式导出。"
       type="info"
@@ -251,6 +252,7 @@
   </Dialog>
 </template>
 <script setup lang="ts">
+import RequirementContext from '../components/RequirementContext.vue'
 import request from '@/config/axios'
 import download from '@/utils/download'
 const message = useMessage(),

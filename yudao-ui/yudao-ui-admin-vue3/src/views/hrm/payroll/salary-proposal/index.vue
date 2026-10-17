@@ -1,5 +1,6 @@
 <template>
   <ContentWrap>
+    <RequirementContext module="PLAN" />
     <el-alert
       title="员工定薪、调薪及批量导入先提交审批申请。提交人、HR复核人、财务审批人必须不同；批准后按生效日期应用，冻结工资批次保持原版本。"
       type="info"
@@ -93,6 +94,7 @@
   </Dialog>
 </template>
 <script setup lang="ts">
+import RequirementContext from '../components/RequirementContext.vue'
 import * as api from '@/api/hrm/payroll/salary-proposal'
 import { formatDate } from '@/utils/formatTime'
 defineOptions({ name: 'HrmPayrollSalaryProposal' })
