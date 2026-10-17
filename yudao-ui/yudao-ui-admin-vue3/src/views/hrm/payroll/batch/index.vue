@@ -315,8 +315,13 @@ const savePlan = async () => {
   const batchId = selected.value?.id,
     date = plannedDate.value
   if (!batchId || !date) return
-  const reason = await message.prompt('填写计划发放安排依据；日期变更后须重新核算')
-  if (!reason || selected.value?.id !== batchId || plannedDate.value !== date) return
+  const { value } = await message.prompt('填写计划发放安排依据；日期变更后须重新核算')
+  const reason = value.trim()
+  if (selected.value?.id !== batchId || plannedDate.value !== date) return
+  if (!reason) {
+    message.warning('请填写非空的计划发放安排依据')
+    return
+  }
   savingPlan.value = true
   try {
     await api.paymentPlan(batchId, date, reason)
