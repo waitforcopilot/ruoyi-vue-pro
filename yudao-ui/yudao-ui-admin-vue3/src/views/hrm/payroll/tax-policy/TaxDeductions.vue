@@ -157,8 +157,12 @@ async function save() {
   }
 }
 async function review(id: number, approved: boolean) {
-  const reason = await message.prompt(approved ? '填写独立核对依据' : '填写退回原因')
-  if (!reason) return
+  const { value } = await message.prompt(approved ? '填写独立核对依据' : '填写退回原因')
+  const reason = value.trim()
+  if (!reason) {
+    message.warning('请填写非空的独立核对依据或退回原因')
+    return
+  }
   await api.review({ id, approved, reason })
   await load()
 }

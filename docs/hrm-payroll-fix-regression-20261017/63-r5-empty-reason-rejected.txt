@@ -1,0 +1,363 @@
+Browser tab: 1, Title: "芋道管理系统 - 年度税务政策", URL: "http://127.0.0.1:5173/hrm-payroll/tax-policy".
+0 AXWebArea 芋道管理系统 - 年度税务政策, URL: 127.0.0.1:5173/hrm-payroll/tax-policy
+	1 container
+		2 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		3 menu bar
+			4 首页
+				5 text 首页
+			6 作者动态
+				7 text 作者动态
+			8 Boot 开发文档
+				9 text Boot 开发文档
+			10 Cloud 开发文档
+				11 text Cloud 开发文档
+			12 (collapsed) 系统管理, Secondary Actions: Expand
+				13 container
+					14 text 系统管理
+					15 image
+			16 (collapsed) 基础设施, Secondary Actions: Expand
+				17 container
+					18 text 基础设施
+					19 image
+			20 (collapsed) 支付管理, Secondary Actions: Expand
+				21 container
+					22 text 支付管理
+					23 image
+			24 (collapsed) 报表管理, Secondary Actions: Expand
+				25 container
+					26 text 报表管理
+					27 image
+			28 (collapsed) 工作流程, Secondary Actions: Expand
+				29 container
+					30 text 工作流程
+					31 image
+			32 (collapsed) 会员中心, Secondary Actions: Expand
+				33 container
+					34 text 会员中心
+					35 image
+			36 (expanded) 薪酬管理, Secondary Actions: Collapse
+				37 container
+					38 text 薪酬管理
+					39 image
+				40 menu
+					41 定调薪审批
+						42 text 定调薪审批
+					43 工时与加班
+						44 text 工时与加班
+					45 薪级薪档
+						46 text 薪级薪档
+					47 考勤归集与异常
+						48 text 考勤归集与异常
+					49 法人主体与归属
+						50 text 法人主体与归属
+					51 缴费政策与年度调基
+						52 text 缴费政策与年度调基
+					53 缴费实缴对账
+						54 text 缴费实缴对账
+					55 核算输入与就绪
+						56 text 核算输入与就绪
+					57 年度税务政策
+						58 text 年度税务政策
+					59 薪酬成本分摊
+						60 text 薪酬成本分摊
+					61 预算与成本分析
+						62 text 预算与成本分析
+					63 薪酬输入缺口工单
+						64 text 薪酬输入缺口工单
+					65 社保公积金工资差额
+						66 text 社保公积金工资差额
+					67 薪酬总览
+						68 text 薪酬总览
+					69 独立工资收回
+						70 text 独立工资收回
+					71 需求评审
+						72 text 需求评审
+					73 核算审批
+						74 text 核算审批
+					75 银行代发
+						76 text 银行代发
+					77 薪资公式
+						78 text 薪资公式
+			79 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				80 container
+					81 text MALL 商城系统
+					82 image
+			83 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				84 container
+					85 text EAM 资产管理
+					86 image
+			87 (collapsed) CRM 系统, Secondary Actions: Expand
+				88 container
+					89 text CRM 系统
+					90 image
+			91 (collapsed) ERP 系统, Secondary Actions: Expand
+				92 container
+					93 text ERP 系统
+					94 image
+			95 (collapsed) WMS 系统, Secondary Actions: Expand
+				96 container
+					97 text WMS 系统
+					98 image
+			99 (collapsed) MES 系统, Secondary Actions: Expand
+				100 container
+					101 text MES 系统
+					102 image
+			103 (collapsed) OA 办公协同, Secondary Actions: Expand
+				104 container
+					105 text OA 办公协同
+					106 image
+			107 (collapsed) HRM 人力资源, Secondary Actions: Expand
+				108 container
+					109 text HRM 人力资源
+					110 image
+			111 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				112 container
+					113 text FMS 财务管理
+					114 image
+			115 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				116 container
+					117 text PMS 项目管理
+					118 image
+			119 (collapsed) AI 大模型, Secondary Actions: Expand
+				120 container
+					121 text AI 大模型
+					122 image
+			123 (collapsed) IoT 物联网, Secondary Actions: Expand
+				124 container
+					125 text IoT 物联网
+					126 image
+			127 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				128 container
+					129 text IM 即时通讯
+					130 image
+			131 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				132 container
+					133 text MP 公众号管理
+					134 image
+			135 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				136 container
+					137 text CMS 内容管理
+					138 image
+		139 container
+			140 container v-tool-header
+				141 container 面包屑
+					142 link 薪酬管理
+						143 text 薪酬管理
+					144 text /
+					145 link 年度税务政策
+						146 text 年度税务政策
+				147 container
+					148 combo box (collapsed, settable) ID: el-id-542-783, Secondary Actions: Expand
+					149 text 请选择租户
+					150 image
+				151 container
+					152 container
+						153 combo box (collapsed, settable) ID: el-id-542-784, Secondary Actions: Expand
+						154 text 请输入菜单内容
+				155 pop up button (collapsed) ID: el-id-542-749, Secondary Actions: Expand
+				156 pop up button (collapsed) ID: el-id-542-754, Secondary Actions: Expand
+				157 pop up button (collapsed) 芋道源码, ID: el-id-542-759, Secondary Actions: Expand
+			158 container v-tags-view
+				159 container
+					160 pop up button (collapsed) 首页, ID: el-id-542-765, Secondary Actions: Expand
+						161 container
+							162 text 首页
+					163 pop up button (collapsed) 缴费政策与年度调基, ID: el-id-542-788, Secondary Actions: Expand
+						164 container
+							165 text 缴费政策与年度调基
+					166 pop up button (collapsed) 年度税务政策, ID: el-id-542-825, Secondary Actions: Expand
+						167 container
+							168 text 年度税务政策
+					169 pop up button (collapsed) 核算输入与就绪, ID: el-id-542-921, Secondary Actions: Expand
+						170 container
+							171 text 核算输入与就绪
+				172 pop up button (collapsed) ID: el-id-542-773, Secondary Actions: Expand
+			173 container
+				174 button 本模块需求（个税与工资条）
+				175 button 候选数据源（3）
+			176 container
+				177 text 纳税主体
+				178 container
+					179 combo box (collapsed, settable) 纳税主体, ID: el-id-542-903, Secondary Actions: Expand
+					180 text 隔离浏览器全流程主体（虚构）
+					181 image
+				182 text 年度
+				183 container
+					184 button 减少数值
+					185 button 增加数值
+					186 stepper (settable, integer) 年度, Value: 2026, ID: el-id-542-904
+				187 button 查询
+				188 button 提交年度政策版本
+			189 text 政策版本须填写正式适用出处并独立批准。政策试算用于核对参数；员工实际累计、扣除与发放来源按税务档案确认。
+			190 container
+				191 table
+					192 row
+						193 cell
+							194 text 年度
+						195 cell
+							196 text 版本
+						197 cell
+							198 text 政策名称
+						199 cell
+							200 text 纳税登记号
+						201 cell
+							202 text 月减除费用
+						203 cell
+							204 text 状态
+						205 cell
+							206 text 正式适用出处
+						207 cell
+							208 text 操作
+				209 table
+					210 row
+						211 cell
+							212 text 2026
+						213 cell
+							214 text 1
+						215 cell
+							216 text 2026年居民工资及年终奖税务政策
+						217 cell
+							218 text TESTBROWSER20261017
+						219 cell
+							220 text 5000
+						221 cell
+							222 text 已批准
+						223 cell
+							224 text 虚构验收参数，仅用于本机隔离浏览器流程
+						225 cell
+							226 container
+								227 button 参数与依据
+								228 button 履历
+								229 button 试算
+			230 container
+				231 text 员工
+				232 container
+					233 combo box (collapsed, settable) 员工, ID: el-id-542-905, Secondary Actions: Expand
+					234 text ACCEPT_BROWSER_EMP 隔离浏览器流程员工
+					235 image
+				236 button 查询税务档案
+				237 button 提交年度档案
+			238 text 历史累计只填写本扣缴单位所属年度金额。零累计须明确声明；居民身份、首次工资在新入职前的资格及外单位奖金使用情况须提供可核实依据。
+			239 container
+				240 table
+					241 row
+						242 cell
+							243 text 纳税人
+						244 cell
+							245 text 脱敏标识
+						246 cell
+							247 text 居民资格
+						248 cell
+							249 text 版本
+						250 cell
+							251 text 状态
+						252 cell
+							253 text 期初资料截止日
+						254 cell
+							255 text 历史累计收入
+						256 cell
+							257 text 历史预缴
+						258 cell
+							259 text 操作
+				260 table
+					261 row
+						262 cell
+							263 text 隔离浏览器流程员工
+						264 cell
+							265 text ****0008
+						266 cell
+							267 text 居民
+						268 cell
+							269 text 1
+						270 cell
+							271 text 已批准
+						272 cell
+							273 text 2026-09-30
+						274 cell
+							275 text 0
+						276 cell
+							277 text 0
+						278 cell
+							279 container
+								280 button 依据
+								281 button 履历
+								282 button 核实完整标识
+								283 button 已发工资年度台账
+			349 container
+				350 text 报告月份
+				351 container
+					352 combo box (collapsed, settable) 报告月份, ID: el-id-542-1078, Secondary Actions: Expand
+					353 text 10月
+					354 image
+				355 button 查询扣除来源
+				356 button 提交申报资料
+			357 text 先选择员工。金额采用经授权的扣缴申报端本年累计资料，提交后需独立复核。工资输入可同步批准版本，资料变更后须重新复核。大病医疗仅年度汇算，不填入工资预扣资料。
+			358 container
+				359 table
+					360 row
+						361 cell
+							362 text 版本
+						363 cell
+							364 text 资料日期
+						365 cell
+							366 text 状态
+						367 cell
+							368 text 正式来源
+						369 cell
+							370 text 操作
+				371 table
+					372 row
+						373 cell
+							374 text 1
+						375 cell
+							376 text 2026-10-01
+						377 cell
+							378 text 待独立复核
+						379 cell
+							380 text 本机合成员工十月零专项附加扣除声明
+						381 cell
+							382 container
+								383 button 金额与履历
+								384 button 批准
+								385 button 驳回
+			321 text 按实际到账月份归集已成功付款及冻结税务来源，独立复核后导出申报准备文件。正式申报按主管税务机关格式办理，回填申报凭据并核对正式缴税／退税凭证；本页不向税务机关提交或付款。
+			322 container
+				323 text 收入月份
+				324 container
+					325 combo box (collapsed, settable) 收入月份, ID: el-id-542-907, Secondary Actions: Expand
+					326 text 9月
+					327 image
+				328 button 查询
+				329 button 生成申报版本
+			330 container
+				331 table
+					332 row
+						333 cell
+							334 text 版本
+						335 cell
+							336 text 状态
+						337 cell
+							338 text 申报应缴税合计
+						339 cell
+							340 text 正式申报凭据
+						341 cell
+							342 text 申报日期
+						343 cell
+							344 text 操作
+				345 container
+					346 table
+					347 text 暂无数据
+			348 text Copyright ©2026 芋道管理系统
+	386 container 系统提示
+		387 container
+			388 text 系统提示
+			389 button 关闭此对话框
+			390 container el-id-542-1079
+				391 text 填写独立核对依据
+				392 text field (settable) 填写独立核对依据, Value:    , ID: el-id-542-1080
+			393 button 取消
+			394 button 确定
+	395 container message_8
+		396 text 请填写非空的独立核对依据或退回原因
+
+The focused UI element is 384 button 批准
