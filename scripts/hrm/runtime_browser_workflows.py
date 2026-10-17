@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--state-file', required=True)
 parser.add_argument('--base-url', default='http://127.0.0.1:4173')
 parser.add_argument('--output-dir', type=Path, required=True)
-parser.add_argument('--case', choices=['confirmation', 'context'], default='confirmation')
+parser.add_argument('--case', choices=['confirmation', 'context', 'mobile'], default='confirmation')
 args = parser.parse_args()
 if urllib.parse.urlparse(args.base_url).hostname not in ('127.0.0.1', 'localhost'):
     parser.error('Only local isolated frontends are supported')
@@ -58,20 +58,72 @@ async def context_workflow(page, errors):
     (args.output_dir / 'f06-browser.json').write_text(json.dumps({'cases': results, 'untrustedReturnTargetIgnored': True, 'pageErrors': errors}, ensure_ascii=False, indent=2))
     print('Passed: all nine module contexts, source dictionaries, form defaults and return navigation')
 
+async def mobile_workflow(page, errors, width):
+    await page.goto(args.base_url + '/hrm-payroll/requirement', wait_until='networkidle')
+    add = page.get_by_role('button', name='新增需求', exact=True)
+    try:
+        await add.tap(timeout=2500)
+    except Exception:
+        await page.touchscreen.tap(20, 25)
+        try:
+            await add.tap(timeout=2500)
+        except Exception:
+            await page.touchscreen.tap(width - 20, 450)
+            await add.tap()
+    dialog = page.locator('.el-dialog:visible')
+    save = dialog.get_by_role('button', name='保存', exact=True)
+    bounds = await dialog.bounding_box()
+    footer = await save.bounding_box()
+    assert bounds and bounds['x'] >= 0 and bounds['x'] + bounds['width'] <= width, bounds
+    assert footer and footer['x'] >= 0 and footer['x'] + footer['width'] <= width, footer
+    assert footer['y'] >= 0 and footer['y'] + footer['height'] <= 844, footer
+    code = 'COL-' + str(time.time_ns())[-6:]
+    await dialog.locator('.el-form-item').filter(has_text='编号').locator('input').fill(code)
+    await dialog.locator('.el-form-item').filter(has_text='功能说明').locator('textarea').fill('隔离触控验收：自适应表单与可达保存区')
+    await page.screenshot(path=str(args.output_dir / f'f07-form-{width}.png'))
+    await save.tap()
+    await dialog.wait_for(state='hidden')
+    await page.reload(wait_until='networkidle')
+    await page.get_by_text(code, exact=True).wait_for()
+    record = next(row for row in c.ok('/hrm/payroll/requirement/list') if row['code'] == code)
+    assert record['status'] == 'PENDING'
+    assert not errors, errors
+    return {'viewportWidth': width, 'hasTouch': True, 'dialogBounds': bounds,
+            'initialSaveButtonBounds': footer, 'requirementCode': code,
+            'persistedAfterRefresh': True, 'pageErrors': errors}
+
+async def login(page):
+    await page.goto(args.base_url + '/login?redirect=/hrm-payroll/requirement', wait_until='networkidle')
+    await page.locator('input[placeholder="请输入租户名称"]:visible').fill('芋道源码')
+    await page.locator('input[placeholder="请输入用户名"]:visible').fill('hrmacceptoperator')
+    await page.locator('input[placeholder="请输入密码"]:visible').fill(c.state['browserPassword'])
+    await page.get_by_role('button', name='登录', exact=True).click()
+    await page.wait_for_url(lambda url: '/login' not in url, timeout=60000)
+
 async def main():
     async with async_playwright() as playwright:
         browser = await playwright.chromium.launch(executable_path=os.environ.get('HRM_CHROMIUM_PATH', '/usr/bin/chromium'), headless=True, args=['--no-sandbox', '--disable-dev-shm-usage'])
+        if args.case == 'mobile':
+            results = []
+            for width in (390, 768, 1440):
+                context = await browser.new_context(viewport={'width': width, 'height': 844}, has_touch=True, is_mobile=width < 600)
+                page = await context.new_page()
+                page.set_default_timeout(15000)
+                errors = []
+                page.on('pageerror', lambda error: errors.append(str(error)))
+                await login(page)
+                results.append(await mobile_workflow(page, errors, width))
+                await context.close()
+            (args.output_dir / 'f07-browser.json').write_text(json.dumps({'cases': results}, ensure_ascii=False, indent=2))
+            await browser.close()
+            print('Passed: 390/768/1440 touch create, visible save footer and persisted reload')
+            return
         context = await browser.new_context(viewport={'width': 1440, 'height': 1000})
         page = await context.new_page()
         page.set_default_timeout(15000)
         errors = []
         page.on('pageerror', lambda error: errors.append(str(error)))
-        await page.goto(args.base_url + '/login?redirect=/hrm-payroll/requirement', wait_until='networkidle')
-        await page.locator('input[placeholder="请输入租户名称"]:visible').fill('芋道源码')
-        await page.locator('input[placeholder="请输入用户名"]:visible').fill('hrmacceptoperator')
-        await page.locator('input[placeholder="请输入密码"]:visible').fill(c.state['browserPassword'])
-        await page.get_by_role('button', name='登录', exact=True).click()
-        await page.wait_for_url(lambda url: '/login' not in url, timeout=60000)
+        await login(page)
         if args.case == 'context':
             await context_workflow(page, errors)
             await browser.close()

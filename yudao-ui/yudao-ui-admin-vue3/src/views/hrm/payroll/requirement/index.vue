@@ -81,8 +81,22 @@
       >
     </el-table>
   </ContentWrap>
-  <Dialog v-model="visible" title="需求评审" width="720px">
-    <el-form ref="formRef" :model="form" :rules="rules" label-width="120px">
+  <Dialog
+    v-model="visible"
+    title="需求评审"
+    width="min(720px, calc(100vw - 24px))"
+    top="16px"
+    scroll
+    max-height="min(650px, calc(100dvh - 190px))"
+  >
+    <el-form
+      ref="formRef"
+      class="requirement-form"
+      :model="form"
+      :rules="rules"
+      label-width="120px"
+      :label-position="width < 600 ? 'top' : 'right'"
+    >
       <el-form-item label="编号" prop="code"
         ><el-input v-model="form.code" placeholder="例如 PLAN-06"
       /></el-form-item>
@@ -157,7 +171,14 @@
       ><el-button type="primary" :loading="saving" @click="save">保存</el-button></template
     >
   </Dialog>
-  <Dialog v-model="historyVisible" title="评审历史" width="800px">
+  <Dialog
+    v-model="historyVisible"
+    title="评审历史"
+    width="min(800px, calc(100vw - 24px))"
+    top="16px"
+    scroll
+    max-height="min(650px, calc(100dvh - 190px))"
+  >
     <el-table :data="histories">
       <el-table-column prop="version" label="版本" width="70" />
       <el-table-column label="操作人" width="100"
@@ -185,6 +206,7 @@
   </Dialog>
 </template>
 <script setup lang="ts">
+import { useWindowSize } from '@vueuse/core'
 import { formatDate } from '@/utils/formatTime'
 import { useUserStore } from '@/store/modules/user'
 import {
@@ -200,6 +222,7 @@ import type { PayrollRequirement } from '@/api/hrm/payroll/requirement'
 import download from '@/utils/download'
 import { getSimpleUserList, type UserVO } from '@/api/system/user'
 defineOptions({ name: 'HrmPayrollRequirement' })
+const { width } = useWindowSize()
 const message = useMessage()
 const userStore = useUserStore()
 const users = ref<UserVO[]>([])
@@ -320,3 +343,12 @@ onMounted(async () => {
   await Promise.all([load(), getSimpleUserList().then((data) => (users.value = data))])
 })
 </script>
+
+<style scoped>
+.requirement-form :deep(.el-select) {
+  width: 100%;
+}
+.requirement-form {
+  padding-right: 12px;
+}
+</style>
