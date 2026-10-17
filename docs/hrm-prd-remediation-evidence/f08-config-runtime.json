@@ -1,0 +1,17 @@
+{
+  "config": {
+    "id": 2,
+    "cycleStartDay": 1,
+    "cycleEndDay": 31,
+    "socialSecurityMonthType": 1,
+    "startYear": 2026,
+    "startMonth": 9,
+    "createTime": 1792205371000
+  },
+  "allBatchesScoped": true,
+  "batchIds": [
+    4,
+    3,
+    2
+  ]
+}

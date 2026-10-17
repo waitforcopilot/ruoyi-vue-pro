@@ -1,17 +1,14 @@
 package cn.iocoder.yudao.module.hrm.service.salary.config;
 
-import cn.iocoder.yudao.module.hrm.service.salary.monthrecord.HrmSalaryMonthRecordService;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.module.hrm.controller.admin.salary.vo.config.HrmSalaryConfigCreateReqVO;
 import cn.iocoder.yudao.module.hrm.controller.admin.salary.vo.config.HrmSalaryConfigUpdateReqVO;
-import cn.iocoder.yudao.module.hrm.controller.admin.salary.vo.monthrecord.HrmSalaryMonthRecordCreateReqVO;
 import cn.iocoder.yudao.module.hrm.dal.dataobject.salary.config.HrmSalaryConfigDO;
 import cn.iocoder.yudao.module.hrm.dal.mysql.salary.config.HrmSalaryConfigMapper;
 import com.mzt.logapi.context.LogRecordContext;
 import com.mzt.logapi.service.impl.DiffParseFunction;
 import com.mzt.logapi.starter.annotation.LogRecord;
 import javax.annotation.Resource;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -37,10 +34,6 @@ public class HrmSalaryConfigServiceImpl implements HrmSalaryConfigService {
     @Resource
     private HrmSalaryConfigMapper salaryConfigMapper;
 
-    @Resource
-    @Lazy // 延迟加载
-    private HrmSalaryMonthRecordService salaryMonthRecordService;
-
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long createSalaryConfig(HrmSalaryConfigCreateReqVO createReqVO) {
@@ -53,10 +46,7 @@ public class HrmSalaryConfigServiceImpl implements HrmSalaryConfigService {
         config.setCycleEndDay(config.getCycleStartDay() == 1 ? 31 : config.getCycleStartDay() - 1);
         salaryConfigMapper.insert(config);
 
-        // 3. 创建启用月份的工资表
-        HrmSalaryMonthRecordCreateReqVO monthRecordCreateReqVO = new HrmSalaryMonthRecordCreateReqVO()
-                .setYear(config.getStartYear()).setMonth(config.getStartMonth());
-        salaryMonthRecordService.createMonthRecord(monthRecordCreateReqVO);
+        // Tenant-wide settings cannot select a legal entity. Create scoped batches explicitly.
         return config.getId();
     }
 

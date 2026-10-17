@@ -1,5 +1,8 @@
 <template>
-  <doc-alert title="【薪资】计薪设置、薪资档案、月度工资、工资条" url="https://doc.iocoder.cn/hrm/salary/config/" />
+  <doc-alert
+    title="【薪资】计薪设置、薪资档案、月度工资、工资条"
+    url="https://doc.iocoder.cn/hrm/salary/config/"
+  />
 
   <!-- 计薪配置 -->
   <ContentWrap>
@@ -8,6 +11,12 @@
       title="计薪初始化已完成，仅可调整对应社保自然月。"
       type="info"
       show-icon
+      :closable="false"
+      class="mb-15px"
+    />
+    <el-alert
+      title="保存计薪配置后，请到工资核算按法人主体创建批次。"
+      type="info"
       :closable="false"
       class="mb-15px"
     />

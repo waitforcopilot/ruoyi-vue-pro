@@ -19,8 +19,6 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_CONFIG
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_CONFIG_NOT_EXISTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 /**
@@ -61,8 +59,8 @@ public class HrmSalaryConfigServiceImplTest extends BaseDbUnitTest {
         assertPojoEquals(createReqVO, config, "id", "cycleEndDay");
         assertEquals(25, config.getCycleEndDay());
         assertEquals(1L, salaryConfigMapper.selectCount());
-        verify(salaryMonthRecordService).createMonthRecord(argThat(reqVO ->
-                reqVO.getYear() == 2026 && reqVO.getMonth() == 7));
+        // Initialization must not invent an unscoped batch or require entity approval.
+        verifyNoInteractions(salaryMonthRecordService);
     }
 
     @Test
