@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>薪酬管理模块 · HR系统原型与需求征集模版</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314535C'/%3E%3Cpath d='M8 22V12l8 6 8-6v10' fill='none' stroke='%23FFB75E' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+/* ===================== 设计规范 =====================
+   产品层(真实系统): 冷色商务蓝 / 海港蓝
+   需求征集层(标注): 琥珀色标签与卡片
+   ==================================================== */
+:root{
+  --bg:#F2F5F9;
+  --surface:#FFFFFF;
+  --surface-2:#F8FAFC;
+  --border:#E3E8F0;
+  --border-strong:#CBD5E1;
+  --ink:#16202E;
+  --ink-2:#41536B;
+  --ink-3:#7A8BA3;
+  --brand:#14539C;
+  --brand-deep:#0E3B74;
+  --brand-soft:#E8F1FB;
+  --brand-soft-line:#C7DCF2;
+  --req:#C7791F;
+  --req-deep:#9A5B10;
+  --req-soft:#FFF3DD;
+  --req-soft-line:#F3D8A6;
+  --ok:#1C8A4C;
+  --ok-soft:#E4F4EA;
+  --warn:#D97706;
+  --warn-soft:#FDF1DC;
+  --danger:#D64545;
+  --danger-soft:#FBE8E8;
+  --info:#1673A8;
+  --info-soft:#E6F3FA;
+  --sidebar:#123046;
+  --sidebar-hi:#1A425E;
+  --shadow:0 1px 2px rgba(20,40,60,.06),0 4px 14px rgba(20,40,60,.05);
+  --radius:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;
+  background:var(--bg);color:var(--ink);font-size:14px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+/* ---------- 布局骨架 ---------- */
+.app{display:flex;min-height:100vh}
+.sidebar{
+  width:232px;flex:0 0 232px;background:linear-gradient(180deg,#123046 0%,#0E2A3E 100%);
+  color:#C6D4E2;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.brand{display:flex;align-items:center;gap:10px;padding:18px 18px 14px}
+.brand .logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#1F6FB2,#14539C);display:grid;place-items:center;color:#fff;flex:0 0 auto}
+.brand .t{font-weight:700;color:#F2F7FC;font-size:15px;letter-spacing:.3px}
+.brand .s{font-size:11px;color:#8FA9C4;margin-top:2px}
+.nav-group{padding:8px 0}
+.nav-group .g-label{font-size:11px;color:#7E97B2;padding:10px 18px 5px;letter-spacing:.8px;font-weight:600}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 18px;cursor:pointer;color:#C6D4E2;border-left:3px solid transparent;font-size:13.5px;transition:.15s}
+.nav-item svg{width:17px;height:17px;flex:0 0 auto;opacity:.85}
+.nav-item:hover{background:rgba(255,255,255,.05);color:#fff}
+.nav-item.active{background:rgba(255,255,255,.09);color:#fff;border-left-color:#FFB75E;font-weight:600}
+.sidebar-foot{margin-top:auto;padding:14px 18px;font-size:11px;color:#7E97B2;border-top:1px solid rgba(255,255,255,.07);line-height:1.5}
+/* ---------- 主区 ---------- */
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{
+  height:56px;background:var(--surface);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:14px;padding:0 22px;position:sticky;top:0;z-index:20;
+}
+.breadcrumb{font-size:13px;color:var(--ink-3)}
+.breadcrumb b{color:var(--ink);font-weight:600}
+.topbar .spacer{flex:1}
+.top-actions{display:flex;gap:10px;align-items:center}
+.period-pill{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:20px;padding:6px 12px;font-size:12.5px;color:var(--ink-2)}
+.period-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);flex:0 0 auto}
+/* ---------- 内容容器 ---------- */
+.content{padding:22px;flex:1;max-width:1280px;width:100%;margin:0 auto}
+.view{display:none;animation:fade .25s ease}
+.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.view-head{display:flex;align-items:flex-end;gap:16px;margin-bottom:18px;flex-wrap:wrap}
+.view-head h1{font-size:21px;font-weight:700;letter-spacing:.2px}
+.view-head .sub{font-size:13px;color:var(--ink-3);margin-top:4px}
+.view-head .spacer{flex:1}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:8px 15px;border-radius:8px;font-size:13px;font-weight:600;transition:.15s;border:1px solid transparent}
+.btn svg{width:15px;height:15px}
+.btn.primary{background:var(--brand);color:#fff}
+.btn.primary:hover{background:var(--brand-deep)}
+.btn.ghost{background:var(--surface);border-color:var(--border);color:var(--ink-2)}
+.btn.ghost:hover{border-color:var(--border-strong);color:var(--ink)}
+.btn.req{background:var(--req-soft);border-color:var(--req-soft-line);color:var(--req-deep)}
+.btn.req:hover{background:#FFE9C6}
+.btn.sm{padding:5px 11px;font-size:12.5px}
+/* ---------- KPI 卡片 ---------- */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 17px;box-shadow:var(--shadow)}
+.kpi .k-label{font-size:12.5px;color:var(--ink-3);display:flex;align-items:center;gap:6px}
+.kpi .k-label .tag{font-size:10.5px;color:var(--ink-3);border:1px solid var(--border);padding:1px 6px;border-radius:5px}
+.kpi .k-val{font-size:24px;font-weight:700;margin-top:8px;letter-spacing:.2px}
+.kpi .k-val small{font-size:13px;color:var(--ink-3);font-weight:500;margin-left:2px}
+.kpi .k-sub{font-size:12px;color:var(--ink-3);margin-top:5px;display:flex;align-items:center;gap:5px}
+.kpi .k-sub .up{color:var(--ok)}
+.kpi .k-sub .down{color:var(--danger)}
+/* ---------- 面板/卡片 ---------- */
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:16px}
+.panel-head{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border)}
+.panel-head h3{font-size:15px;font-weight:700}
+.panel-head .desc{font-size:12px;color:var(--ink-3);margin-left:2px}
+.panel-head .spacer{flex:1}
+.panel-body{padding:16px 18px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+/* ---------- 表格 ---------- */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+th{font-size:12px;color:var(--ink-3);font-weight:600;text-align:left;padding:9px 10px;border-bottom:1px solid var(--border);background:var(--surface-2);white-space:nowrap}
+td{font-size:13px;padding:10px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:#FAFCFE}
+.tbl-note{font-size:11.5px;color:var(--ink-3);padding:8px 10px 0}
+/* ---------- 徽标 ---------- */
+.pill{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.danger{background:var(--danger-soft);color:var(--danger)}
+.pill.info{background:var(--info-soft);color:var(--info)}
+.pill.muted{background:var(--surface-2);color:var(--ink-3);border:1px solid var(--border)}
+.pill.req{background:var(--req-soft);color:var(--req-deep);border:1px solid var(--req-soft-line)}
+.amount{font-variant-numeric:tabular-nums;font-weight:600}
+.num{font-variant-numeric:tabular-nums}
+/* ---------- 需求征集层 ---------- */
+.req-panel{background:var(--req-soft);border:1px solid var(--req-soft-line);border-left:4px solid var(--req);border-radius:var(--radius);padding:15px 18px;margin:18px 0 6px}
+.req-panel .r-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.req-panel .r-head .r-icon{width:22px;height:22px;border-radius:6px;background:var(--req);color:#fff;display:grid;place-items:center;flex:0 0 auto}
+.req-panel .r-head .r-icon svg{width:13px;height:13px}
+.req-panel .r-title{font-weight:700;color:var(--req-deep);font-size:13.5px}
+.req-panel .r-tag{font-size:11px;color:var(--req-deep);border:1px solid var(--req-soft-line);background:#fff;padding:2px 8px;border-radius:5px;margin-left:auto;white-space:nowrap}
+.req-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.req-block{background:#fff;border:1px solid var(--req-soft-line);border-radius:8px;padding:11px 13px}
+.req-block h4{font-size:12px;color:var(--req-deep);margin-bottom:8px;display:flex;align-items:center;gap:6px;font-weight:700}
+.req-block h4 svg{width:13px;height:13px}
+.req-block ul{list-style:none;display:grid;gap:6px}
+.req-block li{font-size:12.5px;color:var(--ink-2);display:flex;gap:7px;align-items:flex-start}
+.req-block li::before{content:"";width:6px;height:6px;border-radius:2px;background:var(--req);margin-top:6px;flex:0 0 auto}
+.req-block .ds{font-size:11px;color:var(--req-deep);background:var(--req-soft);border-radius:4px;padding:1px 5px;font-weight:600}
+.req-status{margin-top:10px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-2);flex-wrap:wrap}
+.req-status .bar{flex:1;min-width:120px;height:6px;background:var(--req-soft-line);border-radius:4px;overflow:hidden}
+.req-status .bar i{display:block;height:100%;background:var(--req);border-radius:4px}
+/* 征集清单(需求总览) */
+.req-table td:first-child{width:20%}
+.req-table .row-main{font-weight:600;color:var(--ink)}
+.req-table .row-sub{font-size:11.5px;color:var(--ink-3);margin-top:2px}
+/* ---------- 流程/时间轴 ---------- */
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative}
+.flow-step{text-align:center;padding:0 8px;position:relative}
+.flow-step .f-ic{width:38px;height:38px;border-radius:50%;margin:0 auto 8px;display:grid;place-items:center;background:var(--brand-soft);color:var(--brand);border:1px solid var(--brand-soft-line)}
+.flow-step .f-ic svg{width:18px;height:18px}
+.flow-step.done .f-ic{background:var(--ok-soft);color:var(--ok);border-color:#BFE3CE}
+.flow-step.cur .f-ic{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:0 0 0 4px var(--brand-soft)}
+.flow-step .f-t{font-size:13px;font-weight:600;color:var(--ink)}
+.flow-step .f-d{font-size:11.5px;color:var(--ink-3);margin-top:2px}
+.flow-connector{position:absolute;top:19px;left:50%;right:-50%;height:2px;background:var(--border-strong)}
+/* ---------- 表单 ---------- */
+.form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.field label{font-size:12px;color:var(--ink-3);display:block;margin-bottom:6px;font-weight:500}
+.field input,.field select{width:100%;padding:8px 11px;border:1px solid var(--border-strong);border-radius:8px;font-size:13px;font-family:inherit;background:#fff;color:var(--ink)}
+.field input:focus,.field select:focus{outline:2px solid var(--brand-soft);border-color:var(--brand)}
+/* ---------- 图表容器 ---------- */
+.chart{width:100%;height:260px}
+.chart.sm{height:210px}
+.chart.tall{height:320px}
+/* ---------- 徽标图例 ---------- */
+.legend-line{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);margin-top:8px}
+.legend-line .li{display:flex;align-items:center;gap:6px}
+.legend-line .sw{width:10px;height:10px;border-radius:3px;flex:0 0 auto}
+/* ---------- 工具 ---------- */
+.empty-hint{font-size:12px;color:var(--ink-3);font-style:normal}
+.muted{color:var(--ink-3)}
+.tbl-cap{font-size:11px;color:var(--ink-3);padding:6px 10px 12px;display:flex;gap:8px;align-items:center}
+.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:#16202E;color:#fff;padding:10px 18px;border-radius:9px;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast .tag{color:#FFB75E;font-weight:700;margin-right:6px}
+/* ---------- 响应式 ---------- */
+@media (max-width:980px){
+  .sidebar{position:fixed;left:-240px;transition:.25s;z-index:50;height:100vh}
+  .sidebar.open{left:0}
+  .menu-btn{display:grid!important;place-items:center;width:44px;height:44px;border-radius:8px;border:1px solid var(--border);background:var(--surface-2)}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .grid-2,.grid-3,.req-cols,.form-grid{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr;gap:14px}
+  .flow-connector{display:none}
+  .content{padding:16px}
+}
+@media (max-width:640px){
+  .btn{padding:10px 14px}
+}
+@media (max-width:560px){
+  .kpi-grid{grid-template-columns:1fr}
+  .breadcrumb{display:none}
+  .period-pill{display:none}
+  .top-actions .btn.ghost{display:none}
+  .topbar{padding:0 12px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- ===== 侧边导航 ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17V8l8 5 8-5v9"/></svg>
+      </div>
+      <div>
+        <div class="t">HR 人力资源系统</div>
+        <div class="s">薪酬管理模块 · 原型与需求模版</div>
+      </div>
+    </div>
+    <div class="nav-group">
+      <div class="g-label">总览</div>
+      <div class="nav-item" data-view="overview">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        薪酬总览
+      </div>
+      <div class="g-label">薪酬基础</div>
+      <div class="nav-item" data-view="plan">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="M6 12v4c0 1.7 2.7 3 6 3s6-1.3 6-3v-4"/><path d="M20 8v8"/></svg>
+        薪酬方案
+      </div>
+      <div class="g-label">核算流程</div>
+      <div class="nav-item" data-view="calc">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h.01M12 7h.01M16 7h.01M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01"/></svg>
+        工资核算
+      </div>
+      <div class="nav-item" data-view="tax">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9Z"/><path d="M6 10V7a6 6 0 0 1 12 0v3"/><path d="M12 15v3"/></svg>
+        个税与工资条
+      </div>
+      <div class="g-label">数据要素</div>
+      <div class="nav-item" data-view="attendance">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        考勤数据
+      </div>
+      <div class="nav-item" data-view="overtime">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8Z"/><path d="M6 4h12"/><path d="M10 12v4M14 12v4"/></svg>
+        加班管理
+      </div>
+      <div class="nav-item" data-view="hours">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5h-3"/><path d="M5 19 3 21"/><path d="M19 19l2 2"/></svg>
+        工时管理
+      </div>
+      <div class="g-label">法定成本</div>
+      <div class="nav-item" data-view="insurance">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg>
+        社保公积金
+      </div>
+      <div class="g-label">分析与征集</div>
+      <div class="nav-item" data-view="report">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15v-5M12 15V7M17 15v-3"/></svg>
+        报表分析
+      </div>
+      <div class="nav-item req-item" data-view="req">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#FFB75E" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/><path d="m17 15 2 2 4-4"/></svg>
+        需求征集总览
+      </div>
+    </div>
+    <div class="sidebar-foot">原型 v0.1 · 2026-09 · 用于征集薪酬模块功能需求与数据源需求</div>
+  </aside>
+
+  <!-- ===== 主区 ===== -->
+  <div class="main">
+    <header class="topbar">
+      <button class="menu-btn" style="display:none" id="menuBtn" onclick="document.getElementById('sidebar').classList.toggle('open')">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <div class="breadcrumb">薪酬管理模块 / <b id="crumbTitle">薪酬总览</b></div>
+      <div class="spacer"></div>
+      <div class="period-pill"><span class="dot"></span><span>核算期间：2026年09月</span></div>
+      <div class="top-actions">
+        <button class="btn ghost sm" onclick="goto('req')">征集需求清单</button>
+        <button class="btn req sm" onclick="toast('本原型用于征集功能与数据源需求，示例数据仅为演示。')">原型说明</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <!-- ===== 视图由 JS 注入 ===== -->
+      <div id="views"></div>
+    </main>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===================== 路由与公共 ===================== */
+const VIEWS = [
+  {id:'overview', title:'薪酬总览'},
+  {id:'plan', title:'薪酬方案'},
+  {id:'calc', title:'工资核算'},
+  {id:'tax', title:'个税与工资条'},
+  {id:'attendance', title:'考勤数据'},
+  {id:'overtime', title:'加班管理'},
+  {id:'hours', title:'工时管理'},
+  {id:'insurance', title:'社保公积金'},
+  {id:'report', title:'报表分析'},
+  {id:'req', title:'需求征集总览'}
+];
+const charts = {};
+let toastTimer=null;
+function toast(msg){const t=document.getElementById('toast');t.innerHTML='<span class="tag">演示</span>'+msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2800);}
+function goto(id){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active', n.dataset.view===id));
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const el=document.getElementById('view-'+id);
+  if(el){el.classList.add('active');document.getElementById('sidebar').classList.remove('open');}
+  const c=VIEWS.find(v=>v.id===id);if(c)document.getElementById('crumbTitle').textContent=c.title;
+  if(id!=='req' && id!=='overview'){ /* 需求按钮已内嵌在各模块 */ }
+  window.scrollTo({top:0,behavior:'auto'});
+  // 重绘该视图中的图表
+  Object.keys(charts).forEach(k=>{if(charts[k].view===id)charts[k].inst.resize();});
+}
+function mountChart(id,view,opt){
+  const el=document.getElementById(id);if(!el||el.__charted)return;
+  el.__charted=true;
+  const c=echarts.init(el);c.setOption(opt);charts[id]={inst:c,view};
+  window.addEventListener('resize',()=>c.resize());
+}
+/* 视图模板 */
+const reqPanel=(fn,ds,note)=>`<div class="req-panel">
+  <div class="r-head"><span class="r-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/><path d="m17 15 2 2 4-4"/></svg></span><span class="r-title">需求征集 · 本模块</span><span class="r-tag">征集模板</span></div>
+  <div class="req-cols">
+    <div class="req-block"><h4><svg viewBox="0 0 24 24" fill="none" stroke="#C7791F" stroke-width="2" stroke-linecap="round"><path d="M9 11 12 8l3 3"/><path d="M9 15l3-3 3 3"/></svg>功能需求点</h4><ul>${fn.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+    <div class="req-block"><h4><svg viewBox="0 0 24 24" fill="none" stroke="#C7791F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg>依赖数据源</h4><ul>${ds.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+  </div>
+  <div class="req-status"><span>需求征集进度：</span><span class="bar"><i style="width:35%"></i></span><span class="muted">已梳理 35% · 待相关方确认</span><span style="margin-left:auto" class="pill req">可点此反馈</span></div>
+</div>`;
+
+const views = {};
+
+/* ============ 视图：薪酬总览 ============ */
+views.overview = `<section class="view active" id="view-overview">
+  <div class="view-head">
+    <div><h1>薪酬总览</h1><div class="sub">2026年09月核算期间 · 全模块数据要素与功能点一览（示例数据）</div></div>
+    <div class="spacer"></div>
+    <button class="btn ghost" onclick="toast('查看历史批次：演示中，将跳转批次查询。')">查看历史批次</button>
+    <button class="btn primary" onclick="toast('开始本月核算：演示中。')">开始本月核算</button>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="k-label">本月应发工资总额 <span class="tag">汇总</span></div><div class="k-val"><span class="amount">1,286,450</span><small>元</small></div><div class="k-sub"><span class="up">▲ 3.2%</span><span>环比上月</span></div></div>
+    <div class="kpi"><div class="k-label">实发工资 <span class="tag">净额</span></div><div class="k-val"><span class="amount">1,047,890</span><small>元</small></div><div class="k-sub">覆盖 <b class="num">312</b> 名员工</div></div>
+    <div class="kpi"><div class="k-label">社保公积金合计 <span class="tag">法定成本</span></div><div class="k-val"><span class="amount">168,240</span><small>元</small></div><div class="k-sub"><span class="down">▼ 0.6%</span><span>基数年度调整后</span></div></div>
+    <div class="kpi"><div class="k-label">个税代扣 <span class="tag">税务</span></div><div class="k-val"><span class="amount">70,320</span><small>元</small></div><div class="k-sub">累计预扣法 · 代扣代缴</div></div>
+  </div>
+  <div class="grid-2">
+    <div class="panel"><div class="panel-head"><h3>月度薪酬成本趋势</h3><span class="desc">近6个月 · 应发 / 实发</span></div><div class="panel-body"><div class="chart" id="ch_ov_trend"></div></div></div>
+    <div class="panel"><div class="panel-head"><h3>本月薪资结构占比</h3><span class="desc">应发口径构成</span></div><div class="panel-body"><div class="chart" id="ch_ov_pie"></div></div></div>
+  </div>
+  <div class="panel"><div class="panel-head"><h3>核算待办与异常</h3><span class="desc">进入正式算薪前的数据要素核对项</span></div><div class="panel-body tbl-wrap">
+    <table><colgroup><col style="width:22%"><col style="width:20%"><col style="width:20%"><col style="width:24%"><col style="width:14%"></colgroup>
+      <thead><tr><th>事项</th><th>涉及数据源</th><th>状态</th><th>说明</th><th>操作</th></tr></thead>
+      <tbody>
+        <tr><td class="row-main">本月考勤数据归集</td><td>考勤打卡 / 请假单 / 出差单</td><td><span class="pill warn">进行中</span></td><td class="muted">已完成 92%，3 人异常待确认</td><td><button class="btn ghost sm" onclick="toast('跳转考勤数据模块（演示）。')">处理</button></td></tr>
+        <tr><td class="row-main">加班单审批核验</td><td>加班申请 / 审批流</td><td><span class="pill ok">已完成</span></td><td class="muted">本月 46 张加班单全部审批通过</td><td><button class="btn ghost sm" onclick="goto('overtime')">查看</button></td></tr>
+        <tr><td class="row-main">社保公积金基数确认</td><td>基数申报 / 比例标准</td><td><span class="pill warn">待确认</span></td><td class="muted">新入职 8 人基数待核定</td><td><button class="btn ghost sm" onclick="goto('insurance')">查看</button></td></tr>
+        <tr><td class="row-main">工时数据校核</td><td>工时报表 / 排班表</td><td><span class="pill ok">已完成</span></td><td class="muted">综合工时制 5 个部门核对无差异</td><td><button class="btn ghost sm" onclick="goto('hours')">查看</button></td></tr>
+      </tbody>
+    </table>
+  </div></div>
+  ${reqPanel(['总览层汇总指标（应发/实发/法定成本/个税）的统计口径定义','核算期间切换与历史批次查询','各数据要素(考勤/加班/工时/社保)归集完成度看板','异常数据触发核对的规则与提醒'],['薪酬明细表（按期间汇总）','考勤汇总表','加班工时汇总','社保公积金缴纳汇总','个税申报汇总'])}
+</section>`;
+
+/* ============ 视图：薪酬方案 ============ */
+views.plan = `<section class="view" id="view-plan">
+  <div class="view-head">
+    <div><h1>薪酬方案</h1><div class="sub">薪酬结构、薪级标准与定调薪（示例数据，用于征集规则与数据源）</div></div>
+    <div class="spacer"></div>
+    <button class="btn primary" onclick="toast('新建薪酬方案：演示中。')">新建方案</button>
+  </div>
+  <div class="panel"><div class="panel-head"><h3>薪酬结构模板</h3><span class="desc">应发薪酬的构成项目与计算口径</span></div><div class="panel-body tbl-wrap">
+    <table><colgroup><col style="width:14%"><col style="width:30%"><col style="width:20%"><col style="width:20%"><col style="width:16%"></colgroup>
+      <thead><tr><th>项目</th><th>计算口径 / 规则</th><th>适用范围</th><th>数据来源</th><th>是否可配置</th></tr></thead>
+      <tbody>
+        <tr><td class="row-main">基本工资</td><td>按薪级薪档固定金额</td><td>全体员工</td><td>人事档案 · 薪级表</td><td><span class="pill ok">可配置</span></td></tr>
+        <tr><td class="row-main">岗位工资</td><td>按岗位职级系数</td><td>管理/技术岗</td><td>岗位职级表</td><td><span class="pill ok">可配置</span></td></tr>
+        <tr><td class="row-main">绩效工资</td><td>绩效基数 × 月度绩效系数</td><td>参与考核员工</td><td>绩效考核结果</td><td><span class="pill ok">可配置</span></td></tr>
+        <tr><td class="row-main">加班费</td><td>加班时长 × 时薪 × 倍率</td><td>适用标准工时员工</td><td>加班单 · 工时制度</td><td><span class="pill ok">可配置</span></td></tr>
+        <tr><td class="row-main">津贴补贴</td><td>餐补/交通/通讯等固定或按规则</td><td>按岗位/城市</td><td>补贴标准表</td><td><span class="pill ok">可配置</span></td></tr>
+        <tr><td class="row-main">考勤扣款</td><td>迟到/早退/缺勤按规则扣减</td><td>全体员工</td><td>考勤汇总</td><td><span class="pill ok">可配置</span></td></tr>
+        <tr><td class="row-main">社保公积金</td><td>基数 × 比例（单位+个人）</td><td>全体参保员工</td><td>社保公积金缴纳表</td><td><span class="pill ok">可配置</span></td></tr>
+        <tr><td class="row-main">个人所得税</td><td>累计预扣法按月计算</td><td>全员</td><td>累计收入/专项附加扣除</td><td><span class="pill ok">可配置</span></td></tr>
+      </tbody>
+    </table>
+    <div class="tbl-note">「数据来源」列即本模板征集的数据源需求项——每项薪酬构成需明确对应的上游业务数据表。</div>
+  </div></div>
+  <div class="grid-2">
+    <div class="panel"><div class="panel-head"><h3>薪级薪档表（示例）</h3></div><div class="panel-body tbl-wrap">
+      <table><colgroup><col style="width:22%"><col style="width:22%"><col style="width:22%"><col style="width:34%"></colgroup>
+        <thead><tr><th>薪级</th><th>薪档</th><th>基本工资（元）</th><th>适用岗位族</th></tr></thead>
+        <tbody>
+          <tr><td class="num">P1</td><td class="num">1档</td><td class="amount">8,000</td><td>初级专员</td></tr>
+          <tr><td class="num">P2</td><td class="num">2档</td><td class="amount">11,000</td><td>专员</td></tr>
+          <tr><td class="num">P3</td><td class="num">3档</td><td class="amount">15,000</td><td>高级专员</td></tr>
+          <tr><td class="num">M1</td><td class="num">1档</td><td class="amount">22,000</td><td>基层管理</td></tr>
+          <tr><td class="num">M2</td><td class="num">2档</td><td class="amount">32,000</td><td>中层管理</td></tr>
+        </tbody>
+      </table>
+      <div class="tbl-note">示例数据 · 实际薪级表需按公司职级体系导入。</div>
+    </div></div>
+    <div class="panel"><div class="panel-head"><h3>定薪 / 调薪</h3><span class="desc">录入与审批（原型表单）</span></div><div class="panel-body">
+      <div class="form-grid">
+        <div class="field"><label>员工</label><input placeholder="姓名 / 工号" onfocus="this.placeholder=''"></div>
+        <div class="field"><label>变动类型</label><select><option>入职定薪</option><option>调薪</option><option>转正调薪</option><option>晋升调薪</option></select></div>
+        <div class="field"><label>薪酬项目</label><select><option>基本工资</option><option>岗位工资</option></select></div>
+        <div class="field"><label>新金额（元）</label><input type="number" placeholder="0" onfocus="this.placeholder=''"></div>
+        <div class="field"><label>生效日期</label><input placeholder="YYYY-MM-DD" onfocus="this.placeholder=''"></div>
+        <div class="field"><label>审批人</label><select><option>直属上级</option><option>HRBP</option></select></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:14px"><button class="btn primary sm" onclick="toast('定薪/调薪申请已提交（演示）。')">提交申请</button><button class="btn ghost sm" onclick="toast('已清空表单（演示）。')">重置</button></div>
+    </div></div>
+  </div>
+  ${reqPanel(['薪酬结构与各项目的规则可配置化','薪级薪档表的维护与批量导入','定薪/调薪流程（含审批链与生效追溯）','薪酬方案版本管理与历史对比'],['人事档案（职级/岗位/入离职）','薪级薪档表','岗位职级系数表','补贴标准表','调薪审批流'])}
+</section>`;
+
+/* ============ 视图：工资核算 ============ */
+views.calc = `<section class="view" id="view-calc">
+  <div class="view-head">
+    <div><h1>工资核算</h1><div class="sub">月度核算流程与批次管理（示例数据）</div></div>
+    <div class="spacer"></div>
+    <button class="btn primary" onclick="toast('新建核算批次：演示中。')">新建批次</button>
+  </div>
+  <div class="panel"><div class="panel-head"><h3>月度核算流程</h3></div><div class="panel-body">
+    <div class="flow">
+      <div class="flow-step done"><div class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 7 4 12l4 5M16 7l4 5-4 5"/></svg></div><div class="f-t">数据归集</div><div class="f-d">考勤·加班·工时·社保</div></div>
+      <div class="flow-step cur"><div class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg></div><div class="f-t">试算校验</div><div class="f-d">异常数据拦截</div></div>
+      <div class="flow-step"><div class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v6c0 4 3 7 7 9 4-2 7-5 7-9V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg></div><div class="f-t">审批</div><div class="f-d">HR·财务·管理层</div></div>
+      <div class="flow-step"><div class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg></div><div class="f-t">发放</div><div class="f-d">银行代发</div></div>
+      <div class="flow-step"><div class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/><path d="m17 15 2 2 4-4"/></svg></div><div class="f-t">归档</div><div class="f-d">工资条·报表·备查</div></div>
+    </div>
+  </div></div>
+  <div class="panel"><div class="panel-head"><h3>核算批次列表</h3><span class="desc">示例：近三个月批次</span></div><div class="panel-body tbl-wrap">
+    <table><colgroup><col style="width:16%"><col style="width:12%"><col style="width:10%"><col style="width:14%"><col style="width:14%"><col style="width:12%"><col style="width:10%"><col style="width:12%"></colgroup>
+      <thead><tr><th>核算期间</th><th>状态</th><th>人数</th><th>应发合计（元）</th><th>实发合计（元）</th><th>发放方式</th><th>发放日期</th><th>操作</th></tr></thead>
+      <tbody>
+        <tr><td class="num">2026年09月</td><td><span class="pill warn">核算中</span></td><td class="num">312</td><td class="amount">1,286,450</td><td class="amount">—</td><td class="muted">银行代发</td><td class="muted">待定</td><td><button class="btn ghost sm" onclick="toast('进入本批次核算（演示）。')">核算</button></td></tr>
+        <tr><td class="num">2026年08月</td><td><span class="pill ok">已发放</span></td><td class="num">309</td><td class="amount">1,246,180</td><td class="amount">1,015,720</td><td class="muted">银行代发</td><td class="num">2026-09-10</td><td><button class="btn ghost sm" onclick="toast('查看批次明细（演示）。')">查看</button></td></tr>
+        <tr><td class="num">2026年07月</td><td><span class="pill ok">已发放</span></td><td class="num">305</td><td class="amount">1,221,540</td><td class="amount">992,360</td><td class="muted">银行代发</td><td class="num">2026-08-10</td><td><button class="btn ghost sm" onclick="toast('查看批次明细（演示）。')">查看</button></td></tr>
+      </tbody>
+    </table>
+  </div></div>
+  <div class="panel"><div class="panel-head"><h3>员工核算明细（示例）</h3><span class="desc">应发 - 各项扣款 - 个税 = 实发</span></div><div class="panel-body tbl-wrap">
+    <table><colgroup><col style="width:12%"><col style="width:10%"><col style="width:10%"><col style="width:9%"><col style="width:9%"><col style="width:10%"><col style="width:10%"><col style="width:9%"><col style="width:10%"><col style="width:11%"></colgroup>
+      <thead><tr><th>员工</th><th>部门</th><th>应发合计</th><th>考勤扣款</th><th>加班费</th><th>社保个人</th><th>公积金个人</th><th>个税</th><th>实发</th><th>状态</th></tr></thead>
+      <tbody>
+        <tr><td>张丽 · 0031</td><td>市场部</td><td class="amount">21,450</td><td class="num">0</td><td class="amount">1,240</td><td class="num">1,108</td><td class="num">1,200</td><td class="num">2,108</td><td class="amount">16,790</td><td><span class="pill ok">已确认</span></td></tr>
+        <tr><td>王强 · 0187</td><td>研发部</td><td class="amount">34,800</td><td class="num">180</td><td class="amount">3,450</td><td class="num">1,508</td><td class="num">1,560</td><td class="num">4,260</td><td class="amount">27,892</td><td><span class="pill warn">待核对</span></td></tr>
+        <tr><td>李敏 · 0102</td><td>人力资源部</td><td class="amount">18,200</td><td class="num">0</td><td class="amount">0</td><td class="num">1,008</td><td class="num">1,120</td><td class="num">1,405</td><td class="amount">14,667</td><td><span class="pill ok">已确认</span></td></tr>
+      </tbody>
+    </table>
+    <div class="tbl-note">数值为演示数据，用于说明「工资核算 = 应发 ± 考勤/加班/工时调整 - 社保公积金个人 - 个税」的完整口径。</div>
+  </div></div>
+  ${reqPanel(['核算批次生命周期（草稿→试算→审批→发放→归档）','算薪公式引擎（各薪酬项目自动计算与调整）','异常数据拦截与人工核对','银行代发文件生成与回盘核对','工资条生成与员工自助查看'],['员工主数据','考勤汇总','加班工时汇总','社保公积金缴纳表','专项附加扣除/个税数据','银行代发明细'])}
+</section>`;
+/* ============ 视图：个税与工资条 ============ */
+views.tax = `<section class="view" id="view-tax">
+  <div class="view-head">
+    <div><h1>个税与工资条</h1><div class="sub">累计预扣法个税计算与员工工资条（示例数据）</div></div>
+    <div class="spacer"></div>
+    <button class="btn primary" onclick="toast('批量生成工资条：演示中。')">生成工资条</button>
+  </div>
+  <div class="grid-2">
+    <div class="panel"><div class="panel-head"><h3>个税计算规则</h3><span class="desc">累计预扣法（示例口径）</span></div><div class="panel-body">
+      <ul style="list-style:none;display:grid;gap:8px;font-size:13px;color:var(--ink-2)">
+        <li>应纳税所得额 = 累计收入 - 累计免税收入 - 累计减除费用(5000×月) - 累计专项扣除(社保公积金) - 累计专项附加扣除 - 累计其他扣除</li>
+        <li>本期应预扣税额 = (累计预扣预缴应纳税所得额 × 预扣率 - 速算扣除数) - 累计已预扣税额</li>
+      </ul>
+      <div class="tbl-note">专项附加扣除：子女教育、继续教育、大病医疗、住房贷款利息、住房租金、赡养老人、3岁以下婴幼儿照护。</div>
+    </div></div>
+    <div class="panel"><div class="panel-head"><h3>代扣代缴统计（本月）</h3></div><div class="panel-body">
+      <div class="kpi-grid" style="grid-template-columns:1fr 1fr;margin-bottom:0">
+        <div class="kpi"><div class="k-label">本期个税合计</div><div class="k-val"><span class="amount">70,320</span><small>元</small></div></div>
+        <div class="kpi"><div class="k-label">涉及员工</div><div class="k-val"><span class="num">196</span><small>人</small></div></div>
+      </div>
+    </div></div>
+  </div>
+  <div class="panel"><div class="panel-head"><h3>员工工资条（示例）</h3><span class="desc">张丽 · 市场部 · 2026年09月</span></div><div class="panel-body tbl-wrap">
+    <table><colgroup><col style="width:25%"><col style="width:25%"><col style="width:25%"><col style="width:25%"></colgroup>
+      <thead><tr><th>应发项目</th><th>金额（元）</th><th>扣减项目</th><th>金额（元）</th></tr></thead>
+      <tbody>
+        <tr><td>基本工资</td><td class="amount">12,000</td><td>社保个人</td><td class="amount">1,108</td></tr>
+        <tr><td>绩效工资</td><td class="amount">6,000</td><td>公积金个人</td><td class="amount">1,200</td></tr>
+        <tr><td>岗位工资</td><td class="amount">2,000</td><td>考勤扣款</td><td class="amount">0</td></tr>
+        <tr><td>加班费</td><td class="amount">1,240</td><td>个人所得税</td><td class="amount">2,108</td></tr>
+        <tr><td>津贴补贴</td><td class="amount">210</td><td></td><td></td></tr>
+        <tr style="font-weight:700;background:var(--surface-2)"><td>应发合计</td><td class="amount">21,450</td><td>扣减合计</td><td class="amount">4,416</td></tr>
+        <tr style="font-weight:700;background:var(--brand-soft)"><td>实发工资</td><td class="amount" colspan="3">17,034 元（四舍五入）</td></tr>
+      </tbody>
+    </table>
+    <div class="tbl-note">工资条以员工自助或邮件形式发送，需与银行代发明细一致。</div>
+  </div></div>
+  ${reqPanel(['个税累计预扣法自动计算','专项附加扣除采集与同步','工资条模板配置与多渠道推送(自助端/邮件/短信)','个税申报表与完税数据导出','年终奖单独计税处理'],['累计收入数据','社保公积金个人缴纳','专项附加扣除申报数据','税率表(官方)','银行代发明细','员工联系方式'])}
+</section>`;
+
+/* ============ 视图：考勤数据 ============ */
+views.attendance = `<section class="view" id="view-attendance">
+  <div class="view-head">
+    <div><h1>考勤数据</h1><div class="sub">考勤规则与出勤数据接入（示例数据，用于征集考勤数据源需求）</div></div>
+    <div class="spacer"></div>
+    <button class="btn primary" onclick="toast('同步考勤数据：演示中。')">同步考勤数据</button>
+  </div>
+  <div class="grid-2">
+    <div class="panel"><div class="panel-head"><h3>考勤规则（示例）</h3></div><div class="panel-body tbl-wrap">
+      <table><colgroup><col style="width:34%"><col style="width:33%"><col style="width:33%"></colgroup>
+        <thead><tr><th>规则项</th><th>设定</th><th>数据来源</th></tr></thead>
+        <tbody>
+          <tr><td class="row-main">标准工时</td><td>9:00-18:00（午休1h）</td><td>考勤制度</td></tr>
+          <tr><td class="row-main">迟到阈值</td><td>晚于9:00为迟到</td><td>考勤规则配置</td></tr>
+          <tr><td class="row-main">迟到扣款</td><td>每次扣30元（超过30分钟按缺勤）</td><td>薪酬规则</td></tr>
+          <tr><td class="row-main">请假类型</td><td>年假/事假/病假/婚假等</td><td>请假申请单</td></tr>
+        </tbody>
+      </table>
+    </div></div>
+    <div class="panel"><div class="panel-head"><h3>月度出勤汇总（示例）</h3></div><div class="panel-body tbl-wrap">
+      <table><colgroup><col style="width:30%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:14%"></colgroup>
+        <thead><tr><th>员工</th><th>应出勤(天)</th><th>实出勤(天)</th><th>迟到(次)</th><th>请假(天)</th><th>缺勤(天)</th></tr></thead>
+        <tbody>
+          <tr><td>张丽</td><td class="num">22</td><td class="num">22</td><td class="num">0</td><td class="num">0</td><td class="num">0</td></tr>
+          <tr><td>王强</td><td class="num">22</td><td class="num">20</td><td class="num">2</td><td class="num">1</td><td class="num">0</td></tr>
+          <tr><td>李敏</td><td class="num">22</td><td class="num">21</td><td class="num">1</td><td class="num">1</td><td class="num">0</td></tr>
+        </tbody>
+      </table>
+    </div></div>
+  </div>
+  <div class="panel"><div class="panel-head"><h3>异常考勤待处理</h3><span class="desc">进入算薪前需人工确认的异常记录</span></div><div class="panel-body tbl-wrap">
+    <table><colgroup><col style="width:22%"><col style="width:20%"><col style="width:18%"><col style="width:24%"><col style="width:16%"></colgroup>
+      <thead><tr><th>员工</th><th>日期</th><th>异常类型</th><th>说明</th><th>操作</th></tr></thead>
+      <tbody>
+        <tr><td>王强</td><td class="num">09-18</td><td><span class="pill warn">缺卡</span></td><td class="muted">下班卡缺失，待确认加班/外出</td><td><button class="btn ghost sm" onclick="toast('打开异常处理（演示）。')">处理</button></td></tr>
+        <tr><td>赵刚</td><td class="num">09-20</td><td><span class="pill warn">旷工嫌疑</span></td><td class="muted">无打卡且无请假单</td><td><button class="btn ghost sm" onclick="toast('打开异常处理（演示）。')">处理</button></td></tr>
+        <tr><td>周婷</td><td class="num">09-22</td><td><span class="pill info">补卡申请</span></td><td class="muted">出差，待关联出差单</td><td><button class="btn ghost sm" onclick="toast('打开异常处理（演示）。')">处理</button></td></tr>
+      </tbody>
+    </table>
+  </div></div>
+  ${reqPanel(['考勤数据按日/按月归集与汇总','请假/出差/外出单据与打卡数据自动关联','迟到/早退/缺勤/旷工规则判定','异常考勤提醒与人工处理闭环','考勤结果与薪酬计算的联动'],['考勤打卡记录(考勤机/门禁/移动打卡)','请假单','出差单','补卡申请','考勤规则配置'])}
+</section>`;
+
+/* ============ 视图：加班管理 ============ */
+views.overtime = `<section class="view" id="view-overtime">
+  <div class="view-head">
+    <div><h1>加班管理</h1><div class="sub">加班审批、工时与加班费计算（示例数据）</div></div>
+    <div class="spacer"></div>
+    <button class="btn primary" onclick="toast('新建加班申请：演示中。')">新建申请</button>
+  </div>
+  <div class="grid-2">
+    <div class="panel"><div class="panel-head"><h3>加班费倍率标准</h3></div><div class="panel-body tbl-wrap">
+      <table><colgroup><col style="width:34%"><col style="width:26%"><col style="width:40%"></colgroup>
+        <thead><tr><th>时段类型</th><th>倍率</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td class="row-main">工作日加班</td><td><span class="pill ok">1.5 倍</span></td><td class="muted">平日延时，按小时计算</td></tr>
+          <tr><td class="row-main">休息日加班</td><td><span class="pill warn">2.0 倍</span></td><td class="muted">周末，可调休抵扣</td></tr>
+          <tr><td class="row-main">法定节假日加班</td><td><span class="pill danger">3.0 倍</span></td><td class="muted">不可调休</td></tr>
+        </tbody>
+      </table>
+    </div></div>
+    <div class="panel"><div class="panel-head"><h3>加班费测算公式</h3></div><div class="panel-body" style="font-size:13px;color:var(--ink-2);display:grid;gap:8px">
+      <div>时薪 = 月基本工资 ÷ 21.75天 ÷ 8小时</div>
+      <div>加班费 = 加班时长 × 时薪 × 对应倍率</div>
+      <div class="tbl-note" style="padding:0">示例：基本工资12,000元，平日加班10小时 → 加班费 = (12000÷21.75÷8) × 10 × 1.5 ≈ <b class="amount">1,034 元</b></div>
+    </div></div>
+  </div>
+  <div class="panel"><div class="panel-head"><h3>本月加班单（示例）</h3></div><div class="panel-body tbl-wrap">
+    <table><colgroup><col style="width:18%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:12%"></colgroup>
+      <thead><tr><th>员工</th><th>日期</th><th>类型</th><th>时长(小时)</th><th>倍率</th><th>预估加班费(元)</th><th>审批</th></tr></thead>
+      <tbody>
+        <tr><td>王强</td><td class="num">09-15</td><td>工作日</td><td class="num">3</td><td class="num">1.5</td><td class="amount">310</td><td><span class="pill ok">通过</span></td></tr>
+        <tr><td>张丽</td><td class="num">09-18</td><td>工作日</td><td class="num">4</td><td class="num">1.5</td><td class="amount">414</td><td><span class="pill ok">通过</span></td></tr>
+        <tr><td>李敏</td><td class="num">09-21</td><td>休息日</td><td class="num">8</td><td class="num">2.0</td><td class="amount">1,655</td><td><span class="pill warn">待审批</span></td></tr>
+        <tr><td>赵刚</td><td class="num">10-01</td><td>法定节假</td><td class="num">8</td><td class="num">3.0</td><td class="amount">2,483</td><td><span class="pill danger">已驳回</span></td></tr>
+      </tbody>
+    </table>
+    <div class="tbl-note">加班费是否计入应发、是否可调休，需按公司薪酬制度在规则层配置。</div>
+  </div></div>
+  ${reqPanel(['加班申请与审批流（关联考勤打卡时长）','加班时长统计与倍率规则计算','加班费自动生成并进入工资核算','调休/补休管理','加班合规上限提醒'],['加班申请单','审批流','考勤打卡记录(时长核实)','薪酬规则(倍率/时薪)','调休记录'])}
+</section>`;
+
+/* ============ 视图：工时管理 ============ */
+views.hours = `<section class="view" id="view-hours">
+  <div class="view-head">
+    <div><h1>工时管理</h1><div class="sub">工时制度与工时统计（示例数据）</div></div>
+    <div class="spacer"></div>
+    <button class="btn primary" onclick="toast('生成工时报表：演示中。')">生成工时报表</button>
+  </div>
+  <div class="panel"><div class="panel-head"><h3>工时制度适用（示例）</h3></div><div class="panel-body tbl-wrap">
+    <table><colgroup><col style="width:30%"><col style="width:34%"><col style="width:36%"></colgroup>
+      <thead><tr><th>工时制度</th><th>适用部门/岗位</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td class="row-main">标准工时制</td><td>职能、研发、市场等</td><td class="muted">每日8小时，每周40小时</td></tr>
+        <tr><td class="row-main">综合工时制</td><td>生产、客服轮班部门</td><td class="muted">按月/季周期结算，需核算周期内总工时</td></tr>
+        <tr><td class="row-main">不定时工时制</td><td>高管、外勤销售</td><td class="muted">不计加班费，按约定薪酬</td></tr>
+      </tbody>
+    </table>
+  </div></div>
+  <div class="panel"><div class="panel-head"><h3>工时统计（示例 · 综合工时制部门）</h3></div><div class="panel-body tbl-wrap">
+    <table><colgroup><col style="width:20%"><col style="width:20%"><col style="width:20%"><col style="width:20%"><col style="width:20%"></colgroup>
+      <thead><tr><th>员工</th><th>周期应出勤(小时)</th><th>实际出勤(小时)</th><th>超出/不足(小时)</th><th>结算处理</th></tr></thead>
+      <tbody>
+        <tr><td>陈晨</td><td class="num">176</td><td class="num">184</td><td class="num">+8</td><td class="muted">计入加班/调休</td></tr>
+        <tr><td>孙浩</td><td class="num">176</td><td class="num">172</td><td class="num">-4</td><td class="muted">考勤扣减</td></tr>
+        <tr><td>何洁</td><td class="num">176</td><td class="num">176</td><td class="num">0</td><td class="muted">正常</td></tr>
+      </tbody>
+    </table>
+  </div></div>
+  ${reqPanel(['不同工时制度的员工适用维护','综合/不定时工时周期结算','工时报表生成与异常提醒','工时数据与加班费/考勤扣款的联动','工时与排班表关联核对'],['员工工时制度档案','排班表','考勤打卡明细','工时结算规则'])}
+</section>`;
+/* ============ 视图：社保公积金 ============ */
+views.insurance = `<section class="view" id="view-insurance">
+  <div class="view-head">
+    <div><h1>社保公积金</h1><div class="sub">缴存基数、比例标准与月度缴纳测算（示例数据，用于征集法定成本数据源需求）</div></div>
+    <div class="spacer"></div>
+    <button class="btn primary" onclick="toast('发起基数申报：演示中。')">基数申报</button>
+  </div>
+  <div class="panel"><div class="panel-head"><h3>缴存基数与比例标准（示例口径）</h3><span class="desc">单位 + 个人缴费</span></div><div class="panel-body tbl-wrap">
+    <table><colgroup><col style="width:18%"><col style="width:18%"><col style="width:18%"><col style="width:13%"><col style="width:13%"><col style="width:20%"></colgroup>
+      <thead><tr><th>项目</th><th>基数下限(元)</th><th>基数上限(元)</th><th>单位比例</th><th>个人比例</th><th>数据来源</th></tr></thead>
+      <tbody>
+        <tr><td class="row-main">养老保险</td><td class="num">4,200</td><td class="num">26,400</td><td class="num">16%</td><td class="num">8%</td><td class="muted">当地社保基数口径</td></tr>
+        <tr><td class="row-main">医疗保险</td><td class="num">4,200</td><td class="num">26,400</td><td class="num">9%</td><td class="num">2%</td><td class="muted">当地社保基数口径</td></tr>
+        <tr><td class="row-main">失业保险</td><td class="num">4,200</td><td class="num">26,400</td><td class="num">0.5%</td><td class="num">0.5%</td><td class="muted">当地社保基数口径</td></tr>
+        <tr><td class="row-main">工伤保险</td><td class="num">4,200</td><td class="num">26,400</td><td class="num">0.4%</td><td class="num">—</td><td class="muted">行业费率</td></tr>
+        <tr><td class="row-main">生育保险</td><td class="num">4,200</td><td class="num">26,400</td><td class="num">0.8%</td><td class="num">—</td><td class="muted">当地政策</td></tr>
+        <tr><td class="row-main">住房公积金</td><td class="num">2,420</td><td class="num">31,800</td><td class="num">12%</td><td class="num">12%</td><td class="muted">当地公积金口径</td></tr>
+      </tbody>
+    </table>
+    <div class="tbl-note">比例与基数为<strong>示例口径</strong>，实际需按参保城市现行政策配置；单位缴费计入用工成本，个人缴费在工资中代扣。</div>
+  </div></div>
+  <div class="panel"><div class="panel-head"><h3>月度缴纳测算（示例）</h3><span class="desc">单位+个人合计</span></div><div class="panel-body tbl-wrap">
+    <table><colgroup><col style="width:16%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:14%"></colgroup>
+      <thead><tr><th>员工</th><th>缴费基数(元)</th><th>养老(个人)</th><th>医疗(个人)</th><th>公积金(个人)</th><th>个人合计(元)</th><th>单位合计(元)</th></tr></thead>
+      <tbody>
+        <tr><td>张丽</td><td class="num">12,000</td><td class="num">960</td><td class="num">240</td><td class="num">1,440</td><td class="amount">2,640</td><td class="amount">4,572</td></tr>
+        <tr><td>王强</td><td class="num">18,000</td><td class="num">1,440</td><td class="num">360</td><td class="num">2,160</td><td class="amount">3,960</td><td class="amount">6,858</td></tr>
+        <tr><td>李敏</td><td class="num">10,000</td><td class="num">800</td><td class="num">200</td><td class="num">1,200</td><td class="amount">2,200</td><td class="amount">3,810</td></tr>
+      </tbody>
+    </table>
+  </div></div>
+  ${reqPanel(['缴存基数申报与年度调基','比例与基数按城市/政策配置','个人扣款自动进入工资核算','单位缴费计入用工成本报表','社保公积金月度缴纳台账与对账'],['参保员工名单','社保/公积金缴费基数','当地比例标准(政策数据)','月度缴费明细(社保/公积金系统)','员工入离职变动'])}
+</section>`;
+
+/* ============ 视图：报表分析 ============ */
+views.report = `<section class="view" id="view-report">
+  <div class="view-head">
+    <div><h1>报表分析</h1><div class="sub">薪酬成本与结构分析（示例数据）</div></div>
+    <div class="spacer"></div>
+    <button class="btn primary" onclick="toast('导出报表：演示中。')">导出报表</button>
+  </div>
+  <div class="grid-2">
+    <div class="panel"><div class="panel-head"><h3>部门薪酬成本对比</h3><span class="desc">本月应发 · 按部门</span></div><div class="panel-body"><div class="chart" id="ch_rp_dept"></div></div></div>
+    <div class="panel"><div class="panel-head"><h3>用工成本构成</h3><span class="desc">应发 + 单位社保公积金</span></div><div class="panel-body"><div class="chart" id="ch_rp_cost"></div></div></div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="k-label">人力成本率</div><div class="k-val"><span class="amount">18.6</span><small>%</small></div><div class="k-sub">人工成本 ÷ 营收</div></div>
+    <div class="kpi"><div class="k-label">人均月薪</div><div class="k-val"><span class="amount">4,123</span><small>元</small></div><div class="k-sub">应发 ÷ 在岗人数</div></div>
+    <div class="kpi"><div class="k-label">员工薪酬满意度</div><div class="k-val"><span class="amount">82</span><small>%</small></div><div class="k-sub">年度调研参考</div></div>
+    <div class="kpi"><div class="k-label">离职率（月）</div><div class="k-val"><span class="amount">1.4</span><small>%</small></div><div class="k-sub">薪酬竞争力相关</div></div>
+  </div>
+  ${reqPanel(['薪酬成本按部门/成本中心/项目分摊','人力成本率与人均指标计算','薪酬结构多维分析(占比/变动)','工资总额预算与实际对比','报表口径与导出格式'],['薪酬核算明细','社保公积金缴纳汇总','组织/部门档案','营收/预算数据','员工编制人数'])}
+</section>`;
+
+/* ============ 视图：需求征集总览 ============ */
+views.req = `<section class="view" id="view-req">
+  <div class="view-head">
+    <div><h1>需求征集总览</h1><div class="sub">薪酬管理模块 · 功能需求与数据源需求汇总清单（征集模版核心）</div></div>
+    <div class="spacer"></div>
+    <button class="btn req" onclick="toast('导出征集清单：演示中。')">导出征集清单</button>
+  </div>
+  <div class="panel"><div class="panel-head"><h3>征集说明</h3></div><div class="panel-body" style="font-size:13px;color:var(--ink-2);display:grid;gap:6px">
+    <div>本页面为薪酬管理模块的<strong>需求征集模版</strong>，左侧各页面展示模块功能原型，本页汇总全模块的<strong>功能需求点</strong>与<strong>依赖数据源</strong>。</div>
+    <div>请各相关方（HR、财务、IT、业务部门）逐项确认：<span class="pill ok">已确认</span> <span class="pill warn">待确认</span> <span class="pill danger">有异议</span>，并补充遗漏的功能点与数据源。</div>
+  </div></div>
+  <div class="panel"><div class="panel-head"><h3>全模块需求清单</h3><span class="desc">功能需求 × 数据源需求 × 征集状态</span></div><div class="panel-body tbl-wrap">
+    <table class="req-table"><colgroup><col style="width:20%"><col style="width:34%"><col style="width:28%"><col style="width:8%"><col style="width:10%"></colgroup>
+      <thead><tr><th>模块</th><th>功能需求点</th><th>依赖数据源</th><th>优先级</th><th>征集状态</th></tr></thead>
+      <tbody>
+        <tr><td class="row-main">薪酬总览</td><td>汇总指标、核算期间切换、数据归集完成度看板、异常提醒</td><td>薪酬明细、考勤/加班/工时/社保汇总</td><td><span class="pill info">高</span></td><td><span class="pill ok">已确认</span></td></tr>
+        <tr><td class="row-main">薪酬方案</td><td>薪酬结构可配置、薪级表维护、定调薪流程、版本管理</td><td>人事档案、薪级表、岗位职级表、补贴标准、调薪审批流</td><td><span class="pill info">高</span></td><td><span class="pill warn">待确认</span></td></tr>
+        <tr><td class="row-main">工资核算</td><td>批次生命周期、算薪公式引擎、异常拦截、银行代发、工资条</td><td>员工主数据、考勤汇总、加班工时、社保公积金、个税、代发明细</td><td><span class="pill info">高</span></td><td><span class="pill warn">待确认</span></td></tr>
+        <tr><td class="row-main">个税与工资条</td><td>累计预扣法、专项附加扣除、工资条多渠道推送、年终奖</td><td>累计收入、社保个人、专项附加扣除、税率表、银行明细</td><td><span class="pill info">高</span></td><td><span class="pill warn">待确认</span></td></tr>
+        <tr><td class="row-main">考勤数据</td><td>考勤归集、单据关联、异常判定与处理、与薪酬联动</td><td>考勤打卡、请假/出差/补卡单、考勤规则</td><td><span class="pill info">高</span></td><td><span class="pill warn">待确认</span></td></tr>
+        <tr><td class="row-main">加班管理</td><td>加班审批、倍率计算、调休、合规提醒</td><td>加班申请、审批流、打卡时长、薪酬规则、调休记录</td><td><span class="pill warn">中</span></td><td><span class="pill warn">待确认</span></td></tr>
+        <tr><td class="row-main">工时管理</td><td>工时制度维护、周期结算、报表、异常提醒</td><td>工时制度档案、排班表、考勤明细、结算规则</td><td><span class="pill warn">中</span></td><td><span class="pill danger">有异议</span></td></tr>
+        <tr><td class="row-main">社保公积金</td><td>基数申报、比例配置、个人扣款联动、缴纳台账</td><td>参保名单、缴费基数、政策比例、缴费明细、入离职变动</td><td><span class="pill info">高</span></td><td><span class="pill warn">待确认</span></td></tr>
+        <tr><td class="row-main">报表分析</td><td>成本分摊、人效指标、结构分析、预算对比、口径导出</td><td>薪酬明细、社保汇总、组织档案、营收预算、编制</td><td><span class="pill warn">中</span></td><td><span class="pill warn">待确认</span></td></tr>
+      </tbody>
+    </table>
+    <div class="tbl-note">征集状态由相关方在评审会上确认后更新；「有异议」项需单独复盘，如工时结算规则口径。</div>
+  </div></div>
+  <div class="req-panel" style="margin-bottom:0"><div class="r-head"><span class="r-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/><path d="m17 15 2 2 4-4"/></svg></span><span class="r-title">征集推进建议</span></div>
+    <div class="req-cols">
+      <div class="req-block"><h4>下一步</h4><ul><li>组织 HR / 财务 / IT 三方评审会，逐项过功能需求点</li><li>数据源需求交由 IT 盘点现有系统（考勤/排班/社保/财务）能否供给</li><li>明确各数据源的负责人、更新频率与接口方式</li></ul></div>
+      <div class="req-block"><h4>产出物</h4><ul><li>经确认后的《薪酬模块功能需求说明书》</li><li>《数据源清单与接口需求》</li><li>原型迭代至可进入开发的版本</li></ul></div>
+    </div>
+  </div>
+</section>`;
+
+/* ===================== 图表初始化 ===================== */
+function initCharts(){
+  mountChart('ch_ov_trend','overview',{
+    grid:{left:44,right:16,top:30,bottom:26},tooltip:{trigger:'axis'},
+    legend:{data:['应发','实发'],right:8,top:0,textStyle:{color:'#41536B',fontSize:12}},
+    xAxis:{type:'category',data:['4月','5月','6月','7月','8月','9月'],axisLine:{lineStyle:{color:'#CBD5E1'}},axisLabel:{color:'#7A8BA3'}},
+    yAxis:{type:'value',axisLabel:{color:'#7A8BA3',formatter:'{value}k'},splitLine:{lineStyle:{color:'#EEF2F7'}}},
+    series:[
+      {name:'应发',type:'line',smooth:true,symbolSize:6,data:[118,119,122,123,124,128],lineStyle:{color:'#14539C',width:2.5},itemStyle:{color:'#14539C'},areaStyle:{color:'rgba(20,83,156,.08)'}},
+      {name:'实发',type:'line',smooth:true,symbolSize:6,data:[95,96,98,99,101,105],lineStyle:{color:'#2FA3A8',width:2.5},itemStyle:{color:'#2FA3A8'}}
+    ]
+  });
+  mountChart('ch_ov_pie','overview',{
+    tooltip:{trigger:'item',formatter:'{b}: {c} ({d}%)'},
+    legend:{bottom:0,textStyle:{color:'#41536B',fontSize:12}},
+    series:[{type:'pie',radius:['42%','66%'],center:['50%','44%'],avoidLabelOverlap:true,
+      itemStyle:{borderRadius:6,borderColor:'#fff',borderWidth:2},
+      label:{show:false},
+      data:[
+        {value:42,name:'基本/岗位工资',itemStyle:{color:'#14539C'}},
+        {value:24,name:'绩效工资',itemStyle:{color:'#2FA3A8'}},
+        {value:9,name:'加班费',itemStyle:{color:'#F0B84B'}},
+        {value:6,name:'津贴补贴',itemStyle:{color:'#7AA8D9'}},
+        {value:13,name:'社保公积金',itemStyle:{color:'#E07B54'}},
+        {value:6,name:'个人所得税',itemStyle:{color:'#9A5B10'}}
+      ]}]
+  });
+  mountChart('ch_rp_dept','report',{
+    grid:{left:50,right:16,top:20,bottom:28},tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+    xAxis:{type:'category',data:['研发部','市场部','销售部','生产部','人力资源部','财务部'],axisLabel:{color:'#7A8BA3'},axisLine:{lineStyle:{color:'#CBD5E1'}}},
+    yAxis:{type:'value',axisLabel:{color:'#7A8BA3',formatter:'{value}k'},splitLine:{lineStyle:{color:'#EEF2F7'}}},
+    series:[{type:'bar',barWidth:'46%',data:[402,186,318,296,112,94],itemStyle:{color:'#14539C',borderRadius:[5,5,0,0]},label:{show:true,position:'top',color:'#41536B',fontSize:11}}]
+  });
+  mountChart('ch_rp_cost','report',{
+    tooltip:{trigger:'item',formatter:'{b}: {c} ({d}%)'},
+    legend:{bottom:0,textStyle:{color:'#41536B',fontSize:12}},
+    series:[{type:'pie',radius:['42%','66%'],center:['50%','44%'],itemStyle:{borderRadius:6,borderColor:'#fff',borderWidth:2},label:{show:false},
+      data:[
+        {value:72,name:'工资应发',itemStyle:{color:'#14539C'}},
+        {value:13,name:'单位社保',itemStyle:{color:'#2FA3A8'}},
+        {value:9,name:'单位公积金',itemStyle:{color:'#F0B84B'}},
+        {value:6,name:'福利等',itemStyle:{color:'#7AA8D9'}}
+      ]}]
+  });
+}
+window.addEventListener('hashchange',()=>{const v=(location.hash||'#overview').replace('#','');goto(VIEWS.find(x=>x.id===v)?v:'overview');});
+
+document.querySelectorAll('.nav-item').forEach(n=>n.addEventListener('click',()=>goto(n.dataset.view)));
+
+document.getElementById('views').innerHTML = Object.values(views).join('');
+VIEWS.forEach(v=>{ if(!document.getElementById('view-'+v.id)){ document.getElementById('views').insertAdjacentHTML('beforeend',`<section class="view" id="view-${v.id}"></section>`);} });
+initCharts();
+// 首次路由
+const initView = (location.hash||'#overview').replace('#','');
+goto(VIEWS.find(v=>v.id===initView)?initView:'overview');
+</script>
+</body>
+</html>
