@@ -1,0 +1,74 @@
+[
+  {
+    "employeeId": 1,
+    "employeeName": "隔离范围员工103",
+    "jobNumber": "ACCEPT_SCOPE_103",
+    "kind": "ATTENDANCE",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 1
+  },
+  {
+    "employeeId": 1,
+    "employeeName": "隔离范围员工103",
+    "jobNumber": "ACCEPT_SCOPE_103",
+    "kind": "OVERTIME",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 2
+  },
+  {
+    "employeeId": 1,
+    "employeeName": "隔离范围员工103",
+    "jobNumber": "ACCEPT_SCOPE_103",
+    "kind": "DEDUCTIONS",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 3
+  },
+  {
+    "employeeId": 1,
+    "employeeName": "隔离范围员工103",
+    "jobNumber": "ACCEPT_SCOPE_103",
+    "kind": "CUMULATIVE_TAX",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 4
+  },
+  {
+    "employeeId": 2,
+    "employeeName": "隔离范围员工104",
+    "jobNumber": "ACCEPT_SCOPE_104",
+    "kind": "ATTENDANCE",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 5
+  },
+  {
+    "employeeId": 2,
+    "employeeName": "隔离范围员工104",
+    "jobNumber": "ACCEPT_SCOPE_104",
+    "kind": "OVERTIME",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 6
+  },
+  {
+    "employeeId": 2,
+    "employeeName": "隔离范围员工104",
+    "jobNumber": "ACCEPT_SCOPE_104",
+    "kind": "DEDUCTIONS",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 7
+  },
+  {
+    "employeeId": 2,
+    "employeeName": "隔离范围员工104",
+    "jobNumber": "ACCEPT_SCOPE_104",
+    "kind": "CUMULATIVE_TAX",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 8
+  }
+]

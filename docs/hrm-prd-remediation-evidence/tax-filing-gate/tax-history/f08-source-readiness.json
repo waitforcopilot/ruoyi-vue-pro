@@ -1,0 +1,38 @@
+[
+  {
+    "employeeId": 6,
+    "employeeName": "隔离历史工资员工",
+    "jobNumber": "ACCEPT_TAX_HISTORY",
+    "kind": "ATTENDANCE",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 21
+  },
+  {
+    "employeeId": 6,
+    "employeeName": "隔离历史工资员工",
+    "jobNumber": "ACCEPT_TAX_HISTORY",
+    "kind": "OVERTIME",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 22
+  },
+  {
+    "employeeId": 6,
+    "employeeName": "隔离历史工资员工",
+    "jobNumber": "ACCEPT_TAX_HISTORY",
+    "kind": "DEDUCTIONS",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 23
+  },
+  {
+    "employeeId": 6,
+    "employeeName": "隔离历史工资员工",
+    "jobNumber": "ACCEPT_TAX_HISTORY",
+    "kind": "CUMULATIVE_TAX",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 24
+  }
+]

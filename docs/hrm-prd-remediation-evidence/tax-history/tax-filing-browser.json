@@ -1,0 +1,9 @@
+{
+  "entityId": 3,
+  "filingId": 1,
+  "status": "已对账",
+  "expectedTax": 18,
+  "paid": 18,
+  "difference": 0,
+  "pageErrors": []
+}

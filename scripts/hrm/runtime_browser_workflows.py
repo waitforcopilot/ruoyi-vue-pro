@@ -15,7 +15,7 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--state-file', required=True)
 parser.add_argument('--base-url', default='http://127.0.0.1:4173')
 parser.add_argument('--output-dir', type=Path, required=True)
-parser.add_argument('--case', choices=['confirmation', 'context', 'mobile', 'payroll'], default='confirmation')
+parser.add_argument('--case', choices=['confirmation', 'context', 'mobile', 'payroll', 'tax'], default='confirmation')
 args = parser.parse_args()
 if urllib.parse.urlparse(args.base_url).hostname not in ('127.0.0.1', 'localhost'):
     parser.error('Only local isolated frontends are supported')
@@ -134,6 +134,31 @@ async def payroll_workflow(browser, page, errors):
         c.ok('/system/permission/assign-role-menu', {'roleId': c.state['readerRoleId'], 'menuIds': original})
     print('Passed: real browser archived batch and owner salary slip')
 
+async def tax_workflow(page, errors):
+    await page.goto(args.base_url + '/hrm-payroll/tax-policy', wait_until='networkidle')
+    entity=next(row for row in c.ok('/hrm/payroll/entity/list') if row['id']==c.state['entityId'])
+    await page.locator('.el-form-item').filter(has_text='纳税主体').locator('.el-select').click()
+    await page.locator('.el-select-dropdown:visible').get_by_text(entity['name'],exact=True).click()
+    await page.locator('.el-select-dropdown:visible').wait_for(state='hidden')
+    await page.locator('.el-form-item').filter(has_text='年度').locator('input').fill(str(c.state['fixtureYear']))
+    await page.get_by_role('button',name='查询',exact=True).first.click()
+    month_form=page.locator('.el-form').filter(has_text='收入月份')
+    await month_form.locator('.el-select').click()
+    await page.locator('.el-select-dropdown:visible').get_by_text(f"{c.state['fixtureMonth']}月",exact=True).click()
+    await page.locator('.el-select-dropdown:visible').wait_for(state='hidden')
+    await month_form.get_by_role('button',name='查询',exact=True).click()
+    row=page.get_by_role('row').filter(has_text=f"OFFLINE_TEST_FILING_{c.state['taxFilingId']}")
+    await expect(row).to_contain_text('已对账')
+    await row.get_by_role('button',name='来源与对账',exact=True).click()
+    dialog=page.locator('.el-dialog:visible')
+    await dialog.get_by_text('与批准版本一致',exact=True).wait_for()
+    values=await dialog.locator('.el-descriptions__content').all_text_contents()
+    assert values[:4]==['已对账','18','18','0'],values
+    assert not errors,errors
+    await page.screenshot(path=str(args.output_dir/'tax-filing-browser.png'),full_page=True)
+    (args.output_dir/'tax-filing-browser.json').write_text(json.dumps({'entityId':c.state['entityId'],'filingId':c.state['taxFilingId'],'status':'已对账','expectedTax':18,'paid':18,'difference':0,'pageErrors':errors},ensure_ascii=False,indent=2))
+    print('Passed: real browser closed-period tax filing and reconciled zero difference')
+
 async def main():
     async with async_playwright() as playwright:
         browser = await playwright.chromium.launch(executable_path=os.environ.get('HRM_CHROMIUM_PATH', '/usr/bin/chromium'), headless=True, args=['--no-sandbox', '--disable-dev-shm-usage'])
@@ -158,6 +183,10 @@ async def main():
         errors = []
         page.on('pageerror', lambda error: errors.append(str(error)))
         await login(page)
+        if args.case == 'tax':
+            await tax_workflow(page, errors)
+            await browser.close()
+            return
         if args.case == 'payroll':
             await payroll_workflow(browser, page, errors)
             await browser.close()

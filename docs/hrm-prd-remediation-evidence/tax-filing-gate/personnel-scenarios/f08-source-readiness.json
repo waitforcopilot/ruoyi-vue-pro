@@ -1,0 +1,110 @@
+[
+  {
+    "employeeId": 3,
+    "employeeName": "隔离普通工资员工",
+    "jobNumber": "ACCEPT_SCENE_STANDARD",
+    "kind": "ATTENDANCE",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 9
+  },
+  {
+    "employeeId": 3,
+    "employeeName": "隔离普通工资员工",
+    "jobNumber": "ACCEPT_SCENE_STANDARD",
+    "kind": "OVERTIME",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 10
+  },
+  {
+    "employeeId": 3,
+    "employeeName": "隔离普通工资员工",
+    "jobNumber": "ACCEPT_SCENE_STANDARD",
+    "kind": "DEDUCTIONS",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 11
+  },
+  {
+    "employeeId": 3,
+    "employeeName": "隔离普通工资员工",
+    "jobNumber": "ACCEPT_SCENE_STANDARD",
+    "kind": "CUMULATIVE_TAX",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 12
+  },
+  {
+    "employeeId": 4,
+    "employeeName": "隔离月中转正员工",
+    "jobNumber": "ACCEPT_SCENE_REGULAR",
+    "kind": "ATTENDANCE",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 13
+  },
+  {
+    "employeeId": 4,
+    "employeeName": "隔离月中转正员工",
+    "jobNumber": "ACCEPT_SCENE_REGULAR",
+    "kind": "OVERTIME",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 14
+  },
+  {
+    "employeeId": 4,
+    "employeeName": "隔离月中转正员工",
+    "jobNumber": "ACCEPT_SCENE_REGULAR",
+    "kind": "DEDUCTIONS",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 15
+  },
+  {
+    "employeeId": 4,
+    "employeeName": "隔离月中转正员工",
+    "jobNumber": "ACCEPT_SCENE_REGULAR",
+    "kind": "CUMULATIVE_TAX",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 16
+  },
+  {
+    "employeeId": 5,
+    "employeeName": "隔离月中入职员工",
+    "jobNumber": "ACCEPT_SCENE_ENTRY",
+    "kind": "ATTENDANCE",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 17
+  },
+  {
+    "employeeId": 5,
+    "employeeName": "隔离月中入职员工",
+    "jobNumber": "ACCEPT_SCENE_ENTRY",
+    "kind": "OVERTIME",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 18
+  },
+  {
+    "employeeId": 5,
+    "employeeName": "隔离月中入职员工",
+    "jobNumber": "ACCEPT_SCENE_ENTRY",
+    "kind": "DEDUCTIONS",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 19
+  },
+  {
+    "employeeId": 5,
+    "employeeName": "隔离月中入职员工",
+    "jobNumber": "ACCEPT_SCENE_ENTRY",
+    "kind": "CUMULATIVE_TAX",
+    "status": "APPROVED",
+    "reason": "虚构隔离验收资料，不作为正式业务签字",
+    "inputId": 20
+  }
+]

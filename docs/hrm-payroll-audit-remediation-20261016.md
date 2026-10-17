@@ -105,6 +105,16 @@ Cloud Chromium 在 390×844、768×844、1440×844 三种触控视口均实际�
 
 证据：[10月期望](hrm-prd-remediation-evidence/c2-personnel-scenarios/personnel-expected.json)、[核算](hrm-prd-remediation-evidence/c2-personnel-scenarios/f08-payroll-runtime.json)、[付款/成本](hrm-prd-remediation-evidence/c2-personnel-scenarios/f08-payment-cost-runtime.json)、[本人页面](hrm-prd-remediation-evidence/c2-personnel-scenarios/f08-browser.json)、[扩展新库门禁](hrm-prd-remediation-evidence/c2-three-person-gate/gate-result.json)、[9月期望](hrm-prd-remediation-evidence/c2-three-person-gate/personnel-scenarios/personnel-expected.json)。新增覆盖 PLAN-03 的转正生效日期、CALC-01/02 的部分周期、TAX-01 的年度首次工资；月中调薪提案、离职、奖金和其他异常矩阵继续扩展。
 
+## TAX-04 扩展：历史月份申报、完税导入与对账（已运行验证）
+
+通过正常业务 API 在第三个虚构主体补录9月工资：应发6000、税18、实发5582、单位缴费800，独立批准后生成历史到账日期的银行回盘、归档及成本。仅员工身份/HR日期为 SQL 夹具，未直接写已批准工资、付款或申报。历史工资用于验证已结束的申报期间；系统正确拒绝10月尚未结束期间的申报生成。
+
+实际生成并读取非零申报 Excel：9月收入6000、实际预扣18、累计收入54000、累计应纳税162，与期初/本月独立预期一致。确认后登记明确标注虚构的离线申报回执；导入17元和1元两笔虚构完税凭证，重复导入返回原编号，自审被拒，独立批准第一笔后差额1元不能对账，第二笔批准后净缴18、差额0，状态 RECONCILED。又实际导出并读取两笔完税资料，总额18。浏览器实际切换主体/年度/收入月，显示“已对账、应缴18、实缴18、差额0、与批准版本一致”。未向税务机关提交、付款或伪造真实业务签字。
+
+另以真实只读账号临时授予本主体 READ 和税务查询权限：本主体申报列表可读，未授权主体被1050810013拒绝，完整税务标识导出被403拒绝；权限与授权在 finally 中恢复。新增独立回归脚本并纳入新库门禁。`hrm_remediation_gate_20261017g` 包含两人普通工资、三类人员和本条历史税务链路的整条门禁通过。
+
+证据：[申报/完税结果](hrm-prd-remediation-evidence/tax-history/tax-filing-runtime.json)、[浏览器](hrm-prd-remediation-evidence/tax-history/tax-filing-browser.json)、[页面](hrm-prd-remediation-evidence/tax-history/tax-filing-browser.png)、[扩展新库门禁](hrm-prd-remediation-evidence/tax-filing-gate/gate-result.json)。覆盖 TAX-04 的申报准备、导出、完税导入及差额对账样例，并补充跨主体和税务私密导出权限证据；机构真实联调与正式申报格式仍按业务边界验收。
+
 ## 后续验收
 
 F-01～09 的已复现技术问题均已有修复或核心门禁证据。原报告 C3 的其余异常/跨期/三类工时矩阵、全部46项需求的业务验收及签字仍不能由本条普通工资样例替代；尚未完成的场景继续保留待验收，不宣称所有原始需求已满足。

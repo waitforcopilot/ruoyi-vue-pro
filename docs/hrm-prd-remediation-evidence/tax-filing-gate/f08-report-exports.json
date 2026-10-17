@@ -1,0 +1,17 @@
+{
+  "batchId": 1,
+  "reports": [
+    {
+      "file": "cost",
+      "rows": 3,
+      "column": "总成本（元）",
+      "sum": "13600"
+    },
+    {
+      "file": "budget",
+      "rows": 1,
+      "column": "实际成本（元）",
+      "sum": "13600"
+    }
+  ]
+}
