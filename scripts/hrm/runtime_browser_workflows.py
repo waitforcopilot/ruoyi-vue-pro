@@ -16,7 +16,7 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--state-file', required=True)
 parser.add_argument('--base-url', default='http://127.0.0.1:4173')
 parser.add_argument('--output-dir', type=Path, required=True)
-parser.add_argument('--case', choices=['confirmation', 'context', 'mobile', 'payroll', 'tax', 'versions'], default='confirmation')
+parser.add_argument('--case', choices=['confirmation', 'context', 'mobile', 'payroll', 'tax', 'versions', 'attendance'], default='confirmation')
 args = parser.parse_args()
 if urllib.parse.urlparse(args.base_url).hostname not in ('127.0.0.1', 'localhost'):
     parser.error('Only local isolated frontends are supported')
@@ -191,6 +191,24 @@ async def versions_workflow(page, errors):
     (args.output_dir/'salary-version-browser.json').write_text(json.dumps({'batchId':c.state['batchId'],'versions':results,'pageErrors':errors},ensure_ascii=False,indent=2))
     print('Passed: real browser selects both immutable salary/bonus versions with historical employee names')
 
+async def attendance_workflow(page, errors):
+    await page.goto(args.base_url + '/hrm-payroll/attendance', wait_until='networkidle')
+    row = page.get_by_role('row').filter(has_text='隔离考勤工单员工')
+    await expect(row).to_contain_text('已关闭')
+    await expect(row).to_contain_text('隔离薪酬验收操作人')
+    await expect(row).to_contain_text('隔离验收复核人')
+    await row.get_by_role('button', name='履历', exact=True).click()
+    dialog = page.locator('.el-dialog:visible')
+    actions = dialog.locator('.el-table__body tbody tr td:first-child .cell')
+    expected = ['CREATE', 'SUBMIT', 'REJECT', 'SUBMIT', 'APPROVE', 'CLOSE', 'REOPEN', 'SUBMIT', 'APPROVE', 'CLOSE']
+    await expect(actions).to_have_text(expected)
+    assert not errors, errors
+    await page.screenshot(path=str(args.output_dir / 'attendance-browser.png'), full_page=True)
+    (args.output_dir / 'attendance-browser.json').write_text(json.dumps({
+        'issueId': c.state['attendanceIssueId'], 'status': '已关闭', 'ownerVisible': True,
+        'reviewerVisible': True, 'historyActions': expected, 'pageErrors': errors}, ensure_ascii=False, indent=2))
+    print('Passed: actual attendance correction status, responsible users and full history in browser')
+
 async def main():
     async with async_playwright() as playwright:
         browser = await playwright.chromium.launch(executable_path=os.environ.get('HRM_CHROMIUM_PATH', '/usr/bin/chromium'), headless=True, args=['--no-sandbox', '--disable-dev-shm-usage'])
@@ -215,6 +233,10 @@ async def main():
         errors = []
         page.on('pageerror', lambda error: errors.append(str(error)))
         await login(page)
+        if args.case == 'attendance':
+            await attendance_workflow(page, errors)
+            await browser.close()
+            return
         if args.case == 'versions':
             await versions_workflow(page, errors)
             await browser.close()

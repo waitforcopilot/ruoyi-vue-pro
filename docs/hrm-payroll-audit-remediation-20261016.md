@@ -125,6 +125,14 @@ Cloud Chromium 在 390×844、768×844、1440×844 三种触控视口均实际�
 
 证据：[调薪与奖金API](hrm-prd-remediation-evidence/salary-bonus-gate/salary-bonus/salary-bonus-runtime.json)、[版本页面](hrm-prd-remediation-evidence/salary-bonus-gate/salary-bonus/salary-version-browser.json)、[修复前截图](hrm-prd-remediation-evidence/salary-bonus/salary-version-before-fix.png)、[新库整条门禁](hrm-prd-remediation-evidence/salary-bonus-gate/gate-result.json)。本条验证使用明确虚构政策与离线回盘，不代表正式业务签字或真实银行付款；追溯、跨年等其他矩阵继续验收。
 
+## ATT-01/03/04 扩展：真实排班、打卡及异常补正（已运行验证）
+
+在隔离库新增独立虚构员工，仅身份/HR日期使用SQL，正常API创建工作日09:00–18:00班次、午休12:00–13:00、手工原始打卡。实际三日归集：应出勤3天/实际3天，迟到10分钟、早退15分钟、缺卡1次；按虚构每分钟2/3元、缺卡20元，扣款85元。工单指定不同责任人和复核人，重复创建返回同一编号；自审拒绝、驳回保留缺卡、重新提交批准后补卡生效，扣款降为65元。验证关闭后重开，旧补卡作废、缺卡恢复；再次独立批准和关闭后缺卡为0，原下班打卡未改变。完整10条动作履历逐条断言。
+
+实际月度接口核对9月22天应出勤、3天实际、19天旷工及1965元虚构扣款；实际读取期间Excel核对员工、迟到和早退字段。Chromium真实登录验证已关闭工单、责任人/复核人姓名和10条履历，无页面脚本错误。脚本及浏览器用例纳入后续新库门禁。本次运行未把人工打卡冒充设备采集，也未将虚构扣款规则作为正式政策签字。
+
+证据：[日/期间/月度金额与工单](hrm-prd-remediation-evidence/attendance/attendance-runtime.json)、[浏览器履历](hrm-prd-remediation-evidence/attendance/attendance-browser.json)、[页面](hrm-prd-remediation-evidence/attendance/attendance-browser.png)。OA请假/出差、工资来源联动、设备打卡及综合工时矩阵继续验证。
+
 ## 后续验收
 
 F-01～09 的已复现技术问题均已有修复或核心门禁证据。原报告 C3 的其余异常/跨期/三类工时矩阵、全部46项需求的业务验收及签字仍不能由本条普通工资样例替代；尚未完成的场景继续保留待验收，不宣称所有原始需求已满足。

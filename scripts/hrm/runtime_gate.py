@@ -116,6 +116,9 @@ try:
     bonus_state = private/'salary-bonus.json'
     bonus_output = output/'salary-bonus'
     run('runtime_salary_bonus_regression.py','--base-state',tax_state,'--state-file',bonus_state,'--output-dir',bonus_output)
+    attendance_state = private/'attendance.json'
+    attendance_output = output/'attendance'
+    run('runtime_attendance_regression.py','--base-state',state,'--state-file',attendance_state,'--database',a.database,'--output-dir',attendance_output)
     facts = json.loads((output/'f08-payment-cost-runtime.json').read_text())
     assert all(facts[key] for key in ('archived','concurrentReplayPassed','amountMismatchRejected','staleAttemptRejected','frozenRecomputeRejected')), facts
     with (private/'preview.log').open('w') as log:
@@ -135,6 +138,7 @@ try:
     run('runtime_browser_workflows.py','--state-file',personnel_state,'--output-dir',personnel_output,'--case','payroll')
     run('runtime_browser_workflows.py','--state-file',tax_state,'--output-dir',tax_output,'--case','tax')
     run('runtime_browser_workflows.py','--state-file',bonus_state,'--output-dir',bonus_output,'--case','versions')
+    run('runtime_browser_workflows.py','--state-file',attendance_state,'--output-dir',attendance_output,'--case','attendance')
     (output/'gate-result.json').write_text(json.dumps({'passed':True,'database':a.database,'fixtureDate':today.isoformat(),'freshInstallAndRepeatUpgrade':True,'realAuthentication':True,'uiCases':['confirmation','context','mobile','payroll'],'personnelScenarios':['standard','mid-month regularization','mid-month entry'],'closedPeriodTaxFiling':'RECONCILED','salaryAndBonusVersions':2,'annualSeparateBonusDuplicateRejected':True},indent=2))
     print('PASSED: fresh MySQL, real authentication, payroll/payment/slips/cost and browser gate', flush=True)
 finally:

@@ -1,0 +1,19 @@
+{
+  "issueId": 1,
+  "status": "已关闭",
+  "ownerVisible": true,
+  "reviewerVisible": true,
+  "historyActions": [
+    "CREATE",
+    "SUBMIT",
+    "REJECT",
+    "SUBMIT",
+    "APPROVE",
+    "CLOSE",
+    "REOPEN",
+    "SUBMIT",
+    "APPROVE",
+    "CLOSE"
+  ],
+  "pageErrors": []
+}
