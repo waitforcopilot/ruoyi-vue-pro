@@ -8,6 +8,16 @@
       label-width="104px"
     >
       <!-- 调薪信息 -->
+      <el-alert
+        v-if="loadError"
+        :title="loadError"
+        type="error"
+        :closable="false"
+        show-icon
+        class="mb-12px"
+      >
+        <el-button link type="primary" @click="retryOpen">重新加载</el-button>
+      </el-alert>
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="员工" prop="employeeId">
@@ -30,11 +40,21 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="调薪模板">
-            <SalaryChangeTemplateSelect
-              ref="templateSelectRef"
+            <el-select
               v-model="selectedTemplateId"
+              placeholder="全部可调薪项目"
+              clearable
+              filterable
+              :disabled="formLoading || !!loadError"
               @change="applySelectedTemplate()"
-            />
+            >
+              <el-option
+                v-for="template in salaryTemplateList"
+                :key="template.id"
+                :label="template.name"
+                :value="template.id!"
+              />
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col v-if="formData.recordType === HrmSalaryRecordType.CHANGE" :span="6">
@@ -134,7 +154,9 @@
     </el-form>
     <!-- 表单按钮 -->
     <template #footer>
-      <el-button :disabled="formLoading" type="primary" @click="submitForm">确 定</el-button>
+      <el-button :disabled="formLoading || !!loadError" type="primary" @click="submitForm"
+        >确 定</el-button
+      >
       <el-button @click="dialogVisible = false">取 消</el-button>
     </template>
   </Dialog>
@@ -149,7 +171,6 @@ import * as SalaryEmployeeInfoApi from '@/api/hrm/salary/employee-info'
 import * as SalaryOptionApi from '@/api/hrm/salary/config/option'
 import * as SalaryChangeTemplateApi from '@/api/hrm/salary/config/change-template'
 import HrmEmployeeSelect from '@/views/hrm/employee/components/HrmEmployeeSelect.vue'
-import SalaryChangeTemplateSelect from '../config/change-template/components/SalaryChangeTemplateSelect.vue'
 import {
   HrmSalaryChangeReason,
   HrmSalaryOptionCategoryCode,
@@ -162,6 +183,8 @@ const message = useMessage() // 消息弹窗
 const dialogVisible = ref(false) // 弹窗是否显示
 const dialogTitle = ref('定薪/调薪') // 弹窗标题
 const formLoading = ref(false) // 表单加载中
+const loadError = ref('')
+let lastOpenArgs: [number | undefined, number | undefined] = [undefined, undefined]
 const salaryOptionList = ref<SalaryOptionApi.SalaryOptionVO[]>([]) // 薪资项列表
 const salaryTemplateList = ref<SalaryChangeTemplateApi.HrmSalaryChangeTemplateVO[]>([]) // 调薪模板列表
 const selectedTemplateId = ref<number>() // 已选调薪模板
@@ -186,7 +209,6 @@ const formRules = reactive<FormRules>({
   effectTime: [{ required: true, message: '生效日期不能为空', trigger: 'change' }]
 }) // 表单校验规则
 const formRef = ref<FormInstance>() // 表单
-const templateSelectRef = ref<InstanceType<typeof SalaryChangeTemplateSelect>>() // 调薪模板选择器
 
 /** 薪资项表格行 */
 const salaryOptionRows = computed(() => {
@@ -226,34 +248,46 @@ function disabledEffectDate(date: Date) {
 async function open(employeeId?: number, recordId?: number) {
   dialogVisible.value = true
   dialogTitle.value = '定薪/调薪'
+  lastOpenArgs = [employeeId, recordId]
   resetForm()
-  await loadSimpleData()
-  if (recordId) {
-    dialogTitle.value = '编辑定薪调薪记录'
-    selectedTemplateId.value = undefined
-    // 获取表单数据
-    const record = await SalaryChangeRecordApi.getSalaryChangeRecord(recordId)
-    beforeTotal.value = record.beforeTotal || 0
-    probationBeforeTotal.value = record.probationBeforeTotal || 0
-    formData.value = {
-      id: record.id,
-      employeeId: record.employeeId || employeeId,
-      recordType: record.recordType,
-      changeReason: record.changeReason,
-      effectTime: record.effectTime,
-      remark: record.remark,
-      salaryOptions: (record.salaryOptions || []).map((item) => ({ ...item })),
-      probationSalaryOptions: (record.probationSalaryOptions || []).map((item) => ({ ...item }))
+  loadError.value = ''
+  formLoading.value = true
+  try {
+    await loadSimpleData()
+    if (recordId) {
+      dialogTitle.value = '编辑定薪调薪记录'
+      selectedTemplateId.value = undefined
+      // 获取表单数据
+      const record = await SalaryChangeRecordApi.getSalaryChangeRecord(recordId)
+      beforeTotal.value = record.beforeTotal || 0
+      probationBeforeTotal.value = record.probationBeforeTotal || 0
+      formData.value = {
+        id: record.id,
+        employeeId: record.employeeId || employeeId,
+        recordType: record.recordType,
+        changeReason: record.changeReason,
+        effectTime: record.effectTime,
+        remark: record.remark,
+        salaryOptions: (record.salaryOptions || []).map((item) => ({ ...item })),
+        probationSalaryOptions: (record.probationSalaryOptions || []).map((item) => ({ ...item }))
+      }
+      resetDraftMaps(formData.value.salaryOptions, formData.value.probationSalaryOptions)
+    } else if (employeeId) {
+      formData.value.employeeId = employeeId
+      await loadSalaryEmployee()
+    } else {
+      selectDefaultTemplate()
+      resetDraftMaps(buildDefaultOptionValues(), buildDefaultOptionValues())
+      applySelectedTemplate(false)
     }
-    resetDraftMaps(formData.value.salaryOptions, formData.value.probationSalaryOptions)
-  } else if (employeeId) {
-    formData.value.employeeId = employeeId
-    await loadSalaryEmployee()
-  } else {
-    selectDefaultTemplate()
-    resetDraftMaps(buildDefaultOptionValues(), buildDefaultOptionValues())
-    applySelectedTemplate(false)
+  } catch {
+    loadError.value = '薪资项目或模板加载失败，请重新加载后再提交'
+  } finally {
+    formLoading.value = false
   }
+}
+function retryOpen() {
+  return open(...lastOpenArgs)
 }
 defineExpose({ open }) // 提供 open 方法，用于打开弹窗
 
@@ -261,6 +295,7 @@ const emit = defineEmits(['success']) // 定义 success 事件
 
 /** 提交表单 */
 async function submitForm() {
+  if (loadError.value || formLoading.value) return
   // 校验表单
   await formRef.value?.validate()
   // 提交请求
@@ -280,7 +315,7 @@ async function submitForm() {
 async function loadSimpleData() {
   const [options, templates, adjustmentMinEffectDate] = await Promise.all([
     SalaryOptionApi.getSalaryOptionSimpleList(true),
-    templateSelectRef.value?.init(),
+    SalaryChangeTemplateApi.getSalaryChangeTemplateList(),
     SalaryEmployeeInfoApi.getSalaryAdjustmentMinEffectDate()
   ])
   salaryOptionList.value = options.filter(
