@@ -17,7 +17,8 @@ export interface PayrollDataSource {
   fields: readonly string[]
   owner: string
 }
-// Candidate dictionary from original PRD v0.1, section 5.1; no runtime readiness is implied.
+// Candidate dictionary; module membership follows workbench PRD v0.4 section 5.
+// A candidate is not a delivered source or proof of runtime readiness.
 export const payrollDataSources: readonly PayrollDataSource[] = [
   {
     id: 'DS-01',
@@ -93,19 +94,22 @@ export const payrollDataSources: readonly PayrollDataSource[] = [
   }
 ]
 const moduleSources: Record<PayrollModule, readonly string[]> = {
-  OV: ['DS-01', 'DS-02', 'DS-03', 'DS-04', 'DS-05', 'DS-06', 'DS-07', 'DS-10'],
+  OV: ['DS-01', 'DS-02', 'DS-03', 'DS-04', 'DS-05', 'DS-06', 'DS-07'],
   PLAN: ['DS-01', 'DS-05', 'DS-09'],
-  CALC: ['DS-01', 'DS-02', 'DS-03', 'DS-04', 'DS-05', 'DS-06', 'DS-07', 'DS-12'],
-  TAX: ['DS-01', 'DS-07', 'DS-11'],
+  CALC: ['DS-01', 'DS-02', 'DS-03', 'DS-04', 'DS-05', 'DS-06', 'DS-07', 'DS-09', 'DS-12'],
+  TAX: ['DS-05', 'DS-06', 'DS-07', 'DS-11', 'DS-12'],
   ATT: ['DS-01', 'DS-02', 'DS-03'],
-  OT: ['DS-01', 'DS-02', 'DS-03', 'DS-04'],
-  HOUR: ['DS-01', 'DS-02', 'DS-03', 'DS-04'],
+  OT: ['DS-01', 'DS-02', 'DS-03', 'DS-04', 'DS-05'],
+  HOUR: ['DS-01', 'DS-02', 'DS-04'],
   INS: ['DS-01', 'DS-06'],
   RPT: ['DS-01', 'DS-05', 'DS-06', 'DS-10'],
   COL: ['DS-08']
 }
 export function sourcesForModules(modules: readonly PayrollModule[]) {
   const ids = new Set(modules.flatMap((module) => moduleSources[module]))
+  // Collection includes the union of module candidates, not project source registrations.
+  if (modules.includes('COL'))
+    Object.values(moduleSources).forEach((sources) => sources.forEach((id) => ids.add(id)))
   return payrollDataSources.filter((source) => ids.has(source.id))
 }
 export function payrollModule(value: unknown): PayrollModule | undefined {

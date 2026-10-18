@@ -1,0 +1,413 @@
+Browser tab: 1, Title: "芋道管理系统 - 需求评审", URL: "http://127.0.0.1:5173/hrm-payroll/requirement?module=COL&from=/hrm-payroll/input-issue".
+1 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?module=COL&from=/hrm-payroll/input-issue
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 作者动态
+				8 text 作者动态
+			9 Boot 开发文档
+				10 text Boot 开发文档
+			11 Cloud 开发文档
+				12 text Cloud 开发文档
+			13 (collapsed) 系统管理, Secondary Actions: Expand
+				14 container
+					15 text 系统管理
+					16 image
+			17 (collapsed) 基础设施, Secondary Actions: Expand
+				18 container
+					19 text 基础设施
+					20 image
+			21 (collapsed) 支付管理, Secondary Actions: Expand
+				22 container
+					23 text 支付管理
+					24 image
+			25 (collapsed) 报表管理, Secondary Actions: Expand
+				26 container
+					27 text 报表管理
+					28 image
+			29 (collapsed) 工作流程, Secondary Actions: Expand
+				30 container
+					31 text 工作流程
+					32 image
+			33 (collapsed) 会员中心, Secondary Actions: Expand
+				34 container
+					35 text 会员中心
+					36 image
+			37 (expanded) 薪酬管理, Secondary Actions: Collapse
+				38 container
+					39 text 薪酬管理
+					40 image
+				41 menu
+					42 定调薪审批
+						43 text 定调薪审批
+					44 工时与加班
+						45 text 工时与加班
+					46 薪级薪档
+						47 text 薪级薪档
+					48 考勤归集与异常
+						49 text 考勤归集与异常
+					50 法人主体与归属
+						51 text 法人主体与归属
+					52 缴费政策与年度调基
+						53 text 缴费政策与年度调基
+					54 缴费实缴对账
+						55 text 缴费实缴对账
+					56 核算输入与就绪
+						57 text 核算输入与就绪
+					58 年度税务政策
+						59 text 年度税务政策
+					60 薪酬成本分摊
+						61 text 薪酬成本分摊
+					62 预算与成本分析
+						63 text 预算与成本分析
+					64 薪酬输入缺口工单
+						65 text 薪酬输入缺口工单
+					66 社保公积金工资差额
+						67 text 社保公积金工资差额
+					68 薪酬总览
+						69 text 薪酬总览
+					70 独立工资收回
+						71 text 独立工资收回
+					72 需求评审
+						73 text 需求评审
+					74 核算审批
+						75 text 核算审批
+					76 银行代发
+						77 text 银行代发
+					78 薪资公式
+						79 text 薪资公式
+			80 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				81 container
+					82 text MALL 商城系统
+					83 image
+			84 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				85 container
+					86 text EAM 资产管理
+					87 image
+			88 (collapsed) CRM 系统, Secondary Actions: Expand
+				89 container
+					90 text CRM 系统
+					91 image
+			92 (collapsed) ERP 系统, Secondary Actions: Expand
+				93 container
+					94 text ERP 系统
+					95 image
+			96 (collapsed) WMS 系统, Secondary Actions: Expand
+				97 container
+					98 text WMS 系统
+					99 image
+			100 (collapsed) MES 系统, Secondary Actions: Expand
+				101 container
+					102 text MES 系统
+					103 image
+			104 (collapsed) OA 办公协同, Secondary Actions: Expand
+				105 container
+					106 text OA 办公协同
+					107 image
+			108 (collapsed) HRM 人力资源, Secondary Actions: Expand
+				109 container
+					110 text HRM 人力资源
+					111 image
+			112 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				113 container
+					114 text FMS 财务管理
+					115 image
+			116 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				117 container
+					118 text PMS 项目管理
+					119 image
+			120 (collapsed) AI 大模型, Secondary Actions: Expand
+				121 container
+					122 text AI 大模型
+					123 image
+			124 (collapsed) IoT 物联网, Secondary Actions: Expand
+				125 container
+					126 text IoT 物联网
+					127 image
+			128 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				129 container
+					130 text IM 即时通讯
+					131 image
+			132 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				133 container
+					134 text MP 公众号管理
+					135 image
+			136 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				137 container
+					138 text CMS 内容管理
+					139 image
+		140 container
+			141 container v-tool-header
+				142 container 面包屑
+					143 link 薪酬管理
+						144 text 薪酬管理
+					145 text /
+					146 link 需求评审
+						147 text 需求评审
+				148 container
+					149 combo box (collapsed, settable) ID: el-id-7856-64, Secondary Actions: Expand
+					150 text 请选择租户
+					151 image
+				152 container
+					153 container
+						154 combo box (collapsed, settable) ID: el-id-7856-65, Secondary Actions: Expand
+						155 text 请输入菜单内容
+				156 pop up button (collapsed) ID: el-id-7856-6, Secondary Actions: Expand
+				157 pop up button (collapsed) ID: el-id-7856-11, Secondary Actions: Expand
+				158 pop up button (collapsed) 芋道源码, ID: el-id-7856-16, Secondary Actions: Expand
+			159 container v-tags-view
+				160 container
+					161 pop up button (collapsed) 首页, ID: el-id-7856-22, Secondary Actions: Expand
+						162 container
+							163 text 首页
+					164 pop up button (collapsed) 薪酬输入缺口工单, ID: el-id-7856-30, Secondary Actions: Expand
+						165 container
+							166 text 薪酬输入缺口工单
+					167 pop up button (collapsed) 需求评审, ID: el-id-7856-76, Secondary Actions: Expand
+						168 container
+							169 text 需求评审
+					170 pop up button (collapsed) 需求评审 (2), ID: el-id-7856-102, Secondary Actions: Expand
+						171 container
+							172 text 需求评审 (2)
+					173 pop up button (collapsed) 需求评审 (3), ID: el-id-7856-128, Secondary Actions: Expand
+						174 container
+							175 text 需求评审 (3)
+					176 pop up button (collapsed) 需求评审 (4), ID: el-id-7856-154, Secondary Actions: Expand
+						177 container
+							178 text 需求评审 (4)
+					300 pop up button (collapsed) 需求评审 (5), ID: el-id-7856-180, Secondary Actions: Expand
+						301 container
+							302 text 需求评审 (5)
+					303 pop up button (collapsed) 需求评审 (6), ID: el-id-7856-206, Secondary Actions: Expand
+						304 container
+							305 text 需求评审 (6)
+					306 pop up button (collapsed) 需求评审 (7), ID: el-id-7856-232, Secondary Actions: Expand
+						307 container
+							308 text 需求评审 (7)
+					309 pop up button (collapsed) 需求评审 (8), ID: el-id-7856-258, Secondary Actions: Expand
+						310 container
+							311 text 需求评审 (8)
+					312 pop up button (collapsed) 需求评审 (9), ID: el-id-7856-284, Secondary Actions: Expand
+						313 container
+							314 text 需求评审 (9)
+					315 pop up button (collapsed) 需求评审 (10), ID: el-id-7856-310, Secondary Actions: Expand
+						316 container
+							317 text 需求评审 (10)
+				179 pop up button (collapsed) ID: el-id-7856-38, Secondary Actions: Expand
+			318 text 业务确认状态与数据就绪状态分别维护；确认需有效负责人、字段映射、来源、验收条件及依据，并由评审负责人本人操作。
+			319 container
+				320 button 返回业务模块
+				321 container
+					322 combo box (collapsed, settable) ID: el-id-7856-335, Secondary Actions: Expand
+					323 text 需求征集
+					324 image
+				325 button 刷新
+				326 button 新增需求
+				327 button 初始化 PRD 清单
+				328 button 导出评审清单
+			329 button (expanded) 需求征集候选数据源与字段, ID: el-collapse-head-330, Secondary Actions: Collapse
+				330 text 需求征集候选数据源与字段
+			407 container 需求征集候选数据源与字段, ID: el-collapse-content-330
+				408 text 以下为候选目录；实际来源、字段映射、责任人及依据由评审人员维护，需求确认与数据就绪分别核实。
+				409 container
+					410 table
+						411 row
+							412 cell
+								413 text 来源编号
+							414 cell
+								415 text 候选来源
+							416 cell
+								417 text 必要字段
+							418 cell
+								419 text 候选确认方
+					420 table
+						421 container
+							422 row
+								423 cell
+									424 text DS-01
+								425 cell
+									426 text HR 员工与组织档案
+								427 cell
+									428 text 员工唯一编号、主体、部门、入离职日期、计薪资格
+								429 cell
+									430 text HR
+							431 row
+								432 cell
+									433 text DS-02
+								434 cell
+									435 text 考勤系统
+								436 cell
+									437 text 员工编号、周期、班次、应出勤、实出勤、请假、缺勤、异常状态
+								438 cell
+									439 text HR / 考勤管理员
+							440 row
+								441 cell
+									442 text DS-03
+								443 cell
+									444 text OA 加班 / 请假审批
+								445 cell
+									446 text 单据编号、员工、起止时间、审批状态、认可时长、补休状态
+								447 cell
+									448 text 业务主管 / OA 负责人
+							449 row
+								450 cell
+									451 text DS-04
+								452 cell
+									453 text 工时制度与排班系统
+								454 cell
+									455 text 员工制度类型、适用有效期、结算周期、排班、实际工时、差异
+								456 cell
+									457 text 部门主管 / HR / IT
+							458 row
+								459 cell
+									460 text DS-05
+								461 cell
+									462 text 薪酬方案与员工薪资档案
+								463 cell
+									464 text 方案版本、适用人员、薪资项、金额 / 单价、有效期
+								465 cell
+									466 text HR / 财务
+							467 row
+								468 cell
+									469 text DS-06
+								470 cell
+									471 text 社保公积金政策与缴费台账
+								472 cell
+									473 text 地区、项目、有效期、基数上下限、个人 / 单位比例、实际缴费额
+								474 cell
+									475 text HR / 财务
+							476 row
+								477 cell
+									478 text DS-07
+								479 cell
+									480 text 税务及扣除资料
+								481 cell
+									482 text 纳税主体、年度、本年累计应税收入、已扣税额、专项扣除
+								483 cell
+									484 text 财务
+							485 row
+								486 cell
+									487 text DS-08
+								488 cell
+									489 text 业务需求征集
+								490 cell
+									491 text 需求编号、模块、功能、字段、来源、负责人、优先级、状态、备注
+								492 cell
+									493 text 需求负责人
+							494 row
+								495 cell
+									496 text DS-09
+								497 cell
+									498 text 绩效考核与薪级标准
+								499 cell
+									500 text 绩效周期、基数、系数、职级 / 薪档、岗位系数、补贴标准
+								501 cell
+									502 text HR / 业务主管
+							503 row
+								504 cell
+									505 text DS-10
+								506 cell
+									507 text 财务预算与成本数据
+								508 cell
+									509 text 部门 / 成本中心 / 项目、营收、预算、编制人数、分摊比例
+								510 cell
+									511 text 财务
+							512 row
+								513 cell
+									514 text DS-11
+								515 cell
+									516 text 员工自助与联系方式
+								517 cell
+									518 text 员工编号、接收渠道、邮箱 / 手机、工资条可见字段、投递结果
+								519 cell
+									520 text HR / IT
+							521 row
+								522 cell
+									523 text DS-12
+								524 cell
+									525 text 银行代发与回盘
+								526 cell
+									527 text 批次、员工、账户、应付金额、文件格式、回盘状态、失败原因
+								528 cell
+									529 text 财务 / IT
+			331 container
+				332 table
+					333 row
+						334 cell
+							335 text 编号
+						336 cell
+							337 text 模块
+						338 cell
+							339 text 功能
+						340 cell
+							341 text 评审状态
+						342 cell
+							343 text 数据就绪
+						344 cell
+							345 text 数据来源
+						346 cell
+							347 text 版本
+						348 cell
+							349 text 操作
+				350 table
+					351 container
+						352 row
+							353 cell
+								354 text COL-9201
+							355 cell
+								356 text 需求征集
+							357 cell
+								358 text 隔离需求确认与版本验收
+							359 cell
+								360 text 已确认
+							361 cell
+								362 text 未就绪
+							363 cell
+								364 text 虚构验收数据源
+							365 cell
+								366 text 4
+							367 cell
+								368 container
+									369 button 编辑
+									370 button 历史
+						371 row
+							372 cell
+								373 text COL-9301
+							374 cell
+								375 text 需求征集
+							376 cell
+								377 text 隔离PRD0.4动作授权实测
+							378 cell
+								379 text 已确认
+							380 cell
+								381 text 已就绪
+							382 cell
+								383 text 虚构映射来源
+							384 cell
+								385 text 2
+							386 cell
+								387 container
+									388 button 编辑
+									389 button 历史
+						390 row
+							391 cell
+								392 text COL-9302
+							393 cell
+								394 text 需求征集
+							395 cell
+								396 text 隔离不适用条件必填实测
+							397 cell
+								398 text 待确认
+							399 cell
+								400 text 未就绪
+							401 cell
+								402 text 1
+							403 cell
+								404 container
+									405 button 编辑
+									406 button 历史
+			299 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 329 button (expanded) 需求征集候选数据源与字段, ID: el-collapse-head-330, Secondary Actions: Collapse

@@ -1,0 +1,347 @@
+Browser tab: 1, Title: "芋道管理系统 - 需求评审", URL: "http://127.0.0.1:5173/hrm-payroll/requirement?module=ATT&from=/hrm-payroll/input-issue".
+1 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?module=ATT&from=/hrm-payroll/input-issue
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 作者动态
+				8 text 作者动态
+			9 Boot 开发文档
+				10 text Boot 开发文档
+			11 Cloud 开发文档
+				12 text Cloud 开发文档
+			13 (collapsed) 系统管理, Secondary Actions: Expand
+				14 container
+					15 text 系统管理
+					16 image
+			17 (collapsed) 基础设施, Secondary Actions: Expand
+				18 container
+					19 text 基础设施
+					20 image
+			21 (collapsed) 支付管理, Secondary Actions: Expand
+				22 container
+					23 text 支付管理
+					24 image
+			25 (collapsed) 报表管理, Secondary Actions: Expand
+				26 container
+					27 text 报表管理
+					28 image
+			29 (collapsed) 工作流程, Secondary Actions: Expand
+				30 container
+					31 text 工作流程
+					32 image
+			33 (collapsed) 会员中心, Secondary Actions: Expand
+				34 container
+					35 text 会员中心
+					36 image
+			37 (expanded) 薪酬管理, Secondary Actions: Collapse
+				38 container
+					39 text 薪酬管理
+					40 image
+				41 menu
+					42 定调薪审批
+						43 text 定调薪审批
+					44 工时与加班
+						45 text 工时与加班
+					46 薪级薪档
+						47 text 薪级薪档
+					48 考勤归集与异常
+						49 text 考勤归集与异常
+					50 法人主体与归属
+						51 text 法人主体与归属
+					52 缴费政策与年度调基
+						53 text 缴费政策与年度调基
+					54 缴费实缴对账
+						55 text 缴费实缴对账
+					56 核算输入与就绪
+						57 text 核算输入与就绪
+					58 年度税务政策
+						59 text 年度税务政策
+					60 薪酬成本分摊
+						61 text 薪酬成本分摊
+					62 预算与成本分析
+						63 text 预算与成本分析
+					64 薪酬输入缺口工单
+						65 text 薪酬输入缺口工单
+					66 社保公积金工资差额
+						67 text 社保公积金工资差额
+					68 薪酬总览
+						69 text 薪酬总览
+					70 独立工资收回
+						71 text 独立工资收回
+					72 需求评审
+						73 text 需求评审
+					74 核算审批
+						75 text 核算审批
+					76 银行代发
+						77 text 银行代发
+					78 薪资公式
+						79 text 薪资公式
+			80 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				81 container
+					82 text MALL 商城系统
+					83 image
+			84 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				85 container
+					86 text EAM 资产管理
+					87 image
+			88 (collapsed) CRM 系统, Secondary Actions: Expand
+				89 container
+					90 text CRM 系统
+					91 image
+			92 (collapsed) ERP 系统, Secondary Actions: Expand
+				93 container
+					94 text ERP 系统
+					95 image
+			96 (collapsed) WMS 系统, Secondary Actions: Expand
+				97 container
+					98 text WMS 系统
+					99 image
+			100 (collapsed) MES 系统, Secondary Actions: Expand
+				101 container
+					102 text MES 系统
+					103 image
+			104 (collapsed) OA 办公协同, Secondary Actions: Expand
+				105 container
+					106 text OA 办公协同
+					107 image
+			108 (collapsed) HRM 人力资源, Secondary Actions: Expand
+				109 container
+					110 text HRM 人力资源
+					111 image
+			112 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				113 container
+					114 text FMS 财务管理
+					115 image
+			116 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				117 container
+					118 text PMS 项目管理
+					119 image
+			120 (collapsed) AI 大模型, Secondary Actions: Expand
+				121 container
+					122 text AI 大模型
+					123 image
+			124 (collapsed) IoT 物联网, Secondary Actions: Expand
+				125 container
+					126 text IoT 物联网
+					127 image
+			128 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				129 container
+					130 text IM 即时通讯
+					131 image
+			132 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				133 container
+					134 text MP 公众号管理
+					135 image
+			136 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				137 container
+					138 text CMS 内容管理
+					139 image
+		140 container
+			141 container v-tool-header
+				142 container 面包屑
+					143 link 薪酬管理
+						144 text 薪酬管理
+					145 text /
+					146 link 需求评审
+						147 text 需求评审
+				148 container
+					149 combo box (collapsed, settable) ID: el-id-7856-64, Secondary Actions: Expand
+					150 text 请选择租户
+					151 image
+				152 container
+					153 container
+						154 combo box (collapsed, settable) ID: el-id-7856-65, Secondary Actions: Expand
+						155 text 请输入菜单内容
+				156 pop up button (collapsed) ID: el-id-7856-6, Secondary Actions: Expand
+				157 pop up button (collapsed) ID: el-id-7856-11, Secondary Actions: Expand
+				158 pop up button (collapsed) 芋道源码, ID: el-id-7856-16, Secondary Actions: Expand
+			159 container v-tags-view
+				160 container
+					161 pop up button (collapsed) 首页, ID: el-id-7856-22, Secondary Actions: Expand
+						162 container
+							163 text 首页
+					164 pop up button (collapsed) 薪酬输入缺口工单, ID: el-id-7856-30, Secondary Actions: Expand
+						165 container
+							166 text 薪酬输入缺口工单
+					167 pop up button (collapsed) 需求评审, ID: el-id-7856-76, Secondary Actions: Expand
+						168 container
+							169 text 需求评审
+					170 pop up button (collapsed) 需求评审 (2), ID: el-id-7856-102, Secondary Actions: Expand
+						171 container
+							172 text 需求评审 (2)
+					173 pop up button (collapsed) 需求评审 (3), ID: el-id-7856-128, Secondary Actions: Expand
+						174 container
+							175 text 需求评审 (3)
+					176 pop up button (collapsed) 需求评审 (4), ID: el-id-7856-154, Secondary Actions: Expand
+						177 container
+							178 text 需求评审 (4)
+					300 pop up button (collapsed) 需求评审 (5), ID: el-id-7856-180, Secondary Actions: Expand
+						301 container
+							302 text 需求评审 (5)
+				179 pop up button (collapsed) ID: el-id-7856-38, Secondary Actions: Expand
+			303 text 业务确认状态与数据就绪状态分别维护；确认需有效负责人、字段映射、来源、验收条件及依据，并由评审负责人本人操作。
+			304 container
+				305 button 返回业务模块
+				306 container
+					307 combo box (collapsed, settable) ID: el-id-7856-205, Secondary Actions: Expand
+					308 text 考勤
+					309 image
+				310 button 刷新
+				311 button 新增需求
+				312 button 初始化 PRD 清单
+				313 button 导出评审清单
+			314 button (expanded) 考勤候选数据源与字段, ID: el-collapse-head-200, Secondary Actions: Collapse
+				315 text 考勤候选数据源与字段
+			422 container 考勤候选数据源与字段, ID: el-collapse-content-200
+				423 text 以下为候选目录；实际来源、字段映射、责任人及依据由评审人员维护，需求确认与数据就绪分别核实。
+				424 container
+					425 table
+						426 row
+							427 cell
+								428 text 来源编号
+							429 cell
+								430 text 候选来源
+							431 cell
+								432 text 必要字段
+							433 cell
+								434 text 候选确认方
+					435 table
+						436 container
+							437 row
+								438 cell
+									439 text DS-01
+								440 cell
+									441 text HR 员工与组织档案
+								442 cell
+									443 text 员工唯一编号、主体、部门、入离职日期、计薪资格
+								444 cell
+									445 text HR
+							446 row
+								447 cell
+									448 text DS-02
+								449 cell
+									450 text 考勤系统
+								451 cell
+									452 text 员工编号、周期、班次、应出勤、实出勤、请假、缺勤、异常状态
+								453 cell
+									454 text HR / 考勤管理员
+							455 row
+								456 cell
+									457 text DS-03
+								458 cell
+									459 text OA 加班 / 请假审批
+								460 cell
+									461 text 单据编号、员工、起止时间、审批状态、认可时长、补休状态
+								462 cell
+									463 text 业务主管 / OA 负责人
+			316 container
+				317 table
+					318 row
+						319 cell
+							320 text 编号
+						321 cell
+							322 text 模块
+						323 cell
+							324 text 功能
+						325 cell
+							326 text 评审状态
+						327 cell
+							328 text 数据就绪
+						329 cell
+							330 text 数据来源
+						331 cell
+							332 text 版本
+						333 cell
+							334 text 操作
+				335 table
+					336 container
+						337 row
+							338 cell
+								339 text ATT-01
+							340 cell
+								341 text 考勤
+							342 cell
+								343 text 考勤数据按日/按月归集与汇总
+							344 cell
+								345 text 待确认
+							346 cell
+								347 text 未就绪
+							348 cell
+								349 text 1
+							350 cell
+								351 container
+									352 button 编辑
+									353 button 历史
+						354 row
+							355 cell
+								356 text ATT-02
+							357 cell
+								358 text 考勤
+							359 cell
+								360 text 请假/出差/外出单据与打卡数据自动关联
+							361 cell
+								362 text 待确认
+							363 cell
+								364 text 未就绪
+							365 cell
+								366 text 1
+							367 cell
+								368 container
+									369 button 编辑
+									370 button 历史
+						371 row
+							372 cell
+								373 text ATT-03
+							374 cell
+								375 text 考勤
+							376 cell
+								377 text 迟到/早退/缺勤/旷工规则判定
+							378 cell
+								379 text 待确认
+							380 cell
+								381 text 未就绪
+							382 cell
+								383 text 1
+							384 cell
+								385 container
+									386 button 编辑
+									387 button 历史
+						388 row
+							389 cell
+								390 text ATT-04
+							391 cell
+								392 text 考勤
+							393 cell
+								394 text 异常考勤提醒与人工处理闭环
+							395 cell
+								396 text 待确认
+							397 cell
+								398 text 未就绪
+							399 cell
+								400 text 1
+							401 cell
+								402 container
+									403 button 编辑
+									404 button 历史
+						405 row
+							406 cell
+								407 text ATT-05
+							408 cell
+								409 text 考勤
+							410 cell
+								411 text 考勤结果与薪酬计算的联动
+							412 cell
+								413 text 待确认
+							414 cell
+								415 text 未就绪
+							416 cell
+								417 text 1
+							418 cell
+								419 container
+									420 button 编辑
+									421 button 历史
+			299 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 314 button (expanded) 考勤候选数据源与字段, ID: el-collapse-head-200, Secondary Actions: Collapse
