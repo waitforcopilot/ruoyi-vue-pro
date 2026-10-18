@@ -1,0 +1,305 @@
+Browser tab: 1, Title: "芋道管理系统 - 发放记录", URL: "http://127.0.0.1:5173/hrm/salary/slip".
+1 AXWebArea 芋道管理系统 - 发放记录, URL: 127.0.0.1:5173/hrm/salary/slip
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		560 menu bar
+			561 首页
+				562 text 首页
+			563 作者动态
+				564 text 作者动态
+			565 Boot 开发文档
+				566 text Boot 开发文档
+			567 Cloud 开发文档
+				568 text Cloud 开发文档
+			569 (collapsed) 系统管理, Secondary Actions: Expand
+				570 container
+					571 text 系统管理
+					572 image
+			573 (collapsed) 基础设施, Secondary Actions: Expand
+				574 container
+					575 text 基础设施
+					576 image
+			577 (collapsed) 支付管理, Secondary Actions: Expand
+				578 container
+					579 text 支付管理
+					580 image
+			581 (collapsed) 报表管理, Secondary Actions: Expand
+				582 container
+					583 text 报表管理
+					584 image
+			585 (collapsed) 工作流程, Secondary Actions: Expand
+				586 container
+					587 text 工作流程
+					588 image
+			589 (collapsed) 会员中心, Secondary Actions: Expand
+				590 container
+					591 text 会员中心
+					592 image
+			593 (collapsed) 薪酬管理, Secondary Actions: Expand
+				594 container
+					595 text 薪酬管理
+					596 image
+			597 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				598 container
+					599 text MALL 商城系统
+					600 image
+			601 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				602 container
+					603 text EAM 资产管理
+					604 image
+			605 (collapsed) CRM 系统, Secondary Actions: Expand
+				606 container
+					607 text CRM 系统
+					608 image
+			609 (collapsed) ERP 系统, Secondary Actions: Expand
+				610 container
+					611 text ERP 系统
+					612 image
+			613 (collapsed) WMS 系统, Secondary Actions: Expand
+				614 container
+					615 text WMS 系统
+					616 image
+			617 (collapsed) MES 系统, Secondary Actions: Expand
+				618 container
+					619 text MES 系统
+					620 image
+			621 (collapsed) OA 办公协同, Secondary Actions: Expand
+				622 container
+					623 text OA 办公协同
+					624 image
+			625 (expanded) HRM 人力资源, Secondary Actions: Collapse
+				626 container
+					627 text HRM 人力资源
+					628 image
+				629 menu
+					630 HR 工作台
+						631 text HR 工作台
+					632 团队工作台
+						633 text 团队工作台
+					634 组织管理
+						635 text 组织管理
+					636 (collapsed) 招聘管理, Secondary Actions: Expand
+						637 container
+							638 text 招聘管理
+							639 image
+					640 (collapsed) 员工管理, Secondary Actions: Expand
+						641 container
+							642 text 员工管理
+							643 image
+					644 (collapsed) 考勤管理, Secondary Actions: Expand
+						645 container
+							646 text 考勤管理
+							647 image
+					648 (collapsed) 社保管理, Secondary Actions: Expand
+						649 container
+							650 text 社保管理
+							651 image
+					652 (expanded) 薪资管理, Secondary Actions: Collapse
+						653 container
+							654 text 薪资管理
+							655 image
+						656 menu
+							657 月度工资表
+								658 text 月度工资表
+							659 历史工资表
+								660 text 历史工资表
+							661 薪资档案
+								662 text 薪资档案
+							663 发放记录
+								664 text 发放记录
+							665 (collapsed) 薪资设置, Secondary Actions: Expand
+								666 container
+									667 text 薪资设置
+									668 image
+					669 (collapsed) 绩效管理, Secondary Actions: Expand
+						670 container
+							671 text 绩效管理
+							672 image
+					673 (collapsed) HRM 员工端, Secondary Actions: Expand
+						674 container
+							675 text HRM 员工端
+							676 image
+			677 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				678 container
+					679 text FMS 财务管理
+					680 image
+			681 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				682 container
+					683 text PMS 项目管理
+					684 image
+			685 (collapsed) AI 大模型, Secondary Actions: Expand
+				686 container
+					687 text AI 大模型
+					688 image
+			689 (collapsed) IoT 物联网, Secondary Actions: Expand
+				690 container
+					691 text IoT 物联网
+					692 image
+			693 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				694 container
+					695 text IM 即时通讯
+					696 image
+			697 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				698 container
+					699 text MP 公众号管理
+					700 image
+			701 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				702 container
+					703 text CMS 内容管理
+					704 image
+		37 container
+			38 container v-tool-header
+				173 container 面包屑
+					174 link HRM 人力资源
+						175 text HRM 人力资源
+					176 text /
+					177 link 薪资管理
+						178 text 薪资管理
+					179 text /
+					344 link 发放记录
+						345 text 发放记录
+				39 container
+					40 combo box (collapsed, settable) ID: el-id-1907-68, Secondary Actions: Expand
+					182 text 请选择租户
+					41 image
+				183 container
+					184 container
+						185 combo box (collapsed, settable) ID: el-id-1907-69, Secondary Actions: Expand
+						186 text 请输入菜单内容
+				44 pop up button (collapsed) ID: el-id-1907-6, Secondary Actions: Expand
+				45 pop up button (collapsed) ID: el-id-1907-11, Secondary Actions: Expand
+				46 pop up button (collapsed) 芋道源码, ID: el-id-1907-16, Secondary Actions: Expand
+			47 container v-tags-view
+				187 container
+					188 pop up button (collapsed) 首页, ID: el-id-1907-22, Secondary Actions: Expand
+						189 container
+							190 text 首页
+					191 pop up button (collapsed) 月度工资表, ID: el-id-1907-30, Secondary Actions: Expand
+						192 container
+							193 text 月度工资表
+					346 pop up button (collapsed) 发放记录, ID: el-id-1907-563, Secondary Actions: Expand
+						347 container
+							348 text 发放记录
+				50 pop up button (collapsed) ID: el-id-1907-38, Secondary Actions: Expand
+			349 container
+				350 image
+				351 text 【【薪资】月度工资、工资条】文档地址：https://doc.iocoder.cn/hrm/salary/payroll/
+				352 image
+			353 container
+				354 text 工资月份
+				355 container
+					356 image
+					357 combo box (collapsed, settable) 工资月份, Value: 2026-10, ID: el-id-1907-583, Secondary Actions: Expand
+				358 container
+					359 button 搜索
+						360 text 搜索
+					361 button 重置
+						362 text 重置
+			705 container
+				706 table
+					707 row
+						708 cell
+							709 text 工资月份
+						710 cell
+							711 text 核算版本
+						712 cell
+							713 text 发布状态
+						714 cell
+							715 text 撤回时间
+						716 cell
+							717 text 创建人
+						718 cell
+							719 text 发放时间
+						720 cell
+							721 text 工资表总人数
+						722 cell
+							723 text 发放人数
+						724 cell
+							725 text 已查看人数
+						726 cell
+							727 text 操作
+				728 table
+					729 container
+						730 row
+							731 cell
+								732 button 2026-10
+							733 cell
+								734 text 2
+							735 cell
+								736 text 已撤回
+							737 cell
+								738 text 2026-10-18 09:35:47
+							739 cell
+								740 text 隔离工时STANDARD
+							741 cell
+								742 text 2026-10-18 08:03:07
+							743 cell
+								744 text 1
+							745 cell
+								746 text 1
+							747 cell
+								748 text 0
+							749 cell
+								750 container
+									751 button 详情
+									752 button 投递
+						753 row
+							754 cell
+								755 button 2026-10
+							756 cell
+								757 text 1
+							758 cell
+								759 text 已发布
+							760 cell
+								761 text 隔离薪酬验收操作人
+							762 cell
+								763 text 2026-10-17 21:02:12
+							764 cell
+								765 text 2
+							766 cell
+								767 text 1
+							768 cell
+								769 text 0
+							770 cell
+								771 container
+									772 button 详情
+									773 button 投递
+									774 button 撤回
+						775 row
+							776 cell
+								777 button 2026-10
+							778 cell
+								779 text 1
+							780 cell
+								781 text 已撤回
+							782 cell
+								783 text 2026-10-17 21:02:12
+							784 cell
+								785 text 隔离薪酬验收操作人
+							786 cell
+								787 text 2026-10-17 21:02:12
+							788 cell
+								789 text 2
+							790 cell
+								791 text 1
+							792 cell
+								793 text 0
+							794 cell
+								795 container
+									796 button 详情
+									797 button 投递
+			455 text 共 3 条
+			456 container
+				457 combo box (collapsed, settable) ID: el-id-1907-584, Secondary Actions: Expand
+				458 text 10条/页
+				459 image
+			460 button (disabled) 上一页
+			461 content list
+				462 container 第 1 页
+					463 text 1
+			464 button (disabled) 下一页
+			465 text 前往
+			466 stepper (settable, integer) Description: 页, Value: 1, ID: el-id-1907-585
+			467 text 页 Copyright ©2026 芋道管理系统
+
+The focused UI element is 1 AXWebArea 芋道管理系统 - 发放记录, URL: 127.0.0.1:5173/hrm/salary/slip

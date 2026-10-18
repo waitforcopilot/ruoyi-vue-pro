@@ -264,11 +264,18 @@ async function handleNextStep() {
     message.warning('请先选择或新增工资条模板')
     return
   }
-  const validateMessage = templateEditorRef.value?.validate()
+  const editor = templateEditorRef.value
+  if (!editor) {
+    message.warning('工资条模板尚未就绪，请稍后重试')
+    return
+  }
+  const validateMessage = editor.validate()
   if (validateMessage) {
     message.warning(validateMessage)
     return
   }
+  // 下一步会卸载模板编辑器，先保存本次发放的明细快照。
+  sendTemplate.value.options = editor.getNormalizedOptions()
   currentStep.value = 1
   if (!employeeLoaded.value) {
     await loadEmployees()
@@ -427,6 +434,6 @@ async function handleDeleteTemplate(id?: number) {
 
 /** 获得本次发放的模板明细 */
 function getTemplateOptions() {
-  return templateEditorRef.value?.getNormalizedOptions() || []
+  return templateEditorRef.value?.getNormalizedOptions() || sendTemplate.value?.options || []
 }
 </script>
