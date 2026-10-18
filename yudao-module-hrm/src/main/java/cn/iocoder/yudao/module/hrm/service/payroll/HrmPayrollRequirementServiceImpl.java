@@ -87,6 +87,21 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
     }
     @Override @Transactional(rollbackFor=Exception.class)
     public Long save(HrmPayrollRequirementSaveReqVO request, Long actorId) {
+        return saveInternal(request,actorId,false);
+    }
+    @Override @Transactional(rollbackFor=Exception.class)
+    public void confirm(Long id,Integer version,Long actorId) {
+        if(id==null||version==null||version<1||actorId==null) throw exception(PAYROLL_REQUIREMENT_CONFIRM_ACTION_REQUIRED);
+        HrmPayrollRequirementDO row=mapper.selectOneForUpdate(HrmPayrollRequirementDO::getId,id);
+        if(row==null) throw exception(PAYROLL_REQUIREMENT_NOT_EXISTS);
+        if(!Objects.equals(row.getVersion(),version)) throw exception(PAYROLL_VERSION_CONFLICT);
+        if(!java.util.Arrays.asList("PENDING","REVIEWING","DISPUTED").contains(row.getStatus()))
+            throw exception(PAYROLL_REQUIREMENT_CONFIRM_ACTION_REQUIRED);
+        HrmPayrollRequirementSaveReqVO request=BeanUtils.toBean(row,HrmPayrollRequirementSaveReqVO.class);
+        request.setStatus("CONFIRMED");
+        saveInternal(request,actorId,true);
+    }
+    private Long saveInternal(HrmPayrollRequirementSaveReqVO request,Long actorId,boolean confirming) {
         HrmPayrollRequirementDO previous = request.getId()==null ? null : mapper.selectOneForUpdate(HrmPayrollRequirementDO::getId, request.getId());
         if (request.getId()!=null && previous==null) throw exception(PAYROLL_REQUIREMENT_NOT_EXISTS);
         if (previous!=null && !Objects.equals(previous.getVersion(),request.getVersion())) throw exception(PAYROLL_VERSION_CONFLICT);
@@ -95,6 +110,9 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
             request=BeanUtils.toBean(request,HrmPayrollRequirementSaveReqVO.class);
             request.setStatus("REVIEWING");
         }
+        if(!confirming && "CONFIRMED".equals(request.getStatus())
+            && (previous==null || !"CONFIRMED".equals(previous.getStatus())))
+            throw exception(PAYROLL_REQUIREMENT_CONFIRM_ACTION_REQUIRED);
         if (("CONFIRMED".equals(request.getStatus()) || "DISPUTED".equals(request.getStatus()) || "DEFERRED".equals(request.getStatus()))
             && (StrUtil.isBlank(request.getEvidence()) || request.getReviewerId()==null)) throw exception(PAYROLL_REVIEW_INCOMPLETE);
         if ("CONFIRMED".equals(request.getStatus()) && (StrUtil.isBlank(request.getAcceptance())

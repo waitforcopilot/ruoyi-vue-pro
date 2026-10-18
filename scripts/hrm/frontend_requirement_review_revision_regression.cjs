@@ -13,20 +13,36 @@ const source = fs.readFileSync(
 const body = source.match(/<script setup lang="ts">([\s\S]*?)<\/script>/)[1];
 function harness() {
   const posts = [],
-    warnings = [];
+    warnings = [],
+    prompts = [],
+    confirmations = [],
+    off = [];
+  const route = { query: {}, fullPath: "/hrm-payroll/requirement?module=COL" };
   const ctx = {
     exports: {},
     ref: vue.ref,
     computed: vue.computed,
     watch: () => {},
     onMounted: () => {},
+    onActivated: () => {},
+    onDeactivated: (f) => off.push(f),
+    onBeforeUnmount: (f) => off.push(f),
     defineOptions: () => {},
-    useRoute: () => ({ query: {} }),
+    useRoute: () => route,
     useRouter: () => ({}),
-    useMessage: () => ({ warning: (x) => warnings.push(x), success: () => {} }),
+    useMessage: () => ({
+      warning: (x) => warnings.push(x),
+      success: () => {},
+      confirm: (...args) =>
+        new Promise((resolve, reject) =>
+          prompts.push({ args, resolve, reject }),
+        ),
+    }),
     require: (name) =>
       name.includes("requirement") && name.includes("api")
         ? {
+            confirmRequirement: async (id, version) =>
+              confirmations.push({ id, version }),
             saveRequirement: async (data) => posts.push(data),
             listRequirements: async () => [],
             getLegacyRequirementProject: async () => ({ id: 1 }),
@@ -44,7 +60,8 @@ function harness() {
   };
   vm.runInNewContext(
     ts.transpileModule(
-      body + "\nexports.s={edit,form,formRef,reviewRevision,save};",
+      body +
+        "\nexports.s={edit,form,formRef,reviewRevision,save,confirmVersion,rows,module,confirming};",
       {
         compilerOptions: {
           module: ts.ModuleKind.CommonJS,
@@ -56,7 +73,7 @@ function harness() {
   );
   const s = ctx.exports.s;
   s.formRef.value = { validate: async () => true };
-  return { s, posts, warnings };
+  return { s, posts, warnings, prompts, confirmations, route, off };
 }
 const original = {
   id: 47,
@@ -112,7 +129,8 @@ const original = {
     h.s.edit({ ...original, status: "REVIEWING" });
     h.s.form.value.status = "CONFIRMED";
     await h.s.save();
-    assert.equal(h.posts[0].status, "CONFIRMED");
+    assert.equal(h.posts.length, 0);
+    assert.equal(h.warnings.length, 1);
     count++;
   }
   {
@@ -140,7 +158,45 @@ const original = {
     assert.equal(h.s.reviewRevision.value, false);
     count++;
   }
-  console.log(`PASS ${count} requirement revision form scenarios`);
+  for (const mode of [
+    "confirm",
+    "cancel",
+    "close",
+    "route",
+    "version",
+    "leave",
+    "duplicate",
+    "wrongReviewer",
+  ]) {
+    const h = harness();
+    const row = { ...original, status: "REVIEWING" };
+    h.s.rows.value = [row];
+    if (mode === "wrongReviewer") row.reviewerId = 3;
+    const task = h.s.confirmVersion(row);
+    if (mode === "wrongReviewer") {
+      await task;
+      assert.equal(h.prompts.length, 0);
+      count++;
+      continue;
+    }
+    assert.equal(h.prompts.length, 1);
+    assert.equal(h.posts.length, 0, "confirmation must not save form fields");
+    if (mode === "route") h.route.fullPath = "/index";
+    if (mode === "version") h.s.rows.value = [{ ...row, version: 99 }];
+    if (mode === "leave") h.off[0]();
+    if (mode === "duplicate") await h.s.confirmVersion(row);
+    if (mode === "cancel" || mode === "close") h.prompts[0].reject(mode);
+    else h.prompts[0].resolve();
+    await task;
+    const valid = mode === "confirm" || mode === "duplicate";
+    assert.equal(h.confirmations.length, valid ? 1 : 0, mode);
+    if (valid) assert.deepEqual(h.confirmations[0], { id: 47, version: 4 });
+    assert.equal(h.s.confirming.value, false);
+    count++;
+  }
+  console.log(
+    `PASS ${count} requirement revision and explicit confirmation scenarios`,
+  );
 })().catch((e) => {
   console.error(e);
   process.exitCode = 1;

@@ -39,6 +39,7 @@ record = next(row for row in c.ok('/hrm/payroll/requirement/list') if row['id'] 
 version = record['version']
 history_before = len(c.ok('/hrm/payroll/requirement/history?id=' + str(id_)))
 confirmation = {**request, 'id': id_, 'version': version, 'status': 'CONFIRMED', 'reviewerId': admin, 'sourceOwnerId': admin, 'sourceSystem': '虚构验收数据源', 'acceptance': '字段、责任人、版本及历史可验证', 'evidence': '隔离自动验收记录', 'fieldMapping': 'employeeNumber → 员工编号；baseSalary → 基本工资'}
+assert c.request('/hrm/payroll/requirement/save', confirmation)['code'] == 1050810040
 for name, changes, expected in [
     ('empty-mapping', {'fieldMapping': ''}, 1050810036),
     ('bare-exemption', {'fieldMapping': 'N/A'}, 1050810036),
@@ -47,22 +48,34 @@ for name, changes, expected in [
     ('disabled-owner', {'sourceOwnerId': s['disabledRequirementUserId']}, 1050810037),
     ('confirmation-by-other-actor', {'reviewerId': s['reviewerId']}, 1050810036),
 ]:
-    result = c.request('/hrm/payroll/requirement/save', {**confirmation, **changes})
+    # Persist candidate content first. Failed confirmation itself must not add history.
+    candidate = {**confirmation, **changes, 'version': version, 'status': 'REVIEWING'}
+    c.ok('/hrm/payroll/requirement/save', candidate)
+    version += 1
+    before_confirm = len(c.ok('/hrm/payroll/requirement/history?id=' + str(id_)))
+    result = c.request('/hrm/payroll/requirement/confirm', {'id': id_, 'version': version})
     assert result['code'] == expected, (name, result)
+    assert len(c.ok('/hrm/payroll/requirement/history?id=' + str(id_))) == before_confirm
     results.append({'case': name, 'code': result['code']})
-assert len(c.ok('/hrm/payroll/requirement/history?id=' + str(id_))) == history_before
-c.ok('/hrm/payroll/requirement/save', confirmation)
+history_before = len(c.ok('/hrm/payroll/requirement/history?id=' + str(id_)))
+c.ok('/hrm/payroll/requirement/save', {**confirmation, 'version': version, 'status': 'REVIEWING'})
+version += 1
+c.ok('/hrm/payroll/requirement/confirm', {'id': id_, 'version': version})
 record = next(row for row in c.ok('/hrm/payroll/requirement/list') if row['id'] == id_)
 assert record['confirmedBy'] == admin and record['status'] == 'CONFIRMED' and record['readiness'] == 'MISSING'
 assert record['version'] == version + 1
-results.append({'case': 'valid-confirmation-does-not-change-readiness', 'id': id_, 'version': record['version'], 'readiness': record['readiness']})
-assert c.request('/hrm/payroll/requirement/save', confirmation)['code'] == 1050810002
-c.ok('/hrm/payroll/requirement/save', {**request, 'id': id_, 'version': version + 1, 'status': 'REVIEWING'})
+results.append({'case': 'explicit-confirmation-does-not-change-readiness', 'id': id_, 'version': record['version'], 'readiness': record['readiness']})
+assert c.request('/hrm/payroll/requirement/confirm', {'id': id_, 'version': version})['code'] == 1050810002
+version += 1
+c.ok('/hrm/payroll/requirement/save', {**request, 'id': id_, 'version': version, 'status': 'REVIEWING'})
+version += 1
 reopened = next(row for row in c.ok('/hrm/payroll/requirement/list') if row['id'] == id_)
 assert reopened.get('confirmedBy') is None and reopened.get('confirmedAt') is None
-c.ok('/hrm/payroll/requirement/save', {**confirmation, 'version': version + 2, 'fieldMapping': '不适用：本需求为制度文字评审，无外部业务数据字段'})
+c.ok('/hrm/payroll/requirement/save', {**confirmation, 'version': version, 'status': 'REVIEWING', 'fieldMapping': '不适用：本需求为制度文字评审，无外部业务数据字段'})
+version += 1
+c.ok('/hrm/payroll/requirement/confirm', {'id': id_, 'version': version})
 history = c.ok('/hrm/payroll/requirement/history?id=' + str(id_))
-assert len(history) == history_before + 3
-results.append({'case': 'explicit-exemption-reopening-stale-version-and-history', 'historyAdded': 3, 'latestVersion': history[0]['version']})
+assert len(history) == history_before + 5
+results.append({'case': 'explicit-exemption-reopening-stale-version-and-history', 'historyAdded': 5, 'latestVersion': history[0]['version']})
 args.output.write_text(json.dumps({'capturedAt': datetime.datetime.now().isoformat(), 'cases': results}, ensure_ascii=False, indent=2))
 print('Passed: confirmation validation, real users, legacy repair, history and optimistic versions')

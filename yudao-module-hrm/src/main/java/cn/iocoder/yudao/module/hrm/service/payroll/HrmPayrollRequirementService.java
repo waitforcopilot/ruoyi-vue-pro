@@ -5,6 +5,7 @@ import java.util.List;
 public interface HrmPayrollRequirementService {
     HrmPayrollRequirementProjectDO legacyProject();
     List<HrmPayrollRequirementDO> list(String module);
+    void confirm(Long id, Integer version, Long actorId);
     Long save(HrmPayrollRequirementSaveReqVO request, Long actorId);
     List<HrmPayrollRequirementHistoryDO> history(Long id);
     int initialize(Long actorId);

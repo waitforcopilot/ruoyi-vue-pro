@@ -38,3 +38,6 @@ export interface PayrollRequirementProject {
 }
 export const getLegacyRequirementProject = () =>
   request.get<PayrollRequirementProject | null>({ url: '/hrm/payroll/requirement/legacy-project' })
+
+export const confirmRequirement = (id: number, version: number) =>
+  request.post<boolean>({ url: '/hrm/payroll/requirement/confirm', data: { id, version } })

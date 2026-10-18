@@ -15,7 +15,7 @@
       :closable="false"
     />
     <el-alert
-      title="业务确认状态与数据就绪状态分别维护；确认需有效负责人、字段映射、来源、验收条件及依据，并由评审负责人本人操作。"
+      title="业务确认状态与数据就绪状态分别维护；确认需有效负责人、字段映射、来源、验收条件及依据；请先保存，再由评审负责人本人点击“确认版本”。"
       type="info"
       :closable="false"
     />
@@ -82,7 +82,7 @@
       >
       <el-table-column prop="sourceSystem" label="数据来源" min-width="160" />
       <el-table-column prop="version" label="版本" width="70" />
-      <el-table-column label="操作" width="140" fixed="right"
+      <el-table-column label="操作" width="230" fixed="right"
         ><template #default="{ row }">
           <el-button
             v-hasPermi="['hrm:payroll:requirement:update']"
@@ -92,6 +92,15 @@
             >编辑</el-button
           >
           <el-button link @click="showHistory(row)">历史</el-button>
+          <el-button
+            v-if="['PENDING', 'REVIEWING', 'DISPUTED'].includes(row.status)"
+            v-hasPermi="['hrm:payroll:requirement:update']"
+            link
+            type="primary"
+            :disabled="loading || saving || confirming || row.reviewerId !== userStore.getUser.id"
+            @click="confirmVersion(row)"
+            >确认版本</el-button
+          >
         </template></el-table-column
       >
     </el-table>
@@ -169,6 +178,7 @@
         ><el-select v-model="form.status"
           ><el-option
             v-for="(label, key) in states"
+            :disabled="key === 'CONFIRMED'"
             :key="key"
             :label="label"
             :value="key" /></el-select
@@ -288,6 +298,7 @@ const rows = ref<PayrollRequirement[]>([])
 const module = ref<PayrollModule | undefined>(payrollModule(route.query.module))
 const loading = ref(false),
   saving = ref(false),
+  confirming = ref(false),
   visible = ref(false),
   historyVisible = ref(false)
 const historyIdentity = ref<Pick<PayrollRequirement, 'id' | 'code' | 'projectId'>>()
@@ -367,6 +378,10 @@ const edit = (row?: PayrollRequirement) => {
 }
 const save = async () => {
   await formRef.value.validate()
+  if (form.value.status === 'CONFIRMED' && originalReview.value?.status !== 'CONFIRMED') {
+    message.warning('请先保存需求，再使用列表中的确认版本操作')
+    return
+  }
   if (form.value.status === 'CONFIRMED' && !reviewRevision.value) {
     if (!form.value.fieldMapping?.trim()) {
       message.warning('请填写字段映射；不适用时需说明具体理由')
@@ -386,6 +401,63 @@ const save = async () => {
     message.success(revising ? '修订已保存为评审中，请重新确认' : '已保存')
   } finally {
     saving.value = false
+  }
+}
+let confirmationActive = true
+onActivated(() => {
+  confirmationActive = true
+})
+onDeactivated(() => {
+  confirmationActive = false
+})
+onBeforeUnmount(() => {
+  confirmationActive = false
+})
+const confirmVersion = async (row: PayrollRequirement) => {
+  if (
+    !confirmationActive ||
+    loading.value ||
+    saving.value ||
+    confirming.value ||
+    !row.id ||
+    !row.version ||
+    row.reviewerId !== userStore.getUser.id ||
+    !['PENDING', 'REVIEWING', 'DISPUTED'].includes(row.status)
+  )
+    return
+  const id = row.id,
+    version = row.version,
+    selectedModule = module.value,
+    path = route.fullPath
+  const current = () =>
+    confirmationActive &&
+    path === route.fullPath &&
+    selectedModule === module.value &&
+    rows.value.some(
+      (item) =>
+        item.id === id &&
+        item.version === version &&
+        item.status === row.status &&
+        item.reviewerId === row.reviewerId
+    )
+  confirming.value = true
+  try {
+    try {
+      await message.confirm(
+        `确认需求ID ${id}（${row.code}）的已保存版本 ${version}？确认不会保存表单中的其他修改。`,
+        '确认需求版本'
+      )
+    } catch (error) {
+      if (error === 'cancel' || error === 'close') return
+      throw error
+    }
+    if (!current()) return
+    await api.confirmRequirement(id, version)
+    if (!current()) return
+    message.success('该版本已确认')
+    await load()
+  } finally {
+    confirming.value = false
   }
 }
 const initialize = async () => {
