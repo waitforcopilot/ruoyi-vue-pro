@@ -120,6 +120,7 @@
               ><el-button
                 v-hasPermi="['hrm:payroll:issue:review']"
                 link
+                :disabled="row.sourceReady !== true"
                 @click="review(row.id, true)"
                 >核实关闭</el-button
               ><el-button
@@ -127,7 +128,12 @@
                 link
                 @click="review(row.id, false)"
                 >退回</el-button
-              ></template
+              ><div
+                v-if="row.sourceReady !== true"
+                class="text-xs text-[var(--el-color-warning)] mt-1"
+              >
+                来源尚未就绪，暂不能关闭。请先补正对应业务来源并刷新，也可退回补正。
+              </div></template
             >
             <el-button
               v-if="row.status === 'CLOSED' && !row.sourceReady && row.canReview"
@@ -463,6 +469,10 @@ async function runAction(id: number, path: string, title: string, approved?: boo
   if (!active || actionBusy || !entityId.value || !batchId.value) return
   const row = rows.value.find((row) => row.id === id && row.batchId === batchId.value)
   if (!row) return
+  if (path === '/review' && approved && row.sourceReady !== true) {
+    message.warning('来源尚未就绪，请先补正对应业务来源并刷新后再核实关闭，或退回补正')
+    return
+  }
   const version = ++actionVersion
   const selectedEntity = entityId.value
   const selectedBatch = batchId.value
@@ -489,6 +499,14 @@ async function runAction(id: number, path: string, title: string, approved?: boo
       throw error
     }
     if (!current()) return
+    if (
+      path === '/review' &&
+      approved &&
+      rows.value.find((row) => row.id === id)?.sourceReady !== true
+    ) {
+      message.warning('来源状态已变化，请刷新并核实来源后再关闭工单')
+      return
+    }
     ownsPrompt = false
     const data =
       path === '/submit'

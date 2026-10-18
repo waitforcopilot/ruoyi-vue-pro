@@ -69,7 +69,7 @@ function harness() {
   const s = ctx.exports.s;
   s.entityId.value = 4;
   s.batchId.value = 7;
-  s.rows.value = [{ id: 1, batchId: 7, status: "OPEN" }];
+  s.rows.value = [{ id: 1, batchId: 7, status: "OPEN", sourceReady: true }];
   return {
     s,
     prompts,
