@@ -144,8 +144,10 @@ async function save() {
 }
 async function review(id: number, approved: boolean) {
   const batch = props.batchId
-  const reason = await message.prompt(approved ? '填写独立核对依据' : '填写驳回原因')
-  if (!reason || batch !== props.batchId) return
+  const version = sequence
+  const { value } = await message.prompt(approved ? '填写独立核对依据' : '填写驳回原因')
+  const reason = value.trim()
+  if (!reason || batch !== props.batchId || version !== sequence) return
   await api.review({ id, approved, reason })
   await load()
 }
