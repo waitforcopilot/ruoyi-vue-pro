@@ -32,6 +32,12 @@
     >
   </el-form>
   <el-alert
+    v-if="!data && !loading && entityId && period"
+    title="请点击查询结构，获取当前筛选条件的工资数据。"
+    type="info"
+    :closable="false"
+  />
+  <el-alert
     v-if="data"
     :title="data.sourceStatus"
     :type="data.ready ? 'success' : 'warning'"
@@ -102,22 +108,21 @@ const params = () => {
   }
 }
 async function load() {
+  const version = ++requestVersion
   data.value = undefined
+  loading.value = false
   if (!props.entityId || !props.period) return
   const selected = params()
+  const scope = scopeVersion
   loading.value = true
   try {
     const result = await request.get({
       url: '/hrm/payroll/financial/wage-structure',
       params: selected
     })
-    if (
-      props.entityId === selected.entityId &&
-      props.period === `${selected.year}-${String(selected.month).padStart(2, '0')}`
-    )
-      data.value = result
+    if (isCurrent(scope, version)) data.value = result
   } finally {
-    loading.value = false
+    if (isCurrent(scope, version)) loading.value = false
   }
 }
 const chart = computed<EChartsOption>(() => ({
@@ -140,19 +145,38 @@ const chart = computed<EChartsOption>(() => ({
   ]
 }))
 async function exportRows() {
+  if (!data.value?.ready || loading.value) return
+  const scope = scopeVersion
+  const version = requestVersion
   const blob = await request.download({
     url: '/hrm/payroll/financial/wage-structure-export',
     params: params()
   })
-  download.excel(blob, '冻结工资结构及环比.xlsx')
+  if (isCurrent(scope, version)) download.excel(blob, '冻结工资结构及环比.xlsx')
 }
+let scopeVersion = 0
+let requestVersion = 0
+let active = true
+const isCurrent = (scope: number, request: number) =>
+  active && scope === scopeVersion && request === requestVersion
+function invalidate() {
+  scopeVersion++
+  data.value = undefined
+  loading.value = false
+}
+watch(() => [deptId.value, category.value], invalidate, { flush: 'sync' })
 watch(
   () => [props.entityId, props.period],
   () => {
+    invalidate()
     deptId.value = undefined
     category.value = ''
     load()
   },
-  { immediate: true }
+  { immediate: true, flush: 'sync' }
 )
+onBeforeUnmount(() => {
+  active = false
+  invalidate()
+})
 </script>

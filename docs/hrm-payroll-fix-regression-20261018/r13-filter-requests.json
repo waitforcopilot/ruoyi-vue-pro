@@ -1,0 +1,54 @@
+[
+  {
+    "sequence": 4836,
+    "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/financial/wage-structure?entityId=4&year=2026&month=10&employeeCategory=TEST_R13_EMPTY"
+  },
+  {
+    "sequence": 4838,
+    "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/financial/wage-structure?entityId=4&year=2026&month=10&employeeCategory=TEST_R13_EMPTY"
+  },
+  {
+    "sequence": 4850,
+    "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/financial/wage-structure?entityId=4&year=2026&month=10&employeeCategory=REGULAR"
+  },
+  {
+    "sequence": 4852,
+    "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/financial/wage-structure?entityId=4&year=2026&month=10&employeeCategory=REGULAR"
+  },
+  {
+    "sequence": 4929,
+    "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/financial/wage-structure?entityId=4&year=2026&month=10"
+  },
+  {
+    "sequence": 4935,
+    "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/financial/wage-structure?entityId=4&year=2026&month=10"
+  },
+  {
+    "sequence": 4953,
+    "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/financial/wage-structure?entityId=4&year=2026&month=10&employeeCategory=TEST_R13_EMPTY"
+  },
+  {
+    "sequence": 4954,
+    "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/financial/wage-structure?entityId=4&year=2026&month=10&employeeCategory=TEST_R13_EMPTY"
+  },
+  {
+    "sequence": 4966,
+    "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/financial/wage-structure?entityId=4&year=2026&month=10&employeeCategory=TEST_R13_EMPTY"
+  },
+  {
+    "sequence": 4974,
+    "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/financial/wage-structure?entityId=4&year=2026&month=10&employeeCategory=REGULAR"
+  },
+  {
+    "sequence": 4975,
+    "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/financial/wage-structure?entityId=4&year=2026&month=10&employeeCategory=REGULAR"
+  },
+  {
+    "sequence": 4987,
+    "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/financial/wage-structure-export?entityId=4&year=2026&month=10&employeeCategory=REGULAR"
+  },
+  {
+    "sequence": 4988,
+    "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/financial/wage-structure-export?entityId=4&year=2026&month=10&employeeCategory=REGULAR"
+  }
+]

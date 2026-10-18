@@ -1,0 +1,335 @@
+Browser tab: 1, Title: "芋道管理系统 - 预算与成本分析", URL: "http://127.0.0.1:5173/hrm-payroll/analysis".
+1 AXWebArea 芋道管理系统 - 预算与成本分析, URL: 127.0.0.1:5173/hrm-payroll/analysis
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 作者动态
+				8 text 作者动态
+			9 Boot 开发文档
+				10 text Boot 开发文档
+			11 Cloud 开发文档
+				12 text Cloud 开发文档
+			13 (collapsed) 系统管理, Secondary Actions: Expand
+				14 container
+					15 text 系统管理
+					16 image
+			17 (collapsed) 基础设施, Secondary Actions: Expand
+				18 container
+					19 text 基础设施
+					20 image
+			21 (collapsed) 支付管理, Secondary Actions: Expand
+				22 container
+					23 text 支付管理
+					24 image
+			25 (collapsed) 报表管理, Secondary Actions: Expand
+				26 container
+					27 text 报表管理
+					28 image
+			29 (collapsed) 工作流程, Secondary Actions: Expand
+				30 container
+					31 text 工作流程
+					32 image
+			33 (collapsed) 会员中心, Secondary Actions: Expand
+				34 container
+					35 text 会员中心
+					36 image
+			37 (expanded) 薪酬管理, Secondary Actions: Collapse
+				38 container
+					39 text 薪酬管理
+					40 image
+				41 menu
+					42 定调薪审批
+						43 text 定调薪审批
+					44 工时与加班
+						45 text 工时与加班
+					46 薪级薪档
+						47 text 薪级薪档
+					48 考勤归集与异常
+						49 text 考勤归集与异常
+					50 法人主体与归属
+						51 text 法人主体与归属
+					52 缴费政策与年度调基
+						53 text 缴费政策与年度调基
+					54 缴费实缴对账
+						55 text 缴费实缴对账
+					56 核算输入与就绪
+						57 text 核算输入与就绪
+					58 年度税务政策
+						59 text 年度税务政策
+					60 薪酬成本分摊
+						61 text 薪酬成本分摊
+					62 预算与成本分析
+						63 text 预算与成本分析
+					64 薪酬输入缺口工单
+						65 text 薪酬输入缺口工单
+					66 社保公积金工资差额
+						67 text 社保公积金工资差额
+					68 薪酬总览
+						69 text 薪酬总览
+					70 独立工资收回
+						71 text 独立工资收回
+					72 需求评审
+						73 text 需求评审
+					74 核算审批
+						75 text 核算审批
+					76 银行代发
+						77 text 银行代发
+					78 薪资公式
+						79 text 薪资公式
+			80 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				81 container
+					82 text MALL 商城系统
+					83 image
+			84 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				85 container
+					86 text EAM 资产管理
+					87 image
+			88 (collapsed) CRM 系统, Secondary Actions: Expand
+				89 container
+					90 text CRM 系统
+					91 image
+			92 (collapsed) ERP 系统, Secondary Actions: Expand
+				93 container
+					94 text ERP 系统
+					95 image
+			96 (collapsed) WMS 系统, Secondary Actions: Expand
+				97 container
+					98 text WMS 系统
+					99 image
+			100 (collapsed) MES 系统, Secondary Actions: Expand
+				101 container
+					102 text MES 系统
+					103 image
+			104 (collapsed) OA 办公协同, Secondary Actions: Expand
+				105 container
+					106 text OA 办公协同
+					107 image
+			108 (collapsed) HRM 人力资源, Secondary Actions: Expand
+				109 container
+					110 text HRM 人力资源
+					111 image
+			112 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				113 container
+					114 text FMS 财务管理
+					115 image
+			116 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				117 container
+					118 text PMS 项目管理
+					119 image
+			120 (collapsed) AI 大模型, Secondary Actions: Expand
+				121 container
+					122 text AI 大模型
+					123 image
+			124 (collapsed) IoT 物联网, Secondary Actions: Expand
+				125 container
+					126 text IoT 物联网
+					127 image
+			128 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				129 container
+					130 text IM 即时通讯
+					131 image
+			132 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				133 container
+					134 text MP 公众号管理
+					135 image
+			136 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				137 container
+					138 text CMS 内容管理
+					139 image
+		140 container
+			141 container v-tool-header
+				142 container 面包屑
+					143 link 薪酬管理
+						144 text 薪酬管理
+					145 text /
+					146 link 预算与成本分析
+						147 text 预算与成本分析
+				148 container
+					149 combo box (collapsed, settable) ID: el-id-6346-68, Secondary Actions: Expand
+					150 text 请选择租户
+					151 image
+				152 container
+					153 container
+						154 combo box (collapsed, settable) ID: el-id-6346-69, Secondary Actions: Expand
+						155 text 请输入菜单内容
+				156 pop up button (collapsed) ID: el-id-6346-6, Secondary Actions: Expand
+				157 pop up button (collapsed) ID: el-id-6346-11, Secondary Actions: Expand
+				158 pop up button (collapsed) 芋道源码, ID: el-id-6346-16, Secondary Actions: Expand
+			159 container v-tags-view
+				160 container
+					161 pop up button (collapsed) 首页, ID: el-id-6346-22, Secondary Actions: Expand
+						162 container
+							163 text 首页
+					164 pop up button (collapsed) 预算与成本分析, ID: el-id-6346-30, Secondary Actions: Expand
+						165 container
+							166 text 预算与成本分析
+				167 pop up button (collapsed) ID: el-id-6346-38, Secondary Actions: Expand
+			168 container
+				169 button 本模块需求（报表分析）
+				170 button 候选数据源（4）
+			171 text 实际采用已批准的冻结工资成本报表，按计薪期间归集；金额单位为元，编制单位为人。空白营收/预算/编制表示未提供，确认零值另行保存；分母缺失或为零时不计算比率。
+			172 container
+				173 text 法人主体
+				174 container
+					175 combo box (collapsed, settable) 法人主体, ID: el-id-6346-70, Secondary Actions: Expand
+					176 text 隔离浏览器全流程主体（虚构）
+					177 image
+				178 text 期间
+				179 container
+					180 image
+					181 combo box (collapsed, settable) 期间, Value: 2026-10, ID: el-id-6346-71, Secondary Actions: Expand
+				182 button 查询
+			183 tab group
+				184 tab (selected, settable, boolean) 工资结构及环比, Value: 1, ID: tab-structure
+				185 tab (selectable, settable, boolean) 预算与实际分析, Value: 0, ID: tab-analysis
+				186 tab (selectable, settable, boolean) 预算、营收及编制版本, Value: 0, ID: tab-plans
+				187 tab (selectable, settable, boolean) Excel 预校验与导入, Value: 0, ID: tab-import
+				188 tab (selectable, settable, boolean) 期间审批与导出履历, Value: 0, ID: tab-history
+			189 container Description: 工资结构及环比, ID: pane-structure
+				190 text 按冻结工资及原计薪日的历史部门、人员类别统计，环比对照上一计薪月。只纳入计入应发的工资项，扣减为负；原始考勤明细、个人代扣和单位成本不重复相加。
+				191 container
+					192 text 历史部门
+					193 container
+						194 combo box (collapsed, settable) 历史部门, ID: el-id-6346-122, Secondary Actions: Expand
+						195 text 请选择
+						196 image
+					197 text 人员类别
+					198 container
+						199 combo box (collapsed, settable) 人员类别, ID: el-id-6346-123, Secondary Actions: Expand
+						200 text REGULAR
+						201 image
+					202 button 查询结构
+					203 button 导出结构及环比
+				204 text 工资项已逐员工核对到冻结应发；扣减为负数，比例以应发为分母
+				205 table
+					206 row
+						207 cell
+							208 text 本期应发（元）
+						209 cell
+							210 text 5,980
+						211 cell
+							212 text 上期应发（元）
+						213 cell
+							214 text 不可计算
+						215 cell
+							216 text 应发变化（元）
+						217 cell
+							218 text 不可计算
+						219 cell
+							220 text 变化率%
+						221 cell
+							222 text 不可计算
+				333 container
+					334 table
+						335 row
+							336 cell
+								337 text 工资项编码
+							338 cell
+								339 text 本期工资项
+							340 cell
+								341 text 上期名称
+							342 cell
+								343 text 本期金额（元）
+							344 cell
+								345 text 占应发比例%
+							346 cell
+								347 text 上期金额（元）
+							348 cell
+								349 text 环比金额（元）
+							350 cell
+								351 text 变化率%
+							352 cell
+								353 text 对比说明
+					354 table
+						355 container
+							356 row
+								357 cell
+									358 text 10101
+								359 cell
+									360 text 基本工资
+								361 cell
+									362 text 6,000
+								363 cell
+									364 text 100.3344
+								365 cell
+									366 text 不可计算
+								367 cell
+									368 text 不可计算
+								369 cell
+									370 text 不可计算
+								371 cell
+									372 text 上期无可用冻结来源
+							373 row
+								374 cell
+									375 text 10102
+								376 cell
+									377 text 岗位工资
+								378 cell
+									379 text 0
+								380 cell
+									381 text 0
+								382 cell
+									383 text 不可计算
+								384 cell
+									385 text 不可计算
+								386 cell
+									387 text 不可计算
+								388 cell
+									389 text 上期无可用冻结来源
+							390 row
+								391 cell
+									392 text 20104
+								393 cell
+									394 text 餐补
+								395 cell
+									396 text 0
+								397 cell
+									398 text 0
+								399 cell
+									400 text 不可计算
+								401 cell
+									402 text 不可计算
+								403 cell
+									404 text 不可计算
+								405 cell
+									406 text 上期无可用冻结来源
+							407 row
+								408 cell
+									409 text 180101
+								410 cell
+									411 text 加班工资
+								412 cell
+									413 text 0
+								414 cell
+									415 text 0
+								416 cell
+									417 text 不可计算
+								418 cell
+									419 text 不可计算
+								420 cell
+									421 text 不可计算
+								422 cell
+									423 text 上期无可用冻结来源
+							424 row
+								425 cell
+									426 text 200101
+								427 cell
+									428 text 考勤扣款合计
+								429 cell
+									430 text -20
+								431 cell
+									432 text -0.3344
+								433 cell
+									434 text 不可计算
+								435 cell
+									436 text 不可计算
+								437 cell
+									438 text 不可计算
+								439 cell
+									440 text 上期无可用冻结来源
+				331 text 本期核算来源：7；上期核算来源：暂无。缺失期间、零或负分母不生成占比/变化率。
+			332 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 1 AXWebArea 芋道管理系统 - 预算与成本分析, URL: 127.0.0.1:5173/hrm-payroll/analysis
