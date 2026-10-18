@@ -233,6 +233,10 @@ const normalizeDateTime = (value: string | number | null | undefined) => {
 }
 let historyVersion = 0
 let active = true
+let selectorVersion = 0
+let batchVersion = 0
+let signalVersion = 0
+let loadingVersion = 0
 let formVersion = 0
 const captureForm = () => ({
   version: formVersion,
@@ -262,6 +266,13 @@ function clearHistory() {
   events.value = []
 }
 async function changeEntity() {
+  const version = ++selectorVersion
+  const selectedEntity = entityId.value
+  batchVersion++
+  signalVersion++
+  loadingVersion++
+  loading.value = false
+  selectors.batches = []
   clearForm()
   clearHistory()
   batchId.value = undefined
@@ -269,41 +280,78 @@ async function changeEntity() {
   rows.value = []
   signals.value = []
   employees.value = []
-  Object.assign(
-    selectors,
-    await request.get({ url: base + '/selectors', params: { entityId: entityId.value } })
-  )
+  const result = await request.get({
+    url: base + '/selectors',
+    params: { entityId: selectedEntity }
+  })
+  if (active && version === selectorVersion && selectedEntity === entityId.value)
+    Object.assign(selectors, result)
 }
 async function loadBatch() {
+  const version = ++batchVersion
+  const scope = selectorVersion
+  const selectedEntity = entityId.value
+  const selectedBatch = batchId.value
+  signalVersion++
+  const busy = ++loadingVersion
+  loading.value = false
   clearForm()
   clearHistory()
-  if (!batchId.value) return
+  rows.value = []
+  employees.value = []
+  signals.value = []
+  employeeId.value = undefined
+  if (!selectedEntity || !selectedBatch) return
   loading.value = true
   try {
     const [a, b] = await Promise.all([
-      request.get({ url: base + '/list', params: { batchId: batchId.value } }),
-      request.get({ url: base + '/employees', params: { batchId: batchId.value } })
+      request.get({ url: base + '/list', params: { batchId: selectedBatch } }),
+      request.get({ url: base + '/employees', params: { batchId: selectedBatch } })
     ])
+    if (
+      !active ||
+      version !== batchVersion ||
+      scope !== selectorVersion ||
+      selectedEntity !== entityId.value ||
+      selectedBatch !== batchId.value
+    )
+      return
     rows.value = a
     employees.value = b
-    employeeId.value = undefined
-    signals.value = []
   } finally {
-    loading.value = false
+    if (active && busy === loadingVersion) loading.value = false
   }
 }
 async function loadSignals() {
+  const version = ++signalVersion
+  const scope = selectorVersion
+  const batch = batchVersion
+  const selectedEntity = entityId.value
+  const selectedBatch = batchId.value
+  const selectedEmployee = employeeId.value
+  const busy = ++loadingVersion
+  loading.value = false
   clearForm()
   signals.value = []
-  if (!employeeId.value || !batchId.value) return
+  if (!selectedEntity || !selectedEmployee || !selectedBatch) return
   loading.value = true
   try {
-    signals.value = await request.get({
+    const result = await request.get({
       url: base + '/signals',
-      params: { batchId: batchId.value, employeeId: employeeId.value }
+      params: { batchId: selectedBatch, employeeId: selectedEmployee }
     })
+    if (
+      active &&
+      version === signalVersion &&
+      scope === selectorVersion &&
+      batch === batchVersion &&
+      selectedEntity === entityId.value &&
+      selectedBatch === batchId.value &&
+      selectedEmployee === employeeId.value
+    )
+      signals.value = result
   } finally {
-    loading.value = false
+    if (active && busy === loadingVersion) loading.value = false
   }
 }
 async function options(id: number, selectedBatch: number) {
@@ -415,7 +463,13 @@ async function history(id: number) {
   historyIssueId.value = id
   historyVisible.value = true
 }
-onMounted(async () => Object.assign(selectors, await request.get({ url: base + '/selectors' })))
+onMounted(async () => {
+  const version = ++selectorVersion
+  const selectedEntity = entityId.value
+  const result = await request.get({ url: base + '/selectors' })
+  if (active && version === selectorVersion && selectedEntity === entityId.value)
+    Object.assign(selectors, result)
+})
 onBeforeUnmount(() => {
   active = false
   clearForm()
