@@ -15,9 +15,33 @@
     />
     <el-table
       :data="rows"
+      row-key="id"
       v-loading="loading"
       :empty-text="loading ? '正在加载工单' : loadError ? '工单未加载，请刷新重试' : '暂无工单'"
-      ><el-table-column prop="id" label="工单编号" /><el-table-column
+    >
+      <el-table-column type="expand" label="详情" width="60">
+        <template #default="{ row }">
+          <el-descriptions :column="1" border class="px-4 py-2">
+            <el-descriptions-item label="处理要求">
+              <div class="whitespace-pre-wrap break-words">{{ row.reason || '未填写' }}</div>
+            </el-descriptions-item>
+            <el-descriptions-item label="最近提交材料">
+              <div class="whitespace-pre-wrap break-words">{{
+                row.evidence || '暂无提交材料'
+              }}</div>
+            </el-descriptions-item>
+            <el-descriptions-item label="最近复核意见">
+              <div class="whitespace-pre-wrap break-words">{{
+                row.reviewOpinion || '暂无复核意见'
+              }}</div>
+            </el-descriptions-item>
+          </el-descriptions>
+          <p class="px-4 pb-2 text-sm text-[var(--el-text-color-secondary)]">
+            材料和意见可能来自上一轮处理，请结合工单状态判断；完整处理过程请查看履历。
+          </p>
+        </template>
+      </el-table-column>
+      <el-table-column prop="id" label="工单编号" /><el-table-column
         prop="batchId"
         label="工资批次编号"
       /><el-table-column prop="employeeId" label="员工编号" /><el-table-column label="项目"
