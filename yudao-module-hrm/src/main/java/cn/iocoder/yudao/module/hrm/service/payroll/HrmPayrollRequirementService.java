@@ -3,6 +3,7 @@ import cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollRequire
 import cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.*;
 import java.util.List;
 public interface HrmPayrollRequirementService {
+    HrmPayrollRequirementProjectDO legacyProject();
     List<HrmPayrollRequirementDO> list(String module);
     Long save(HrmPayrollRequirementSaveReqVO request, Long actorId);
     List<HrmPayrollRequirementHistoryDO> history(Long id);

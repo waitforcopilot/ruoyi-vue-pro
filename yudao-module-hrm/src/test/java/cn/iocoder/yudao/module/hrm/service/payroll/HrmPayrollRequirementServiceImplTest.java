@@ -76,4 +76,24 @@ class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
         r.setReviewerId(2L);
         assertServiceException(()->service.save(r,3L),PAYROLL_REQUIREMENT_CONFIRMATION_INVALID);
     }
+    @Test void legacyProjectIsServerOwnedAndStableAcrossEdits() {
+        assertNull(service.legacyProject()); // Reads do not provision projects.
+        HrmPayrollRequirementSaveReqVO r=request(); Long id=service.save(r,1L);
+        Long project=service.legacyProject().getId();
+        assertNotNull(project);assertNull(service.legacyProject().getProjectScopeVersion());
+        assertEquals(1,service.legacyProject().getMetadataVersion());
+        assertEquals(project,service.list(null).get(0).getProjectId());
+        r.setId(id);r.setVersion(1);r.setDescription("只修改说明，保留归属");service.save(r,1L);
+        assertEquals(project,service.list(null).get(0).getProjectId());
+        assertEquals(project,service.legacyProject().getId());assertEquals(2,service.history(id).size());
+        assertTrue(service.history(id).get(0).getSnapshot().contains("\"projectId\":"+project));
+    }
+    @Test void multipleRequirementsReuseLegacyProjectAndInvalidWritesDoNotCreateIt() {
+        HrmPayrollRequirementSaveReqVO bad=confirmed();bad.setFieldMapping("");
+        assertServiceException(()->service.save(bad,2L),PAYROLL_REQUIREMENT_CONFIRMATION_INVALID);
+        assertNull(service.legacyProject());
+        service.save(request(),1L);Long project=service.legacyProject().getId();
+        HrmPayrollRequirementSaveReqVO second=request();second.setCode("PLAN-07");service.save(second,1L);
+        for(HrmPayrollRequirementDO row:service.list(null)) assertEquals(project,row.getProjectId());
+    }
 }

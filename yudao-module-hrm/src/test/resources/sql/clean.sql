@@ -49,6 +49,7 @@ DELETE FROM "hrm_recruit_post_type";
 
 DELETE FROM "hrm_payroll_requirement_history";
 DELETE FROM "hrm_payroll_requirement";
+DELETE FROM "hrm_payroll_requirement_project";
 
 DELETE FROM "hrm_payroll_batch_event";
 DELETE FROM "hrm_payroll_run";

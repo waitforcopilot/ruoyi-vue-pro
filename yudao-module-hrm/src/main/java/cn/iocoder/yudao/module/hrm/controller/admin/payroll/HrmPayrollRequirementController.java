@@ -18,6 +18,8 @@ import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUti
 @Tag(name="管理后台 - 薪酬需求征集")
 public class HrmPayrollRequirementController {
     @Resource private HrmPayrollRequirementService service;
+    @GetMapping("/legacy-project") @PreAuthorize("@ss.hasPermission('hrm:payroll:requirement:query')")
+    public CommonResult<HrmPayrollRequirementProjectDO> legacyProject(){return success(service.legacyProject());}
     @GetMapping("/list") @PreAuthorize("@ss.hasPermission('hrm:payroll:requirement:query')")
     public CommonResult<List<HrmPayrollRequirementDO>> list(@RequestParam(required=false) String module){return success(service.list(module));}
     @PostMapping("/save") @PreAuthorize("@ss.hasPermission('hrm:payroll:requirement:update')")

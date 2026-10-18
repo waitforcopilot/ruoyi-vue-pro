@@ -1,6 +1,20 @@
 <template>
   <ContentWrap>
     <el-alert
+      class="mb-4"
+      :title="
+        loading
+          ? '正在加载需求及项目归属'
+          : projectError
+            ? '需求或项目归属加载失败，请刷新重试'
+            : project
+              ? `${project.name} · 项目编号 ${project.id} · ${project.projectScopeVersion == null ? '项目范围尚未定义，仅标识历史迁移归属' : '范围版本 ' + project.projectScopeVersion}`
+              : '尚无历史迁移项目，首次保存需求时建立归属'
+      "
+      :type="projectError ? 'error' : 'info'"
+      :closable="false"
+    />
+    <el-alert
       title="业务确认状态与数据就绪状态分别维护；确认需有效负责人、字段映射、来源、验收条件及依据，并由评审负责人本人操作。"
       type="info"
       :closable="false"
@@ -276,10 +290,23 @@ const rules = {
   module: [{ required: true, message: '选择模块' }],
   description: [{ required: true, message: '填写功能说明' }]
 }
+const project = ref<api.PayrollRequirementProject | null>(null)
+const projectError = ref(false)
 const load = async () => {
   loading.value = true
   try {
-    rows.value = await api.listRequirements(module.value)
+    projectError.value = false
+    const [data, metadata] = await Promise.all([
+      api.listRequirements(module.value),
+      api.getLegacyRequirementProject()
+    ])
+    rows.value = data
+    project.value = metadata
+  } catch (error) {
+    projectError.value = true
+    project.value = null
+    rows.value = []
+    throw error
   } finally {
     loading.value = false
   }

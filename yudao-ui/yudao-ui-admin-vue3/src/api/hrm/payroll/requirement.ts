@@ -2,6 +2,7 @@ import request from '@/config/axios'
 
 export interface PayrollRequirement {
   id?: number
+  projectId?: number
   code: string
   module: string
   description: string
@@ -28,3 +29,12 @@ export const requirementHistory = (id: number) =>
   request.get({ url: '/hrm/payroll/requirement/history', params: { id } })
 export const exportRequirements = (module?: string) =>
   request.download({ url: '/hrm/payroll/requirement/export', params: { module } })
+
+export interface PayrollRequirementProject {
+  id: number
+  name: string
+  metadataVersion: number
+  projectScopeVersion?: number
+}
+export const getLegacyRequirementProject = () =>
+  request.get<PayrollRequirementProject | null>({ url: '/hrm/payroll/requirement/legacy-project' })

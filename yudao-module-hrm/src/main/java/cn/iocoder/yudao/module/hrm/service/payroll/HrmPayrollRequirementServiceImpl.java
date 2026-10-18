@@ -19,6 +19,7 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
     @Resource private cn.iocoder.yudao.module.system.api.user.AdminUserApi users;
     @Resource private HrmPayrollRequirementMapper mapper;
     @Resource private HrmPayrollRequirementHistoryMapper historyMapper;
+    @Resource private HrmPayrollRequirementProjectMapper projectMapper;
     private static final String[][] SEEDS = {
         {"OV-01", "总览层汇总指标（应发/实发/法定成本/个税）的统计口径定义"},
         {"OV-02", "核算期间切换与历史批次查询"},
@@ -64,6 +65,22 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         {"RPT-04", "工资总额预算与实际对比"},
         {"RPT-05", "报表口径与导出格式"},
     };
+    @Override public HrmPayrollRequirementProjectDO legacyProject() {
+        return projectMapper.selectOne(HrmPayrollRequirementProjectDO::getProjectKey,"LEGACY");
+    }
+    private Long ensureLegacyProject() {
+        HrmPayrollRequirementProjectDO project=legacyProject();
+        if(project!=null) return project.getId();
+        project=new HrmPayrollRequirementProjectDO().setProjectKey("LEGACY").setName("历史需求迁移项目").setMetadataVersion(1);
+        try { projectMapper.insert(project); }
+        catch(org.springframework.dao.DuplicateKeyException duplicate) {
+            // Concurrent first writes share the tenant's single legacy project.
+            HrmPayrollRequirementProjectDO existing=projectMapper.selectOneForUpdate(HrmPayrollRequirementProjectDO::getProjectKey,"LEGACY");
+            if(existing==null) throw duplicate;
+            return existing.getId();
+        }
+        return project.getId();
+    }
     @Override public List<HrmPayrollRequirementDO> list(String module) {
         return mapper.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementDO>()
             .eqIfPresent(HrmPayrollRequirementDO::getModule, module).orderByAsc(HrmPayrollRequirementDO::getCode));
@@ -88,6 +105,9 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         HrmPayrollRequirementDO duplicate=mapper.selectOne(HrmPayrollRequirementDO::getCode,request.getCode());
         if (duplicate!=null && !Objects.equals(duplicate.getId(),request.getId())) throw exception(PAYROLL_REQUIREMENT_DUPLICATE);
         HrmPayrollRequirementDO record=BeanUtils.toBean(request,HrmPayrollRequirementDO.class);
+        // Project identity is server-owned. The legacy API cannot move an existing requirement.
+        record.setProjectId(previous==null ? ensureLegacyProject() : previous.getProjectId());
+        if(record.getProjectId()==null) throw exception(PAYROLL_REVIEW_INCOMPLETE);
         record.setVersion(previous==null ? 1 : previous.getVersion()+1);
         if ("CONFIRMED".equals(record.getStatus())) {record.setConfirmedBy(actorId);record.setConfirmedAt(LocalDateTime.now());}
         if (previous==null) mapper.insert(record);

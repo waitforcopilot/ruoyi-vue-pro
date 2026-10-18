@@ -1,0 +1,18 @@
+{
+  "checks": [
+    {
+      "run": 1,
+      "original_fields_identical": true,
+      "unassigned": 0,
+      "projects_sha256": "eb27f80c181962ffbe67c125f9b7cd7d76c79c9d226eb0dd3457dbba812642d7"
+    },
+    {
+      "run": 2,
+      "original_fields_identical": true,
+      "unassigned": 0,
+      "projects_sha256": "eb27f80c181962ffbe67c125f9b7cd7d76c79c9d226eb0dd3457dbba812642d7"
+    }
+  ],
+  "requirement_count": 46,
+  "history_count": 50
+}
