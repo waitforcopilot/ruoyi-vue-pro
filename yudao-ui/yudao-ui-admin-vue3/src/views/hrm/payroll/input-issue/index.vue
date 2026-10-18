@@ -25,6 +25,13 @@
       ></el-form-item>
       <el-button :disabled="!batchId" @click="loadBatch">刷新</el-button>
     </el-form>
+    <el-alert
+      v-if="batchLoadError"
+      title="批次工单或员工加载失败，当前状态尚未确认。请点击刷新重试后再处理。"
+      type="error"
+      :closable="false"
+      class="mb-4"
+    />
     <el-form inline
       ><el-form-item label="检查员工"
         ><el-select v-model="employeeId" filterable style="width: 400px" @change="loadSignals"
@@ -66,7 +73,20 @@
       >
     </el-table>
     <h4>缺口处理工单</h4>
-    <el-table :data="rows" v-loading="loading" row-key="id">
+    <el-table
+      :data="rows"
+      v-loading="loading"
+      row-key="id"
+      :empty-text="
+        !batchId
+          ? '请先选择工资批次'
+          : loading
+            ? '正在加载批次数据'
+            : batchLoadError
+              ? '批次数据未加载，请刷新重试'
+              : '暂无工单'
+      "
+    >
       <el-table-column type="expand" label="详情" width="60">
         <template #default="{ row }">
           <el-descriptions :column="1" border class="px-4 py-2">
@@ -246,6 +266,7 @@ const entityId = ref<number>(),
   batchId = ref<number>(),
   employeeId = ref<number>(),
   loading = ref(false),
+  batchLoadError = ref(false),
   saving = ref(false),
   dialog = ref(false),
   historyVisible = ref(false),
@@ -336,6 +357,7 @@ function clearHistory() {
   events.value = []
 }
 async function changeEntity() {
+  batchLoadError.value = false
   const version = ++selectorVersion
   const selectedEntity = entityId.value
   batchVersion++
@@ -358,10 +380,17 @@ async function changeEntity() {
     Object.assign(selectors, result)
 }
 async function loadBatch() {
+  batchLoadError.value = false
   const version = ++batchVersion
   const scope = selectorVersion
   const selectedEntity = entityId.value
   const selectedBatch = batchId.value
+  const current = () =>
+    active &&
+    version === batchVersion &&
+    scope === selectorVersion &&
+    selectedEntity === entityId.value &&
+    selectedBatch === batchId.value
   signalVersion++
   const busy = ++loadingVersion
   loading.value = false
@@ -378,20 +407,16 @@ async function loadBatch() {
       request.get({ url: base + '/list', params: { batchId: selectedBatch } }),
       request.get({ url: base + '/employees', params: { batchId: selectedBatch } })
     ])
-    if (
-      !active ||
-      version !== batchVersion ||
-      scope !== selectorVersion ||
-      selectedEntity !== entityId.value ||
-      selectedBatch !== batchId.value
-    )
-      return
+    if (!current()) return
     rows.value = a
     employees.value = b
+  } catch {
+    if (current()) batchLoadError.value = true
   } finally {
     if (active && busy === loadingVersion) loading.value = false
   }
 }
+
 async function loadSignals() {
   const version = ++signalVersion
   const scope = selectorVersion

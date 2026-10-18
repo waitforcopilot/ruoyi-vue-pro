@@ -231,7 +231,7 @@ function harness() {
     const task = h.s.loadBatch();
     h.gets[0].reject(new Error("synthetic error"));
     h.gets[1].resolve([]);
-    await assert.rejects(task, /synthetic error/);
+    await task; // Batch loading now displays a persistent failure state instead of rethrowing.
     assert.equal(h.s.rows.value.length, 0);
     assert.equal(h.s.loading.value, false);
     h.stop();
