@@ -31,6 +31,7 @@ function harness() {
     computed: vue.computed,
     defineOptions: () => {},
     onMounted: () => {},
+    onBeforeUnmount: () => {},
     useMessage: () => ({ success: () => {} }),
     crypto: { randomUUID: () => "test-key" },
     require: (name) =>

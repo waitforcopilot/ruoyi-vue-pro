@@ -78,7 +78,7 @@
       />
       <el-table-column label="截止时间" min-width="165"
         ><template #default="{ row }">{{
-          normalizeDueTime(row.dueTime)?.replace('T', ' ') || '未知'
+          normalizeDateTime(row.dueTime)?.replace('T', ' ') || '未知'
         }}</template></el-table-column
       >
       <el-table-column label="来源状态"
@@ -179,7 +179,7 @@
       ></template
     >
   </Dialog>
-  <Dialog v-model="historyVisible" title="工单处理履历"
+  <Dialog v-model="historyVisible" :title="`工单处理履历 #${historyIssueId || '—'}`"
     ><el-table :data="events"
       ><el-table-column label="动作"
         ><template #default="{ row }">{{
@@ -187,8 +187,14 @@
         }}</template></el-table-column
       ><el-table-column prop="actorId" label="操作人编号" /><el-table-column
         prop="reason"
-        label="依据" /><el-table-column prop="createTime" label="时间" min-width="165" /></el-table
-  ></Dialog>
+        label="依据"
+      /><el-table-column label="时间" min-width="165"
+        ><template #default="{ row }">{{
+          normalizeDateTime(row.createTime)?.replace('T', ' ') || '未知'
+        }}</template></el-table-column
+      ></el-table
+    ></Dialog
+  >
 </template>
 <script setup lang="ts">
 import RequirementContext from '../components/RequirementContext.vue'
@@ -204,7 +210,8 @@ const entityId = ref<number>(),
   loading = ref(false),
   saving = ref(false),
   dialog = ref(false),
-  historyVisible = ref(false)
+  historyVisible = ref(false),
+  historyIssueId = ref<number>()
 const selectors = reactive<any>({ entities: [], batches: [] }),
   employees = ref<any[]>([]),
   signals = ref<any[]>([]),
@@ -219,12 +226,21 @@ const employeeName = (id: number) => {
   const e = employees.value.find((e) => e.id === id)
   return e ? `${e.name} · ${e.jobNumber || id}` : id
 }
-const normalizeDueTime = (value: string | number | null | undefined) => {
+const normalizeDateTime = (value: string | number | null | undefined) => {
   if (value == null || value === '') return undefined
   const date = dayjs(value)
   return date.isValid() ? date.format('YYYY-MM-DDTHH:mm:ss') : undefined
 }
+let historyVersion = 0
+let active = true
+function clearHistory() {
+  historyVersion++
+  historyVisible.value = false
+  historyIssueId.value = undefined
+  events.value = []
+}
 async function changeEntity() {
+  clearHistory()
   batchId.value = undefined
   employeeId.value = undefined
   rows.value = []
@@ -236,6 +252,7 @@ async function changeEntity() {
   )
 }
 async function loadBatch() {
+  clearHistory()
   if (!batchId.value) return
   loading.value = true
   try {
@@ -292,7 +309,7 @@ async function openAssign(row: any) {
   await options(row.employeeId)
   Object.assign(draft, {
     ...row,
-    dueTime: normalizeDueTime(row.dueTime),
+    dueTime: normalizeDateTime(row.dueTime),
     reason: ''
   })
   dialog.value = true
@@ -340,8 +357,27 @@ async function reopen(id: number) {
   await loadBatch()
 }
 async function history(id: number) {
-  events.value = await request.get({ url: base + '/history', params: { id } })
+  clearHistory()
+  if (!entityId.value || !batchId.value || !rows.value.some((row) => row.id === id)) return
+  const version = historyVersion
+  const selectedEntity = entityId.value
+  const selectedBatch = batchId.value
+  const result = await request.get({ url: base + '/history', params: { id } })
+  if (
+    !active ||
+    version !== historyVersion ||
+    selectedEntity !== entityId.value ||
+    selectedBatch !== batchId.value ||
+    !rows.value.some((row) => row.id === id)
+  )
+    return
+  events.value = result
+  historyIssueId.value = id
   historyVisible.value = true
 }
 onMounted(async () => Object.assign(selectors, await request.get({ url: base + '/selectors' })))
+onBeforeUnmount(() => {
+  active = false
+  clearHistory()
+})
 </script>
