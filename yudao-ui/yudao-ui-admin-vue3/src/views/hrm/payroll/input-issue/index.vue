@@ -46,10 +46,17 @@
         ></el-table-column
       >
       <el-table-column prop="reason" label="检查结论" min-width="280" />
-      <el-table-column label="操作" width="120"
+      <el-table-column label="操作" width="180"
         ><template #default="{ row }"
           ><el-button
-            v-if="!row.ready && editable"
+            v-if="!row.ready && editable && activeIssue(row)"
+            link
+            @click="history(activeIssue(row)!.id)"
+            >查看工单 #{{ activeIssue(row)!.id }}（{{
+              states[activeIssue(row)!.status]
+            }}）</el-button
+          ><el-button
+            v-else-if="!row.ready && editable"
             v-hasPermi="['hrm:payroll:issue:update']"
             link
             @click="openCreate(row)"
@@ -226,6 +233,20 @@ const employeeName = (id: number) => {
   const e = employees.value.find((e) => e.id === id)
   return e ? `${e.name} · ${e.jobNumber || id}` : id
 }
+const activeIssue = (signal: { employeeId: number; kind: string }) =>
+  rows.value.find(
+    (issue) =>
+      issue.batchId === batchId.value &&
+      issue.employeeId === signal.employeeId &&
+      issue.kind === signal.kind &&
+      ['OPEN', 'SUBMITTED'].includes(issue.status)
+  )
+function duplicateIssue(signal: { employeeId: number; kind: string }) {
+  const issue = activeIssue(signal)
+  if (!issue) return false
+  message.warning(`该项目已有待处理工单 #${issue.id}，请在现有工单中继续处理`)
+  return true
+}
 const normalizeDateTime = (value: string | number | null | undefined) => {
   if (value == null || value === '') return undefined
   const date = dayjs(value)
@@ -363,10 +384,12 @@ async function options(id: number, selectedBatch: number) {
 async function openCreate(row: any) {
   clearForm()
   if (!entityId.value || !batchId.value) return
+  if (row.ready || duplicateIssue(row)) return
   const context = captureForm()
   const selected = { ...row }
   const result = await options(selected.employeeId, batchId.value)
   if (!isCurrentForm(context)) return
+  if (duplicateIssue(selected)) return
   Object.assign(people, result)
   Object.assign(draft, {
     id: undefined,
@@ -402,6 +425,7 @@ async function openAssign(row: any) {
 async function save() {
   const context = formContext
   if (!context || !dialog.value || !isCurrentForm(context) || saving.value) return
+  if (!draft.id && duplicateIssue(draft)) return
   saving.value = true
   try {
     const data = draft.id
