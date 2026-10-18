@@ -1,0 +1,20 @@
+{
+  "file": "计划导入逐行校验.xlsx",
+  "headers": [
+    "工作表",
+    "文件行",
+    "范围类型",
+    "范围编号",
+    "校验结果"
+  ],
+  "rows": [
+    [
+      "计划资料",
+      2.0,
+      "ENTITY",
+      "ALL",
+      ""
+    ]
+  ],
+  "result": "one synthetic row; no validation error"
+}

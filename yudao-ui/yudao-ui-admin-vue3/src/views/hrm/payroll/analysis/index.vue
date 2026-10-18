@@ -359,26 +359,66 @@ const display = (value: any, percent = false) =>
   value == null
     ? '不可计算'
     : Number(value).toLocaleString('zh-CN', { maximumFractionDigits: percent ? 4 : 4 })
+let scopeVersion = 0
+let fileVersion = 0
+let loadVersion = 0
+let uploadVersion = 0
+let active = true
+const currentScope = () => ({
+  version: scopeVersion,
+  entityId: entityId.value,
+  period: period.value
+})
+const isCurrentScope = (scope: ReturnType<typeof currentScope>) =>
+  active &&
+  scope.version === scopeVersion &&
+  scope.entityId === entityId.value &&
+  scope.period === period.value
+const currentFile = () => ({
+  scope: currentScope(),
+  version: fileVersion,
+  file: file.value,
+  key: requestKey.value
+})
+const isCurrentFile = (context: ReturnType<typeof currentFile>) =>
+  isCurrentScope(context.scope) &&
+  context.version === fileVersion &&
+  context.file === file.value &&
+  context.key === requestKey.value
 function removeFile() {
+  fileVersion++
+  uploadVersion++
+  saving.value = false
   file.value = undefined
   previewRows.value = []
   requestKey.value = ''
   uploadRef.value?.clearFiles()
 }
 async function changeScope() {
+  scopeVersion++
+  loadVersion++
+  loading.value = false
+  visible.value = false
+  proofVisible.value = false
+  proof.value = undefined
   removeFile()
   analysis.value = undefined
   plans.value = []
   history.value = []
   if (!entityId.value || !period.value) return
-  options.value = await request.get({
+  const scope = currentScope()
+  const nextOptions = await request.get({
     url: base + '/options',
-    params: { entityId: entityId.value }
+    params: { entityId: scope.entityId }
   })
+  if (!isCurrentScope(scope)) return
+  options.value = nextOptions
   await load()
 }
 async function load() {
   if (!entityId.value || !period.value) return
+  const scope = currentScope()
+  const version = ++loadVersion
   loading.value = true
   try {
     const p = params()
@@ -387,14 +427,10 @@ async function load() {
       request.get({ url: base + '/plans', params: p }),
       request.get({ url: base + '/history', params: p })
     ])
-    if (
-      entityId.value !== p.entityId ||
-      period.value !== `${p.year}-${String(p.month).padStart(2, '0')}`
-    )
-      return
+    if (!isCurrentScope(scope) || version !== loadVersion) return
     ;[analysis.value, plans.value, history.value] = data
   } finally {
-    loading.value = false
+    if (isCurrentScope(scope) && version === loadVersion) loading.value = false
   }
 }
 function openPlan(row?: any) {
@@ -450,6 +486,9 @@ function chooseFile(upload: any) {
     removeFile()
     return
   }
+  fileVersion++
+  uploadVersion++
+  saving.value = false
   file.value = upload.raw
   requestKey.value = crypto.randomUUID()
   previewRows.value = []
@@ -462,27 +501,43 @@ function form() {
   return data
 }
 async function preview() {
+  if (!entityId.value || !period.value || !file.value) return
+  const context = currentFile()
+  const version = ++uploadVersion
   saving.value = true
   try {
     const result = await request.upload<{ data: any[] }>({ url: base + '/preview', data: form() })
-    previewRows.value = result.data
+    if (isCurrentFile(context) && version === uploadVersion) previewRows.value = result.data
   } finally {
-    saving.value = false
+    if (isCurrentFile(context) && version === uploadVersion) saving.value = false
   }
 }
 async function importFile() {
+  if (
+    !entityId.value ||
+    !period.value ||
+    !file.value ||
+    !previewRows.value.length ||
+    previewRows.value.some((r) => r.error)
+  )
+    return
+  const context = currentFile()
+  const version = ++uploadVersion
   saving.value = true
   try {
     const result = await request.upload<{ data: number[] }>({ url: base + '/import', data: form() })
+    if (!isCurrentFile(context) || version !== uploadVersion) return
     message.success(`已提交 ${result.data.length} 条待复核资料`)
     removeFile()
     await load()
-    tab.value = 'plans'
+    if (isCurrentScope(context.scope)) tab.value = 'plans'
   } finally {
-    saving.value = false
+    if (isCurrentFile(context) && version === uploadVersion) saving.value = false
   }
 }
 async function exportErrors() {
+  if (!entityId.value || !period.value || !file.value) return
+  const context = currentFile()
   const blob = await request.download<Blob>({
     url: base + '/preview-errors',
     method: 'POST',
@@ -490,9 +545,17 @@ async function exportErrors() {
     headersType: 'multipart/form-data',
     responseType: 'blob'
   })
-  download.excel(blob, '计划导入逐行校验.xlsx')
+  if (isCurrentFile(context)) download.excel(blob, '计划导入逐行校验.xlsx')
 }
 onMounted(async () => {
-  options.value = await request.get({ url: base + '/options' })
+  const scope = currentScope()
+  const initialOptions = await request.get({ url: base + '/options' })
+  if (isCurrentScope(scope)) options.value = initialOptions
+})
+onBeforeUnmount(() => {
+  active = false
+  scopeVersion++
+  loadVersion++
+  uploadVersion++
 })
 </script>
