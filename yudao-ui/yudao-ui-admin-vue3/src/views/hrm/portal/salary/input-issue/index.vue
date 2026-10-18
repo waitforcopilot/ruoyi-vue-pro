@@ -31,7 +31,10 @@
       ></el-table
     >
   </ContentWrap>
-  <Dialog v-model="historyVisible" title="工单处理履历" width="min(1000px, calc(100vw - 32px))"
+  <Dialog
+    v-model="historyVisible"
+    :title="`工单处理履历 #${historyIssueId || '—'}`"
+    width="min(1000px, calc(100vw - 32px))"
     ><el-table :data="events" max-height="65vh"
       ><el-table-column label="动作" width="120"
         ><template #default="{ row }">{{
@@ -58,6 +61,7 @@ const base = '/hrm/portal/payroll-input-issue',
   loading = ref(false),
   submitting = ref(false),
   historyVisible = ref(false),
+  historyIssueId = ref<number>(),
   rows = ref<any[]>([]),
   events = ref<any[]>([])
 const displayTime = (value: string | number | null | undefined) => {
@@ -67,6 +71,13 @@ const displayTime = (value: string | number | null | undefined) => {
 }
 let active = true
 let listVersion = 0
+let historyVersion = 0
+function clearHistory() {
+  historyVersion++
+  historyVisible.value = false
+  historyIssueId.value = undefined
+  events.value = []
+}
 let submitVersion = 0
 let ownsPrompt = false
 function invalidateSubmit() {
@@ -78,6 +89,7 @@ function invalidateSubmit() {
   }
 }
 async function load() {
+  clearHistory()
   invalidateSubmit()
   const version = ++listVersion
   loading.value = true
@@ -141,13 +153,33 @@ async function submit(id: number) {
   }
 }
 async function history(id: number) {
-  events.value = await request.get({ url: base + '/history', params: { id } })
+  clearHistory()
+  if (!active || loading.value) return
+  const row = rows.value.find((row) => row.id === id)
+  if (!row) return
+  const version = historyVersion
+  const scope = listVersion
+  const batchId = row.batchId
+  const employeeId = row.employeeId
+  const result = await request.get({ url: base + '/history', params: { id } })
+  if (
+    !active ||
+    version !== historyVersion ||
+    scope !== listVersion ||
+    !rows.value.some(
+      (row) => row.id === id && row.batchId === batchId && row.employeeId === employeeId
+    )
+  )
+    return
+  events.value = result
+  historyIssueId.value = id
   historyVisible.value = true
 }
 function leavePage() {
   active = false
   listVersion++
   loading.value = false
+  clearHistory()
   invalidateSubmit()
 }
 onMounted(load)
