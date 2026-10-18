@@ -66,6 +66,7 @@
       </el-collapse-item>
     </el-collapse>
     <el-table data-testid="payroll-requirements" v-loading="loading" :data="rows" stripe>
+      <el-table-column prop="id" label="需求ID" width="85" />
       <el-table-column prop="code" label="编号" width="110" />
       <el-table-column label="模块" width="130"
         ><template #default="{ row }">{{
@@ -187,12 +188,20 @@
   </Dialog>
   <Dialog
     v-model="historyVisible"
-    title="评审历史"
+    :title="
+      historyIdentity
+        ? `评审历史 · 需求ID ${historyIdentity.id} · ${historyIdentity.code}`
+        : '评审历史'
+    "
     width="min(800px, calc(100vw - 24px))"
     top="16px"
     scroll
     max-height="min(650px, calc(100dvh - 190px))"
   >
+    <div v-if="historyIdentity" class="mb-3">
+      当前项目编号：{{ historyIdentity.projectId ?? '尚未归属' }}。
+      以下项目编号按当时快照展示；旧快照未记录时不推定归属。
+    </div>
     <el-table :data="histories">
       <el-table-column prop="version" label="版本" width="70" />
       <el-table-column label="操作人" width="100"
@@ -207,6 +216,9 @@
       >
       <el-table-column label="评审内容" min-width="300"
         ><template #default="{ row }">
+          <div>快照需求ID：{{ row.review.id ?? '历史未记录' }}</div>
+          <div>快照项目编号：{{ row.review.projectId ?? '历史未记录' }}</div>
+          <div>当时编号：{{ row.review.code || '历史未记录' }}</div>
           <div>{{ row.review.description }}</div
           ><div>{{ states[row.review.status] }} / {{ readiness[row.review.readiness] }}</div>
           <div>来源：{{ row.review.sourceSystem || '未填写' }}</div>
@@ -271,6 +283,7 @@ const loading = ref(false),
   saving = ref(false),
   visible = ref(false),
   historyVisible = ref(false)
+const historyIdentity = ref<Pick<PayrollRequirement, 'id' | 'code' | 'projectId'>>()
 const histories = ref<any[]>([]),
   formRef = ref()
 const empty = (): PayrollRequirement => ({
@@ -360,10 +373,12 @@ const exportList = async () => {
   download.excel(await api.exportRequirements(module.value), '薪酬需求评审.xlsx')
 }
 const showHistory = async (row: PayrollRequirement) => {
+  const identity = { id: row.id, code: row.code, projectId: row.projectId }
   histories.value = (await api.requirementHistory(row.id!)).map((item) => ({
     ...item,
     review: JSON.parse(item.snapshot)
   }))
+  historyIdentity.value = identity
   historyVisible.value = true
 }
 onMounted(async () => {
