@@ -213,14 +213,14 @@ Browser tab: 1, Title: "芋道管理系统 - 首页", URL: "http://127.0.0.1:517
 				266 text 通知公告
 				267 link 更多
 					268 text 更多
-				269 text 技术兼容性 : 系统支持 
+				269 text 技术兼容性 : 系统支持
 				270 text JDK
 				271 text  8/17/21，
 				272 text Vue
 				273 text  2/3 2026-10-18
-				274 text 架构灵活性 : 后端提供 Spring 
+				274 text 架构灵活性 : 后端提供 Spring
 				275 text Boot
-				276 text  2.7/3.2 + 
+				276 text  2.7/3.2 +
 				277 text Cloud
 				278 text  双架构 2026-10-18
 				279 text 开源免授权 : 全部开源，个人与企业可 100% 直接使用，
@@ -228,7 +228,7 @@ Browser tab: 1, Title: "芋道管理系统 - 首页", URL: "http://127.0.0.1:517
 				281 text 2026-10-18
 				282 text 广泛企业认可 : 国内使用
 				283 text 最广泛
-				284 text 的快速开发平台，远超 
+				284 text 的快速开发平台，远超
 				285 text 10w+
 				286 text + 企业使用 2026-10-18
 			231 text Copyright ©2026 芋道管理系统
