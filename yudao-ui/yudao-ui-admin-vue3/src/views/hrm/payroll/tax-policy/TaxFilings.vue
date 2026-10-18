@@ -391,7 +391,8 @@ async function create() {
 }
 async function review(id: number, approved: boolean) {
   const version = sequence
-  const reason = await message.prompt(approved ? '填写独立核对申报来源依据' : '填写驳回原因')
+  const { value } = await message.prompt(approved ? '填写独立核对申报来源依据' : '填写驳回原因')
+  const reason = value.trim()
   if (!reason || version !== sequence) return
   await api.review({ id, approved, reason })
   await load()
@@ -448,7 +449,8 @@ async function receipt() {
 }
 async function reviewReceipt(id: number, approved: boolean) {
   const version = detailSequence
-  const reason = await message.prompt(approved ? '填写独立核对正式凭证的依据' : '填写驳回原因')
+  const { value } = await message.prompt(approved ? '填写独立核对正式凭证的依据' : '填写驳回原因')
+  const reason = value.trim()
   if (!reason || version !== detailSequence) return
   await api.reviewReceipt({ id, approved, reason })
   await refresh()
@@ -456,7 +458,8 @@ async function reviewReceipt(id: number, approved: boolean) {
 async function reconcile() {
   const id = data.value?.filing.id,
     version = detailSequence
-  const reason = await message.prompt('填写申报金额与正式缴退税凭证的对账依据')
+  const { value } = await message.prompt('填写申报金额与正式缴退税凭证的对账依据')
+  const reason = value.trim()
   if (!reason || version !== detailSequence || !id) return
   await api.reconcile({ id, reason })
   await refresh()
