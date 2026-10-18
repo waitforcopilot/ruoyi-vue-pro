@@ -24,7 +24,8 @@
         show-overflow-tooltip
       /><el-table-column label="操作" width="180"
         ><template #default="{ row }"
-          ><el-button v-if="row.canSubmit" link @click="submit(row.id)">补充材料</el-button
+          ><el-button v-if="row.canSubmit" link :disabled="submitting" @click="submit(row.id)"
+            >补充材料</el-button
           ><el-button link @click="history(row.id)">履历</el-button></template
         ></el-table-column
       ></el-table
@@ -48,11 +49,13 @@
 <script setup lang="ts">
 import request from '@/config/axios'
 import dayjs from 'dayjs'
+import { ElMessageBox } from 'element-plus'
 import { labels, states, actions } from '@/views/hrm/payroll/input-issue/labels'
 defineOptions({ name: 'HrmPortalPayrollInputIssue' })
 const base = '/hrm/portal/payroll-input-issue',
   message = useMessage(),
   loading = ref(false),
+  submitting = ref(false),
   historyVisible = ref(false),
   rows = ref<any[]>([]),
   events = ref<any[]>([])
@@ -61,30 +64,97 @@ const displayTime = (value: string | number | null | undefined) => {
   const date = dayjs(value)
   return date.isValid() ? date.format('YYYY-MM-DD HH:mm:ss') : '未知'
 }
+let active = true
+let listVersion = 0
+let submitVersion = 0
+let ownsPrompt = false
+function invalidateSubmit() {
+  submitVersion++
+  submitting.value = false
+  if (ownsPrompt) {
+    ownsPrompt = false
+    ElMessageBox.close()
+  }
+}
 async function load() {
+  invalidateSubmit()
+  const version = ++listVersion
   loading.value = true
   try {
-    rows.value = await request.get({ url: base + '/list' })
+    const result = await request.get({ url: base + '/list' })
+    if (active && version === listVersion) rows.value = result
   } finally {
-    loading.value = false
+    if (active && version === listVersion) loading.value = false
   }
 }
 async function submit(id: number) {
-  const { value } = await message.prompt(
-    '请提供补正资料编号或说明，不要填写工资、证件或银行卡明文',
-    '补充材料',
-    {
-      inputType: 'textarea',
-      inputValidator: (v: string) => (!!v?.trim() && v.length <= 1000) || '请填写1～1000字的依据'
+  if (!active || loading.value || submitting.value) return
+  const row = rows.value.find((row) => row.id === id)
+  if (!row || row.status !== 'OPEN' || row.canSubmit !== true) return
+  const version = ++submitVersion
+  const scope = listVersion
+  const batchId = row.batchId
+  const employeeId = row.employeeId
+  const current = () =>
+    active &&
+    version === submitVersion &&
+    scope === listVersion &&
+    rows.value.some(
+      (row) =>
+        row.id === id &&
+        row.batchId === batchId &&
+        row.employeeId === employeeId &&
+        row.status === 'OPEN' &&
+        row.canSubmit === true
+    )
+  submitting.value = true
+  ownsPrompt = true
+  try {
+    let value: string
+    try {
+      const result = await message.prompt(
+        '请提供补正资料编号或说明，不要填写工资、证件或银行卡明文',
+        '补充材料',
+        {
+          inputType: 'textarea',
+          inputValidator: (v: string) =>
+            (!!v?.trim() && v.length <= 1000) || '请填写1～1000字的依据'
+        }
+      )
+      value = result.value
+    } catch (error) {
+      if (error === 'cancel' || error === 'close') return
+      throw error
     }
-  )
-  await request.post({ url: base + '/submit', data: { id, evidence: value } })
-  message.success('材料已提交，等待指定复核人核实')
-  await load()
+    if (!current()) return
+    ownsPrompt = false
+    await request.post({ url: base + '/submit', data: { id, evidence: value } })
+    if (!current()) return
+    message.success('材料已提交，等待指定复核人核实')
+    await load()
+  } finally {
+    if (version === submitVersion) {
+      submitting.value = false
+      ownsPrompt = false
+    }
+  }
 }
 async function history(id: number) {
   events.value = await request.get({ url: base + '/history', params: { id } })
   historyVisible.value = true
 }
+function leavePage() {
+  active = false
+  listVersion++
+  loading.value = false
+  invalidateSubmit()
+}
 onMounted(load)
+onActivated(() => {
+  if (active) return
+  active = true
+  return load()
+})
+onDeactivated(leavePage)
+onBeforeUnmount(leavePage)
 </script>

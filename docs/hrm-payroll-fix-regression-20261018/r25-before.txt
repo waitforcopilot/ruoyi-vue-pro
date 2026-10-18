@@ -1,0 +1,191 @@
+Browser tab: 1, Title: "芋道管理系统 - 首页", URL: "http://127.0.0.1:5173/index".
+0 AXWebArea 芋道管理系统 - 首页, URL: 127.0.0.1:5173/index
+	1 container
+		2 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		3 menu bar
+			4 首页
+				5 text 首页
+			6 作者动态
+				7 text 作者动态
+			8 Boot 开发文档
+				9 text Boot 开发文档
+			10 Cloud 开发文档
+				11 text Cloud 开发文档
+			12 (collapsed) 系统管理, Secondary Actions: Expand
+				13 container
+					14 text 系统管理
+					15 image
+			16 (collapsed) 基础设施, Secondary Actions: Expand
+				17 container
+					18 text 基础设施
+					19 image
+			20 (collapsed) 支付管理, Secondary Actions: Expand
+				21 container
+					22 text 支付管理
+					23 image
+			24 (collapsed) 报表管理, Secondary Actions: Expand
+				25 container
+					26 text 报表管理
+					27 image
+			28 (collapsed) 工作流程, Secondary Actions: Expand
+				29 container
+					30 text 工作流程
+					31 image
+			32 (collapsed) 会员中心, Secondary Actions: Expand
+				33 container
+					34 text 会员中心
+					35 image
+			36 (collapsed) 薪酬管理, Secondary Actions: Expand
+				37 container
+					38 text 薪酬管理
+					39 image
+			40 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				41 container
+					42 text MALL 商城系统
+					43 image
+			44 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				45 container
+					46 text EAM 资产管理
+					47 image
+			48 (collapsed) CRM 系统, Secondary Actions: Expand
+				49 container
+					50 text CRM 系统
+					51 image
+			52 (collapsed) ERP 系统, Secondary Actions: Expand
+				53 container
+					54 text ERP 系统
+					55 image
+			56 (collapsed) WMS 系统, Secondary Actions: Expand
+				57 container
+					58 text WMS 系统
+					59 image
+			60 (collapsed) MES 系统, Secondary Actions: Expand
+				61 container
+					62 text MES 系统
+					63 image
+			64 (collapsed) OA 办公协同, Secondary Actions: Expand
+				65 container
+					66 text OA 办公协同
+					67 image
+			68 (collapsed) HRM 人力资源, Secondary Actions: Expand
+				69 container
+					70 text HRM 人力资源
+					71 image
+			126 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				127 container
+					128 text FMS 财务管理
+					129 image
+			130 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				131 container
+					132 text PMS 项目管理
+					133 image
+			134 (collapsed) AI 大模型, Secondary Actions: Expand
+				135 container
+					136 text AI 大模型
+					137 image
+			138 (collapsed) IoT 物联网, Secondary Actions: Expand
+				139 container
+					140 text IoT 物联网
+					141 image
+			142 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				143 container
+					144 text IM 即时通讯
+					145 image
+			146 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				147 container
+					148 text MP 公众号管理
+					149 image
+			150 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				151 container
+					152 text CMS 内容管理
+					153 image
+		154 container
+			155 container v-tool-header
+				156 container 面包屑
+					240 link 首页
+						241 text 首页
+				165 container
+					166 combo box (collapsed, settable) ID: el-id-590-52, Secondary Actions: Expand
+					167 text 请选择租户
+					168 image
+				169 container
+					170 container
+						171 combo box (collapsed, settable) ID: el-id-590-53, Secondary Actions: Expand
+						172 text 请输入菜单内容
+				173 pop up button (collapsed) ID: el-id-590-6, Secondary Actions: Expand
+				174 pop up button (collapsed) ID: el-id-590-11, Secondary Actions: Expand
+				175 pop up button (collapsed) 芋道源码, ID: el-id-590-16, Secondary Actions: Expand
+			176 container v-tags-view
+				177 container
+					178 pop up button (collapsed) 首页, ID: el-id-590-22, Secondary Actions: Expand
+						179 container
+							180 text 首页
+					181 pop up button (collapsed) 我的薪酬工单, ID: el-id-590-30, Secondary Actions: Expand
+						182 container
+							183 text 我的薪酬工单
+				184 pop up button (collapsed) ID: el-id-590-38, Secondary Actions: Expand
+			242 container
+				243 text 你好 芋道源码 祝你开心每一天! 今日晴，20℃ - 32℃！ 项目数 40
+				244 text 待办 10
+				245 text 项目访问 2,340
+			246 container
+				247 text 项目数
+				248 link Description: 更多, Value: github.com/yudaocode
+				249 container
+					250 text ruoyi-vue-pro github.com/YunaiV/ruoyi-vue-pro Spring Boot 单体架构 2025-01-02
+				251 container
+					252 text yudao-ui-admin-vue3 github.com/yudaocode/yudao-ui-admin-vue3 Vue3 + element-plus 管理后台 2025-02-03
+				253 container
+					254 text yudao-ui-mall-uniapp github.com/yudaocode/yudao-ui-mall-uniapp Vue3 + uniapp 商城手机端 2025-03-04
+				255 container
+					256 text yudao-cloud github.com/YunaiV/yudao-cloud Spring Cloud 微服务架构 2025-04-05
+				257 container
+					258 text yudao-ui-admin-vben github.com/yudaocode/yudao-ui-admin-vben Vue3 + vben5(antd) 管理后台 2025-05-06
+				259 container
+					260 text yudao-ui-admin-uniapp github.com/yudaocode/yudao-ui-admin-uniapp Vue3 + uniapp 管理手机端 2025-06-01
+				261 text 快捷入口
+				262 link 首页
+					263 text 首页
+				264 link 商城中心
+					265 text 商城中心
+				266 link AI 大模型
+					267 text AI 大模型
+				268 link ERP 系统
+					269 text ERP 系统
+				270 link CRM 系统
+					271 text CRM 系统
+				272 link IoT 物联网
+					273 text IoT 物联网
+				274 text 通知公告
+				275 link 更多
+					276 text 更多
+				277 text 技术兼容性 : 系统支持 
+				278 text JDK
+				279 text  8/17/21，
+				280 text Vue
+				281 text  2/3 2026-10-18
+				282 text 架构灵活性 : 后端提供 Spring 
+				283 text Boot
+				284 text  2.7/3.2 + 
+				285 text Cloud
+				286 text  双架构 2026-10-18
+				287 text 开源免授权 : 全部开源，个人与企业可 100% 直接使用，
+				288 text 无需授权
+				289 text 2026-10-18
+				290 text 广泛企业认可 : 国内使用
+				291 text 最广泛
+				292 text 的快速开发平台，远超 
+				293 text 10w+
+				294 text + 企业使用 2026-10-18
+			230 text Copyright ©2026 芋道管理系统
+	231 container 补充材料
+		232 container
+			233 text 补充材料
+			234 button 关闭此对话框
+			235 container el-id-590-57
+				236 text 请提供补正资料编号或说明，不要填写工资、证件或银行卡明文
+				237 text entry area (settable) 请提供补正资料编号或说明，不要填写工资、证件或银行卡明文, Value: TEST-R25 离开员工端后的旧材料不应提交，本机合成回归。, ID: el-id-590-58
+			238 button 取消
+			239 button 确定
+
+The focused UI element is 237 text entry area (settable) 请提供补正资料编号或说明，不要填写工资、证件或银行卡明文, Value: TEST-R25 离开员工端后的旧材料不应提交，本机合成回归。, ID: el-id-590-58
