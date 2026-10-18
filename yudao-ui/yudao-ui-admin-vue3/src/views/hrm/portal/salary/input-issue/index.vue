@@ -16,11 +16,9 @@
         ><template #default="{ row }"
           >{{ states[row.status] }}<el-tag v-if="row.overdue" type="danger">逾期</el-tag></template
         ></el-table-column
-      ><el-table-column prop="dueTime" label="截止时间" min-width="165" /><el-table-column
-        prop="reason"
-        label="处理要求"
-        show-overflow-tooltip
-      /><el-table-column
+      ><el-table-column label="截止时间" min-width="165">
+        <template #default="{ row }">{{ displayTime(row.dueTime) }}</template> </el-table-column
+      ><el-table-column prop="reason" label="处理要求" show-overflow-tooltip /><el-table-column
         prop="reviewOpinion"
         label="复核意见"
         show-overflow-tooltip
@@ -40,11 +38,16 @@
         }}</template></el-table-column
       ><el-table-column prop="actorId" label="操作人编号" /><el-table-column
         prop="reason"
-        label="依据" /><el-table-column prop="createTime" label="时间" min-width="165" /></el-table
-  ></Dialog>
+        label="依据"
+      /><el-table-column label="时间" min-width="165">
+        <template #default="{ row }">{{ displayTime(row.createTime) }}</template>
+      </el-table-column></el-table
+    ></Dialog
+  >
 </template>
 <script setup lang="ts">
 import request from '@/config/axios'
+import dayjs from 'dayjs'
 import { labels, states, actions } from '@/views/hrm/payroll/input-issue/labels'
 defineOptions({ name: 'HrmPortalPayrollInputIssue' })
 const base = '/hrm/portal/payroll-input-issue',
@@ -53,6 +56,11 @@ const base = '/hrm/portal/payroll-input-issue',
   historyVisible = ref(false),
   rows = ref<any[]>([]),
   events = ref<any[]>([])
+const displayTime = (value: string | number | null | undefined) => {
+  if (value == null || value === '') return '未知'
+  const date = dayjs(value)
+  return date.isValid() ? date.format('YYYY-MM-DD HH:mm:ss') : '未知'
+}
 async function load() {
   loading.value = true
   try {
