@@ -90,6 +90,11 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         HrmPayrollRequirementDO previous = request.getId()==null ? null : mapper.selectOneForUpdate(HrmPayrollRequirementDO::getId, request.getId());
         if (request.getId()!=null && previous==null) throw exception(PAYROLL_REQUIREMENT_NOT_EXISTS);
         if (previous!=null && !Objects.equals(previous.getVersion(),request.getVersion())) throw exception(PAYROLL_VERSION_CONFLICT);
+        boolean invalidate=previous!=null && "CONFIRMED".equals(previous.getStatus()) && reviewContractChanged(previous,request);
+        if(invalidate && "CONFIRMED".equals(request.getStatus())) {
+            request=BeanUtils.toBean(request,HrmPayrollRequirementSaveReqVO.class);
+            request.setStatus("REVIEWING");
+        }
         if (("CONFIRMED".equals(request.getStatus()) || "DISPUTED".equals(request.getStatus()) || "DEFERRED".equals(request.getStatus()))
             && (StrUtil.isBlank(request.getEvidence()) || request.getReviewerId()==null)) throw exception(PAYROLL_REVIEW_INCOMPLETE);
         if ("CONFIRMED".equals(request.getStatus()) && (StrUtil.isBlank(request.getAcceptance())
@@ -109,7 +114,11 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         record.setProjectId(previous==null ? ensureLegacyProject() : previous.getProjectId());
         if(record.getProjectId()==null) throw exception(PAYROLL_REVIEW_INCOMPLETE);
         record.setVersion(previous==null ? 1 : previous.getVersion()+1);
-        if ("CONFIRMED".equals(record.getStatus())) {record.setConfirmedBy(actorId);record.setConfirmedAt(LocalDateTime.now());}
+        if ("CONFIRMED".equals(record.getStatus())) {
+            if(previous!=null && "CONFIRMED".equals(previous.getStatus()))
+                record.setConfirmedBy(previous.getConfirmedBy()).setConfirmedAt(previous.getConfirmedAt());
+            else {record.setConfirmedBy(actorId);record.setConfirmedAt(LocalDateTime.now());}
+        }
         if (previous==null) mapper.insert(record);
         else {
             record.setUpdater(String.valueOf(actorId));
@@ -131,6 +140,18 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         history.setRequirementId(record.getId());history.setVersion(record.getVersion());
         history.setActorId(actorId);history.setSnapshot(JsonUtils.toJsonString(record));historyMapper.insert(history);
         return record.getId();
+    }
+    private boolean reviewContractChanged(HrmPayrollRequirementDO before,HrmPayrollRequirementSaveReqVO after) {
+        return !Objects.equals(before.getCode(),after.getCode())
+            || !Objects.equals(before.getModule(),after.getModule())
+            || !Objects.equals(before.getDescription(),after.getDescription())
+            || !Objects.equals(before.getFieldMapping(),after.getFieldMapping())
+            || !Objects.equals(before.getSourceSystem(),after.getSourceSystem())
+            || !Objects.equals(before.getSourceOwnerId(),after.getSourceOwnerId())
+            || !Objects.equals(before.getReviewerId(),after.getReviewerId())
+            || !Objects.equals(before.getAcceptance(),after.getAcceptance())
+            || !Objects.equals(before.getEvidence(),after.getEvidence())
+            || !Objects.equals(before.getPriority(),after.getPriority());
     }
     private void requireActiveUser(Long id) {
         cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO user = id == null ? null : users.getUser(id);

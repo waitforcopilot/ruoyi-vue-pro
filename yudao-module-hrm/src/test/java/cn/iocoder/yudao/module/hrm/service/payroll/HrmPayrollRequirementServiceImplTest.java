@@ -96,4 +96,41 @@ class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
         HrmPayrollRequirementSaveReqVO second=request();second.setCode("PLAN-07");service.save(second,1L);
         for(HrmPayrollRequirementDO row:service.list(null)) assertEquals(project,row.getProjectId());
     }
+    @Test void confirmedContentChangeRequiresSeparateReconfirmationAndKeepsOldSnapshot() {
+        HrmPayrollRequirementSaveReqVO r=confirmed();r.setId(service.save(r,2L));r.setVersion(1);
+        r.setDescription("已确认后修改业务行为");service.save(r,2L);
+        HrmPayrollRequirementDO changed=service.list(null).get(0);
+        assertEquals("REVIEWING",changed.getStatus());assertNull(changed.getConfirmedBy());assertNull(changed.getConfirmedAt());
+        assertEquals("CONFIRMED",r.getStatus()); // Do not mutate the caller's request.
+        assertTrue(service.history(r.getId()).get(1).getSnapshot().contains("\"confirmedBy\":2"));
+        r.setVersion(2);service.save(r,2L);
+        assertEquals("CONFIRMED",service.list(null).get(0).getStatus());
+        assertEquals(3,service.history(r.getId()).size());
+    }
+    @Test void unchangedConfirmedSaveDoesNotRenewSignatureTime() {
+        HrmPayrollRequirementSaveReqVO r=confirmed();r.setId(service.save(r,2L));r.setVersion(1);
+        java.time.LocalDateTime signed=service.list(null).get(0).getConfirmedAt();
+        service.save(r,2L);
+        assertEquals(signed,service.list(null).get(0).getConfirmedAt());
+        assertEquals(2L,service.list(null).get(0).getConfirmedBy());
+    }
+    @Test void eachExistingReviewContractFieldInvalidatesConfirmation() {
+        java.util.List<java.util.function.Consumer<HrmPayrollRequirementSaveReqVO>> edits=java.util.Arrays.asList(
+            x->x.setCode("PLAN-07"),x->x.setModule("CALC"),x->x.setDescription("新行为"),
+            x->x.setFieldMapping("新字段 → 新映射"),x->x.setSourceSystem("新来源"),
+            x->x.setSourceOwnerId(2L),x->x.setReviewerId(3L),x->x.setAcceptance("新验收"),
+            x->x.setEvidence("新依据"),x->x.setPriority(1));
+        int index=100;
+        for(java.util.function.Consumer<HrmPayrollRequirementSaveReqVO> edit:edits) {
+            HrmPayrollRequirementSaveReqVO r=confirmed();r.setCode("PLAN-"+(index++));
+            r.setId(service.save(r,2L));r.setVersion(1);edit.accept(r);service.save(r,1L);
+            HrmPayrollRequirementDO saved=service.list(null).stream().filter(x->x.getId().equals(r.getId())).findFirst().get();
+            assertEquals("REVIEWING",saved.getStatus());assertNull(saved.getConfirmedBy());
+        }
+    }
+    @Test void staleRevisionCannotClearCurrentSignature() {
+        HrmPayrollRequirementSaveReqVO r=confirmed();r.setId(service.save(r,2L));r.setVersion(0);r.setDescription("过期修改");
+        assertServiceException(()->service.save(r,2L),PAYROLL_VERSION_CONFLICT);
+        assertEquals("CONFIRMED",service.list(null).get(0).getStatus());assertEquals(1,service.history(r.getId()).size());
+    }
 }

@@ -104,6 +104,13 @@
     scroll
     max-height="min(650px, calc(100dvh - 190px))"
   >
+    <el-alert
+      v-if="reviewRevision"
+      class="mb-4"
+      title="已确认需求的关键内容已修改；本次保存将转为评审中并清除当前签字，请保存后再重新确认。"
+      type="warning"
+      :closable="false"
+    />
     <el-form
       ref="formRef"
       class="requirement-form"
@@ -333,13 +340,34 @@ watch(
     await load()
   }
 )
+const originalReview = ref<PayrollRequirement>()
+const reviewFields = [
+  'code',
+  'module',
+  'description',
+  'fieldMapping',
+  'sourceSystem',
+  'sourceOwnerId',
+  'reviewerId',
+  'acceptance',
+  'evidence',
+  'priority'
+] as const
+const reviewRevision = computed(
+  () =>
+    originalReview.value?.status === 'CONFIRMED' &&
+    reviewFields.some(
+      (field) => (originalReview.value?.[field] ?? null) !== (form.value[field] ?? null)
+    )
+)
 const edit = (row?: PayrollRequirement) => {
+  originalReview.value = row ? { ...row } : undefined
   form.value = row ? { ...row } : empty()
   visible.value = true
 }
 const save = async () => {
   await formRef.value.validate()
-  if (form.value.status === 'CONFIRMED') {
+  if (form.value.status === 'CONFIRMED' && !reviewRevision.value) {
     if (!form.value.fieldMapping?.trim()) {
       message.warning('请填写字段映射；不适用时需说明具体理由')
       return
@@ -351,10 +379,11 @@ const save = async () => {
   }
   saving.value = true
   try {
-    await api.saveRequirement(form.value)
+    const revising = reviewRevision.value && form.value.status === 'CONFIRMED'
+    await api.saveRequirement(revising ? { ...form.value, status: 'REVIEWING' } : form.value)
     visible.value = false
     await load()
-    message.success('已保存')
+    message.success(revising ? '修订已保存为评审中，请重新确认' : '已保存')
   } finally {
     saving.value = false
   }
