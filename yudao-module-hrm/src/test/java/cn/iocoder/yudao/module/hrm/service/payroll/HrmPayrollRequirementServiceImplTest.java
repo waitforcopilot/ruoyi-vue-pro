@@ -12,7 +12,9 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
  @Resource private HrmPayrollRequirementService service;
  @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.system.api.user.AdminUserApi users;
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.system.api.permission.PermissionApi permissions;
  @org.junit.jupiter.api.BeforeEach void users() {
+  org.mockito.Mockito.when(permissions.hasAnyPermissions(org.mockito.ArgumentMatchers.anyLong(),org.mockito.ArgumentMatchers.anyString())).thenReturn(true);
   for(long id:new long[]{2,3}) org.mockito.Mockito.when(users.getUser(id)).thenReturn(new cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO().setId(id).setStatus(0));
  }
  private HrmPayrollRequirementSaveReqVO request() {
@@ -68,8 +70,8 @@ class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
   assertServiceException(()->service.confirm(r.getId(),2,2L),PAYROLL_REQUIREMENT_PERSON_INVALID);
  }
  @Test void nonexistentReviewerAndForgedConfirmationAreRejected() {
-  HrmPayrollRequirementSaveReqVO r=ready();r.setReviewerId(999L);r.setId(service.save(r,1L));assertServiceException(()->service.confirm(r.getId(),1,2L),PAYROLL_REQUIREMENT_PERSON_INVALID);
-  r.setVersion(1);r.setReviewerId(2L);service.save(r,1L);assertServiceException(()->service.confirm(r.getId(),2,3L),PAYROLL_REQUIREMENT_CONFIRMATION_INVALID);
+  HrmPayrollRequirementSaveReqVO r=ready();r.setReviewerId(999L);assertServiceException(()->service.save(r,1L),PAYROLL_REQUIREMENT_PERSON_INVALID);assertTrue(service.list(null).isEmpty());
+  r.setReviewerId(2L);r.setId(service.save(r,1L));assertServiceException(()->service.confirm(r.getId(),1,3L),PAYROLL_REQUIREMENT_CONFIRMATION_INVALID);
  }
  @Test void legacyProjectIsServerOwnedAndStableAcrossEdits() {
   assertNull(service.legacyProject());HrmPayrollRequirementSaveReqVO r=request();r.setId(service.save(r,1L));Long project=service.legacyProject().getId();assertNull(service.legacyProject().getProjectScopeVersion());assertEquals(1,service.legacyProject().getMetadataVersion());
@@ -103,5 +105,34 @@ class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
   assertServiceException(()->service.confirm(1L,null,2L),PAYROLL_REQUIREMENT_CONFIRM_ACTION_REQUIRED);
   assertServiceException(()->service.confirm(1L,0,2L),PAYROLL_REQUIREMENT_CONFIRM_ACTION_REQUIRED);
   assertServiceException(()->service.confirm(999L,1,2L),PAYROLL_REQUIREMENT_NOT_EXISTS);
+ }
+ @Test void editorCannotAssignOrClearReviewerAndCannotCreateAssignedRequirement() {
+  HrmPayrollRequirementSaveReqVO r=ready();r.setId(service.save(r,1L));r.setVersion(1);
+  org.mockito.Mockito.when(permissions.hasAnyPermissions(1L,"hrm:payroll:requirement:assign")).thenReturn(false);
+  for(Long reviewer:new Long[]{3L,null}) {r.setReviewerId(reviewer);assertServiceException(()->service.save(r,1L),PAYROLL_REQUIREMENT_ASSIGN_FORBIDDEN);}
+  assertEquals(1,row(r.getId()).getVersion());assertEquals(2L,row(r.getId()).getReviewerId());assertEquals(1,service.history(r.getId()).size());
+  HrmPayrollRequirementSaveReqVO created=ready();created.setCode("PLAN-99");assertServiceException(()->service.save(created,1L),PAYROLL_REQUIREMENT_ASSIGN_FORBIDDEN);assertEquals(1,service.list(null).size());
+  r.setReviewerId(2L);r.setDescription("仅改内容");service.save(r,1L);assertEquals(2,row(r.getId()).getVersion());
+ }
+ @Test void assignPermissionCannotSelfAssign() {
+  HrmPayrollRequirementSaveReqVO r=ready();assertServiceException(()->service.save(r,2L),PAYROLL_REQUIREMENT_ASSIGN_FORBIDDEN);assertTrue(service.list(null).isEmpty());
+  r.setId(service.save(r,1L));r.setVersion(1);r.setReviewerId(1L);assertServiceException(()->service.save(r,1L),PAYROLL_REQUIREMENT_ASSIGN_FORBIDDEN);assertEquals(1,service.history(r.getId()).size());
+ }
+ @Test void assigneeNeedsBothReadAndConfirmAndMustBeActive() {
+  for(String permission:new String[]{"query","confirm"}) {
+   HrmPayrollRequirementSaveReqVO r=ready();
+   org.mockito.Mockito.when(permissions.hasAnyPermissions(2L,"hrm:payroll:requirement:"+permission)).thenReturn(false);
+   assertServiceException(()->service.save(r,1L),PAYROLL_REQUIREMENT_ASSIGNEE_FORBIDDEN);assertTrue(service.list(null).isEmpty());
+   org.mockito.Mockito.when(permissions.hasAnyPermissions(2L,"hrm:payroll:requirement:"+permission)).thenReturn(true);
+  }
+  org.mockito.Mockito.when(users.getUser(2L)).thenReturn(new cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO().setId(2L).setStatus(1));
+  assertServiceException(()->service.save(ready(),1L),PAYROLL_REQUIREMENT_PERSON_INVALID);assertTrue(service.list(null).isEmpty());
+ }
+ @Test void reassignmentInvalidatesSignatureAndOldReviewerCannotConfirm() {
+  HrmPayrollRequirementSaveReqVO r=createConfirmed();r.setReviewerId(3L);service.save(r,1L);assertEquals("REVIEWING",row(r.getId()).getStatus());assertNull(row(r.getId()).getConfirmedBy());
+  assertServiceException(()->service.confirm(r.getId(),3,2L),PAYROLL_REQUIREMENT_CONFIRMATION_INVALID);assertEquals(3,service.history(r.getId()).size());service.confirm(r.getId(),3,3L);assertEquals(3L,row(r.getId()).getConfirmedBy());assertEquals(4,service.history(r.getId()).size());
+ }
+ @Test void authorizedClearPreservesOldAssignmentInHistory() {
+  HrmPayrollRequirementSaveReqVO r=ready();r.setId(service.save(r,1L));r.setVersion(1);r.setReviewerId(null);service.save(r,1L);assertNull(row(r.getId()).getReviewerId());assertTrue(service.history(r.getId()).get(1).getSnapshot().contains("\"reviewerId\":2"));
  }
 }

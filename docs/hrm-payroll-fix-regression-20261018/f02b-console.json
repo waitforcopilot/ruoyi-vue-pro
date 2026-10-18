@@ -1,0 +1,14 @@
+[
+  {
+    "level": "error",
+    "message": "error",
+    "timestamp": "2026-10-18T11:55:09.105Z",
+    "url": "http://127.0.0.1:5173/hrm-payroll/requirement?module=COL&from=/hrm-payroll/input-issue"
+  },
+  {
+    "level": "error",
+    "message": "error",
+    "timestamp": "2026-10-18T11:55:29.128Z",
+    "url": "http://127.0.0.1:5173/hrm-payroll/requirement?module=COL&from=/hrm-payroll/input-issue"
+  }
+]

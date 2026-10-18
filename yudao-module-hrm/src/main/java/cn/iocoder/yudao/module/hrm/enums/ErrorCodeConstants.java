@@ -317,6 +317,8 @@ public interface ErrorCodeConstants {
     ErrorCode PAYROLL_OFFSET_INVALID = new ErrorCode(1_050_810_033, "工资收退来源、适用批次、批准状态或税后净额未就绪，请核实税款或缴费差额结算");
     ErrorCode PAYROLL_VERSION_CONFLICT = new ErrorCode(1_050_810_002, "记录已被更新，请刷新后重试");
     ErrorCode PAYROLL_REVIEW_INCOMPLETE = new ErrorCode(1_050_810_003, "请补齐责任人、评审依据、数据来源及验收条件");
+    ErrorCode PAYROLL_REQUIREMENT_ASSIGN_FORBIDDEN = new ErrorCode(1_050_810_041, "修改评审负责人需要独立分派权限，且不能分派给自己");
+    ErrorCode PAYROLL_REQUIREMENT_ASSIGNEE_FORBIDDEN = new ErrorCode(1_050_810_042, "被分派人须具备需求查询和确认权限");
     ErrorCode PAYROLL_REQUIREMENT_CONFIRM_ACTION_REQUIRED = new ErrorCode(1_050_810_040, "请先保存需求，再使用确认版本操作；当前版本不能通过普通保存生成签字");
     ErrorCode PAYROLL_REQUIREMENT_CONFIRMATION_INVALID = new ErrorCode(1_050_810_036, "请填写字段映射（不适用需说明具体理由），并由评审负责人本人确认");
     ErrorCode PAYROLL_REQUIREMENT_PERSON_INVALID = new ErrorCode(1_050_810_037, "来源或评审负责人不存在、已停用或不在可访问范围内");

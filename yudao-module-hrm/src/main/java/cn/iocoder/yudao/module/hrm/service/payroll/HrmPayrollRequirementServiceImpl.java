@@ -18,6 +18,7 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementService {
     @Resource private cn.iocoder.yudao.module.system.api.user.AdminUserApi users;
     @Resource private HrmPayrollRequirementMapper mapper;
+    @Resource private cn.iocoder.yudao.module.system.api.permission.PermissionApi permissions;
     @Resource private HrmPayrollRequirementHistoryMapper historyMapper;
     @Resource private HrmPayrollRequirementProjectMapper projectMapper;
     private static final String[][] SEEDS = {
@@ -113,6 +114,18 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         if(!confirming && "CONFIRMED".equals(request.getStatus())
             && (previous==null || !"CONFIRMED".equals(previous.getStatus())))
             throw exception(PAYROLL_REQUIREMENT_CONFIRM_ACTION_REQUIRED);
+        if (!Objects.equals(previous==null ? null : previous.getReviewerId(),request.getReviewerId())) {
+            // The saved reviewer is an assignment, not an editable identity assertion.
+            if(actorId==null || !permissions.hasAnyPermissions(actorId,"hrm:payroll:requirement:assign")
+                || Objects.equals(actorId,request.getReviewerId()))
+                throw exception(PAYROLL_REQUIREMENT_ASSIGN_FORBIDDEN);
+            if(request.getReviewerId()!=null) {
+                requireActiveUser(request.getReviewerId());
+                if(!permissions.hasAnyPermissions(request.getReviewerId(),"hrm:payroll:requirement:query")
+                    || !permissions.hasAnyPermissions(request.getReviewerId(),"hrm:payroll:requirement:confirm"))
+                    throw exception(PAYROLL_REQUIREMENT_ASSIGNEE_FORBIDDEN);
+            }
+        }
         if (("CONFIRMED".equals(request.getStatus()) || "DISPUTED".equals(request.getStatus()) || "DEFERRED".equals(request.getStatus()))
             && (StrUtil.isBlank(request.getEvidence()) || request.getReviewerId()==null)) throw exception(PAYROLL_REVIEW_INCOMPLETE);
         if ("CONFIRMED".equals(request.getStatus()) && (StrUtil.isBlank(request.getAcceptance())

@@ -161,13 +161,23 @@
             :label="user.nickname" /></el-select
       ></el-form-item>
       <el-form-item label="评审负责人"
-        ><el-select v-model="form.reviewerId" filterable clearable
+        ><el-select
+          v-model="form.reviewerId"
+          :disabled="!checkPermi(['hrm:payroll:requirement:assign'])"
+          filterable
+          clearable
           ><el-option
             v-for="user in users"
             :key="user.id"
             :value="user.id"
             :label="user.nickname" /></el-select
       ></el-form-item>
+      <el-alert
+        class="mb-4"
+        title="修改评审负责人需分派权限，不可分派给自己；被分派人须有需求查询和确认权限。"
+        type="info"
+        :closable="false"
+      />
       <el-form-item label="优先级"
         ><el-select v-model="form.priority"
           ><el-option :value="1" label="高" /><el-option :value="2" label="中" /><el-option
@@ -251,6 +261,7 @@
 <script setup lang="ts">
 import { useWindowSize } from '@vueuse/core'
 import { formatDate } from '@/utils/formatTime'
+import { checkPermi } from '@/utils/permission'
 import { useUserStore } from '@/store/modules/user'
 import {
   payrollModules,

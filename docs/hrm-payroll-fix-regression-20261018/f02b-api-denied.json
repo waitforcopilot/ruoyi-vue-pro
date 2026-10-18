@@ -1,0 +1,28 @@
+{
+  "cases": [
+    {
+      "case": "editor-self-assign",
+      "code": 1050810041
+    },
+    {
+      "case": "editor-other-assign",
+      "code": 1050810041
+    },
+    {
+      "case": "editor-clear",
+      "code": 1050810041
+    },
+    {
+      "case": "editor-new-assignment",
+      "code": 1050810041
+    },
+    {
+      "case": "former-reviewer-cannot-confirm",
+      "code": 1050810036
+    }
+  ],
+  "historyUnchanged": true,
+  "version": 20,
+  "reviewerId": 249,
+  "existingRoleNotExpanded": true
+}
