@@ -8,7 +8,7 @@
     />
     <el-form inline class="mt-4">
       <el-form-item label="法人主体"
-        ><el-select v-model="entityId" @change="changeEntity"
+        ><el-select v-model="entityId" style="width: 320px" @change="changeEntity"
           ><el-option
             v-for="e in selectors.entities"
             :key="e.id"
@@ -27,7 +27,7 @@
     </el-form>
     <el-form inline
       ><el-form-item label="检查员工"
-        ><el-select v-model="employeeId" filterable @change="loadSignals"
+        ><el-select v-model="employeeId" filterable style="width: 400px" @change="loadSignals"
           ><el-option
             v-for="e in employees"
             :key="e.id"
