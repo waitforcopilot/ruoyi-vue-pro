@@ -1,0 +1,496 @@
+Browser tab: 1, Title: "芋道管理系统 - 薪酬总览", URL: "http://127.0.0.1:5173/hrm-payroll/overview".
+0 AXWebArea 芋道管理系统 - 薪酬总览, URL: 127.0.0.1:5173/hrm-payroll/overview
+	1 container
+		2 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		3 menu bar
+			4 首页
+				5 text 首页
+			6 作者动态
+				7 text 作者动态
+			8 Boot 开发文档
+				9 text Boot 开发文档
+			10 Cloud 开发文档
+				11 text Cloud 开发文档
+			12 (collapsed) 系统管理, Secondary Actions: Expand
+				13 container
+					14 text 系统管理
+					15 image
+			16 (collapsed) 基础设施, Secondary Actions: Expand
+				17 container
+					18 text 基础设施
+					19 image
+			20 (collapsed) 支付管理, Secondary Actions: Expand
+				21 container
+					22 text 支付管理
+					23 image
+			24 (collapsed) 报表管理, Secondary Actions: Expand
+				25 container
+					26 text 报表管理
+					27 image
+			28 (collapsed) 工作流程, Secondary Actions: Expand
+				29 container
+					30 text 工作流程
+					31 image
+			32 (collapsed) 会员中心, Secondary Actions: Expand
+				33 container
+					34 text 会员中心
+					35 image
+			36 (expanded) 薪酬管理, Secondary Actions: Collapse
+				37 container
+					38 text 薪酬管理
+					39 image
+				40 menu
+					41 定调薪审批
+						42 text 定调薪审批
+					43 工时与加班
+						44 text 工时与加班
+					45 薪级薪档
+						46 text 薪级薪档
+					47 考勤归集与异常
+						48 text 考勤归集与异常
+					49 法人主体与归属
+						50 text 法人主体与归属
+					51 缴费政策与年度调基
+						52 text 缴费政策与年度调基
+					53 缴费实缴对账
+						54 text 缴费实缴对账
+					55 核算输入与就绪
+						56 text 核算输入与就绪
+					57 年度税务政策
+						58 text 年度税务政策
+					59 薪酬成本分摊
+						60 text 薪酬成本分摊
+					61 预算与成本分析
+						62 text 预算与成本分析
+					63 薪酬输入缺口工单
+						64 text 薪酬输入缺口工单
+					65 社保公积金工资差额
+						66 text 社保公积金工资差额
+					67 薪酬总览
+						68 text 薪酬总览
+					69 独立工资收回
+						70 text 独立工资收回
+					71 需求评审
+						72 text 需求评审
+					73 核算审批
+						74 text 核算审批
+					75 银行代发
+						76 text 银行代发
+					77 薪资公式
+						78 text 薪资公式
+			79 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				80 container
+					81 text MALL 商城系统
+					82 image
+			83 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				84 container
+					85 text EAM 资产管理
+					86 image
+			87 (collapsed) CRM 系统, Secondary Actions: Expand
+				88 container
+					89 text CRM 系统
+					90 image
+			91 (collapsed) ERP 系统, Secondary Actions: Expand
+				92 container
+					93 text ERP 系统
+					94 image
+			95 (collapsed) WMS 系统, Secondary Actions: Expand
+				96 container
+					97 text WMS 系统
+					98 image
+			99 (collapsed) MES 系统, Secondary Actions: Expand
+				100 container
+					101 text MES 系统
+					102 image
+			103 (collapsed) OA 办公协同, Secondary Actions: Expand
+				104 container
+					105 text OA 办公协同
+					106 image
+			107 (collapsed) HRM 人力资源, Secondary Actions: Expand
+				108 container
+					109 text HRM 人力资源
+					110 image
+			111 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				112 container
+					113 text FMS 财务管理
+					114 image
+			115 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				116 container
+					117 text PMS 项目管理
+					118 image
+			119 (collapsed) AI 大模型, Secondary Actions: Expand
+				120 container
+					121 text AI 大模型
+					122 image
+			123 (collapsed) IoT 物联网, Secondary Actions: Expand
+				124 container
+					125 text IoT 物联网
+					126 image
+			127 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				128 container
+					129 text IM 即时通讯
+					130 image
+			131 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				132 container
+					133 text MP 公众号管理
+					134 image
+			135 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				136 container
+					137 text CMS 内容管理
+					138 image
+		139 container
+			140 container
+				141 container v-tool-header
+					142 container 面包屑
+						143 link 薪酬管理
+							144 text 薪酬管理
+						145 text /
+						146 link 薪酬总览
+							147 text 薪酬总览
+					148 container
+						149 combo box (collapsed, settable) ID: el-id-6346-68, Secondary Actions: Expand
+						150 text 请选择租户
+						151 image
+					152 container
+						153 container
+							154 combo box (collapsed, settable) ID: el-id-6346-69, Secondary Actions: Expand
+							155 text 请输入菜单内容
+					156 pop up button (collapsed) ID: el-id-6346-6, Secondary Actions: Expand
+					157 pop up button (collapsed) ID: el-id-6346-11, Secondary Actions: Expand
+					158 pop up button (collapsed) 芋道源码, ID: el-id-6346-16, Secondary Actions: Expand
+				159 container v-tags-view
+					160 container
+						161 pop up button (collapsed) 首页, ID: el-id-6346-22, Secondary Actions: Expand
+							162 container
+								163 text 首页
+						164 pop up button (collapsed) 预算与成本分析, ID: el-id-6346-30, Secondary Actions: Expand
+							165 container
+								166 text 预算与成本分析
+						167 pop up button (collapsed) 薪酬总览, ID: el-id-6346-125, Secondary Actions: Expand
+							168 container
+								169 text 薪酬总览
+					170 pop up button (collapsed) ID: el-id-6346-38, Secondary Actions: Expand
+			171 container
+				172 button 本模块需求（薪酬总览）
+				173 button 候选数据源（8）
+				174 container
+					175 text 法人主体
+					176 container
+						177 combo box (collapsed, settable) 法人主体, ID: el-id-6346-282, Secondary Actions: Expand
+						178 text 隔离浏览器全流程主体（虚构）
+						179 image
+				180 container
+					181 text 计薪年度
+					182 container
+						183 button 减少数值
+						184 button 增加数值
+						185 stepper (settable, integer) 计薪年度, Value: 2026, ID: el-id-6346-283
+				186 container
+					187 text 月份
+					188 container
+						189 combo box (collapsed, settable) 月份, ID: el-id-6346-284, Secondary Actions: Expand
+						190 text 请选择
+						191 image
+				192 container
+					193 text 批次类型
+					194 container
+						195 combo box (collapsed, settable) 批次类型, ID: el-id-6346-285, Secondary Actions: Expand
+						196 text 请选择
+						197 image
+				198 container
+					199 text 状态
+					200 container
+						201 combo box (collapsed, settable) 状态, ID: el-id-6346-286, Secondary Actions: Expand
+						202 text 请选择
+						203 image
+				204 button 查询历史
+				205 text 金额按计薪批次及所选人员汇总；到账金额来自该批次成功回盘，期间归属不代表实际到账月。试算金额以当前显示版本为准。
+				206 container
+					207 table
+						208 row
+							209 cell
+								210 text 批次
+							211 cell
+								212 text 编号
+							213 cell
+								214 text 计薪年月
+							215 cell
+								216 text 类型
+							217 cell
+								218 text 状态
+							219 cell
+								220 text 核算版本
+							221 cell
+								222 text 应发工资
+							223 cell
+								224 text 实发工资
+							225 cell
+								226 text 批准总成本
+							227 cell
+								228 text 未关闭工单
+							229 cell
+								230 text 查看
+					231 table
+						232 container
+							233 row
+								234 cell
+									235 text 2026年11月工资表
+								236 cell
+									237 text 7
+								238 cell
+									239 text 2026-11
+								240 cell
+									241 text 常规工资
+								242 cell
+									243 text 未核算
+								244 cell
+									245 text 未知
+								246 cell
+									247 text 未知
+								248 cell
+									249 text 未知
+								250 cell
+									251 text 0
+								252 cell
+									253 button 总览明细
+							254 row
+								255 cell
+									256 text 2026年10月工资表
+								257 cell
+									258 text 6
+								259 cell
+									260 text 2026-10
+								261 cell
+									262 text 常规工资
+								263 cell
+									264 text 已归档
+								265 cell
+									266 text 2
+								267 cell
+									268 text 5,980.00
+								269 cell
+									270 text 5,580.00
+								271 cell
+									272 text 6,780.00
+								273 cell
+									274 text 0
+								275 cell
+									276 button 总览明细
+				277 heading 2026年10月工资表 · 版本 2 · 冻结证据, Value: 3
+					278 text 2026年10月工资表 · 版本 2 · 冻结证据
+				279 container
+					280 container
+						281 text 隔离浏览器流程员工 · ACCEPT_BROWSER_EMP
+						282 button 关闭此标签
+					283 combo box (collapsed, settable) ID: el-id-6346-309, Secondary Actions: Expand
+					284 image
+				285 button 应用人员范围
+				286 text 金额来自冻结核算快照
+				287 table
+					288 row
+						289 cell
+							290 text 核算版本编号
+						291 cell
+							292 text 7
+						293 cell
+							294 text 所选人数
+						295 cell
+							296 text 1
+						297 cell
+							298 text 计划发放日期
+						299 cell
+							300 text 2026-10-18
+					301 row
+						302 cell
+							303 text 应发工资
+						304 cell
+							305 text 5,980.00
+						306 cell
+							307 text 本期预扣个税
+						308 cell
+							309 text 0.00
+						310 cell
+							311 text 实发工资
+						312 cell
+							313 text 5,580.00
+					314 row
+						315 cell
+							316 text 个人社保
+						317 cell
+							318 text 400.00
+						319 cell
+							320 text 个人公积金
+						321 cell
+							322 text 0.00
+						323 cell
+							324 text 单位社保
+						325 cell
+							326 text 800.00
+					327 row
+						328 cell
+							329 text 单位公积金
+						330 cell
+							331 text 0.00
+						332 cell
+							333 text 批准总成本
+						334 cell
+							335 text 6,780.00
+						336 cell
+							337 text 成功回盘金额
+						338 cell
+							339 text 5,580.00
+					340 row
+						341 cell
+							342 text 成功 / 待处理 / 失败
+						343 cell
+							344 text 1 / 0 / 0
+						345 cell
+							346 text 未关闭工单
+						347 cell
+							348 text 0
+						349 cell
+							350 text 成本报告编号
+						351 cell
+							352 text 4
+				353 text 批准成本报告：应发 + 单位缴费 + 配置单位成本 + 结清工资收回调整
+				354 heading 保存证据：10 / 10, Value: 4
+					355 text 保存证据：10 / 10
+				356 container
+					357 text 检查项目
+					358 container
+						359 combo box (collapsed, settable) 检查项目, ID: el-id-6346-310, Secondary Actions: Expand
+						360 text 请选择
+						361 image
+				362 container
+					363 checkbox (settable, integer) Description: 只看缺口或未知, Value: 0
+					364 text 只看缺口或未知
+				365 container
+					366 table
+						367 row
+							368 cell
+								369 text 员工
+							370 cell
+								371 text 工号
+							372 cell
+								373 text 检查项目
+							374 cell
+								375 text 状态
+							376 cell
+								377 text 结论
+							378 cell
+								379 text 来源编号
+					380 table
+						381 container
+							382 row
+								383 cell
+									384 text 隔离浏览器流程员工
+								385 cell
+									386 text ACCEPT_BROWSER_EMP
+								387 cell
+									388 text 发放日期
+								389 cell
+									390 text 历史证据已保存
+								391 cell
+									392 text 冻结版本保留的适用证据，不重评当前来源
+							393 row
+								394 cell
+									395 text 隔离浏览器流程员工
+								396 cell
+									397 text ACCEPT_BROWSER_EMP
+								398 cell
+									399 text 薪资组与计税配置
+								400 cell
+									401 text 历史证据已保存
+								402 cell
+									403 text 冻结版本保留的适用证据，不重评当前来源
+							404 row
+								405 cell
+									406 text 隔离浏览器流程员工
+								407 cell
+									408 text ACCEPT_BROWSER_EMP
+								409 cell
+									410 text 生效薪资
+								411 cell
+									412 text 历史证据已保存
+								413 cell
+									414 text 冻结版本保留的适用证据，不重评当前来源
+							415 row
+								416 cell
+									417 text 隔离浏览器流程员工
+								418 cell
+									419 text ACCEPT_BROWSER_EMP
+								420 cell
+									421 text 社保公积金
+								422 cell
+									423 text 历史证据已保存
+								424 cell
+									425 text 冻结版本保留的适用证据，不重评当前来源
+							426 row
+								427 cell
+									428 text 隔离浏览器流程员工
+								429 cell
+									430 text ACCEPT_BROWSER_EMP
+								431 cell
+									432 text 年度税务政策
+								433 cell
+									434 text 历史证据已保存
+								435 cell
+									436 text 冻结版本保留的适用证据，不重评当前来源
+							437 row
+								438 cell
+									439 text 隔离浏览器流程员工
+								440 cell
+									441 text ACCEPT_BROWSER_EMP
+								442 cell
+									443 text 年度税务资料
+								444 cell
+									445 text 历史证据已保存
+								446 cell
+									447 text 冻结版本保留的适用证据，不重评当前来源
+							448 row
+								449 cell
+									450 text 隔离浏览器流程员工
+								451 cell
+									452 text ACCEPT_BROWSER_EMP
+								453 cell
+									454 text 考勤
+								455 cell
+									456 text 历史证据已保存
+								457 cell
+									458 text 冻结版本保留的适用证据，不重评当前来源
+							459 row
+								460 cell
+									461 text 隔离浏览器流程员工
+								462 cell
+									463 text ACCEPT_BROWSER_EMP
+								464 cell
+									465 text 工时与加班
+								466 cell
+									467 text 历史证据已保存
+								468 cell
+									469 text 冻结版本保留的适用证据，不重评当前来源
+							470 row
+								471 cell
+									472 text 隔离浏览器流程员工
+								473 cell
+									474 text ACCEPT_BROWSER_EMP
+								475 cell
+									476 text 累计专项扣除
+								477 cell
+									478 text 历史证据已保存
+								479 cell
+									480 text 冻结版本保留的适用证据，不重评当前来源
+							481 row
+								482 cell
+									483 text 隔离浏览器流程员工
+								484 cell
+									485 text ACCEPT_BROWSER_EMP
+								486 cell
+									487 text 累计计税基数
+								488 cell
+									489 text 历史证据已保存
+								490 cell
+									491 text 冻结版本保留的适用证据，不重评当前来源
+			492 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 285 button 应用人员范围

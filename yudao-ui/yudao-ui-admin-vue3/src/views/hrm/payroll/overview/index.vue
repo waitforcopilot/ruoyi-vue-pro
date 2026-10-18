@@ -3,7 +3,7 @@
     <RequirementContext module="OV" />
     <el-form inline>
       <el-form-item label="法人主体"
-        ><el-select v-model="entityId" @change="reset"
+        ><el-select v-model="entityId"
           ><el-option v-for="e in entities" :key="e.id" :value="e.id" :label="e.name" /></el-select
       ></el-form-item>
       <el-form-item label="计薪年度"
@@ -228,18 +228,35 @@ const signalLabel = (row: any) =>
         : row.ready
           ? '已就绪'
           : '待核实'
-function reset() {
-  rows.value = []
+let scopeVersion = 0
+let historyVersion = 0
+let detailVersion = 0
+let active = true
+function clearDetail() {
+  detailVersion++
+  detailLoading.value = false
   detail.value = undefined
   batchId.value = undefined
   employeeIds.value = []
+  kind.value = undefined
+  onlyMissing.value = false
+}
+function reset() {
+  scopeVersion++
+  historyVersion++
+  loading.value = false
+  rows.value = []
+  clearDetail()
 }
 async function load() {
+  const scope = scopeVersion
+  const version = ++historyVersion
+  rows.value = []
+  clearDetail()
   if (!entityId.value) return
   loading.value = true
-  detail.value = undefined
   try {
-    rows.value = await request.get({
+    const result = await request.get({
       url: base + '/history',
       params: {
         entityId: entityId.value,
@@ -249,11 +266,14 @@ async function load() {
         status: status.value || undefined
       }
     })
+    if (active && scope === scopeVersion && version === historyVersion) rows.value = result
   } finally {
-    loading.value = false
+    if (active && scope === scopeVersion && version === historyVersion) loading.value = false
   }
 }
 async function select(row: any) {
+  if (!rows.value.includes(row)) return
+  clearDetail()
   batchId.value = row.batchId
   employeeIds.value = []
   kind.value = undefined
@@ -261,20 +281,47 @@ async function select(row: any) {
 }
 async function loadDetail() {
   if (!batchId.value) return
+  const scope = scopeVersion
+  const version = ++detailVersion
+  const selectedBatch = batchId.value
+  const selectedEmployees = employeeIds.value.join(',')
+  const isCurrent = () =>
+    active &&
+    scope === scopeVersion &&
+    version === detailVersion &&
+    batchId.value === selectedBatch &&
+    employeeIds.value.join(',') === selectedEmployees
   detailLoading.value = true
   try {
-    detail.value = await request.get({
+    const result = await request.get({
       url: base + '/detail',
       params: {
-        batchId: batchId.value,
-        employeeIds: employeeIds.value.length ? employeeIds.value.join(',') : undefined
+        batchId: selectedBatch,
+        employeeIds: selectedEmployees || undefined
       }
     })
+    if (isCurrent()) detail.value = result
   } finally {
-    detailLoading.value = false
+    if (isCurrent()) detailLoading.value = false
   }
 }
+watch(() => [entityId.value, year.value, month.value, type.value, status.value], reset, {
+  flush: 'sync'
+})
+watch(
+  () => employeeIds.value.slice(),
+  () => {
+    detailVersion++
+    detailLoading.value = false
+  },
+  { flush: 'sync' }
+)
 onMounted(async () => {
-  entities.value = await request.get({ url: base + '/entities' })
+  const result = await request.get({ url: base + '/entities' })
+  if (active) entities.value = result
+})
+onBeforeUnmount(() => {
+  active = false
+  reset()
 })
 </script>

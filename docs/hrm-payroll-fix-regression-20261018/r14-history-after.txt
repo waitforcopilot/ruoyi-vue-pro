@@ -1,0 +1,233 @@
+Browser tab: 1, Title: "芋道管理系统 - 薪酬总览", URL: "http://127.0.0.1:5173/hrm-payroll/overview".
+0 AXWebArea 芋道管理系统 - 薪酬总览, URL: 127.0.0.1:5173/hrm-payroll/overview
+	1 container
+		2 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		3 menu bar
+			4 首页
+				5 text 首页
+			6 作者动态
+				7 text 作者动态
+			8 Boot 开发文档
+				9 text Boot 开发文档
+			10 Cloud 开发文档
+				11 text Cloud 开发文档
+			12 (collapsed) 系统管理, Secondary Actions: Expand
+				13 container
+					14 text 系统管理
+					15 image
+			16 (collapsed) 基础设施, Secondary Actions: Expand
+				17 container
+					18 text 基础设施
+					19 image
+			20 (collapsed) 支付管理, Secondary Actions: Expand
+				21 container
+					22 text 支付管理
+					23 image
+			24 (collapsed) 报表管理, Secondary Actions: Expand
+				25 container
+					26 text 报表管理
+					27 image
+			28 (collapsed) 工作流程, Secondary Actions: Expand
+				29 container
+					30 text 工作流程
+					31 image
+			32 (collapsed) 会员中心, Secondary Actions: Expand
+				33 container
+					34 text 会员中心
+					35 image
+			36 (expanded) 薪酬管理, Secondary Actions: Collapse
+				37 container
+					38 text 薪酬管理
+					39 image
+				40 menu
+					41 定调薪审批
+						42 text 定调薪审批
+					43 工时与加班
+						44 text 工时与加班
+					45 薪级薪档
+						46 text 薪级薪档
+					47 考勤归集与异常
+						48 text 考勤归集与异常
+					49 法人主体与归属
+						50 text 法人主体与归属
+					51 缴费政策与年度调基
+						52 text 缴费政策与年度调基
+					53 缴费实缴对账
+						54 text 缴费实缴对账
+					55 核算输入与就绪
+						56 text 核算输入与就绪
+					57 年度税务政策
+						58 text 年度税务政策
+					59 薪酬成本分摊
+						60 text 薪酬成本分摊
+					61 预算与成本分析
+						62 text 预算与成本分析
+					63 薪酬输入缺口工单
+						64 text 薪酬输入缺口工单
+					65 社保公积金工资差额
+						66 text 社保公积金工资差额
+					67 薪酬总览
+						68 text 薪酬总览
+					69 独立工资收回
+						70 text 独立工资收回
+					71 需求评审
+						72 text 需求评审
+					73 核算审批
+						74 text 核算审批
+					75 银行代发
+						76 text 银行代发
+					77 薪资公式
+						78 text 薪资公式
+			79 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				80 container
+					81 text MALL 商城系统
+					82 image
+			83 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				84 container
+					85 text EAM 资产管理
+					86 image
+			87 (collapsed) CRM 系统, Secondary Actions: Expand
+				88 container
+					89 text CRM 系统
+					90 image
+			91 (collapsed) ERP 系统, Secondary Actions: Expand
+				92 container
+					93 text ERP 系统
+					94 image
+			95 (collapsed) WMS 系统, Secondary Actions: Expand
+				96 container
+					97 text WMS 系统
+					98 image
+			99 (collapsed) MES 系统, Secondary Actions: Expand
+				100 container
+					101 text MES 系统
+					102 image
+			103 (collapsed) OA 办公协同, Secondary Actions: Expand
+				104 container
+					105 text OA 办公协同
+					106 image
+			107 (collapsed) HRM 人力资源, Secondary Actions: Expand
+				108 container
+					109 text HRM 人力资源
+					110 image
+			111 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				112 container
+					113 text FMS 财务管理
+					114 image
+			115 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				116 container
+					117 text PMS 项目管理
+					118 image
+			119 (collapsed) AI 大模型, Secondary Actions: Expand
+				120 container
+					121 text AI 大模型
+					122 image
+			123 (collapsed) IoT 物联网, Secondary Actions: Expand
+				124 container
+					125 text IoT 物联网
+					126 image
+			127 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				128 container
+					129 text IM 即时通讯
+					130 image
+			131 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				132 container
+					133 text MP 公众号管理
+					134 image
+			135 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				136 container
+					137 text CMS 内容管理
+					138 image
+		139 container
+			140 container v-tool-header
+				141 container 面包屑
+					142 link 薪酬管理
+						143 text 薪酬管理
+					144 text /
+					145 link 薪酬总览
+						146 text 薪酬总览
+				147 container
+					148 combo box (collapsed, settable) ID: el-id-6346-68, Secondary Actions: Expand
+					149 text 请选择租户
+					150 image
+				151 container
+					152 container
+						153 combo box (collapsed, settable) ID: el-id-6346-69, Secondary Actions: Expand
+						154 text 请输入菜单内容
+				155 pop up button (collapsed) ID: el-id-6346-6, Secondary Actions: Expand
+				156 pop up button (collapsed) ID: el-id-6346-11, Secondary Actions: Expand
+				157 pop up button (collapsed) 芋道源码, ID: el-id-6346-16, Secondary Actions: Expand
+			158 container v-tags-view
+				159 container
+					160 pop up button (collapsed) 首页, ID: el-id-6346-22, Secondary Actions: Expand
+						161 container
+							162 text 首页
+					163 pop up button (collapsed) 预算与成本分析, ID: el-id-6346-30, Secondary Actions: Expand
+						164 container
+							165 text 预算与成本分析
+					166 pop up button (collapsed) 薪酬总览, ID: el-id-6346-125, Secondary Actions: Expand
+						167 container
+							168 text 薪酬总览
+				169 pop up button (collapsed) ID: el-id-6346-38, Secondary Actions: Expand
+			170 container
+				171 button 本模块需求（薪酬总览）
+				172 button 候选数据源（8）
+			173 container
+				174 text 法人主体
+				175 container
+					176 combo box (collapsed, settable) 法人主体, ID: el-id-6346-282, Secondary Actions: Expand
+					260 text 隔离验收主体（虚构）
+					178 image
+				179 text 计薪年度
+				180 container
+					181 button 减少数值
+					182 button 增加数值
+					183 stepper (settable, integer) 计薪年度, Value: 2026, ID: el-id-6346-283
+				184 text 月份
+				185 container
+					186 combo box (collapsed, settable) 月份, ID: el-id-6346-284, Secondary Actions: Expand
+					187 text 请选择
+					188 image
+				189 text 批次类型
+				190 container
+					191 combo box (collapsed, settable) 批次类型, ID: el-id-6346-285, Secondary Actions: Expand
+					192 text 请选择
+					193 image
+				194 text 状态
+				195 container
+					196 combo box (collapsed, settable) 状态, ID: el-id-6346-286, Secondary Actions: Expand
+					197 text 请选择
+					198 image
+				199 button 查询历史
+			200 text 金额按计薪批次及所选人员汇总；到账金额来自该批次成功回盘，期间归属不代表实际到账月。试算金额以当前显示版本为准。
+			231 container
+				232 table
+					233 row
+						234 cell
+							235 text 批次
+						236 cell
+							237 text 编号
+						238 cell
+							239 text 计薪年月
+						240 cell
+							241 text 类型
+						242 cell
+							243 text 状态
+						244 cell
+							245 text 核算版本
+						246 cell
+							247 text 应发工资
+						248 cell
+							249 text 实发工资
+						250 cell
+							251 text 批准总成本
+						252 cell
+							253 text 未关闭工单
+						254 cell
+							255 text 查看
+				257 container
+					258 table
+					259 text 暂无数据
+			229 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 176 combo box (collapsed, settable) 法人主体, ID: el-id-6346-282, Secondary Actions: Expand
