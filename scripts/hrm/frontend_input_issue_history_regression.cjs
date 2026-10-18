@@ -31,6 +31,8 @@ function harness() {
     reactive: vue.reactive,
     computed: vue.computed,
     defineOptions: () => {},
+    onActivated: () => {},
+    onDeactivated: () => {},
     onMounted: () => {},
     onBeforeUnmount: (f) => unmounts.push(f),
     useMessage: () => ({}),

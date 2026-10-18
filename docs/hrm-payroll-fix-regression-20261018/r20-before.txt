@@ -1,0 +1,242 @@
+Browser tab: 1, Title: "芋道管理系统 - 薪酬总览", URL: "http://127.0.0.1:5173/hrm-payroll/overview".
+0 AXWebArea 芋道管理系统 - 薪酬总览, URL: 127.0.0.1:5173/hrm-payroll/overview
+	1 container
+		2 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		482 menu bar
+			483 首页
+				484 text 首页
+			485 作者动态
+				486 text 作者动态
+			487 Boot 开发文档
+				488 text Boot 开发文档
+			489 Cloud 开发文档
+				490 text Cloud 开发文档
+			491 (collapsed) 系统管理, Secondary Actions: Expand
+				492 container
+					493 text 系统管理
+					494 image
+			495 (collapsed) 基础设施, Secondary Actions: Expand
+				496 container
+					497 text 基础设施
+					498 image
+			499 (collapsed) 支付管理, Secondary Actions: Expand
+				500 container
+					501 text 支付管理
+					502 image
+			503 (collapsed) 报表管理, Secondary Actions: Expand
+				504 container
+					505 text 报表管理
+					506 image
+			507 (collapsed) 工作流程, Secondary Actions: Expand
+				508 container
+					509 text 工作流程
+					510 image
+			511 (collapsed) 会员中心, Secondary Actions: Expand
+				512 container
+					513 text 会员中心
+					514 image
+			515 (expanded) 薪酬管理, Secondary Actions: Collapse
+				516 container
+					517 text 薪酬管理
+					518 image
+				519 menu
+					520 定调薪审批
+						521 text 定调薪审批
+					522 工时与加班
+						523 text 工时与加班
+					524 薪级薪档
+						525 text 薪级薪档
+					526 考勤归集与异常
+						527 text 考勤归集与异常
+					528 法人主体与归属
+						529 text 法人主体与归属
+					530 缴费政策与年度调基
+						531 text 缴费政策与年度调基
+					532 缴费实缴对账
+						533 text 缴费实缴对账
+					534 核算输入与就绪
+						535 text 核算输入与就绪
+					536 年度税务政策
+						537 text 年度税务政策
+					538 薪酬成本分摊
+						539 text 薪酬成本分摊
+					540 预算与成本分析
+						541 text 预算与成本分析
+					542 薪酬输入缺口工单
+						543 text 薪酬输入缺口工单
+					544 社保公积金工资差额
+						545 text 社保公积金工资差额
+					546 薪酬总览
+						547 text 薪酬总览
+					548 独立工资收回
+						549 text 独立工资收回
+					550 需求评审
+						551 text 需求评审
+					552 核算审批
+						553 text 核算审批
+					554 银行代发
+						555 text 银行代发
+					556 薪资公式
+						557 text 薪资公式
+			558 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				559 container
+					560 text MALL 商城系统
+					561 image
+			562 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				563 container
+					564 text EAM 资产管理
+					565 image
+			566 (collapsed) CRM 系统, Secondary Actions: Expand
+				567 container
+					568 text CRM 系统
+					569 image
+			570 (collapsed) ERP 系统, Secondary Actions: Expand
+				571 container
+					572 text ERP 系统
+					573 image
+			574 (collapsed) WMS 系统, Secondary Actions: Expand
+				575 container
+					576 text WMS 系统
+					577 image
+			578 (collapsed) MES 系统, Secondary Actions: Expand
+				579 container
+					580 text MES 系统
+					581 image
+			582 (collapsed) OA 办公协同, Secondary Actions: Expand
+				583 container
+					584 text OA 办公协同
+					585 image
+			586 (collapsed) HRM 人力资源, Secondary Actions: Expand
+				587 container
+					588 text HRM 人力资源
+					589 image
+			590 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				591 container
+					592 text FMS 财务管理
+					593 image
+			594 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				595 container
+					596 text PMS 项目管理
+					597 image
+			598 (collapsed) AI 大模型, Secondary Actions: Expand
+				599 container
+					600 text AI 大模型
+					601 image
+			602 (collapsed) IoT 物联网, Secondary Actions: Expand
+				603 container
+					604 text IoT 物联网
+					605 image
+			606 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				607 container
+					608 text IM 即时通讯
+					609 image
+			610 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				611 container
+					612 text MP 公众号管理
+					613 image
+			614 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				615 container
+					616 text CMS 内容管理
+					617 image
+		139 container
+			140 container v-tool-header
+				141 container 面包屑
+					142 link 薪酬管理
+						143 text 薪酬管理
+					144 text /
+					618 link 薪酬总览
+						619 text 薪酬总览
+				147 container
+					148 combo box (collapsed, settable) ID: el-id-1126-64, Secondary Actions: Expand
+					149 text 请选择租户
+					150 image
+				151 container
+					152 container
+						153 combo box (collapsed, settable) ID: el-id-1126-65, Secondary Actions: Expand
+						154 text 请输入菜单内容
+				155 pop up button (collapsed) ID: el-id-1126-6, Secondary Actions: Expand
+				156 pop up button (collapsed) ID: el-id-1126-11, Secondary Actions: Expand
+				157 pop up button (collapsed) 芋道源码, ID: el-id-1126-16, Secondary Actions: Expand
+			158 container v-tags-view
+				159 container
+					160 pop up button (collapsed) 首页, ID: el-id-1126-22, Secondary Actions: Expand
+						161 container
+							162 text 首页
+					163 pop up button (collapsed) 薪酬输入缺口工单, ID: el-id-1126-30, Secondary Actions: Expand
+						164 container
+							165 text 薪酬输入缺口工单
+					470 pop up button (collapsed) 薪酬总览, ID: el-id-1126-79, Secondary Actions: Expand
+						471 container
+							472 text 薪酬总览
+				166 pop up button (collapsed) ID: el-id-1126-38, Secondary Actions: Expand
+			620 container
+				621 button 本模块需求（薪酬总览）
+				622 button 候选数据源（8）
+			623 container
+				624 text 法人主体
+				625 container
+					626 combo box (collapsed, settable) 法人主体, ID: el-id-1126-124, Secondary Actions: Expand
+					627 text 请选择
+					628 image
+				629 text 计薪年度
+				630 container
+					631 button 减少数值
+					632 button 增加数值
+					633 stepper (settable, integer) 计薪年度, Value: 2026, ID: el-id-1126-125
+				634 text 月份
+				635 container
+					636 combo box (collapsed, settable) 月份, ID: el-id-1126-126, Secondary Actions: Expand
+					637 text 请选择
+					638 image
+				639 text 批次类型
+				640 container
+					641 combo box (collapsed, settable) 批次类型, ID: el-id-1126-127, Secondary Actions: Expand
+					642 text 请选择
+					643 image
+				644 text 状态
+				645 container
+					646 combo box (collapsed, settable) 状态, ID: el-id-1126-128, Secondary Actions: Expand
+					647 text 请选择
+					648 image
+				649 button (disabled) 查询历史
+			650 text 金额按计薪批次及所选人员汇总；到账金额来自该批次成功回盘，期间归属不代表实际到账月。试算金额以当前显示版本为准。
+			651 container
+				652 table
+					653 row
+						654 cell
+							655 text 批次
+						656 cell
+							657 text 编号
+						658 cell
+							659 text 计薪年月
+						660 cell
+							661 text 类型
+						662 cell
+							663 text 状态
+						664 cell
+							665 text 核算版本
+						666 cell
+							667 text 应发工资
+						668 cell
+							669 text 实发工资
+						670 cell
+							671 text 批准总成本
+						672 cell
+							673 text 未关闭工单
+						674 cell
+							675 text 查看
+				676 container
+					677 table
+					678 text 暂无数据
+			330 text Copyright ©2026 芋道管理系统
+	473 container 处理依据
+		474 container
+			475 text 处理依据
+			476 button 关闭此对话框
+			477 container el-id-1126-133
+				478 text 请提供补正资料编号或说明，不要填写工资、证件或银行卡明文
+				479 text entry area (settable) 请提供补正资料编号或说明，不要填写工资、证件或银行卡明文, Value: TEST-R20 已离开页面的旧依据，不应提交；本机合成回归。, ID: el-id-1126-134
+			480 button 取消
+			481 button 确定
+
+The focused UI element is 479 text entry area (settable) 请提供补正资料编号或说明，不要填写工资、证件或银行卡明文, Value: TEST-R20 已离开页面的旧依据，不应提交；本机合成回归。, ID: el-id-1126-134

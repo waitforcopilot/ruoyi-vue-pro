@@ -208,6 +208,7 @@ import RequirementContext from '../components/RequirementContext.vue'
 import request from '@/config/axios'
 import dayjs from 'dayjs'
 import { labels, states, actions } from './labels'
+import { ElMessageBox } from 'element-plus'
 defineOptions({ name: 'HrmPayrollInputIssue' })
 const base = '/hrm/payroll/input-issue',
   message = useMessage()
@@ -259,6 +260,17 @@ let batchVersion = 0
 let signalVersion = 0
 let loadingVersion = 0
 let formVersion = 0
+let actionVersion = 0
+let actionBusy = false
+let ownsPrompt = false
+function clearAction() {
+  actionVersion++
+  actionBusy = false
+  if (ownsPrompt) {
+    ownsPrompt = false
+    ElMessageBox.close()
+  }
+}
 const captureForm = () => ({
   version: formVersion,
   entityId: entityId.value,
@@ -273,6 +285,7 @@ const isCurrentForm = (context: ReturnType<typeof captureForm>) =>
   context.batchId === batchId.value &&
   context.employeeId === employeeId.value
 function clearForm() {
+  clearAction()
   formVersion++
   formContext = undefined
   dialog.value = false
@@ -446,27 +459,63 @@ async function save() {
     if (isCurrentForm(context) && formContext === context) saving.value = false
   }
 }
-async function note(title: string) {
-  const { value } = await message.prompt(title, '处理依据', {
-    inputType: 'textarea',
-    inputValidator: (v: string) => (!!v?.trim() && v.length <= 1000) || '请填写1～1000字的依据'
-  })
-  return value
+async function runAction(id: number, path: string, title: string, approved?: boolean) {
+  if (!active || actionBusy || !entityId.value || !batchId.value) return
+  const row = rows.value.find((row) => row.id === id && row.batchId === batchId.value)
+  if (!row) return
+  const version = ++actionVersion
+  const selectedEntity = entityId.value
+  const selectedBatch = batchId.value
+  const status = row.status
+  const current = () =>
+    active &&
+    version === actionVersion &&
+    selectedEntity === entityId.value &&
+    selectedBatch === batchId.value &&
+    rows.value.some(
+      (row) => row.id === id && row.batchId === selectedBatch && row.status === status
+    )
+  actionBusy = true
+  ownsPrompt = true
+  try {
+    let value: string
+    try {
+      ;({ value } = await message.prompt(title, '处理依据', {
+        inputType: 'textarea',
+        inputValidator: (v: string) => (!!v?.trim() && v.length <= 1000) || '请填写1～1000字的依据'
+      }))
+    } catch (error) {
+      if (error === 'cancel' || error === 'close') return
+      throw error
+    }
+    if (!current()) return
+    ownsPrompt = false
+    const data =
+      path === '/submit'
+        ? { id, evidence: value }
+        : { id, reason: value, ...(path === '/review' ? { approved } : {}) }
+    await request.post({ url: base + path, data })
+    if (current()) await loadBatch()
+  } finally {
+    if (version === actionVersion) {
+      actionBusy = false
+      ownsPrompt = false
+    }
+  }
 }
 async function submit(id: number) {
-  const evidence = await note('请提供补正资料编号或说明，不要填写工资、证件或银行卡明文')
-  await request.post({ url: base + '/submit', data: { id, evidence } })
-  await loadBatch()
+  await runAction(id, '/submit', '请提供补正资料编号或说明，不要填写工资、证件或银行卡明文')
 }
 async function review(id: number, approved: boolean) {
-  const reason = await note(approved ? '请填写独立核实来源的依据' : '请填写退回补正原因')
-  await request.post({ url: base + '/review', data: { id, approved, reason } })
-  await loadBatch()
+  await runAction(
+    id,
+    '/review',
+    approved ? '请填写独立核实来源的依据' : '请填写退回补正原因',
+    approved
+  )
 }
 async function reopen(id: number) {
-  const reason = await note('请说明来源再次失效的原因')
-  await request.post({ url: base + '/reopen', data: { id, reason } })
-  await loadBatch()
+  await runAction(id, '/reopen', '请说明来源再次失效的原因')
 }
 async function history(id: number) {
   clearHistory()
@@ -494,9 +543,19 @@ onMounted(async () => {
   if (active && version === selectorVersion && selectedEntity === entityId.value)
     Object.assign(selectors, result)
 })
-onBeforeUnmount(() => {
+function leavePage() {
   active = false
+  selectorVersion++
+  batchVersion++
+  signalVersion++
+  loadingVersion++
+  loading.value = false
   clearForm()
   clearHistory()
+}
+onActivated(() => {
+  active = true
 })
+onDeactivated(leavePage)
+onBeforeUnmount(leavePage)
 </script>
