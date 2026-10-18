@@ -231,7 +231,7 @@ const tick = async () => {
     const b = h.on[0]();
     h.gets[0].resolve([{ ...row(), id: 99 }]);
     await a;
-    assert.notEqual(h.s.rows.value[0].id, 99);
+    assert.equal(h.s.rows.value.length, 0);
     assert.equal(h.s.loading.value, true);
     h.gets[1].resolve([row()]);
     await b;

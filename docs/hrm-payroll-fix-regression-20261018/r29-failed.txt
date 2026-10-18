@@ -1,0 +1,216 @@
+Browser tab: 1, Title: "芋道管理系统 - 我的薪酬工单", URL: "http://127.0.0.1:5173/hrm/portal/payroll-input-issue".
+1 AXWebArea 芋道管理系统 - 我的薪酬工单, URL: 127.0.0.1:5173/hrm/portal/payroll-input-issue
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 作者动态
+				8 text 作者动态
+			9 Boot 开发文档
+				10 text Boot 开发文档
+			11 Cloud 开发文档
+				12 text Cloud 开发文档
+			13 (collapsed) 系统管理, Secondary Actions: Expand
+				14 container
+					15 text 系统管理
+					16 image
+			17 (collapsed) 基础设施, Secondary Actions: Expand
+				18 container
+					19 text 基础设施
+					20 image
+			21 (collapsed) 支付管理, Secondary Actions: Expand
+				22 container
+					23 text 支付管理
+					24 image
+			25 (collapsed) 报表管理, Secondary Actions: Expand
+				26 container
+					27 text 报表管理
+					28 image
+			29 (collapsed) 工作流程, Secondary Actions: Expand
+				30 container
+					31 text 工作流程
+					32 image
+			33 (collapsed) 会员中心, Secondary Actions: Expand
+				34 container
+					35 text 会员中心
+					36 image
+			37 (collapsed) 薪酬管理, Secondary Actions: Expand
+				38 container
+					39 text 薪酬管理
+					40 image
+			41 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				42 container
+					43 text MALL 商城系统
+					44 image
+			45 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				46 container
+					47 text EAM 资产管理
+					48 image
+			49 (collapsed) CRM 系统, Secondary Actions: Expand
+				50 container
+					51 text CRM 系统
+					52 image
+			53 (collapsed) ERP 系统, Secondary Actions: Expand
+				54 container
+					55 text ERP 系统
+					56 image
+			57 (collapsed) WMS 系统, Secondary Actions: Expand
+				58 container
+					59 text WMS 系统
+					60 image
+			61 (collapsed) MES 系统, Secondary Actions: Expand
+				62 container
+					63 text MES 系统
+					64 image
+			65 (collapsed) OA 办公协同, Secondary Actions: Expand
+				66 container
+					67 text OA 办公协同
+					68 image
+			69 (expanded) HRM 人力资源, Secondary Actions: Collapse
+				70 container
+					71 text HRM 人力资源
+					72 image
+				73 menu
+					74 HR 工作台
+						75 text HR 工作台
+					76 团队工作台
+						77 text 团队工作台
+					78 组织管理
+						79 text 组织管理
+					80 (collapsed) 招聘管理, Secondary Actions: Expand
+						81 container
+							82 text 招聘管理
+							83 image
+					84 (collapsed) 员工管理, Secondary Actions: Expand
+						85 container
+							86 text 员工管理
+							87 image
+					88 (collapsed) 考勤管理, Secondary Actions: Expand
+						89 container
+							90 text 考勤管理
+							91 image
+					92 (collapsed) 社保管理, Secondary Actions: Expand
+						93 container
+							94 text 社保管理
+							95 image
+					96 (collapsed) 薪资管理, Secondary Actions: Expand
+						97 container
+							98 text 薪资管理
+							99 image
+					100 (collapsed) 绩效管理, Secondary Actions: Expand
+						101 container
+							102 text 绩效管理
+							103 image
+					104 (expanded) HRM 员工端, Secondary Actions: Collapse
+						105 container
+							106 text HRM 员工端
+							107 image
+						108 menu
+							109 我的考勤工单
+								110 text 我的考勤工单
+							111 我的薪酬工单
+								112 text 我的薪酬工单
+							113 个人工作台
+								114 text 个人工作台
+							115 我的档案
+								116 text 我的档案
+							117 我的社保
+								118 text 我的社保
+							119 我的工资条
+								120 text 我的工资条
+							121 考勤报表
+								122 text 考勤报表
+							123 (collapsed) 绩效管理, Secondary Actions: Expand
+								124 container
+									125 text 绩效管理
+									126 image
+			127 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				128 container
+					129 text FMS 财务管理
+					130 image
+			131 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				132 container
+					133 text PMS 项目管理
+					134 image
+			135 (collapsed) AI 大模型, Secondary Actions: Expand
+				136 container
+					137 text AI 大模型
+					138 image
+			139 (collapsed) IoT 物联网, Secondary Actions: Expand
+				140 container
+					141 text IoT 物联网
+					142 image
+			143 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				144 container
+					145 text IM 即时通讯
+					146 image
+			147 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				148 container
+					149 text MP 公众号管理
+					150 image
+			151 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				152 container
+					153 text CMS 内容管理
+					154 image
+		155 container
+			156 container v-tool-header
+				157 container 面包屑
+					158 link HRM 人力资源
+						159 text HRM 人力资源
+					160 text /
+					161 link HRM 员工端
+						162 text HRM 员工端
+					163 text /
+					164 link 我的薪酬工单
+						165 text 我的薪酬工单
+				166 container
+					167 combo box (collapsed, settable) ID: el-id-2948-52, Secondary Actions: Expand
+					168 text 请选择租户
+					169 image
+				170 container
+					171 container
+						172 combo box (collapsed, settable) ID: el-id-2948-53, Secondary Actions: Expand
+						173 text 请输入菜单内容
+				174 pop up button (collapsed) ID: el-id-2948-6, Secondary Actions: Expand
+				175 pop up button (collapsed) ID: el-id-2948-11, Secondary Actions: Expand
+				176 pop up button (collapsed) 芋道源码, ID: el-id-2948-16, Secondary Actions: Expand
+			177 container v-tags-view
+				178 container
+					179 pop up button (collapsed) 首页, ID: el-id-2948-22, Secondary Actions: Expand
+						180 container
+							181 text 首页
+					182 pop up button (collapsed) 我的薪酬工单, ID: el-id-2948-30, Secondary Actions: Expand
+						183 container
+							184 text 我的薪酬工单
+				185 pop up button (collapsed) ID: el-id-2948-38, Secondary Actions: Expand
+			186 text 请先补正对应业务资料，再提交资料编号或说明。指定复核人核实真实来源后关闭工单。
+			187 button 刷新
+			232 text 工单加载失败，当前状态尚未确认。请点击刷新重试后再处理。
+			233 container
+				234 table
+					235 row
+						236 cell
+							237 text 工单编号
+						238 cell
+							239 text 工资批次编号
+						240 cell
+							241 text 员工编号
+						242 cell
+							243 text 项目
+						244 cell
+							245 text 状态
+						246 cell
+							247 text 截止时间
+						248 cell
+							249 text 处理要求
+						250 cell
+							251 text 复核意见
+						252 cell
+							253 text 操作
+				254 container
+					255 table
+					256 text 工单未加载，请刷新重试
+			231 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 1 AXWebArea 芋道管理系统 - 我的薪酬工单, URL: 127.0.0.1:5173/hrm/portal/payroll-input-issue

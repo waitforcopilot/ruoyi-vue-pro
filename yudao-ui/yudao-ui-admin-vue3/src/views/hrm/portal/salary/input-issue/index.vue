@@ -6,7 +6,17 @@
       :closable="false"
     />
     <el-button class="my-4" :loading="loading" @click="load">刷新</el-button>
-    <el-table :data="rows" v-loading="loading"
+    <el-alert
+      v-if="loadError"
+      title="工单加载失败，当前状态尚未确认。请点击刷新重试后再处理。"
+      type="error"
+      :closable="false"
+      class="mb-4"
+    />
+    <el-table
+      :data="rows"
+      v-loading="loading"
+      :empty-text="loading ? '正在加载工单' : loadError ? '工单未加载，请刷新重试' : '暂无工单'"
       ><el-table-column prop="id" label="工单编号" /><el-table-column
         prop="batchId"
         label="工资批次编号"
@@ -59,6 +69,7 @@ defineOptions({ name: 'HrmPortalPayrollInputIssue' })
 const base = '/hrm/portal/payroll-input-issue',
   message = useMessage(),
   loading = ref(false),
+  loadError = ref(false),
   submitting = ref(false),
   historyVisible = ref(false),
   historyIssueId = ref<number>(),
@@ -92,10 +103,14 @@ async function load() {
   clearHistory()
   invalidateSubmit()
   const version = ++listVersion
+  rows.value = []
+  loadError.value = false
   loading.value = true
   try {
     const result = await request.get({ url: base + '/list' })
     if (active && version === listVersion) rows.value = result
+  } catch {
+    if (active && version === listVersion) loadError.value = true
   } finally {
     if (active && version === listVersion) loading.value = false
   }
