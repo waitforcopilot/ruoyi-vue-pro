@@ -76,7 +76,11 @@
         prop="reviewerId"
         label="复核人编号"
       />
-      <el-table-column prop="dueTime" label="截止时间" min-width="165" />
+      <el-table-column label="截止时间" min-width="165"
+        ><template #default="{ row }">{{
+          normalizeDueTime(row.dueTime)?.replace('T', ' ') || '未知'
+        }}</template></el-table-column
+      >
       <el-table-column label="来源状态"
         ><template #default="{ row }">{{
           row.sourceMode === 'FROZEN_HISTORY'
@@ -215,6 +219,11 @@ const employeeName = (id: number) => {
   const e = employees.value.find((e) => e.id === id)
   return e ? `${e.name} · ${e.jobNumber || id}` : id
 }
+const normalizeDueTime = (value: string | number | null | undefined) => {
+  if (value == null || value === '') return undefined
+  const date = dayjs(value)
+  return date.isValid() ? date.format('YYYY-MM-DDTHH:mm:ss') : undefined
+}
 async function changeEntity() {
   batchId.value = undefined
   employeeId.value = undefined
@@ -283,7 +292,7 @@ async function openAssign(row: any) {
   await options(row.employeeId)
   Object.assign(draft, {
     ...row,
-    dueTime: dayjs().add(2, 'day').format('YYYY-MM-DDTHH:mm:ss'),
+    dueTime: normalizeDueTime(row.dueTime),
     reason: ''
   })
   dialog.value = true
