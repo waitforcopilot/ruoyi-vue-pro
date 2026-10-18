@@ -58,4 +58,36 @@ class HrmPayrollInputIssueServiceTest extends BaseDbUnitTest {
  @Test void frozenBatchesPreserveClosedEvidenceAndRejectNewOrReopenedCases(){Long id=create();service.submit(id,"已补资料",2L);ready.set(true);service.review(id,true,"来源一致",3L);batches.updateById(new HrmSalaryMonthRecordDO().setId(batchId).setStatus(15));assertServiceException(()->service.create(req().setKind("OVERTIME"),1L),PAYROLL_INPUT_ISSUE_INVALID);assertEquals("FROZEN_HISTORY",service.list(batchId,1L).get(0).getSourceMode());assertServiceException(()->service.reopen(id,"冻结后",3L),PAYROLL_INPUT_ISSUE_INVALID);}
  @Test void remindersAreDailyDeduplicatedAndContainNoWageOrEvidence(){Long id=create();cases.updateById(new HrmPayrollInputIssueDO().setId(id).setDueTime(now().minusDays(1)));assertEquals(2,service.remind(id));assertEquals(0,service.remind(id));org.mockito.ArgumentCaptor<cn.iocoder.yudao.module.system.api.notify.dto.NotifySendSingleToUserReqDTO> captured=org.mockito.ArgumentCaptor.forClass(cn.iocoder.yudao.module.system.api.notify.dto.NotifySendSingleToUserReqDTO.class);verify(notifications,times(2)).sendSingleMessageToAdmin(captured.capture());for(cn.iocoder.yudao.module.system.api.notify.dto.NotifySendSingleToUserReqDTO notification:captured.getAllValues()){assertEquals(new HashSet<>(Arrays.asList("caseId","period","kind","dueTime")),notification.getTemplateParams().keySet());assertEquals("考勤",notification.getTemplateParams().get("kind"));assertFalse(JsonUtils.toJsonString(notification).contains("核实真实数据缺口"));}}
  @Test void onlyFailedRecipientIsRetriedAndClosedCasesStopReminders(){Long id=create();cases.updateById(new HrmPayrollInputIssueDO().setId(id).setDueTime(now().minusDays(1)));when(notifications.sendSingleMessageToAdmin(any())).thenThrow(new IllegalStateException("配置不可用")).thenReturn(101L);assertEquals(1,service.remind(id));assertEquals(1,service.remind(id));assertEquals(0,service.remind(id));verify(notifications,times(3)).sendSingleMessageToAdmin(any());service.submit(id,"已修复",2L);ready.set(true);service.review(id,true,"核实",3L);assertEquals(0,service.remind(id));}
+ @Test void resubmissionClearsCurrentOpinionButPreservesReviewHistory() {
+  Long id=create();
+  service.submit(id,"第一轮材料",2L);
+  service.review(id,false,"第一轮退回意见",3L);
+  assertEquals("第一轮退回意见",cases.selectById(id).getReviewOpinion());
+  service.submit(id,"第二轮材料",2L);
+  HrmPayrollInputIssueDO current=cases.selectById(id);
+  assertEquals("SUBMITTED",current.getStatus());
+  assertEquals("第二轮材料",current.getEvidence());
+  assertEquals(2L,current.getProofBy());
+  assertNull(current.getReviewOpinion());
+  assertNull(service.list(batchId,1L).get(0).getReviewOpinion());
+  assertNull(service.mine(99L).get(0).getReviewOpinion());
+  List<HrmPayrollInputIssueEventDO> history=service.history(id,3L,false);
+  assertEquals(4,history.size());
+  assertEquals("REJECT",history.get(2).getAction());
+  assertEquals("第一轮退回意见",history.get(2).getReason());
+  assertTrue(history.get(2).getSnapshot().contains("第一轮退回意见"));
+  assertFalse(history.get(3).getSnapshot().contains("第一轮退回意见"));
+  assertServiceException(()->service.review(id,true,"来源仍缺失",3L),PAYROLL_INPUT_ISSUE_INVALID);
+  service.review(id,false,"第二轮退回意见",3L);
+  assertEquals("第二轮退回意见",cases.selectById(id).getReviewOpinion());
+  assertEquals(5,service.history(id,3L,false).size());
+ }
+ @Test void invalidResubmissionDoesNotEraseReviewOpinion() {
+  Long id=create();service.submit(id,"第一轮材料",2L);service.review(id,false,"仍需补正",3L);
+  assertServiceException(()->service.submit(id,"",2L),PAYROLL_INPUT_ISSUE_INVALID);
+  assertServiceException(()->service.submit(id,"未授权材料",77L),PAYROLL_INPUT_ISSUE_INVALID);
+  assertEquals("仍需补正",cases.selectById(id).getReviewOpinion());
+  assertEquals("OPEN",cases.selectById(id).getStatus());assertEquals(3,events.selectCount());
+ }
+
 }

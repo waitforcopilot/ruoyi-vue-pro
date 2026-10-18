@@ -74,8 +74,11 @@ import org.springframework.transaction.annotation.*;
   HrmSalaryMonthRecordDO b=batches.selectByIdForUpdate(candidate.getBatchId());if(!editable(b))throw exception(PAYROLL_INPUT_ISSUE_INVALID);
   employee(candidate.getEmployeeId());HrmPayrollInputIssueDO row=cases.selectOneForUpdate(HrmPayrollInputIssueDO::getId,id);
   if(!ownerAccess(row,actor)||!"OPEN".equals(row.getStatus()))throw exception(PAYROLL_INPUT_ISSUE_INVALID);
-  row.setEvidence(evidence).setProofBy(actor).setStatus("SUBMITTED").setSubmittedSnapshot(JsonUtils.toJsonString(Arrays.asList(row.getSourceSnapshot(),actor,evidence)));
-  cases.updateById(row);event(row,"SUBMIT",evidence,actor);
+  row.setReviewOpinion(null).setEvidence(evidence).setProofBy(actor).setStatus("SUBMITTED").setSubmittedSnapshot(JsonUtils.toJsonString(Arrays.asList(row.getSourceSnapshot(),actor,evidence)));
+  // Null fields are ignored by updateById; explicitly clear the previous round's opinion.
+  cases.update(row,new com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper<HrmPayrollInputIssueDO>()
+    .eq(HrmPayrollInputIssueDO::getId,id).set(HrmPayrollInputIssueDO::getReviewOpinion,null));
+  event(row,"SUBMIT",evidence,actor);
  }
  @Transactional(rollbackFor=Exception.class,isolation=Isolation.READ_COMMITTED)
  public void review(Long id,boolean approved,String reason,Long actor) {
