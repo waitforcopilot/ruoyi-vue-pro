@@ -66,7 +66,29 @@
       >
     </el-table>
     <h4>缺口处理工单</h4>
-    <el-table :data="rows" v-loading="loading">
+    <el-table :data="rows" v-loading="loading" row-key="id">
+      <el-table-column type="expand" label="详情" width="60">
+        <template #default="{ row }">
+          <el-descriptions :column="1" border class="px-4 py-2">
+            <el-descriptions-item label="建单要求">
+              <div class="whitespace-pre-wrap break-words">{{ row.reason || '未填写' }}</div>
+            </el-descriptions-item>
+            <el-descriptions-item label="最近提交材料">
+              <div class="whitespace-pre-wrap break-words">{{
+                row.evidence || '暂无提交材料'
+              }}</div>
+            </el-descriptions-item>
+            <el-descriptions-item label="最近复核意见">
+              <div class="whitespace-pre-wrap break-words">{{
+                row.reviewOpinion || '暂无复核意见'
+              }}</div>
+            </el-descriptions-item>
+          </el-descriptions>
+          <p class="px-4 pb-2 text-sm text-[var(--el-text-color-secondary)]">
+            材料和意见可能来自上一轮处理，请结合工单状态判断；完整处理过程请查看履历。
+          </p>
+        </template>
+      </el-table-column>
       <el-table-column prop="id" label="编号" width="80" /><el-table-column label="员工"
         ><template #default="{ row }">{{ employeeName(row.employeeId) }}</template></el-table-column
       >
@@ -97,7 +119,7 @@
               : '当前待补正'
         }}</template></el-table-column
       >
-      <el-table-column prop="reason" label="处理依据" show-overflow-tooltip />
+      <el-table-column prop="reason" label="建单要求" show-overflow-tooltip />
       <el-table-column label="操作" width="300"
         ><template #default="{ row }">
           <el-button link @click="history(row.id)">履历</el-button>
