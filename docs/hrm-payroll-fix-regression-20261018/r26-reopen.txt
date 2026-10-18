@@ -1,0 +1,295 @@
+Browser tab: 1, Title: "芋道管理系统 - 我的薪酬工单", URL: "http://127.0.0.1:5173/hrm/portal/payroll-input-issue".
+1 AXWebArea 芋道管理系统 - 我的薪酬工单, URL: 127.0.0.1:5173/hrm/portal/payroll-input-issue
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 作者动态
+				8 text 作者动态
+			9 Boot 开发文档
+				10 text Boot 开发文档
+			11 Cloud 开发文档
+				12 text Cloud 开发文档
+			13 (collapsed) 系统管理, Secondary Actions: Expand
+				14 container
+					15 text 系统管理
+					16 image
+			17 (collapsed) 基础设施, Secondary Actions: Expand
+				18 container
+					19 text 基础设施
+					20 image
+			21 (collapsed) 支付管理, Secondary Actions: Expand
+				22 container
+					23 text 支付管理
+					24 image
+			25 (collapsed) 报表管理, Secondary Actions: Expand
+				26 container
+					27 text 报表管理
+					28 image
+			29 (collapsed) 工作流程, Secondary Actions: Expand
+				30 container
+					31 text 工作流程
+					32 image
+			33 (collapsed) 会员中心, Secondary Actions: Expand
+				34 container
+					35 text 会员中心
+					36 image
+			37 (collapsed) 薪酬管理, Secondary Actions: Expand
+				38 container
+					39 text 薪酬管理
+					40 image
+			41 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				42 container
+					43 text MALL 商城系统
+					44 image
+			45 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				46 container
+					47 text EAM 资产管理
+					48 image
+			49 (collapsed) CRM 系统, Secondary Actions: Expand
+				50 container
+					51 text CRM 系统
+					52 image
+			53 (collapsed) ERP 系统, Secondary Actions: Expand
+				54 container
+					55 text ERP 系统
+					56 image
+			57 (collapsed) WMS 系统, Secondary Actions: Expand
+				58 container
+					59 text WMS 系统
+					60 image
+			61 (collapsed) MES 系统, Secondary Actions: Expand
+				62 container
+					63 text MES 系统
+					64 image
+			65 (collapsed) OA 办公协同, Secondary Actions: Expand
+				66 container
+					67 text OA 办公协同
+					68 image
+			69 (expanded) HRM 人力资源, Secondary Actions: Collapse
+				70 container
+					71 text HRM 人力资源
+					72 image
+				73 menu
+					74 HR 工作台
+						75 text HR 工作台
+					76 团队工作台
+						77 text 团队工作台
+					78 组织管理
+						79 text 组织管理
+					80 (collapsed) 招聘管理, Secondary Actions: Expand
+						81 container
+							82 text 招聘管理
+							83 image
+					84 (collapsed) 员工管理, Secondary Actions: Expand
+						85 container
+							86 text 员工管理
+							87 image
+					88 (collapsed) 考勤管理, Secondary Actions: Expand
+						89 container
+							90 text 考勤管理
+							91 image
+					92 (collapsed) 社保管理, Secondary Actions: Expand
+						93 container
+							94 text 社保管理
+							95 image
+					96 (collapsed) 薪资管理, Secondary Actions: Expand
+						97 container
+							98 text 薪资管理
+							99 image
+					100 (collapsed) 绩效管理, Secondary Actions: Expand
+						101 container
+							102 text 绩效管理
+							103 image
+					104 (expanded) HRM 员工端, Secondary Actions: Collapse
+						105 container
+							106 text HRM 员工端
+							107 image
+						108 menu
+							109 我的考勤工单
+								110 text 我的考勤工单
+							111 我的薪酬工单
+								112 text 我的薪酬工单
+							113 个人工作台
+								114 text 个人工作台
+							115 我的档案
+								116 text 我的档案
+							117 我的社保
+								118 text 我的社保
+							119 我的工资条
+								120 text 我的工资条
+							121 考勤报表
+								122 text 考勤报表
+							123 (collapsed) 绩效管理, Secondary Actions: Expand
+								124 container
+									125 text 绩效管理
+									126 image
+			127 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				128 container
+					129 text FMS 财务管理
+					130 image
+			131 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				132 container
+					133 text PMS 项目管理
+					134 image
+			135 (collapsed) AI 大模型, Secondary Actions: Expand
+				136 container
+					137 text AI 大模型
+					138 image
+			139 (collapsed) IoT 物联网, Secondary Actions: Expand
+				140 container
+					141 text IoT 物联网
+					142 image
+			143 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				144 container
+					145 text IM 即时通讯
+					146 image
+			147 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				148 container
+					149 text MP 公众号管理
+					150 image
+			151 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				152 container
+					153 text CMS 内容管理
+					154 image
+		155 container
+			156 container v-tool-header
+				157 container 面包屑
+					158 link HRM 人力资源
+						159 text HRM 人力资源
+					160 text /
+					161 link HRM 员工端
+						162 text HRM 员工端
+					163 text /
+					164 link 我的薪酬工单
+						165 text 我的薪酬工单
+				166 container
+					167 combo box (collapsed, settable) ID: el-id-7122-52, Secondary Actions: Expand
+					168 text 请选择租户
+					169 image
+				170 container
+					171 container
+						172 combo box (collapsed, settable) ID: el-id-7122-53, Secondary Actions: Expand
+						173 text 请输入菜单内容
+				174 pop up button (collapsed) ID: el-id-7122-6, Secondary Actions: Expand
+				175 pop up button (collapsed) ID: el-id-7122-11, Secondary Actions: Expand
+				176 pop up button (collapsed) 芋道源码, ID: el-id-7122-16, Secondary Actions: Expand
+			177 container v-tags-view
+				178 container
+					179 pop up button (collapsed) 首页, ID: el-id-7122-22, Secondary Actions: Expand
+						180 container
+							181 text 首页
+					182 pop up button (collapsed) 我的薪酬工单, ID: el-id-7122-30, Secondary Actions: Expand
+						183 container
+							184 text 我的薪酬工单
+				185 pop up button (collapsed) ID: el-id-7122-38, Secondary Actions: Expand
+			186 text 请先补正对应业务资料，再提交资料编号或说明。指定复核人核实真实来源后关闭工单。
+			187 button 刷新
+			293 container
+				294 table
+					295 row
+						296 cell
+							297 text 工单编号
+						298 cell
+							299 text 工资批次编号
+						300 cell
+							301 text 员工编号
+						302 cell
+							303 text 项目
+						304 cell
+							305 text 状态
+						306 cell
+							307 text 截止时间
+						308 cell
+							309 text 处理要求
+						310 cell
+							311 text 复核意见
+						312 cell
+							313 text 操作
+				314 table
+					315 row
+						316 cell
+							317 text 1
+						318 cell
+							319 text 7
+						320 cell
+							321 text 8
+						322 cell
+							323 text 考勤
+						324 cell
+							325 text 待补正
+						326 cell
+							327 text 2026-10-25 18:00:00
+						328 cell
+							329 text TEST-R15 本机合成责任交接回归，保留人工指定截止时间，不代表真实考勤补正。
+						330 cell
+							331 text TEST-R21 独立复核退回：合成测试材料不构成考勤来源补正；当前来源未就绪，请先补正业务来源再提交。
+						332 cell
+							333 container
+								334 button 补充材料
+								335 button 履历
+			336 container
+				337 container
+					338 text 工单处理履历
+				339 container
+					340 table
+						341 row
+							342 cell
+								343 text 动作
+							344 cell
+								345 text 操作人编号
+							346 cell
+								347 text 依据
+							348 cell
+								349 text 时间
+					350 table
+						351 container
+							352 row
+								353 cell
+									354 text 创建
+								355 cell
+									356 text 1
+								357 cell
+									358 text TEST-R15 本机合成责任交接回归，保留人工指定截止时间，不代表真实考勤补正。
+								359 cell
+									360 text 2026-10-18 12:56:39
+							361 row
+								362 cell
+									363 text 责任人交接
+								364 cell
+									365 text 1
+								366 cell
+									367 text TEST-R15 合成工单责任人253交接给254，独立复核249，保持原截止时间2026-10-25 18:00:00。
+								368 cell
+									369 text 2026-10-18 12:58:27
+							370 row
+								371 cell
+									372 text 责任人交接
+								373 cell
+									374 text 1
+								375 cell
+									376 text TEST-R17 本机合成交接254至253，确认有效主体与批次，保留原截止时间及独立复核249。
+								377 cell
+									378 text 2026-10-18 13:08:51
+							379 row
+								380 cell
+									381 text 补充材料
+								382 cell
+									383 text 1
+								384 cell
+									385 text TEST-R21 本机合成复核回归材料：来源尚未补正，禁止据此认定考勤已就绪；测试后应退回补正。
+								386 cell
+									387 text 2026-10-18 14:38:46
+							388 row
+								389 cell
+									390 text 退回补正
+								391 cell
+									392 text 249
+								393 cell
+									394 text TEST-R21 独立复核退回：合成测试材料不构成考勤来源补正；当前来源未就绪，请先补正业务来源再提交。
+								395 cell
+									396 text 2026-10-18 14:40:37
+			292 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 336 container

@@ -31,16 +31,17 @@
       ></el-table
     >
   </ContentWrap>
-  <Dialog v-model="historyVisible" title="工单处理履历"
-    ><el-table :data="events"
-      ><el-table-column label="动作"
+  <Dialog v-model="historyVisible" title="工单处理履历" width="min(1000px, calc(100vw - 32px))"
+    ><el-table :data="events" max-height="65vh"
+      ><el-table-column label="动作" width="120"
         ><template #default="{ row }">{{
           actions[row.action] || row.action
         }}</template></el-table-column
-      ><el-table-column prop="actorId" label="操作人编号" /><el-table-column
+      ><el-table-column prop="actorId" label="操作人编号" width="100" /><el-table-column
         prop="reason"
         label="依据"
-      /><el-table-column label="时间" min-width="165">
+        min-width="320"
+      /><el-table-column label="时间" width="165">
         <template #default="{ row }">{{ displayTime(row.createTime) }}</template>
       </el-table-column></el-table
     ></Dialog
