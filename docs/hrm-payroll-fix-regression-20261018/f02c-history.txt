@@ -1,0 +1,756 @@
+Browser tab: 1, Title: "芋道管理系统 - 需求评审", URL: "http://127.0.0.1:5173/hrm-payroll/requirement?module=COL&from=/hrm-payroll/input-issue".
+1 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?module=COL&from=/hrm-payroll/input-issue
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 作者动态
+				8 text 作者动态
+			9 Boot 开发文档
+				10 text Boot 开发文档
+			11 Cloud 开发文档
+				12 text Cloud 开发文档
+			13 (collapsed) 系统管理, Secondary Actions: Expand
+				14 container
+					15 text 系统管理
+					16 image
+			17 (collapsed) 基础设施, Secondary Actions: Expand
+				18 container
+					19 text 基础设施
+					20 image
+			21 (collapsed) 支付管理, Secondary Actions: Expand
+				22 container
+					23 text 支付管理
+					24 image
+			25 (collapsed) 报表管理, Secondary Actions: Expand
+				26 container
+					27 text 报表管理
+					28 image
+			29 (collapsed) 工作流程, Secondary Actions: Expand
+				30 container
+					31 text 工作流程
+					32 image
+			33 (collapsed) 会员中心, Secondary Actions: Expand
+				34 container
+					35 text 会员中心
+					36 image
+			37 (expanded) 薪酬管理, Secondary Actions: Collapse
+				38 container
+					39 text 薪酬管理
+					40 image
+				41 menu
+					42 定调薪审批
+						43 text 定调薪审批
+					44 工时与加班
+						45 text 工时与加班
+					46 薪级薪档
+						47 text 薪级薪档
+					48 考勤归集与异常
+						49 text 考勤归集与异常
+					50 法人主体与归属
+						51 text 法人主体与归属
+					52 缴费政策与年度调基
+						53 text 缴费政策与年度调基
+					54 缴费实缴对账
+						55 text 缴费实缴对账
+					56 核算输入与就绪
+						57 text 核算输入与就绪
+					58 年度税务政策
+						59 text 年度税务政策
+					60 薪酬成本分摊
+						61 text 薪酬成本分摊
+					62 预算与成本分析
+						63 text 预算与成本分析
+					64 薪酬输入缺口工单
+						65 text 薪酬输入缺口工单
+					66 社保公积金工资差额
+						67 text 社保公积金工资差额
+					68 薪酬总览
+						69 text 薪酬总览
+					70 独立工资收回
+						71 text 独立工资收回
+					72 需求评审
+						73 text 需求评审
+					74 核算审批
+						75 text 核算审批
+					76 银行代发
+						77 text 银行代发
+					78 薪资公式
+						79 text 薪资公式
+			80 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				81 container
+					82 text MALL 商城系统
+					83 image
+			84 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				85 container
+					86 text EAM 资产管理
+					87 image
+			88 (collapsed) CRM 系统, Secondary Actions: Expand
+				89 container
+					90 text CRM 系统
+					91 image
+			92 (collapsed) ERP 系统, Secondary Actions: Expand
+				93 container
+					94 text ERP 系统
+					95 image
+			96 (collapsed) WMS 系统, Secondary Actions: Expand
+				97 container
+					98 text WMS 系统
+					99 image
+			100 (collapsed) MES 系统, Secondary Actions: Expand
+				101 container
+					102 text MES 系统
+					103 image
+			104 (collapsed) OA 办公协同, Secondary Actions: Expand
+				105 container
+					106 text OA 办公协同
+					107 image
+			108 (collapsed) HRM 人力资源, Secondary Actions: Expand
+				109 container
+					110 text HRM 人力资源
+					111 image
+			112 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				113 container
+					114 text FMS 财务管理
+					115 image
+			116 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				117 container
+					118 text PMS 项目管理
+					119 image
+			120 (collapsed) AI 大模型, Secondary Actions: Expand
+				121 container
+					122 text AI 大模型
+					123 image
+			124 (collapsed) IoT 物联网, Secondary Actions: Expand
+				125 container
+					126 text IoT 物联网
+					127 image
+			128 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				129 container
+					130 text IM 即时通讯
+					131 image
+			132 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				133 container
+					134 text MP 公众号管理
+					135 image
+			136 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				137 container
+					138 text CMS 内容管理
+					139 image
+		140 container
+			141 container v-tool-header
+				142 container 面包屑
+					143 link 薪酬管理
+						144 text 薪酬管理
+					145 text /
+					146 link 需求评审
+						147 text 需求评审
+				148 container
+					149 combo box (collapsed, settable) ID: el-id-6081-69, Secondary Actions: Expand
+					150 text 请选择租户
+					151 image
+				152 container
+					153 container
+						154 combo box (collapsed, settable) ID: el-id-6081-70, Secondary Actions: Expand
+						155 text 请输入菜单内容
+				156 pop up button (collapsed) ID: el-id-6081-6, Secondary Actions: Expand
+				157 pop up button (collapsed) ID: el-id-6081-11, Secondary Actions: Expand
+				158 pop up button (collapsed) 芋道源码, ID: el-id-6081-16, Secondary Actions: Expand
+			159 container v-tags-view
+				160 container
+					161 pop up button (collapsed) 首页, ID: el-id-6081-22, Secondary Actions: Expand
+						162 container
+							163 text 首页
+					164 pop up button (collapsed) 需求评审, ID: el-id-6081-30, Secondary Actions: Expand
+						165 container
+							166 text 需求评审
+				167 pop up button (collapsed) ID: el-id-6081-38, Secondary Actions: Expand
+			168 text 历史需求迁移项目 · 项目编号 1 · 项目范围尚未定义，仅标识历史迁移归属
+			169 text 业务确认状态与数据就绪状态分别维护；确认需有效负责人、字段映射、来源、验收条件及依据；请先保存，再由评审负责人本人点击“确认版本”。
+			170 container
+				171 button 返回业务模块
+				172 container
+					173 combo box (collapsed, settable) ID: el-id-6081-71, Secondary Actions: Expand
+					174 text 需求征集
+					175 image
+				176 button 刷新
+				177 button 新增需求
+				178 button 初始化 PRD 清单
+				179 button 导出评审清单
+			180 button (collapsed) 需求征集候选数据源与字段, ID: el-collapse-head-58, Secondary Actions: Expand
+				181 text 需求征集候选数据源与字段
+			182 container
+				183 table
+					184 row
+						185 cell
+							186 text 需求ID
+						187 cell
+							188 text 编号
+						189 cell
+							190 text 模块
+						191 cell
+							192 text 功能
+						193 cell
+							194 text 评审状态
+						195 cell
+							196 text 数据就绪
+						197 cell
+							198 text 数据来源
+						199 cell
+							200 text 版本
+						201 cell
+							202 text 操作
+				203 table
+					204 container
+						205 row
+							206 cell
+								207 text 47
+							208 cell
+								209 text COL-900001
+							210 cell
+								211 text 需求征集
+							212 cell
+								213 text TEST-F02C 最终合成回归：使用独立分派入口，普通维护保留评审人；当前评审中、未就绪，非业务批准。
+							214 cell
+								215 text 评审中
+							216 cell
+								217 text 未就绪
+							218 cell
+								219 text TEST-F03A 本机合成来源，不代表实际交付
+							220 cell
+								221 text 26
+							222 cell
+								223 container
+									224 button 编辑
+									225 button 历史
+									226 button 分派
+									227 button (disabled) 确认版本
+						228 row
+							229 cell
+								230 text 44
+							231 cell
+								232 text COL-9201
+							233 cell
+								234 text 需求征集
+							235 cell
+								236 text 隔离需求确认与版本验收
+							237 cell
+								238 text 已确认
+							239 cell
+								240 text 未就绪
+							241 cell
+								242 text 虚构验收数据源
+							243 cell
+								244 text 4
+							245 cell
+								246 container
+									247 button 编辑
+									248 button 历史
+									249 button 分派
+						250 row
+							251 cell
+								252 text 45
+							253 cell
+								254 text COL-9301
+							255 cell
+								256 text 需求征集
+							257 cell
+								258 text 隔离PRD0.4动作授权实测
+							259 cell
+								260 text 已确认
+							261 cell
+								262 text 已就绪
+							263 cell
+								264 text 虚构映射来源
+							265 cell
+								266 text 2
+							267 cell
+								268 container
+									269 button 编辑
+									270 button 历史
+									271 button 分派
+						272 row
+							273 cell
+								274 text 46
+							275 cell
+								276 text COL-9302
+							277 cell
+								278 text 需求征集
+							279 cell
+								280 text 隔离不适用条件必填实测
+							281 cell
+								282 text 待确认
+							283 cell
+								284 text 未就绪
+							285 cell
+								286 text 1
+							287 cell
+								288 container
+									289 button 编辑
+									290 button 历史
+									291 button 分派
+									292 button (disabled) 确认版本
+			294 container 当前项目编号：1。 以下项目编号按当时快照展示；旧快照未记录时不推定归属。
+				295 container
+					296 text 评审历史 · 需求ID 47 · COL-900001
+				297 container
+					298 text 当前项目编号：1。 以下项目编号按当时快照展示；旧快照未记录时不推定归属。
+					299 container
+						300 table
+							301 row
+								302 cell
+									303 text 版本
+								304 cell
+									305 text 操作人
+								306 cell
+									307 text 时间
+								308 cell
+									309 text 评审内容
+						310 table
+							311 container
+								312 row
+									313 cell
+										314 text 26
+									315 cell
+										316 text 隔离薪酬验收操作人
+									317 cell
+										318 text 2026-10-18 20:04:40
+									319 cell
+										320 text 快照需求ID：47
+										321 text 快照项目编号：1
+										322 text 当时编号：COL-900001
+										323 text TEST-F02C 最终合成回归：使用独立分派入口，普通维护保留评审人；当前评审中、未就绪，非业务批准。
+										324 text 评审中 / 未就绪
+										325 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										326 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										327 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										328 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								329 row
+									330 cell
+										331 text 25
+									332 cell
+										333 text 芋道源码
+									334 cell
+										335 text 2026-10-18 20:04:03
+									336 cell
+										337 text 快照需求ID：47
+										338 text 快照项目编号：1
+										339 text 当时编号：COL-900001
+										340 text TEST-F02B 最终合成回归：分派需独立权限且不可自派，现有评审人保持；当前评审中、未就绪，非业务批准。
+										341 text 评审中 / 未就绪
+										342 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										343 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										344 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										345 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								346 row
+									347 cell
+										348 text 24
+									349 cell
+										350 text 芋道源码
+									351 cell
+										352 text 2026-10-18 20:03:28
+									353 cell
+										354 text 快照需求ID：47
+										355 text 快照项目编号：1
+										356 text 当时编号：COL-900001
+										357 text TEST-F02B 最终合成回归：分派需独立权限且不可自派，现有评审人保持；当前评审中、未就绪，非业务批准。
+										358 text 评审中 / 未就绪
+										359 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										360 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										361 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										362 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								363 row
+									364 cell
+										365 text 23
+									366 cell
+										367 text 隔离验收复核人
+									368 cell
+										369 text 2026-10-18 19:57:13
+									370 cell
+										371 text 快照需求ID：47
+										372 text 快照项目编号：1
+										373 text 当时编号：COL-900001
+										374 text TEST-F02B 最终合成回归：分派需独立权限且不可自派，现有评审人保持；当前评审中、未就绪，非业务批准。
+										375 text 评审中 / 未就绪
+										376 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										377 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										378 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										379 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								380 row
+									381 cell
+										382 text 22
+									383 cell
+										384 text 隔离验收复核人
+									385 cell
+										386 text 2026-10-18 19:56:52
+									387 cell
+										388 text 快照需求ID：47
+										389 text 快照项目编号：1
+										390 text 当时编号：COL-900001
+										391 text TEST-F02B 维护者只改内容，保留已分派评审人；仅合成回归，不代表业务批准。
+										392 text 已确认 / 未就绪
+										393 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										394 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										395 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										396 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								397 row
+									398 cell
+										399 text 21
+									400 cell
+										401 text 隔离薪酬验收操作人
+									402 cell
+										403 text 2026-10-18 19:56:20
+									404 cell
+										405 text 快照需求ID：47
+										406 text 快照项目编号：1
+										407 text 当时编号：COL-900001
+										408 text TEST-F02B 维护者只改内容，保留已分派评审人；仅合成回归，不代表业务批准。
+										409 text 评审中 / 未就绪
+										410 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										411 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										412 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										413 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								414 row
+									415 cell
+										416 text 20
+									417 cell
+										418 text 芋道源码
+									419 cell
+										420 text 2026-10-18 19:55:21
+									421 cell
+										422 text 快照需求ID：47
+										423 text 快照项目编号：1
+										424 text 当时编号：COL-900001
+										425 text TEST-F02A 最终合成回归：维护与确认权限已拆分；当前评审中、未就绪，非业务签字或范围批准。
+										426 text 评审中 / 未就绪
+										427 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										428 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										429 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										430 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								431 row
+									432 cell
+										433 text 19
+									434 cell
+										435 text 芋道源码
+									436 cell
+										437 text 2026-10-18 19:50:09
+									438 cell
+										439 text 快照需求ID：47
+										440 text 快照项目编号：1
+										441 text 当时编号：COL-900001
+										442 text TEST-F02A 最终合成回归：维护与确认权限已拆分；当前评审中、未就绪，非业务签字或范围批准。
+										443 text 评审中 / 未就绪
+										444 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										445 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										446 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										447 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								448 row
+									449 cell
+										450 text 18
+									451 cell
+										452 text 芋道源码
+									453 cell
+										454 text 2026-10-18 19:49:47
+									455 cell
+										456 text 快照需求ID：47
+										457 text 快照项目编号：1
+										458 text 当时编号：COL-900001
+										459 text TEST-F02A 修复后维护保存可用，确认需独立权限；仅合成回归，非业务签字。
+										460 text 已确认 / 未就绪
+										461 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										462 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										463 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										464 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								465 row
+									466 cell
+										467 text 17
+									468 cell
+										469 text 芋道源码
+									470 cell
+										471 text 2026-10-18 19:49:38
+									472 cell
+										473 text 快照需求ID：47
+										474 text 快照项目编号：1
+										475 text 当时编号：COL-900001
+										476 text TEST-F02A 修复后维护保存可用，确认需独立权限；仅合成回归，非业务签字。
+										477 text 评审中 / 未就绪
+										478 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										479 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										480 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										481 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								482 row
+									483 cell
+										484 text 16
+									485 cell
+										486 text 隔离薪酬验收操作人
+									487 cell
+										488 text 2026-10-18 19:48:29
+									489 cell
+										490 text 快照需求ID：47
+										491 text 快照项目编号：1
+										492 text 当时编号：COL-900001
+										493 text TEST-F02A 修复后维护保存可用，确认需独立权限；仅合成回归，非业务签字。
+										494 text 评审中 / 未就绪
+										495 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										496 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										497 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										498 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								499 row
+									500 cell
+										501 text 15
+									502 cell
+										503 text 隔离薪酬验收操作人
+									504 cell
+										505 text 2026-10-18 19:46:40
+									506 cell
+										507 text 快照需求ID：47
+										508 text 快照项目编号：1
+										509 text 当时编号：COL-900001
+										510 text TEST-F02A 合成权限回归：维护权限不代表确认权限；非业务签字或来源就绪。
+										511 text 评审中 / 未就绪
+										512 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										513 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										514 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										515 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								516 row
+									517 cell
+										518 text 14
+									519 cell
+										520 text 隔离薪酬验收操作人
+									521 cell
+										522 text 2026-10-18 19:46:21
+									523 cell
+										524 text 快照需求ID：47
+										525 text 快照项目编号：1
+										526 text 当时编号：COL-900001
+										527 text TEST-F03B 最终合成回归：保存与确认已拆分，内容变更后仍须重审；未作为真实业务签字或来源就绪。
+										528 text 已确认 / 未就绪
+										529 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										530 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										531 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										532 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								533 row
+									534 cell
+										535 text 13
+									536 cell
+										537 text 芋道源码
+									538 cell
+										539 text 2026-10-18 19:45:36
+									540 cell
+										541 text 快照需求ID：47
+										542 text 快照项目编号：1
+										543 text 当时编号：COL-900001
+										544 text TEST-F03B 最终合成回归：保存与确认已拆分，内容变更后仍须重审；未作为真实业务签字或来源就绪。
+										545 text 评审中 / 未就绪
+										546 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										547 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										548 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										549 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								550 row
+									551 cell
+										552 text 12
+									553 cell
+										554 text 芋道源码
+									555 cell
+										556 text 2026-10-18 19:38:36
+									557 cell
+										558 text 快照需求ID：47
+										559 text 快照项目编号：1
+										560 text 当时编号：COL-900001
+										561 text TEST-F03B 最终合成回归：保存与确认已拆分，内容变更后仍须重审；未作为真实业务签字或来源就绪。
+										562 text 评审中 / 未就绪
+										563 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										564 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										565 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										566 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								567 row
+									568 cell
+										569 text 11
+									570 cell
+										571 text 芋道源码
+									572 cell
+										573 text 2026-10-18 19:38:29
+									574 cell
+										575 text 快照需求ID：47
+										576 text 快照项目编号：1
+										577 text 当时编号：COL-900001
+										578 text TEST-F03B 第二标签保存的新内容：确认必须绑定这一已保存版本，旧版本确认应被拒绝。全部为合成回归。
+										579 text 已确认 / 未就绪
+										580 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										581 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										582 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										583 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								584 row
+									585 cell
+										586 text 10
+									587 cell
+										588 text 芋道源码
+									589 cell
+										590 text 2026-10-18 19:38:03
+									591 cell
+										592 text 快照需求ID：47
+										593 text 快照项目编号：1
+										594 text 当时编号：COL-900001
+										595 text TEST-F03B 第二标签保存的新内容：确认必须绑定这一已保存版本，旧版本确认应被拒绝。全部为合成回归。
+										596 text 评审中 / 未就绪
+										597 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										598 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										599 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										600 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								601 row
+									602 cell
+										603 text 9
+									604 cell
+										605 text 芋道源码
+									606 cell
+										607 text 2026-10-18 19:32:17
+									608 cell
+										609 text 快照需求ID：47
+										610 text 快照项目编号：1
+										611 text 当时编号：COL-900001
+										612 text TEST-F03A 最终合成回归记录：关键修订重新进入评审中，未作为真实业务签字、范围批准或来源就绪。
+										613 text 评审中 / 未就绪
+										614 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										615 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										616 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										617 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								618 row
+									619 cell
+										620 text 8
+									621 cell
+										622 text 芋道源码
+									623 cell
+										624 text 2026-10-18 19:32:04
+									625 cell
+										626 text 快照需求ID：47
+										627 text 快照项目编号：1
+										628 text 当时编号：COL-900001
+										629 text TEST-F03A 修复后关键内容第二次变更：保存须先进入评审中，不能沿用旧确认；全部资料为本机合成。
+										630 text 已确认 / 未就绪
+										631 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										632 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										633 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										634 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								635 row
+									636 cell
+										637 text 7
+									638 cell
+										639 text 芋道源码
+									640 cell
+										641 text 2026-10-18 19:31:40
+									642 cell
+										643 text 快照需求ID：47
+										644 text 快照项目编号：1
+										645 text 当时编号：COL-900001
+										646 text TEST-F03A 修复后关键内容第二次变更：保存须先进入评审中，不能沿用旧确认；全部资料为本机合成。
+										647 text 已确认 / 未就绪
+										648 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										649 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										650 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										651 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								652 row
+									653 cell
+										654 text 6
+									655 cell
+										656 text 芋道源码
+									657 cell
+										658 text 2026-10-18 19:31:28
+									659 cell
+										660 text 快照需求ID：47
+										661 text 快照项目编号：1
+										662 text 当时编号：COL-900001
+										663 text TEST-F03A 修复后关键内容第二次变更：保存须先进入评审中，不能沿用旧确认；全部资料为本机合成。
+										664 text 已确认 / 未就绪
+										665 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										666 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										667 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										668 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								669 row
+									670 cell
+										671 text 5
+									672 cell
+										673 text 芋道源码
+									674 cell
+										675 text 2026-10-18 19:31:13
+									676 cell
+										677 text 快照需求ID：47
+										678 text 快照项目编号：1
+										679 text 当时编号：COL-900001
+										680 text TEST-F03A 修复后关键内容第二次变更：保存须先进入评审中，不能沿用旧确认；全部资料为本机合成。
+										681 text 评审中 / 未就绪
+										682 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										683 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										684 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										685 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								686 row
+									687 cell
+										688 text 4
+									689 cell
+										690 text 芋道源码
+									691 cell
+										692 text 2026-10-18 19:29:04
+									693 cell
+										694 text 快照需求ID：47
+										695 text 快照项目编号：1
+										696 text 当时编号：COL-900001
+										697 text TEST-F03A 修复前修改合成需求关键内容，原已确认状态应先失效并进入重新评审。
+										698 text 已确认 / 未就绪
+										699 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										700 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										701 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										702 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								703 row
+									704 cell
+										705 text 3
+									706 cell
+										707 text 芋道源码
+									708 cell
+										709 text 2026-10-18 19:28:56
+									710 cell
+										711 text 快照需求ID：47
+										712 text 快照项目编号：1
+										713 text 当时编号：COL-900001
+										714 text TEST-F01A 第二版合成说明：编辑需求后项目编号保持不变；仍待确认、未就绪，不作为范围批准。
+										715 text 已确认 / 未就绪
+										716 text 来源：TEST-F03A 本机合成来源，不代表实际交付
+										717 text 映射：TEST-F03A 合成字段 → 合成需求字段
+										718 text 验收：TEST-F03A 验证已确认需求关键内容修改必须重审
+										719 text 依据：TEST-F03A 仅用于回归，非业务签字或范围批准
+								720 row
+									721 cell
+										722 text 2
+									723 cell
+										724 text 芋道源码
+									725 cell
+										726 text 2026-10-18 18:12:13
+									727 cell
+										728 text 快照需求ID：47
+										729 text 快照项目编号：1
+										730 text 当时编号：COL-900001
+										731 text TEST-F01A 第二版合成说明：编辑需求后项目编号保持不变；仍待确认、未就绪，不作为范围批准。
+										732 text 待确认 / 未就绪
+										733 text 来源：未填写
+										734 text 映射：未填写
+										735 text 验收：未填写
+										736 text 依据：未填写
+								737 row
+									738 cell
+										739 text 1
+									740 cell
+										741 text 芋道源码
+									742 cell
+										743 text 2026-10-18 18:12:00
+									744 cell
+										745 text 快照需求ID：47
+										746 text 快照项目编号：1
+										747 text 当时编号：COL-900001
+										748 text TEST-F01A 合成项目归属回归：只验证新增需求自动归入历史迁移项目，不代表范围批准或业务确认。
+										749 text 待确认 / 未就绪
+										750 text 来源：未填写
+										751 text 映射：未填写
+										752 text 验收：未填写
+										753 text 依据：未填写
+			293 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 294 container 当前项目编号：1。 以下项目编号按当时快照展示；旧快照未记录时不推定归属。

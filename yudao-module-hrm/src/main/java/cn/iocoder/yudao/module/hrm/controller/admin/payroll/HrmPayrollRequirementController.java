@@ -28,6 +28,10 @@ public class HrmPayrollRequirementController {
     public CommonResult<Boolean> confirm(@Valid @RequestBody cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollRequirementConfirmReqVO request){
         service.confirm(request.getId(),request.getVersion(),getLoginUserId());return success(true);
     }
+    @PostMapping("/assign") @PreAuthorize("@ss.hasPermission('hrm:payroll:requirement:query') and @ss.hasPermission('hrm:payroll:requirement:assign')")
+    public CommonResult<Boolean> assign(@Valid @RequestBody cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollRequirementAssignReqVO request){
+        service.assign(request.getId(),request.getVersion(),request.getReviewerId(),getLoginUserId());return success(true);
+    }
     @PostMapping("/initialize") @PreAuthorize("@ss.hasPermission('hrm:payroll:requirement:update')")
     public CommonResult<Integer> initialize(){return success(service.initialize(getLoginUserId()));}
     @GetMapping("/history") @PreAuthorize("@ss.hasPermission('hrm:payroll:requirement:query')")

@@ -1,0 +1,22 @@
+{
+  "cancelAndSameReviewerAddedVersions": 0,
+  "clearVersion": 24,
+  "reviewerEmpty": true,
+  "contentFieldsUnchanged": [
+    "code",
+    "module",
+    "description",
+    "fieldMapping",
+    "sourceSystem",
+    "sourceOwnerId",
+    "priority",
+    "status",
+    "readiness",
+    "acceptance",
+    "evidence",
+    "projectId"
+  ],
+  "unauthorizedAssignCode": 403,
+  "staleAssignCode": 1050810002,
+  "failedHistoryUnchanged": true
+}

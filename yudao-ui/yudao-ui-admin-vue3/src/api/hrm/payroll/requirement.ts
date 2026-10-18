@@ -41,3 +41,9 @@ export const getLegacyRequirementProject = () =>
 
 export const confirmRequirement = (id: number, version: number) =>
   request.post<boolean>({ url: '/hrm/payroll/requirement/confirm', data: { id, version } })
+
+export const assignRequirement = (id: number, version: number, reviewerId?: number) =>
+  request.post<boolean>({
+    url: '/hrm/payroll/requirement/assign',
+    data: { id, version, reviewerId: reviewerId ?? null }
+  })

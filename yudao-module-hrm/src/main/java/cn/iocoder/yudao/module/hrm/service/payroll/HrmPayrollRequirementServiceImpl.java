@@ -102,6 +102,19 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         request.setStatus("CONFIRMED");
         saveInternal(request,actorId,true);
     }
+    @Override @Transactional(rollbackFor=Exception.class)
+    public void assign(Long id,Integer version,Long reviewerId,Long actorId) {
+        if(actorId==null || !permissions.hasAnyPermissions(actorId,"hrm:payroll:requirement:assign"))
+            throw exception(PAYROLL_REQUIREMENT_ASSIGN_FORBIDDEN);
+        if(id==null || version==null || version<1) throw exception(PAYROLL_VERSION_CONFLICT);
+        HrmPayrollRequirementDO row=mapper.selectOneForUpdate(HrmPayrollRequirementDO::getId,id);
+        if(row==null) throw exception(PAYROLL_REQUIREMENT_NOT_EXISTS);
+        if(!Objects.equals(row.getVersion(),version)) throw exception(PAYROLL_VERSION_CONFLICT);
+        if(Objects.equals(row.getReviewerId(),reviewerId)) return;
+        HrmPayrollRequirementSaveReqVO request=BeanUtils.toBean(row,HrmPayrollRequirementSaveReqVO.class);
+        request.setReviewerId(reviewerId);
+        saveInternal(request,actorId,false);
+    }
     private Long saveInternal(HrmPayrollRequirementSaveReqVO request,Long actorId,boolean confirming) {
         HrmPayrollRequirementDO previous = request.getId()==null ? null : mapper.selectOneForUpdate(HrmPayrollRequirementDO::getId, request.getId());
         if (request.getId()!=null && previous==null) throw exception(PAYROLL_REQUIREMENT_NOT_EXISTS);

@@ -135,4 +135,27 @@ class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
  @Test void authorizedClearPreservesOldAssignmentInHistory() {
   HrmPayrollRequirementSaveReqVO r=ready();r.setId(service.save(r,1L));r.setVersion(1);r.setReviewerId(null);service.save(r,1L);assertNull(row(r.getId()).getReviewerId());assertTrue(service.history(r.getId()).get(1).getSnapshot().contains("\"reviewerId\":2"));
  }
+ @Test void independentAssignmentUsesSavedContentAndNeedsNoContentEditing() {
+  HrmPayrollRequirementSaveReqVO r=ready();Long id=service.save(r,1L);
+  org.mockito.Mockito.when(permissions.hasAnyPermissions(1L,"hrm:payroll:requirement:update")).thenReturn(false);
+  service.assign(id,1,3L,1L);assertEquals(3L,row(id).getReviewerId());assertEquals(r.getDescription(),row(id).getDescription());assertEquals(r.getFieldMapping(),row(id).getFieldMapping());assertEquals(r.getEvidence(),row(id).getEvidence());assertEquals(2,row(id).getVersion());assertEquals(2,service.history(id).size());
+ }
+ @Test void staleAssignmentCannotOverwriteNewContent() {
+  HrmPayrollRequirementSaveReqVO r=ready();r.setId(service.save(r,1L));r.setVersion(1);r.setDescription("较新内容");service.save(r,1L);
+  assertServiceException(()->service.assign(r.getId(),1,3L,1L),PAYROLL_VERSION_CONFLICT);assertEquals(2L,row(r.getId()).getReviewerId());assertEquals("较新内容",row(r.getId()).getDescription());assertEquals(2,service.history(r.getId()).size());
+ }
+ @Test void independentReassignmentReopensConfirmedVersionAndPreservesSignatureHistory() {
+  HrmPayrollRequirementSaveReqVO r=createConfirmed();service.assign(r.getId(),2,3L,1L);assertEquals("REVIEWING",row(r.getId()).getStatus());assertNull(row(r.getId()).getConfirmedBy());assertEquals(3L,row(r.getId()).getReviewerId());assertTrue(service.history(r.getId()).get(1).getSnapshot().contains("\"confirmedBy\":2"));
+ }
+ @Test void independentAssignmentNoOpDoesNotWriteAndStillNeedsPermission() {
+  HrmPayrollRequirementSaveReqVO r=ready();Long id=service.save(r,1L);service.assign(id,1,2L,1L);assertEquals(1,service.history(id).size());
+  org.mockito.Mockito.when(permissions.hasAnyPermissions(1L,"hrm:payroll:requirement:assign")).thenReturn(false);assertServiceException(()->service.assign(id,1,2L,1L),PAYROLL_REQUIREMENT_ASSIGN_FORBIDDEN);assertEquals(1,service.history(id).size());
+ }
+ @Test void independentAssignmentCanClearButCannotSelfAssignOrTargetUnqualifiedUser() {
+  HrmPayrollRequirementSaveReqVO r=ready();Long id=service.save(r,1L);
+  assertServiceException(()->service.assign(id,1,1L,1L),PAYROLL_REQUIREMENT_ASSIGN_FORBIDDEN);
+  org.mockito.Mockito.when(permissions.hasAnyPermissions(3L,"hrm:payroll:requirement:confirm")).thenReturn(false);
+  assertServiceException(()->service.assign(id,1,3L,1L),PAYROLL_REQUIREMENT_ASSIGNEE_FORBIDDEN);assertEquals(1,service.history(id).size());service.assign(id,1,null,1L);assertNull(row(id).getReviewerId());assertEquals(2,service.history(id).size());
+ }
+
 }

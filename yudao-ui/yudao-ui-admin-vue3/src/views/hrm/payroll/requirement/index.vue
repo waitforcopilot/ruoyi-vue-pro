@@ -82,7 +82,7 @@
       >
       <el-table-column prop="sourceSystem" label="数据来源" min-width="160" />
       <el-table-column prop="version" label="版本" width="70" />
-      <el-table-column label="操作" width="230" fixed="right"
+      <el-table-column label="操作" width="280" fixed="right"
         ><template #default="{ row }">
           <el-button
             v-hasPermi="['hrm:payroll:requirement:update']"
@@ -92,6 +92,14 @@
             >编辑</el-button
           >
           <el-button link @click="showHistory(row)">历史</el-button>
+          <el-button
+            v-hasPermi="['hrm:payroll:requirement:assign']"
+            link
+            type="primary"
+            :disabled="loading || saving || confirming"
+            @click="openAssignment(row)"
+            >分派</el-button
+          >
           <el-button
             v-if="['PENDING', 'REVIEWING', 'DISPUTED'].includes(row.status)"
             v-hasPermi="['hrm:payroll:requirement:confirm']"
@@ -105,6 +113,35 @@
       >
     </el-table>
   </ContentWrap>
+  <Dialog v-model="assignmentVisible" title="分派评审负责人" width="min(540px, calc(100vw - 24px))">
+    <p
+      >需求ID {{ assignmentRow?.id }}（{{ assignmentRow?.code }}）· 已保存版本
+      {{ assignmentRow?.version }}</p
+    >
+    <el-alert
+      title="只修改评审负责人；已确认需求改派后须重新评审。清空将取消当前分派。不可分派给自己，目标须有需求查询和确认权限。"
+      type="warning"
+      :closable="false"
+      class="mb-4"
+    />
+    <el-form label-width="100px">
+      <el-form-item label="新评审负责人">
+        <el-select
+          v-model="assignmentReviewerId"
+          filterable
+          clearable
+          placeholder="选择评审人；留空取消分派"
+        >
+          <el-option v-for="user in users" :key="user.id" :value="user.id" :label="user.nickname" />
+        </el-select>
+      </el-form-item>
+      <el-button :disabled="saving" @click="assignmentReviewerId = undefined">清空负责人</el-button>
+    </el-form>
+    <template #footer>
+      <el-button :disabled="saving" @click="assignmentVisible = false">取消</el-button>
+      <el-button type="primary" :loading="saving" @click="submitAssignment">保存分派</el-button>
+    </template>
+  </Dialog>
   <Dialog
     v-model="visible"
     title="需求评审"
@@ -161,11 +198,7 @@
             :label="user.nickname" /></el-select
       ></el-form-item>
       <el-form-item label="评审负责人"
-        ><el-select
-          v-model="form.reviewerId"
-          :disabled="!checkPermi(['hrm:payroll:requirement:assign'])"
-          filterable
-          clearable
+        ><el-select v-model="form.reviewerId" disabled filterable clearable
           ><el-option
             v-for="user in users"
             :key="user.id"
@@ -174,7 +207,7 @@
       ></el-form-item>
       <el-alert
         class="mb-4"
-        title="修改评审负责人需分派权限，不可分派给自己；被分派人须有需求查询和确认权限。"
+        title="请先保存需求，再通过列表中的分派操作修改评审负责人；不可自派，被分派人须有需求查询和确认权限。"
         type="info"
         :closable="false"
       />
@@ -414,15 +447,63 @@ const save = async () => {
     saving.value = false
   }
 }
+const assignmentVisible = ref(false)
+const assignmentRow = ref<PayrollRequirement>()
+const assignmentReviewerId = ref<number>()
+let assignmentContext: { path: string; module?: string } | undefined
+const openAssignment = (row: PayrollRequirement) => {
+  if (
+    !confirmationActive ||
+    loading.value ||
+    saving.value ||
+    confirming.value ||
+    !row.id ||
+    !row.version ||
+    !checkPermi(['hrm:payroll:requirement:assign'])
+  )
+    return
+  assignmentRow.value = { ...row }
+  assignmentReviewerId.value = row.reviewerId
+  assignmentContext = { path: route.fullPath, module: module.value }
+  assignmentVisible.value = true
+}
+const submitAssignment = async () => {
+  const row = assignmentRow.value
+  const current = () =>
+    confirmationActive &&
+    assignmentVisible.value &&
+    assignmentContext?.path === route.fullPath &&
+    assignmentContext?.module === module.value &&
+    rows.value.some((item) => item.id === row?.id && item.version === row?.version)
+  if (!row?.id || !row.version || loading.value || saving.value || confirming.value || !current())
+    return
+  const reviewerId = assignmentReviewerId.value
+  if (reviewerId === userStore.getUser.id && reviewerId !== row.reviewerId) {
+    message.warning('不能分派给自己')
+    return
+  }
+  saving.value = true
+  try {
+    await api.assignRequirement(row.id, row.version, reviewerId)
+    if (!current()) return
+    assignmentVisible.value = false
+    await load()
+    message.success('分派已保存；请由当前评审负责人确认版本')
+  } finally {
+    saving.value = false
+  }
+}
 let confirmationActive = true
 onActivated(() => {
   confirmationActive = true
 })
 onDeactivated(() => {
   confirmationActive = false
+  assignmentVisible.value = false
 })
 onBeforeUnmount(() => {
   confirmationActive = false
+  assignmentVisible.value = false
 })
 const confirmVersion = async (row: PayrollRequirement) => {
   if (

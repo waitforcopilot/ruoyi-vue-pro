@@ -66,6 +66,22 @@ class HrmPayrollRequirementPermissionTest {
         assertThrows(AccessDeniedException.class, () -> controller.save(new HrmPayrollRequirementSaveReqVO()));
         verifyNoInteractions(service);
     }
+    private cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollRequirementAssignReqVO assignment() {
+        cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollRequirementAssignReqVO r=new cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollRequirementAssignReqVO();
+        r.setId(47L);r.setVersion(23);r.setReviewerId(249L);return r;
+    }
+    @Test void assignmentDoesNotRequireEditPermission() {
+        permissions("query","assign");assertTrue(controller.assign(assignment()).getData());verify(service).assign(47L,23,249L,null);
+    }
+    @Test void editingDoesNotGrantAssignment() {
+        permissions("query","update");assertThrows(AccessDeniedException.class,()->controller.assign(assignment()));verifyNoInteractions(service);
+    }
+    @Test void assignmentRequiresReadPermission() {
+        permissions("assign");assertThrows(AccessDeniedException.class,()->controller.assign(assignment()));verifyNoInteractions(service);
+    }
+    @Test void assignmentDoesNotGrantContentEditing() {
+        permissions("query","assign");assertThrows(AccessDeniedException.class,()->controller.save(new HrmPayrollRequirementSaveReqVO()));verifyNoInteractions(service);
+    }
     public static class Permissions {
         final Set<String> granted = new HashSet<>();
         public boolean hasPermission(String permission) { return granted.contains(permission); }

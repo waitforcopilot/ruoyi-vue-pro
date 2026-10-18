@@ -1,0 +1,8 @@
+[
+  {
+    "level": "error",
+    "message": "error",
+    "timestamp": "2026-10-18T12:03:51.088Z",
+    "url": "http://127.0.0.1:5173/hrm-payroll/requirement?module=COL&from=/hrm-payroll/input-issue"
+  }
+]

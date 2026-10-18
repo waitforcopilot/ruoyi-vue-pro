@@ -1,0 +1,312 @@
+Browser tab: 1, Title: "芋道管理系统 - 需求评审", URL: "http://127.0.0.1:5173/hrm-payroll/requirement?module=COL&from=/hrm-payroll/input-issue".
+0 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?module=COL&from=/hrm-payroll/input-issue
+	1 container
+		2 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		3 menu bar
+			4 首页
+				5 text 首页
+			6 作者动态
+				7 text 作者动态
+			8 Boot 开发文档
+				9 text Boot 开发文档
+			10 Cloud 开发文档
+				11 text Cloud 开发文档
+			12 (collapsed) 系统管理, Secondary Actions: Expand
+				13 container
+					14 text 系统管理
+					15 image
+			16 (collapsed) 基础设施, Secondary Actions: Expand
+				17 container
+					18 text 基础设施
+					19 image
+			20 (collapsed) 支付管理, Secondary Actions: Expand
+				21 container
+					22 text 支付管理
+					23 image
+			24 (collapsed) 报表管理, Secondary Actions: Expand
+				25 container
+					26 text 报表管理
+					27 image
+			28 (collapsed) 工作流程, Secondary Actions: Expand
+				29 container
+					30 text 工作流程
+					31 image
+			32 (collapsed) 会员中心, Secondary Actions: Expand
+				33 container
+					34 text 会员中心
+					35 image
+			36 (expanded) 薪酬管理, Secondary Actions: Collapse
+				37 container
+					38 text 薪酬管理
+					39 image
+				40 menu
+					41 定调薪审批
+						42 text 定调薪审批
+					43 工时与加班
+						44 text 工时与加班
+					45 薪级薪档
+						46 text 薪级薪档
+					47 考勤归集与异常
+						48 text 考勤归集与异常
+					49 法人主体与归属
+						50 text 法人主体与归属
+					51 缴费政策与年度调基
+						52 text 缴费政策与年度调基
+					53 缴费实缴对账
+						54 text 缴费实缴对账
+					55 核算输入与就绪
+						56 text 核算输入与就绪
+					57 年度税务政策
+						58 text 年度税务政策
+					59 薪酬成本分摊
+						60 text 薪酬成本分摊
+					61 预算与成本分析
+						62 text 预算与成本分析
+					63 薪酬输入缺口工单
+						64 text 薪酬输入缺口工单
+					65 社保公积金工资差额
+						66 text 社保公积金工资差额
+					67 薪酬总览
+						68 text 薪酬总览
+					69 独立工资收回
+						70 text 独立工资收回
+					71 需求评审
+						72 text 需求评审
+					73 核算审批
+						74 text 核算审批
+					75 银行代发
+						76 text 银行代发
+					77 薪资公式
+						78 text 薪资公式
+			79 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				80 container
+					81 text MALL 商城系统
+					82 image
+			83 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				84 container
+					85 text EAM 资产管理
+					86 image
+			87 (collapsed) CRM 系统, Secondary Actions: Expand
+				88 container
+					89 text CRM 系统
+					90 image
+			91 (collapsed) ERP 系统, Secondary Actions: Expand
+				92 container
+					93 text ERP 系统
+					94 image
+			95 (collapsed) WMS 系统, Secondary Actions: Expand
+				96 container
+					97 text WMS 系统
+					98 image
+			99 (collapsed) MES 系统, Secondary Actions: Expand
+				100 container
+					101 text MES 系统
+					102 image
+			103 (collapsed) OA 办公协同, Secondary Actions: Expand
+				104 container
+					105 text OA 办公协同
+					106 image
+			107 (collapsed) HRM 人力资源, Secondary Actions: Expand
+				108 container
+					109 text HRM 人力资源
+					110 image
+			111 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				112 container
+					113 text FMS 财务管理
+					114 image
+			115 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				116 container
+					117 text PMS 项目管理
+					118 image
+			119 (collapsed) AI 大模型, Secondary Actions: Expand
+				120 container
+					121 text AI 大模型
+					122 image
+			123 (collapsed) IoT 物联网, Secondary Actions: Expand
+				124 container
+					125 text IoT 物联网
+					126 image
+			127 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				128 container
+					129 text IM 即时通讯
+					130 image
+			131 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				132 container
+					133 text MP 公众号管理
+					134 image
+			135 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				136 container
+					137 text CMS 内容管理
+					138 image
+		139 container
+			140 container v-tool-header
+				141 container 面包屑
+					142 link 薪酬管理
+						143 text 薪酬管理
+					144 text /
+					145 link 需求评审
+						146 text 需求评审
+				147 container
+					148 combo box (collapsed, settable) ID: el-id-5458-67, Secondary Actions: Expand
+					149 text 请选择租户
+					150 image
+				151 container
+					152 container
+						153 combo box (collapsed, settable) ID: el-id-5458-68, Secondary Actions: Expand
+						154 text 请输入菜单内容
+				155 pop up button (collapsed) ID: el-id-5458-6, Secondary Actions: Expand
+				156 pop up button (collapsed) ID: el-id-5458-11, Secondary Actions: Expand
+				157 pop up button (collapsed) 芋道源码, ID: el-id-5458-16, Secondary Actions: Expand
+			158 container v-tags-view
+				159 container
+					160 pop up button (collapsed) 首页, ID: el-id-5458-22, Secondary Actions: Expand
+						161 container
+							162 text 首页
+					163 pop up button (collapsed) 需求评审, ID: el-id-5458-30, Secondary Actions: Expand
+						164 container
+							165 text 需求评审
+				166 pop up button (collapsed) ID: el-id-5458-38, Secondary Actions: Expand
+			167 text 历史需求迁移项目 · 项目编号 1 · 项目范围尚未定义，仅标识历史迁移归属
+			168 text 业务确认状态与数据就绪状态分别维护；确认需有效负责人、字段映射、来源、验收条件及依据；请先保存，再由评审负责人本人点击“确认版本”。
+			169 container
+				170 button 返回业务模块
+				171 container
+					172 combo box (collapsed, settable) ID: el-id-5458-132, Secondary Actions: Expand
+					173 text 需求征集
+					174 image
+				175 button 刷新
+				176 button 新增需求
+				177 button 初始化 PRD 清单
+				178 button 导出评审清单
+			179 button (collapsed) 需求征集候选数据源与字段, ID: el-collapse-head-125, Secondary Actions: Expand
+				180 text 需求征集候选数据源与字段
+			181 container
+				182 table
+					183 row
+						184 cell
+							185 text 需求ID
+						186 cell
+							187 text 编号
+						188 cell
+							189 text 模块
+						190 cell
+							191 text 功能
+						192 cell
+							193 text 评审状态
+						194 cell
+							195 text 数据就绪
+						196 cell
+							197 text 数据来源
+						198 cell
+							199 text 版本
+						200 cell
+							201 text 操作
+				202 table
+					203 container
+						204 row
+							205 cell
+								206 text 47
+							207 cell
+								208 text COL-900001
+							209 cell
+								210 text 需求征集
+							211 cell
+								212 text TEST-F02B 最终合成回归：分派需独立权限且不可自派，现有评审人保持；当前评审中、未就绪，非业务批准。
+							213 cell
+								214 text 评审中
+							215 cell
+								216 text 未就绪
+							217 cell
+								218 text TEST-F03A 本机合成来源，不代表实际交付
+							219 cell
+								220 text 23
+							221 cell
+								222 container
+									223 button 编辑
+									224 button 历史
+									225 button 分派
+									226 button (disabled) 确认版本
+						227 row
+							228 cell
+								229 text 44
+							230 cell
+								231 text COL-9201
+							232 cell
+								233 text 需求征集
+							234 cell
+								235 text 隔离需求确认与版本验收
+							236 cell
+								237 text 已确认
+							238 cell
+								239 text 未就绪
+							240 cell
+								241 text 虚构验收数据源
+							242 cell
+								243 text 4
+							244 cell
+								245 container
+									246 button 编辑
+									247 button 历史
+									248 button 分派
+						249 row
+							250 cell
+								251 text 45
+							252 cell
+								253 text COL-9301
+							254 cell
+								255 text 需求征集
+							256 cell
+								257 text 隔离PRD0.4动作授权实测
+							258 cell
+								259 text 已确认
+							260 cell
+								261 text 已就绪
+							262 cell
+								263 text 虚构映射来源
+							264 cell
+								265 text 2
+							266 cell
+								267 container
+									268 button 编辑
+									269 button 历史
+									270 button 分派
+						271 row
+							272 cell
+								273 text 46
+							274 cell
+								275 text COL-9302
+							276 cell
+								277 text 需求征集
+							278 cell
+								279 text 隔离不适用条件必填实测
+							280 cell
+								281 text 待确认
+							282 cell
+								283 text 未就绪
+							284 cell
+								285 text 1
+							286 cell
+								287 container
+									288 button 编辑
+									289 button 历史
+									290 button 分派
+									291 button (disabled) 确认版本
+			293 container
+				294 container
+					295 text 分派评审负责人
+				296 container el-id-5458-127
+					297 text 需求ID 47（COL-900001）· 已保存版本 23
+					298 text 只修改评审负责人；已确认需求改派后须重新评审。清空将取消当前分派。不可分派给自己，目标须有需求查询和确认权限。
+					299 container
+						300 text 新评审负责人
+						301 container
+							302 combo box (collapsed, settable) 新评审负责人, ID: el-id-5458-302, Secondary Actions: Expand
+							309 text 选择评审人；留空取消分派
+							304 image
+						305 button 清空负责人
+				306 container
+					307 button 取消
+					308 button 保存分派
+			292 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 305 button 清空负责人

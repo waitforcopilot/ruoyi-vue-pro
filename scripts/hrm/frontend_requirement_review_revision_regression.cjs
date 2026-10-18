@@ -16,6 +16,7 @@ function harness() {
     warnings = [],
     prompts = [],
     confirmations = [],
+    assignments = [],
     off = [];
   const route = { query: {}, fullPath: "/hrm-payroll/requirement?module=COL" };
   const ctx = {
@@ -41,27 +42,31 @@ function harness() {
     require: (name) =>
       name.includes("requirement") && name.includes("api")
         ? {
+            assignRequirement: async (id, version, reviewerId) =>
+              assignments.push({ id, version, reviewerId }),
             confirmRequirement: async (id, version) =>
               confirmations.push({ id, version }),
             saveRequirement: async (data) => posts.push(data),
             listRequirements: async () => [],
             getLegacyRequirementProject: async () => ({ id: 1 }),
           }
-        : name === "@vueuse/core"
-          ? { useWindowSize: () => ({ width: vue.ref(1000) }) }
-          : name.includes("user") && name.includes("store")
-            ? { useUserStore: () => ({ getUser: { id: 2 } }) }
-            : name === "../requirements"
-              ? {
-                  payrollModules: { COL: "需求征集" },
-                  payrollModule: () => undefined,
-                }
-              : {},
+        : name === "@/utils/permission"
+          ? { checkPermi: () => true }
+          : name === "@vueuse/core"
+            ? { useWindowSize: () => ({ width: vue.ref(1000) }) }
+            : name.includes("user") && name.includes("store")
+              ? { useUserStore: () => ({ getUser: { id: 2 } }) }
+              : name === "../requirements"
+                ? {
+                    payrollModules: { COL: "需求征集" },
+                    payrollModule: () => undefined,
+                  }
+                : {},
   };
   vm.runInNewContext(
     ts.transpileModule(
       body +
-        "\nexports.s={edit,form,formRef,reviewRevision,save,confirmVersion,rows,module,confirming};",
+        "\nexports.s={edit,form,formRef,reviewRevision,save,confirmVersion,rows,module,confirming,openAssignment,submitAssignment,assignmentVisible,assignmentRow,assignmentReviewerId};",
       {
         compilerOptions: {
           module: ts.ModuleKind.CommonJS,
@@ -73,7 +78,16 @@ function harness() {
   );
   const s = ctx.exports.s;
   s.formRef.value = { validate: async () => true };
-  return { s, posts, warnings, prompts, confirmations, route, off };
+  return {
+    s,
+    posts,
+    warnings,
+    prompts,
+    confirmations,
+    assignments,
+    route,
+    off,
+  };
 }
 const original = {
   id: 47,
@@ -192,6 +206,42 @@ const original = {
     assert.equal(h.confirmations.length, valid ? 1 : 0, mode);
     if (valid) assert.deepEqual(h.confirmations[0], { id: 47, version: 4 });
     assert.equal(h.s.confirming.value, false);
+    count++;
+  }
+  for (const mode of [
+    "assign",
+    "clear",
+    "cancel",
+    "route",
+    "module",
+    "version",
+    "leave",
+    "self",
+    "duplicate",
+  ]) {
+    const h = harness(),
+      row = { ...original, status: "REVIEWING", reviewerId: 3, version: 4 };
+    h.s.rows.value = [row];
+    h.s.openAssignment(row);
+    h.s.assignmentReviewerId.value = mode === "clear" ? undefined : 1;
+    if (mode === "cancel") h.s.assignmentVisible.value = false;
+    if (mode === "route") h.route.fullPath = "/index";
+    if (mode === "module") h.s.module.value = "TAX";
+    if (mode === "version") h.s.rows.value = [{ ...row, version: 5 }];
+    if (mode === "leave") h.off[0]();
+    if (mode === "self") h.s.assignmentReviewerId.value = 2;
+    const task = h.s.submitAssignment();
+    if (mode === "duplicate") await h.s.submitAssignment();
+    await task;
+    const valid = ["assign", "clear", "duplicate"].includes(mode);
+    assert.equal(h.assignments.length, valid ? 1 : 0, mode);
+    if (valid)
+      assert.deepEqual(h.assignments[0], {
+        id: 47,
+        version: 4,
+        reviewerId: mode === "clear" ? undefined : 1,
+      });
+    assert.equal(h.posts.length, 0, "assignment must not save form content");
     count++;
   }
   console.log(
