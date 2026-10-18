@@ -34,7 +34,7 @@ function harness() {
     onDeactivated: () => {},
     onMounted: () => {},
     onBeforeUnmount: () => {},
-    useMessage: () => ({ success: () => {} }),
+    useMessage: () => ({ success: () => {}, warning: () => {} }),
     crypto: { randomUUID: () => "test-key" },
     require: (name) =>
       name.includes("config/axios")
@@ -88,8 +88,16 @@ function harness() {
     assert.equal(JSON.stringify(original), snapshot);
     h.s.draft.reason = "TEST handoff";
     await h.s.save();
-    assert.equal(h.posts[0].url, "/hrm/payroll/input-issue/reassign");
-    assert.equal(h.posts[0].data.dueTime, expected);
+    if (dayjs(expected).isAfter(dayjs())) {
+      assert.equal(h.posts[0].url, "/hrm/payroll/input-issue/reassign");
+      assert.equal(h.posts[0].data.dueTime, expected);
+    } else {
+      assert.equal(
+        h.posts.length,
+        0,
+        "expired deadline retained but not submitted",
+      );
+    }
     count++;
   }
   {

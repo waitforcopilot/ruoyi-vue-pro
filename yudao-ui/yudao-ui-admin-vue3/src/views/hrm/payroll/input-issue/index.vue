@@ -166,7 +166,9 @@
             :value="u.id"
             :label="`${u.name} · ${u.id}`" /></el-select
       ></el-form-item>
-      <el-form-item label="截止时间"
+      <el-form-item
+        label="截止时间"
+        :error="draft.dueTime ? deadlineError(draft.dueTime) : undefined"
         ><el-date-picker v-model="draft.dueTime" type="datetime" value-format="YYYY-MM-DDTHH:mm:ss"
       /></el-form-item>
       <el-form-item label="处理依据"
@@ -184,7 +186,7 @@
           !draft.ownerId ||
           !draft.reviewerId ||
           draft.ownerId === draft.reviewerId ||
-          !draft.dueTime ||
+          !!deadlineError(draft.dueTime) ||
           !draft.reason.trim()
         "
         @click="save"
@@ -258,6 +260,12 @@ const normalizeDateTime = (value: string | number | null | undefined) => {
   if (value == null || value === '') return undefined
   const date = dayjs(value)
   return date.isValid() ? date.format('YYYY-MM-DDTHH:mm:ss') : undefined
+}
+function deadlineError(value: string | number | null | undefined) {
+  if (value == null || value === '') return '请选择截止时间'
+  const date = dayjs(value)
+  if (!date.isValid()) return '截止时间格式不正确，请重新选择'
+  return date.isAfter(dayjs()) ? '' : '截止时间必须晚于当前时间，请重新选择'
 }
 let historyVersion = 0
 let active = true
@@ -445,6 +453,11 @@ async function save() {
   const context = formContext
   if (!context || !dialog.value || !isCurrentForm(context) || saving.value) return
   if (!draft.id && duplicateIssue(draft)) return
+  const error = deadlineError(draft.dueTime)
+  if (error) {
+    message.warning(error)
+    return
+  }
   saving.value = true
   try {
     const data = draft.id
