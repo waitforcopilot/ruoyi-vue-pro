@@ -1,0 +1,517 @@
+Browser tab: 1, Title: "芋道管理系统 - 核算审批", URL: "http://127.0.0.1:5173/hrm-payroll/batch".
+1 AXWebArea 芋道管理系统 - 核算审批, URL: 127.0.0.1:5173/hrm-payroll/batch
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 作者动态
+				8 text 作者动态
+			9 Boot 开发文档
+				10 text Boot 开发文档
+			11 Cloud 开发文档
+				12 text Cloud 开发文档
+			13 (collapsed) 系统管理, Secondary Actions: Expand
+				14 container
+					15 text 系统管理
+					16 image
+			17 (collapsed) 基础设施, Secondary Actions: Expand
+				18 container
+					19 text 基础设施
+					20 image
+			21 (collapsed) 支付管理, Secondary Actions: Expand
+				22 container
+					23 text 支付管理
+					24 image
+			25 (collapsed) 报表管理, Secondary Actions: Expand
+				26 container
+					27 text 报表管理
+					28 image
+			29 (collapsed) 工作流程, Secondary Actions: Expand
+				30 container
+					31 text 工作流程
+					32 image
+			33 (collapsed) 会员中心, Secondary Actions: Expand
+				34 container
+					35 text 会员中心
+					36 image
+			37 (expanded) 薪酬管理, Secondary Actions: Collapse
+				38 container
+					39 text 薪酬管理
+					40 image
+				41 menu
+					42 定调薪审批
+						43 text 定调薪审批
+					44 工时与加班
+						45 text 工时与加班
+					46 薪级薪档
+						47 text 薪级薪档
+					48 考勤归集与异常
+						49 text 考勤归集与异常
+					50 法人主体与归属
+						51 text 法人主体与归属
+					52 缴费政策与年度调基
+						53 text 缴费政策与年度调基
+					54 缴费实缴对账
+						55 text 缴费实缴对账
+					56 核算输入与就绪
+						57 text 核算输入与就绪
+					58 年度税务政策
+						59 text 年度税务政策
+					60 薪酬成本分摊
+						61 text 薪酬成本分摊
+					62 预算与成本分析
+						63 text 预算与成本分析
+					64 薪酬输入缺口工单
+						65 text 薪酬输入缺口工单
+					66 社保公积金工资差额
+						67 text 社保公积金工资差额
+					68 薪酬总览
+						69 text 薪酬总览
+					70 独立工资收回
+						71 text 独立工资收回
+					72 需求评审
+						73 text 需求评审
+					74 核算审批
+						75 text 核算审批
+					76 银行代发
+						77 text 银行代发
+					78 薪资公式
+						79 text 薪资公式
+			80 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				81 container
+					82 text MALL 商城系统
+					83 image
+			84 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				85 container
+					86 text EAM 资产管理
+					87 image
+			88 (collapsed) CRM 系统, Secondary Actions: Expand
+				89 container
+					90 text CRM 系统
+					91 image
+			92 (collapsed) ERP 系统, Secondary Actions: Expand
+				93 container
+					94 text ERP 系统
+					95 image
+			96 (collapsed) WMS 系统, Secondary Actions: Expand
+				97 container
+					98 text WMS 系统
+					99 image
+			100 (collapsed) MES 系统, Secondary Actions: Expand
+				101 container
+					102 text MES 系统
+					103 image
+			104 (collapsed) OA 办公协同, Secondary Actions: Expand
+				105 container
+					106 text OA 办公协同
+					107 image
+			108 (collapsed) HRM 人力资源, Secondary Actions: Expand
+				109 container
+					110 text HRM 人力资源
+					111 image
+			112 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				113 container
+					114 text FMS 财务管理
+					115 image
+			116 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				117 container
+					118 text PMS 项目管理
+					119 image
+			120 (collapsed) AI 大模型, Secondary Actions: Expand
+				121 container
+					122 text AI 大模型
+					123 image
+			124 (collapsed) IoT 物联网, Secondary Actions: Expand
+				125 container
+					126 text IoT 物联网
+					127 image
+			128 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				129 container
+					130 text IM 即时通讯
+					131 image
+			132 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				133 container
+					134 text MP 公众号管理
+					135 image
+			136 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				137 container
+					138 text CMS 内容管理
+					139 image
+		140 container
+			141 container v-tool-header
+				142 container 面包屑
+					143 link 薪酬管理
+						144 text 薪酬管理
+					145 text /
+					146 link 核算审批
+						147 text 核算审批
+				148 container
+					149 combo box (collapsed, settable) ID: el-id-8007-74, Secondary Actions: Expand
+					150 text 请选择租户
+					151 image
+				152 container
+					153 container
+						154 combo box (collapsed, settable) ID: el-id-8007-75, Secondary Actions: Expand
+						155 text 请输入菜单内容
+				156 pop up button (collapsed) ID: el-id-8007-6, Secondary Actions: Expand
+				157 pop up button (collapsed) ID: el-id-8007-11, Secondary Actions: Expand
+				158 pop up button (collapsed) ID: el-id-8007-16, Secondary Actions: Expand
+			159 container v-tags-view
+				160 container
+					161 pop up button (collapsed) 首页, ID: el-id-8007-22, Secondary Actions: Expand
+						162 container
+							163 text 首页
+					164 pop up button (collapsed) 核算审批, ID: el-id-8007-30, Secondary Actions: Expand
+						165 container
+							166 text 核算审批
+				167 pop up button (collapsed) ID: el-id-8007-38, Secondary Actions: Expand
+			168 container
+				169 button 本模块需求（工资核算）
+				170 button 候选数据源（8）
+			171 text 核算、HR 复核和财务审批由不同人员执行。冻结后不可编辑；需修改时先解冻，再重新核算并提交审批。
+			172 container
+				173 text 状态
+				174 container
+					175 combo box (collapsed, settable) 状态, ID: el-id-8007-76, Secondary Actions: Expand
+					176 text 请选择
+					177 image
+				178 button 查询
+			179 container
+				180 table
+					181 row
+						182 cell
+							183 text 批次编号
+						184 cell
+							185 text 法人主体
+						186 cell
+							187 text 批次
+						188 cell
+							189 text 状态
+						190 cell
+							191 text 计划发放日
+						192 cell
+							193 text 人数
+						194 cell
+							195 text 应发
+						196 cell
+							197 text 实发
+						198 cell
+							199 text 操作
+				200 table
+					201 container
+						202 row
+							203 cell
+								204 text 7
+							205 cell
+								206 text 隔离浏览器全流程主体（虚构）
+							207 cell
+								208 text 2026年11月工资表
+							209 cell
+								210 text 草稿
+							211 cell
+								212 text 2026-11-30
+							213 cell
+								214 text 0
+							215 cell
+								216 text 0
+							217 cell
+								218 text 0
+							219 cell
+								220 button 审批与版本
+						221 row
+							222 cell
+								223 text 5
+							224 cell
+								225 text 隔离历史工资申报主体（虚构）
+							226 cell
+								227 text 隔离年度奖金重复占用对照批次
+							228 cell
+								229 text 已试算
+							230 cell
+								231 text 2026-10-17
+							232 cell
+								233 text 1
+							234 cell
+								235 text 15000
+							236 cell
+								237 text 14162
+							238 cell
+								239 button 审批与版本
+						240 row
+							241 cell
+								242 text 6
+							243 cell
+								244 text 隔离浏览器全流程主体（虚构）
+							245 cell
+								246 text 2026年10月工资表
+							247 cell
+								248 text 已归档
+							249 cell
+								250 text 2026-10-18
+							251 cell
+								252 text 1
+							253 cell
+								254 text 5980
+							255 cell
+								256 text 5580
+							257 cell
+								258 button 审批与版本
+						259 row
+							260 cell
+								261 text 4
+							262 cell
+								263 text 隔离历史工资申报主体（虚构）
+							264 cell
+								265 text 隔离月中调薪与奖金验收工资表
+							266 cell
+								267 text 已归档
+							268 cell
+								269 text 2026-10-17
+							270 cell
+								271 text 1
+							272 cell
+								273 text 43548.39
+							274 cell
+								275 text 42003.94
+							276 cell
+								277 button 审批与版本
+						278 row
+							279 cell
+								280 text 1
+							281 cell
+								282 text 隔离验收主体（虚构）
+							283 cell
+								284 text 隔离全链路验收工资表
+							285 cell
+								286 text 已归档
+							287 cell
+								288 text 2026-10-17
+							289 cell
+								290 text 2
+							291 cell
+								292 text 12000
+							293 cell
+								294 text 11164
+							295 cell
+								296 button 审批与版本
+						297 row
+							298 cell
+								299 text 3
+							300 cell
+								301 text 隔离历史工资申报主体（虚构）
+							302 cell
+								303 text 隔离历史工资申报验收工资表
+							304 cell
+								305 text 已归档
+							306 cell
+								307 text 2026-09-30
+							308 cell
+								309 text 1
+							310 cell
+								311 text 6000
+							312 cell
+								313 text 5582
+							314 cell
+								315 button 审批与版本
+			316 text 共 6 条
+			317 container
+				318 combo box (collapsed, settable) ID: el-id-8007-77, Secondary Actions: Expand
+				319 text 10条/页
+				320 image
+			321 button (disabled) 上一页
+			322 content list
+				323 container 第 1 页
+					324 text 1
+			325 button (disabled) 下一页
+			326 text 前往
+			327 stepper (settable, integer) Description: 页, Value: 1, ID: el-id-8007-78
+			328 text 页
+			329 container
+				330 container
+					331 text 2026年10月工资表
+				332 container el-id-8007-67
+					333 text 已归档
+					335 text 计划日期由主体维护人员确认，并保存到核算版本。调整日期后须重新核算，原版本保留；实际到账日期仍以银行回盘为准。
+					336 tab group
+						337 tab (selectable, settable, boolean) 工资补发/收回, Value: 0, ID: tab-0
+						338 tab (selectable, settable, boolean) 年终奖来源, Value: 0, ID: tab-1
+						339 tab (selectable, settable, boolean) 工资收退差额, Value: 0, ID: tab-2
+						340 tab (selectable, settable, boolean) 核算版本与差异, Value: 0, ID: tab-3
+						341 tab (selectable, settable, boolean) 来源占用与防重, Value: 0, ID: tab-4
+						342 tab (selected, settable, boolean) 审批记录, Value: 1, ID: tab-5
+					369 container Description: 审批记录, ID: pane-5
+						370 container
+							371 table
+								372 row
+									373 cell
+										374 text 时间
+									375 cell
+										376 text 操作人
+									377 cell
+										378 text 操作
+									379 cell
+										380 text 状态变化
+									381 cell
+										382 text 依据
+							383 table
+								384 container
+									385 row
+										386 cell
+											387 text 2026-10-18 09:52:50
+										388 cell
+											389 text 249
+										390 cell
+											391 text 归档
+										392 cell
+											393 text 已发放 → 已归档
+										394 cell
+											395 text 本机虚构批次6连续流程归档：实发5580模拟回盘成功，工资条明细已发布，本机成本报表6780经独立复核及页面导出核对。无真实资金或外部申报。
+									396 row
+										397 cell
+											398 text 2026-10-18 08:00:46
+										399 cell
+											400 text 253
+										401 cell
+											402 text 发放完成
+										403 cell
+											404 text 发放中 → 已发放
+										405 cell
+											406 text 所有明细已成功对账
+									407 row
+										408 cell
+											409 text 2026-10-18 08:00:46
+										410 cell
+											411 text 253
+										412 cell
+											413 text reconcile
+										414 cell
+											415 text 发放中 → 发放中
+										416 cell
+											417 text 回盘匹配 1 条
+									418 row
+										419 cell
+											420 text 2026-10-18 08:00:02
+										421 cell
+											422 text 253
+										423 cell
+											424 text 开始发放
+										425 cell
+											426 text 已冻结 → 发放中
+										427 cell
+											428 text 生成代发明细
+									429 row
+										430 cell
+											431 text 2026-10-18 07:58:27
+										432 cell
+											433 text 253
+										434 cell
+											435 text 冻结
+										436 cell
+											437 text 审批通过 → 已冻结
+										438 cell
+											439 text 冻结本机虚构批次6独立批准版本，锁定实发5580及来源
+									440 row
+										441 cell
+											442 text 2026-10-18 07:57:49
+										443 cell
+											444 text 253
+										445 cell
+											446 text 财务审批通过
+										447 cell
+											448 text 待财务审批 → 审批通过
+										449 cell
+											450 text 第三人财务核对实发5580、单位养老800及独立来源审批，批准本机模拟批次
+									451 row
+										452 cell
+											453 text 2026-10-18 07:57:36
+										454 cell
+											455 text 249
+										456 cell
+											457 text HR 复核通过
+										458 cell
+											459 text 待 HR 复核 → 待财务审批
+										460 cell
+											461 text 独立HR核对员工8来源及5980应发、400个人养老、0税、5580实发，均为合成资料
+									462 row
+										463 cell
+											464 text 2026-10-18 07:57:09
+										465 cell
+											466 text 1
+										467 cell
+											468 text 提交复核
+										469 cell
+											470 text 已试算 → 待 HR 复核
+										471 cell
+											472 text 虚构批次6核算金额核对：应发5980，个人养老400，税0，实发5580，单位养老800
+									473 row
+										474 cell
+											475 text 2026-10-18 07:56:34
+										476 cell
+											477 text 249
+										478 cell
+											479 text approve_input
+										480 cell
+											481 text 已试算 → 已试算
+										482 cell
+											483 text 独立核对当前计划日期与批准扣除资料5，新版本来源一致
+									484 row
+										485 cell
+											486 text 2026-10-18 07:56:16
+										487 cell
+											488 text 249
+										489 cell
+											490 text reject_input
+										491 cell
+											492 text 已试算 → 已试算
+										493 cell
+											494 text 计划发放日期新增后来源变化，正常退回旧输入，重新同步后复核
+									495 row
+										496 cell
+											497 text 2026-10-18 07:55:13
+										498 cell
+											499 text 249
+										500 cell
+											501 text approve_input
+										502 cell
+											503 text 已试算 → 已试算
+										504 cell
+											505 text 独立核对员工8本批次累计计税基数及已批准来源，仅本机验收
+									506 row
+										507 cell
+											508 text 2026-10-18 07:55:11
+										509 cell
+											510 text 249
+										511 cell
+											512 text approve_input
+										513 cell
+											514 text 已试算 → 已试算
+										515 cell
+											516 text 独立核对员工8工时制度与加班及已批准来源，仅本机验收
+									517 row
+										518 cell
+											519 text 2026-10-18 07:55:10
+										520 cell
+											521 text 249
+										522 cell
+											523 text approve_input
+										524 cell
+											525 text 已试算 → 已试算
+										526 cell
+											527 text 独立核对22/22模拟天数、迟到20，其他扣款均明确零
+									528 row
+										529 cell
+											530 text 2026-10-18 07:54:14
+										531 cell
+											532 text 1
+										533 cell
+											534 text 调整计划发放日
+										535 cell
+											536 text 已试算 → 已试算
+										537 cell
+											538 text R6回归：虚构十月整月模拟，仅本机验收，计划2026-10-18
+			368 text Copyright ©2026 芋道管理系统
+	539 container message_1
+		540 text 已提交
+
+The focused UI element is 342 tab (selected, settable, boolean) 审批记录, Value: 1, ID: tab-5

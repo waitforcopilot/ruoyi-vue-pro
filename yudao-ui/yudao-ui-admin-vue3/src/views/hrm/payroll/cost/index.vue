@@ -305,67 +305,133 @@ const summaries = ({ columns, data }: any) =>
 const total = computed(() => rows.value.reduce((sum, r) => sum + Number(r.total), 0).toFixed(2))
 const employeeName = (id: number) =>
   options.value.employees.find((e) => e.id === id)?.name || `员工 ${id}`
+// Separate entity-scoped rules/options from batch-scoped reports and dialogs.
+let entityVersion = 0,
+  contextVersion = 0,
+  optionsRequest = 0,
+  rulesRequest = 0,
+  reportsRequest = 0,
+  detailRequest = 0,
+  historyRequest = 0,
+  loadingRequest = 0,
+  disposed = false
+const sameContext = (version: number) => !disposed && version === contextVersion
+watch(
+  entityId,
+  () => {
+    entityVersion++
+    optionsRequest++
+    rulesRequest++
+    rules.value = []
+    options.value = { ...options.value, employees: [], departments: [], batches: [] }
+  },
+  { flush: 'sync' }
+)
+watch(
+  [entityId, batchId],
+  () => {
+    contextVersion++
+    reportsRequest++
+    detailRequest++
+    historyRequest++
+    loadingRequest++
+    loading.value = false
+    saving.value = false
+    reports.value = []
+    rows.value = []
+    events.value = []
+    proof.value = undefined
+    selectedReport.value = undefined
+    ruleVisible.value = false
+    historyVisible.value = false
+  },
+  { flush: 'sync' }
+)
 async function changeEntity() {
-  rows.value = []
-  reports.value = []
-  rules.value = []
   batchId.value = undefined
-  selectedReport.value = undefined
-  if (!entityId.value) return
-  options.value = await request.get({
-    url: base + '/options',
-    params: { entityId: entityId.value }
-  })
+  const entity = entityId.value,
+    version = entityVersion,
+    requestId = ++optionsRequest
+  if (!entity) return
+  const data = await request.get({ url: base + '/options', params: { entityId: entity } })
+  if (disposed || version !== entityVersion || requestId !== optionsRequest) return
+  options.value = data
   await loadRules()
 }
 async function loadRules() {
-  if (!entityId.value) return
+  const entity = entityId.value,
+    version = entityVersion,
+    requestId = ++rulesRequest
+  if (!entity) return
+  const loadingId = ++loadingRequest
   loading.value = true
   try {
-    rules.value = await request.get({ url: base + '/rules', params: { entityId: entityId.value } })
+    const data = await request.get({ url: base + '/rules', params: { entityId: entity } })
+    if (!disposed && version === entityVersion && requestId === rulesRequest) rules.value = data
   } finally {
-    loading.value = false
+    if (!disposed && loadingId === loadingRequest) loading.value = false
   }
 }
 async function loadReports() {
+  const batch = batchId.value,
+    version = contextVersion,
+    requestId = ++reportsRequest
+  detailRequest++
+  historyRequest++
+  reports.value = []
   rows.value = []
   selectedReport.value = undefined
-  if (!batchId.value) return
+  historyVisible.value = false
+  events.value = []
+  proof.value = undefined
+  if (!batch) return
+  const loadingId = ++loadingRequest
   loading.value = true
   try {
-    reports.value = await request.get({
-      url: base + '/reports',
-      params: { batchId: batchId.value }
-    })
+    const data = await request.get({ url: base + '/reports', params: { batchId: batch } })
+    if (sameContext(version) && requestId === reportsRequest) reports.value = data
   } finally {
-    loading.value = false
+    if (!disposed && loadingId === loadingRequest) loading.value = false
   }
 }
 async function build() {
-  if (!batchId.value) return
+  const batch = batchId.value,
+    version = contextVersion
+  if (!batch) return
   const { value } = await message.prompt('填写成本报表编制依据', '生成报表版本')
-  if (!value?.trim()) return
+  if (!value?.trim() || !sameContext(version)) return
   saving.value = true
   try {
-    await request.post({ url: base + '/build', params: { batchId: batchId.value, reason: value } })
-    await loadReports()
+    await request.post({ url: base + '/build', params: { batchId: batch, reason: value.trim() } })
+    if (sameContext(version)) await loadReports()
   } finally {
-    saving.value = false
+    if (sameContext(version)) saving.value = false
   }
 }
 async function viewReport(report: any) {
-  rows.value = await request.get({ url: base + '/rows', params: { id: report.id } })
+  const version = contextVersion,
+    requestId = ++detailRequest
+  rows.value = []
+  selectedReport.value = undefined
+  const data = await request.get({ url: base + '/rows', params: { id: report.id } })
+  if (!sameContext(version) || requestId !== detailRequest) return
+  rows.value = data
   selectedReport.value = report
 }
 async function review(kind: string, id: number, approved: boolean) {
+  const version = contextVersion
   const { value } = await message.prompt('填写独立复核依据', '成本复核')
-  if (!value?.trim()) return
-  await request.post({ url: base + '/review-' + kind, params: { id, approved, reason: value } })
-  await (kind === 'rule' ? loadRules() : loadReports())
+  if (!value?.trim() || !sameContext(version)) return
+  await request.post({
+    url: base + '/review-' + kind,
+    params: { id, approved, reason: value.trim() }
+  })
+  if (sameContext(version)) await (kind === 'rule' ? loadRules() : loadReports())
 }
 async function exportReport(id: number) {
+  const version = contextVersion
   const blob = await request.download({ url: base + '/export', params: { id } })
-  download.excel(blob, '薪酬成本分摊.xlsx')
+  if (sameContext(version)) download.excel(blob, '薪酬成本分摊.xlsx')
 }
 async function openRule(rule?: any) {
   Object.assign(draft, {
@@ -383,21 +449,44 @@ async function openRule(rule?: any) {
   ruleVisible.value = true
 }
 async function saveRule() {
+  const entity = entityId.value,
+    version = contextVersion
+  if (!entity) return
   saving.value = true
   try {
-    await request.post({ url: base + '/rule', data: { ...draft, entityId: entityId.value } })
+    await request.post({ url: base + '/rule', data: { ...draft, entityId: entity } })
+    if (!sameContext(version)) return
     ruleVisible.value = false
     await loadRules()
   } finally {
-    saving.value = false
+    if (sameContext(version)) saving.value = false
   }
 }
 async function history(kind: string, row: any) {
-  events.value = await request.get({ url: base + '/history', params: { kind, id: row.id } })
+  historyVisible.value = false
+  const version = contextVersion,
+    requestId = ++historyRequest
+  events.value = []
+  proof.value = undefined
+  const data = await request.get({ url: base + '/history', params: { kind, id: row.id } })
+  if (!sameContext(version) || requestId !== historyRequest) return
+  events.value = data
   proof.value = row
   historyVisible.value = true
 }
+watch(
+  historyVisible,
+  (visible) => {
+    if (!visible) historyRequest++
+  },
+  { flush: 'sync' }
+)
 onMounted(async () => {
-  options.value = await request.get({ url: base + '/options' })
+  const requestId = ++optionsRequest
+  const data = await request.get({ url: base + '/options' })
+  if (!disposed && requestId === optionsRequest) options.value = data
+})
+onBeforeUnmount(() => {
+  disposed = true
 })
 </script>
