@@ -1,0 +1,40 @@
+[
+  {
+    "batchId": 6,
+    "runId": 7,
+    "version": 2,
+    "expectedPaySalary": 5980,
+    "components": [
+      {
+        "code": 10101,
+        "name": "基本工资",
+        "type": 1,
+        "value": 6000
+      },
+      {
+        "code": 10102,
+        "name": "岗位工资",
+        "type": 1,
+        "value": 0
+      },
+      {
+        "code": 20104,
+        "name": "餐补",
+        "type": 1,
+        "value": 0
+      },
+      {
+        "code": 200101,
+        "name": "考勤扣款合计",
+        "type": 0,
+        "value": 20
+      },
+      {
+        "code": 180101,
+        "name": "加班工资",
+        "type": 1,
+        "value": 0
+      }
+    ]
+  }
+]

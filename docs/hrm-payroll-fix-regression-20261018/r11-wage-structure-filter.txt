@@ -1,0 +1,337 @@
+Browser tab: 1, Title: "芋道管理系统 - 预算与成本分析", URL: "http://127.0.0.1:5173/hrm-payroll/analysis".
+1 AXWebArea 芋道管理系统 - 预算与成本分析, URL: 127.0.0.1:5173/hrm-payroll/analysis
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			66 首页
+				67 text 首页
+			68 作者动态
+				69 text 作者动态
+			70 Boot 开发文档
+				71 text Boot 开发文档
+			72 Cloud 开发文档
+				73 text Cloud 开发文档
+			5 (collapsed) 系统管理, Secondary Actions: Expand
+				74 container
+					75 text 系统管理
+					76 image
+			6 (collapsed) 基础设施, Secondary Actions: Expand
+				77 container
+					78 text 基础设施
+					79 image
+			7 (collapsed) 支付管理, Secondary Actions: Expand
+				80 container
+					81 text 支付管理
+					82 image
+			8 (collapsed) 报表管理, Secondary Actions: Expand
+				83 container
+					84 text 报表管理
+					85 image
+			9 (collapsed) 工作流程, Secondary Actions: Expand
+				86 container
+					87 text 工作流程
+					88 image
+			10 (collapsed) 会员中心, Secondary Actions: Expand
+				89 container
+					90 text 会员中心
+					91 image
+			11 (expanded) 薪酬管理, Secondary Actions: Collapse
+				92 container
+					93 text 薪酬管理
+					94 image
+				12 menu
+					95 定调薪审批
+						96 text 定调薪审批
+					97 工时与加班
+						98 text 工时与加班
+					99 薪级薪档
+						100 text 薪级薪档
+					101 考勤归集与异常
+						102 text 考勤归集与异常
+					103 法人主体与归属
+						104 text 法人主体与归属
+					105 缴费政策与年度调基
+						106 text 缴费政策与年度调基
+					107 缴费实缴对账
+						108 text 缴费实缴对账
+					109 核算输入与就绪
+						110 text 核算输入与就绪
+					111 年度税务政策
+						112 text 年度税务政策
+					113 薪酬成本分摊
+						114 text 薪酬成本分摊
+					115 预算与成本分析
+						116 text 预算与成本分析
+					117 薪酬输入缺口工单
+						118 text 薪酬输入缺口工单
+					119 社保公积金工资差额
+						120 text 社保公积金工资差额
+					121 薪酬总览
+						122 text 薪酬总览
+					123 独立工资收回
+						124 text 独立工资收回
+					125 需求评审
+						126 text 需求评审
+					127 核算审批
+						128 text 核算审批
+					129 银行代发
+						130 text 银行代发
+					131 薪资公式
+						132 text 薪资公式
+			13 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				133 container
+					134 text MALL 商城系统
+					135 image
+			14 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				136 container
+					137 text EAM 资产管理
+					138 image
+			15 (collapsed) CRM 系统, Secondary Actions: Expand
+				139 container
+					140 text CRM 系统
+					141 image
+			16 (collapsed) ERP 系统, Secondary Actions: Expand
+				142 container
+					143 text ERP 系统
+					144 image
+			17 (collapsed) WMS 系统, Secondary Actions: Expand
+				145 container
+					146 text WMS 系统
+					147 image
+			18 (collapsed) MES 系统, Secondary Actions: Expand
+				148 container
+					149 text MES 系统
+					150 image
+			19 (collapsed) OA 办公协同, Secondary Actions: Expand
+				151 container
+					152 text OA 办公协同
+					153 image
+			20 (collapsed) HRM 人力资源, Secondary Actions: Expand
+				154 container
+					155 text HRM 人力资源
+					156 image
+			21 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				157 container
+					158 text FMS 财务管理
+					159 image
+			22 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				160 container
+					161 text PMS 项目管理
+					162 image
+			23 (collapsed) AI 大模型, Secondary Actions: Expand
+				163 container
+					164 text AI 大模型
+					165 image
+			24 (collapsed) IoT 物联网, Secondary Actions: Expand
+				166 container
+					167 text IoT 物联网
+					168 image
+			25 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				169 container
+					170 text IM 即时通讯
+					171 image
+			26 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				172 container
+					173 text MP 公众号管理
+					174 image
+			27 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				175 container
+					176 text CMS 内容管理
+					177 image
+		178 container
+			179 container
+				180 container v-tool-header
+					181 container 面包屑
+						182 link 薪酬管理
+							183 text 薪酬管理
+						184 text /
+						185 link 预算与成本分析
+							186 text 预算与成本分析
+					187 container
+						188 combo box (collapsed, settable) ID: el-id-8933-68, Secondary Actions: Expand
+						189 text 请选择租户
+						190 image
+					191 container
+						192 container
+							193 combo box (collapsed, settable) ID: el-id-8933-69, Secondary Actions: Expand
+							194 text 请输入菜单内容
+					195 pop up button (collapsed) ID: el-id-8933-6, Secondary Actions: Expand
+					196 pop up button (collapsed) ID: el-id-8933-11, Secondary Actions: Expand
+					197 pop up button (collapsed) 隔离验收复核人, ID: el-id-8933-16, Secondary Actions: Expand
+				198 container v-tags-view
+					199 container
+						200 pop up button (collapsed) 首页, ID: el-id-8933-22, Secondary Actions: Expand
+							201 container
+								202 text 首页
+						203 pop up button (collapsed) 预算与成本分析, ID: el-id-8933-30, Secondary Actions: Expand
+							204 container
+								205 text 预算与成本分析
+					206 pop up button (collapsed) ID: el-id-8933-38, Secondary Actions: Expand
+			207 container
+				208 button 本模块需求（报表分析）
+				209 button 候选数据源（4）
+				210 text 实际采用已批准的冻结工资成本报表，按计薪期间归集；金额单位为元，编制单位为人。空白营收/预算/编制表示未提供，确认零值另行保存；分母缺失或为零时不计算比率。
+				211 container
+					212 text 法人主体
+					213 container
+						214 combo box (collapsed, settable) 法人主体, ID: el-id-8933-70, Secondary Actions: Expand
+						215 text 隔离浏览器全流程主体（虚构）
+						216 image
+				217 container
+					218 text 期间
+					219 container
+						220 image
+						221 combo box (collapsed, settable) 期间, Value: 2026-10, ID: el-id-8933-71, Secondary Actions: Expand
+				222 button 查询
+				223 tab group
+					224 tab (selected, settable, boolean) 工资结构及环比, Value: 1, ID: tab-structure
+					225 tab (selectable, settable, boolean) 预算与实际分析, Value: 0, ID: tab-analysis
+					226 tab (selectable, settable, boolean) 预算、营收及编制版本, Value: 0, ID: tab-plans
+					227 tab (selectable, settable, boolean) Excel 预校验与导入, Value: 0, ID: tab-import
+					228 tab (selectable, settable, boolean) 期间审批与导出履历, Value: 0, ID: tab-history
+				229 container Description: 工资结构及环比, ID: pane-structure
+					230 text 按冻结工资及原计薪日的历史部门、人员类别统计，环比对照上一计薪月。只纳入计入应发的工资项，扣减为负；原始考勤明细、个人代扣和单位成本不重复相加。
+					231 container
+						232 text 历史部门
+						233 container
+							234 combo box (collapsed, settable) 历史部门, ID: el-id-8933-88, Secondary Actions: Expand
+							235 text 请选择
+							236 image
+						237 text 人员类别
+						238 container
+							239 combo box (collapsed, settable) 人员类别, ID: el-id-8933-89, Secondary Actions: Expand
+							373 text REGULAR
+							374 image
+						242 button 查询结构
+						243 button 导出结构及环比
+					244 text 工资项已逐员工核对到冻结应发；扣减为负数，比例以应发为分母
+					245 table
+						246 row
+							247 cell
+								248 text 本期应发（元）
+							249 cell
+								250 text 5,980
+							251 cell
+								252 text 上期应发（元）
+							253 cell
+								254 text 不可计算
+							255 cell
+								256 text 应发变化（元）
+							257 cell
+								258 text 不可计算
+							259 cell
+								260 text 变化率%
+							261 cell
+								262 text 不可计算
+					263 container
+						264 table
+							265 row
+								266 cell
+									267 text 工资项编码
+								268 cell
+									269 text 本期工资项
+								270 cell
+									271 text 上期名称
+								272 cell
+									273 text 本期金额（元）
+								274 cell
+									275 text 占应发比例%
+								276 cell
+									277 text 上期金额（元）
+								278 cell
+									279 text 环比金额（元）
+								280 cell
+									281 text 变化率%
+								282 cell
+									283 text 对比说明
+						284 table
+							285 container
+								286 row
+									287 cell
+										288 text 10101
+									289 cell
+										290 text 基本工资
+									291 cell
+										292 text 6,000
+									293 cell
+										294 text 100.3344
+									295 cell
+										296 text 不可计算
+									297 cell
+										298 text 不可计算
+									299 cell
+										300 text 不可计算
+									301 cell
+										302 text 上期无可用冻结来源
+								303 row
+									304 cell
+										305 text 10102
+									306 cell
+										307 text 岗位工资
+									308 cell
+										309 text 0
+									310 cell
+										311 text 0
+									312 cell
+										313 text 不可计算
+									314 cell
+										315 text 不可计算
+									316 cell
+										317 text 不可计算
+									318 cell
+										319 text 上期无可用冻结来源
+								320 row
+									321 cell
+										322 text 20104
+									323 cell
+										324 text 餐补
+									325 cell
+										326 text 0
+									327 cell
+										328 text 0
+									329 cell
+										330 text 不可计算
+									331 cell
+										332 text 不可计算
+									333 cell
+										334 text 不可计算
+									335 cell
+										336 text 上期无可用冻结来源
+								337 row
+									338 cell
+										339 text 180101
+									340 cell
+										341 text 加班工资
+									342 cell
+										343 text 0
+									344 cell
+										345 text 0
+									346 cell
+										347 text 不可计算
+									348 cell
+										349 text 不可计算
+									350 cell
+										351 text 不可计算
+									352 cell
+										353 text 上期无可用冻结来源
+								354 row
+									355 cell
+										356 text 200101
+									357 cell
+										358 text 考勤扣款合计
+									359 cell
+										360 text -20
+									361 cell
+										362 text -0.3344
+									363 cell
+										364 text 不可计算
+									365 cell
+										366 text 不可计算
+									367 cell
+										368 text 不可计算
+									369 cell
+										370 text 上期无可用冻结来源
+					371 text 本期核算来源：7；上期核算来源：暂无。缺失期间、零或负分母不生成占比/变化率。
+			372 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 242 button 查询结构

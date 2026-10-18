@@ -10,6 +10,7 @@ import cn.iocoder.yudao.module.hrm.dal.dataobject.salary.config.HrmSalaryOptionD
 import cn.iocoder.yudao.module.hrm.dal.mysql.payroll.*;
 import cn.iocoder.yudao.module.hrm.dal.mysql.salary.monthrecord.HrmSalaryMonthRecordMapper;
 import cn.iocoder.yudao.module.hrm.enums.salary.config.HrmSalaryOptionCodeEnum;
+import cn.iocoder.yudao.module.hrm.enums.salary.config.HrmSalaryOptionTypeEnum;
 import java.math.BigDecimal;
 import java.time.*;
 import java.util.*;
@@ -75,8 +76,9 @@ import org.springframework.transaction.annotation.*;
     for(HrmSalaryMonthEmployeeRecordDO.OptionValue value:salary.getOptionValues()) {
      if(value.getCode()==null||value.getValue()==null||!codes.add(value.getCode()))throw exception(PAYROLL_COST_INVALID);
      HrmSalaryOptionDO option=catalog.get(value.getCode());if(option==null||!HrmSalaryOptionCodeEnum.EXPECTED_PAY_PARENT_CODES.contains(option.getParentCode()))continue;
-     if(!Arrays.asList(1,2).contains(option.getType()))throw exception(PAYROLL_COST_INVALID);
-     BigDecimal signed=Objects.equals(option.getType(),2)?value.getValue().negate():value.getValue();components.put(value.getCode(),signed);gross=gross.add(signed);out.names.put(value.getCode(),option.getName());
+     // Use the same type contract as payroll calculation: MINUS=0, ADD=1; CALCULATED=2 is not a component.
+     if(!Objects.equals(option.getType(),HrmSalaryOptionTypeEnum.ADD.getType())&&!Objects.equals(option.getType(),HrmSalaryOptionTypeEnum.MINUS.getType()))throw exception(PAYROLL_COST_INVALID);
+     BigDecimal signed=Objects.equals(option.getType(),HrmSalaryOptionTypeEnum.MINUS.getType())?value.getValue().negate():value.getValue();components.put(value.getCode(),signed);gross=gross.add(signed);out.names.put(value.getCode(),option.getName());
     }
     if(gross.compareTo(salary.getExpectedPaySalary())!=0)throw exception(PAYROLL_COST_INVALID);
     out.gross=out.gross.add(gross);out.employees.add(salary.getEmployeeId());components.forEach((code,amount)->out.components.merge(code,amount,BigDecimal::add));

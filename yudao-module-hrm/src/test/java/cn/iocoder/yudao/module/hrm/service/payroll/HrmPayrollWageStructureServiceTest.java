@@ -35,7 +35,7 @@ class HrmPayrollWageStructureServiceTest extends BaseDbUnitTest {
  Long period(int year,int month,String basic,String overtime,String deduction){
   YearMonth period=YearMonth.of(year,month);HrmSalaryMonthRecordDO batch=new HrmSalaryMonthRecordDO().setEntityId(10L).setYear(year).setMonth(month).setBatchKey("REGULAR").setStatus(15).setStartTime(period.atDay(1).atStartOfDay()).setEndTime(period.atEndOfMonth().atStartOfDay());batches.insert(batch);
   Map<String,Object> input=new LinkedHashMap<>();input.put("entityScope",Collections.singletonMap("memberships",members(period)));input.put("entityPayrollDates",Collections.singletonMap(1L,Collections.singletonList(period.atDay(20))));
-  List<HrmSalaryOptionDO> options=Arrays.asList(option(10101,10,1,"基本工资"),option(180101,180,1,"加班工资"),option(200101,200,2,"考勤扣款"),option(190104,190,2,"原始请假"),option(110101,110,1,"公司社保"),option(210101,210,1,"应发汇总"));
+  List<HrmSalaryOptionDO> options=Arrays.asList(option(10101,10,1,"基本工资"),option(180101,180,1,"加班工资"),option(200101,200,0,"考勤扣款"),option(190104,190,0,"原始请假"),option(110101,110,2,"公司社保"),option(210101,210,1,"应发汇总"));
   BigDecimal gross=new BigDecimal(basic).add(new BigDecimal(overtime)).subtract(new BigDecimal(deduction));HrmSalaryMonthEmployeeRecordDO result=new HrmSalaryMonthEmployeeRecordDO().setMonthRecordId(batch.getId()).setEmployeeId(1L).setExpectedPaySalary(gross).setRealPaySalary(gross).setOptionValues(Arrays.asList(value(10101,basic),value(180101,overtime),value(200101,deduction),value(190104,deduction),value(110101,"1000"),value(210101,gross.toPlainString())));
   HrmPayrollRunDO run=new HrmPayrollRunDO().setMonthRecordId(batch.getId()).setVersion(1).setInputSnapshot(JsonUtils.toJsonString(input)).setRuleSnapshot(JsonUtils.toJsonString(Collections.singletonMap("options",options))).setResultSnapshot(JsonUtils.toJsonString(Collections.singletonList(result)));runs.insert(run);return batch.getId();
  }
@@ -47,6 +47,27 @@ class HrmPayrollWageStructureServiceTest extends BaseDbUnitTest {
  @Test void missingPreviousPeriodDoesNotBecomeZeroComparison(){batches.deleteById(previousBatch);HrmPayrollWageStructureService.Result result=analyze();assertFalse(result.isPreviousReady());assertNull(result.getPreviousGross());assertNull(result.getDelta());assertNull(component(result,10101).getPrevious());assertTrue(component(result,10101).getSourceStatus().contains("上期无"));}
  @Test void missingCurrentPeriodDoesNotBecomeZeroOrExport(){batches.updateById(new HrmSalaryMonthRecordDO().setId(currentBatch).setStatus(11));HrmPayrollWageStructureService.Result result=analyze();assertFalse(result.isReady());assertNull(result.getGross());assertNull(component(result,10101).getAmount());assertServiceException(()->service.export(10L,2026,10,null,null,1L),PAYROLL_FINANCIAL_INVALID);}
  @Test void corruptedGrossOrCatalogCannotProducePlausiblePercentages(){HrmPayrollRunDO run=runs.selectById(currentRun);List<HrmSalaryMonthEmployeeRecordDO> rows=JsonUtils.parseArray(run.getResultSnapshot(),HrmSalaryMonthEmployeeRecordDO.class);rows.get(0).setExpectedPaySalary(new BigDecimal("11000"));runs.updateById(new HrmPayrollRunDO().setId(currentRun).setResultSnapshot(JsonUtils.toJsonString(rows)));assertServiceException(this::analyze,PAYROLL_COST_INVALID);}
+ @Test void zeroAttendanceDeductionUsesRealMinusTypeAndKeepsZeroComponent(){
+  period(2026,12,"6000","0","0");
+  HrmPayrollWageStructureService.Result result=service.analyze(10L,2026,12,null,null,1L);
+  amount("6000",result.getGross());amount("0",component(result,200101).getAmount());
+ }
+ @Test void computedUnknownOrMissingTypesUnderGrossCategoriesAreRejectedEvenAtZero(){
+  HrmPayrollRunDO original=runs.selectById(currentRun);
+  Map<String,Object> savedRules=JsonUtils.parseObject(original.getRuleSnapshot(),Map.class);
+  for(Integer invalid:Arrays.asList(2,99,null)){
+   List<HrmSalaryOptionDO> options=JsonUtils.parseArray(JsonUtils.toJsonString(savedRules.get("options")),HrmSalaryOptionDO.class);
+   options.stream().filter(o->Objects.equals(o.getCode(),10101)).findFirst().get().setType(invalid);
+   runs.updateById(new HrmPayrollRunDO().setId(currentRun).setRuleSnapshot(JsonUtils.toJsonString(Collections.singletonMap("options",options))));
+   assertServiceException(this::analyze,PAYROLL_COST_INVALID);
+  }
+  List<HrmSalaryOptionDO> options=JsonUtils.parseArray(JsonUtils.toJsonString(savedRules.get("options")),HrmSalaryOptionDO.class);
+  options.add(option(10999,10,2,"非法零值计算项"));
+  List<HrmSalaryMonthEmployeeRecordDO> rows=JsonUtils.parseArray(original.getResultSnapshot(),HrmSalaryMonthEmployeeRecordDO.class);
+  List<HrmSalaryMonthEmployeeRecordDO.OptionValue> values=new ArrayList<>(rows.get(0).getOptionValues());values.add(value(10999,"0"));rows.get(0).setOptionValues(values);
+  runs.updateById(new HrmPayrollRunDO().setId(currentRun).setRuleSnapshot(JsonUtils.toJsonString(Collections.singletonMap("options",options))).setResultSnapshot(JsonUtils.toJsonString(rows)));
+  assertServiceException(this::analyze,PAYROLL_COST_INVALID);
+ }
  @Test void duplicateWorkersAndInvalidAdjustmentLineageAreRejected(){HrmPayrollRunDO run=runs.selectById(currentRun);List<HrmSalaryMonthEmployeeRecordDO> rows=JsonUtils.parseArray(run.getResultSnapshot(),HrmSalaryMonthEmployeeRecordDO.class);rows.add(rows.get(0));runs.updateById(new HrmPayrollRunDO().setId(currentRun).setResultSnapshot(JsonUtils.toJsonString(rows)));assertServiceException(this::analyze,PAYROLL_COST_INVALID);runs.updateById(new HrmPayrollRunDO().setId(currentRun).setInputSnapshot(JsonUtils.toJsonString(Collections.singletonMap("sourceRunId",previousRun))));assertServiceException(this::analyze,PAYROLL_VERSION_CONFLICT);}
  @Test void itemRenamingPreservesBothPeriodLabelsAndFlagsChangedMeaning(){HrmPayrollRunDO run=runs.selectById(previousRun);Map<String,Object> rules=JsonUtils.parseObject(run.getRuleSnapshot(),Map.class);List<HrmSalaryOptionDO> options=JsonUtils.parseArray(JsonUtils.toJsonString(rules.get("options")),HrmSalaryOptionDO.class);options.get(0).setName("上期工资定义");runs.updateById(new HrmPayrollRunDO().setId(previousRun).setRuleSnapshot(JsonUtils.toJsonString(Collections.singletonMap("options",options))));HrmPayrollWageStructureRowVO row=component(analyze(),10101);assertEquals("基本工资",row.getName());assertEquals("上期工资定义",row.getPreviousName());assertTrue(row.getSourceStatus().contains("名称变化"));}
  @Test void zeroGrossRetainsRealAmountsWithoutFalseShares(){Long zero=period(2026,11,"9000","0","9000");HrmPayrollWageStructureService.Result result=service.analyze(10L,2026,11,null,null,1L);amount("0",result.getGross());assertTrue(result.getRows().stream().allMatch(r->r.getShare()==null));assertTrue(result.getSourceStatus().contains("非正"));}

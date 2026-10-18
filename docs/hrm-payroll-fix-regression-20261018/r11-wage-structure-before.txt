@@ -1,0 +1,236 @@
+Browser tab: 1, Title: "芋道管理系统 - 预算与成本分析", URL: "http://127.0.0.1:5173/hrm-payroll/analysis".
+0 AXWebArea 芋道管理系统 - 预算与成本分析, URL: 127.0.0.1:5173/hrm-payroll/analysis
+	1 container
+		2 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		278 container
+			279 menu bar
+				280 首页
+					281 text 首页
+				282 作者动态
+					283 text 作者动态
+				284 Boot 开发文档
+					285 text Boot 开发文档
+				286 Cloud 开发文档
+					287 text Cloud 开发文档
+				288 (collapsed) 系统管理, Secondary Actions: Expand
+					289 container
+						290 text 系统管理
+						291 image
+				292 (collapsed) 基础设施, Secondary Actions: Expand
+					293 container
+						294 text 基础设施
+						295 image
+				296 (collapsed) 支付管理, Secondary Actions: Expand
+					297 container
+						298 text 支付管理
+						299 image
+				300 (collapsed) 报表管理, Secondary Actions: Expand
+					301 container
+						302 text 报表管理
+						303 image
+				304 (collapsed) 工作流程, Secondary Actions: Expand
+					305 container
+						306 text 工作流程
+						307 image
+				308 (collapsed) 会员中心, Secondary Actions: Expand
+					309 container
+						310 text 会员中心
+						311 image
+				312 (expanded) 薪酬管理, Secondary Actions: Collapse
+					313 container
+						314 text 薪酬管理
+						315 image
+					316 menu
+						317 定调薪审批
+							318 text 定调薪审批
+						319 工时与加班
+							320 text 工时与加班
+						321 薪级薪档
+							322 text 薪级薪档
+						323 考勤归集与异常
+							324 text 考勤归集与异常
+						325 法人主体与归属
+							326 text 法人主体与归属
+						327 缴费政策与年度调基
+							328 text 缴费政策与年度调基
+						329 缴费实缴对账
+							330 text 缴费实缴对账
+						331 核算输入与就绪
+							332 text 核算输入与就绪
+						333 年度税务政策
+							334 text 年度税务政策
+						335 薪酬成本分摊
+							336 text 薪酬成本分摊
+						337 预算与成本分析
+							338 text 预算与成本分析
+						339 薪酬输入缺口工单
+							340 text 薪酬输入缺口工单
+						341 社保公积金工资差额
+							342 text 社保公积金工资差额
+						343 薪酬总览
+							344 text 薪酬总览
+						345 独立工资收回
+							346 text 独立工资收回
+						347 需求评审
+							348 text 需求评审
+						349 核算审批
+							350 text 核算审批
+						351 银行代发
+							352 text 银行代发
+						353 薪资公式
+							354 text 薪资公式
+				355 (collapsed) MALL 商城系统, Secondary Actions: Expand
+					356 container
+						357 text MALL 商城系统
+						358 image
+				359 (collapsed) EAM 资产管理, Secondary Actions: Expand
+					360 container
+						361 text EAM 资产管理
+						362 image
+				363 (collapsed) CRM 系统, Secondary Actions: Expand
+					364 container
+						365 text CRM 系统
+						366 image
+				367 (collapsed) ERP 系统, Secondary Actions: Expand
+					368 container
+						369 text ERP 系统
+						370 image
+				371 (collapsed) WMS 系统, Secondary Actions: Expand
+					372 container
+						373 text WMS 系统
+						374 image
+				375 (collapsed) MES 系统, Secondary Actions: Expand
+					376 container
+						377 text MES 系统
+						378 image
+				379 (collapsed) OA 办公协同, Secondary Actions: Expand
+					380 container
+						381 text OA 办公协同
+						382 image
+				383 (collapsed) HRM 人力资源, Secondary Actions: Expand
+					384 container
+						385 text HRM 人力资源
+						386 image
+				387 (collapsed) FMS 财务管理, Secondary Actions: Expand
+					388 container
+						389 text FMS 财务管理
+						390 image
+				391 (collapsed) PMS 项目管理, Secondary Actions: Expand
+					392 container
+						393 text PMS 项目管理
+						394 image
+				395 (collapsed) AI 大模型, Secondary Actions: Expand
+					396 container
+						397 text AI 大模型
+						398 image
+				399 (collapsed) IoT 物联网, Secondary Actions: Expand
+					400 container
+						401 text IoT 物联网
+						402 image
+				403 (collapsed) IM 即时通讯, Secondary Actions: Expand
+					404 container
+						405 text IM 即时通讯
+						406 image
+				407 (collapsed) MP 公众号管理, Secondary Actions: Expand
+					408 container
+						409 text MP 公众号管理
+						410 image
+				411 (collapsed) CMS 内容管理, Secondary Actions: Expand
+					412 container
+						413 text CMS 内容管理
+						414 image
+		139 container
+			140 container v-tool-header
+				141 container 面包屑
+					142 link 薪酬管理
+						143 text 薪酬管理
+					144 text /
+					145 link 预算与成本分析
+						146 text 预算与成本分析
+				147 container
+					148 combo box (collapsed, settable) ID: el-id-6687-68, Secondary Actions: Expand
+					149 text 请选择租户
+					150 image
+				151 container
+					152 container
+						153 combo box (collapsed, settable) ID: el-id-6687-69, Secondary Actions: Expand
+						154 text 请输入菜单内容
+				155 pop up button (collapsed) ID: el-id-6687-6, Secondary Actions: Expand
+				156 pop up button (collapsed) ID: el-id-6687-11, Secondary Actions: Expand
+				157 pop up button (collapsed) ID: el-id-6687-16, Secondary Actions: Expand
+			158 container v-tags-view
+				159 container
+					160 pop up button (collapsed) 首页, ID: el-id-6687-22, Secondary Actions: Expand
+						161 container
+							162 text 首页
+					163 pop up button (collapsed) 预算与成本分析, ID: el-id-6687-30, Secondary Actions: Expand
+						164 container
+							165 text 预算与成本分析
+				166 pop up button (collapsed) ID: el-id-6687-38, Secondary Actions: Expand
+			167 container
+				168 button 本模块需求（报表分析）
+				169 button 候选数据源（4）
+			170 text 实际采用已批准的冻结工资成本报表，按计薪期间归集；金额单位为元，编制单位为人。空白营收/预算/编制表示未提供，确认零值另行保存；分母缺失或为零时不计算比率。
+			171 container
+				172 text 法人主体
+				173 container
+					174 combo box (collapsed, settable) 法人主体, ID: el-id-6687-70, Secondary Actions: Expand
+					235 text 隔离浏览器全流程主体（虚构）
+					176 image
+				177 text 期间
+				178 container
+					179 image
+					180 combo box (collapsed, settable) 期间, Value: 2026-10, ID: el-id-6687-71, Secondary Actions: Expand
+				181 button 查询
+			182 container
+				183 tab group
+					184 tab (selected, settable, boolean) 工资结构及环比, Value: 1, ID: tab-structure
+					185 tab (selectable, settable, boolean) 预算与实际分析, Value: 0, ID: tab-analysis
+					186 tab (selectable, settable, boolean) 预算、营收及编制版本, Value: 0, ID: tab-plans
+					187 tab (selectable, settable, boolean) Excel 预校验与导入, Value: 0, ID: tab-import
+					188 tab (selectable, settable, boolean) 期间审批与导出履历, Value: 0, ID: tab-history
+			236 container Description: 工资结构及环比, ID: pane-structure
+				237 text 按冻结工资及原计薪日的历史部门、人员类别统计，环比对照上一计薪月。只纳入计入应发的工资项，扣减为负；原始考勤明细、个人代扣和单位成本不重复相加。
+				238 container
+					239 text 历史部门
+					240 container
+						241 combo box (collapsed, settable) 历史部门, ID: el-id-6687-88, Secondary Actions: Expand
+						242 text 请选择
+						243 image
+					244 text 人员类别
+					245 container
+						246 combo box (collapsed, settable) 人员类别, ID: el-id-6687-89, Secondary Actions: Expand
+						247 text 全部历史人员类别
+						248 image
+					249 button 查询结构
+					250 button (disabled) 导出结构及环比
+				251 container
+					252 table
+						253 row
+							254 cell
+								255 text 工资项编码
+							256 cell
+								257 text 本期工资项
+							258 cell
+								259 text 上期名称
+							260 cell
+								261 text 本期金额（元）
+							262 cell
+								263 text 占应发比例%
+							264 cell
+								265 text 上期金额（元）
+							266 cell
+								267 text 环比金额（元）
+							268 cell
+								269 text 变化率%
+							270 cell
+								271 text 对比说明
+					272 container
+						273 table
+						274 text 暂无数据
+			234 text Copyright ©2026 芋道管理系统
+	275 container notification_1
+		276 heading 成本分摊比例、历史归属、工资/单位缴费来源或审批状态不合法, Value: 2
+			277 text 成本分摊比例、历史归属、工资/单位缴费来源或审批状态不合法
+
+The focused UI element is 184 tab (selected, settable, boolean) 工资结构及环比, Value: 1, ID: tab-structure
