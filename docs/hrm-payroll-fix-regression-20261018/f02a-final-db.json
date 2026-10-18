@@ -1,0 +1,20 @@
+{
+  "originalRequirements": 46,
+  "originalHistory": 50,
+  "originalDataUnchanged": true,
+  "syntheticRequirementId": 47,
+  "version": 19,
+  "historyCount": 19,
+  "status": "REVIEWING",
+  "readiness": "MISSING",
+  "signatureEmpty": true,
+  "addedVersions": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ]
+}

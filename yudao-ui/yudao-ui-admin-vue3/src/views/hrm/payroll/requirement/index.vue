@@ -94,7 +94,7 @@
           <el-button link @click="showHistory(row)">历史</el-button>
           <el-button
             v-if="['PENDING', 'REVIEWING', 'DISPUTED'].includes(row.status)"
-            v-hasPermi="['hrm:payroll:requirement:update']"
+            v-hasPermi="['hrm:payroll:requirement:confirm']"
             link
             type="primary"
             :disabled="loading || saving || confirming || row.reviewerId !== userStore.getUser.id"

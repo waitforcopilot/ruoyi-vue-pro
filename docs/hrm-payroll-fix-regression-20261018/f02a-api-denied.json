@@ -1,0 +1,13 @@
+{
+  "account": "hrmacceptoperator",
+  "hasQuery": true,
+  "hasUpdate": true,
+  "hasConfirm": false,
+  "confirmResultCode": 403,
+  "historyUnchanged": true,
+  "id": 47,
+  "version": 16,
+  "reviewerId": 251,
+  "status": "REVIEWING",
+  "signatureEmpty": true
+}

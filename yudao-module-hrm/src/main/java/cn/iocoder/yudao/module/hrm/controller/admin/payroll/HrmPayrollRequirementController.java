@@ -24,7 +24,7 @@ public class HrmPayrollRequirementController {
     public CommonResult<List<HrmPayrollRequirementDO>> list(@RequestParam(required=false) String module){return success(service.list(module));}
     @PostMapping("/save") @PreAuthorize("@ss.hasPermission('hrm:payroll:requirement:update')")
     public CommonResult<Long> save(@Valid @RequestBody HrmPayrollRequirementSaveReqVO request){return success(service.save(request,getLoginUserId()));}
-    @PostMapping("/confirm") @PreAuthorize("@ss.hasPermission('hrm:payroll:requirement:update')")
+    @PostMapping("/confirm") @PreAuthorize("@ss.hasPermission('hrm:payroll:requirement:query') and @ss.hasPermission('hrm:payroll:requirement:confirm')")
     public CommonResult<Boolean> confirm(@Valid @RequestBody cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollRequirementConfirmReqVO request){
         service.confirm(request.getId(),request.getVersion(),getLoginUserId());return success(true);
     }
