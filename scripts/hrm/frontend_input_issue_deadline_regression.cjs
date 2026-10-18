@@ -45,7 +45,8 @@ function harness() {
   };
   vm.runInNewContext(
     ts.transpileModule(
-      body + "\nexports.s={batchId,draft,dialog,openAssign,openCreate,save};",
+      body +
+        "\nexports.s={entityId,batchId,draft,dialog,openAssign,openCreate,save};",
       {
         compilerOptions: {
           module: ts.ModuleKind.CommonJS,
@@ -55,6 +56,7 @@ function harness() {
     ).outputText,
     ctx,
   );
+  ctx.exports.s.entityId.value = 4;
   ctx.exports.s.batchId.value = 7;
   return { s: ctx.exports.s, posts };
 }

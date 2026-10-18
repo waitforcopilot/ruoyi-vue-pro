@@ -233,6 +233,28 @@ const normalizeDateTime = (value: string | number | null | undefined) => {
 }
 let historyVersion = 0
 let active = true
+let formVersion = 0
+const captureForm = () => ({
+  version: formVersion,
+  entityId: entityId.value,
+  batchId: batchId.value,
+  employeeId: employeeId.value
+})
+let formContext: ReturnType<typeof captureForm> | undefined
+const isCurrentForm = (context: ReturnType<typeof captureForm>) =>
+  active &&
+  context.version === formVersion &&
+  context.entityId === entityId.value &&
+  context.batchId === batchId.value &&
+  context.employeeId === employeeId.value
+function clearForm() {
+  formVersion++
+  formContext = undefined
+  dialog.value = false
+  saving.value = false
+  people.owners = []
+  people.reviewers = []
+}
 function clearHistory() {
   historyVersion++
   historyVisible.value = false
@@ -240,6 +262,7 @@ function clearHistory() {
   events.value = []
 }
 async function changeEntity() {
+  clearForm()
   clearHistory()
   batchId.value = undefined
   employeeId.value = undefined
@@ -252,6 +275,7 @@ async function changeEntity() {
   )
 }
 async function loadBatch() {
+  clearForm()
   clearHistory()
   if (!batchId.value) return
   loading.value = true
@@ -269,6 +293,7 @@ async function loadBatch() {
   }
 }
 async function loadSignals() {
+  clearForm()
   signals.value = []
   if (!employeeId.value || !batchId.value) return
   loading.value = true
@@ -281,40 +306,54 @@ async function loadSignals() {
     loading.value = false
   }
 }
-async function options(id: number) {
-  Object.assign(
-    people,
-    await request.get({
-      url: base + '/options',
-      params: { batchId: batchId.value, employeeId: id }
-    })
-  )
+async function options(id: number, selectedBatch: number) {
+  return await request.get({
+    url: base + '/options',
+    params: { batchId: selectedBatch, employeeId: id }
+  })
 }
 async function openCreate(row: any) {
-  await options(row.employeeId)
+  clearForm()
+  if (!entityId.value || !batchId.value) return
+  const context = captureForm()
+  const selected = { ...row }
+  const result = await options(selected.employeeId, batchId.value)
+  if (!isCurrentForm(context)) return
+  Object.assign(people, result)
   Object.assign(draft, {
     id: undefined,
-    batchId: batchId.value,
-    employeeId: row.employeeId,
-    kind: row.kind,
+    batchId: context.batchId,
+    employeeId: selected.employeeId,
+    kind: selected.kind,
     ownerId: undefined,
     reviewerId: undefined,
     dueTime: dayjs().add(2, 'day').format('YYYY-MM-DDTHH:mm:ss'),
     reason: '',
     requestKey: crypto.randomUUID()
   })
+  formContext = context
   dialog.value = true
 }
 async function openAssign(row: any) {
-  await options(row.employeeId)
+  clearForm()
+  if (!entityId.value || !batchId.value || (row.batchId != null && row.batchId !== batchId.value))
+    return
+  const context = captureForm()
+  const selected = { ...row }
+  const result = await options(selected.employeeId, batchId.value)
+  if (!isCurrentForm(context)) return
+  Object.assign(people, result)
   Object.assign(draft, {
-    ...row,
-    dueTime: normalizeDateTime(row.dueTime),
+    ...selected,
+    dueTime: normalizeDateTime(selected.dueTime),
     reason: ''
   })
+  formContext = context
   dialog.value = true
 }
 async function save() {
+  const context = formContext
+  if (!context || !dialog.value || !isCurrentForm(context) || saving.value) return
   saving.value = true
   try {
     const data = draft.id
@@ -327,11 +366,12 @@ async function save() {
         }
       : { ...draft }
     await request.post({ url: base + (draft.id ? '/reassign' : '/create'), data })
+    if (!isCurrentForm(context) || formContext !== context) return
     dialog.value = false
     message.success('工单已保存')
     await loadBatch()
   } finally {
-    saving.value = false
+    if (isCurrentForm(context) && formContext === context) saving.value = false
   }
 }
 async function note(title: string) {
@@ -378,6 +418,7 @@ async function history(id: number) {
 onMounted(async () => Object.assign(selectors, await request.get({ url: base + '/selectors' })))
 onBeforeUnmount(() => {
   active = false
+  clearForm()
   clearHistory()
 })
 </script>
