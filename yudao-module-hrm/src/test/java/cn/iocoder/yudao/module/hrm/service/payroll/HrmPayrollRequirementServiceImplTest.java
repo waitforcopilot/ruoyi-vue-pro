@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import static org.junit.jupiter.api.Assertions.*;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
-@Import(HrmPayrollRequirementServiceImpl.class)
+@Import({HrmPayrollRequirementServiceImpl.class,HrmPayrollRequirementProjectService.class})
 class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
  @Resource private HrmPayrollRequirementService service;
  @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.system.api.user.AdminUserApi users;

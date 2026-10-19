@@ -1,0 +1,7 @@
+{
+  "project": 4,
+  "sequenceBefore": 9,
+  "sequenceAfterRejectedCreation": 9,
+  "rejectedCreationLeavesNoRequirementOrHistory": true,
+  "errorCode": 1050810040
+}

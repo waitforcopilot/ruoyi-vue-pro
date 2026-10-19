@@ -1,0 +1,24 @@
+{
+  "head": "e7fbed579348298a0f53bafde83d9f39996982f8",
+  "tables": {
+    "hrm_payroll_requirement": {
+      "rows": 47,
+      "sha256": "1153fbcbd638d62a66def503217c8b549bdf1071fd8c72733337e728bcd42313"
+    },
+    "hrm_payroll_requirement_history": {
+      "rows": 76,
+      "sha256": "6dbf222f13e5dd343498190f58aae4e0bc56e675ca2d27062cba0df3676a102a"
+    },
+    "hrm_payroll_requirement_project": {
+      "rows": 1,
+      "sha256": "997d160264acd869ee461bd1360e0ac8844ea6b55a11212ed456cdf187a6261e"
+    },
+    "system_role_menu": {
+      "rows": 1814,
+      "sha256": "3d287e82d6a72de2118339de2c7cbf188c223105a0a09707042ed7901282f3cd"
+    }
+  },
+  "privateBackup": "~/.hrm-payroll-local/backups/",
+  "privateBaseline": "~/.hrm-payroll-local/stage1-20261019/before.json",
+  "agentsFound": false
+}

@@ -1,0 +1,27 @@
+{
+  "userAuthorization": "explicit human reply 2026-10-19",
+  "syntheticGrantsOnly": true,
+  "globalRolesUnchanged": true,
+  "cases": [
+    {
+      "case": "EXTEND",
+      "projectId": 15,
+      "scopeVersion": 2,
+      "inherited": "MATCH",
+      "subset": "MATCH",
+      "oldSignaturesRetainedInHistory": true,
+      "currentSignaturesCleared": true,
+      "staleScopeAndBeyondAuthorityRejected": true
+    },
+    {
+      "case": "PERIOD",
+      "projectId": 16,
+      "scopeVersion": 2,
+      "inherited": "MATCH",
+      "subset": "SCOPE_MISMATCH",
+      "oldSignaturesRetainedInHistory": true,
+      "currentSignaturesCleared": true,
+      "staleScopeAndBeyondAuthorityRejected": true
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "projects": {
+    "A": 13,
+    "B": 14,
+    "ordinaryEditor": 4
+  },
+  "projectARequirements": 46,
+  "projectBRequirements": 46,
+  "parallelInitializationAdded": [
+    0,
+    46,
+    0,
+    46
+  ],
+  "sameCodesDistinctIds": true,
+  "crossProjectEditsAndHistoryDenied": true,
+  "ordinaryEditorForeignProjectDenied": true,
+  "ordinaryEditorOwnProjectSaves": 3,
+  "customUnique": true,
+  "metadataOnlyChange": true,
+  "ownerScopeAuthorityDenied": true,
+  "legacyListIsolated": true,
+  "browserAcceptance": "NOT_RUN"
+}

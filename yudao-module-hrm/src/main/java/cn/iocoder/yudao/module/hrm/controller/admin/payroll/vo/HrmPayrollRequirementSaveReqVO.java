@@ -4,6 +4,10 @@ import javax.validation.constraints.*;
 @Data
 public class HrmPayrollRequirementSaveReqVO {
     private Long id;
+    @Positive private Long projectId;
+    @Min(1) private Integer projectScopeVersion;
+    @Pattern(regexp="INHERIT|SUBSET") private String scopeMode;
+    private String scopeJson;
     @NotBlank @Pattern(regexp="[A-Z][A-Z0-9]*-[0-9]{2,6}") @Size(max=64) private String code;
     @NotBlank @Pattern(regexp="OV|PLAN|CALC|TAX|ATT|OT|HOUR|INS|RPT|COL") private String module;
     @NotBlank @Size(max=1000) private String description;

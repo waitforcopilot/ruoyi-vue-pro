@@ -1,0 +1,29 @@
+{
+  "restoreDatabase": "hrm_s1_restore_20261019",
+  "restoredFromPrivateBackup": true,
+  "migrationAppliedTwice": true,
+  "matchingPrivateConfigAndKeyFilePreserved": true,
+  "tables": {
+    "hrm_payroll_requirement": {
+      "originalRows": 47,
+      "restoredOldColumnsUnchanged": true,
+      "currentOriginalRowsUnchanged": true
+    },
+    "hrm_payroll_requirement_history": {
+      "originalRows": 76,
+      "restoredOldColumnsUnchanged": true,
+      "currentOriginalRowsUnchanged": true
+    },
+    "hrm_payroll_requirement_project": {
+      "originalRows": 1,
+      "restoredOldColumnsUnchanged": true,
+      "currentOriginalRowsUnchanged": true
+    },
+    "system_role_menu": {
+      "originalRows": 1814,
+      "restoredOldColumnsUnchanged": true,
+      "currentOriginalRowsUnchanged": true
+    }
+  },
+  "testDatabaseRetainedForInspection": true
+}

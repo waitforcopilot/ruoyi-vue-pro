@@ -1,0 +1,12 @@
+{
+  "apiExportRowsByProject": {
+    "9": 48,
+    "10": 46,
+    "13": 46,
+    "14": 46
+  },
+  "browserExportRowsAtDownload": 5,
+  "allExportRowsBoundToRequestedProject": true,
+  "foreignExportRejected": true,
+  "rejectedOldScopeAddsNoHistoryOrProjectEvent": true
+}

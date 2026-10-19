@@ -1,0 +1,125 @@
+{
+  "baseHead": "e7fbed579348298a0f53bafde83d9f39996982f8",
+  "files": [
+    {
+      "path": "scripts/hrm/runtime_workbench_stage1.py",
+      "sha256": "5eedce5e7ebec02caa49723d484e1ec2298c5a0c4a855e5bc5b5816db064d49e"
+    },
+    {
+      "path": "sql/mysql/upgrade/20261019-hrm-requirement-workbench.sql",
+      "sha256": "97220fde551d76ad4064194995800eebffb1f01e825fee442e9614041bd377d6"
+    },
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/controller/admin/payroll/HrmPayrollRequirementController.java",
+      "sha256": "9dba2368500bac0a0c9a3901e09fd8e0949d971080b1f13361b28f80d3c6d8b6"
+    },
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/controller/admin/payroll/HrmPayrollRequirementProjectController.java",
+      "sha256": "dd5208c9f7c3a9abfc9f2054bf1775bfb563073d28c3cb388133e0aa9d38b54c"
+    },
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/controller/admin/payroll/vo/HrmPayrollRequirementAssignReqVO.java",
+      "sha256": "5bc268a82f67bd829614431cbc58255842855e8c9350f4b45a6598d16dfa4919"
+    },
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/controller/admin/payroll/vo/HrmPayrollRequirementConfirmReqVO.java",
+      "sha256": "24dbe74510908090e3817c7a7aa32adee15a7eac5b0e824df5729a2241b8c63e"
+    },
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/controller/admin/payroll/vo/HrmPayrollRequirementProjectReqVO.java",
+      "sha256": "07a5d8566d97405842b389a9be9701b13e6265aa9ae2c1b8ae0627188dd3d46c"
+    },
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/controller/admin/payroll/vo/HrmPayrollRequirementSaveReqVO.java",
+      "sha256": "a8a32219d539ff2ee83dcc9ad454d5f0670a0ad4ccf146d0f2e767ad11786ff2"
+    },
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/dal/dataobject/payroll/HrmPayrollRequirementDO.java",
+      "sha256": "83023d6ea153361ff1a3940c8069603a2295b8e7d666c9db624ab3155d4eb607"
+    },
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/dal/dataobject/payroll/HrmPayrollRequirementProjectDO.java",
+      "sha256": "d56b393b273e5cf48123623f32964576d74fb58dde56fa746818fa7371479c56"
+    },
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/dal/dataobject/payroll/HrmPayrollRequirementProjectEventDO.java",
+      "sha256": "a029a33204d8c9d533e803c7886af2d0317344b38bf5f92b1a7aa7d32dcf4539"
+    },
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/dal/dataobject/payroll/HrmPayrollRequirementProjectGrantDO.java",
+      "sha256": "0084083d1bdfcd0a6cfcdc31e22bc3a4e2b8b6e8ddaf22379147920b68db0a1c"
+    },
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/dal/dataobject/payroll/HrmPayrollRequirementTemplateDO.java",
+      "sha256": "212edcc8d1d3a7d77532628d0a854419c85fe669bde297c2dcc364e8ac14d5ea"
+    },
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/dal/mysql/payroll/HrmPayrollRequirementProjectEventMapper.java",
+      "sha256": "7ba58314548abc0fdf382b1eab2b0c6f5d7d798b46ea3bdb1035e3ff7d62b53e"
+    },
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/dal/mysql/payroll/HrmPayrollRequirementProjectGrantMapper.java",
+      "sha256": "256669fa56ee97907d70babd01f6102839626dcb7ad022a69bb494ddab962030"
+    },
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/dal/mysql/payroll/HrmPayrollRequirementTemplateMapper.java",
+      "sha256": "6f165d2447f7616320938bc6e8b4c375a024a3c5e94037f5b45b56cf75dfe2f0"
+    },
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/enums/ErrorCodeConstants.java",
+      "sha256": "a1992355c37609df7cef9214dc66a8fabcb37cb4dddcd09a181d5cbb90f518b6"
+    },
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/framework/datapermission/HrmPayrollDataPermissionRule.java",
+      "sha256": "818bfcdeeb346fcae1fcbbd29aea16e0e24fbe10c68b2dd2d8a2d49656d7ca08"
+    },
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementProjectService.java",
+      "sha256": "b8360cc3c2feafe61b902830c74a4ef7854de915c98557875100a70824be6ba5"
+    },
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementScope.java",
+      "sha256": "e7d2dc7baac811e0295c81213b8e3a5650f069c020aa8e9c06c3fa059f1192a2"
+    },
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementServiceImpl.java",
+      "sha256": "063827639c9a3b78122ee167a95d34f4ce3f31fb33089e80c64d8b7ea037e7c6"
+    },
+    {
+      "path": "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/controller/admin/payroll/HrmPayrollRequirementPermissionTest.java",
+      "sha256": "cebe2701aab6ba79efa370ef81be73c7813f60cb12b01220af694cbacda88e52"
+    },
+    {
+      "path": "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementProjectServiceTest.java",
+      "sha256": "079fa9c66d2976f2606578af786dc35fbb6772fb6cc051332423dd3eaef47906"
+    },
+    {
+      "path": "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementServiceImplTest.java",
+      "sha256": "ebc515d2139b6540067c91dc4c614e1a78b9c23d8b68b5cb79594b7a6da5b260"
+    },
+    {
+      "path": "yudao-module-hrm/src/test/resources/sql/clean.sql",
+      "sha256": "22225cbb3313ecd843c9967748b5713a9c8fd2728e87a6877bf82665d9dab023"
+    },
+    {
+      "path": "yudao-module-hrm/src/test/resources/sql/create_tables.sql",
+      "sha256": "2865ba2b3cc943e8a85559295c4247739a2dd3462b32748dae0981f38efdca1c"
+    },
+    {
+      "path": "yudao-ui/yudao-ui-admin-vue3/src/api/hrm/payroll/requirement.ts",
+      "sha256": "0b979c50ad3cfd00c25596e56278b1aee363ba28d303b42c0ab604441ad75ee8"
+    },
+    {
+      "path": "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/ProjectPanel.vue",
+      "sha256": "48ff825080035097e93b142390804aae3f83c2da6b20af47b976e69423404dcf"
+    },
+    {
+      "path": "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/ScopeFields.vue",
+      "sha256": "20df8d6bee70357962bd89566aa3ce0d7fdcd8ff87509cd12f7b6848fc8a665f"
+    },
+    {
+      "path": "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/index.vue",
+      "sha256": "67bca26794a06693d730560f49346a5d9dfe8a0f47007aed1be554451c7b7dc2"
+    }
+  ]
+}

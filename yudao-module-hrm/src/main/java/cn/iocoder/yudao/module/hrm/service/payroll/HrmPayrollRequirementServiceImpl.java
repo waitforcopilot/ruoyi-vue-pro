@@ -21,6 +21,7 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
     @Resource private cn.iocoder.yudao.module.system.api.permission.PermissionApi permissions;
     @Resource private HrmPayrollRequirementHistoryMapper historyMapper;
     @Resource private HrmPayrollRequirementProjectMapper projectMapper;
+    @Resource private HrmPayrollRequirementProjectService projectService;
     private static final String[][] SEEDS = {
         {"OV-01", "总览层汇总指标（应发/实发/法定成本/个税）的统计口径定义"},
         {"OV-02", "核算期间切换与历史批次查询"},
@@ -83,42 +84,58 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         return project.getId();
     }
     @Override public List<HrmPayrollRequirementDO> list(String module) {
+        HrmPayrollRequirementProjectDO p=legacyProject();
+        if(p==null) return java.util.Collections.emptyList();
         return mapper.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementDO>()
-            .eqIfPresent(HrmPayrollRequirementDO::getModule, module).orderByAsc(HrmPayrollRequirementDO::getCode));
+            .eq(HrmPayrollRequirementDO::getProjectId,p.getId()).eqIfPresent(HrmPayrollRequirementDO::getModule, module).orderByAsc(HrmPayrollRequirementDO::getCode));
     }
     @Override @Transactional(rollbackFor=Exception.class)
     public Long save(HrmPayrollRequirementSaveReqVO request, Long actorId) {
-        return saveInternal(request,actorId,false);
+        return saveInternal(request,actorId,false,"EDIT");
     }
     @Override @Transactional(rollbackFor=Exception.class)
     public void confirm(Long id,Integer version,Long actorId) {
         if(id==null||version==null||version<1||actorId==null) throw exception(PAYROLL_REQUIREMENT_CONFIRM_ACTION_REQUIRED);
+        guardTarget(id,actorId,"CONFIRM");
         HrmPayrollRequirementDO row=mapper.selectOneForUpdate(HrmPayrollRequirementDO::getId,id);
         if(row==null) throw exception(PAYROLL_REQUIREMENT_NOT_EXISTS);
         if(!Objects.equals(row.getVersion(),version)) throw exception(PAYROLL_VERSION_CONFLICT);
         if(!java.util.Arrays.asList("PENDING","REVIEWING","DISPUTED").contains(row.getStatus()))
             throw exception(PAYROLL_REQUIREMENT_CONFIRM_ACTION_REQUIRED);
         HrmPayrollRequirementSaveReqVO request=BeanUtils.toBean(row,HrmPayrollRequirementSaveReqVO.class);
+        if("LEGACY".equals(projectMapper.selectById(row.getProjectId()).getProjectKey()))request.setProjectId(null);
         request.setStatus("CONFIRMED");
-        saveInternal(request,actorId,true);
+        saveInternal(request,actorId,true,"CONFIRM");
     }
     @Override @Transactional(rollbackFor=Exception.class)
     public void assign(Long id,Integer version,Long reviewerId,Long actorId) {
         if(actorId==null || !permissions.hasAnyPermissions(actorId,"hrm:payroll:requirement:assign"))
             throw exception(PAYROLL_REQUIREMENT_ASSIGN_FORBIDDEN);
         if(id==null || version==null || version<1) throw exception(PAYROLL_VERSION_CONFLICT);
+        guardTarget(id,actorId,"ASSIGN");
         HrmPayrollRequirementDO row=mapper.selectOneForUpdate(HrmPayrollRequirementDO::getId,id);
         if(row==null) throw exception(PAYROLL_REQUIREMENT_NOT_EXISTS);
         if(!Objects.equals(row.getVersion(),version)) throw exception(PAYROLL_VERSION_CONFLICT);
         if(Objects.equals(row.getReviewerId(),reviewerId)) return;
         HrmPayrollRequirementSaveReqVO request=BeanUtils.toBean(row,HrmPayrollRequirementSaveReqVO.class);
+        if("LEGACY".equals(projectMapper.selectById(row.getProjectId()).getProjectKey()))request.setProjectId(null);
         request.setReviewerId(reviewerId);
-        saveInternal(request,actorId,false);
+        saveInternal(request,actorId,false,"ASSIGN");
     }
-    private Long saveInternal(HrmPayrollRequirementSaveReqVO request,Long actorId,boolean confirming) {
+    private Long saveInternal(HrmPayrollRequirementSaveReqVO request,Long actorId,boolean confirming,String action) {
+        HrmPayrollRequirementProjectDO selected=null;
+        if(request.getId()!=null) guardTarget(request.getId(),actorId,action);
+        if(request.getProjectId()!=null) {
+            selected=projectService.check(request.getProjectId(),actorId,action,true);
+            projectService.version(selected,request.getProjectScopeVersion());
+        }
         HrmPayrollRequirementDO previous = request.getId()==null ? null : mapper.selectOneForUpdate(HrmPayrollRequirementDO::getId, request.getId());
         if (request.getId()!=null && previous==null) throw exception(PAYROLL_REQUIREMENT_NOT_EXISTS);
         if (previous!=null && !Objects.equals(previous.getVersion(),request.getVersion())) throw exception(PAYROLL_VERSION_CONFLICT);
+        if(previous!=null && request.getProjectId()!=null && !Objects.equals(previous.getProjectId(),request.getProjectId()))throw exception(PAYROLL_PROJECT_DENIED);
+        if(previous!=null && !"LEGACY".equals(projectMapper.selectById(previous.getProjectId()).getProjectKey()) && request.getProjectId()==null)throw exception(PAYROLL_PROJECT_DENIED);
+        if(selected!=null && previous!=null && !Objects.equals(previous.getCode(),request.getCode()))throw exception(PAYROLL_PROJECT_DENIED);
+        if(selected!=null && previous==null) request.setCode(projectService.nextCode(selected));
         boolean invalidate=previous!=null && "CONFIRMED".equals(previous.getStatus()) && reviewContractChanged(previous,request);
         if(invalidate && "CONFIRMED".equals(request.getStatus())) {
             request=BeanUtils.toBean(request,HrmPayrollRequirementSaveReqVO.class);
@@ -151,11 +168,18 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
             if (!Objects.equals(actorId, request.getReviewerId()) || !meaningfulMapping(request.getFieldMapping()))
                 throw exception(PAYROLL_REQUIREMENT_CONFIRMATION_INVALID);
         }
-        HrmPayrollRequirementDO duplicate=mapper.selectOne(HrmPayrollRequirementDO::getCode,request.getCode());
+        Long targetProject=selected==null ? (previous==null?ensureLegacyProject():previous.getProjectId()) : selected.getId();
+        HrmPayrollRequirementDO duplicate=mapper.selectOne(new LambdaQueryWrapperX<HrmPayrollRequirementDO>().eq(HrmPayrollRequirementDO::getProjectId,targetProject).eq(HrmPayrollRequirementDO::getCode,request.getCode()));
         if (duplicate!=null && !Objects.equals(duplicate.getId(),request.getId())) throw exception(PAYROLL_REQUIREMENT_DUPLICATE);
         HrmPayrollRequirementDO record=BeanUtils.toBean(request,HrmPayrollRequirementDO.class);
         // Project identity is server-owned. The legacy API cannot move an existing requirement.
-        record.setProjectId(previous==null ? ensureLegacyProject() : previous.getProjectId());
+        record.setProjectId(targetProject);
+        if(previous!=null){record.setTemplateItemId(previous.getTemplateItemId());record.setTemplateVersion(previous.getTemplateVersion());record.setScopeDecision(previous.getScopeDecision());}
+        if(selected!=null) {
+            projectService.bind(record,selected,request.getScopeMode(),request.getScopeJson());
+            if("CONFIRMED".equals(record.getStatus()) && (selected.getProjectScopeVersion()==null || !"MATCH".equals(record.getScopeState())))throw exception(PAYROLL_PROJECT_SCOPE_STALE);
+            if("CONFIRMED".equals(record.getStatus())){record.setConfirmedScopeVersion(selected.getProjectScopeVersion());record.setConfirmedScopeJson(record.getScopeJson());}
+        }
         if(record.getProjectId()==null) throw exception(PAYROLL_REVIEW_INCOMPLETE);
         record.setVersion(previous==null ? 1 : previous.getVersion()+1);
         if ("CONFIRMED".equals(record.getStatus())) {
@@ -167,6 +191,8 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         else {
             record.setUpdater(String.valueOf(actorId));
             record.setUpdateTime(LocalDateTime.now());
+            // Persist scope fields explicitly alongside the existing nullable review contract.
+            if(selected!=null) mapper.update(null,new com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper<HrmPayrollRequirementDO>().eq(HrmPayrollRequirementDO::getId,record.getId()).set(HrmPayrollRequirementDO::getScopeMode,record.getScopeMode()).set(HrmPayrollRequirementDO::getScopeJson,record.getScopeJson()).set(HrmPayrollRequirementDO::getScopeState,record.getScopeState()).set(HrmPayrollRequirementDO::getProjectScopeVersion,record.getProjectScopeVersion()).set(HrmPayrollRequirementDO::getConfirmedScopeVersion,record.getConfirmedScopeVersion()).set(HrmPayrollRequirementDO::getConfirmedScopeJson,record.getConfirmedScopeJson()));
             // Replace nullable review fields explicitly when returning to pending/reviewing.
             mapper.update(null,new com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper<HrmPayrollRequirementDO>()
                 .eq(HrmPayrollRequirementDO::getId,record.getId())
@@ -185,8 +211,16 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         history.setActorId(actorId);history.setSnapshot(JsonUtils.toJsonString(record));historyMapper.insert(history);
         return record.getId();
     }
+    private void guardTarget(Long id,Long actor,String action) {
+        HrmPayrollRequirementDO r=mapper.selectById(id);
+        if(r==null)return;
+        HrmPayrollRequirementProjectDO p=projectMapper.selectById(r.getProjectId());
+        if(p!=null && !"LEGACY".equals(p.getProjectKey()))projectService.check(p.getId(),actor,action,true);
+    }
     private boolean reviewContractChanged(HrmPayrollRequirementDO before,HrmPayrollRequirementSaveReqVO after) {
-        return !Objects.equals(before.getCode(),after.getCode())
+        return (after.getProjectId()!=null && !Objects.equals(before.getScopeMode(),after.getScopeMode()))
+            || (after.getProjectId()!=null && !Objects.equals(before.getScopeJson(),after.getScopeJson()))
+            || !Objects.equals(before.getCode(),after.getCode())
             || !Objects.equals(before.getModule(),after.getModule())
             || !Objects.equals(before.getDescription(),after.getDescription())
             || !Objects.equals(before.getFieldMapping(),after.getFieldMapping())
@@ -213,15 +247,16 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
     }
 
     @Override public List<HrmPayrollRequirementHistoryDO> history(Long id) {
+        guardTarget(id,cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId(),"READ");
         if (mapper.selectById(id)==null) throw exception(PAYROLL_REQUIREMENT_NOT_EXISTS);
         return historyMapper.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementHistoryDO>()
             .eq(HrmPayrollRequirementHistoryDO::getRequirementId,id).orderByDesc(HrmPayrollRequirementHistoryDO::getVersion));
     }
     @Override @Transactional(rollbackFor=Exception.class)
     public int initialize(Long actorId) {
-        int count=0;
+        int count=0;Long legacy=ensureLegacyProject();
         for(String[] seed:SEEDS) {
-            if(mapper.selectOne(HrmPayrollRequirementDO::getCode,seed[0])!=null) continue;
+            if(mapper.selectOne(new LambdaQueryWrapperX<HrmPayrollRequirementDO>().eq(HrmPayrollRequirementDO::getProjectId,legacy).eq(HrmPayrollRequirementDO::getCode,seed[0]))!=null) continue;
             HrmPayrollRequirementSaveReqVO request=new HrmPayrollRequirementSaveReqVO();
             request.setCode(seed[0]);request.setModule(seed[0].split("-")[0]);request.setDescription(seed[1]);
             request.setPriority(2);request.setStatus("PENDING");request.setReadiness("MISSING");save(request,actorId);count++;

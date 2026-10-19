@@ -1,4 +1,5 @@
 <template>
+  <ProjectPanel :key="projectId || 0" :project-id="projectId" @changed="load" />
   <ContentWrap>
     <el-alert
       class="mb-4"
@@ -8,7 +9,7 @@
           : projectError
             ? '需求或项目归属加载失败，请刷新重试'
             : project
-              ? `${project.name} · 项目编号 ${project.id} · ${project.projectScopeVersion == null ? '项目范围尚未定义，仅标识历史迁移归属' : '范围版本 ' + project.projectScopeVersion}`
+              ? `${project.name} · 项目编号 ${project.id} · ${project.projectScopeVersion == null ? (projectId == null ? '项目范围尚未定义，仅标识历史迁移归属' : '范围尚未定义，不能确认') : '范围版本 ' + project.projectScopeVersion}`
               : '尚无历史迁移项目，首次保存需求时建立归属'
       "
       :type="projectError ? 'error' : 'info'"
@@ -81,6 +82,11 @@
         ><template #default="{ row }">{{ readiness[row.readiness] }}</template></el-table-column
       >
       <el-table-column prop="sourceSystem" label="数据来源" min-width="160" />
+      <el-table-column label="范围适配" width="150"
+        ><template #default="{ row }">{{
+          scopeStates[row.scopeState] || '尚未定义'
+        }}</template></el-table-column
+      >
       <el-table-column prop="version" label="版本" width="70" />
       <el-table-column label="操作" width="280" fixed="right"
         ><template #default="{ row }">
@@ -166,7 +172,7 @@
       :label-position="width < 600 ? 'top' : 'right'"
     >
       <el-form-item label="编号" prop="code"
-        ><el-input v-model="form.code" placeholder="例如 PLAN-06"
+        ><el-input v-model="form.code" :disabled="!!projectId" placeholder="新项目编号由服务器分配"
       /></el-form-item>
       <el-form-item label="模块" prop="module"
         ><el-select v-model="form.module"
@@ -176,6 +182,15 @@
             :label="label"
             :value="key" /></el-select
       ></el-form-item>
+      <template v-if="projectId">
+        <el-form-item label="范围方式"
+          ><el-select v-model="form.scopeMode"
+            ><el-option label="继承项目范围" value="INHERIT" /><el-option
+              label="显式子集"
+              value="SUBSET" /></el-select
+        ></el-form-item>
+        <ScopeFields v-if="form.scopeMode === 'SUBSET'" v-model="form.scopeJson" />
+      </template>
       <el-form-item label="功能说明" prop="description"
         ><el-input v-model="form.description" type="textarea" :maxlength="1000"
       /></el-form-item>
@@ -263,6 +278,11 @@
       以下项目编号按当时快照展示；旧快照未记录时不推定归属。
     </div>
     <el-table :data="histories">
+      <el-table-column label="范围适配" width="150"
+        ><template #default="{ row }">{{
+          scopeStates[row.review.scopeState] || '历史未记录'
+        }}</template></el-table-column
+      >
       <el-table-column prop="version" label="版本" width="70" />
       <el-table-column label="操作人" width="100"
         ><template #default="{ row }">{{
@@ -279,6 +299,15 @@
           <div>快照需求ID：{{ row.review.id ?? '历史未记录' }}</div>
           <div>快照项目编号：{{ row.review.projectId ?? '历史未记录' }}</div>
           <div>当时编号：{{ row.review.code || '历史未记录' }}</div>
+          <div
+            >当时范围版本：{{ row.review.projectScopeVersion ?? '历史未定义' }} /
+            {{ row.review.scopeMode || '历史未记录' }}</div
+          >
+          <div v-if="row.review.confirmedBy"
+            >当时确认人：{{ row.review.confirmedBy }}；签署范围版本：{{
+              row.review.confirmedScopeVersion ?? '历史未记录'
+            }}</div
+          >
           <div>{{ row.review.description }}</div
           ><div>{{ states[row.review.status] }} / {{ readiness[row.review.readiness] }}</div>
           <div>来源：{{ row.review.sourceSystem || '未填写' }}</div>
@@ -289,9 +318,12 @@
         </template></el-table-column
       >
     </el-table>
+    <template #footer><el-button @click="historyVisible = false">关闭评审历史</el-button></template>
   </Dialog>
 </template>
 <script setup lang="ts">
+import ProjectPanel from './ProjectPanel.vue'
+import ScopeFields from './ScopeFields.vue'
 import { useWindowSize } from '@vueuse/core'
 import { formatDate } from '@/utils/formatTime'
 import { checkPermi } from '@/utils/permission'
@@ -316,6 +348,11 @@ const users = ref<UserVO[]>([])
 const modules = payrollModules
 const route = useRoute()
 const router = useRouter()
+const projectId = computed(() => {
+  if (route.query.projectId == null) return undefined
+  const n = Number(route.query.projectId)
+  return Number.isSafeInteger(n) && n > 0 ? n : -1
+})
 const returnTarget = computed(() => payrollReturnTarget(route.query.from))
 const businessTarget = computed(() =>
   module.value ? payrollModuleRoutes[module.value] : undefined
@@ -325,6 +362,11 @@ const sources = computed(() =>
   sourcesForModules(module.value ? [module.value] : (Object.keys(modules) as PayrollModule[]))
 )
 
+const scopeStates: Record<string, string> = {
+  MATCH: '匹配',
+  UNDEFINED: '尚未定义',
+  SCOPE_MISMATCH: '范围不匹配'
+}
 const states: Record<string, string> = {
   PENDING: '待确认',
   REVIEWING: '评审中',
@@ -367,36 +409,52 @@ const rules = {
 }
 const project = ref<api.PayrollRequirementProject | null>(null)
 const projectError = ref(false)
+let loadVersion = 0
 const load = async () => {
+  const ticket = ++loadVersion,
+    selectedProject = projectId.value,
+    selectedModule = module.value
   loading.value = true
   try {
     projectError.value = false
     const [data, metadata] = await Promise.all([
-      api.listRequirements(module.value),
-      api.getLegacyRequirementProject()
+      api.listRequirements(selectedModule, selectedProject),
+      selectedProject
+        ? api.listRequirementProjects().then((items) => {
+            const p = items.find((x) => x.id === selectedProject)
+            if (!p) throw new Error('项目不可访问')
+            return p
+          })
+        : api.getLegacyRequirementProject()
     ])
+    if (ticket !== loadVersion || selectedProject !== projectId.value) return
     rows.value = data
     project.value = metadata
   } catch (error) {
+    if (ticket !== loadVersion || selectedProject !== projectId.value) return
     projectError.value = true
     project.value = null
     rows.value = []
     throw error
   } finally {
-    loading.value = false
+    if (ticket === loadVersion) loading.value = false
   }
 }
 const changeModule = () =>
   router.replace({ query: { ...route.query, module: module.value || undefined } })
 watch(
-  () => route.query.module,
-  async (value) => {
-    module.value = payrollModule(value)
+  () => [route.query.module, route.query.projectId],
+  async () => {
+    module.value = payrollModule(route.query.module)
+    visible.value = false
+    assignmentVisible.value = false
     await load()
   }
 )
 const originalReview = ref<PayrollRequirement>()
 const reviewFields = [
+  'scopeMode',
+  'scopeJson',
   'code',
   'module',
   'description',
@@ -417,7 +475,15 @@ const reviewRevision = computed(
 )
 const edit = (row?: PayrollRequirement) => {
   originalReview.value = row ? { ...row } : undefined
-  form.value = row ? { ...row } : empty()
+  form.value = row
+    ? { ...row }
+    : {
+        ...empty(),
+        projectId: projectId.value,
+        scopeMode: projectId.value ? 'INHERIT' : undefined,
+        projectScopeVersion: project.value?.projectScopeVersion
+      }
+  if (projectId.value && !row) form.value.code = 'CUSTOM-0000'
   visible.value = true
 }
 const save = async () => {
@@ -484,7 +550,13 @@ const submitAssignment = async () => {
   }
   saving.value = true
   try {
-    await api.assignRequirement(row.id, row.version, reviewerId)
+    await api.assignRequirement(
+      row.id,
+      row.version,
+      reviewerId,
+      projectId.value,
+      project.value?.projectScopeVersion
+    )
     if (!current()) return
     assignmentVisible.value = false
     await load()
@@ -544,7 +616,7 @@ const confirmVersion = async (row: PayrollRequirement) => {
       throw error
     }
     if (!current()) return
-    await api.confirmRequirement(id, version)
+    await api.confirmRequirement(id, version, projectId.value, project.value?.projectScopeVersion)
     if (!current()) return
     message.success('该版本已确认')
     await load()
@@ -555,7 +627,7 @@ const confirmVersion = async (row: PayrollRequirement) => {
 const initialize = async () => {
   saving.value = true
   try {
-    const count = await api.initializeRequirements()
+    const count = await api.initializeRequirements(projectId.value)
     message.success(`新增 ${count} 项需求`)
     await load()
   } finally {
@@ -563,11 +635,11 @@ const initialize = async () => {
   }
 }
 const exportList = async () => {
-  download.excel(await api.exportRequirements(module.value), '薪酬需求评审.xlsx')
+  download.excel(await api.exportRequirements(module.value, projectId.value), '薪酬需求评审.xlsx')
 }
 const showHistory = async (row: PayrollRequirement) => {
   const identity = { id: row.id, code: row.code, projectId: row.projectId }
-  histories.value = (await api.requirementHistory(row.id!)).map((item) => ({
+  histories.value = (await api.requirementHistory(row.id!, projectId.value)).map((item) => ({
     ...item,
     review: JSON.parse(item.snapshot)
   }))

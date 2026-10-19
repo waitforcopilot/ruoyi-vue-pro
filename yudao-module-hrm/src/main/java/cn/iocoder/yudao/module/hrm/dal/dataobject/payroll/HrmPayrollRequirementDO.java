@@ -11,6 +11,15 @@ import lombok.EqualsAndHashCode;
 public class HrmPayrollRequirementDO extends BaseDO {
     @TableId private Long id;
     @ExcelProperty("项目编号") private Long projectId;
+    private String templateItemId;
+    private Integer templateVersion;
+    private String scopeMode;
+    private String scopeJson;
+    private String scopeState;
+    private Integer projectScopeVersion;
+    private Integer confirmedScopeVersion;
+    private String confirmedScopeJson;
+    private String scopeDecision;
     @ExcelProperty("需求编号") private String code;
     @ExcelProperty("模块") private String module;
     @ExcelProperty("功能") private String description;

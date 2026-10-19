@@ -1,0 +1,26 @@
+{
+  "backendTests": {
+    "run": 51,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "frontendRegressionScenarios": 32,
+  "vueTscNoEmit": "PASS (8192 MB heap)",
+  "eslint": "PASS",
+  "prettier": "PASS",
+  "backendPackage": "BUILD SUCCESS",
+  "health": "UP",
+  "initialFailures": [
+    "RR parallel cold initialization deadlock: fixed with project locks, current reads and READ_COMMITTED; fresh R3 and R4 passed",
+    "scope date array rendering and input normalization: fixed and browser roundtrip passed",
+    "history scope column incorrectly used history row instead of saved snapshot: fixed and browser checked",
+    "typecheck default heap exhausted: 8192 MB retry passed",
+    "request during backend restart timed out: re-login and final running candidate passed"
+  ],
+  "notAcceptance": [
+    "full payroll business matrix",
+    "S2-S6 authorization revocation/source mapping/release/quality functionality",
+    "production upgrade/deployment"
+  ]
+}

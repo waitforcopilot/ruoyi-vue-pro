@@ -307,6 +307,10 @@ public interface ErrorCodeConstants {
 
 
     // ========== 薪酬需求评审 ==========
+    ErrorCode PAYROLL_PROJECT_DENIED = new ErrorCode(1_050_810_043,"无项目访问或操作权限");
+    ErrorCode PAYROLL_PROJECT_SCOPE_INVALID = new ErrorCode(1_050_810_044,"项目范围无效、与授权上限不符或缺少有效授权依据");
+    ErrorCode PAYROLL_PROJECT_SCOPE_STALE = new ErrorCode(1_050_810_045,"范围版本已变化或尚未定义，请刷新并核对当前范围");
+    ErrorCode PAYROLL_TEMPLATE_INVALID = new ErrorCode(1_050_810_046,"模板版本或采纳决定无效，请刷新比较");
     ErrorCode PAYROLL_REQUIREMENT_NOT_EXISTS = new ErrorCode(1_050_810_001, "薪酬需求不存在");
     ErrorCode PAYROLL_SALARY_SOURCE_STALE = new ErrorCode(1_050_810_029, "生效薪资或核算配置已变化，或旧试算缺少来源证据，请重新核算");
     ErrorCode PAYROLL_TAX_OPENING_CORRECTION_UNCONFIRMED = new ErrorCode(1_050_810_030, "该付款已被历史累计覆盖，请先核实批准累计档案已包含本次更正，并明确确认");

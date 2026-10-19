@@ -18,26 +18,37 @@ import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUti
 @Tag(name="管理后台 - 薪酬需求征集")
 public class HrmPayrollRequirementController {
     @Resource private HrmPayrollRequirementService service;
+    @Resource private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRequirementProjectService projects;
+    @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementMapper requirements;
     @GetMapping("/legacy-project") @PreAuthorize("@ss.hasPermission('hrm:payroll:requirement:query')")
     public CommonResult<HrmPayrollRequirementProjectDO> legacyProject(){return success(service.legacyProject());}
     @GetMapping("/list") @PreAuthorize("@ss.hasPermission('hrm:payroll:requirement:query')")
-    public CommonResult<List<HrmPayrollRequirementDO>> list(@RequestParam(required=false) String module){return success(service.list(module));}
+    public CommonResult<List<HrmPayrollRequirementDO>> list(@RequestParam(required=false) String module,@RequestParam(required=false) Long projectId){
+        if(projectId==null)return success(service.list(module));
+        projects.check(projectId,getLoginUserId(),"READ",false);
+        return success(requirements.selectList(new cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX<HrmPayrollRequirementDO>().eq(HrmPayrollRequirementDO::getProjectId,projectId).eqIfPresent(HrmPayrollRequirementDO::getModule,module).orderByAsc(HrmPayrollRequirementDO::getCode)));
+    }
     @PostMapping("/save") @PreAuthorize("@ss.hasPermission('hrm:payroll:requirement:update')")
     public CommonResult<Long> save(@Valid @RequestBody HrmPayrollRequirementSaveReqVO request){return success(service.save(request,getLoginUserId()));}
     @PostMapping("/confirm") @PreAuthorize("@ss.hasPermission('hrm:payroll:requirement:query') and @ss.hasPermission('hrm:payroll:requirement:confirm')")
     public CommonResult<Boolean> confirm(@Valid @RequestBody cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollRequirementConfirmReqVO request){
+        if(request.getProjectId()!=null)projects.target(request.getProjectId(),request.getId(),getLoginUserId(),"CONFIRM",request.getProjectScopeVersion(),false);
         service.confirm(request.getId(),request.getVersion(),getLoginUserId());return success(true);
     }
     @PostMapping("/assign") @PreAuthorize("@ss.hasPermission('hrm:payroll:requirement:query') and @ss.hasPermission('hrm:payroll:requirement:assign')")
     public CommonResult<Boolean> assign(@Valid @RequestBody cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollRequirementAssignReqVO request){
+        if(request.getProjectId()!=null)projects.target(request.getProjectId(),request.getId(),getLoginUserId(),"ASSIGN",request.getProjectScopeVersion(),false);
         service.assign(request.getId(),request.getVersion(),request.getReviewerId(),getLoginUserId());return success(true);
     }
     @PostMapping("/initialize") @PreAuthorize("@ss.hasPermission('hrm:payroll:requirement:update')")
-    public CommonResult<Integer> initialize(){return success(service.initialize(getLoginUserId()));}
+    public CommonResult<Integer> initialize(@RequestParam(required=false) Long projectId){return success(projectId==null?service.initialize(getLoginUserId()):projects.initialize(projectId,getLoginUserId()));}
     @GetMapping("/history") @PreAuthorize("@ss.hasPermission('hrm:payroll:requirement:query')")
-    public CommonResult<List<HrmPayrollRequirementHistoryDO>> history(@RequestParam Long id){return success(service.history(id));}
-    @GetMapping("/export") @PreAuthorize("@ss.hasPermission('hrm:payroll:requirement:export')")
-    public void export(@RequestParam(required=false) String module,HttpServletResponse response) throws java.io.IOException {
-        ExcelUtils.write(response,"薪酬需求评审.xlsx","评审清单",HrmPayrollRequirementDO.class,service.list(module));
+    public CommonResult<List<HrmPayrollRequirementHistoryDO>> history(@RequestParam Long id,@RequestParam(required=false) Long projectId){
+        if(projectId!=null){projects.check(projectId,getLoginUserId(),"READ",false);HrmPayrollRequirementDO r=requirements.selectById(id);if(r==null || !projectId.equals(r.getProjectId()))throw cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_PROJECT_DENIED);}
+        return success(service.history(id));}
+    @GetMapping("/export") @PreAuthorize("@ss.hasPermission('hrm:payroll:requirement:query') and @ss.hasPermission('hrm:payroll:requirement:export')")
+    public void export(@RequestParam(required=false) String module,@RequestParam(required=false) Long projectId,HttpServletResponse response) throws java.io.IOException {
+        if(projectId!=null)projects.check(projectId,getLoginUserId(),"EXPORT",false);
+        ExcelUtils.write(response,"薪酬需求评审.xlsx","评审清单",HrmPayrollRequirementDO.class,list(module,projectId).getData());
     }
 }

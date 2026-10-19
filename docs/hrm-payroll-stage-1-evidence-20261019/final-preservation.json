@@ -1,0 +1,33 @@
+{
+  "migrationRerunTwiceAtFinalState": true,
+  "preservation": {
+    "hrm_payroll_requirement": {
+      "originalRows": 47,
+      "allOriginalColumnsAndRowsEqual": true,
+      "utf8RestoredBackupEqual": true,
+      "utf8Sha256": "d2b7b838c94d6a61a4b28654ccfbd1531a300a813d4ac78e75dd81e475281216"
+    },
+    "hrm_payroll_requirement_history": {
+      "originalRows": 76,
+      "allOriginalColumnsAndRowsEqual": true,
+      "utf8RestoredBackupEqual": true,
+      "utf8Sha256": "6a042e08f6a0384af63ab4bc375b3b6ebdb12cbdccc7059691b94aadc93d25c3"
+    },
+    "hrm_payroll_requirement_project": {
+      "originalRows": 1,
+      "allOriginalColumnsAndRowsEqual": true,
+      "utf8RestoredBackupEqual": true,
+      "utf8Sha256": "306c8030d5778017eb03e0d590774da24a46ee353546800237a931e366db670d"
+    },
+    "system_role_menu": {
+      "originalRows": 1814,
+      "allOriginalColumnsAndRowsEqual": true,
+      "utf8RestoredBackupEqual": true,
+      "utf8Sha256": "3d287e82d6a72de2118339de2c7cbf188c223105a0a09707042ed7901282f3cd"
+    }
+  },
+  "defaultTemplate46": true,
+  "original43VerbatimEqual": true,
+  "COL01to03Present": true,
+  "globalRoleMenuRowCount": 1814
+}

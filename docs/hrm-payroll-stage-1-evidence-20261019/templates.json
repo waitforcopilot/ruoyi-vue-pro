@@ -1,0 +1,12 @@
+{
+  "syntheticProject": 2,
+  "catalog": "TEST_S1_CATALOG",
+  "defaultCatalogUntouched": true,
+  "differencesBefore": 4,
+  "newItemOnlyAdded": 1,
+  "keepManualContent": true,
+  "removedRecordNotReactivated": true,
+  "explicitAdoptionReopensReview": true,
+  "remainingDifferences": 0,
+  "browserAcceptance": "NOT_RUN"
+}

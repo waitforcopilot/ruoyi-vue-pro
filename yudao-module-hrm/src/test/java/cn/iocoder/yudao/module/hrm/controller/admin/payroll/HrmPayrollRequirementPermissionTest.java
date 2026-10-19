@@ -91,6 +91,14 @@ class HrmPayrollRequirementPermissionTest {
     static class Config {
         @Bean HrmPayrollRequirementController controller() { return new HrmPayrollRequirementController(); }
         @Bean HrmPayrollRequirementService service() { return mock(HrmPayrollRequirementService.class); }
+        @Bean cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRequirementProjectService projectServiceTestDouble(){return mock(cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRequirementProjectService.class);}
+        @Bean cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementMapper requirements(){return mock(cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementMapper.class);}
+        @Bean cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementProjectMapper dependency0(){return mock(cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementProjectMapper.class);}
+        @Bean cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementProjectGrantMapper dependency1(){return mock(cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementProjectGrantMapper.class);}
+        @Bean cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementProjectEventMapper dependency2(){return mock(cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementProjectEventMapper.class);}
+        @Bean cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementTemplateMapper dependency3(){return mock(cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementTemplateMapper.class);}
+        @Bean cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementHistoryMapper dependency4(){return mock(cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementHistoryMapper.class);}
+        @Bean cn.iocoder.yudao.module.system.api.user.AdminUserApi dependency5(){return mock(cn.iocoder.yudao.module.system.api.user.AdminUserApi.class);}
         @Bean(name = "ss") Permissions permissions() { return new Permissions(); }
     }
 }

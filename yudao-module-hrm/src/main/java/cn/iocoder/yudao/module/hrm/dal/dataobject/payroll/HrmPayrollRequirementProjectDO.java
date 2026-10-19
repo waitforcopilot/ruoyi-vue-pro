@@ -13,4 +13,8 @@ public class HrmPayrollRequirementProjectDO extends BaseDO {
  private Integer metadataVersion;
  // Null means legacy scope has not been defined or approved, not scope version 1.
  private Integer projectScopeVersion;
+ private Long ownerId;
+ private Long customSequence;
+ private String scopeJson;
+ private String catalogKey;
 }

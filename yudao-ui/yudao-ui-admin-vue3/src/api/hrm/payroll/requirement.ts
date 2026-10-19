@@ -2,6 +2,12 @@ import request from '@/config/axios'
 
 export interface PayrollRequirement {
   id?: number
+  scopeMode?: string
+  scopeJson?: string
+  scopeState?: string
+  projectScopeVersion?: number
+  templateItemId?: string
+  templateVersion?: number
   projectId?: number
   code: string
   module: string
@@ -19,31 +25,82 @@ export interface PayrollRequirement {
   confirmedBy?: number
   confirmedAt?: string
 }
-export const listRequirements = (module?: string) =>
-  request.get<PayrollRequirement[]>({ url: '/hrm/payroll/requirement/list', params: { module } })
+export const listRequirements = (module?: string, projectId?: number) =>
+  request.get<PayrollRequirement[]>({
+    url: '/hrm/payroll/requirement/list',
+    params: { module, projectId }
+  })
 export const saveRequirement = (data: PayrollRequirement) =>
   request.post<number>({ url: '/hrm/payroll/requirement/save', data })
-export const initializeRequirements = () =>
-  request.post<number>({ url: '/hrm/payroll/requirement/initialize' })
-export const requirementHistory = (id: number) =>
-  request.get({ url: '/hrm/payroll/requirement/history', params: { id } })
-export const exportRequirements = (module?: string) =>
-  request.download({ url: '/hrm/payroll/requirement/export', params: { module } })
+export const initializeRequirements = (projectId?: number) =>
+  request.post<number>({ url: '/hrm/payroll/requirement/initialize', params: { projectId } })
+export const requirementHistory = (id: number, projectId?: number) =>
+  request.get({ url: '/hrm/payroll/requirement/history', params: { id, projectId } })
+export const exportRequirements = (module?: string, projectId?: number) =>
+  request.download({ url: '/hrm/payroll/requirement/export', params: { module, projectId } })
 
 export interface PayrollRequirementProject {
   id: number
   name: string
+  projectKey?: string
+  scopeJson?: string
+  ownerId?: number
   metadataVersion: number
   projectScopeVersion?: number
 }
 export const getLegacyRequirementProject = () =>
   request.get<PayrollRequirementProject | null>({ url: '/hrm/payroll/requirement/legacy-project' })
 
-export const confirmRequirement = (id: number, version: number) =>
-  request.post<boolean>({ url: '/hrm/payroll/requirement/confirm', data: { id, version } })
+export const confirmRequirement = (
+  id: number,
+  version: number,
+  projectId?: number,
+  projectScopeVersion?: number
+) =>
+  request.post<boolean>({
+    url: '/hrm/payroll/requirement/confirm',
+    data: { id, version, projectId, projectScopeVersion }
+  })
 
-export const assignRequirement = (id: number, version: number, reviewerId?: number) =>
+export const assignRequirement = (
+  id: number,
+  version: number,
+  reviewerId?: number,
+  projectId?: number,
+  projectScopeVersion?: number
+) =>
   request.post<boolean>({
     url: '/hrm/payroll/requirement/assign',
-    data: { id, version, reviewerId: reviewerId ?? null }
+    data: { id, version, reviewerId: reviewerId ?? null, projectId, projectScopeVersion }
   })
+
+export const listRequirementProjects = () =>
+  request.get<PayrollRequirementProject[]>({ url: '/hrm/payroll/requirement-project/list' })
+export const createRequirementProject = (data: { projectKey: string; name: string }) =>
+  request.post<number>({ url: '/hrm/payroll/requirement-project/create', data })
+export const renameRequirementProject = (data: {
+  id: number
+  projectKey: string
+  name: string
+  metadataVersion: number
+}) => request.post({ url: '/hrm/payroll/requirement-project/metadata', data })
+export const saveRequirementProjectScope = (data: {
+  projectId: number
+  expectedVersion?: number
+  scopeJson: string
+  reason: string
+}) => request.post({ url: '/hrm/payroll/requirement-project/scope', data })
+export const requirementTemplateDifferences = (projectId: number) =>
+  request.get<any[]>({
+    url: '/hrm/payroll/requirement-project/template-differences',
+    params: { projectId }
+  })
+export const decideRequirementTemplate = (data: {
+  projectId: number
+  requirementId: number
+  version: number
+  templateVersion: number
+  accept: boolean
+}) => request.post({ url: '/hrm/payroll/requirement-project/template-decision', data })
+export const requirementProjectEvents = (projectId: number) =>
+  request.get<any[]>({ url: '/hrm/payroll/requirement-project/events', params: { projectId } })

@@ -1,0 +1,310 @@
+Browser tab: 1, Title: "芋道管理系统 - 需求评审", URL: "http://127.0.0.1:5173/hrm-payroll/requirement?module=COL&from=/hrm-payroll/input-issue&projectId=9".
+1 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?module=COL&from=/hrm-payroll/input-issue&projectId=9
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 定调薪审批
+						13 text 定调薪审批
+					14 工时与加班
+						15 text 工时与加班
+					16 薪级薪档
+						17 text 薪级薪档
+					18 考勤归集与异常
+						19 text 考勤归集与异常
+					20 法人主体与归属
+						21 text 法人主体与归属
+					22 缴费政策与年度调基
+						23 text 缴费政策与年度调基
+					24 缴费实缴对账
+						25 text 缴费实缴对账
+					26 核算输入与就绪
+						27 text 核算输入与就绪
+					28 年度税务政策
+						29 text 年度税务政策
+					30 薪酬成本分摊
+						31 text 薪酬成本分摊
+					32 预算与成本分析
+						33 text 预算与成本分析
+					34 薪酬输入缺口工单
+						35 text 薪酬输入缺口工单
+					36 社保公积金工资差额
+						37 text 社保公积金工资差额
+					38 薪酬总览
+						39 text 薪酬总览
+					40 独立工资收回
+						41 text 独立工资收回
+					42 需求评审
+						43 text 需求评审
+					44 核算审批
+						45 text 核算审批
+					46 银行代发
+						47 text 银行代发
+					48 薪资公式
+						49 text 薪资公式
+			50 (collapsed) HRM 人力资源, Secondary Actions: Expand
+				51 container
+					52 text HRM 人力资源
+					53 image
+		54 container
+			55 container v-tool-header
+				56 container 面包屑
+					57 link 薪酬管理
+						58 text 薪酬管理
+					59 text /
+					60 link 需求评审
+						61 text 需求评审
+				62 container
+					63 container
+						64 combo box (collapsed, settable) ID: el-id-5195-76, Secondary Actions: Expand
+						65 text 请输入菜单内容
+				66 pop up button (collapsed) ID: el-id-5195-4, Secondary Actions: Expand
+				67 pop up button (collapsed) ID: el-id-5195-9, Secondary Actions: Expand
+				68 pop up button (collapsed) 隔离薪酬验收操作人, ID: el-id-5195-14, Secondary Actions: Expand
+			69 container v-tags-view
+				70 container
+					71 pop up button (collapsed) 首页, ID: el-id-5195-20, Secondary Actions: Expand
+						72 container
+							73 text 首页
+					74 pop up button (collapsed) 需求评审, ID: el-id-5195-28, Secondary Actions: Expand
+						75 container
+							76 text 需求评审
+				77 pop up button (collapsed) ID: el-id-5195-36, Secondary Actions: Expand
+			380 container
+				381 container
+					382 combo box (collapsed, settable) Description: 评审项目, ID: el-id-5195-77, Secondary Actions: Expand
+					383 text TEST S1 浏览器甲改名
+					384 image
+				385 button 新建评审项目
+				386 button 修改项目名称
+				387 button 修订项目范围
+				388 button 模板版本比较
+				389 button 项目变更历史
+			88 text TEST S1 浏览器甲改名 · 项目编号 9 · 范围版本 3
+			89 text 业务确认状态与数据就绪状态分别维护；确认需有效负责人、字段映射、来源、验收条件及依据；请先保存，再由评审负责人本人点击“确认版本”。
+			90 container
+				91 button 返回业务模块
+				92 container
+					93 combo box (collapsed, settable) ID: el-id-5195-78, Secondary Actions: Expand
+					94 text 需求征集
+					95 image
+				96 button 刷新
+				97 button 新增需求
+				98 button 初始化 PRD 清单
+				99 button 导出评审清单
+			100 button (collapsed) 需求征集候选数据源与字段, ID: el-collapse-head-65, Secondary Actions: Expand
+				101 text 需求征集候选数据源与字段
+			102 container
+				103 table
+					104 row
+						105 cell
+							106 text 需求ID
+						107 cell
+							108 text 编号
+						109 cell
+							110 text 模块
+						111 cell
+							112 text 功能
+						113 cell
+							114 text 评审状态
+						115 cell
+							116 text 数据就绪
+						117 cell
+							118 text 数据来源
+						119 cell
+							120 text 范围适配
+						121 cell
+							122 text 版本
+						123 cell
+							124 text 操作
+				273 table
+					274 container
+						275 row
+							276 cell
+								277 text 322
+							278 cell
+								279 text COL-01
+							280 cell
+								281 text 需求征集
+							282 cell
+								283 text TEST S1 浏览器甲手工内容，乙项目与模板升级不能覆盖
+							284 cell
+								285 text 待确认
+							286 cell
+								287 text 未就绪
+							288 cell
+								289 text 匹配
+							290 cell
+								291 text 6
+							292 cell
+								293 container
+									294 button 编辑
+									295 button 历史
+						296 row
+							297 cell
+								298 text 323
+							299 cell
+								300 text COL-02
+							301 cell
+								302 text 需求征集
+							303 cell
+								304 text TEST 浏览器升级建议 COL-02
+							305 cell
+								306 text 评审中
+							307 cell
+								308 text 未就绪
+							309 cell
+								310 text 匹配
+							311 cell
+								312 text 7
+							313 cell
+								314 container
+									315 button 编辑
+									316 button 历史
+						317 row
+							318 cell
+								319 text 312
+							320 cell
+								321 text COL-03
+							322 cell
+								323 text 需求征集
+							324 cell
+								325 text 补充字段映射、负责人、优先级与导出评审清单
+							326 cell
+								327 text 待确认
+							328 cell
+								329 text 未就绪
+							330 cell
+								331 text 匹配
+							332 cell
+								333 text 4
+							334 cell
+								335 container
+									336 button 编辑
+									337 button 历史
+						338 row
+							339 cell
+								340 text 385
+							341 cell
+								342 text COL-04
+							343 cell
+								344 text 需求征集
+							345 cell
+								346 text TEST 浏览器模板新增项
+							347 cell
+								348 text 待确认
+							349 cell
+								350 text 未就绪
+							351 cell
+								352 text 匹配
+							353 cell
+								354 text 2
+							355 cell
+								356 container
+									357 button 编辑
+									358 button 历史
+						359 row
+							360 cell
+								361 text 386
+							362 cell
+								363 text CUSTOM-0001
+							364 cell
+								365 text 需求征集
+							366 cell
+								367 text TEST 浏览器自定义需求，仅在甲项目
+							368 cell
+								369 text 待确认
+							370 cell
+								371 text 未就绪
+							372 cell
+								373 text 匹配
+							374 cell
+								375 text 2
+							376 cell
+								377 container
+									378 button 编辑
+									379 button 历史
+			390 container 取消 保存
+				391 container
+					392 text 需求评审
+				393 container
+					394 container el-id-5195-336
+						465 text *
+						396 text 编号
+					397 text field (disabled) * 编号, Value: COL-02, ID: el-id-5195-434
+					398 container el-id-5195-337
+						466 text *
+						400 text 模块
+					401 container
+						402 combo box (collapsed, settable) * 模块, ID: el-id-5195-435, Secondary Actions: Expand
+						403 text 需求征集
+						404 image
+					405 text 范围方式
+					406 container
+						407 combo box (collapsed, settable) 范围方式, ID: el-id-5195-436, Secondary Actions: Expand
+						408 text 显式子集
+						409 image
+					410 text 主体ID集合
+					411 text field (settable) 主体ID集合, Value: 101,102, ID: el-id-5195-437
+					412 text 组织ID集合
+					413 text field (settable) 组织ID集合, Value: 201, ID: el-id-5195-438
+					414 text 人员类型
+					415 text field (settable) 人员类型, Value: TEST, ID: el-id-5195-439
+					416 text 业务场景
+					417 text field (settable) 业务场景, Value: TEST, ID: el-id-5195-440
+					418 text 期间开始
+					419 text field (settable) 期间开始, Value: 2026-11-01, ID: el-id-5195-441
+					420 text 期间结束
+					421 text field (settable) 期间结束, Value: 2026-11-30, ID: el-id-5195-442
+					422 text 范围业务说明
+					423 text entry area (settable) 范围业务说明, Value: TEST 浏览器修正子集期间与多主体，待重新评审, ID: el-id-5195-443
+					424 container el-id-5195-362
+						467 text *
+						426 text 功能说明
+					427 text entry area (settable) * 功能说明, Value: TEST 浏览器升级建议 COL-02, ID: el-id-5195-444
+					428 text 字段映射
+					429 text entry area (settable) 字段映射, ID: el-id-5195-445
+					430 text 来源系统
+					431 text field (settable) 来源系统, ID: el-id-5195-446
+					432 text 来源负责人
+					433 container
+						434 combo box (collapsed, settable) 来源负责人, ID: el-id-5195-447, Secondary Actions: Expand
+						435 text 请选择
+						436 image
+					437 text 评审负责人
+					438 container
+						439 combo box (disabled, collapsed, settable) 评审负责人, ID: el-id-5195-448, Secondary Actions: Expand
+						440 text 请选择
+						441 image
+					442 text 请先保存需求，再通过列表中的分派操作修改评审负责人；不可自派，被分派人须有需求查询和确认权限。
+					443 text 优先级
+					444 container
+						445 combo box (collapsed, settable) 优先级, ID: el-id-5195-449, Secondary Actions: Expand
+						446 text 中
+						447 image
+					448 text 评审状态
+					449 container
+						450 combo box (collapsed, settable) 评审状态, ID: el-id-5195-450, Secondary Actions: Expand
+						451 text 评审中
+						452 image
+					453 text 数据就绪
+					454 container
+						455 combo box (collapsed, settable) 数据就绪, ID: el-id-5195-451, Secondary Actions: Expand
+						456 text 未就绪
+						457 image
+					458 text 验收条件
+					459 text entry area (settable) 验收条件, ID: el-id-5195-452
+					460 text 依据 / 异议
+					461 text entry area (settable) 依据 / 异议, ID: el-id-5195-453
+				462 container
+					463 button 取消
+					464 button 保存
+			272 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 390 container 取消 保存
