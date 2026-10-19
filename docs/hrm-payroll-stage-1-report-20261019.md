@@ -4,7 +4,7 @@
 
 ## 交付结论
 
-S1功能及页面验收通过：E1～E8 **8/8**。S1-01～07通过；S1-08的验收及证据完成，提交/push收尾在本报告末记录。完整PRD及S2～S6未验收，不自动启动下一阶段。
+S1阶段任务 **8/8通过**，E1～E8阶段验收 **8/8通过**，实现代码已提交并push GitHub、远端SHA一致。完整PRD及S2～S6未验收，不自动启动下一阶段。
 
 | 任务 | 状态 | 实际完成与验证依据 |
 | --- | --- | --- |
@@ -15,7 +15,7 @@ S1功能及页面验收通过：E1～E8 **8/8**。S1-01～07通过；S1-08的验
 | S1-05 | 通过 | 模板新增仅补缺；比较后采纳/保留，记录版本和决定；采纳语义变更重审；已移除项不复活，撤回模板只提示 |
 | S1-06 | 通过 | 独立范围授权及上限、scopeVersion、继承/显式子集、SCOPE_MISMATCH、当前签署清空与历史保留；扩主体/改期间独立已确认夹具和改名无范围变化均验证 |
 | S1-07 | 通过 | 增量迁移反复执行；隔离完整备份恢复演练；旧ID/原业务字段/历史/角色菜单逐项保留，含中文再次比对；未知历史范围不伪填 |
-| S1-08 | 验收通过，提交收尾 | 真实内嵌浏览器完整链、API/DB及自动检查通过；[8项验收矩阵](hrm-payroll-stage-1-evidence-20261019/README.md)，提交结果见文末 |
+| S1-08 | 通过 | 真实内嵌浏览器完整链、API/DB及自动检查通过；[8项验收矩阵](hrm-payroll-stage-1-evidence-20261019/README.md)，已提交push，远端SHA核对一致 |
 
 ## 真实流程与测试结果
 
@@ -54,4 +54,8 @@ S1只提供必要授权底座，完整成员授权管理页面、组织/模块/�
 
 页面：<http://127.0.0.1:5173/hrm-payroll/requirement?module=COL&projectId=9>。后端就绪：<http://127.0.0.1:48080/actuator/health>。本机进程管理仍为私有 `~/.hrm-payroll-local/manage.sh status|stop|start|restart` 与launchd；日志在私有目录，服务持续运行。
 
-实现提交SHA、GitHub push与远端核对结果将在实际执行成功后追加；此处未以计划代替提交结果。
+实现提交：`1f1c7386e9359567418af8ad9af6c4839110d612`（`feat(hrm): deliver S1 project-scoped requirements workbench`）。
+
+GitHub：`https://github.com/waitforcopilot/ruoyi-vue-pro`，分支 `work`。实际执行 `git push origin HEAD:work` 成功，`git ls-remote origin refs/heads/work` 返回同一SHA，与本地实现提交一致。本段是实现提交推送后的文档收尾；不改变已验代码。最终文档收尾提交由Git历史及对话返回SHA识别。
+
+推送后再次检查：后端 `UP`、前端HTTP 200、MySQL healthy、Redis运行中。无关本机交接文档和已有未跟踪PRD/审计材料保留在工作区，未混入本次提交。
