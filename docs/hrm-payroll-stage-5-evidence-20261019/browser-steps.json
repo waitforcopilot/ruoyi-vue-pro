@@ -1,0 +1,74 @@
+{
+  "recordedAt": "2026-10-19T20:59:48.970482+08:00",
+  "allMaterials": "TEST synthetic only; not formal approval",
+  "steps": [
+    {
+      "case": "missing policy",
+      "proof": "browser-01-missing-policy.png",
+      "kind": "IAB actual",
+      "expectedActual": "拒绝确认/发布，补齐独立批准前不制造签字"
+    },
+    {
+      "case": "draft submit independent approve",
+      "decisionId": 35,
+      "editor": 266,
+      "approver": 267,
+      "proof": "browser-02-independent-approved.png",
+      "expectedActual": "指定本人批准后EFFECTIVE"
+    },
+    {
+      "case": "publish retry",
+      "releaseId": 250,
+      "proof": "browser-03-publish-retry.png",
+      "expectedActual": "依赖稳定同号同内容同release"
+    },
+    {
+      "case": "final root independent sign",
+      "rootId": 312,
+      "proof": "browser-06-independent-root.png",
+      "expectedActual": "ACTIVE且模态关闭，无Vue DOM异常"
+    },
+    {
+      "case": "final complete publish download",
+      "projectId": 95,
+      "releaseId": 431,
+      "jobId": 433,
+      "proof": "browser-07-complete-release.png",
+      "expectedActual": "发布版本3，真实下载六表，原生打开另证"
+    },
+    {
+      "case": "responsive draft modal",
+      "width": 390,
+      "height": 844,
+      "proof": "browser-08-mobile-draft.png",
+      "expectedActual": "视口内模态、内部滚动、页脚可见；测试后重置视口，未新增决议"
+    },
+    {
+      "case": "changed current data reexport",
+      "jobId": 439,
+      "expectedActual": "五类改变后固定431六表业务内容仍相同"
+    },
+    {
+      "case": "current restricted view",
+      "actor": 268,
+      "proof": "browser-09-final-restricted.png",
+      "expectedActual": "仅一个受限发布依据，无独立决议/根读权"
+    },
+    {
+      "case": "ready job current revoke",
+      "jobId": 440,
+      "proof": "browser-10-final-revoked.png",
+      "expectedActual": "撤销TEST根303/312后同会话领取DENIED，清除缓存六表"
+    },
+    {
+      "case": "filtered download",
+      "jobId": 470,
+      "actor": 266,
+      "requirementIds": [
+        803
+      ],
+      "proof": "browser-11-filtered-download.png",
+      "expectedActual": "标筛选节选，实际下载成功"
+    }
+  ]
+}

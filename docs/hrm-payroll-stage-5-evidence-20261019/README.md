@@ -1,5 +1,7 @@
 # S5 验证证据索引（2026-10-19）
 
+最终实现8/8，合成工程回归8/8；阶段任务已验收7/8、阶段验收7/8。A1d真实材料阻塞，正式业务批准和正式发布未完成。详见[报告](../hrm-payroll-stage-5-report-20261019.md)。
+
 候选起点 dc799eb9c12024b52690e92ea9ee4ebc95f8fcb3；分支 work。本目录只含合成资料及脱敏执行结果，私有凭据、完整备份和原始日志在 `~/.hrm-payroll-local/stage5-20261019/`。正式授权根/真实业务批准材料未提供；TEST 签署及发布不代表正式批准。
 
 ## 验收矩阵
@@ -48,3 +50,13 @@
 - S3：确认、来源语义/QS/QC、问题关闭冻结动作时决议/授权；新范围政策及QS/QC恢复链已接入。旧证据/签字不据新决议自动重写。
 - S4：统计不是发布；固定S0～S2全量U/排除项进入六表，语义重审拒绝发布；旧项目85原签字恢复后仍不自动具备S5批准事实。
 - 原S1～S4报告是当时候选证据，本轮修改处按受影响范围补验，不冒充此前版本已含S5能力。
+
+## 最终补验与复核入口
+
+- 最终浏览器：browser-09-final-restricted（快照431按当前权限只留一个受限发布依据）、browser-10-final-revoked（任务440原READY，撤销303/312后旧会话领取DENIED并清缓存）、browser-11-filtered-download（需求803，任务470，筛选节选并实际下载）。browser-final-console.json仅指最终登录文档，error为0，不覆盖之前已修复错误。
+- decision-replacement-concurrency.json补充实际“独立批准D2替代×发布”竞争；旧依赖重试拒绝，V1不变，新请求用当前D2。与concurrency-scope.json的四种竞争及同号竞争分开列。
+- complete-mutation-comparison.json逐次记录五类当前数据改变后431不漂移；xlsx-final-verification.json用独立XML检查六表231字段、29处长文续列、排序/引用和同权限重导出。原生实际打开见native-02-final-complete.png；六表独立渲染见xlsx-final-preview-1～6.png。Artifact Tool空共享字符串误读为序号，已用标准库XML读取核对原值，没有改变业务文件迁就检查工具。
+- preservation-final-readonly.json是全部测试变更后的再核对：125张表原记录/字段、113业务表checksum保留；preservation.json另包含两次迁移与隔离恢复。迁移初次误写及逐字段恢复见migration-repair.json，错误副本仅在私有目录。
+- checks.json、candidate.json记录最终候选/实际构建、127测试及类型/格式/运行检查；submission-safety.json为提交白名单和私有密钥值扫描。delivery.json记录实现提交/远端核对；收尾文档提交SHA由最终交付回复给出，避免文件自引用SHA。
+
+可复现只读六表检查器：scripts/hrm/verify_governance_workbook.py；服务层实际治理回归：HrmPayrollGovernanceServiceTest。接口/并发夹具的执行脚本及会话留在私有目录stage5-20261019；原始文件不包含在公开证据中。S6完整AC、性能及正式真实人员材料不属于本轮已通过结论。

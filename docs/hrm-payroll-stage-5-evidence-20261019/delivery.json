@@ -1,0 +1,46 @@
+{
+  "checkedAt": "2026-10-19T21:00:10.840526+08:00",
+  "implementationCommit": "a986727be779391532143a0079c60f763364a4ba",
+  "verifiedOriginWork": "a986727be779391532143a0079c60f763364a4ba",
+  "pushExitCode": 0,
+  "branch": "work",
+  "repository": "https://github.com/waitforcopilot/ruoyi-vue-pro",
+  "browserBeforeCommit": true,
+  "sourceHashesMatchFrozenRuntime": true,
+  "phaseTaskAccepted": 7,
+  "phaseAcceptance": 7,
+  "phaseDenominator": 8,
+  "implementation": 8,
+  "syntheticEngineeringGroupsPassed": 8,
+  "blockedGroup": "A1d real authorized business material missing",
+  "formalApproval": "NOT COMPLETED",
+  "formalRelease": "NOT COMPLETED",
+  "closedOwnEngineeringPackages": [
+    "F-01",
+    "F-02",
+    "F-03",
+    "F-04",
+    "F-05",
+    "F-06",
+    "F-08",
+    "F-09",
+    "F-10",
+    "F-11",
+    "F-12",
+    "F-13",
+    "F-14"
+  ],
+  "remainingPackages": [
+    "F-07",
+    "F-15"
+  ],
+  "nextStage": "S6 not started",
+  "closingDocumentation": "Separate documentation commit; final HEAD and its remote equality reported in final reply",
+  "services": {
+    "frontend": 200,
+    "backendHealth": "UP",
+    "readinessSubEndpoint": 404,
+    "mysql": "healthy",
+    "redis": "PONG"
+  }
+}
