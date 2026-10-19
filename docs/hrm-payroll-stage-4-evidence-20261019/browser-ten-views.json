@@ -1,0 +1,155 @@
+[
+  {
+    "module": "OV",
+    "name": "薪酬总览",
+    "purposeAndSample": true,
+    "requirements": true,
+    "sources": true,
+    "candidateIds": [
+      "DS-01",
+      "DS-02",
+      "DS-03",
+      "DS-04",
+      "DS-05",
+      "DS-06",
+      "DS-07"
+    ],
+    "statistics": true
+  },
+  {
+    "module": "PLAN",
+    "name": "薪酬方案",
+    "purposeAndSample": true,
+    "requirements": true,
+    "sources": true,
+    "candidateIds": [
+      "DS-01",
+      "DS-05",
+      "DS-09"
+    ],
+    "statistics": true
+  },
+  {
+    "module": "CALC",
+    "name": "工资核算",
+    "purposeAndSample": true,
+    "requirements": true,
+    "sources": true,
+    "candidateIds": [
+      "DS-01",
+      "DS-02",
+      "DS-03",
+      "DS-04",
+      "DS-05",
+      "DS-06",
+      "DS-07",
+      "DS-09",
+      "DS-12"
+    ],
+    "statistics": true
+  },
+  {
+    "module": "TAX",
+    "name": "个税与工资条",
+    "purposeAndSample": true,
+    "requirements": true,
+    "sources": true,
+    "candidateIds": [
+      "DS-05",
+      "DS-06",
+      "DS-07",
+      "DS-11",
+      "DS-12"
+    ],
+    "statistics": true
+  },
+  {
+    "module": "ATT",
+    "name": "考勤",
+    "purposeAndSample": true,
+    "requirements": true,
+    "sources": true,
+    "candidateIds": [
+      "DS-01",
+      "DS-02",
+      "DS-03"
+    ],
+    "statistics": true
+  },
+  {
+    "module": "OT",
+    "name": "加班",
+    "purposeAndSample": true,
+    "requirements": true,
+    "sources": true,
+    "candidateIds": [
+      "DS-01",
+      "DS-02",
+      "DS-03",
+      "DS-04",
+      "DS-05"
+    ],
+    "statistics": true
+  },
+  {
+    "module": "HOUR",
+    "name": "工时",
+    "purposeAndSample": true,
+    "requirements": true,
+    "sources": true,
+    "candidateIds": [
+      "DS-01",
+      "DS-02",
+      "DS-04"
+    ],
+    "statistics": true
+  },
+  {
+    "module": "INS",
+    "name": "社保公积金",
+    "purposeAndSample": true,
+    "requirements": true,
+    "sources": true,
+    "candidateIds": [
+      "DS-01",
+      "DS-06"
+    ],
+    "statistics": true
+  },
+  {
+    "module": "RPT",
+    "name": "报表分析",
+    "purposeAndSample": true,
+    "requirements": true,
+    "sources": true,
+    "candidateIds": [
+      "DS-01",
+      "DS-05",
+      "DS-06",
+      "DS-10"
+    ],
+    "statistics": true
+  },
+  {
+    "module": "COL",
+    "name": "需求征集",
+    "purposeAndSample": true,
+    "requirements": true,
+    "sources": true,
+    "candidateIds": [
+      "DS-01",
+      "DS-02",
+      "DS-03",
+      "DS-04",
+      "DS-05",
+      "DS-06",
+      "DS-07",
+      "DS-08",
+      "DS-09",
+      "DS-10",
+      "DS-11",
+      "DS-12"
+    ],
+    "statistics": true
+  }
+]

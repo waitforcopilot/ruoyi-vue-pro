@@ -38,7 +38,14 @@ public class HrmPayrollRequirementProjectService {
  public List<HrmPayrollRequirementDO> rows(Long id,String module,Long actor,String action){
   HrmPayrollRequirementProjectDO p=check(id,actor,action,false);
   List<HrmPayrollRequirementDO> result=requirements.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementDO>().eq(HrmPayrollRequirementDO::getProjectId,id).eqIfPresent(HrmPayrollRequirementDO::getModule,module).orderByAsc(HrmPayrollRequirementDO::getCode));
-  return result.stream().filter(r->access.row(p,r,actor,"READ") && access.row(p,r,actor,action)).peek(r->{r.setReadiness(workbench.readiness(r));r.setCurrentConfirmationValid(workbench.currentConfirmationValid(r));r.setConfirmedTupleJson(null);}).peek(r->r.setPermittedActions(HrmPayrollRequirementAccessService.ACTIONS.stream().filter(a->access.row(p,r,actor,a)).collect(Collectors.toList()))).collect(Collectors.toList());
+  return result.stream().filter(r->access.row(p,r,actor,"READ") && access.row(p,r,actor,action)).peek(r->{r.setReadiness(workbench.readiness(r));r.setCurrentConfirmationValid(workbench.currentConfirmationValid(r));r.setConfirmedTupleJson(null);sanitizeReviewMetadata(r,actor);}).peek(r->r.setPermittedActions(HrmPayrollRequirementAccessService.ACTIONS.stream().filter(a->access.row(p,r,actor,a)).collect(Collectors.toList()))).collect(Collectors.toList());
+ }
+ @SuppressWarnings("unchecked") public void sanitizeReviewMetadata(HrmPayrollRequirementDO r,Long actor){
+  if(r.getScopeDecisionJson()==null)return;
+  Map<String,Object> metadata=JsonUtils.parseObject(r.getScopeDecisionJson(),Map.class);
+  Object id=metadata.get("replacementId");
+  if(id!=null){HrmPayrollRequirementDO replacement=requirements.selectById(Long.valueOf(String.valueOf(id)));HrmPayrollRequirementProjectDO p=projects.selectById(r.getProjectId());
+   if(replacement==null||!Objects.equals(replacement.getProjectId(),r.getProjectId())||!access.row(p,replacement,actor,"READ")){metadata.remove("replacementId");metadata.put("replacementRestricted",true);r.setScopeDecisionJson(JsonUtils.toJsonString(metadata));}}
  }
  public HrmPayrollRequirementProjectDO check(Long id,Long actor,String action,boolean lock) {
   HrmPayrollRequirementProjectDO p=lock?projects.selectOneForUpdate(HrmPayrollRequirementProjectDO::getId,id):projects.selectById(id);

@@ -1,0 +1,897 @@
+Browser tab: 1, Title: "芋道管理系统 - 薪酬需求评审工作台", URL: "http://127.0.0.1:5173/hrm-payroll/review?projectId=78&module=OT".
+1 AXWebArea 芋道管理系统 - 薪酬需求评审工作台, URL: 127.0.0.1:5173/hrm-payroll/review?projectId=78&module=OT
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			7 首页
+				8 text 首页
+			5 (expanded) 薪酬管理, Secondary Actions: Collapse
+				9 container
+					10 text 薪酬管理
+					11 image
+				6 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			15 container v-tool-header
+				16 container 面包屑
+				17 container
+					18 container
+						19 combo box (collapsed, settable) ID: el-id-8270-81, Secondary Actions: Expand
+						20 text 请输入菜单内容
+				21 pop up button (collapsed) ID: el-id-8270-4, Secondary Actions: Expand
+				22 pop up button (collapsed) ID: el-id-8270-9, Secondary Actions: Expand
+				23 pop up button (collapsed) TEST S4 reviewer, ID: el-id-8270-14, Secondary Actions: Expand
+			24 container v-tags-view
+				25 container
+					26 pop up button (collapsed) 首页, ID: el-id-8270-20, Secondary Actions: Expand
+						27 container
+							28 text 首页
+					29 pop up button (collapsed) 薪酬需求评审工作台, ID: el-id-8270-28, Secondary Actions: Expand
+						30 text 薪酬需求评审工作台
+				31 pop up button (collapsed) ID: el-id-8270-36, Secondary Actions: Expand
+			32 heading 薪酬需求评审工作台 · 加班, Value: 1, ID: review-heading
+				33 text 薪酬需求评审工作台 · 加班
+			34 text 示例数据，仅用于讨论。意见与评审记录真实保存；演示核算、审批及工资条只作用于虚构样例。
+			35 container
+				36 combo box (collapsed, settable) Description: 评审项目, ID: el-id-8270-82, Secondary Actions: Expand
+				37 text 78 · TEST S4 main
+				38 image
+			39 button 刷新工作台
+			40 button 集中清单
+			41 button 实际来源与核验
+			42 button 原有正式业务入口
+			43 text TEST S4 main · 项目 78 · 范围版本 1
+			44 text 范围：{"entities": [101], "organizations": [201], "workerTypes": ["TEST"], "scenarios": ["TEST"], "from": "2026-10-01", "to": "2026-10-31", "explanation": "TEST S4 independently registered synthetic scope, not formal business approval"}
+			45 container 十视图评审导航
+				46 button 薪酬总览
+				47 button 薪酬方案
+				48 button 工资核算
+				49 button 个税与工资条
+				50 button 考勤
+				51 button 加班
+				52 button 工时
+				53 button 社保公积金
+				54 button 报表分析
+				55 button 需求征集
+			56 button 上一步
+			57 text 第 6/10 视图
+			58 button 下一步
+			59 button 关联：考勤
+			60 button 关联：工时
+			61 button 关联：工资核算
+			62 text 讨论申请、打卡、认可时长、倍率、工资/调休及重复计薪拦截。
+			63 container 虚构业务展示
+				64 heading 业务场景与字段, Value: 2
+					65 text 业务场景与字段
+				66 text TEST-EMP-001 · 虚构员工甲 · 虚构研发组 · 2026-10；全为虚构，未绑定员工档案。
+				67 container 示例业务表，左右方向可横向滚动
+					68 table
+						69 row
+							70 cell
+								71 text 员工
+							72 cell
+								73 text 申请小时
+							74 cell
+								75 text 打卡小时
+							76 cell
+								77 text 认可小时
+							78 cell
+								79 text 倍率
+							80 cell
+								81 text 单价元/小时
+							82 cell
+								83 text 工资金额
+							84 cell
+								85 text 处理
+						86 row
+							87 cell
+								88 text TEST-EMP-001 · 虚构员工甲
+							89 cell
+								90 text 8
+							91 cell
+								92 text 9
+							93 cell
+								94 text 8
+							95 cell
+								96 text 1.5
+							97 cell
+								98 text 62.5
+							99 cell
+								100 text 750
+							101 cell
+								102 text 工资；不重复调休
+						103 row
+							104 cell
+								105 text TEST-跨期例外
+							106 cell
+								107 text 2
+							108 cell
+								109 text 待补
+							110 cell
+								111 text 未确认
+							112 cell
+								113 text 待评审
+							114 cell
+								115 text 待评审
+							116 cell
+								117 text 未知
+							118 cell
+								119 text 先核对，未计入主样例
+				120 text 工资单位：10000元÷160小时＝62.50元/小时；认可8×1.5×62.5＝750。
+				121 text 倍率是虚构讨论参数，不作为法定或已批准规则；上限/节假日/跨日处理另征集。
+				122 container field-hours
+					123 text 加班时长
+					124 button (disabled) 补充字段说明：加班时长
+					125 button (disabled) 这个字段从哪里来
+				126 container operation-simulate
+					127 button 演示核算
+					128 button 演示复核
+					129 button 预览示例工资条
+					130 button (disabled) 补充操作规则或例外
+				131 text 示例尚未执行；不代表真实薪酬状态
+				132 container flow-approval
+					133 text 示例流程：准备 → 试算 → 复核 → 发放讨论 → 归档讨论
+					134 button (disabled) 补充流程角色与异常
+			135 container Description: 页面内功能需求征集, ID: module
+				136 heading 功能需求与意见征集（真实保存）, Value: 2
+					137 text 功能需求与意见征集（真实保存）
+				138 button (disabled) 补充本模块需求
+				139 button (disabled) 初始化46项候选模板
+				140 text field (settable) Description: 查找需求, ID: el-id-8270-83
+				141 container
+					142 combo box (collapsed, settable) Description: 评审状态筛选, ID: el-id-8270-84, Secondary Actions: Expand
+					143 text 全部评审状态
+					144 image
+				145 container
+					146 combo box (collapsed, settable) Description: 范围决策筛选, ID: el-id-8270-85, Secondary Actions: Expand
+					147 text 全部范围决策
+					148 image
+				149 container
+					150 combo box (collapsed, settable) Description: 排序, ID: el-id-8270-86, Secondary Actions: Expand
+					151 text 编号升序
+					152 image
+				153 button 应用筛选
+				154 button 清除筛选
+				155 container 真实需求清单
+					156 container
+						157 table
+							158 row
+								159 cell
+									160 container 选择所有行
+										161 checkbox (settable, integer) Description: 选择所有行, Value: 0, ID: el-id-8270-97
+								162 cell
+									163 text 需求ID
+								164 cell
+									165 text 编号
+								166 cell
+									167 text 功能/意见
+								168 cell
+									169 text 功能评审
+								170 cell
+									171 text 范围决策
+								172 cell
+									173 text 来源
+								174 cell
+									175 text 实施
+								176 cell
+									177 text 版本
+								178 cell
+									179 text 操作
+						180 table
+							181 container
+								182 row
+									183 cell
+										184 container 选择当前行
+											185 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-8270-98
+									186 cell
+										187 text 670
+									188 cell
+										189 text CUSTOM-0001
+									190 cell
+										191 text TEST S4 字段意见：加班认可时长必须区分申请与打卡
+									192 cell
+										193 text 评审中
+									194 cell
+										195 text 候选
+									196 cell
+										197 text 未就绪
+									198 cell
+										199 text 待验收
+									200 cell
+										201 text 10
+									202 cell
+										203 container
+											204 button (disabled) 编辑意见
+											205 button 历史/比较
+											206 button 返回原位置
+											207 button (disabled) 实施关联
+											208 button (disabled) 会议与站内提醒
+											209 button 本人确认
+								210 row
+									211 cell
+										212 container 选择当前行
+											213 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-8270-99
+									214 cell
+										215 text 619
+									216 cell
+										217 text OT-01
+									218 cell
+										219 text 加班申请与审批流（关联考勤打卡时长）
+									220 cell
+										221 text 待确认
+									222 cell
+										223 text 候选
+									224 cell
+										225 text 未就绪
+									226 cell
+										227 text 未排期
+									228 cell
+										229 text 1
+									230 cell
+										231 container
+											232 button (disabled) 编辑意见
+											233 button 历史/比较
+											234 button 返回原位置
+											235 button (disabled) 实施关联
+											236 button (disabled) 会议与站内提醒
+											237 button 本人确认
+								238 row
+									239 cell
+										240 container 选择当前行
+											241 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-8270-100
+									242 cell
+										243 text 608
+									244 cell
+										245 text OT-02
+									246 cell
+										247 text 加班时长统计与倍率规则计算
+									248 cell
+										249 text 待确认
+									250 cell
+										251 text 候选
+									252 cell
+										253 text 未就绪
+									254 cell
+										255 text 未排期
+									256 cell
+										257 text 1
+									258 cell
+										259 container
+											260 button (disabled) 编辑意见
+											261 button 历史/比较
+											262 button 返回原位置
+											263 button (disabled) 实施关联
+											264 button (disabled) 会议与站内提醒
+											265 button 本人确认
+								266 row
+									267 cell
+										268 container 选择当前行
+											269 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-8270-101
+									270 cell
+										271 text 609
+									272 cell
+										273 text OT-03
+									274 cell
+										275 text 加班费自动生成并进入工资核算
+									276 cell
+										277 text 待确认
+									278 cell
+										279 text 候选
+									280 cell
+										281 text 未就绪
+									282 cell
+										283 text 未排期
+									284 cell
+										285 text 1
+									286 cell
+										287 container
+											288 button (disabled) 编辑意见
+											289 button 历史/比较
+											290 button 返回原位置
+											291 button (disabled) 实施关联
+											292 button (disabled) 会议与站内提醒
+											293 button 本人确认
+								294 row
+									295 cell
+										296 container 选择当前行
+											297 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-8270-102
+									298 cell
+										299 text 610
+									300 cell
+										301 text OT-04
+									302 cell
+										303 text 调休/补休管理
+									304 cell
+										305 text 待确认
+									306 cell
+										307 text 候选
+									308 cell
+										309 text 未就绪
+									310 cell
+										311 text 未排期
+									312 cell
+										313 text 1
+									314 cell
+										315 container
+											316 button (disabled) 编辑意见
+											317 button 历史/比较
+											318 button 返回原位置
+											319 button (disabled) 实施关联
+											320 button (disabled) 会议与站内提醒
+											321 button 本人确认
+								322 row
+									323 cell
+										324 container 选择当前行
+											325 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-8270-103
+									326 cell
+										327 text 611
+									328 cell
+										329 text OT-05
+									330 cell
+										331 text 加班合规上限提醒
+									332 cell
+										333 text 待确认
+									334 cell
+										335 text 候选
+									336 cell
+										337 text 未就绪
+									338 cell
+										339 text 未排期
+									340 cell
+										341 text 1
+									342 cell
+										343 container
+											344 button (disabled) 编辑意见
+											345 button 历史/比较
+											346 button 返回原位置
+											347 button (disabled) 实施关联
+											348 button (disabled) 会议与站内提醒
+											349 button 本人确认
+				350 button (disabled) 上一页
+				351 content list
+					352 container 第 1 页
+						353 text 1
+				354 button (disabled) 下一页
+				355 text 共 6 条
+			356 container 数据来源征集
+				357 heading 依赖数据来源与盘点, Value: 2
+					358 text 依赖数据来源与盘点
+				359 text 候选目录是征集线索，不能冒充实际已提供来源或质量通过。实际来源需按权限另行登记与核验。
+				360 text DS-01 · HR 员工与组织档案
+				361 text 员工唯一编号、主体、部门、入离职日期、计薪资格；候选确认方：HR
+				362 text DS-02 · 考勤系统
+				363 text 员工编号、周期、班次、应出勤、实出勤、请假、缺勤、异常状态；候选确认方：HR / 考勤管理员
+				364 text DS-03 · OA 加班 / 请假审批
+				365 text 单据编号、员工、起止时间、审批状态、认可时长、补休状态；候选确认方：业务主管 / OA 负责人
+				366 text DS-04 · 工时制度与排班系统
+				367 text 员工制度类型、适用有效期、结算周期、排班、实际工时、差异；候选确认方：部门主管 / HR / IT
+				368 text DS-05 · 薪酬方案与员工薪资档案
+				369 text 方案版本、适用人员、薪资项、金额 / 单价、有效期；候选确认方：HR / 财务
+				370 container
+					371 text 当前可见实际来源
+					372 container
+						373 combo box (collapsed, settable) Description: 选择实际来源, ID: el-id-8270-87, Secondary Actions: Expand
+						374 text 无来源时保持缺口
+						375 image
+				376 button 维护实际来源、映射和QS/QC
+			377 container 真实统计与下钻
+				378 heading 范围、确认及来源统计（服务器集合）, Value: 2
+					379 text 范围、确认及来源统计（服务器集合）
+				380 text U全部需求（含移除）；E未移除；I纳入本期；C当前确认有效；T暂缓；D有异议。暂缓与异议仍计入有效集合，范围决策不代替确认。
+				381 text 筛选统计（不改变全项目发布门槛） · 筛选条件 {"module":"OT","status":null,"decision":null,"text":null}
+				382 button U · 6 · 查看集合
+				383 button E · 6 · 查看集合
+				384 button I · 0 · 查看集合
+				385 button C · 0 · 查看集合
+				386 button T · 0 · 查看集合
+				387 button D · 0 · 查看集合
+				388 text 功能确认率：0/6
+				389 text 范围处置率：0/6
+				390 text 本期确认率：暂无适用项（0/0）
+				391 text 来源可用率：0/6
+				392 text 本期来源可用率：暂无适用项（0/0）
+				393 text 去重实际来源 0；有效不适用 0；未决问题 0，逾期 0。关系和需求缺口以独立ID计数。
+				394 text 全项目功能确认 0/47，本期确认 暂无适用项（0/0）；当前筛选不改变全项目门槛。
+				395 text 正式决议/发布与六表快照属于S5，当前统计不是发布成功或已实施证明。受限账号只展示可见集合，隐藏对象数量不输出。
+				396 button 查看关系与缺口L
+			397 container 真实历史与版本差异
+				398 container
+					399 heading 真实历史与版本差异, Value: 2
+						400 text 真实历史与版本差异
+					401 button 关闭此对话框
+					402 container el-id-8270-70
+						403 container
+							404 combo box (collapsed, settable) Description: 比较旧版, ID: el-id-8270-128, Secondary Actions: Expand
+							405 text 版本6
+							406 image
+						407 container
+							408 combo box (collapsed, settable) Description: 比较新版, ID: el-id-8270-129, Secondary Actions: Expand
+							409 text 版本7
+							410 image
+						411 table
+							412 row
+								413 cell
+									414 text 字段
+								415 cell
+									416 text 旧版
+								417 cell
+									418 text 新版
+							419 row
+								420 cell
+									421 text implementationJson
+								422 cell
+									423 text "{\"state\":\"DEVELOPING\",\"page\":\"TEST /hrm-payroll/review?module=OT\",\"api\":\"TEST /hrm/payroll/review/page\",\"task\":\"TEST S4-意见670实施关联\",\"evidence\":\"TEST 尚未验收，引用用于讨论\",\"reason\":\"TEST 仅标开发中，功能仍在评审，不代替验收\",\"actorId\":263,\"time\":\"2026-10-19T13:56:33.110\",\"conclusionVerified\":false}"
+								424 cell
+									425 text "{\"state\":\"ACCEPTANCE_PENDING\",\"page\":\"TEST /hrm-payroll/review?module=OT\",\"api\":\"TEST /hrm/payroll/review/page\",\"task\":\"TEST S4-意见670实施关联\",\"evidence\":\"TEST 尚未验收，引用用于讨论\",\"reason\":\"TEST 实施修改为待验收，页面/API/任务保留，功能评审不自动确认\",\"actorId\":263,\"time\":\"2026-10-19T13:56:43.705\",\"conclusionVerified\":false}"
+							426 row
+								427 cell
+									428 text version
+								429 cell
+									430 text 6
+								431 cell
+									432 text 7
+						433 text 版本10 · 操作人263
+						434 text {
+  "createTime": null,
+  "updateTime": 1792389586258,
+  "creator": null,
+  "updater": "263",
+  "deleted": null,
+  "id": 670,
+  "permittedActions": null,
+  "currentConfirmationValid": null,
+  "projectId": 78,
+  "templateItemId": null,
+  "templateVersion": null,
+  "scopeMode": "INHERIT",
+  "scopeJson": "{\"entities\": [101], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-10-31\", \"explanation\": \"TEST S4 independently registered synthetic scope, not formal business approval\"}",
+  "scopeState": "MATCH",
+  "projectScopeVersion": 1,
+  "confirmedScopeVersion": null,
+  "confirmedScopeJson": null,
+  "scopeDecision": "CANDIDATE",
+  "scopeDecisionJson": "{\"decision\":\"CANDIDATE\",\"actorId\":263,\"time\":\"2026-10-19T13:56:19.790\",\"reason\":\"TEST 恢复候选重新评审，保留移除历史\",\"responsibleId\":null,\"reevaluate\":null,\"removalKind\":\"DUPLICATE\",\"replacementId\":null,\"scopeVersion\":1}",
+  "businessContextJson": "{\"page\":\"/hrm-payroll/review\",\"contextModule\":\"OT\",\"targetType\":\"FIELD\",\"anchor\":\"field-hours\",\"role\":\"TEST HR薪酬专员\",\"scenario\":\"TEST 月末核对加班申请、打卡与认可时长\",\"goal\":\"TEST 防止跨期和重复计薪\",\"expected\":\"TEST 采用已认可8小时，缺卡时保留未知并阻断\",\"normalCase\":\"TEST 申请8小时、打卡9小时、认可8小时\",\"exceptionCase\":\"TEST 缺卡或跨期，提示核对而非默认0\",\"calculation\":\"TEST 示例62.50×8×1.5；仅用于讨论，正式规则待业务核定\",\"unit\":\"TEST 小时、元/小时、元\",\"precision\":\"TEST 金额2位小数，四舍五入\",\"validity\":\"TEST 2026-10虚构期间；非真实政策\",\"ruleException\":\"TEST 调休与计薪不得重复，独立复核补正\"}",
+  "implementationJson": "{\"state\":\"ACCEPTANCE_PENDING\",\"page\":\"TEST /hrm-payroll/review?module=OT\",\"api\":\"TEST /hrm/payroll/review/page\",\"task\":\"TEST S4-意见670实施关联\",\"evidence\":\"TEST 尚未验收，引用用于讨论\",\"reason\":\"TEST 实施修改为待验收，页面/API/任务保留，功能评审不自动确认\",\"actorId\":263,\"time\":\"2026-10-19T13:56:43.705\",\"conclusionVerified\":false}",
+  "collaborationJson": "[{\"kind\":\"MEETING\",\"reference\":\"TEST S4会议纪要-20261019：核对认可时长口径和例外，不作正式业务决议\",\"reason\":\"TEST 记录会议讨论出处，不代表功能已确认或正式批准\",\"recipientId\":null,\"actorId\":263,\"time\":\"2026-10-19T13:59:10.426\",\"channel\":\"IN_APP_ONLY\"},{\"kind\":\"REMINDER\",\"reference\":\"TEST 站内待办：请复核加班意见670的正常和异常场景\",\"reason\":\"TEST 仅站内协作记录，不发送邮件短信\",\"recipientId\":264,\"actorId\":263,\"time\":\"2026-10-19T13:59:26.737\",\"channel\":\"IN_APP_ONLY\"}]",
+  "legacyReviewStatus": null,
+  "sourceApplicability": "APPLICABLE",
+  "applicabilityReason": null,
+  "ruleVersion": "TEST OT-REVIEW-V1 待业务核定",
+  "semanticVersion": 3,
+  "confirmedTupleJson": null,
+  "code": "CUSTOM-0001",
+  "module": "OT",
+  "description": "TEST S4 字段意见：加班认可时长必须区分申请与打卡",
+  "fieldMapping": null,
+  "sourceSystem": null,
+  "sourceOwnerId": null,
+  "reviewerId": 264,
+  "priority": 2,
+  "status": "REVIEWING",
+  "readiness": "MISSING",
+  "acceptance": "TEST 正常8小时得750元；缺卡分支提示未知、不得默认成功",
+  "evidence": "TEST 独立合成评审材料，不作正式批准",
+  "version": 10,
+  "confirmedBy": null,
+  "confirmedAt": null
+}
+						435 text 版本9 · 操作人263
+						436 text {
+  "createTime": 1792389000000,
+  "updateTime": 1792389000000,
+  "creator": "263",
+  "updater": "263",
+  "deleted": false,
+  "id": 670,
+  "permittedActions": null,
+  "currentConfirmationValid": null,
+  "projectId": 78,
+  "templateItemId": null,
+  "templateVersion": null,
+  "scopeMode": "INHERIT",
+  "scopeJson": "{\"entities\": [101], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-10-31\", \"explanation\": \"TEST S4 independently registered synthetic scope, not formal business approval\"}",
+  "scopeState": "MATCH",
+  "projectScopeVersion": 1,
+  "confirmedScopeVersion": null,
+  "confirmedScopeJson": null,
+  "scopeDecision": "CANDIDATE",
+  "scopeDecisionJson": "{\"decision\":\"CANDIDATE\",\"actorId\":263,\"time\":\"2026-10-19T13:56:19.790\",\"reason\":\"TEST 恢复候选重新评审，保留移除历史\",\"responsibleId\":null,\"reevaluate\":null,\"removalKind\":\"DUPLICATE\",\"replacementId\":null,\"scopeVersion\":1}",
+  "businessContextJson": "{\"page\":\"/hrm-payroll/review\",\"contextModule\":\"OT\",\"targetType\":\"FIELD\",\"anchor\":\"field-hours\",\"role\":\"TEST HR薪酬专员\",\"scenario\":\"TEST 月末核对加班申请、打卡与认可时长\",\"goal\":\"TEST 防止跨期和重复计薪\",\"expected\":\"TEST 采用已认可8小时，缺卡时保留未知并阻断\",\"normalCase\":\"TEST 申请8小时、打卡9小时、认可8小时\",\"exceptionCase\":\"TEST 缺卡或跨期，提示核对而非默认0\",\"calculation\":\"TEST 示例62.50×8×1.5；仅用于讨论，正式规则待业务核定\",\"unit\":\"TEST 小时、元/小时、元\",\"precision\":\"TEST 金额2位小数，四舍五入\",\"validity\":\"TEST 2026-10虚构期间；非真实政策\",\"ruleException\":\"TEST 调休与计薪不得重复，独立复核补正\"}",
+  "implementationJson": "{\"state\":\"ACCEPTANCE_PENDING\",\"page\":\"TEST /hrm-payroll/review?module=OT\",\"api\":\"TEST /hrm/payroll/review/page\",\"task\":\"TEST S4-意见670实施关联\",\"evidence\":\"TEST 尚未验收，引用用于讨论\",\"reason\":\"TEST 实施修改为待验收，页面/API/任务保留，功能评审不自动确认\",\"actorId\":263,\"time\":\"2026-10-19T13:56:43.705\",\"conclusionVerified\":false}",
+  "collaborationJson": "[{\"kind\":\"MEETING\",\"reference\":\"TEST S4会议纪要-20261019：核对认可时长口径和例外，不作正式业务决议\",\"reason\":\"TEST 记录会议讨论出处，不代表功能已确认或正式批准\",\"recipientId\":null,\"actorId\":263,\"time\":\"2026-10-19T13:59:10.426\",\"channel\":\"IN_APP_ONLY\"},{\"kind\":\"REMINDER\",\"reference\":\"TEST 站内待办：请复核加班意见670的正常和异常场景\",\"reason\":\"TEST 仅站内协作记录，不发送邮件短信\",\"recipientId\":264,\"actorId\":263,\"time\":\"2026-10-19T13:59:26.737\",\"channel\":\"IN_APP_ONLY\"}]",
+  "legacyReviewStatus": null,
+  "sourceApplicability": "APPLICABLE",
+  "applicabilityReason": null,
+  "ruleVersion": "TEST OT-REVIEW-V1 待业务核定",
+  "semanticVersion": 2,
+  "confirmedTupleJson": null,
+  "code": "CUSTOM-0001",
+  "module": "OT",
+  "description": "TEST S4 字段意见：加班认可时长必须区分申请与打卡",
+  "fieldMapping": null,
+  "sourceSystem": null,
+  "sourceOwnerId": null,
+  "reviewerId": null,
+  "priority": 2,
+  "status": "REVIEWING",
+  "readiness": "MISSING",
+  "acceptance": "TEST 正常8小时得750元；缺卡分支提示未知、不得默认成功",
+  "evidence": "TEST 独立合成评审材料，不作正式批准",
+  "version": 9,
+  "confirmedBy": null,
+  "confirmedAt": null
+}
+						437 text 版本8 · 操作人263
+						438 text {
+  "createTime": 1792389000000,
+  "updateTime": 1792389000000,
+  "creator": "263",
+  "updater": "263",
+  "deleted": false,
+  "id": 670,
+  "permittedActions": null,
+  "currentConfirmationValid": null,
+  "projectId": 78,
+  "templateItemId": null,
+  "templateVersion": null,
+  "scopeMode": "INHERIT",
+  "scopeJson": "{\"entities\": [101], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-10-31\", \"explanation\": \"TEST S4 independently registered synthetic scope, not formal business approval\"}",
+  "scopeState": "MATCH",
+  "projectScopeVersion": 1,
+  "confirmedScopeVersion": null,
+  "confirmedScopeJson": null,
+  "scopeDecision": "CANDIDATE",
+  "scopeDecisionJson": "{\"decision\":\"CANDIDATE\",\"actorId\":263,\"time\":\"2026-10-19T13:56:19.790\",\"reason\":\"TEST 恢复候选重新评审，保留移除历史\",\"responsibleId\":null,\"reevaluate\":null,\"removalKind\":\"DUPLICATE\",\"replacementId\":null,\"scopeVersion\":1}",
+  "businessContextJson": "{\"page\":\"/hrm-payroll/review\",\"contextModule\":\"OT\",\"targetType\":\"FIELD\",\"anchor\":\"field-hours\",\"role\":\"TEST HR薪酬专员\",\"scenario\":\"TEST 月末核对加班申请、打卡与认可时长\",\"goal\":\"TEST 防止跨期和重复计薪\",\"expected\":\"TEST 采用已认可8小时，缺卡时保留未知并阻断\",\"normalCase\":\"TEST 申请8小时、打卡9小时、认可8小时\",\"exceptionCase\":\"TEST 缺卡或跨期，提示核对而非默认0\",\"calculation\":\"TEST 示例62.50×8×1.5；仅用于讨论，正式规则待业务核定\",\"unit\":\"TEST 小时、元/小时、元\",\"precision\":\"TEST 金额2位小数，四舍五入\",\"validity\":\"TEST 2026-10虚构期间；非真实政策\",\"ruleException\":\"TEST 调休与计薪不得重复，独立复核补正\"}",
+  "implementationJson": "{\"state\":\"ACCEPTANCE_PENDING\",\"page\":\"TEST /hrm-payroll/review?module=OT\",\"api\":\"TEST /hrm/payroll/review/page\",\"task\":\"TEST S4-意见670实施关联\",\"evidence\":\"TEST 尚未验收，引用用于讨论\",\"reason\":\"TEST 实施修改为待验收，页面/API/任务保留，功能评审不自动确认\",\"actorId\":263,\"time\":\"2026-10-19T13:56:43.705\",\"conclusionVerified\":false}",
+  "collaborationJson": "[{\"kind\":\"MEETING\",\"reference\":\"TEST S4会议纪要-20261019：核对认可时长口径和例外，不作正式业务决议\",\"reason\":\"TEST 记录会议讨论出处，不代表功能已确认或正式批准\",\"recipientId\":null,\"actorId\":263,\"time\":\"2026-10-19T13:59:10.426\",\"channel\":\"IN_APP_ONLY\"}]",
+  "legacyReviewStatus": null,
+  "sourceApplicability": "APPLICABLE",
+  "applicabilityReason": null,
+  "ruleVersion": "TEST OT-REVIEW-V1 待业务核定",
+  "semanticVersion": 2,
+  "confirmedTupleJson": null,
+  "code": "CUSTOM-0001",
+  "module": "OT",
+  "description": "TEST S4 字段意见：加班认可时长必须区分申请与打卡",
+  "fieldMapping": null,
+  "sourceSystem": null,
+  "sourceOwnerId": null,
+  "reviewerId": null,
+  "priority": 2,
+  "status": "REVIEWING",
+  "readiness": "MISSING",
+  "acceptance": "TEST 正常8小时得750元；缺卡分支提示未知、不得默认成功",
+  "evidence": "TEST 独立合成评审材料，不作正式批准",
+  "version": 8,
+  "confirmedBy": null,
+  "confirmedAt": null
+}
+						439 text 版本7 · 操作人263
+						440 text {
+  "createTime": 1792389000000,
+  "updateTime": 1792389000000,
+  "creator": "263",
+  "updater": "263",
+  "deleted": false,
+  "id": 670,
+  "permittedActions": null,
+  "currentConfirmationValid": null,
+  "projectId": 78,
+  "templateItemId": null,
+  "templateVersion": null,
+  "scopeMode": "INHERIT",
+  "scopeJson": "{\"entities\": [101], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-10-31\", \"explanation\": \"TEST S4 independently registered synthetic scope, not formal business approval\"}",
+  "scopeState": "MATCH",
+  "projectScopeVersion": 1,
+  "confirmedScopeVersion": null,
+  "confirmedScopeJson": null,
+  "scopeDecision": "CANDIDATE",
+  "scopeDecisionJson": "{\"decision\":\"CANDIDATE\",\"actorId\":263,\"time\":\"2026-10-19T13:56:19.790\",\"reason\":\"TEST 恢复候选重新评审，保留移除历史\",\"responsibleId\":null,\"reevaluate\":null,\"removalKind\":\"DUPLICATE\",\"replacementId\":null,\"scopeVersion\":1}",
+  "businessContextJson": "{\"page\":\"/hrm-payroll/review\",\"contextModule\":\"OT\",\"targetType\":\"FIELD\",\"anchor\":\"field-hours\",\"role\":\"TEST HR薪酬专员\",\"scenario\":\"TEST 月末核对加班申请、打卡与认可时长\",\"goal\":\"TEST 防止跨期和重复计薪\",\"expected\":\"TEST 采用已认可8小时，缺卡时保留未知并阻断\",\"normalCase\":\"TEST 申请8小时、打卡9小时、认可8小时\",\"exceptionCase\":\"TEST 缺卡或跨期，提示核对而非默认0\",\"calculation\":\"TEST 示例62.50×8×1.5；仅用于讨论，正式规则待业务核定\",\"unit\":\"TEST 小时、元/小时、元\",\"precision\":\"TEST 金额2位小数，四舍五入\",\"validity\":\"TEST 2026-10虚构期间；非真实政策\",\"ruleException\":\"TEST 调休与计薪不得重复，独立复核补正\"}",
+  "implementationJson": "{\"state\":\"ACCEPTANCE_PENDING\",\"page\":\"TEST /hrm-payroll/review?module=OT\",\"api\":\"TEST /hrm/payroll/review/page\",\"task\":\"TEST S4-意见670实施关联\",\"evidence\":\"TEST 尚未验收，引用用于讨论\",\"reason\":\"TEST 实施修改为待验收，页面/API/任务保留，功能评审不自动确认\",\"actorId\":263,\"time\":\"2026-10-19T13:56:43.705\",\"conclusionVerified\":false}",
+  "collaborationJson": null,
+  "legacyReviewStatus": null,
+  "sourceApplicability": "APPLICABLE",
+  "applicabilityReason": null,
+  "ruleVersion": "TEST OT-REVIEW-V1 待业务核定",
+  "semanticVersion": 2,
+  "confirmedTupleJson": null,
+  "code": "CUSTOM-0001",
+  "module": "OT",
+  "description": "TEST S4 字段意见：加班认可时长必须区分申请与打卡",
+  "fieldMapping": null,
+  "sourceSystem": null,
+  "sourceOwnerId": null,
+  "reviewerId": null,
+  "priority": 2,
+  "status": "REVIEWING",
+  "readiness": "MISSING",
+  "acceptance": "TEST 正常8小时得750元；缺卡分支提示未知、不得默认成功",
+  "evidence": "TEST 独立合成评审材料，不作正式批准",
+  "version": 7,
+  "confirmedBy": null,
+  "confirmedAt": null
+}
+						441 text 版本6 · 操作人263
+						442 text {
+  "createTime": 1792389000000,
+  "updateTime": 1792389000000,
+  "creator": "263",
+  "updater": "263",
+  "deleted": false,
+  "id": 670,
+  "permittedActions": null,
+  "currentConfirmationValid": null,
+  "projectId": 78,
+  "templateItemId": null,
+  "templateVersion": null,
+  "scopeMode": "INHERIT",
+  "scopeJson": "{\"entities\": [101], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-10-31\", \"explanation\": \"TEST S4 independently registered synthetic scope, not formal business approval\"}",
+  "scopeState": "MATCH",
+  "projectScopeVersion": 1,
+  "confirmedScopeVersion": null,
+  "confirmedScopeJson": null,
+  "scopeDecision": "CANDIDATE",
+  "scopeDecisionJson": "{\"decision\":\"CANDIDATE\",\"actorId\":263,\"time\":\"2026-10-19T13:56:19.790\",\"reason\":\"TEST 恢复候选重新评审，保留移除历史\",\"responsibleId\":null,\"reevaluate\":null,\"removalKind\":\"DUPLICATE\",\"replacementId\":null,\"scopeVersion\":1}",
+  "businessContextJson": "{\"page\":\"/hrm-payroll/review\",\"contextModule\":\"OT\",\"targetType\":\"FIELD\",\"anchor\":\"field-hours\",\"role\":\"TEST HR薪酬专员\",\"scenario\":\"TEST 月末核对加班申请、打卡与认可时长\",\"goal\":\"TEST 防止跨期和重复计薪\",\"expected\":\"TEST 采用已认可8小时，缺卡时保留未知并阻断\",\"normalCase\":\"TEST 申请8小时、打卡9小时、认可8小时\",\"exceptionCase\":\"TEST 缺卡或跨期，提示核对而非默认0\",\"calculation\":\"TEST 示例62.50×8×1.5；仅用于讨论，正式规则待业务核定\",\"unit\":\"TEST 小时、元/小时、元\",\"precision\":\"TEST 金额2位小数，四舍五入\",\"validity\":\"TEST 2026-10虚构期间；非真实政策\",\"ruleException\":\"TEST 调休与计薪不得重复，独立复核补正\"}",
+  "implementationJson": "{\"state\":\"DEVELOPING\",\"page\":\"TEST /hrm-payroll/review?module=OT\",\"api\":\"TEST /hrm/payroll/review/page\",\"task\":\"TEST S4-意见670实施关联\",\"evidence\":\"TEST 尚未验收，引用用于讨论\",\"reason\":\"TEST 仅标开发中，功能仍在评审，不代替验收\",\"actorId\":263,\"time\":\"2026-10-19T13:56:33.110\",\"conclusionVerified\":false}",
+  "collaborationJson": null,
+  "legacyReviewStatus": null,
+  "sourceApplicability": "APPLICABLE",
+  "applicabilityReason": null,
+  "ruleVersion": "TEST OT-REVIEW-V1 待业务核定",
+  "semanticVersion": 2,
+  "confirmedTupleJson": null,
+  "code": "CUSTOM-0001",
+  "module": "OT",
+  "description": "TEST S4 字段意见：加班认可时长必须区分申请与打卡",
+  "fieldMapping": null,
+  "sourceSystem": null,
+  "sourceOwnerId": null,
+  "reviewerId": null,
+  "priority": 2,
+  "status": "REVIEWING",
+  "readiness": "MISSING",
+  "acceptance": "TEST 正常8小时得750元；缺卡分支提示未知、不得默认成功",
+  "evidence": "TEST 独立合成评审材料，不作正式批准",
+  "version": 6,
+  "confirmedBy": null,
+  "confirmedAt": null
+}
+						443 text 版本5 · 操作人263
+						444 text {
+  "createTime": 1792389000000,
+  "updateTime": 1792389000000,
+  "creator": "263",
+  "updater": "263",
+  "deleted": false,
+  "id": 670,
+  "permittedActions": null,
+  "currentConfirmationValid": null,
+  "projectId": 78,
+  "templateItemId": null,
+  "templateVersion": null,
+  "scopeMode": "INHERIT",
+  "scopeJson": "{\"entities\": [101], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-10-31\", \"explanation\": \"TEST S4 independently registered synthetic scope, not formal business approval\"}",
+  "scopeState": "MATCH",
+  "projectScopeVersion": 1,
+  "confirmedScopeVersion": null,
+  "confirmedScopeJson": null,
+  "scopeDecision": "CANDIDATE",
+  "scopeDecisionJson": "{\"decision\":\"CANDIDATE\",\"actorId\":263,\"time\":\"2026-10-19T13:56:19.790\",\"reason\":\"TEST 恢复候选重新评审，保留移除历史\",\"responsibleId\":null,\"reevaluate\":null,\"removalKind\":\"DUPLICATE\",\"replacementId\":null,\"scopeVersion\":1}",
+  "businessContextJson": "{\"page\":\"/hrm-payroll/review\",\"contextModule\":\"OT\",\"targetType\":\"FIELD\",\"anchor\":\"field-hours\",\"role\":\"TEST HR薪酬专员\",\"scenario\":\"TEST 月末核对加班申请、打卡与认可时长\",\"goal\":\"TEST 防止跨期和重复计薪\",\"expected\":\"TEST 采用已认可8小时，缺卡时保留未知并阻断\",\"normalCase\":\"TEST 申请8小时、打卡9小时、认可8小时\",\"exceptionCase\":\"TEST 缺卡或跨期，提示核对而非默认0\",\"calculation\":\"TEST 示例62.50×8×1.5；仅用于讨论，正式规则待业务核定\",\"unit\":\"TEST 小时、元/小时、元\",\"precision\":\"TEST 金额2位小数，四舍五入\",\"validity\":\"TEST 2026-10虚构期间；非真实政策\",\"ruleException\":\"TEST 调休与计薪不得重复，独立复核补正\"}",
+  "implementationJson": null,
+  "collaborationJson": null,
+  "legacyReviewStatus": null,
+  "sourceApplicability": "APPLICABLE",
+  "applicabilityReason": null,
+  "ruleVersion": "TEST OT-REVIEW-V1 待业务核定",
+  "semanticVersion": 2,
+  "confirmedTupleJson": null,
+  "code": "CUSTOM-0001",
+  "module": "OT",
+  "description": "TEST S4 字段意见：加班认可时长必须区分申请与打卡",
+  "fieldMapping": null,
+  "sourceSystem": null,
+  "sourceOwnerId": null,
+  "reviewerId": null,
+  "priority": 2,
+  "status": "REVIEWING",
+  "readiness": "MISSING",
+  "acceptance": "TEST 正常8小时得750元；缺卡分支提示未知、不得默认成功",
+  "evidence": "TEST 独立合成评审材料，不作正式批准",
+  "version": 5,
+  "confirmedBy": null,
+  "confirmedAt": null
+}
+						445 text 版本4 · 操作人263
+						446 text {
+  "createTime": 1792389000000,
+  "updateTime": 1792389000000,
+  "creator": "263",
+  "updater": "263",
+  "deleted": false,
+  "id": 670,
+  "permittedActions": null,
+  "currentConfirmationValid": null,
+  "projectId": 78,
+  "templateItemId": null,
+  "templateVersion": null,
+  "scopeMode": "INHERIT",
+  "scopeJson": "{\"entities\": [101], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-10-31\", \"explanation\": \"TEST S4 independently registered synthetic scope, not formal business approval\"}",
+  "scopeState": "MATCH",
+  "projectScopeVersion": 1,
+  "confirmedScopeVersion": null,
+  "confirmedScopeJson": null,
+  "scopeDecision": "REMOVED",
+  "scopeDecisionJson": "{\"decision\":\"REMOVED\",\"actorId\":263,\"time\":\"2026-10-19T13:52:37.276\",\"reason\":\"TEST 重复意见合并到同项目619，原内容和历史保留\",\"responsibleId\":null,\"reevaluate\":null,\"removalKind\":\"DUPLICATE\",\"replacementId\":619,\"scopeVersion\":1}",
+  "businessContextJson": "{\"page\":\"/hrm-payroll/review\",\"contextModule\":\"OT\",\"targetType\":\"FIELD\",\"anchor\":\"field-hours\",\"role\":\"TEST HR薪酬专员\",\"scenario\":\"TEST 月末核对加班申请、打卡与认可时长\",\"goal\":\"TEST 防止跨期和重复计薪\",\"expected\":\"TEST 采用已认可8小时，缺卡时保留未知并阻断\",\"normalCase\":\"TEST 申请8小时、打卡9小时、认可8小时\",\"exceptionCase\":\"TEST 缺卡或跨期，提示核对而非默认0\",\"calculation\":\"TEST 示例62.50×8×1.5；仅用于讨论，正式规则待业务核定\",\"unit\":\"TEST 小时、元/小时、元\",\"precision\":\"TEST 金额2位小数，四舍五入\",\"validity\":\"TEST 2026-10虚构期间；非真实政策\",\"ruleException\":\"TEST 调休与计薪不得重复，独立复核补正\"}",
+  "implementationJson": null,
+  "collaborationJson": null,
+  "legacyReviewStatus": null,
+  "sourceApplicability": "APPLICABLE",
+  "applicabilityReason": null,
+  "ruleVersion": "TEST OT-REVIEW-V1 待业务核定",
+  "semanticVersion": 1,
+  "confirmedTupleJson": null,
+  "code": "CUSTOM-0001",
+  "module": "OT",
+  "description": "TEST S4 字段意见：加班认可时长必须区分申请与打卡",
+  "fieldMapping": null,
+  "sourceSystem": null,
+  "sourceOwnerId": null,
+  "reviewerId": null,
+  "priority": 2,
+  "status": "REVIEWING",
+  "readiness": "MISSING",
+  "acceptance": "TEST 正常8小时得750元；缺卡分支提示未知、不得默认成功",
+  "evidence": "TEST 独立合成评审材料，不作正式批准",
+  "version": 4,
+  "confirmedBy": null,
+  "confirmedAt": null
+}
+						447 text 版本3 · 操作人263
+						448 text {
+  "createTime": 1792389000000,
+  "updateTime": 1792389000000,
+  "creator": "263",
+  "updater": "263",
+  "deleted": false,
+  "id": 670,
+  "permittedActions": null,
+  "currentConfirmationValid": null,
+  "projectId": 78,
+  "templateItemId": null,
+  "templateVersion": null,
+  "scopeMode": "INHERIT",
+  "scopeJson": "{\"entities\": [101], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-10-31\", \"explanation\": \"TEST S4 independently registered synthetic scope, not formal business approval\"}",
+  "scopeState": "MATCH",
+  "projectScopeVersion": 1,
+  "confirmedScopeVersion": null,
+  "confirmedScopeJson": null,
+  "scopeDecision": "DEFERRED",
+  "scopeDecisionJson": "{\"decision\":\"DEFERRED\",\"actorId\":263,\"time\":\"2026-10-19T13:52:21.130\",\"reason\":\"TEST 暂缓保留有效需求集合和来源缺口，不改变功能评审\",\"responsibleId\":263,\"reevaluate\":\"TEST 来源字段与跨期规则补齐后，在下次评审重新评估\",\"removalKind\":\"DUPLICATE\",\"replacementId\":null,\"scopeVersion\":1}",
+  "businessContextJson": "{\"page\":\"/hrm-payroll/review\",\"contextModule\":\"OT\",\"targetType\":\"FIELD\",\"anchor\":\"field-hours\",\"role\":\"TEST HR薪酬专员\",\"scenario\":\"TEST 月末核对加班申请、打卡与认可时长\",\"goal\":\"TEST 防止跨期和重复计薪\",\"expected\":\"TEST 采用已认可8小时，缺卡时保留未知并阻断\",\"normalCase\":\"TEST 申请8小时、打卡9小时、认可8小时\",\"exceptionCase\":\"TEST 缺卡或跨期，提示核对而非默认0\",\"calculation\":\"TEST 示例62.50×8×1.5；仅用于讨论，正式规则待业务核定\",\"unit\":\"TEST 小时、元/小时、元\",\"precision\":\"TEST 金额2位小数，四舍五入\",\"validity\":\"TEST 2026-10虚构期间；非真实政策\",\"ruleException\":\"TEST 调休与计薪不得重复，独立复核补正\"}",
+  "implementationJson": null,
+  "collaborationJson": null,
+  "legacyReviewStatus": null,
+  "sourceApplicability": "APPLICABLE",
+  "applicabilityReason": null,
+  "ruleVersion": "TEST OT-REVIEW-V1 待业务核定",
+  "semanticVersion": 1,
+  "confirmedTupleJson": null,
+  "code": "CUSTOM-0001",
+  "module": "OT",
+  "description": "TEST S4 字段意见：加班认可时长必须区分申请与打卡",
+  "fieldMapping": null,
+  "sourceSystem": null,
+  "sourceOwnerId": null,
+  "reviewerId": null,
+  "priority": 2,
+  "status": "REVIEWING",
+  "readiness": "MISSING",
+  "acceptance": "TEST 正常8小时得750元；缺卡分支提示未知、不得默认成功",
+  "evidence": "TEST 独立合成评审材料，不作正式批准",
+  "version": 3,
+  "confirmedBy": null,
+  "confirmedAt": null
+}
+						449 text 版本2 · 操作人263
+						450 text {
+  "createTime": 1792389000000,
+  "updateTime": 1792389000000,
+  "creator": "263",
+  "updater": "263",
+  "deleted": false,
+  "id": 670,
+  "permittedActions": null,
+  "currentConfirmationValid": null,
+  "projectId": 78,
+  "templateItemId": null,
+  "templateVersion": null,
+  "scopeMode": "INHERIT",
+  "scopeJson": "{\"entities\": [101], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-10-31\", \"explanation\": \"TEST S4 independently registered synthetic scope, not formal business approval\"}",
+  "scopeState": "MATCH",
+  "projectScopeVersion": 1,
+  "confirmedScopeVersion": null,
+  "confirmedScopeJson": null,
+  "scopeDecision": "INCLUDED",
+  "scopeDecisionJson": "{\"decision\":\"INCLUDED\",\"actorId\":263,\"time\":\"2026-10-19T13:51:56.906\",\"reason\":\"TEST 纳入本期讨论，不自动确认功能\",\"responsibleId\":null,\"reevaluate\":null,\"removalKind\":\"DUPLICATE\",\"replacementId\":null,\"scopeVersion\":1}",
+  "businessContextJson": "{\"page\":\"/hrm-payroll/review\",\"contextModule\":\"OT\",\"targetType\":\"FIELD\",\"anchor\":\"field-hours\",\"role\":\"TEST HR薪酬专员\",\"scenario\":\"TEST 月末核对加班申请、打卡与认可时长\",\"goal\":\"TEST 防止跨期和重复计薪\",\"expected\":\"TEST 采用已认可8小时，缺卡时保留未知并阻断\",\"normalCase\":\"TEST 申请8小时、打卡9小时、认可8小时\",\"exceptionCase\":\"TEST 缺卡或跨期，提示核对而非默认0\",\"calculation\":\"TEST 示例62.50×8×1.5；仅用于讨论，正式规则待业务核定\",\"unit\":\"TEST 小时、元/小时、元\",\"precision\":\"TEST 金额2位小数，四舍五入\",\"validity\":\"TEST 2026-10虚构期间；非真实政策\",\"ruleException\":\"TEST 调休与计薪不得重复，独立复核补正\"}",
+  "implementationJson": null,
+  "collaborationJson": null,
+  "legacyReviewStatus": null,
+  "sourceApplicability": "APPLICABLE",
+  "applicabilityReason": null,
+  "ruleVersion": "TEST OT-REVIEW-V1 待业务核定",
+  "semanticVersion": 1,
+  "confirmedTupleJson": null,
+  "code": "CUSTOM-0001",
+  "module": "OT",
+  "description": "TEST S4 字段意见：加班认可时长必须区分申请与打卡",
+  "fieldMapping": null,
+  "sourceSystem": null,
+  "sourceOwnerId": null,
+  "reviewerId": null,
+  "priority": 2,
+  "status": "REVIEWING",
+  "readiness": "MISSING",
+  "acceptance": "TEST 正常8小时得750元；缺卡分支提示未知、不得默认成功",
+  "evidence": "TEST 独立合成评审材料，不作正式批准",
+  "version": 2,
+  "confirmedBy": null,
+  "confirmedAt": null
+}
+						451 text 版本1 · 操作人263
+						452 text {
+  "createTime": 1792388999804,
+  "updateTime": 1792388999804,
+  "creator": "263",
+  "updater": "263",
+  "deleted": null,
+  "id": 670,
+  "permittedActions": null,
+  "currentConfirmationValid": null,
+  "projectId": 78,
+  "templateItemId": null,
+  "templateVersion": null,
+  "scopeMode": "INHERIT",
+  "scopeJson": "{\"entities\": [101], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-10-31\", \"explanation\": \"TEST S4 independently registered synthetic scope, not formal business approval\"}",
+  "scopeState": "MATCH",
+  "projectScopeVersion": 1,
+  "confirmedScopeVersion": null,
+  "confirmedScopeJson": null,
+  "scopeDecision": null,
+  "scopeDecisionJson": null,
+  "businessContextJson": "{\"page\":\"/hrm-payroll/review\",\"contextModule\":\"OT\",\"targetType\":\"FIELD\",\"anchor\":\"field-hours\",\"role\":\"TEST HR薪酬专员\",\"scenario\":\"TEST 月末核对加班申请、打卡与认可时长\",\"goal\":\"TEST 防止跨期和重复计薪\",\"expected\":\"TEST 采用已认可8小时，缺卡时保留未知并阻断\",\"normalCase\":\"TEST 申请8小时、打卡9小时、认可8小时\",\"exceptionCase\":\"TEST 缺卡或跨期，提示核对而非默认0\",\"calculation\":\"TEST 示例62.50×8×1.5；仅用于讨论，正式规则待业务核定\",\"unit\":\"TEST 小时、元/小时、元\",\"precision\":\"TEST 金额2位小数，四舍五入\",\"validity\":\"TEST 2026-10虚构期间；非真实政策\",\"ruleException\":\"TEST 调休与计薪不得重复，独立复核补正\"}",
+  "implementationJson": null,
+  "collaborationJson": null,
+  "legacyReviewStatus": null,
+  "sourceApplicability": "APPLICABLE",
+  "applicabilityReason": null,
+  "ruleVersion": "TEST OT-REVIEW-V1 待业务核定",
+  "semanticVersion": 1,
+  "confirmedTupleJson": null,
+  "code": "CUSTOM-0001",
+  "module": "OT",
+  "description": "TEST S4 字段意见：加班认可时长必须区分申请与打卡",
+  "fieldMapping": null,
+  "sourceSystem": null,
+  "sourceOwnerId": null,
+  "reviewerId": null,
+  "priority": 2,
+  "status": "REVIEWING",
+  "readiness": "MISSING",
+  "acceptance": "TEST 正常8小时得750元；缺卡分支提示未知、不得默认成功",
+  "evidence": "TEST 独立合成评审材料，不作正式批准",
+  "version": 1,
+  "confirmedBy": null,
+  "confirmedAt": null
+}
+					453 button 关闭历史
+			454 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 408 combo box (collapsed, settable) Description: 比较新版, ID: el-id-8270-129, Secondary Actions: Expand

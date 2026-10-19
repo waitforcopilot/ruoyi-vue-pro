@@ -1,0 +1,34 @@
+{
+  "migrationTwice": true,
+  "protected": {
+    "hrm_payroll_requirement": {
+      "originalRows": 602,
+      "allOriginalColumnsExact": true
+    },
+    "hrm_payroll_requirement_history": {
+      "originalRows": 1277,
+      "allOriginalColumnsExact": true
+    },
+    "hrm_payroll_requirement_project": {
+      "originalRows": 77,
+      "allOriginalColumnsExact": true
+    },
+    "hrm_payroll_requirement_project_grant": {
+      "originalRows": 242,
+      "allOriginalColumnsExact": true
+    },
+    "hrm_payroll_requirement_project_event": {
+      "originalRows": 188,
+      "allOriginalColumnsExact": true
+    },
+    "system_role_menu": {
+      "originalRows": 1843,
+      "allOriginalColumnsExact": true
+    },
+    "system_user_role": {
+      "originalRows": 37,
+      "allOriginalColumnsExact": true
+    }
+  },
+  "businessTablesExact": 61
+}

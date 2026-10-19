@@ -156,6 +156,7 @@ const labels = {
   EXPORT: '导出',
   MEMBER: '管理成员',
   SCOPE: '修订项目范围',
+  SCOPE_DECIDE: '决定需求纳入/暂缓/移除',
   SOURCE_EDIT: '维护实际来源',
   SOURCE_VERIFY: '核验来源及质量',
   ISSUE_MANAGE: '管理评审问题',

@@ -1,0 +1,157 @@
+Browser tab: 1, Title: "芋道管理系统 - 需求评审", URL: "http://127.0.0.1:5173/hrm-payroll/requirement?module=COL&projectId=83".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 55-189
+~				52 container
++					382 container
++						383 text 授权受当前委派上限约束；创建人和技术管理员不自动拥有成员管理或业务确认权。撤销上游授权同时使其委派失效，历史签署保留。
++						384 container
++							385 table
++								386 row
++									387 cell
++										388 text 授权编号
++									389 cell
++										390 text 成员
++									391 cell
++										392 text 动作
++									393 cell
++										394 text 当前状态
++									395 cell
++										396 text 范围
++									397 cell
++										398 text 操作
++							399 table
++								400 container
++									401 row
++										402 cell
++											403 button (collapsed) Description: 展开当前行, Secondary Actions: Expand
++										404 cell
++											405 text 288
++										406 cell
++											407 text TEST S4 restricted
++										408 cell
++											409 text READ
++										410 cell
++											411 text 有效
++										412 cell
++											413 text ["COL"] / 全部需求
++										414 cell
++											415 button 撤销
++									416 row
++										417 cell
++											418 button (collapsed) Description: 展开当前行, Secondary Actions: Expand
++										419 cell
++											420 text 287
++										421 cell
++											422 text TEST S4 restricted
++										423 cell
++											424 text READ,EXPORT
++										425 cell
++											426 text 有效
++										427 cell
++											428 text ["COL"] / [784]
++										429 cell
++											430 button 撤销
++									431 row
++										432 cell
++											433 button (collapsed) Description: 展开当前行, Secondary Actions: Expand
++										434 cell
++											435 text 275
++										436 cell
++											437 text TEST S4 reviewer
++										438 cell
++											439 text READ,CONFIRM,SOURCE_VERIFY,ISSUE_REVIEW
++										440 cell
++											441 text 有效
++										442 cell
++											443 text 全项目模块/对象
++									444 row
++										445 cell
++											446 button (collapsed) Description: 展开当前行, Secondary Actions: Expand
++										447 cell
++											448 text 274
++										449 cell
++											450 text TEST S4 editor
++										451 cell
++											452 text READ,META,EDIT,ASSIGN,EXPORT,MEMBER,SCOPE,SCOPE_DECIDE,SOURCE_EDIT,SOURCE_VERIFY,ISSUE_MANAGE,ISSUE_HANDLE
++										453 cell
++											454 text 有效
++										455 cell
++											456 text 全项目模块/对象
++									457 row
++										458 cell
++											459 button (collapsed) Description: 展开当前行, Secondary Actions: Expand
++										460 cell
++											461 text 273
++										462 cell
++											463 text 芋道源码
++										464 cell
++											465 text READ,META,EDIT,ASSIGN,EXPORT
++										466 cell
++											467 text 有效
++										468 cell
++											469 text 全项目模块/对象
++										470 cell
++											471 button 撤销
++						472 container
++							473 text 被授权成员
++							474 container
++								475 combo box (collapsed, settable) 被授权成员, ID: el-id-6805-145, Secondary Actions: Expand
++								476 text 请选择
++								477 image
++							478 text 许可动作
++							479 container
++								480 container
++									481 text 读取
++									482 button 关闭此标签
++								483 combo box (expanded, settable) 许可动作, ID: el-id-6805-146, Secondary Actions: Collapse
++								484 image
++							485 text 允许继续委派
++							486 container
++								487 combo box (collapsed, settable) 允许继续委派, ID: el-id-6805-147, Secondary Actions: Expand
++								488 text 请选择
++								489 image
++							490 container
++								491 switch (settable, boolean) Description: 全模块及对象, Value: 0, ID: el-id-6805-148
++							492 text 模块集合
++							493 text field (settable) 模块集合, ID: el-id-6805-149
++							494 text 稳定需求ID集合
++							495 text field (settable) 稳定需求ID集合, ID: el-id-6805-150
++							496 text 显式来源ID集合
++							497 text field (settable) 显式来源ID集合, ID: el-id-6805-151
++							498 text 主体ID集合
++							499 text field (settable) 主体ID集合, Value: 101, ID: el-id-6805-152
++							500 text 组织ID集合
++							501 text field (settable) 组织ID集合, Value: 201, ID: el-id-6805-153
++							502 text 人员类型
++							503 text field (settable) 人员类型, Value: TEST, ID: el-id-6805-154
++							504 text 业务场景
++							505 text field (settable) 业务场景, Value: TEST, ID: el-id-6805-155
++							506 text 期间开始
++							507 text field (settable) 期间开始, Value: 2026-10-01, ID: el-id-6805-156
++							508 text 期间结束
++							509 text field (settable) 期间结束, Value: 2026-10-31, ID: el-id-6805-157
++							510 text 范围业务说明
++							511 text entry area (settable) 范围业务说明, Value: TEST S4 independently registered synthetic scope, not formal business approval, ID: el-id-6805-158
++							512 text 授权开始日期
++							513 text field (settable) 授权开始日期, ID: el-id-6805-159
++							514 text 授权结束日期
++							515 text field (settable) 授权结束日期, ID: el-id-6805-160
++							516 text 授权依据
++							517 text entry area (settable) 授权依据, ID: el-id-6805-161
++	518 container 读取, ID: el-id-6805-99
++		519 list el-id-6805-98
++			520 (selected) Value: 读取, ID: el-id-6805-100
++			521 Value: 修改项目名称, ID: el-id-6805-101
++			522 Value: 编辑需求, ID: el-id-6805-102
++			523 Value: 分派评审人, ID: el-id-6805-103
++			524 Value: 本人确认, ID: el-id-6805-104
++			525 Value: 导出, ID: el-id-6805-105
++			526 Value: 管理成员, ID: el-id-6805-106
++			527 Value: 修订项目范围, ID: el-id-6805-107
++			528 Value: 决定需求纳入/暂缓/移除, ID: el-id-6805-108
++			529 Value: 维护实际来源, ID: el-id-6805-109
++			530 Value: 核验来源及质量, ID: el-id-6805-110
++			531 Value: 管理评审问题, ID: el-id-6805-111
++			532 Value: 处理评审问题, ID: el-id-6805-112
++			533 Value: 独立复核问题, ID: el-id-6805-113
+The focused UI element is 483 combo box (expanded, settable) 许可动作, ID: el-id-6805-146, Secondary Actions: Collapse

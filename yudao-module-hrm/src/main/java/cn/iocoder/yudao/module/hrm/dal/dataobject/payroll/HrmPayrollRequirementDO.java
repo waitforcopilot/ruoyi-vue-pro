@@ -21,7 +21,12 @@ public class HrmPayrollRequirementDO extends BaseDO {
     private Integer projectScopeVersion;
     private Integer confirmedScopeVersion;
     private String confirmedScopeJson;
-    private String scopeDecision;
+    @ExcelProperty("范围决策") private String scopeDecision;
+    @ExcelProperty("范围决策依据") private String scopeDecisionJson;
+    @ExcelProperty("业务场景与页面上下文") private String businessContextJson;
+    @ExcelProperty("独立实施关联") private String implementationJson;
+    @ExcelProperty("评审协作记录") private String collaborationJson;
+    private String legacyReviewStatus;
     @ExcelProperty("来源适用性") private String sourceApplicability;
     @ExcelProperty("不适用理由") private String applicabilityReason;
     @ExcelProperty("规则引用版本") private String ruleVersion;

@@ -1,0 +1,48 @@
+{
+  "verifiedAt": "2026-10-19T16:02:07.248825+08:00",
+  "tests": [
+    {
+      "name": "HrmPayrollReviewServiceTest",
+      "tests": 17,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    {
+      "name": "HrmPayrollRequirementPermissionTest",
+      "tests": 9,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    {
+      "name": "HrmPayrollRequirementProjectServiceTest",
+      "tests": 26,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    {
+      "name": "HrmPayrollRequirementServiceImplTest",
+      "tests": 31,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    {
+      "name": "HrmPayrollWorkbenchServiceTest",
+      "tests": 25,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    }
+  ],
+  "total": 108,
+  "fullFrontendTypecheck": true,
+  "changedFrontendEslint": true,
+  "independentDemoAmounts": true,
+  "migrationManifest": 59,
+  "diffCheck": true,
+  "privateLogs": "/Users/waitforpro/.hrm-payroll-local/stage4-20261019",
+  "limitations": "Database tests are not browser evidence or S5 formal business approval"
+}

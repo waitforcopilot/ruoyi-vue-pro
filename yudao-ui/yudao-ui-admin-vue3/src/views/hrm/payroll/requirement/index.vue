@@ -1,4 +1,15 @@
 <template>
+  <el-button
+    class="mb-4"
+    type="primary"
+    @click="
+      router.push({
+        path: '/hrm-payroll/review',
+        query: { projectId: projectId, module: module || 'OV' }
+      })
+    "
+    >进入十视图需求评审工作台</el-button
+  >
   <ProjectPanel :key="projectId || 0" :project-id="projectId" @changed="load" />
   <ContentWrap>
     <el-alert

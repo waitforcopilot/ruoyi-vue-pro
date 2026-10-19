@@ -1,0 +1,41 @@
+{
+  "frozenAt": "2026-10-19T16:02:07.248825+08:00",
+  "baseHead": "1cd9764145f8d77b27add111ae38a12782d8d18b",
+  "branch": "work",
+  "sourceSha256": {
+    "scripts/hrm/check_review_demo.cjs": "d0f468bc6c8996dd12e8ac77a7b9a4b0d264af0ca3921f0d9ba2a7f7ace6f66a",
+    "scripts/hrm/check_review_stage4_final.py": "99957c55656a793819f50eee10860a92ec2034e27480018e0bd3d59e906b0642",
+    "scripts/hrm/migrations.txt": "a325ac010a4f90b583a24c4e867b4cb7695331c59b9b7dc930a781f25c91cbb6",
+    "scripts/hrm/runtime_review_stage4.py": "4d53e1edde089dba3a294cd3fe534fafe432f647acaff41750c78783d90ad3d7",
+    "scripts/hrm/runtime_review_stage4_impact.py": "95555e1f265ae60129b43df88c9216ac62a4badaf7947d62970ae17734804e8d",
+    "sql/mysql/upgrade/20261019-hrm-review-workspace.sql": "74844b0a9d874dc2cd8017ed021478cecccf7c9fcefc3194179ef1db85482bc6",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/controller/admin/payroll/HrmPayrollReviewController.java": "ac24dbf1ac715d1b78cac109d9d9c03ee47c4d931a4c7ee6c798f06c986dd31e",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/controller/admin/payroll/vo/HrmPayrollRequirementSaveReqVO.java": "69c3592d73f8dfb43b75ab831232c436b80dfe31ad6482df351147af29f2d3f2",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/controller/admin/payroll/vo/HrmPayrollReviewVO.java": "239fb3712e3c41267d60f9c7fefb880762093c47ca979e62d1bde8f924f8336e",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/dal/dataobject/payroll/HrmPayrollRequirementDO.java": "3e8edc8311bd1383201dacc69214c2953e2404b889cc3e708fa7ed6944a90cd5",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementAccessService.java": "d3fa1a5d66b48e5e8ea6e62cc317429732e9c18f2808e83fbe5117327d30769c",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementProjectService.java": "facd49e9e2a8a7cd0daf8fae0b6f3ffb1246acaa3f0981a2e80fdf104e548e90",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementServiceImpl.java": "1b6dcdabff4f7ed0ea33d838a629d8351f9d6e8dd447b1ff1e777612f727520d",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollReviewService.java": "05e376fc7bea61531dc544a4d4e2c20407e024811c3ac6aa1ba5842b37938654",
+    "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollReviewServiceTest.java": "eac2937b4537bec930cd7887cdb2b4f35b1bcf4241f72c7c4455d3dfb11bd5a6",
+    "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollWorkbenchServiceTest.java": "9bc0ffb489ddd8496dc27f7f836f08a19b4b979c9f9266feb4bd42f15af2a566",
+    "yudao-module-hrm/src/test/resources/sql/create_tables.sql": "e22afa6caf6e86d098b26a79e4b9e2dcecdfd03150a94ad3e218500f3749bb71",
+    "yudao-ui/yudao-ui-admin-vue3/src/api/hrm/payroll/requirement.ts": "b0b90292c618ffad4991da7933b440eadcf036590948e266c286a0e87a09a86e",
+    "yudao-ui/yudao-ui-admin-vue3/src/api/hrm/payroll/review.ts": "8a7e7f2ca14604ab6a1d146f2c2a701d62f5c74bd4b442ff367a508ed895c90c",
+    "yudao-ui/yudao-ui-admin-vue3/src/router/modules/remaining.ts": "22ca5affb271c054641262a100513409cef4758131b5bba64f6a4765bd8981ce",
+    "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/MembersPanel.vue": "788c7fb94635f094d709720160d68d2f80136ff9a8fb5301d08aaff8214ad338",
+    "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/index.vue": "1b03b9b5aba5ccb81bc01e8a6d78bae65f1a05d8ff9d4892ebb5046893f60b73",
+    "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/demo.ts": "9f826832aef8e1755fb109dceaac18042a09a72159993cece6a0eb3d7864e263",
+    "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/index.vue": "4cbe4ac3fc3434ae3a691b94eada979d3668713814779589fba42d9660162c46"
+  },
+  "jarSha256": "3fe7a3eb5061ab370415087d3d0936711b0699ad441632aef73d1427e62cfc64",
+  "jarBuildTime": "2026-10-19T14:22:44.722235+08:00",
+  "hrmPackagedClassesMatch": 1092,
+  "javaSourceNotNewerThanRunningJar": true,
+  "readOnlySha256": {
+    "docs/hrm-payroll-requirements-workbench-prd-20261017.md": "7350322dd7d729275d2e424cecc04961f3c672edd86e29043a7502151523e985",
+    "docs/hrm-prd-audit-inputs/薪酬管理模块原型.html": "6898065e01c0e38f35bbb09a65184bc385b2e2e10334c1f80bca74b188908839",
+    "docs/hrm-payroll-workbench-code-audit-v04-20261017.md": "9a09b4d3a83d69e01063f6291a5847ade0e1c3ecb41b69a4eb5967f533c86393"
+  },
+  "frontend": "local Vite current source; final browser evidence indexed separately"
+}

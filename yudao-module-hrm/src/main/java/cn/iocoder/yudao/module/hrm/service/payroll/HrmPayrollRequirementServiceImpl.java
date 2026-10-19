@@ -194,6 +194,12 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         }
         if(record.getProjectId()==null) throw exception(PAYROLL_REVIEW_INCOMPLETE);
         boolean structured=selected!=null && !"LEGACY".equals(selected.getProjectKey());
+        record.setBusinessContextJson(request.getBusinessContextJson()==null && previous!=null?previous.getBusinessContextJson():request.getBusinessContextJson());
+        if(previous!=null){record.setScopeDecisionJson(previous.getScopeDecisionJson());record.setImplementationJson(previous.getImplementationJson());record.setCollaborationJson(previous.getCollaborationJson());record.setLegacyReviewStatus(previous.getLegacyReviewStatus());}
+        if(structured){HrmPayrollReviewService.validateBusiness(record,confirming);
+            if("DEFERRED".equals(record.getStatus()))throw exception(PAYROLL_REVIEW_INCOMPLETE);
+            if("DISPUTED".equals(record.getStatus()) && record.getBusinessContextJson()!=null && !projectService.visible(record,HrmPayrollReviewService.business(record.getBusinessContextJson()).getDisputeOwnerId(),"READ"))throw exception(PAYROLL_PROJECT_DENIED);
+        }
         record.setSourceApplicability(request.getSourceApplicability()==null?(previous==null?"APPLICABLE":previous.getSourceApplicability()):request.getSourceApplicability());
         record.setApplicabilityReason(request.getApplicabilityReason()==null && previous!=null?previous.getApplicabilityReason():request.getApplicabilityReason());record.setRuleVersion(request.getRuleVersion()==null && previous!=null?previous.getRuleVersion():request.getRuleVersion());
         boolean semanticChanged=previous!=null && reviewContractChanged(previous,request);
@@ -231,7 +237,7 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
                 .set(HrmPayrollRequirementDO::getVersion,record.getVersion()).set(HrmPayrollRequirementDO::getConfirmedBy,record.getConfirmedBy())
                 .set(HrmPayrollRequirementDO::getConfirmedAt,record.getConfirmedAt()));
         }
-        mapper.update(null,new com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper<HrmPayrollRequirementDO>().eq(HrmPayrollRequirementDO::getId,record.getId()).set(HrmPayrollRequirementDO::getSourceApplicability,record.getSourceApplicability()).set(HrmPayrollRequirementDO::getApplicabilityReason,record.getApplicabilityReason()).set(HrmPayrollRequirementDO::getRuleVersion,record.getRuleVersion()).set(HrmPayrollRequirementDO::getSemanticVersion,record.getSemanticVersion()).set(HrmPayrollRequirementDO::getConfirmedTupleJson,record.getConfirmedTupleJson()));
+        mapper.update(null,new com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper<HrmPayrollRequirementDO>().eq(HrmPayrollRequirementDO::getId,record.getId()).set(HrmPayrollRequirementDO::getSourceApplicability,record.getSourceApplicability()).set(HrmPayrollRequirementDO::getApplicabilityReason,record.getApplicabilityReason()).set(HrmPayrollRequirementDO::getRuleVersion,record.getRuleVersion()).set(HrmPayrollRequirementDO::getSemanticVersion,record.getSemanticVersion()).set(HrmPayrollRequirementDO::getConfirmedTupleJson,record.getConfirmedTupleJson()).set(HrmPayrollRequirementDO::getBusinessContextJson,record.getBusinessContextJson()));
         if(structured)workbench.applicabilityChanged(previous,record,actorId);
         HrmPayrollRequirementHistoryDO history=new HrmPayrollRequirementHistoryDO();
         history.setRequirementId(record.getId());history.setVersion(record.getVersion());
@@ -246,7 +252,7 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         projectService.requireRow(r,actor,action);
     }
     private boolean reviewContractChanged(HrmPayrollRequirementDO before,HrmPayrollRequirementSaveReqVO after) {
-        return (after.getSourceApplicability()!=null && !Objects.equals(before.getSourceApplicability(),after.getSourceApplicability()))
+        return (after.getBusinessContextJson()!=null && !Objects.equals(before.getBusinessContextJson(),after.getBusinessContextJson())) || (after.getSourceApplicability()!=null && !Objects.equals(before.getSourceApplicability(),after.getSourceApplicability()))
             || (after.getApplicabilityReason()!=null && !Objects.equals(before.getApplicabilityReason(),after.getApplicabilityReason()))
             || (after.getRuleVersion()!=null && !Objects.equals(before.getRuleVersion(),after.getRuleVersion()))
             || (after.getProjectId()!=null && !Objects.equals(before.getScopeMode(),after.getScopeMode()))
@@ -284,7 +290,7 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         HrmPayrollRequirementDO current=mapper.selectById(id);
         boolean legacy="LEGACY".equals(projectMapper.selectById(current.getProjectId()).getProjectKey());
         Long actor=cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId();
-        return result.stream().filter(h->{try{HrmPayrollRequirementDO snapshot=JsonUtils.parseObject(h.getSnapshot(),HrmPayrollRequirementDO.class);if(legacy && snapshot.getProjectId()==null)snapshot.setProjectId(current.getProjectId());return projectService.visible(snapshot,actor,"READ");}catch(RuntimeException ex){return false;}}).peek(h->{HrmPayrollRequirementDO snapshot=JsonUtils.parseObject(h.getSnapshot(),HrmPayrollRequirementDO.class);if(snapshot.getConfirmedTupleJson()!=null){snapshot.setConfirmedTupleJson(workbench.visibleConfirmationTuple(snapshot.getConfirmedTupleJson(),current.getProjectId(),actor));h.setSnapshot(JsonUtils.toJsonString(snapshot));}}).collect(java.util.stream.Collectors.toList());
+        return result.stream().filter(h->{try{HrmPayrollRequirementDO snapshot=JsonUtils.parseObject(h.getSnapshot(),HrmPayrollRequirementDO.class);if(legacy && snapshot.getProjectId()==null)snapshot.setProjectId(current.getProjectId());return projectService.visible(snapshot,actor,"READ");}catch(RuntimeException ex){return false;}}).peek(h->{HrmPayrollRequirementDO snapshot=JsonUtils.parseObject(h.getSnapshot(),HrmPayrollRequirementDO.class);if(snapshot.getConfirmedTupleJson()!=null){snapshot.setConfirmedTupleJson(workbench.visibleConfirmationTuple(snapshot.getConfirmedTupleJson(),current.getProjectId(),actor));}projectService.sanitizeReviewMetadata(snapshot,actor);h.setSnapshot(JsonUtils.toJsonString(snapshot));}).collect(java.util.stream.Collectors.toList());
     }
     @Override @Transactional(rollbackFor=Exception.class,isolation=org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
     public int initialize(Long actorId) {

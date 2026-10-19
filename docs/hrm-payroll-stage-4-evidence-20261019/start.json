@@ -1,0 +1,20 @@
+{
+  "head": "1cd9764145f8d77b27add111ae38a12782d8d18b",
+  "timestamp": "2026-10-19T13:37:22.515613",
+  "originalCounts": {
+    "hrm_payroll_requirement": 602,
+    "hrm_payroll_requirement_history": 1277,
+    "hrm_payroll_requirement_project": 77,
+    "hrm_payroll_requirement_project_grant": 242,
+    "hrm_payroll_requirement_project_event": 188,
+    "system_role_menu": 1843,
+    "system_user_role": 37
+  },
+  "readOnly": {
+    "docs/hrm-payroll-requirements-workbench-prd-20261017.md": "7350322dd7d729275d2e424cecc04961f3c672edd86e29043a7502151523e985",
+    "docs/hrm-prd-audit-inputs/薪酬管理模块原型.html": "6898065e01c0e38f35bbb09a65184bc385b2e2e10334c1f80bca74b188908839",
+    "docs/hrm-payroll-workbench-code-audit-v04-20261017.md": "9a09b4d3a83d69e01063f6291a5847ade0e1c3ecb41b69a4eb5967f533c86393"
+  },
+  "businessTablesProtected": 61,
+  "backupPrivateDirectory": "/Users/waitforpro/.hrm-payroll-local/stage4-20261019"
+}

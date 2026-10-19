@@ -1,0 +1,473 @@
+{
+  "verifiedAt": "2026-10-19T15:55:01.701311+08:00",
+  "fixedS0AfterRestoringCandidate": {
+    "U": 47,
+    "E": 47,
+    "I": 40,
+    "C": 40,
+    "T": 6,
+    "D": 0
+  },
+  "independentS3": {
+    "sets": {
+      "U": [
+        737,
+        738,
+        739,
+        740,
+        741,
+        742,
+        743,
+        744,
+        745,
+        746,
+        747,
+        748,
+        749,
+        750,
+        751,
+        752,
+        753,
+        754,
+        755,
+        756,
+        757,
+        758,
+        759,
+        760,
+        761,
+        762,
+        763,
+        764,
+        765,
+        766,
+        767,
+        768,
+        769,
+        770,
+        771,
+        772,
+        773,
+        774,
+        775,
+        776,
+        777,
+        778,
+        779,
+        780,
+        781,
+        782
+      ],
+      "E": [
+        737,
+        738,
+        739,
+        740,
+        741,
+        742,
+        743,
+        744,
+        745,
+        746,
+        747,
+        748,
+        749,
+        750,
+        751,
+        752,
+        753,
+        754,
+        755,
+        756,
+        757,
+        758,
+        759,
+        760,
+        761,
+        762,
+        763,
+        764,
+        765,
+        766,
+        767,
+        768,
+        769,
+        770,
+        771,
+        772,
+        773,
+        774,
+        775,
+        776,
+        777,
+        778,
+        779,
+        780,
+        781,
+        782
+      ],
+      "I": [
+        737,
+        738,
+        739,
+        740,
+        741,
+        742,
+        743,
+        744,
+        745,
+        746,
+        747,
+        748,
+        749,
+        750,
+        751,
+        752,
+        753,
+        754,
+        755,
+        756,
+        757,
+        758,
+        759,
+        760,
+        761,
+        762,
+        763,
+        764,
+        765,
+        766,
+        767,
+        768,
+        769,
+        770,
+        771,
+        772,
+        773,
+        774,
+        775,
+        776
+      ],
+      "C": [
+        738,
+        739,
+        740,
+        741,
+        742,
+        743,
+        744,
+        745,
+        746,
+        747,
+        748,
+        749,
+        750,
+        751,
+        752,
+        753,
+        754,
+        755,
+        756,
+        757,
+        758,
+        759,
+        760,
+        761,
+        762,
+        763,
+        764,
+        765,
+        766,
+        767,
+        768,
+        769,
+        770,
+        771,
+        772,
+        773,
+        774,
+        775,
+        776
+      ],
+      "T": [
+        777,
+        778,
+        779,
+        780,
+        781,
+        782
+      ],
+      "D": []
+    },
+    "counts": {
+      "U": 46,
+      "E": 46,
+      "I": 40,
+      "C": 39,
+      "T": 6,
+      "D": 0
+    },
+    "L": [],
+    "sourceIds": [],
+    "sourceCount": 0,
+    "exempt": 46,
+    "confirmation": {
+      "numerator": 39,
+      "denominator": 46,
+      "label": "39/46",
+      "percent": 84.78
+    },
+    "scopeDisposition": {
+      "numerator": 46,
+      "denominator": 46,
+      "label": "46/46",
+      "percent": 100.0
+    },
+    "includedConfirmation": {
+      "numerator": 39,
+      "denominator": 40,
+      "label": "39/40",
+      "percent": 97.5
+    },
+    "readiness": {
+      "numerator": 0,
+      "denominator": 0,
+      "label": "暂无适用项（0/0）",
+      "percent": null
+    },
+    "includedReadiness": {
+      "numerator": 0,
+      "denominator": 0,
+      "label": "暂无适用项（0/0）",
+      "percent": null
+    },
+    "unresolvedIssues": 0,
+    "overdueIssues": 0,
+    "missingIncludedConfirmationIds": [
+      737
+    ],
+    "baselineIssueIds": [],
+    "formalReleaseGate": "S5_NOT_IMPLEMENTED",
+    "fullProjectGateAvailable": true,
+    "projectId": 86,
+    "projectScopeVersion": 1,
+    "moduleFilter": null,
+    "filters": {
+      "module": null,
+      "status": null,
+      "decision": null,
+      "text": null
+    },
+    "permissionRestricted": false,
+    "label": "全项目当前统计（非发布基线）"
+  },
+  "empty": {
+    "sets": {
+      "U": [],
+      "E": [],
+      "I": [],
+      "C": [],
+      "T": [],
+      "D": []
+    },
+    "counts": {
+      "U": 0,
+      "E": 0,
+      "I": 0,
+      "C": 0,
+      "T": 0,
+      "D": 0
+    },
+    "L": [],
+    "sourceIds": [],
+    "sourceCount": 0,
+    "exempt": 0,
+    "confirmation": {
+      "numerator": 0,
+      "denominator": 0,
+      "label": "暂无适用项（0/0）",
+      "percent": null
+    },
+    "scopeDisposition": {
+      "numerator": 0,
+      "denominator": 0,
+      "label": "暂无适用项（0/0）",
+      "percent": null
+    },
+    "includedConfirmation": {
+      "numerator": 0,
+      "denominator": 0,
+      "label": "暂无适用项（0/0）",
+      "percent": null
+    },
+    "readiness": {
+      "numerator": 0,
+      "denominator": 0,
+      "label": "暂无适用项（0/0）",
+      "percent": null
+    },
+    "includedReadiness": {
+      "numerator": 0,
+      "denominator": 0,
+      "label": "暂无适用项（0/0）",
+      "percent": null
+    },
+    "unresolvedIssues": 0,
+    "overdueIssues": 0,
+    "missingIncludedConfirmationIds": [],
+    "baselineIssueIds": [],
+    "formalReleaseGate": "S5_NOT_IMPLEMENTED",
+    "fullProjectGateAvailable": true,
+    "projectId": 82,
+    "projectScopeVersion": 1,
+    "moduleFilter": null,
+    "filters": {
+      "module": null,
+      "status": null,
+      "decision": null,
+      "text": null
+    },
+    "permissionRestricted": false,
+    "label": "全项目当前统计（非发布基线）"
+  },
+  "sources": {
+    "sets": {
+      "U": [
+        784,
+        785,
+        786,
+        787
+      ],
+      "E": [
+        784,
+        785,
+        786,
+        787
+      ],
+      "I": [
+        784
+      ],
+      "C": [
+        785
+      ],
+      "T": [
+        786
+      ],
+      "D": []
+    },
+    "counts": {
+      "U": 4,
+      "E": 4,
+      "I": 1,
+      "C": 1,
+      "T": 1,
+      "D": 0
+    },
+    "L": [
+      {
+        "requirementId": 784,
+        "relationId": 1834,
+        "available": true,
+        "kind": "RELATION"
+      },
+      {
+        "requirementId": 784,
+        "relationId": 1860,
+        "available": false,
+        "kind": "RELATION"
+      },
+      {
+        "requirementId": 785,
+        "relationId": 1837,
+        "available": true,
+        "kind": "RELATION"
+      },
+      {
+        "requirementId": 786,
+        "relationId": 1854,
+        "available": false,
+        "kind": "RELATION"
+      }
+    ],
+    "sourceIds": [
+      1831,
+      1857
+    ],
+    "sourceCount": 2,
+    "exempt": 1,
+    "confirmation": {
+      "numerator": 1,
+      "denominator": 4,
+      "label": "1/4",
+      "percent": 25.0
+    },
+    "scopeDisposition": {
+      "numerator": 2,
+      "denominator": 4,
+      "label": "2/4",
+      "percent": 50.0
+    },
+    "includedConfirmation": {
+      "numerator": 0,
+      "denominator": 1,
+      "label": "0/1",
+      "percent": 0.0
+    },
+    "readiness": {
+      "numerator": 2,
+      "denominator": 4,
+      "label": "2/4",
+      "percent": 50.0
+    },
+    "includedReadiness": {
+      "numerator": 1,
+      "denominator": 2,
+      "label": "1/2",
+      "percent": 50.0
+    },
+    "unresolvedIssues": 2,
+    "overdueIssues": 1,
+    "missingIncludedConfirmationIds": [
+      784
+    ],
+    "baselineIssueIds": [
+      1875
+    ],
+    "formalReleaseGate": "S5_NOT_IMPLEMENTED",
+    "fullProjectGateAvailable": true,
+    "projectId": 83,
+    "projectScopeVersion": 1,
+    "moduleFilter": null,
+    "filters": {
+      "module": null,
+      "status": null,
+      "decision": null,
+      "text": null
+    },
+    "permissionRestricted": false,
+    "label": "全项目当前统计（非发布基线）"
+  },
+  "restrictedSourceExportIntersection": true,
+  "revokedReadDeniesReminders": 1050810043,
+  "recipientIsolation": true,
+  "browserCreatedContextsPersisted": [
+    {
+      "id": 789,
+      "version": 1,
+      "kind": "FIELD",
+      "anchor": "field-ot-02"
+    },
+    {
+      "id": 790,
+      "version": 1,
+      "kind": "OPERATION",
+      "anchor": "operation-simulate"
+    },
+    {
+      "id": 791,
+      "version": 1,
+      "kind": "FLOW",
+      "anchor": "flow-approval"
+    }
+  ]
+}

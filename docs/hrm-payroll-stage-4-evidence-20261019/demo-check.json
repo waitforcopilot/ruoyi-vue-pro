@@ -1,0 +1,19 @@
+{
+  "fictionalOnly": true,
+  "employee": "TEST-EMP-001",
+  "expected": {
+    "hourly": 62.5,
+    "overtime": 750,
+    "gross": 11750,
+    "personal": 1400,
+    "cumulativeTaxable": 27750,
+    "cumulativeTax": 832.5,
+    "tax": 130.5,
+    "net": 10219.5,
+    "employer": 2100,
+    "cost": 13850
+  },
+  "tenViews": 10,
+  "allViewsHaveFieldsRowsAndCandidateSources": true,
+  "productionWriterImports": false
+}

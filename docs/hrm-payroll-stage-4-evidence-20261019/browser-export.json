@@ -1,0 +1,17 @@
+{
+  "label": "权限受限可见节选（非发布基线）",
+  "requirementIds": [
+    670
+  ],
+  "counts": {
+    "U": 1,
+    "E": 1,
+    "I": 0,
+    "C": 0,
+    "T": 0,
+    "D": 0
+  },
+  "wholeProjectTotals": false,
+  "sourceIds": [],
+  "downloadPath": "/Users/waitforpro/Downloads/当前筛选评审清单.json"
+}

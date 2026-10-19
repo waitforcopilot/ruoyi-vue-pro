@@ -1,0 +1,54 @@
+[
+  {
+    "viewport": 390,
+    "save": true,
+    "history": true,
+    "returnedAnchor": "field-hours",
+    "dimensions": {
+      "documentWidth": 390,
+      "scrollLeft": 40,
+      "tableClient": 328,
+      "tableScroll": 939,
+      "width": 390
+    },
+    "actualSourceSelection": true,
+    "finalSameUrlReturn": {
+      "documentWidth": 390,
+      "focused": "field-hours",
+      "url": "http://127.0.0.1:5173/hrm-payroll/review?projectId=78&module=OT&anchor=field-hours",
+      "width": 390
+    }
+  },
+  {
+    "viewport": 768,
+    "save": true,
+    "history": true,
+    "actualSourceSelection": true,
+    "returnedAnchor": "field-hours",
+    "finalSameUrlReturn": {
+      "documentWidth": 768,
+      "focused": "field-hours",
+      "url": "http://127.0.0.1:5173/hrm-payroll/review?projectId=78&module=OT&anchor=field-hours",
+      "width": 768
+    }
+  },
+  {
+    "viewport": 1440,
+    "save": true,
+    "history": true,
+    "actualSourceSelection": true,
+    "returnedAnchor": "",
+    "dimensions": {
+      "documentWidth": 1440,
+      "focused": "",
+      "url": "http://127.0.0.1:5173/hrm-payroll/review?projectId=78&module=OT&anchor=field-hours",
+      "width": 1440
+    },
+    "finalSameUrlReturn": {
+      "documentWidth": 1440,
+      "focused": "field-hours",
+      "url": "http://127.0.0.1:5173/hrm-payroll/review?projectId=78&module=OT&anchor=field-hours",
+      "width": 1440
+    }
+  }
+]

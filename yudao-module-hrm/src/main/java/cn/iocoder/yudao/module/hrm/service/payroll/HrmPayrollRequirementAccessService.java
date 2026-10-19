@@ -17,7 +17,7 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 /** Current database authorization only. No role/admin bypass and no cached grant decisions. */
 @Service
 public class HrmPayrollRequirementAccessService {
-    public static final Set<String> ACTIONS = new HashSet<>(Arrays.asList("READ","META","EDIT","ASSIGN","CONFIRM","EXPORT","MEMBER","SCOPE","SOURCE_EDIT","SOURCE_VERIFY","ISSUE_MANAGE","ISSUE_HANDLE","ISSUE_REVIEW"));
+    public static final Set<String> ACTIONS = new HashSet<>(Arrays.asList("SCOPE_DECIDE","READ","META","EDIT","ASSIGN","CONFIRM","EXPORT","MEMBER","SCOPE","SOURCE_EDIT","SOURCE_VERIFY","ISSUE_MANAGE","ISSUE_HANDLE","ISSUE_REVIEW"));
     /** project_id=0 is a tenant-local creation authority, never a project membership. */
     public HrmPayrollRequirementProjectGrantDO creationAuthority(Long actor,String scopeJson) {
         HrmPayrollRequirementScope requested=HrmPayrollRequirementScope.parse(scopeJson);

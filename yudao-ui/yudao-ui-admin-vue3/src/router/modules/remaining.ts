@@ -34,6 +34,20 @@ const { t } = useI18n()
  **/
 const remainingRouter: AppRouteRecordRaw[] = [
   {
+    path: '/hrm-payroll/review',
+    component: Layout,
+    name: 'HrmPayrollReviewLayout',
+    meta: { hidden: true },
+    children: [
+      {
+        path: '',
+        name: 'HrmPayrollReview',
+        component: () => import('@/views/hrm/payroll/review/index.vue'),
+        meta: { title: '薪酬需求评审工作台', hidden: true, canTo: true, noCache: true }
+      }
+    ]
+  },
+  {
     path: '/redirect',
     component: Layout,
     name: 'RedirectRoot',

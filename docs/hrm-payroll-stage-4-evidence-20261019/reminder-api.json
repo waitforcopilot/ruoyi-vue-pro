@@ -1,0 +1,11 @@
+{
+  "reviewerRecipient": 264,
+  "reviewerInbox": 1,
+  "restrictedRecipient": 265,
+  "restrictedInbox": 1,
+  "senderInbox": 0,
+  "otherRecipientsNotIncluded": true,
+  "channel": "IN_APP_ONLY",
+  "sameTokenAfterReadRevoked": 1050810043,
+  "revokedProject": 78
+}

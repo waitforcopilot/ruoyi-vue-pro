@@ -10,6 +10,11 @@ export interface PayrollRequirement {
   templateVersion?: number
   projectId?: number
   permittedActions?: string[]
+  businessContextJson?: string
+  scopeDecision?: string
+  scopeDecisionJson?: string
+  implementationJson?: string
+  collaborationJson?: string
   code: string
   module: string
   description: string

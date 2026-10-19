@@ -4,6 +4,7 @@ import javax.validation.constraints.*;
 @Data
 public class HrmPayrollRequirementSaveReqVO {
     private Long id;
+    @Size(max=12000) private String businessContextJson;
     @Positive private Long projectId;
     @Min(1) private Integer projectScopeVersion;
     @Pattern(regexp="INHERIT|SUBSET") private String scopeMode;

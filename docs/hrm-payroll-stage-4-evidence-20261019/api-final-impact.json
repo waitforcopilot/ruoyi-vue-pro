@@ -1,0 +1,164 @@
+{
+  "verifiedAt": "2026-10-19T14:12:30.647735+08:00",
+  "candidatePhase": "final backend after reference clipping and scope action checks",
+  "S0AfterRestoredCandidate": {
+    "U": 47,
+    "E": 47,
+    "I": 40,
+    "C": 40,
+    "T": 6,
+    "D": 0
+  },
+  "independentS3": {
+    "U": 46,
+    "E": 46,
+    "I": 40,
+    "C": 39,
+    "T": 6,
+    "D": 0
+  },
+  "emptyIsUnknownNotHundredPercent": true,
+  "hiddenDetailDenied": 1050810043,
+  "crossProjectDenied": 1050810043,
+  "scopeDecideDeniedDespitePlatformPermission": 1050810043,
+  "implementationAfterRevocationDenied": 1050810043,
+  "staleImplementationDenied": 1050810002,
+  "hiddenHistoricalReplacementClipped": true,
+  "readAndExportSourceIntersection": {
+    "visibleReadRelationships": 1,
+    "visibleReadSources": 1,
+    "exportSources": 0,
+    "exportRelationshipIds": [
+      null
+    ]
+  },
+  "scopeMismatchKeepsRelationshipDenominator": true,
+  "reviewDeferredCannotBypassScopeDecision": 1050810003,
+  "issues": {
+    "advisoryId": 1863,
+    "closedDataId": 1866,
+    "baselineId": 1875,
+    "unresolved": 2,
+    "overdue": 1,
+    "ready": "2/4",
+    "filterCannotHideProjectBlock": true
+  },
+  "finalSourceStatistics": {
+    "sets": {
+      "U": [
+        784,
+        785,
+        786,
+        787
+      ],
+      "E": [
+        784,
+        785,
+        786,
+        787
+      ],
+      "I": [
+        784
+      ],
+      "C": [
+        785
+      ],
+      "T": [
+        786
+      ],
+      "D": []
+    },
+    "counts": {
+      "U": 4,
+      "E": 4,
+      "I": 1,
+      "C": 1,
+      "T": 1,
+      "D": 0
+    },
+    "L": [
+      {
+        "requirementId": 784,
+        "relationId": 1834,
+        "available": true,
+        "kind": "RELATION"
+      },
+      {
+        "requirementId": 784,
+        "relationId": 1860,
+        "available": false,
+        "kind": "RELATION"
+      },
+      {
+        "requirementId": 785,
+        "relationId": 1837,
+        "available": true,
+        "kind": "RELATION"
+      },
+      {
+        "requirementId": 786,
+        "relationId": 1854,
+        "available": false,
+        "kind": "RELATION"
+      }
+    ],
+    "sourceIds": [
+      1831,
+      1857
+    ],
+    "sourceCount": 2,
+    "exempt": 1,
+    "confirmation": {
+      "numerator": 1,
+      "denominator": 4,
+      "label": "1/4",
+      "percent": 25.0
+    },
+    "scopeDisposition": {
+      "numerator": 2,
+      "denominator": 4,
+      "label": "2/4",
+      "percent": 50.0
+    },
+    "includedConfirmation": {
+      "numerator": 0,
+      "denominator": 1,
+      "label": "0/1",
+      "percent": 0.0
+    },
+    "readiness": {
+      "numerator": 2,
+      "denominator": 4,
+      "label": "2/4",
+      "percent": 50.0
+    },
+    "includedReadiness": {
+      "numerator": 1,
+      "denominator": 2,
+      "label": "1/2",
+      "percent": 50.0
+    },
+    "unresolvedIssues": 2,
+    "overdueIssues": 1,
+    "missingIncludedConfirmationIds": [
+      784
+    ],
+    "baselineIssueIds": [
+      1875
+    ],
+    "formalReleaseGate": "S5_NOT_IMPLEMENTED",
+    "fullProjectGateAvailable": true,
+    "projectId": 83,
+    "projectScopeVersion": 1,
+    "moduleFilter": null,
+    "filters": {
+      "module": null,
+      "status": null,
+      "decision": null,
+      "text": null
+    },
+    "permissionRestricted": false,
+    "label": "全项目当前统计（非发布基线）"
+  },
+  "formalRelease": "S5_NOT_IMPLEMENTED"
+}

@@ -57,3 +57,4 @@ sql/mysql/upgrade/20261018-hrm-requirement-legacy-project.sql
 sql/mysql/upgrade/20261019-hrm-requirement-workbench.sql
 sql/mysql/upgrade/20261019-hrm-requirement-members.sql
 sql/mysql/upgrade/20261019-hrm-workbench-sources.sql
+sql/mysql/upgrade/20261019-hrm-review-workspace.sql

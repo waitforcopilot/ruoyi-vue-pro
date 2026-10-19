@@ -1,0 +1,26 @@
+[
+  {
+    "id": 670,
+    "version": 12,
+    "reviewerId": 264,
+    "status": "REVIEWING",
+    "scopeDecision": "CANDIDATE",
+    "implementationJson": "{\"state\":\"ACCEPTANCE_PENDING\",\"page\":\"TEST /hrm-payroll/review?module=OT\",\"api\":\"TEST /hrm/payroll/review/page\",\"task\":\"TEST S4-意见670实施关联\",\"evidence\":\"TEST 尚未验收，引用用于讨论\",\"reason\":\"TEST separate real API client updates implementation while browser edit is open\",\"actorId\":263,\"time\":\"2026-10-19T14:16:20.059\",\"conclusionVerified\":false}"
+  },
+  {
+    "id": 788,
+    "version": 5,
+    "reviewerId": 264,
+    "status": "PENDING",
+    "scopeDecision": "CANDIDATE",
+    "implementationJson": null
+  },
+  {
+    "id": 619,
+    "version": 2,
+    "reviewerId": null,
+    "status": "PENDING",
+    "scopeDecision": "CANDIDATE",
+    "implementationJson": "{\"state\":\"UNSCHEDULED\",\"page\":null,\"api\":null,\"task\":null,\"evidence\":null,\"reason\":\"TEST separate API modifies version before batch submission\",\"actorId\":263,\"time\":\"2026-10-19T14:17:31.223\",\"conclusionVerified\":false}"
+  }
+]

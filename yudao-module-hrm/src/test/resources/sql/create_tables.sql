@@ -1969,3 +1969,9 @@ ALTER TABLE hrm_payroll_requirement ADD COLUMN IF NOT EXISTS rule_version varcha
 ALTER TABLE hrm_payroll_requirement ADD COLUMN IF NOT EXISTS semantic_version int;
 ALTER TABLE hrm_payroll_requirement ADD COLUMN IF NOT EXISTS confirmed_tuple_json clob;
 ALTER TABLE hrm_payroll_requirement_project_grant ADD COLUMN IF NOT EXISTS source_ids_json clob;
+
+ALTER TABLE hrm_payroll_requirement ADD COLUMN IF NOT EXISTS business_context_json clob;
+ALTER TABLE hrm_payroll_requirement ADD COLUMN IF NOT EXISTS scope_decision_json clob;
+ALTER TABLE hrm_payroll_requirement ADD COLUMN IF NOT EXISTS implementation_json clob;
+ALTER TABLE hrm_payroll_requirement ADD COLUMN IF NOT EXISTS collaboration_json clob;
+ALTER TABLE hrm_payroll_requirement ADD COLUMN IF NOT EXISTS legacy_review_status varchar(32);
