@@ -2,7 +2,7 @@
 
 日期：2026-10-19；分支work，起点bbc3912d66ab01053725f3facfac11f28acb4247。S2实现764198fbb5及文档收尾已核对，未回退。仅执行S3。源码与运行候选冻结见[哈希](hrm-payroll-stage-3-evidence-20261019/candidate.json)。
 
-当前功能实现8/8；A1～A7通过，A8实际浏览器通过，提交push待核对，故阶段验收暂记7/8。以下结论仅对本机TEST合成夹具；不代表正式业务批准、生产验收或全部PRD通过。
+阶段任务8/8及A1～A8验收8/8通过，实现dd62d379fb已提交push origin/work并核对远端SHA一致。以下结论仅对本机TEST合成夹具；不代表正式业务批准、生产验收或全部PRD通过。
 
 ## 实现和入口
 
@@ -32,7 +32,7 @@
 | A7读出 | 列表/详情/历史/证据/待办按当前授权裁剪，当前及历史确认元组不泄露授权依据；实际JSON及原Excel只含497不含498，受限标签明确；0关系不展示虚假READY | browser-export.json、export-api.json、历史裁剪数据库测试 |
 | A7并发 | 来源×QS、映射×QC、交付×QC、来源×确认、范围×问题关闭五组真实竞争；顺序成功允许，但后变更使旧结果失效，旧scope核验/关闭拒绝 | security-candidate.json。返回0/0也核对最终不可用/当前失效，未把并发均必须报错当标准 |
 | A7迁移 | 全部原492需求/718历史/22项目/68授权/107事件/1824角色菜单/34用户角色原列逐项相同；增量迁移重入两次、隔离备份恢复两次、税务匹配密钥保留 | preservation.json、restore.json；原始备份及凭据仅仓库外 |
-| A8 | 三测试角色真实登录，来源→关联→分派本人确认待供数→语义/QS/QC→独立问题全链→单映射/共享语义重审→刷新重登/历史、受限导出及旧会话撤销；最终适用性补丁单独补验 | browser-flow.md及截图，不以API冒充页面；Git交付待下节核对 |
+| A8 | 三测试角色真实登录，来源→关联→分派本人确认待供数→语义/QS/QC→独立问题全链→单映射/共享语义重审→刷新重登/历史、受限导出及旧会话撤销；最终适用性补丁单独补验 | browser-flow.md及截图，不以API冒充页面；Git交付已核对，见下节 |
 
 [完整证据索引](hrm-payroll-stage-3-evidence-20261019/README.md)；[计划矩阵](hrm-payroll-stage-3-plan-20261019.md)。主链先执行，随后补强读出/历史/导出和适用性，均按影响回归；最终后端包另建60～77项目重跑16 API组及安全并发，不用串行污染的旧夹具推断通过。
 
@@ -67,4 +67,6 @@ S5接入契约：确认引用包含需求semanticVersion、scopeVersion、ruleVe
 
 ## Git交付核对
 
-待完成白名单提交push后写入实际实现SHA及远端结果。浏览器已通过，不提前声称push成功。
+实现提交`dd62d379fb3f30e0daec8f0f38a132c842d9589b`已push至`https://github.com/waitforcopilot/ruoyi-vue-pro`的work分支，git ls-remote返回相同SHA。71个白名单文件含28个源码/脚本/迁移/测试文件；源码哈希与浏览器及运行候选一致。随后仅补交验收状态和健康检查文档，不改业务代码。
+
+提交后复查后端UP、前端HTTP200、MySQL healthy、Redis PONG，见[健康状态](hrm-payroll-stage-3-evidence-20261019/service-final.json)。服务保持运行。S3已完成后停止，S4尚未启动。

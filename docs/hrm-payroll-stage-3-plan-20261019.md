@@ -2,7 +2,7 @@
 
 2026-10-19，起点bbc3912d66ab01053725f3facfac11f28acb4247。S2最终源码与运行jar哈希一致，报告/浏览器主链及最终影响补验已核对；本机服务运行。PRD/原审计只读，既有工作区修改保留。
 
-当前：功能实现8/8，A1～A7通过；A8浏览器通过、提交push待核对。阶段任务已验收7/8，阶段验收7/8；交付核对完成后更新8/8。跨S4/S5未验项另列，不计本阶段通过。
+当前：阶段任务已验收8/8，阶段验收8/8。实现dd62d379fb已push origin/work并通过ls-remote核对。跨S4/S5未验项另列，不计本阶段通过。
 
 | 任务/验收 | PRD/AC | 前置 | 操作及独立预期 | 状态/证据 |
 | --- | --- | --- | --- | --- |
@@ -13,7 +13,7 @@
 | S3-05/A5 语义/QS/QC/可用 | 7.6；AC27 | 固定D1、R1/R2，问题清零 | 不可变证据完整元组，0/2→0/2→1/2→2/2恢复；单映射保持R2/QS；规则变更不冒充业务语义 | 通过；api-candidate.json unit/type/interface/mapping/qsRule/qcRule；91项测试；browser-two-relations-ready.png |
 | S3-06/A6 问题闭环 | 6.7；AC21/22 | 有效独立处理/复核者 | 开始→提交→驳回→补充→关闭→重开，拒绝自关/错人/空依据；固定上海日期、阻断、降级独立复核 | 通过；api-candidate.json issues、固定上海时钟测试；browser-issue-closed-history.png |
 | S3-07/A7 权限/并发/迁移 | 9.1/6.8/7.6；AC17/23/27 | A1～A6 | 来源显式对象、关系双端、历史/计数/导出裁剪；跨项目/租户、旧会话、旧元组及范围并发拒绝；全量原字段保留/重入 | 通过；security-candidate.json五组真实并发和权限负例；preservation.json/restore.json/browser-export.json |
-| S3-08/A8 浏览器/交付 | 用户门槛/9.2 | 必要检查、最终运行候选 | 实际IAB完整链、刷新重登/取消/失败保留/最小权限正负例/历史待办；白名单提交push远端核对 | 浏览器通过；browser-flow.md、candidate.json；Git提交push待核对 |
+| S3-08/A8 浏览器/交付 | 用户门槛/9.2 | 必要检查、最终运行候选 | 实际IAB完整链、刷新重登/取消/失败保留/最小权限正负例/历史待办；白名单提交push远端核对 | 通过；browser-flow.md、candidate.json；实现dd62d379fb已push且远端SHA一致 |
 
 证据目录：[索引](hrm-payroll-stage-3-evidence-20261019/README.md)。原始数据/凭据/备份仅仓库外stage3私有目录。全部当前492需求、718历史、22项目、68授权、107事件、1824角色菜单、34用户角色作为本轮保护基准。
 

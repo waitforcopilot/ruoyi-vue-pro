@@ -1,6 +1,6 @@
 # S3 证据索引
 
-功能实现8/8，A1～A7通过，A8浏览器通过、提交push待核对；阶段暂记7/8。详见[阶段报告及子例矩阵](../hrm-payroll-stage-3-report-20261019.md)、[计划](../hrm-payroll-stage-3-plan-20261019.md)。仅本机TEST工程验收，不作为正式业务批准。
+阶段任务8/8、A1～A8验收8/8通过；实现dd62d379fb已push origin/work并核对远端SHA一致。详见[阶段报告及子例矩阵](../hrm-payroll-stage-3-report-20261019.md)、[计划](../hrm-payroll-stage-3-plan-20261019.md)。仅本机TEST工程验收，不作为正式业务批准。
 
 | 证据 | 内容与类别 |
 | --- | --- |

@@ -13,5 +13,8 @@
       "running": true,
       "health": "not-configured"
     }
-  }
+  },
+  "redisPing": "PONG",
+  "implementationCommit": "dd62d379fb3f30e0daec8f0f38a132c842d9589b",
+  "remoteRefVerified": "refs/heads/work=dd62d379fb3f30e0daec8f0f38a132c842d9589b"
 }
