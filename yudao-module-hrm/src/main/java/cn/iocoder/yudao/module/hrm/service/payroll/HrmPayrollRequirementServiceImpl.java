@@ -16,6 +16,8 @@ import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionU
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 @Service
 public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementService {
+    @Resource private HrmPayrollGovernanceStore governanceStore;
+    @Resource @org.springframework.context.annotation.Lazy private HrmPayrollGovernanceDecisionService governanceDecisions;
     @Resource private cn.iocoder.yudao.module.system.api.user.AdminUserApi users;
     @Resource private HrmPayrollRequirementMapper mapper;
     @Resource private cn.iocoder.yudao.module.system.api.permission.PermissionApi permissions;
@@ -96,7 +98,8 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
     @Override @Transactional(rollbackFor=Exception.class,isolation=org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
     public void confirm(Long id,Integer version,Long actorId) {
         if(id==null||version==null||version<1||actorId==null) throw exception(PAYROLL_REQUIREMENT_CONFIRM_ACTION_REQUIRED);
-        guardTarget(id,actorId,"CONFIRM");
+        governanceStore.lock();guardTarget(id,actorId,"CONFIRM");
+        HrmPayrollRequirementDO preliminary=mapper.selectById(id);if(preliminary==null)throw exception(PAYROLL_REQUIREMENT_NOT_EXISTS);governanceDecisions.refreshSemantics(preliminary.getProjectId(),actorId);governanceDecisions.forRequirement(preliminary,actorId);
         HrmPayrollRequirementDO row=mapper.selectOneForUpdate(HrmPayrollRequirementDO::getId,id);
         if(row==null) throw exception(PAYROLL_REQUIREMENT_NOT_EXISTS);
         if(!Objects.equals(row.getVersion(),version)) throw exception(PAYROLL_VERSION_CONFLICT);
@@ -109,6 +112,7 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
     }
     @Override @Transactional(rollbackFor=Exception.class,isolation=org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
     public void assign(Long id,Integer version,Long reviewerId,Long actorId) {
+        governanceStore.lock();
         if(actorId==null || !permissions.hasAnyPermissions(actorId,"hrm:payroll:requirement:assign"))
             throw exception(PAYROLL_REQUIREMENT_ASSIGN_FORBIDDEN);
         if(id==null || version==null || version<1) throw exception(PAYROLL_VERSION_CONFLICT);
@@ -123,14 +127,14 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         saveInternal(request,actorId,false,"ASSIGN");
     }
     private Long saveInternal(HrmPayrollRequirementSaveReqVO request,Long actorId,boolean confirming,String action) {
+        governanceStore.lock();
         HrmPayrollRequirementProjectDO selected=null;
         if(request.getId()!=null) guardTarget(request.getId(),actorId,action);
         if(request.getProjectId()!=null) {
             selected=projectService.check(request.getProjectId(),actorId,action,true);
             projectService.version(selected,request.getProjectScopeVersion());
-            // S5 supplies formal decision validation. Until then, new-project confirmation
-            // is limited to explicitly synthetic fixtures, still subject to every grant check.
-            if(confirming && !selected.getProjectKey().startsWith("TEST_"))throw exception(PAYROLL_PROJECT_DENIED);
+            // S5 validates independently registered roots and current decisions in confirmationTuple.
+            // TEST project names never bypass that policy.
         }
         if(request.getProjectId()==null)projectService.check(ensureLegacyProject(),actorId,action,true);
         HrmPayrollRequirementDO previous = request.getId()==null ? null : mapper.selectOneForUpdate(HrmPayrollRequirementDO::getId, request.getId());
@@ -184,7 +188,7 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         HrmPayrollRequirementDO record=BeanUtils.toBean(request,HrmPayrollRequirementDO.class);
         // Project identity is server-owned. The legacy API cannot move an existing requirement.
         record.setProjectId(targetProject);
-        if(selected==null)projectService.requireRow(record,actorId,action);
+        if(selected==null){HrmPayrollRequirementProjectDO legacyScope=projectMapper.selectById(targetProject);projectService.bind(record,legacyScope,request.getScopeMode(),request.getScopeJson());if("CONFIRMED".equals(record.getStatus())){record.setConfirmedScopeVersion(legacyScope.getProjectScopeVersion());record.setConfirmedScopeJson(record.getScopeJson());}projectService.requireRow(record,actorId,action);}
         if(previous!=null){record.setTemplateItemId(previous.getTemplateItemId());record.setTemplateVersion(previous.getTemplateVersion());record.setScopeDecision(previous.getScopeDecision());}
         if(selected!=null) {
             projectService.bind(record,selected,request.getScopeMode(),request.getScopeJson());
@@ -205,9 +209,9 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         boolean semanticChanged=previous!=null && reviewContractChanged(previous,request);
         record.setSemanticVersion(previous==null?1:(previous.getSemanticVersion()==null?1:previous.getSemanticVersion())+(semanticChanged?1:0));
         record.setConfirmedTupleJson(previous==null?null:previous.getConfirmedTupleJson());
+        if(confirming){if(!Objects.equals(actorId,record.getReviewerId()))throw exception(PAYROLL_REQUIREMENT_CONFIRMATION_INVALID);HrmPayrollRequirementProjectDO bound=projectMapper.selectById(targetProject);record.setConfirmedScopeVersion(bound.getProjectScopeVersion());record.setConfirmedScopeJson(record.getScopeJson());HrmPayrollReviewService.validateBusiness(record,true);record.setConfirmedTupleJson(workbench.confirmationTuple(record,actorId));}
+        if(!confirming&&(semanticChanged||!"CONFIRMED".equals(record.getStatus())))record.setConfirmedTupleJson(null);
         if(structured){
-            if(confirming){if(!Objects.equals(actorId,record.getReviewerId()))throw exception(PAYROLL_REQUIREMENT_CONFIRMATION_INVALID);record.setConfirmedTupleJson(workbench.confirmationTuple(record,actorId));}
-            else if(semanticChanged || !"CONFIRMED".equals(record.getStatus()))record.setConfirmedTupleJson(null);
             // Readiness is computed after persistence; ordinary forms cannot assert quality.
             record.setReadiness("MISSING");
         }
@@ -223,7 +227,7 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
             record.setUpdater(String.valueOf(actorId));
             record.setUpdateTime(LocalDateTime.now());
             // Persist scope fields explicitly alongside the existing nullable review contract.
-            if(selected!=null) mapper.update(null,new com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper<HrmPayrollRequirementDO>().eq(HrmPayrollRequirementDO::getId,record.getId()).set(HrmPayrollRequirementDO::getScopeMode,record.getScopeMode()).set(HrmPayrollRequirementDO::getScopeJson,record.getScopeJson()).set(HrmPayrollRequirementDO::getScopeState,record.getScopeState()).set(HrmPayrollRequirementDO::getProjectScopeVersion,record.getProjectScopeVersion()).set(HrmPayrollRequirementDO::getConfirmedScopeVersion,record.getConfirmedScopeVersion()).set(HrmPayrollRequirementDO::getConfirmedScopeJson,record.getConfirmedScopeJson()));
+            mapper.update(null,new com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper<HrmPayrollRequirementDO>().eq(HrmPayrollRequirementDO::getId,record.getId()).set(HrmPayrollRequirementDO::getScopeMode,record.getScopeMode()).set(HrmPayrollRequirementDO::getScopeJson,record.getScopeJson()).set(HrmPayrollRequirementDO::getScopeState,record.getScopeState()).set(HrmPayrollRequirementDO::getProjectScopeVersion,record.getProjectScopeVersion()).set(HrmPayrollRequirementDO::getConfirmedScopeVersion,record.getConfirmedScopeVersion()).set(HrmPayrollRequirementDO::getConfirmedScopeJson,record.getConfirmedScopeJson()));
             // Replace nullable review fields explicitly when returning to pending/reviewing.
             mapper.update(null,new com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper<HrmPayrollRequirementDO>()
                 .eq(HrmPayrollRequirementDO::getId,record.getId())

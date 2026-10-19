@@ -17,6 +17,9 @@
       </el-select>
       <el-button @click="load">刷新工作台</el-button>
       <el-button @click="central">集中清单</el-button>
+      <el-button @click="router.push({ path: '/hrm-payroll/governance', query: { projectId } })"
+        >业务决议与发布</el-button
+      >
       <el-button @click="openSourceWorkbench">实际来源与核验</el-button>
       <el-button @click="original">原有正式业务入口</el-button>
     </div>
@@ -344,7 +347,7 @@
         {{ stats.projectTotals.includedConfirmation.label }}；当前筛选不改变全项目门槛。</p
       >
       <p
-        >正式决议/发布与六表快照属于S5，当前统计不是发布成功或已实施证明。受限账号只展示可见集合，隐藏对象数量不输出。</p
+        >当前统计不是发布成功或已实施证明；业务决议、发布检查与六表快照请使用独立入口核实。受限账号只展示可见集合，隐藏对象数量不输出。</p
       >
       <el-button @click="drill('L')" :disabled="!stats">查看关系与缺口L</el-button>
     </section>

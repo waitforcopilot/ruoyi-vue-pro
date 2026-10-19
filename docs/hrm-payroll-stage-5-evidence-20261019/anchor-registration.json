@@ -1,0 +1,41 @@
+{
+  "id": 4,
+  "material": {
+    "state": "REGISTERED",
+    "mode": "TEST",
+    "custodianId": 266,
+    "signerId": 267,
+    "actions": [
+      "ASSIGN",
+      "BASELINE_PUBLISH",
+      "CONFIRM",
+      "DECISION_APPROVE",
+      "DECISION_EDIT",
+      "DECISION_READ",
+      "EDIT",
+      "EXPORT",
+      "GRANT_READ",
+      "ISSUE_HANDLE",
+      "ISSUE_MANAGE",
+      "ISSUE_REVIEW",
+      "MEMBER",
+      "META",
+      "PERSON_READ",
+      "PROJECT_CREATE",
+      "READ",
+      "SCOPE",
+      "SCOPE_DECIDE",
+      "SOURCE_EDIT",
+      "SOURCE_VERIFY"
+    ],
+    "scopeJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}",
+    "validFrom": "2026-01-01",
+    "validTo": "2027-12-31",
+    "body": "TEST S5 independent synthetic authority material V1. This is an externally registered TEST fixture, not a formal business authorization. Custodian and signer are two independent TEST accounts. Only synthetic TEST projects, subjects 101/102, organization 201, TEST workforce/scenarios and the registered 2026-10 through 2026-12 scope are authorized. It cannot grant formal business approval.",
+    "digest": "8496a1b848b511bc2d861ef361314fa4c75918e0bdd97b5c91b9426b98174109",
+    "materialVersion": "TEST-S5-ANCHOR-V1",
+    "registeredAt": "2026-10-19T17:02:34.410401+08:00",
+    "registrationSource": "TEST independently registered synthetic trust material; no current decision grants its own approval authority"
+  },
+  "formalAnchorsRegistered": 0
+}

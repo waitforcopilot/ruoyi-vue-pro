@@ -10,21 +10,31 @@ import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServic
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 @Import({HrmPayrollWorkbenchService.class,HrmPayrollRequirementAccessService.class,HrmPayrollRequirementServiceImpl.class,HrmPayrollRequirementProjectService.class})
 class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
+ // These tests isolate the pre-S5 contract. The real governance gate is covered by HrmPayrollGovernanceServiceTest and runtime regression.
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollGovernanceStore stage5Store;
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollGovernanceRootService stage5Roots;
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollGovernanceDecisionService stage5Decisions;
+ @org.junit.jupiter.api.BeforeEach void stage5ContractIsolation(){
+  org.mockito.Mockito.when(stage5Decisions.currentSemantic(org.mockito.ArgumentMatchers.any())).thenReturn(true);
+  org.mockito.Mockito.when(stage5Roots.validRoot(org.mockito.ArgumentMatchers.anyLong(),org.mockito.ArgumentMatchers.any())).thenReturn(true);
+ }
+
  @Resource private HrmPayrollRequirementService service;
  @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementProjectGrantMapper grants;
  @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementProjectMapper projects;
  @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.system.api.user.AdminUserApi users;
  @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.system.api.permission.PermissionApi permissions;
  @org.junit.jupiter.api.BeforeEach void users() {
+  cn.iocoder.yudao.framework.tenant.core.context.TenantContextHolder.setTenantId(1L);
   org.mockito.Mockito.when(permissions.hasAnyPermissions(org.mockito.ArgumentMatchers.anyLong(),org.mockito.ArgumentMatchers.anyString())).thenReturn(true);
   for(long id:new long[]{1,2,3}) org.mockito.Mockito.when(users.getUser(id)).thenReturn(new cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO().setId(id).setStatus(0));
   cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.setLoginUser(new cn.iocoder.yudao.framework.security.core.LoginUser().setId(1L).setUserType(2),new org.springframework.mock.web.MockHttpServletRequest());
-  projects.insert(new cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRequirementProjectDO().setId(1L).setProjectKey("LEGACY").setName("TEST explicit legacy fixture").setMetadataVersion(1));
-  for(long id:new long[]{1,2,3}){cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRequirementProjectGrantDO g=new cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRequirementProjectGrantDO();g.setProjectId(1L);g.setUserId(id);g.setActions("READ,EDIT,ASSIGN,CONFIRM,EXPORT");g.setEvidence("TEST legacy explicit access, no role bypass");g.setValidFrom(java.time.LocalDate.of(2020,1,1));g.setValidTo(java.time.LocalDate.of(2099,12,31));grants.insert(g);}
+  projects.insert(new cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRequirementProjectDO().setId(1L).setProjectKey("LEGACY").setName("TEST explicit legacy fixture").setMetadataVersion(1).setProjectScopeVersion(1).setScopeJson("{\"entities\":[101],\"organizations\":[201],\"workerTypes\":[\"TEST\"],\"scenarios\":[\"TEST\"],\"from\":\"2026-10-01\",\"to\":\"2026-10-31\",\"explanation\":\"TEST legacy contract scope\"}"));
+  for(long id:new long[]{1,2,3}){cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRequirementProjectGrantDO g=new cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRequirementProjectGrantDO();g.setProjectId(1L);g.setUserId(id);g.setCeilingJson("{\"entities\":[101],\"organizations\":[201],\"workerTypes\":[\"TEST\"],\"scenarios\":[\"TEST\"],\"from\":\"2026-10-01\",\"to\":\"2026-10-31\",\"explanation\":\"TEST legacy contract scope\"}");g.setActions("READ,EDIT,ASSIGN,CONFIRM,EXPORT");g.setEvidence("TEST legacy explicit access, no role bypass");g.setValidFrom(java.time.LocalDate.of(2020,1,1));g.setValidTo(java.time.LocalDate.of(2099,12,31));grants.insert(g);}
  }
- @org.junit.jupiter.api.AfterEach void clearIdentity(){org.springframework.security.core.context.SecurityContextHolder.clearContext();}
+ @org.junit.jupiter.api.AfterEach void clearIdentity(){cn.iocoder.yudao.framework.tenant.core.context.TenantContextHolder.clear();org.springframework.security.core.context.SecurityContextHolder.clearContext();}
  private HrmPayrollRequirementSaveReqVO request() {
-  HrmPayrollRequirementSaveReqVO r=new HrmPayrollRequirementSaveReqVO();r.setCode("PLAN-06");r.setModule("PLAN");r.setDescription("测试薪资方案规则");r.setStatus("PENDING");r.setReadiness("MISSING");r.setPriority(2);return r;
+  HrmPayrollRequirementSaveReqVO r=new HrmPayrollRequirementSaveReqVO();r.setCode("PLAN-06");r.setModule("PLAN");r.setDescription("测试薪资方案规则");r.setStatus("PENDING");r.setReadiness("MISSING");r.setPriority(2);r.setProjectScopeVersion(1);r.setBusinessContextJson("{\"role\": \"TEST legacy compatibility discussion\", \"scenario\": \"TEST legacy compatibility discussion\", \"goal\": \"TEST legacy compatibility discussion\", \"expected\": \"TEST legacy compatibility discussion\", \"normalCase\": \"TEST legacy compatibility discussion\", \"exceptionCase\": \"TEST legacy compatibility discussion\", \"calculation\": \"TEST legacy compatibility discussion\", \"unit\": \"TEST legacy compatibility discussion\", \"precision\": \"TEST legacy compatibility discussion\", \"validity\": \"TEST legacy compatibility discussion\", \"ruleException\": \"TEST legacy compatibility discussion\"}");r.setSourceApplicability("NOT_APPLICABLE");r.setApplicabilityReason("TEST legacy discussion does not consume business data");r.setRuleVersion("TEST RULE V1");return r;
  }
  private HrmPayrollRequirementSaveReqVO ready() {
   HrmPayrollRequirementSaveReqVO r=request();r.setReviewerId(2L);r.setSourceOwnerId(3L);r.setEvidence("评审记录");r.setAcceptance("可验证场景");r.setSourceSystem("HRM");r.setFieldMapping("来源字段 → 本项目字段");return r;
@@ -44,8 +54,8 @@ class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
   assertServiceException(()->service.save(r,2L),PAYROLL_REQUIREMENT_CONFIRM_ACTION_REQUIRED);assertNull(row(r.getId()).getConfirmedBy());assertEquals(1,service.history(r.getId()).size());
  }
  @Test void confirmationUsesPersistedVersionAndDoesNotChangeReadiness() {
-  HrmPayrollRequirementSaveReqVO r=ready();Long id=service.save(r,1L);r.setDescription("客户端未保存修改");
-  service.confirm(id,1,2L);assertEquals("测试薪资方案规则",row(id).getDescription());assertEquals("CONFIRMED",row(id).getStatus());assertEquals("MISSING",row(id).getReadiness());assertEquals(2L,row(id).getConfirmedBy());assertEquals(2,service.history(id).size());
+  HrmPayrollRequirementSaveReqVO r=ready();Long id=service.save(r,1L);assertEquals("EXEMPT",row(id).getReadiness());r.setDescription("客户端未保存修改");
+  service.confirm(id,1,2L);assertEquals("测试薪资方案规则",row(id).getDescription());assertEquals("CONFIRMED",row(id).getStatus());assertEquals("EXEMPT",row(id).getReadiness());assertEquals(2L,row(id).getConfirmedBy());assertEquals(2,service.history(id).size());
  }
  @Test void incompleteConfirmationIsRejectedWithoutNewHistory() {
   Long id=service.save(request(),1L);assertServiceException(()->service.confirm(id,1,2L),PAYROLL_REVIEW_INCOMPLETE);assertEquals(1,service.history(id).size());assertEquals("PENDING",row(id).getStatus());
@@ -80,6 +90,7 @@ class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
   r.setReviewerId(2L);r.setId(service.save(r,1L));assertServiceException(()->service.confirm(r.getId(),1,3L),PAYROLL_REQUIREMENT_CONFIRMATION_INVALID);
  }
  @Test void legacyProjectIsServerOwnedAndStableAcrossEdits() {
+  projects.update(null,new com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper<cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRequirementProjectDO>().eq(cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRequirementProjectDO::getId,1L).set(cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRequirementProjectDO::getProjectScopeVersion,null).set(cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRequirementProjectDO::getScopeJson,null));
   assertEquals(1L,service.legacyProject().getId());HrmPayrollRequirementSaveReqVO r=request();r.setId(service.save(r,1L));Long project=service.legacyProject().getId();assertNull(service.legacyProject().getProjectScopeVersion());assertEquals(1,service.legacyProject().getMetadataVersion());
   r.setVersion(1);r.setDescription("只修改说明，保留归属");service.save(r,1L);assertEquals(project,row(r.getId()).getProjectId());assertTrue(service.history(r.getId()).get(0).getSnapshot().contains("\"projectId\":"+project));
  }

@@ -1,0 +1,7 @@
+{
+  "isolatedDatabase": "hrm_s5_legacy_183727",
+  "originalPreS3SchemaSupported": true,
+  "invalidLegacySignatureReopenedOnce": true,
+  "structuredSignatureUnaffectedOnReplay": true,
+  "baseSqlOrFreshUsed": false
+}

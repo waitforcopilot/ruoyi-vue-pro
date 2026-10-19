@@ -1,0 +1,757 @@
+{
+  "time": "2026-10-19T20:54:30.017387+08:00",
+  "originalRows": {
+    "hrm_attendance_clock": {
+      "rows": 19,
+      "originalColumns": 20,
+      "unchanged": true
+    },
+    "hrm_attendance_group": {
+      "rows": 2,
+      "originalColumns": 19,
+      "unchanged": true
+    },
+    "hrm_attendance_holiday": {
+      "rows": 1,
+      "originalColumns": 9,
+      "unchanged": true
+    },
+    "hrm_attendance_leave": {
+      "rows": 0,
+      "originalColumns": 21,
+      "unchanged": true
+    },
+    "hrm_config": {
+      "rows": 0,
+      "originalColumns": 10,
+      "unchanged": true
+    },
+    "hrm_employee": {
+      "rows": 8,
+      "originalColumns": 41,
+      "unchanged": true
+    },
+    "hrm_employee_certificate": {
+      "rows": 0,
+      "originalColumns": 17,
+      "unchanged": true
+    },
+    "hrm_employee_change_record": {
+      "rows": 0,
+      "originalColumns": 24,
+      "unchanged": true
+    },
+    "hrm_employee_contact": {
+      "rows": 0,
+      "originalColumns": 15,
+      "unchanged": true
+    },
+    "hrm_employee_contract": {
+      "rows": 0,
+      "originalColumns": 20,
+      "unchanged": true
+    },
+    "hrm_employee_education_experience": {
+      "rows": 0,
+      "originalColumns": 16,
+      "unchanged": true
+    },
+    "hrm_employee_file": {
+      "rows": 0,
+      "originalColumns": 10,
+      "unchanged": true
+    },
+    "hrm_employee_personal_note": {
+      "rows": 0,
+      "originalColumns": 10,
+      "unchanged": true
+    },
+    "hrm_employee_quit_info": {
+      "rows": 0,
+      "originalColumns": 15,
+      "unchanged": true
+    },
+    "hrm_employee_salary_card": {
+      "rows": 4,
+      "originalColumns": 12,
+      "unchanged": true
+    },
+    "hrm_employee_training_experience": {
+      "rows": 0,
+      "originalColumns": 17,
+      "unchanged": true
+    },
+    "hrm_employee_work_experience": {
+      "rows": 0,
+      "originalColumns": 17,
+      "unchanged": true
+    },
+    "hrm_insurance_employee_info": {
+      "rows": 0,
+      "originalColumns": 14,
+      "unchanged": true
+    },
+    "hrm_insurance_month_employee_record": {
+      "rows": 0,
+      "originalColumns": 18,
+      "unchanged": true
+    },
+    "hrm_insurance_month_record": {
+      "rows": 0,
+      "originalColumns": 17,
+      "unchanged": true
+    },
+    "hrm_insurance_scheme": {
+      "rows": 0,
+      "originalColumns": 11,
+      "unchanged": true
+    },
+    "hrm_insurance_scheme_project": {
+      "rows": 0,
+      "originalColumns": 15,
+      "unchanged": true
+    },
+    "hrm_payroll_attendance_issue": {
+      "rows": 1,
+      "originalColumns": 23,
+      "unchanged": true
+    },
+    "hrm_payroll_attendance_issue_event": {
+      "rows": 10,
+      "originalColumns": 14,
+      "unchanged": true
+    },
+    "hrm_payroll_bank_template": {
+      "rows": 0,
+      "originalColumns": 12,
+      "unchanged": true
+    },
+    "hrm_payroll_batch_event": {
+      "rows": 69,
+      "originalColumns": 15,
+      "unchanged": true
+    },
+    "hrm_payroll_bonus": {
+      "rows": 5,
+      "originalColumns": 25,
+      "unchanged": true
+    },
+    "hrm_payroll_bonus_event": {
+      "rows": 11,
+      "originalColumns": 12,
+      "unchanged": true
+    },
+    "hrm_payroll_config_guard": {
+      "rows": 1,
+      "originalColumns": 7,
+      "unchanged": true
+    },
+    "hrm_payroll_cost_event": {
+      "rows": 17,
+      "originalColumns": 13,
+      "unchanged": true
+    },
+    "hrm_payroll_cost_report": {
+      "rows": 4,
+      "originalColumns": 19,
+      "unchanged": true
+    },
+    "hrm_payroll_cost_rule": {
+      "rows": 2,
+      "originalColumns": 23,
+      "unchanged": true
+    },
+    "hrm_payroll_entity_event": {
+      "rows": 27,
+      "originalColumns": 12,
+      "unchanged": true
+    },
+    "hrm_payroll_entity_grant": {
+      "rows": 8,
+      "originalColumns": 13,
+      "unchanged": true
+    },
+    "hrm_payroll_entity_membership": {
+      "rows": 7,
+      "originalColumns": 18,
+      "unchanged": true
+    },
+    "hrm_payroll_financial_event": {
+      "rows": 16,
+      "originalColumns": 15,
+      "unchanged": true
+    },
+    "hrm_payroll_financial_plan": {
+      "rows": 4,
+      "originalColumns": 27,
+      "unchanged": true
+    },
+    "hrm_payroll_formula": {
+      "rows": 1,
+      "originalColumns": 15,
+      "unchanged": true
+    },
+    "hrm_payroll_grade_policy": {
+      "rows": 2,
+      "originalColumns": 18,
+      "unchanged": true
+    },
+    "hrm_payroll_input": {
+      "rows": 25,
+      "originalColumns": 18,
+      "unchanged": true
+    },
+    "hrm_payroll_input_import": {
+      "rows": 0,
+      "originalColumns": 17,
+      "unchanged": true
+    },
+    "hrm_payroll_input_issue": {
+      "rows": 1,
+      "originalColumns": 29,
+      "unchanged": true
+    },
+    "hrm_payroll_input_issue_event": {
+      "rows": 9,
+      "originalColumns": 12,
+      "unchanged": true
+    },
+    "hrm_payroll_insurance_adjustment": {
+      "rows": 0,
+      "originalColumns": 30,
+      "unchanged": true
+    },
+    "hrm_payroll_insurance_adjustment_event": {
+      "rows": 0,
+      "originalColumns": 12,
+      "unchanged": true
+    },
+    "hrm_payroll_insurance_base": {
+      "rows": 4,
+      "originalColumns": 20,
+      "unchanged": true
+    },
+    "hrm_payroll_insurance_bill": {
+      "rows": 1,
+      "originalColumns": 24,
+      "unchanged": true
+    },
+    "hrm_payroll_insurance_bill_line": {
+      "rows": 2,
+      "originalColumns": 22,
+      "unchanged": true
+    },
+    "hrm_payroll_insurance_event": {
+      "rows": 22,
+      "originalColumns": 14,
+      "unchanged": true
+    },
+    "hrm_payroll_insurance_import": {
+      "rows": 0,
+      "originalColumns": 15,
+      "unchanged": true
+    },
+    "hrm_payroll_insurance_policy": {
+      "rows": 3,
+      "originalColumns": 18,
+      "unchanged": true
+    },
+    "hrm_payroll_insurance_settlement": {
+      "rows": 0,
+      "originalColumns": 22,
+      "unchanged": true
+    },
+    "hrm_payroll_legal_entity": {
+      "rows": 4,
+      "originalColumns": 14,
+      "unchanged": true
+    },
+    "hrm_payroll_no_overtime": {
+      "rows": 0,
+      "originalColumns": 22,
+      "unchanged": true
+    },
+    "hrm_payroll_offset": {
+      "rows": 0,
+      "originalColumns": 24,
+      "unchanged": true
+    },
+    "hrm_payroll_offset_event": {
+      "rows": 0,
+      "originalColumns": 12,
+      "unchanged": true
+    },
+    "hrm_payroll_payment": {
+      "rows": 5,
+      "originalColumns": 23,
+      "unchanged": true
+    },
+    "hrm_payroll_payment_receipt": {
+      "rows": 5,
+      "originalColumns": 13,
+      "unchanged": true
+    },
+    "hrm_payroll_requirement": {
+      "rows": 787,
+      "originalColumns": 42,
+      "unchanged": true
+    },
+    "hrm_payroll_requirement_history": {
+      "rows": 1871,
+      "originalColumns": 11,
+      "unchanged": true
+    },
+    "hrm_payroll_requirement_project": {
+      "rows": 86,
+      "originalColumns": 15,
+      "unchanged": true
+    },
+    "hrm_payroll_requirement_project_event": {
+      "rows": 204,
+      "originalColumns": 11,
+      "unchanged": true
+    },
+    "hrm_payroll_requirement_project_grant": {
+      "rows": 273,
+      "originalColumns": 24,
+      "unchanged": true
+    },
+    "hrm_payroll_requirement_template": {
+      "rows": 237,
+      "originalColumns": 13,
+      "unchanged": true
+    },
+    "hrm_payroll_retro": {
+      "rows": 0,
+      "originalColumns": 26,
+      "unchanged": true
+    },
+    "hrm_payroll_retro_event": {
+      "rows": 0,
+      "originalColumns": 12,
+      "unchanged": true
+    },
+    "hrm_payroll_run": {
+      "rows": 7,
+      "originalColumns": 14,
+      "unchanged": true
+    },
+    "hrm_payroll_salary_proposal": {
+      "rows": 6,
+      "originalColumns": 17,
+      "unchanged": true
+    },
+    "hrm_payroll_source_claim": {
+      "rows": 165,
+      "originalColumns": 18,
+      "unchanged": true
+    },
+    "hrm_payroll_tax_correction": {
+      "rows": 0,
+      "originalColumns": 39,
+      "unchanged": true
+    },
+    "hrm_payroll_tax_deduction": {
+      "rows": 5,
+      "originalColumns": 28,
+      "unchanged": true
+    },
+    "hrm_payroll_tax_deduction_event": {
+      "rows": 10,
+      "originalColumns": 12,
+      "unchanged": true
+    },
+    "hrm_payroll_tax_filing": {
+      "rows": 3,
+      "originalColumns": 28,
+      "unchanged": true
+    },
+    "hrm_payroll_tax_filing_event": {
+      "rows": 22,
+      "originalColumns": 13,
+      "unchanged": true
+    },
+    "hrm_payroll_tax_policy": {
+      "rows": 3,
+      "originalColumns": 28,
+      "unchanged": true
+    },
+    "hrm_payroll_tax_policy_event": {
+      "rows": 6,
+      "originalColumns": 12,
+      "unchanged": true
+    },
+    "hrm_payroll_tax_profile": {
+      "rows": 5,
+      "originalColumns": 42,
+      "unchanged": true
+    },
+    "hrm_payroll_tax_profile_event": {
+      "rows": 12,
+      "originalColumns": 12,
+      "unchanged": true
+    },
+    "hrm_payroll_tax_receipt": {
+      "rows": 5,
+      "originalColumns": 25,
+      "unchanged": true
+    },
+    "hrm_payroll_tax_settlement": {
+      "rows": 0,
+      "originalColumns": 40,
+      "unchanged": true
+    },
+    "hrm_payroll_tax_settlement_event": {
+      "rows": 0,
+      "originalColumns": 12,
+      "unchanged": true
+    },
+    "hrm_payroll_time_entry": {
+      "rows": 6,
+      "originalColumns": 27,
+      "unchanged": true
+    },
+    "hrm_payroll_time_off": {
+      "rows": 0,
+      "originalColumns": 17,
+      "unchanged": true
+    },
+    "hrm_payroll_wage_recovery": {
+      "rows": 0,
+      "originalColumns": 28,
+      "unchanged": true
+    },
+    "hrm_payroll_wage_recovery_event": {
+      "rows": 0,
+      "originalColumns": 12,
+      "unchanged": true
+    },
+    "hrm_payroll_work_cycle": {
+      "rows": 1,
+      "originalColumns": 19,
+      "unchanged": true
+    },
+    "hrm_payroll_work_rule": {
+      "rows": 7,
+      "originalColumns": 29,
+      "unchanged": true
+    },
+    "hrm_payroll_work_variance": {
+      "rows": 0,
+      "originalColumns": 25,
+      "unchanged": true
+    },
+    "hrm_payroll_work_variance_event": {
+      "rows": 0,
+      "originalColumns": 12,
+      "unchanged": true
+    },
+    "hrm_payroll_workbench_record": {
+      "rows": 1877,
+      "originalColumns": 11,
+      "unchanged": true
+    },
+    "hrm_performance_assessment": {
+      "rows": 0,
+      "originalColumns": 33,
+      "unchanged": true
+    },
+    "hrm_performance_assessment_action_record": {
+      "rows": 0,
+      "originalColumns": 15,
+      "unchanged": true
+    },
+    "hrm_performance_assessment_appeal_record": {
+      "rows": 0,
+      "originalColumns": 10,
+      "unchanged": true
+    },
+    "hrm_performance_assessment_dimension": {
+      "rows": 0,
+      "originalColumns": 14,
+      "unchanged": true
+    },
+    "hrm_performance_assessment_quota": {
+      "rows": 0,
+      "originalColumns": 21,
+      "unchanged": true
+    },
+    "hrm_performance_assessment_quota_score": {
+      "rows": 0,
+      "originalColumns": 11,
+      "unchanged": true
+    },
+    "hrm_performance_assessment_stage": {
+      "rows": 0,
+      "originalColumns": 25,
+      "unchanged": true
+    },
+    "hrm_performance_assessment_template": {
+      "rows": 0,
+      "originalColumns": 16,
+      "unchanged": true
+    },
+    "hrm_performance_plan": {
+      "rows": 0,
+      "originalColumns": 35,
+      "unchanged": true
+    },
+    "hrm_performance_result_template": {
+      "rows": 0,
+      "originalColumns": 10,
+      "unchanged": true
+    },
+    "hrm_recruit_candidate": {
+      "rows": 0,
+      "originalColumns": 25,
+      "unchanged": true
+    },
+    "hrm_recruit_channel": {
+      "rows": 0,
+      "originalColumns": 12,
+      "unchanged": true
+    },
+    "hrm_recruit_interview": {
+      "rows": 0,
+      "originalColumns": 18,
+      "unchanged": true
+    },
+    "hrm_recruit_post": {
+      "rows": 0,
+      "originalColumns": 28,
+      "unchanged": true
+    },
+    "hrm_recruit_post_type": {
+      "rows": 0,
+      "originalColumns": 11,
+      "unchanged": true
+    },
+    "hrm_salary_change_record": {
+      "rows": 5,
+      "originalColumns": 19,
+      "unchanged": true
+    },
+    "hrm_salary_change_template": {
+      "rows": 2,
+      "originalColumns": 10,
+      "unchanged": true
+    },
+    "hrm_salary_config": {
+      "rows": 1,
+      "originalColumns": 12,
+      "unchanged": true
+    },
+    "hrm_salary_employee_info": {
+      "rows": 4,
+      "originalColumns": 16,
+      "unchanged": true
+    },
+    "hrm_salary_group": {
+      "rows": 3,
+      "originalColumns": 13,
+      "unchanged": true
+    },
+    "hrm_salary_month_employee_record": {
+      "rows": 6,
+      "originalColumns": 21,
+      "unchanged": true
+    },
+    "hrm_salary_month_record": {
+      "rows": 7,
+      "originalColumns": 27,
+      "unchanged": true
+    },
+    "hrm_salary_option": {
+      "rows": 69,
+      "originalColumns": 18,
+      "unchanged": true
+    },
+    "hrm_salary_option_template": {
+      "rows": 68,
+      "originalColumns": 15,
+      "unchanged": true
+    },
+    "hrm_salary_slip": {
+      "rows": 4,
+      "originalColumns": 16,
+      "unchanged": true
+    },
+    "hrm_salary_slip_delivery": {
+      "rows": 4,
+      "originalColumns": 17,
+      "unchanged": true
+    },
+    "hrm_salary_slip_delivery_attempt": {
+      "rows": 0,
+      "originalColumns": 13,
+      "unchanged": true
+    },
+    "hrm_salary_slip_send_record": {
+      "rows": 4,
+      "originalColumns": 18,
+      "unchanged": true
+    },
+    "hrm_salary_slip_template": {
+      "rows": 1,
+      "originalColumns": 11,
+      "unchanged": true
+    },
+    "hrm_salary_tax_rule": {
+      "rows": 2,
+      "originalColumns": 13,
+      "unchanged": true
+    },
+    "system_role_menu": {
+      "rows": 1863,
+      "originalColumns": 9,
+      "unchanged": true
+    },
+    "system_user_role": {
+      "rows": 40,
+      "originalColumns": 9,
+      "unchanged": true
+    },
+    "system_users": {
+      "rows": 38,
+      "originalColumns": 20,
+      "unchanged": true
+    },
+    "system_role": {
+      "rows": 18,
+      "originalColumns": 15,
+      "unchanged": true
+    },
+    "system_menu": {
+      "rows": 2636,
+      "originalColumns": 19,
+      "unchanged": true
+    }
+  },
+  "normalLoginMetadataChanges": {
+    "system_users": [
+      "login_date",
+      "update_time"
+    ]
+  },
+  "businessChecksums": {
+    "hrm_attendance_clock": true,
+    "hrm_attendance_group": true,
+    "hrm_attendance_holiday": true,
+    "hrm_attendance_leave": true,
+    "hrm_config": true,
+    "hrm_employee": true,
+    "hrm_employee_certificate": true,
+    "hrm_employee_change_record": true,
+    "hrm_employee_contact": true,
+    "hrm_employee_contract": true,
+    "hrm_employee_education_experience": true,
+    "hrm_employee_file": true,
+    "hrm_employee_personal_note": true,
+    "hrm_employee_quit_info": true,
+    "hrm_employee_salary_card": true,
+    "hrm_employee_training_experience": true,
+    "hrm_employee_work_experience": true,
+    "hrm_insurance_employee_info": true,
+    "hrm_insurance_month_employee_record": true,
+    "hrm_insurance_month_record": true,
+    "hrm_insurance_scheme": true,
+    "hrm_insurance_scheme_project": true,
+    "hrm_payroll_attendance_issue": true,
+    "hrm_payroll_attendance_issue_event": true,
+    "hrm_payroll_bank_template": true,
+    "hrm_payroll_batch_event": true,
+    "hrm_payroll_bonus": true,
+    "hrm_payroll_bonus_event": true,
+    "hrm_payroll_config_guard": true,
+    "hrm_payroll_cost_event": true,
+    "hrm_payroll_cost_report": true,
+    "hrm_payroll_cost_rule": true,
+    "hrm_payroll_entity_event": true,
+    "hrm_payroll_entity_grant": true,
+    "hrm_payroll_entity_membership": true,
+    "hrm_payroll_financial_event": true,
+    "hrm_payroll_financial_plan": true,
+    "hrm_payroll_formula": true,
+    "hrm_payroll_grade_policy": true,
+    "hrm_payroll_input": true,
+    "hrm_payroll_input_import": true,
+    "hrm_payroll_input_issue": true,
+    "hrm_payroll_input_issue_event": true,
+    "hrm_payroll_insurance_adjustment": true,
+    "hrm_payroll_insurance_adjustment_event": true,
+    "hrm_payroll_insurance_base": true,
+    "hrm_payroll_insurance_bill": true,
+    "hrm_payroll_insurance_bill_line": true,
+    "hrm_payroll_insurance_event": true,
+    "hrm_payroll_insurance_import": true,
+    "hrm_payroll_insurance_policy": true,
+    "hrm_payroll_insurance_settlement": true,
+    "hrm_payroll_legal_entity": true,
+    "hrm_payroll_no_overtime": true,
+    "hrm_payroll_offset": true,
+    "hrm_payroll_offset_event": true,
+    "hrm_payroll_payment": true,
+    "hrm_payroll_payment_receipt": true,
+    "hrm_payroll_retro": true,
+    "hrm_payroll_retro_event": true,
+    "hrm_payroll_run": true,
+    "hrm_payroll_salary_proposal": true,
+    "hrm_payroll_source_claim": true,
+    "hrm_payroll_tax_correction": true,
+    "hrm_payroll_tax_deduction": true,
+    "hrm_payroll_tax_deduction_event": true,
+    "hrm_payroll_tax_filing": true,
+    "hrm_payroll_tax_filing_event": true,
+    "hrm_payroll_tax_policy": true,
+    "hrm_payroll_tax_policy_event": true,
+    "hrm_payroll_tax_profile": true,
+    "hrm_payroll_tax_profile_event": true,
+    "hrm_payroll_tax_receipt": true,
+    "hrm_payroll_tax_settlement": true,
+    "hrm_payroll_tax_settlement_event": true,
+    "hrm_payroll_time_entry": true,
+    "hrm_payroll_time_off": true,
+    "hrm_payroll_wage_recovery": true,
+    "hrm_payroll_wage_recovery_event": true,
+    "hrm_payroll_work_cycle": true,
+    "hrm_payroll_work_rule": true,
+    "hrm_payroll_work_variance": true,
+    "hrm_payroll_work_variance_event": true,
+    "hrm_performance_assessment": true,
+    "hrm_performance_assessment_action_record": true,
+    "hrm_performance_assessment_appeal_record": true,
+    "hrm_performance_assessment_dimension": true,
+    "hrm_performance_assessment_quota": true,
+    "hrm_performance_assessment_quota_score": true,
+    "hrm_performance_assessment_stage": true,
+    "hrm_performance_assessment_template": true,
+    "hrm_performance_plan": true,
+    "hrm_performance_result_template": true,
+    "hrm_recruit_candidate": true,
+    "hrm_recruit_channel": true,
+    "hrm_recruit_interview": true,
+    "hrm_recruit_post": true,
+    "hrm_recruit_post_type": true,
+    "hrm_salary_change_record": true,
+    "hrm_salary_change_template": true,
+    "hrm_salary_config": true,
+    "hrm_salary_employee_info": true,
+    "hrm_salary_group": true,
+    "hrm_salary_month_employee_record": true,
+    "hrm_salary_month_record": true,
+    "hrm_salary_option": true,
+    "hrm_salary_option_template": true,
+    "hrm_salary_slip": true,
+    "hrm_salary_slip_delivery": true,
+    "hrm_salary_slip_delivery_attempt": true,
+    "hrm_salary_slip_send_record": true,
+    "hrm_salary_slip_template": true,
+    "hrm_salary_tax_rule": true
+  },
+  "restore": {},
+  "readOnly": {
+    "docs/hrm-payroll-requirements-workbench-prd-20261017.md": "7350322dd7d729275d2e424cecc04961f3c672edd86e29043a7502151523e985",
+    "docs/hrm-prd-audit-inputs/薪酬管理模块原型.html": "6898065e01c0e38f35bbb09a65184bc385b2e2e10334c1f80bca74b188908839",
+    "docs/hrm-payroll-workbench-code-audit-v04-20261017.md": "9a09b4d3a83d69e01063f6291a5847ade0e1c3ecb41b69a4eb5967f533c86393"
+  }
+}

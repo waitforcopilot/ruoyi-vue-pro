@@ -19,6 +19,8 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 /** Project ownership alone never implies authority to approve business scope. */
 @Service
 public class HrmPayrollRequirementProjectService {
+ @Resource private HrmPayrollGovernanceStore governanceStore;
+ @Resource @org.springframework.context.annotation.Lazy private HrmPayrollGovernanceRootService governanceRoots;
  @Resource private HrmPayrollRequirementProjectMapper projects;
  @Resource private HrmPayrollRequirementProjectGrantMapper grants;
  @Resource private HrmPayrollRequirementProjectEventMapper events;
@@ -48,6 +50,7 @@ public class HrmPayrollRequirementProjectService {
    if(replacement==null||!Objects.equals(replacement.getProjectId(),r.getProjectId())||!access.row(p,replacement,actor,"READ")){metadata.remove("replacementId");metadata.put("replacementRestricted",true);r.setScopeDecisionJson(JsonUtils.toJsonString(metadata));}}
  }
  public HrmPayrollRequirementProjectDO check(Long id,Long actor,String action,boolean lock) {
+  if(lock)governanceStore.lock();
   HrmPayrollRequirementProjectDO p=lock?projects.selectOneForUpdate(HrmPayrollRequirementProjectDO::getId,id):projects.selectById(id);
   if(p==null || !allowed(p,actor,"READ") || !allowed(p,actor,action)) throw exception(PAYROLL_PROJECT_DENIED);
   return p;
@@ -57,9 +60,10 @@ public class HrmPayrollRequirementProjectService {
  }
  @Transactional(rollbackFor=Exception.class,isolation=org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
  public Long create(HrmPayrollRequirementProjectReqVO r,Long actor) {
+  governanceStore.lock();
   if("LEGACY".equals(r.getProjectKey()))throw exception(PAYROLL_PROJECT_DENIED);
   if(actor==null || users.getUser(actor)==null || !Objects.equals(users.getUser(actor).getStatus(),0)) throw exception(PAYROLL_PROJECT_DENIED);
-  access.creationAuthority(actor,r.getCreationScopeJson());
+  HrmPayrollRequirementProjectGrantDO creation=access.creationAuthority(actor,r.getCreationScopeJson());governanceRoots.requireProjectMode(creation.getRootRecordId(),r.getProjectKey());
   if(projects.selectOne(HrmPayrollRequirementProjectDO::getProjectKey,r.getProjectKey())!=null) throw exception(PAYROLL_REQUIREMENT_DUPLICATE);
   HrmPayrollRequirementProjectDO p=new HrmPayrollRequirementProjectDO().setProjectKey(r.getProjectKey()).setName(r.getName()).setMetadataVersion(1).setOwnerId(actor).setCustomSequence(0L).setCatalogKey("DEFAULT");
   projects.insert(p);
@@ -106,6 +110,7 @@ public class HrmPayrollRequirementProjectService {
   if(!access.full(p,actor,"READ") || !access.full(p,actor,"SCOPE"))throw exception(PAYROLL_PROJECT_DENIED);
   version(p,expected);
   if(reason==null || reason.trim().isEmpty() || reason.length()>2000) throw exception(PAYROLL_PROJECT_SCOPE_INVALID);
+  governanceRoots.authority(id,actor,"SCOPE",json);
   HrmPayrollRequirementScope next=HrmPayrollRequirementScope.parse(json);
   HrmPayrollRequirementScope old=p.getScopeJson()==null?null:HrmPayrollRequirementScope.parse(p.getScopeJson());
   boolean granted=activeGrants(id,actor).stream().filter(g->Arrays.asList(g.getActions().split(",")).contains("SCOPE") && g.getEvidence()!=null && !g.getEvidence().trim().isEmpty()).anyMatch(g->{HrmPayrollRequirementScope ceiling=HrmPayrollRequirementScope.parse(g.getCeilingJson());return ceiling.contains(next) && (old==null || ceiling.contains(old));});
@@ -128,7 +133,7 @@ public class HrmPayrollRequirementProjectService {
   // MyBatis ignores null on updateById; signatures must be explicitly cleared.
   if(r.getConfirmedBy()==null)requirements.update(null,new com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper<HrmPayrollRequirementDO>().eq(HrmPayrollRequirementDO::getId,r.getId()).set(HrmPayrollRequirementDO::getConfirmedTupleJson,null).set(HrmPayrollRequirementDO::getConfirmedBy,null).set(HrmPayrollRequirementDO::getConfirmedAt,null).set(HrmPayrollRequirementDO::getConfirmedScopeVersion,null).set(HrmPayrollRequirementDO::getConfirmedScopeJson,null));
  }
- public List<HrmPayrollRequirementProjectEventDO> events(Long id,Long actor) {check(id,actor,"READ",false);if(!access.full(projects.selectById(id),actor,"READ"))throw exception(PAYROLL_PROJECT_DENIED);return events.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementProjectEventDO>().eq(HrmPayrollRequirementProjectEventDO::getProjectId,id).orderByDesc(HrmPayrollRequirementProjectEventDO::getId)).stream().filter(e->!e.getAction().startsWith("MEMBER_") || allowed(projects.selectById(id),actor,"MEMBER")).collect(Collectors.toList());}
+ public List<HrmPayrollRequirementProjectEventDO> events(Long id,Long actor) {check(id,actor,"READ",false);if(!access.full(projects.selectById(id),actor,"READ"))throw exception(PAYROLL_PROJECT_DENIED);boolean evidenceRead=access.full(projects.selectById(id),actor,"GRANT_READ")&&governanceRoots.canPlatform(actor,"grant-read");return events.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementProjectEventDO>().eq(HrmPayrollRequirementProjectEventDO::getProjectId,id).orderByDesc(HrmPayrollRequirementProjectEventDO::getId)).stream().filter(e->!e.getAction().startsWith("MEMBER_") || allowed(projects.selectById(id),actor,"MEMBER")).map(e->{if(e.getAction().startsWith("MEMBER_")&&!evidenceRead){HrmPayrollRequirementProjectEventDO view=cn.iocoder.yudao.framework.common.util.object.BeanUtils.toBean(e,HrmPayrollRequirementProjectEventDO.class);view.setSnapshot("{\"authority\":\"受限发布依据\"}");return view;}return e;}).collect(Collectors.toList());}
  public List<HrmPayrollRequirementTemplateDO> catalog(HrmPayrollRequirementProjectDO p) {
   Map<String,HrmPayrollRequirementTemplateDO> latest=new LinkedHashMap<>();
   for(HrmPayrollRequirementTemplateDO t:templates.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementTemplateDO>().eq(HrmPayrollRequirementTemplateDO::getCatalogKey,p.getCatalogKey()).orderByAsc(HrmPayrollRequirementTemplateDO::getTemplateVersion)))latest.put(t.getTemplateItemId(),t);
@@ -175,13 +180,14 @@ public class HrmPayrollRequirementProjectService {
   List<Map<String,Object>> result=new ArrayList<>();
   for(HrmPayrollRequirementProjectGrantDO g:grants.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementProjectGrantDO>().eq(HrmPayrollRequirementProjectGrantDO::getProjectId,id).orderByDesc(HrmPayrollRequirementProjectGrantDO::getId))){
    if(!access.active(id,actor).stream().anyMatch(parent->access.coversGrant(parent,g)) && !Objects.equals(g.getUserId(),actor) && !(access.full(p,actor,"READ") && access.full(p,actor,"MEMBER")))continue;
-   Map<String,Object> item=new LinkedHashMap<>();item.put("grant",g);item.put("effective",access.effective(g));result.add(item);
+   Map<String,Object> item=new LinkedHashMap<>();HrmPayrollRequirementProjectGrantDO view=cn.iocoder.yudao.framework.common.util.object.BeanUtils.toBean(g,HrmPayrollRequirementProjectGrantDO.class);if(g.getRootRecordId()!=null&&(!allowed(p,actor,"GRANT_READ")||!governanceRoots.canPlatform(actor,"grant-read"))){view.setRootRecordId(null);view.setAuthorityFactsJson(null);view.setEvidence("授权依据受限");}item.put("grant",view);item.put("effective",access.effective(g));result.add(item);
   }return result;
  }
  @Transactional(rollbackFor=Exception.class,isolation=org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
  public Long grant(HrmPayrollRequirementProjectGrantDO r,Long actor){
   HrmPayrollRequirementProjectDO p=check(r.getProjectId(),actor,"MEMBER",true);access.validateGrant(r);
   HrmPayrollRequirementProjectGrantDO parent=access.delegation(p,actor,r);
+  if(!governanceRoots.validRoot(parent.getRootRecordId(),parent))throw exception(PAYROLL_PROJECT_DENIED);
   if(r.getRequirementIdsJson()!=null)for(Long rid:JsonUtils.parseArray(r.getRequirementIdsJson(),Long.class)){
    HrmPayrollRequirementDO row=requirements.selectById(rid);if(row==null || !Objects.equals(row.getProjectId(),p.getId()))throw exception(PAYROLL_PROJECT_DENIED);
   }
@@ -189,7 +195,7 @@ public class HrmPayrollRequirementProjectService {
    HrmPayrollWorkbenchRecordDO source=workbenchRecords.selectById(sid);if(source==null || !"SOURCE".equals(source.getKind()) || !Objects.equals(source.getProjectId(),p.getId()))throw exception(PAYROLL_PROJECT_DENIED);
   }
   // Request cannot supply root identity, version, grantor or lifecycle state.
-  r.setId(null);r.setParentGrantId(parent.getId());r.setGrantorId(actor);r.setGrantVersion(1);r.setRevokedAt(null);r.setRevokeReason(null);
+  r.setRootRecordId(parent.getRootRecordId());r.setAuthorityFactsJson(JsonUtils.toJsonString(HrmPayrollGovernanceStore.map("grantorAtGrant",governanceRoots.userFact(actor),"recipientAtGrant",governanceRoots.userFact(r.getUserId()),"parentGrantId",parent.getId(),"parentGrantVersion",parent.getGrantVersion(),"rootId",parent.getRootRecordId(),"scope",r.getCeilingJson(),"actions",r.getActions(),"evidence",r.getEvidence(),"grantedAt",HrmPayrollGovernanceStore.now())));r.setId(null);r.setParentGrantId(parent.getId());r.setGrantorId(actor);r.setGrantVersion(1);r.setRevokedAt(null);r.setRevokeReason(null);
   grants.insert(r);event(p.getId(),actor,"MEMBER_GRANT",r);return r.getId();
  }
  @Transactional(rollbackFor=Exception.class,isolation=org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
@@ -200,7 +206,8 @@ public class HrmPayrollRequirementProjectService {
   boolean bootstrap=g.getParentGrantId()==null && Objects.equals(g.getUserId(),p.getOwnerId()) && g.getEvidence()!=null && g.getEvidence().startsWith("PROJECT_CREATOR_ACCESS:");
   if(g.getParentGrantId()==null && !bootstrap)throw exception(PAYROLL_PROJECT_DENIED);
   if(bootstrap){if(!access.full(p,actor,"READ") || !access.full(p,actor,"MEMBER") || !access.active(project,actor).stream().anyMatch(parent->access.actions(parent.getDelegableActions()).containsAll(access.actions(g.getActions()))))throw exception(PAYROLL_PROJECT_DENIED);}
-  else access.delegation(p,actor,g);
+  else {HrmPayrollRequirementProjectGrantDO parent=access.delegation(p,actor,g);if(!governanceRoots.validRoot(parent.getRootRecordId(),parent))throw exception(PAYROLL_PROJECT_DENIED);}
+  if(bootstrap)governanceRoots.authority(project,actor,"MEMBER",p.getScopeJson());
   if(!Objects.equals(g.getGrantVersion(),expected) || g.getRevokedAt()!=null)throw exception(PAYROLL_VERSION_CONFLICT);
   if(reason==null || reason.trim().isEmpty())throw exception(PAYROLL_PROJECT_DENIED);
   g.setRevokedAt(java.time.LocalDateTime.now());g.setRevokeReason(reason);g.setGrantVersion(expected+1);grants.updateById(g);event(project,actor,"MEMBER_REVOKE",g);

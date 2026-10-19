@@ -1,0 +1,14 @@
+{
+  "projectId": 95,
+  "releaseId": 431,
+  "readyJobId": 440,
+  "revokedTestRootIds": [
+    303,
+    312
+  ],
+  "actor": 268,
+  "before": "READY",
+  "afterBrowserClaim": "DENIED",
+  "cachedFrozenViewCleared": true,
+  "screenshot": "browser-10-final-revoked.png"
+}

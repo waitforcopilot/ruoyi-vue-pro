@@ -1,0 +1,198 @@
+[
+  {
+    "case": "S0",
+    "projectId": 98,
+    "releaseId": 305,
+    "counts": {
+      "U": 46,
+      "E": 46,
+      "I": 40,
+      "C": 40,
+      "T": 6,
+      "D": 0
+    },
+    "publishAllowed": true,
+    "requirementAndScopeRows": 46,
+    "statistics": {
+      "counts": {
+        "U": 46,
+        "E": 46,
+        "I": 40,
+        "C": 40,
+        "T": 6,
+        "D": 0
+      },
+      "confirmation": {
+        "numerator": 40,
+        "denominator": 46,
+        "label": "40/46",
+        "percent": 86.96
+      },
+      "scopeDisposition": {
+        "numerator": 46,
+        "denominator": 46,
+        "label": "46/46",
+        "percent": 100.0
+      },
+      "includedConfirmation": {
+        "numerator": 40,
+        "denominator": 40,
+        "label": "40/40",
+        "percent": 100.0
+      },
+      "readiness": {
+        "numerator": 0,
+        "denominator": 0,
+        "label": "暂无适用项（0/0）",
+        "percent": null
+      },
+      "includedReadiness": {
+        "numerator": 0,
+        "denominator": 0,
+        "label": "暂无适用项（0/0）",
+        "percent": null
+      },
+      "sourceCount": 0,
+      "exempt": 46,
+      "unresolvedIssues": 0,
+      "overdueIssues": 0,
+      "L": []
+    }
+  },
+  {
+    "case": "S1",
+    "projectId": 98,
+    "releaseId": 307,
+    "counts": {
+      "U": 47,
+      "E": 47,
+      "I": 40,
+      "C": 40,
+      "T": 6,
+      "D": 1
+    },
+    "publishAllowed": true,
+    "requirementAndScopeRows": 47,
+    "statistics": {
+      "counts": {
+        "U": 47,
+        "E": 47,
+        "I": 40,
+        "C": 40,
+        "T": 6,
+        "D": 1
+      },
+      "confirmation": {
+        "numerator": 40,
+        "denominator": 47,
+        "label": "40/47",
+        "percent": 85.11
+      },
+      "scopeDisposition": {
+        "numerator": 46,
+        "denominator": 47,
+        "label": "46/47",
+        "percent": 97.87
+      },
+      "includedConfirmation": {
+        "numerator": 40,
+        "denominator": 40,
+        "label": "40/40",
+        "percent": 100.0
+      },
+      "readiness": {
+        "numerator": 0,
+        "denominator": 0,
+        "label": "暂无适用项（0/0）",
+        "percent": null
+      },
+      "includedReadiness": {
+        "numerator": 0,
+        "denominator": 0,
+        "label": "暂无适用项（0/0）",
+        "percent": null
+      },
+      "sourceCount": 0,
+      "exempt": 47,
+      "unresolvedIssues": 0,
+      "overdueIssues": 0,
+      "L": []
+    }
+  },
+  {
+    "case": "S2",
+    "projectId": 98,
+    "releaseId": 309,
+    "counts": {
+      "U": 47,
+      "E": 46,
+      "I": 40,
+      "C": 40,
+      "T": 6,
+      "D": 0
+    },
+    "publishAllowed": true,
+    "requirementAndScopeRows": 47,
+    "statistics": {
+      "counts": {
+        "U": 47,
+        "E": 46,
+        "I": 40,
+        "C": 40,
+        "T": 6,
+        "D": 0
+      },
+      "confirmation": {
+        "numerator": 40,
+        "denominator": 46,
+        "label": "40/46",
+        "percent": 86.96
+      },
+      "scopeDisposition": {
+        "numerator": 46,
+        "denominator": 46,
+        "label": "46/46",
+        "percent": 100.0
+      },
+      "includedConfirmation": {
+        "numerator": 40,
+        "denominator": 40,
+        "label": "40/40",
+        "percent": 100.0
+      },
+      "readiness": {
+        "numerator": 0,
+        "denominator": 0,
+        "label": "暂无适用项（0/0）",
+        "percent": null
+      },
+      "includedReadiness": {
+        "numerator": 0,
+        "denominator": 0,
+        "label": "暂无适用项（0/0）",
+        "percent": null
+      },
+      "sourceCount": 0,
+      "exempt": 46,
+      "unresolvedIssues": 0,
+      "overdueIssues": 0,
+      "L": []
+    }
+  },
+  {
+    "case": "S3-from-S2",
+    "projectId": 98,
+    "releaseId": null,
+    "counts": {
+      "U": 47,
+      "E": 46,
+      "I": 40,
+      "C": 39,
+      "T": 6,
+      "D": 0
+    },
+    "publishAllowed": false,
+    "requirementAndScopeRows": null,
+    "statistics": null
+  }
+]

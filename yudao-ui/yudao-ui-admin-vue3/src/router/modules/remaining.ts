@@ -48,6 +48,20 @@ const remainingRouter: AppRouteRecordRaw[] = [
     ]
   },
   {
+    path: '/hrm-payroll/governance',
+    component: Layout,
+    name: 'HrmPayrollGovernanceLayout',
+    meta: { hidden: true },
+    children: [
+      {
+        path: '',
+        name: 'HrmPayrollGovernance',
+        component: () => import('@/views/hrm/payroll/governance/index.vue'),
+        meta: { title: '业务决议与基线发布', hidden: true, canTo: true, noCache: true }
+      }
+    ]
+  },
+  {
     path: '/redirect',
     component: Layout,
     name: 'RedirectRoot',

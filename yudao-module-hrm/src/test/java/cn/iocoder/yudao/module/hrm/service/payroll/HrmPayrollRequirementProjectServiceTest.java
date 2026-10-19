@@ -16,6 +16,15 @@ import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServic
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 @Import({HrmPayrollWorkbenchService.class,HrmPayrollRequirementAccessService.class,HrmPayrollRequirementProjectService.class,HrmPayrollRequirementServiceImpl.class})
 class HrmPayrollRequirementProjectServiceTest extends BaseDbUnitTest {
+ // These tests isolate the pre-S5 contract. The real governance gate is covered by HrmPayrollGovernanceServiceTest and runtime regression.
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollGovernanceStore stage5Store;
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollGovernanceRootService stage5Roots;
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollGovernanceDecisionService stage5Decisions;
+ @org.junit.jupiter.api.BeforeEach void stage5ContractIsolation(){
+  org.mockito.Mockito.when(stage5Decisions.currentSemantic(org.mockito.ArgumentMatchers.any())).thenReturn(true);
+  org.mockito.Mockito.when(stage5Roots.validRoot(org.mockito.ArgumentMatchers.anyLong(),org.mockito.ArgumentMatchers.any())).thenReturn(true);
+ }
+
  @Resource HrmPayrollRequirementProjectService service;
  @Resource HrmPayrollRequirementAccessService access;
  @Resource HrmPayrollRequirementService old;
@@ -30,7 +39,7 @@ class HrmPayrollRequirementProjectServiceTest extends BaseDbUnitTest {
  long create(String key){HrmPayrollRequirementProjectReqVO r=new HrmPayrollRequirementProjectReqVO();r.setProjectKey(key);r.setName(key);r.setCreationScopeJson(scope(10,true));return service.create(r,1L);}
  HrmPayrollRequirementTemplateDO seed(String key,int version,String text){HrmPayrollRequirementTemplateDO t=new HrmPayrollRequirementTemplateDO();t.setCatalogKey("DEFAULT");t.setTemplateItemId(key);t.setTemplateVersion(version);t.setOriginalCode(key);t.setDescription(text);t.setWithdrawn(false);templates.insert(t);return t;}
  String scope(int month,boolean extended){return "{\"entities\":"+(extended?"[101,102]":"[101]")+",\"organizations\":[201],\"workerTypes\":[\"TEST\"],\"scenarios\":[\"TEST\"],\"from\":\"2026-"+month+"-01\",\"to\":\"2026-"+month+"-28\",\"explanation\":\"TEST合成\"}";}
- void grant(long p,long user,String actions){HrmPayrollRequirementProjectGrantDO g=new HrmPayrollRequirementProjectGrantDO();g.setProjectId(p);g.setUserId(user);g.setActions(actions);g.setEvidence("TEST ONLY");g.setValidFrom(LocalDate.of(2026,1,1));g.setValidTo(LocalDate.of(2027,12,31));g.setCeilingJson("{\"entities\":[101,102],\"organizations\":[201],\"workerTypes\":[\"TEST\"],\"scenarios\":[\"TEST\"],\"from\":\"2026-01-01\",\"to\":\"2027-12-31\",\"explanation\":\"TEST\"}");grants.insert(g);}
+ void grant(long p,long user,String actions){HrmPayrollRequirementProjectGrantDO g=new HrmPayrollRequirementProjectGrantDO();g.setProjectId(p);g.setUserId(user);g.setRootRecordId(1L);g.setActions(actions);g.setEvidence("TEST ONLY");g.setValidFrom(LocalDate.of(2026,1,1));g.setValidTo(LocalDate.of(2027,12,31));g.setCeilingJson("{\"entities\":[101,102],\"organizations\":[201],\"workerTypes\":[\"TEST\"],\"scenarios\":[\"TEST\"],\"from\":\"2026-01-01\",\"to\":\"2027-12-31\",\"explanation\":\"TEST\"}");grants.insert(g);}
  @Test void projectsArePrivateEvenToOtherTechnicalAdministrators(){long p=create("AA");assertEquals(1,service.list(1L).size());assertTrue(service.list(2L).isEmpty());assertServiceException(()->service.check(p,2L,"READ",false),PAYROLL_PROJECT_DENIED);grant(p,2,"READ");assertEquals(1,service.list(2L).size());assertServiceException(()->service.check(p,2L,"EDIT",false),PAYROLL_PROJECT_DENIED);}
  @Test void metadataDoesNotChangeScopeAndIsOptimistic(){long p=create("AA");HrmPayrollRequirementProjectReqVO r=new HrmPayrollRequirementProjectReqVO();r.setId(p);r.setProjectKey("AA");r.setName("new");r.setMetadataVersion(1);service.metadata(r,1L);assertEquals(2,projects.selectById(p).getMetadataVersion());assertNull(projects.selectById(p).getProjectScopeVersion());assertServiceException(()->service.metadata(r,1L),PAYROLL_VERSION_CONFLICT);}
  @Test void initializationIsPerProjectIdempotentAndKeepsUserContent(){seed("OV-01",1,"original");long a=create("AA"),b=create("BB");assertEquals(1,service.initialize(a,1L));assertEquals(0,service.initialize(a,1L));assertEquals(1,service.initialize(b,1L));List<HrmPayrollRequirementDO> rows=requirements.selectList();assertNotEquals(rows.get(0).getId(),rows.get(1).getId());assertEquals(rows.get(0).getCode(),rows.get(1).getCode());rows.get(0).setDescription("manual");requirements.updateById(rows.get(0));assertEquals(0,service.initialize(a,1L));assertEquals("manual",requirements.selectById(rows.get(0).getId()).getDescription());}

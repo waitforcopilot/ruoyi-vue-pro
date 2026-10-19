@@ -1,0 +1,61 @@
+{
+  "sixSheetsExactly": true,
+  "checkedFields": 231,
+  "longFieldsWithContinuation": 29,
+  "noOrphanExplicitReferences": true,
+  "onlyExportMetadataExcludedFromComparison": true,
+  "checks": [
+    {
+      "sheet": "评审版本说明",
+      "businessRows": 25,
+      "columns": 74,
+      "reexportOrderedCellsIdentical": true,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "功能需求清单",
+      "businessRows": 1,
+      "columns": 85,
+      "reexportOrderedCellsIdentical": true,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "数据源清单",
+      "businessRows": 1,
+      "columns": 264,
+      "reexportOrderedCellsIdentical": true,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "字段映射",
+      "businessRows": 1,
+      "columns": 280,
+      "reexportOrderedCellsIdentical": true,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "问题与待办",
+      "businessRows": 10,
+      "columns": 7,
+      "reexportOrderedCellsIdentical": true,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "范围与变更",
+      "businessRows": 1,
+      "columns": 210,
+      "reexportOrderedCellsIdentical": true,
+      "fieldsReconstructedExactly": true
+    }
+  ],
+  "files": [
+    {
+      "file": "薪酬评审-快照431-任务433.xlsx",
+      "sha256": "f766a285cb10b4a6be766a275dc6c2ec80c3e73f028cea1ec09d2d31b78c983d"
+    },
+    {
+      "file": "薪酬评审-快照431-任务439.xlsx",
+      "sha256": "8178d3500338458f70ac1cab021499a6728d090e82499163d23686627298a5bf"
+    }
+  ]
+}

@@ -17,4 +17,5 @@ public class HrmPayrollRequirementProjectDO extends BaseDO {
  private Long customSequence;
  private String scopeJson;
  private String catalogKey;
+ private Boolean archived;
 }

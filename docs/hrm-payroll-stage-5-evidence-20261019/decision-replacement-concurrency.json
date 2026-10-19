@@ -1,0 +1,28 @@
+{
+  "case": "REAL_DECISION_REPLACEMENT_VS_PUBLISH",
+  "projectId": 104,
+  "D1": 453,
+  "D2": 461,
+  "operations": [
+    {
+      "path": "/hrm/payroll/governance/publish",
+      "actor": 266,
+      "startedNs": 1792414419829265000,
+      "finishedNs": 1792414420024983000,
+      "code": 1050810003,
+      "data": null
+    },
+    {
+      "path": "/hrm/payroll/governance/decision/action",
+      "actor": 267,
+      "startedNs": 1792414419829176000,
+      "finishedNs": 1792414419890481000,
+      "code": 0,
+      "data": true
+    }
+  ],
+  "oldTokenRetryRejected": true,
+  "oldV1Unchanged": true,
+  "newRelease": 468,
+  "newEffectiveDecision": 461
+}

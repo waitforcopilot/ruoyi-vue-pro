@@ -17,11 +17,11 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 /** Current database authorization only. No role/admin bypass and no cached grant decisions. */
 @Service
 public class HrmPayrollRequirementAccessService {
-    public static final Set<String> ACTIONS = new HashSet<>(Arrays.asList("SCOPE_DECIDE","READ","META","EDIT","ASSIGN","CONFIRM","EXPORT","MEMBER","SCOPE","SOURCE_EDIT","SOURCE_VERIFY","ISSUE_MANAGE","ISSUE_HANDLE","ISSUE_REVIEW"));
+    public static final Set<String> ACTIONS = new HashSet<>(Arrays.asList("DECISION_READ","GRANT_READ","PERSON_READ","DECISION_EDIT","DECISION_APPROVE","BASELINE_PUBLISH","SCOPE_DECIDE","READ","META","EDIT","ASSIGN","CONFIRM","EXPORT","MEMBER","SCOPE","SOURCE_EDIT","SOURCE_VERIFY","ISSUE_MANAGE","ISSUE_HANDLE","ISSUE_REVIEW"));
     /** project_id=0 is a tenant-local creation authority, never a project membership. */
     public HrmPayrollRequirementProjectGrantDO creationAuthority(Long actor,String scopeJson) {
         HrmPayrollRequirementScope requested=HrmPayrollRequirementScope.parse(scopeJson);
-        return active(0L,actor).stream().filter(g->g.getParentGrantId()==null && actions(g.getActions()).contains("PROJECT_CREATE")
+        return active(0L,actor).stream().filter(g->g.getParentGrantId()==null && g.getRootRecordId()!=null && governanceRoots.validRoot(g.getRootRecordId(),g) && actions(g.getActions()).contains("PROJECT_CREATE")
             && g.getEvidence()!=null && !g.getEvidence().trim().isEmpty() && g.getCeilingJson()!=null
             && HrmPayrollRequirementScope.parse(g.getCeilingJson()).contains(requested))
             .findFirst().orElseThrow(()->exception(PAYROLL_PROJECT_DENIED));
@@ -29,6 +29,7 @@ public class HrmPayrollRequirementAccessService {
     @Resource private HrmPayrollRequirementProjectGrantMapper grants;
     @Resource private AdminUserApi users;
     @Resource private PermissionApi permissions;
+    @Resource @org.springframework.context.annotation.Lazy private HrmPayrollGovernanceRootService governanceRoots;
     public boolean activeUser(Long actor) {
         cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO u=actor==null?null:users.getUser(actor);
         return u!=null && Objects.equals(u.getStatus(),0);
@@ -44,9 +45,10 @@ public class HrmPayrollRequirementAccessService {
     private boolean effective(HrmPayrollRequirementProjectGrantDO g,Set<Long> seen) {
         LocalDate now=LocalDate.now(ZoneId.of("Asia/Shanghai"));
         if(g==null || g.getId()==null || !seen.add(g.getId()) || seen.size()>32 || g.getRevokedAt()!=null || !activeUser(g.getUserId()) || g.getValidFrom()==null || g.getValidTo()==null || now.isBefore(g.getValidFrom()) || now.isAfter(g.getValidTo())) return false;
+        if(g.getRootRecordId()!=null && !governanceRoots.validRoot(g.getRootRecordId(),g))return false;
         if(g.getParentGrantId()==null) return true; // Root registration is external to member management.
         HrmPayrollRequirementProjectGrantDO parent=grants.selectById(g.getParentGrantId());
-        return parent!=null && Objects.equals(parent.getProjectId(),g.getProjectId()) && Objects.equals(parent.getUserId(),g.getGrantorId()) && effective(parent,seen) && coversGrant(parent,g);
+        return parent!=null && Objects.equals(parent.getRootRecordId(),g.getRootRecordId()) && Objects.equals(parent.getProjectId(),g.getProjectId()) && Objects.equals(parent.getUserId(),g.getGrantorId()) && effective(parent,seen) && coversGrant(parent,g);
     }
     public List<HrmPayrollRequirementProjectGrantDO> active(Long project,Long actor) {
         if(!activeUser(actor)) return Collections.emptyList();

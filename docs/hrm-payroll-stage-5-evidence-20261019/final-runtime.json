@@ -1,0 +1,15 @@
+{
+  "projectId": 96,
+  "releaseId": 271,
+  "finalBuildRealControlledScopeAndMemberActions": true,
+  "editorCannotConfirm": true,
+  "approverCannotPublish": true,
+  "testRootCannotCreateFormalProject": true,
+  "staleDecisionRejected": true,
+  "emptyDraft": {
+    "projectId": 97,
+    "releaseId": 281,
+    "label": "空草稿"
+  },
+  "filterJob": 283
+}

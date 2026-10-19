@@ -23,6 +23,8 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 @Service
 @Transactional(rollbackFor=Exception.class,isolation=Isolation.READ_COMMITTED)
 public class HrmPayrollWorkbenchService {
+ @Resource private HrmPayrollGovernanceStore governanceStore;
+ @Resource @org.springframework.context.annotation.Lazy private HrmPayrollGovernanceDecisionService governanceDecisions;
  @Resource private HrmPayrollWorkbenchRecordMapper records;
  @Resource private HrmPayrollRequirementProjectMapper projects;
  @Resource private HrmPayrollRequirementMapper requirements;
@@ -45,6 +47,7 @@ public class HrmPayrollWorkbenchService {
   denied(permissions.hasAnyPermissions(actor,"hrm:payroll:requirement:"+suffix));
  }
  private HrmPayrollRequirementProjectDO project(Long id,Long actor,boolean lock){
+  if(lock)governanceStore.lock();
   platform(actor,"READ");HrmPayrollRequirementProjectDO p=lock?projects.selectOneForUpdate(HrmPayrollRequirementProjectDO::getId,id):projects.selectById(id);
   denied(p!=null&&access.project(p,actor,"READ"));return p;
  }
@@ -151,10 +154,11 @@ public class HrmPayrollWorkbenchService {
   if("QS".equals(c.getLayer()))valid(s.getDeliveryVersion()>0&&!blank(s.getDeliveryDigest()));
   if("QC".equals(c.getLayer()))valid(pass(qs(p,src,s)));
   if(relation!=null)valid(HrmPayrollRequirementScope.parse(s.getScopeJson()).contains(HrmPayrollRequirementScope.parse(requirement(p.getId(),relation.getRequirementId()).getScopeJson())));
-  HrmPayrollWorkbenchRecordDO evidence=insert(p.getId(),"EVIDENCE",map("layer",c.getLayer(),"objectId",o.getId(),"binding",b,"bindingDigest",digest(b),"result",c.getResult(),"reference",c.getReference(),"sampleDigest",c.getSampleDigest(),"executionReason",c.getReason(),"actorId",actor,"executedAt",LocalDateTime.now(SHANGHAI).toString(),"authority",authority(p.getId(),actor)));
+  HrmPayrollWorkbenchRecordDO evidence=insert(p.getId(),"EVIDENCE",map("layer",c.getLayer(),"objectId",o.getId(),"binding",b,"bindingDigest",digest(b),"result",c.getResult(),"reference",c.getReference(),"sampleDigest",c.getSampleDigest(),"executionReason",c.getReason(),"actorId",actor,"executedAt",LocalDateTime.now(SHANGHAI).toString(),"authority",authority(p.getId(),actor),"governance",governanceDecisions.forVerification(p.getId(),actor,s.getScopeJson(),relation==null?null:relation.getRequirementId(),src.getId())));
   event(p,o,c.getLayer(),actor,c.getReason(),src==o?impacted(p.getId(),src.getId()):new TreeSet<>(Arrays.asList(relation.getRequirementId())));return evidence.getId();
  }
  private boolean semanticReady(HrmPayrollRequirementProjectDO p,HrmPayrollWorkbenchRecordDO o,Relation r){HrmPayrollWorkbenchRecordDO src=object(p.getId(),r.getSourceId(),"SOURCE");Source s=data(src,Source.class);return pass(latestEvidence(p.getId(),"SOURCE_SEMANTIC",src.getId(),digest(sourceBinding(p,src,s,"SOURCE_SEMANTIC"))))&&pass(latestEvidence(p.getId(),"RELATION_SEMANTIC",o.getId(),digest(relationSemanticBinding(p,o,r))));}
+ public boolean specificationReady(HrmPayrollRequirementDO r){if("NOT_APPLICABLE".equals(r.getSourceApplicability()))return validExemption(r.getApplicabilityReason());HrmPayrollRequirementProjectDO p=projects.selectById(r.getProjectId());List<HrmPayrollWorkbenchRecordDO> links=relations(p.getId(),null,r.getId(),true);return !links.isEmpty()&&links.stream().allMatch(o->semanticReady(p,o,data(o,Relation.class)));}
  public boolean available(HrmPayrollRequirementProjectDO p,HrmPayrollWorkbenchRecordDO o){Relation r=data(o,Relation.class);if(!Boolean.TRUE.equals(r.getActive()))return false;HrmPayrollRequirementDO req=requirement(p.getId(),r.getRequirementId());HrmPayrollWorkbenchRecordDO src=object(p.getId(),r.getSourceId(),"SOURCE");Source s=data(src,Source.class);
   return !"NOT_APPLICABLE".equals(req.getSourceApplicability())&&"MATCH".equals(req.getScopeState())&&p.getScopeJson()!=null&&HrmPayrollRequirementScope.parse(p.getScopeJson()).contains(HrmPayrollRequirementScope.parse(s.getScopeJson()))&&HrmPayrollRequirementScope.parse(s.getScopeJson()).contains(HrmPayrollRequirementScope.parse(req.getScopeJson()))&&access.activeUser(s.getOwnerId())&&sourceAllowed(p,src,s,s.getOwnerId(),"READ")&&"PROVIDED".equals(s.getSupply())&&semanticReady(p,o,r)&&pass(qs(p,src,s))&&pass(latestEvidence(p.getId(),"QC",o.getId(),digest(qcBinding(p,o,r))))&&!dataBlocked(p,req.getId(),src.getId());
  }
@@ -172,7 +176,7 @@ public class HrmPayrollWorkbenchService {
   return map("items",items,"available",usable,"denominator",items.size(),"gaps",gaps,"exempt",exempt,"permissionRestricted",!access.full(p,actor,"READ"),"notApplicableLabel",items.isEmpty()?"暂无适用项（0/0）":null);
  }
  @SuppressWarnings("unchecked") public String visibleConfirmationTuple(String json,Long project,Long actor){
-  if(json==null)return null;Map<String,Object> tuple=JsonUtils.parseObject(json,Map.class);tuple.remove("authority");
+  if(json==null)return null;Map<String,Object> tuple=JsonUtils.parseObject(json,Map.class);tuple.remove("authority");if(tuple.remove("governance")!=null)tuple.put("governanceReferencesRestricted",true);
   if(tuple.get("sources") instanceof List){List<Object> visible=new ArrayList<>();for(Object raw:(List<?>)tuple.get("sources")){Map<String,Object> ref=(Map<String,Object>)raw;HrmPayrollWorkbenchRecordDO o=records.selectById(Long.valueOf(String.valueOf(ref.get("sourceId"))));if(o!=null&&Objects.equals(o.getProjectId(),project)&&visible(project(project,actor,false),o,actor))visible.add(ref);else tuple.put("sourceReferencesRestricted",true);}tuple.put("sources",visible);}
   return JsonUtils.toJsonString(tuple);
  }
@@ -181,7 +185,7 @@ public class HrmPayrollWorkbenchService {
   try{Map<String,Object> tuple=JsonUtils.parseObject(req.getConfirmedTupleJson(),Map.class);HrmPayrollRequirementProjectDO p=projects.selectById(req.getProjectId());
    if(p==null||!Objects.equals(p.getProjectScopeVersion(),req.getConfirmedScopeVersion())||!String.valueOf(p.getProjectScopeVersion()).equals(String.valueOf(tuple.get("projectScopeVersion")))||!digest(req.getScopeJson()).equals(tuple.get("resolvedScopeDigest"))||!String.valueOf(req.getSemanticVersion()==null?1:req.getSemanticVersion()).equals(String.valueOf(tuple.get("semanticVersion")))||!Objects.equals(req.getSourceApplicability(),tuple.get("applicability"))||!Objects.equals(req.getRuleVersion(),tuple.get("ruleVersion")))return false;
    List<Object> refs=new ArrayList<>();if("APPLICABLE".equals(req.getSourceApplicability()))for(HrmPayrollWorkbenchRecordDO o:relations(p.getId(),null,req.getId(),true)){Relation r=data(o,Relation.class);HrmPayrollWorkbenchRecordDO src=object(p.getId(),r.getSourceId(),"SOURCE");refs.add(map("sourceId",src.getId(),"semanticVersion",data(src,Source.class).getSemanticVersion(),"relationId",o.getId(),"mappingVersion",r.getMappingVersion()));}
-   return digest(refs).equals(digest(tuple.get("sources")))&&(!"NOT_APPLICABLE".equals(req.getSourceApplicability())||validExemption(req.getApplicabilityReason()));
+   return governanceDecisions.currentSemantic(req)&&digest(refs).equals(digest(tuple.get("sources")))&&(!"NOT_APPLICABLE".equals(req.getSourceApplicability())||validExemption(req.getApplicabilityReason()));
   }catch(RuntimeException invalid){return false;}
  }
  public String confirmationTuple(HrmPayrollRequirementDO req,Long actor){
@@ -189,7 +193,7 @@ public class HrmPayrollWorkbenchService {
   List<Object> refs=new ArrayList<>();
   if("NOT_APPLICABLE".equals(req.getSourceApplicability()))valid(validExemption(req.getApplicabilityReason()));
   else{valid("APPLICABLE".equals(req.getSourceApplicability()));List<HrmPayrollWorkbenchRecordDO> rs=relations(p.getId(),null,req.getId(),true);valid(!rs.isEmpty());for(HrmPayrollWorkbenchRecordDO o:rs){Relation r=data(o,Relation.class);relationAccess(p,o,actor,"READ");HrmPayrollWorkbenchRecordDO src=object(p.getId(),r.getSourceId(),"SOURCE");Source s=data(src,Source.class);sourceOwner(p,src,s);valid(!r.getFields().isEmpty()&&HrmPayrollRequirementScope.parse(s.getScopeJson()).contains(HrmPayrollRequirementScope.parse(req.getScopeJson())));refs.add(map("sourceId",src.getId(),"semanticVersion",s.getSemanticVersion(),"relationId",o.getId(),"mappingVersion",r.getMappingVersion()));}}
-  return JsonUtils.toJsonString(map("tenantId",cn.iocoder.yudao.framework.tenant.core.context.TenantContextHolder.getRequiredTenantId(),"projectId",p.getId(),"projectScopeVersion",p.getProjectScopeVersion(),"resolvedScopeDigest",digest(req.getScopeJson()),"requirementId",req.getId(),"semanticVersion",req.getSemanticVersion()==null?1:req.getSemanticVersion(),"applicability",req.getSourceApplicability(),"applicabilityReason",req.getApplicabilityReason(),"sources",refs,"ruleVersion",req.getRuleVersion(),"confirmedBy",actor,"confirmedAt",LocalDateTime.now(SHANGHAI).toString(),"authority",authority(p.getId(),actor),"decisionContract","S5_REQUIRED_FOR_FORMAL_PROJECTS"));
+  return JsonUtils.toJsonString(map("tenantId",cn.iocoder.yudao.framework.tenant.core.context.TenantContextHolder.getRequiredTenantId(),"projectId",p.getId(),"projectScopeVersion",p.getProjectScopeVersion(),"resolvedScopeDigest",digest(req.getScopeJson()),"requirementId",req.getId(),"semanticVersion",req.getSemanticVersion()==null?1:req.getSemanticVersion(),"applicability",req.getSourceApplicability(),"applicabilityReason",req.getApplicabilityReason(),"sources",refs,"ruleVersion",req.getRuleVersion(),"confirmedBy",actor,"confirmedAt",LocalDateTime.now(SHANGHAI).toString(),"authority",authority(p.getId(),actor),"governance",governanceDecisions.forRequirement(req,actor)));
  }
  /** Called inside the requirement save transaction, after its project lock. */
  public void applicabilityChanged(HrmPayrollRequirementDO previous,HrmPayrollRequirementDO next,Long actor){if(previous==null||Objects.equals(previous.getSourceApplicability(),next.getSourceApplicability())||!"NOT_APPLICABLE".equals(next.getSourceApplicability()))return;
@@ -220,7 +224,7 @@ public class HrmPayrollWorkbenchService {
    case "START":valid("OPEN".equals(i.getState()));i.setState("PROCESSING");break;
    case "SUBMIT":valid("PROCESSING".equals(i.getState()));i.setProcessing(c.getEvidence());i.setState("REVIEW");break;
    case "REJECT":valid("REVIEW".equals(i.getState()));i.setReview(c.getEvidence());i.setState("PROCESSING");break;
-   case "CLOSE":valid("REVIEW".equals(i.getState()));current(digest(issueBinding(p,i)),c.getExpectedBinding());i.setReview(c.getEvidence());i.setState("CLOSED");i.setClosedDate(LocalDate.now(SHANGHAI).toString());break;
+   case "CLOSE":Map<String,Object> closeGovernance=governanceDecisions.forIssue(p.getId(),actor,p.getScopeJson(),affected);insert(p.getId(),"EVIDENCE",map("layer","ISSUE_CLOSE","objectId",o.getId(),"governance",closeGovernance,"reference",c.getEvidence(),"actorId",actor,"executedAt",HrmPayrollGovernanceStore.now()));valid("REVIEW".equals(i.getState()));current(digest(issueBinding(p,i)),c.getExpectedBinding());i.setReview(c.getEvidence());i.setState("CLOSED");i.setClosedDate(LocalDate.now(SHANGHAI).toString());break;
    case "REOPEN":valid("CLOSED".equals(i.getState())&&!blank(c.getDueDate()));LocalDate.parse(c.getDueDate());i.setDueDate(c.getDueDate());i.setCycle(i.getCycle()+1);i.setState("OPEN");i.setWasOverdue(false);i.setClosedDate(null);i.setProcessing(null);i.setReview(null);break;
    case "RECLASSIFY":valid(!"CLOSED".equals(i.getState())&&c.getCategory()!=null&&c.getWholeProject()!=null&&c.getRequirementIds()!=null&&c.getSourceIds()!=null);i.setCategory(c.getCategory());i.setWholeProject(c.getWholeProject());i.setRequirementIds(c.getRequirementIds());i.setSourceIds(c.getSourceIds());issueAccess(p,i,actor,"ISSUE_REVIEW");issueValid(p,i);break;
    case "REASSIGN":valid(!"CLOSED".equals(i.getState())&&c.getHandlerId()!=null&&c.getReviewerId()!=null);i.setHandlerId(c.getHandlerId());i.setReviewerId(c.getReviewerId());issueValid(p,i);break;
@@ -230,7 +234,7 @@ public class HrmPayrollWorkbenchService {
  }
  private boolean dataBlocked(HrmPayrollRequirementProjectDO p,Long req,Long source){return all(p.getId(),"ISSUE").stream().anyMatch(o->{Issue i=data(o,Issue.class);return !"CLOSED".equals(i.getState())&&"DATA_READINESS".equals(i.getCategory())&&(Boolean.TRUE.equals(i.getWholeProject())||i.getSourceIds().contains(source)||issueImpact(p.getId(),i).contains(req));});}
  /** Real blocker data for S5; only project-wide readers receive complete project judgement. */
- public Map<String,Object> blockers(Long project,Long actor){HrmPayrollRequirementProjectDO p=project(project,actor,false);denied(access.full(p,actor,"READ"));Set<Long> included=requirements.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementDO>().eq(HrmPayrollRequirementDO::getProjectId,project)).stream().filter(r->"INCLUDED".equals(r.getScopeDecision())).map(HrmPayrollRequirementDO::getId).collect(Collectors.toSet());List<Long> blocks=new ArrayList<>();for(HrmPayrollWorkbenchRecordDO o:all(project,"ISSUE")){Issue i=data(o,Issue.class);if(!"CLOSED".equals(i.getState())&&"BASELINE_BLOCK".equals(i.getCategory())&&(Boolean.TRUE.equals(i.getWholeProject())||!Collections.disjoint(included,issueImpact(project,i))))blocks.add(o.getId());}return map("baselineIssueIds",blocks,"baselineBlocked",!blocks.isEmpty(),"includedRequirementIds",included,"formalReleaseGate","S5_NOT_IMPLEMENTED");}
+ public Map<String,Object> blockers(Long project,Long actor){HrmPayrollRequirementProjectDO p=project(project,actor,false);denied(access.full(p,actor,"READ"));Set<Long> included=requirements.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementDO>().eq(HrmPayrollRequirementDO::getProjectId,project)).stream().filter(r->"INCLUDED".equals(r.getScopeDecision())).map(HrmPayrollRequirementDO::getId).collect(Collectors.toSet());List<Long> blocks=new ArrayList<>();for(HrmPayrollWorkbenchRecordDO o:all(project,"ISSUE")){Issue i=data(o,Issue.class);if(!"CLOSED".equals(i.getState())&&"BASELINE_BLOCK".equals(i.getCategory())&&(Boolean.TRUE.equals(i.getWholeProject())||!Collections.disjoint(included,issueImpact(project,i))))blocks.add(o.getId());}return map("baselineIssueIds",blocks,"baselineBlocked",!blocks.isEmpty(),"includedRequirementIds",included,"formalReleaseGate","INDEPENDENT_PUBLISH_CHECK_REQUIRED");}
  private boolean visible(HrmPayrollRequirementProjectDO p,HrmPayrollWorkbenchRecordDO o,Long actor){try{switch(o.getKind()){
   case "SOURCE":sourceAccess(p,o,data(o,Source.class),actor,"READ");return true;
   case "RELATION":relationAccess(p,o,actor,"READ");return true;
@@ -244,7 +248,7 @@ public class HrmPayrollWorkbenchService {
   if("RELATION".equals(o.getKind())){Relation r=data(o,Relation.class);result.put("available",available(p,o));result.put("semanticVerified",Boolean.TRUE.equals(r.getActive())&&semanticReady(p,o,r));if(Boolean.TRUE.equals(r.getActive()))result.put("bindings",map("RELATION_SEMANTIC",digest(relationSemanticBinding(p,o,r)),"QC",digest(qcBinding(p,o,r))));}
   if("ISSUE".equals(o.getKind())){Issue i=data(o,Issue.class);result.put("binding",digest(issueBinding(p,i)));result.put("dates",dates(i,Clock.system(SHANGHAI)));result.put("affectedRequirementIds",issueImpact(p.getId(),i));}
   // Generic read access is not read access to authorization/decision evidence.
-  values.remove("authority");if(values.containsKey("affectedRequirementIds")){List<?> ids=(List<?>)values.get("affectedRequirementIds");values.put("affectedRequirementIds",ids.stream().filter(id->access.row(p,requirement(p.getId(),Long.valueOf(String.valueOf(id))),actor,"READ")).collect(Collectors.toList()));}
+  values.remove("authority");if(values.remove("governance")!=null)values.put("governanceReferencesRestricted",true);if(values.containsKey("affectedRequirementIds")){List<?> ids=(List<?>)values.get("affectedRequirementIds");values.put("affectedRequirementIds",ids.stream().filter(id->access.row(p,requirement(p.getId(),Long.valueOf(String.valueOf(id))),actor,"READ")).collect(Collectors.toList()));}
   return result;
  }
  public List<Object> list(Long project,String kind,Long actor){valid(KINDS.contains(kind));HrmPayrollRequirementProjectDO p=project(project,actor,false);return all(project,kind).stream().filter(o->visible(p,o,actor)).map(o->view(p,o,actor)).collect(Collectors.toList());}

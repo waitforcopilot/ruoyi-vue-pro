@@ -1,0 +1,45 @@
+{
+  "files": [
+    "薪酬评审-快照93-任务247.xlsx",
+    "薪酬评审-快照93-任务252.xlsx"
+  ],
+  "onlyExportMetadataExcluded": true,
+  "cases": [
+    {
+      "sheet": "评审版本说明",
+      "businessRowsIdentical": true,
+      "rows": 11,
+      "columns": 73
+    },
+    {
+      "sheet": "功能需求清单",
+      "businessRowsIdentical": true,
+      "rows": 1,
+      "columns": 51
+    },
+    {
+      "sheet": "数据源清单",
+      "businessRowsIdentical": true,
+      "rows": 1,
+      "columns": 11
+    },
+    {
+      "sheet": "字段映射",
+      "businessRowsIdentical": true,
+      "rows": 0,
+      "columns": 2
+    },
+    {
+      "sheet": "问题与待办",
+      "businessRowsIdentical": true,
+      "rows": 0,
+      "columns": 2
+    },
+    {
+      "sheet": "范围与变更",
+      "businessRowsIdentical": true,
+      "rows": 1,
+      "columns": 67
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "filesScanned": 88,
+  "privateSecretValuesChecked": 7,
+  "secretMatches": 0,
+  "jwtMatches": 0,
+  "readOnlyAndUnrelatedInputsExcluded": true,
+  "sourceHashesUnchanged": true
+}

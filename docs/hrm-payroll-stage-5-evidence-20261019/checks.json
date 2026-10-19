@@ -1,0 +1,38 @@
+{
+  "time": "2026-10-19T20:56:26.828117+08:00",
+  "sourceHashesMatchFrozenCandidate": true,
+  "jarSha256MatchesFrozenCandidate": true,
+  "runtimePid": 60171,
+  "runtimeStart": "2026-10-19T18:46:57+08:00",
+  "hrmClassBytesMatched": 1108,
+  "migrationCount": 60,
+  "mavenTests": {
+    "run": 127,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "governanceActualH2Services": 19,
+    "previousStageContractTestsWithGovernanceMock": 108
+  },
+  "package": "BUILD SUCCESS",
+  "fullVueTypecheckExitCode": 0,
+  "eslintChangedFiveFilesExitCode": 0,
+  "prettierChangedFiveFilesExitCode": 0,
+  "stylelintGovernanceExitCode": 0,
+  "diffCheckExitCode": 0,
+  "frontendHttp": 200,
+  "backendHealth": {
+    "status": "UP"
+  },
+  "readinessSubEndpoint": {
+    "http": 404,
+    "available": false
+  },
+  "mysql": "healthy",
+  "redis": "PONG",
+  "privateLogs": "~/.hrm-payroll-local/stage5-20261019/",
+  "browserFinalConsoleErrorCount": 0,
+  "externalSmsChannelsEnabled": 0,
+  "externalSmsTemplatesEnabled": 0,
+  "externalMailTemplatesEnabled": 0
+}

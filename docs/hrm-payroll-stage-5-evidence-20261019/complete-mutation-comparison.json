@@ -1,0 +1,26 @@
+{
+  "projectId": 95,
+  "releaseId": 431,
+  "checks": [
+    {
+      "change": "source name and unit",
+      "frozenV1Unchanged": true
+    },
+    {
+      "change": "current mapping and rule",
+      "frozenV1Unchanged": true
+    },
+    {
+      "change": "current issue reopened",
+      "frozenV1Unchanged": true
+    },
+    {
+      "change": "current decision replaced",
+      "frozenV1Unchanged": true
+    },
+    {
+      "change": "current personnel display names",
+      "frozenV1Unchanged": true
+    }
+  ]
+}

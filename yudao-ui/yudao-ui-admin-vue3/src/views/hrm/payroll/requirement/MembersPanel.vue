@@ -148,6 +148,12 @@ const members = ref<any[]>([]),
 const revoking = ref<any>(),
   revokeReason = ref('')
 const labels = {
+  DECISION_READ: '读取决议正文',
+  GRANT_READ: '读取授权依据',
+  PERSON_READ: '读取关联人员显示名',
+  DECISION_EDIT: '起草决议',
+  DECISION_APPROVE: '独立批准决议',
+  BASELINE_PUBLISH: '发布基线',
   READ: '读取',
   META: '修改项目名称',
   EDIT: '编辑需求',

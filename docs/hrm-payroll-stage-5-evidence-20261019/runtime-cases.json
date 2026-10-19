@@ -1,0 +1,85 @@
+[
+  {
+    "case": "real-expiry-not-system-clock",
+    "pass": true,
+    "decisionId": 50
+  },
+  {
+    "case": "real-future-effective-expired",
+    "pass": true,
+    "timeline": [
+      {
+        "time": "2026-10-19T17:22:04.844230",
+        "state": "FUTURE"
+      },
+      {
+        "time": "2026-10-19T17:22:05.545395",
+        "state": "FUTURE"
+      },
+      {
+        "time": "2026-10-19T17:22:06.325552",
+        "state": "FUTURE"
+      },
+      {
+        "time": "2026-10-19T17:22:07.054674",
+        "state": "FUTURE"
+      },
+      {
+        "time": "2026-10-19T17:22:07.816505",
+        "state": "FUTURE"
+      },
+      {
+        "time": "2026-10-19T17:22:08.527589",
+        "state": "FUTURE"
+      },
+      {
+        "time": "2026-10-19T17:22:09.331884",
+        "state": "EFFECTIVE"
+      },
+      {
+        "time": "2026-10-19T17:22:10.134093",
+        "state": "EFFECTIVE"
+      },
+      {
+        "time": "2026-10-19T17:22:10.866435",
+        "state": "EFFECTIVE"
+      },
+      {
+        "time": "2026-10-19T17:22:11.612763",
+        "state": "EFFECTIVE"
+      },
+      {
+        "time": "2026-10-19T17:22:12.404554",
+        "state": "EFFECTIVE"
+      },
+      {
+        "time": "2026-10-19T17:22:13.187945",
+        "state": "EFFECTIVE"
+      },
+      {
+        "time": "2026-10-19T17:22:13.980115",
+        "state": "EFFECTIVE"
+      },
+      {
+        "time": "2026-10-19T17:22:14.682689",
+        "state": "EXPIRED"
+      }
+    ]
+  },
+  {
+    "case": "revoked-decision-blocks-new-preserves-V1",
+    "pass": true
+  },
+  {
+    "case": "old-S4-object-adoption-denied-no-signature-upgrade",
+    "pass": true,
+    "projectId": 85,
+    "missingGovernanceCount": 40
+  },
+  {
+    "case": "narrow-two-hidden-sources-one-placeholder-and-old-session-claim-denied",
+    "pass": true,
+    "grantId": 298,
+    "jobId": 92
+  }
+]

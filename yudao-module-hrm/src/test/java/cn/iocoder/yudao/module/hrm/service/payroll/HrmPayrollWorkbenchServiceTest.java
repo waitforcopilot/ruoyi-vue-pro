@@ -17,6 +17,15 @@ import static org.mockito.Mockito.*;
 
 @Import({HrmPayrollWorkbenchService.class,HrmPayrollRequirementAccessService.class,HrmPayrollRequirementProjectService.class,HrmPayrollRequirementServiceImpl.class})
 class HrmPayrollWorkbenchServiceTest extends BaseDbUnitTest {
+ // These tests isolate the pre-S5 contract. The real governance gate is covered by HrmPayrollGovernanceServiceTest and runtime regression.
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollGovernanceStore stage5Store;
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollGovernanceRootService stage5Roots;
+ @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollGovernanceDecisionService stage5Decisions;
+ @org.junit.jupiter.api.BeforeEach void stage5ContractIsolation(){
+  org.mockito.Mockito.when(stage5Decisions.currentSemantic(org.mockito.ArgumentMatchers.any())).thenReturn(true);
+  org.mockito.Mockito.when(stage5Roots.validRoot(org.mockito.ArgumentMatchers.anyLong(),org.mockito.ArgumentMatchers.any())).thenReturn(true);
+ }
+
  @Resource HrmPayrollWorkbenchService service;
  @Resource HrmPayrollWorkbenchRecordMapper records;
  @Resource HrmPayrollRequirementProjectMapper projects;

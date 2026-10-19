@@ -1,0 +1,18 @@
+{
+  "releaseId": 431,
+  "jobId": 470,
+  "requirementIds": [
+    803
+  ],
+  "file": "薪酬评审-快照431-任务470.xlsx",
+  "sha256": "b7462ae6a65ed28b5a43c2be32ce74295072c19e289920b2790476495a16d5e6",
+  "sixSheets": [
+    "评审版本说明",
+    "功能需求清单",
+    "数据源清单",
+    "字段映射",
+    "问题与待办",
+    "范围与变更"
+  ],
+  "fileContainsFilteredLabel": true
+}

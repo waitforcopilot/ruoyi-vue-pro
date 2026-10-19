@@ -1,0 +1,70 @@
+{
+  "users": {
+    "editor": {
+      "id": 266,
+      "username": "hrms5editor",
+      "roleId": 180,
+      "platformSuffixes": [
+        "query",
+        "update",
+        "assign",
+        "export",
+        "scope-decide",
+        "source-edit",
+        "issue-manage",
+        "issue-handle",
+        "root-register",
+        "decision-edit",
+        "decision-read",
+        "grant-read",
+        "baseline-publish"
+      ]
+    },
+    "approver": {
+      "id": 267,
+      "username": "hrms5approver",
+      "roleId": 181,
+      "platformSuffixes": [
+        "query",
+        "confirm",
+        "export",
+        "source-verify",
+        "issue-review",
+        "root-sign",
+        "decision-approve",
+        "decision-read",
+        "grant-read"
+      ]
+    },
+    "restricted": {
+      "id": 268,
+      "username": "hrms5restricted",
+      "roleId": 182,
+      "platformSuffixes": [
+        "query",
+        "export",
+        "decision-read",
+        "grant-read"
+      ]
+    }
+  },
+  "scope": {
+    "entities": [
+      101
+    ],
+    "organizations": [
+      201
+    ],
+    "workerTypes": [
+      "TEST"
+    ],
+    "scenarios": [
+      "TEST"
+    ],
+    "from": "2026-10-01",
+    "to": "2026-10-31",
+    "explanation": "TEST S5 independent synthetic project scope, not actual approval"
+  },
+  "noEmployeeBinding": true,
+  "formalAuthorization": false
+}

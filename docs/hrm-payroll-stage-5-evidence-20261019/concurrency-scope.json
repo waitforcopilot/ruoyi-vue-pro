@@ -1,0 +1,125 @@
+[
+  {
+    "case": "ROOT_REVOKE",
+    "operations": [
+      {
+        "method": "POST",
+        "path": "/hrm/payroll/governance/publish",
+        "actor": 266,
+        "startedNs": 1792405459546548000,
+        "finishedNs": 1792405459624157000,
+        "code": 1050810043,
+        "data": null
+      },
+      {
+        "method": "POST",
+        "path": "/hrm/payroll/governance/root/action",
+        "actor": 267,
+        "startedNs": 1792405459546357000,
+        "finishedNs": 1792405459587359000,
+        "code": 0,
+        "data": true
+      }
+    ],
+    "noTornSnapshot": true
+  },
+  {
+    "case": "SCOPE_CHANGE",
+    "operations": [
+      {
+        "method": "POST",
+        "path": "/hrm/payroll/governance/publish",
+        "actor": 266,
+        "startedNs": 1792405463462553000,
+        "finishedNs": 1792405463838925000,
+        "code": 0,
+        "data": 151
+      },
+      {
+        "method": "POST",
+        "path": "/hrm/payroll/requirement-project/scope",
+        "actor": 266,
+        "startedNs": 1792405463462362000,
+        "finishedNs": 1792405463867678000,
+        "code": 0,
+        "data": true
+      }
+    ],
+    "noTornSnapshot": true
+  },
+  {
+    "case": "DECISION_REVOKE",
+    "operations": [
+      {
+        "method": "POST",
+        "path": "/hrm/payroll/governance/publish",
+        "actor": 266,
+        "startedNs": 1792405466516201000,
+        "finishedNs": 1792405466789592000,
+        "code": 0,
+        "data": 172
+      },
+      {
+        "method": "POST",
+        "path": "/hrm/payroll/governance/decision/action",
+        "actor": 267,
+        "startedNs": 1792405466516045000,
+        "finishedNs": 1792405466821161000,
+        "code": 0,
+        "data": true
+      }
+    ],
+    "noTornSnapshot": true
+  },
+  {
+    "case": "SOURCE_CHANGE",
+    "operations": [
+      {
+        "method": "POST",
+        "path": "/hrm/payroll/governance/publish",
+        "actor": 266,
+        "startedNs": 1792405471999663000,
+        "finishedNs": 1792405472622165000,
+        "code": 0,
+        "data": 193
+      },
+      {
+        "method": "POST",
+        "path": "/hrm/payroll/workbench/source/save",
+        "actor": 266,
+        "startedNs": 1792405471999530000,
+        "finishedNs": 1792405472683861000,
+        "code": 0,
+        "data": 1904
+      }
+    ],
+    "noTornSnapshot": true
+  },
+  {
+    "case": "SIMULTANEOUS_EXACT_RETRY",
+    "answers": [
+      {
+        "code": 0,
+        "msg": "",
+        "data": 213
+      },
+      {
+        "code": 0,
+        "msg": "",
+        "data": 213
+      }
+    ],
+    "releaseRows": 1
+  },
+  {
+    "case": "S3_NEW_SCOPE_POLICY_SEM_QS_QC_CONFIRM_MANUAL_CLOSE",
+    "projectId": 95,
+    "V1": 233,
+    "V2": 248,
+    "oldScopeRejected": true,
+    "semanticOnlyReady": 0,
+    "newQSOnlyReady": 0,
+    "newQCReady": 1,
+    "sourceScopeExplicitlyRevised": true
+  }
+]
