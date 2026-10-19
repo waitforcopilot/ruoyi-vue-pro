@@ -1,0 +1,19 @@
+{
+  "downloadPath": "/Users/waitforpro/Downloads/当前来源关系工作清单.json",
+  "label": "权限受限节选（非发布基线）",
+  "sourceIds": [
+    1
+  ],
+  "relationIds": [
+    4
+  ],
+  "requirementIds": [
+    497
+  ],
+  "authorityDisclosed": false,
+  "hiddenRequirementIncluded": false,
+  "existingRequirementExcel": "/Users/waitforpro/Downloads/薪酬需求评审 (2).xlsx",
+  "existingExcelSheet": "权限受限节选",
+  "existingExcelDataRows": 1,
+  "hiddenRequirementAbsentFromExcel": true
+}

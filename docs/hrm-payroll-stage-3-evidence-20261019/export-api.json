@@ -1,0 +1,34 @@
+{
+  "fullRelationIds": [
+    4,
+    7
+  ],
+  "partialRelationIds": [
+    4
+  ],
+  "partialLabel": "权限受限节选（非发布基线）",
+  "hiddenRequirementAbsent": true,
+  "authorizationEvidenceNotDisclosed": true,
+  "currentReadiness": {
+    "items": [
+      {
+        "requirementId": 497,
+        "relationId": 4,
+        "available": false,
+        "kind": "RELATION"
+      },
+      {
+        "requirementId": 498,
+        "relationId": 7,
+        "available": false,
+        "kind": "RELATION"
+      }
+    ],
+    "available": 0,
+    "denominator": 2,
+    "gaps": 0,
+    "exempt": 0,
+    "permissionRestricted": false,
+    "notApplicableLabel": null
+  }
+}

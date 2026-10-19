@@ -1,0 +1,342 @@
+Browser tab: 1, Title: "芋道管理系统 - 需求评审", URL: "http://127.0.0.1:5173/hrm-payroll/requirement?module=COL&projectId=23".
+1 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?module=COL&projectId=23
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			15 container v-tool-header
+				16 container 面包屑
+					17 link 薪酬管理
+						18 text 薪酬管理
+					19 text /
+					20 link 需求评审
+						21 text 需求评审
+				22 container
+					23 container
+						24 combo box (collapsed, settable) ID: el-id-3423-76, Secondary Actions: Expand
+						25 text 请输入菜单内容
+				26 pop up button (collapsed) ID: el-id-3423-4, Secondary Actions: Expand
+				27 pop up button (collapsed) ID: el-id-3423-9, Secondary Actions: Expand
+				28 pop up button (collapsed) TEST S3 reviewer, ID: el-id-3423-14, Secondary Actions: Expand
+			29 container v-tags-view
+				30 container
+					31 pop up button (collapsed) 首页, ID: el-id-3423-20, Secondary Actions: Expand
+						32 container
+							33 text 首页
+					34 pop up button (collapsed) 需求评审, ID: el-id-3423-28, Secondary Actions: Expand
+						35 container
+							36 text 需求评审
+				37 pop up button (collapsed) ID: el-id-3423-36, Secondary Actions: Expand
+			163 container
+				164 container
+					165 combo box (collapsed, settable) Description: 评审项目, ID: el-id-3423-184, Secondary Actions: Expand
+					166 text TEST S3 来源质量评审闭环
+					167 image
+				168 button 模板版本比较
+				169 button 项目变更历史
+			170 text TEST S3 来源质量评审闭环 · 项目编号 23 · 范围版本 1
+			171 text 功能确认与数据就绪分别核实；确认需当前范围、规则、验收条件和依据，由有权的被分派人本人操作。来源按适用性校验，合法不适用可豁免来源及映射。
+			172 container
+				173 container
+					174 combo box (collapsed, settable) ID: el-id-3423-185, Secondary Actions: Expand
+					175 text 需求征集
+					176 image
+				177 button 刷新
+			178 button (collapsed) 需求征集候选数据源与字段, ID: el-collapse-head-177, Secondary Actions: Expand
+				179 text 需求征集候选数据源与字段
+			283 container
+				284 table
+					285 row
+						286 cell
+							287 text 需求ID
+						288 cell
+							289 text 编号
+						290 cell
+							291 text 模块
+						292 cell
+							293 text 功能
+						294 cell
+							295 text 评审状态
+						296 cell
+							297 text 数据就绪
+						298 cell
+							299 text 数据来源
+						300 cell
+							301 text 范围适配
+						302 cell
+							303 text 版本
+						304 cell
+							305 text 操作
+				306 table
+					307 container
+						308 row
+							309 cell
+								310 text 497
+							311 cell
+								312 text CUSTOM-0001
+							313 cell
+								314 text 需求征集
+							315 cell
+								316 text TEST S3 R1 按工时消费来源
+							317 cell
+								318 text 已确认
+							319 cell
+								320 text 未就绪
+							321 cell
+								322 text 匹配
+							323 cell
+								324 text 8
+							325 cell
+								326 button 历史
+						327 row
+							328 cell
+								329 text 498
+							330 cell
+								331 text CUSTOM-0002
+							332 cell
+								333 text 需求征集
+							334 cell
+								335 text TEST S3 R2 复用同一工时来源
+							336 cell
+								337 text 已确认
+							338 cell
+								339 text 未就绪
+							340 cell
+								341 text 匹配
+							342 cell
+								343 text 7
+							344 cell
+								345 button 历史
+			243 text 实际来源与候选目录分开；功能确认、语义核验、QS/QC和问题关闭分别操作。只登记规格或虚构样例引用，不填写口令或真实工资明细。
+			244 button 刷新来源工作台
+			245 tab group
+				246 tab (selected, settable, boolean) 实际来源, Value: 1, ID: tab-sources
+				247 tab (selectable, settable, boolean) 消费关系与映射, Value: 0, ID: tab-relations
+				248 tab (selectable, settable, boolean) 问题处理与独立复核, Value: 0, ID: tab-issues
+				249 tab (selectable, settable, boolean) 核验证据, Value: 0, ID: tab-evidence
+				250 tab (selectable, settable, boolean) 站内待办与建议, Value: 0, ID: tab-todos
+			251 container Description: 实际来源, ID: pane-sources
+				252 container
+					253 table
+						254 row
+							255 cell
+								256 text sourceId
+							257 cell
+								258 text 名称
+							259 cell
+								260 text 语义/运营/交付版本
+							261 cell
+								262 text 供给 / 语义 / QS
+							263 cell
+								264 text 操作
+					265 table
+						266 row
+							267 cell
+								268 text 1
+							269 cell
+								270 text TEST S3 工时文件 S
+							271 cell
+								272 text 2 / 4 / 1
+							273 cell
+								274 text 已提供 / 待核验 / 未通过或待检查
+							275 cell
+								276 container
+									277 button 规格详情
+									278 button 规格核验
+									279 button QS检查
+									280 button 变更建议
+									281 button 跨项目复制
+									282 button 来源历史
+			346 container 当前项目编号：23。 以下项目编号按当时快照展示；旧快照未记录时不推定归属。 关闭评审历史
+				347 container
+					348 text 评审历史 · 需求ID 497 · CUSTOM-0001
+				349 container
+					350 text 当前项目编号：23。 以下项目编号按当时快照展示；旧快照未记录时不推定归属。
+					351 container
+						352 table
+							353 row
+								354 cell
+									355 text 范围适配
+								356 cell
+									357 text 版本
+								358 cell
+									359 text 操作人
+								360 cell
+									361 text 时间
+								362 cell
+									363 text 评审内容
+						364 table
+							365 container
+								366 row
+									367 cell
+										368 text 匹配
+									369 cell
+										370 text 8
+									371 cell
+										372 text TEST S3 reviewer
+									373 cell
+										374 text 2026-10-19 11:36:26
+									375 cell
+										376 text 快照需求ID：497
+										377 text 快照项目编号：23
+										378 text 当时编号：CUSTOM-0001
+										379 text 当时范围版本：1 / INHERIT
+										380 text 当时确认人：261；签署范围版本：1
+										381 text TEST S3 R1 按工时消费来源
+										382 text 已确认 / 未就绪
+										383 text 确认引用：需求语义v6；规则：TEST-RULE-V1 待业务核定；来源1规格v2 / 关系4映射v3
+										384 text 验收：TEST 正常及异常工时样例按映射输出
+										385 text 依据：TEST 合成评审依据，不作正式批准
+								386 row
+									387 cell
+										388 text 匹配
+									389 cell
+										390 text 7
+									391 cell
+										392 text TEST S3 editor
+									393 cell
+										394 text 2026-10-19 11:35:46
+									395 cell
+										396 text 快照需求ID：497
+										397 text 快照项目编号：23
+										398 text 当时编号：CUSTOM-0001
+										399 text 当时范围版本：1 / INHERIT
+										400 text TEST S3 R1 按工时消费来源
+										401 text 评审中 / 未就绪
+										402 text 旧来源线索：未填写
+										403 text 旧映射线索：未填写
+										404 text 验收：TEST 正常及异常工时样例按映射输出
+										405 text 依据：TEST 合成评审依据，不作正式批准
+								406 row
+									407 cell
+										408 text 匹配
+									409 cell
+										410 text 6
+									411 cell
+										412 text TEST S3 editor
+									413 cell
+										414 text 2026-10-19 11:26:10
+									415 cell
+										416 text 快照需求ID：497
+										417 text 快照项目编号：23
+										418 text 当时编号：CUSTOM-0001
+										419 text 当时范围版本：1 / INHERIT
+										420 text TEST S3 R1 按工时消费来源
+										421 text 评审中 / 未就绪
+										422 text 旧来源线索：未填写
+										423 text 旧映射线索：未填写
+										424 text 验收：TEST 正常及异常工时样例按映射输出
+										425 text 依据：TEST 合成评审依据，不作正式批准
+								426 row
+									427 cell
+										428 text 匹配
+									429 cell
+										430 text 5
+									431 cell
+										432 text TEST S3 editor
+									433 cell
+										434 text 2026-10-19 11:24:38
+									435 cell
+										436 text 快照需求ID：497
+										437 text 快照项目编号：23
+										438 text 当时编号：CUSTOM-0001
+										439 text 当时范围版本：1 / INHERIT
+										440 text TEST S3 R1 按工时消费来源
+										441 text 评审中 / 未就绪
+										442 text 旧来源线索：未填写
+										443 text 旧映射线索：未填写
+										444 text 验收：TEST 正常及异常工时样例按映射输出
+										445 text 依据：TEST 合成评审依据，不作正式批准
+								446 row
+									447 cell
+										448 text 匹配
+									449 cell
+										450 text 4
+									451 cell
+										452 text TEST S3 reviewer
+									453 cell
+										454 text 2026-10-19 11:12:31
+									455 cell
+										456 text 快照需求ID：497
+										457 text 快照项目编号：23
+										458 text 当时编号：CUSTOM-0001
+										459 text 当时范围版本：1 / INHERIT
+										460 text 当时确认人：261；签署范围版本：1
+										461 text TEST S3 R1 按工时消费来源
+										462 text 已确认 / 未就绪
+										463 text 确认引用：需求语义v3；规则：TEST-RULE-V1 待业务核定；来源1规格v1 / 关系4映射v1
+										464 text 验收：TEST 正常及异常工时样例按映射输出
+										465 text 依据：TEST 合成评审依据，不作正式批准
+								466 row
+									467 cell
+										468 text 匹配
+									469 cell
+										470 text 3
+									471 cell
+										472 text TEST S3 editor
+									473 cell
+										474 text 2026-10-19 11:12:01
+									475 cell
+										476 text 快照需求ID：497
+										477 text 快照项目编号：23
+										478 text 当时编号：CUSTOM-0001
+										479 text 当时范围版本：1 / INHERIT
+										480 text TEST S3 R1 按工时消费来源
+										481 text 待确认 / 未就绪
+										482 text 旧来源线索：未填写
+										483 text 旧映射线索：未填写
+										484 text 验收：TEST 正常及异常工时样例按映射输出
+										485 text 依据：TEST 合成评审依据，不作正式批准
+								486 row
+									487 cell
+										488 text 匹配
+									489 cell
+										490 text 2
+									491 cell
+										492 text TEST S3 editor
+									493 cell
+										494 text 2026-10-19 11:11:22
+									495 cell
+										496 text 快照需求ID：497
+										497 text 快照项目编号：23
+										498 text 当时编号：CUSTOM-0001
+										499 text 当时范围版本：1 / INHERIT
+										500 text TEST S3 R1 按工时消费来源
+										501 text 待确认 / 未就绪
+										502 text 旧来源线索：未填写
+										503 text 旧映射线索：未填写
+										504 text 验收：TEST 正常及异常工时样例按映射输出
+										505 text 依据：TEST 合成评审依据，不作正式批准
+								506 row
+									507 cell
+										508 text 匹配
+									509 cell
+										510 text 1
+									511 cell
+										512 text TEST S3 editor
+									513 cell
+										514 text 2026-10-19 11:10:39
+									515 cell
+										516 text 快照需求ID：497
+										517 text 快照项目编号：23
+										518 text 当时编号：CUSTOM-0001
+										519 text 当时范围版本：1 / INHERIT
+										520 text TEST S3 R1 按工时消费来源
+										521 text 待确认 / 未就绪
+										522 text 旧来源线索：未填写
+										523 text 旧映射线索：未填写
+										524 text 验收：TEST 正常及异常工时样例按映射输出
+										525 text 依据：TEST 合成评审依据，不作正式批准
+				526 button 关闭评审历史
+			162 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 346 container 当前项目编号：23。 以下项目编号按当时快照展示；旧快照未记录时不推定归属。 关闭评审历史

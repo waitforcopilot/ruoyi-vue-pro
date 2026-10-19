@@ -1,0 +1,54 @@
+{
+  "requirementReadDoesNotImplySourceRead": true,
+  "sharedSemanticCoverageAndProposalPath": true,
+  "crossProjectCopyBothEndsAndUnknownActionsDenied": true,
+  "crossTenantDenied": true,
+  "sameTokenRevocationAndIndependentReadGrant": true,
+  "sourceVsQS": [
+    1050810002,
+    0
+  ],
+  "mappingVsQC": [
+    1050810002,
+    0
+  ],
+  "deliveryVsQC": [
+    0,
+    0
+  ],
+  "sourceVsConfirmation": [
+    1050810002,
+    0
+  ],
+  "scopeVsIssueClose": [
+    1050810002,
+    0
+  ],
+  "scopeVsOldVerificationAndCloseDenied": true,
+  "fixtures": {
+    "security": {
+      "projectId": 58,
+      "requirements": [
+        567,
+        568
+      ],
+      "source": 1120,
+      "relations": [
+        1123,
+        1126
+      ]
+    },
+    "concurrency": {
+      "projectId": 59,
+      "requirements": [
+        569,
+        570
+      ],
+      "source": 1145,
+      "relations": [
+        1148,
+        1151
+      ]
+    }
+  }
+}

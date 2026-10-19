@@ -1,0 +1,296 @@
+{
+  "fixtures": {
+    "contact": {
+      "projectId": 24,
+      "requirements": [
+        499,
+        500
+      ],
+      "source": 20,
+      "relations": [
+        23,
+        26
+      ]
+    },
+    "owner": {
+      "projectId": 25,
+      "requirements": [
+        501,
+        502
+      ],
+      "source": 45,
+      "relations": [
+        48,
+        51
+      ]
+    },
+    "supply": {
+      "projectId": 26,
+      "requirements": [
+        503,
+        504
+      ],
+      "source": 70,
+      "relations": [
+        73,
+        76
+      ]
+    },
+    "unit": {
+      "projectId": 27,
+      "requirements": [
+        505,
+        506
+      ],
+      "source": 99,
+      "relations": [
+        102,
+        105
+      ]
+    },
+    "type": {
+      "projectId": 28,
+      "requirements": [
+        507,
+        508
+      ],
+      "source": 138,
+      "relations": [
+        141,
+        144
+      ]
+    },
+    "interface": {
+      "projectId": 29,
+      "requirements": [
+        509,
+        510
+      ],
+      "source": 179,
+      "relations": [
+        182,
+        185
+      ]
+    },
+    "mapping": {
+      "projectId": 30,
+      "requirements": [
+        511,
+        512
+      ],
+      "source": 220,
+      "relations": [
+        223,
+        226
+      ]
+    },
+    "delivery": {
+      "projectId": 31,
+      "requirements": [
+        513,
+        514
+      ],
+      "source": 249,
+      "relations": [
+        252,
+        255
+      ]
+    },
+    "qsRule": {
+      "projectId": 32,
+      "requirements": [
+        515,
+        516
+      ],
+      "source": 274,
+      "relations": [
+        277,
+        280
+      ]
+    },
+    "qcRule": {
+      "projectId": 33,
+      "requirements": [
+        517,
+        518
+      ],
+      "source": 299,
+      "relations": [
+        302,
+        305
+      ]
+    },
+    "expand": {
+      "projectId": 34,
+      "requirements": [
+        519,
+        520
+      ],
+      "source": 327,
+      "relations": [
+        330,
+        333
+      ]
+    },
+    "period": {
+      "projectId": 35,
+      "requirements": [
+        521,
+        522
+      ],
+      "source": 356,
+      "relations": [
+        359,
+        362
+      ]
+    },
+    "rename": {
+      "projectId": 36,
+      "requirements": [
+        523,
+        524
+      ],
+      "source": 385,
+      "relations": [
+        388,
+        391
+      ]
+    },
+    "applicability": {
+      "projectId": 37,
+      "requirements": [
+        525,
+        526
+      ],
+      "source": 412,
+      "relations": [
+        415,
+        418
+      ]
+    },
+    "issues": {
+      "projectId": 38,
+      "requirements": [
+        527,
+        528
+      ],
+      "source": 423,
+      "relations": [
+        426,
+        429
+      ]
+    },
+    "copy": {
+      "projectId": 39,
+      "requirements": [
+        529,
+        530
+      ],
+      "source": 469,
+      "relations": [
+        472,
+        475
+      ]
+    }
+  },
+  "results": {
+    "contact": {
+      "available": 2,
+      "confirmationsRetained": true
+    },
+    "owner": {
+      "available": 0,
+      "functionalConfirmationRetained": true,
+      "handoffTodo": true
+    },
+    "supply": [
+      0,
+      2
+    ],
+    "unit": {
+      "sameDeliveryVersion": 1,
+      "qualityRecovery": [
+        0,
+        0,
+        0,
+        1,
+        2
+      ],
+      "oldEvidenceImmutable": true,
+      "confirmationNotAutoRestored": true
+    },
+    "type": {
+      "sameDeliveryVersion": 1,
+      "qualityRecovery": [
+        0,
+        0,
+        0,
+        1,
+        2
+      ],
+      "oldEvidenceImmutable": true,
+      "confirmationNotAutoRestored": true
+    },
+    "interface": {
+      "sameDeliveryVersion": 1,
+      "qualityRecovery": [
+        0,
+        0,
+        0,
+        1,
+        2
+      ],
+      "oldEvidenceImmutable": true,
+      "confirmationNotAutoRestored": true
+    },
+    "mapping": [
+      1,
+      1,
+      2
+    ],
+    "deliveryReplacement": {
+      "available": 0,
+      "confirmationsRetained": true
+    },
+    "qsRule": {
+      "available": 0,
+      "semanticVersion": 1
+    },
+    "qcRule": {
+      "available": 1,
+      "confirmationsRetained": true
+    },
+    "expand": {
+      "available": 0,
+      "scopeVersion": 2
+    },
+    "period": {
+      "available": 0,
+      "scopeVersion": 2
+    },
+    "rename": {
+      "available": 2,
+      "scopeVersion": 1
+    },
+    "applicability": {
+      "emptyReasonDraftSavedConfirmationDenied": true,
+      "validExemptionConfirmedWithoutSourceOwnerOrMapping": true,
+      "switchDeactivatedOldRelation": true,
+      "switchBackDoesNotReviveRelation": true
+    },
+    "issues": {
+      "completeRejectCloseReopenFlow": true,
+      "selfCloseDenied": true,
+      "staleAssociationCloseDenied": true,
+      "downgradeRequiresIndependentReview": true
+    },
+    "copy": {
+      "independentSourceId": 492,
+      "versionsResetSupplyAndEvidenceNotInherited": true,
+      "originalMutationDoesNotAffectCopy": true,
+      "manyToMany": true
+    }
+  },
+  "browserAcceptance": "SEPARATE_GATE",
+  "formalBusinessApproval": false
+}

@@ -16,7 +16,7 @@
       :closable="false"
     />
     <el-alert
-      title="业务确认状态与数据就绪状态分别维护；确认需有效负责人、字段映射、来源、验收条件及依据；请先保存，再由评审负责人本人点击“确认版本”。"
+      title="功能确认与数据就绪分别核实；确认需当前范围、规则、验收条件和依据，由有权的被分派人本人操作。来源按适用性校验，合法不适用可豁免来源及映射。"
       type="info"
       :closable="false"
     />
@@ -76,7 +76,12 @@
       >
       <el-table-column prop="description" label="功能" min-width="250" />
       <el-table-column label="评审状态" width="110"
-        ><template #default="{ row }">{{ states[row.status] }}</template></el-table-column
+        ><template #default="{ row }"
+          >{{ states[row.status]
+          }}<span v-if="row.status === 'CONFIRMED' && row.currentConfirmationValid === false"
+            >（当前绑定待核对）</span
+          ></template
+        ></el-table-column
       >
       <el-table-column label="数据就绪" width="110"
         ><template #default="{ row }">{{ readiness[row.readiness] }}</template></el-table-column
@@ -131,6 +136,15 @@
       >
     </el-table>
   </ContentWrap>
+  <WorkbenchPanel
+    v-if="projectId && project"
+    :key="projectId"
+    :project-id="projectId"
+    :scope-version="project.projectScopeVersion"
+    :scope-json="project.scopeJson"
+    :requirements="rows"
+    @changed="load"
+  />
   <Dialog v-model="assignmentVisible" title="分派评审负责人" width="min(540px, calc(100vw - 24px))">
     <p
       >需求ID {{ assignmentRow?.id }}（{{ assignmentRow?.code }}）· 已保存版本
@@ -211,6 +225,29 @@
       <el-form-item label="功能说明" prop="description"
         ><el-input v-model="form.description" type="textarea" :maxlength="1000"
       /></el-form-item>
+      <template v-if="projectId">
+        <el-form-item label="来源适用性"
+          ><el-select v-model="form.sourceApplicability"
+            ><el-option label="适用" value="APPLICABLE" /><el-option
+              label="不适用"
+              value="NOT_APPLICABLE" /></el-select
+        ></el-form-item>
+        <el-form-item v-if="form.sourceApplicability === 'NOT_APPLICABLE'" label="不适用理由"
+          ><el-input
+            v-model="form.applicabilityReason"
+            type="textarea"
+            placeholder="说明为何不消费业务数据；空理由可存草稿但不能确认"
+        /></el-form-item>
+        <el-form-item label="规则引用版本"
+          ><el-input
+            v-model="form.ruleVersion"
+            placeholder="记录业务规则版本或不适用依据，待业务核定"
+        /></el-form-item>
+        <el-alert
+          title="实际来源与消费映射在下方来源工作台登记；以下文本保留为盘点线索，不作为当前来源或核验证据。"
+          :closable="false"
+        />
+      </template>
       <el-form-item label="字段映射"
         ><el-input
           v-model="form.fieldMapping"
@@ -259,7 +296,7 @@
             :value="key" /></el-select
       ></el-form-item>
       <el-form-item label="数据就绪"
-        ><el-select v-model="form.readiness"
+        ><el-select v-model="form.readiness" :disabled="!!projectId"
           ><el-option
             v-for="(label, key) in readiness"
             :key="key"
@@ -327,8 +364,13 @@
           >
           <div>{{ row.review.description }}</div
           ><div>{{ states[row.review.status] }} / {{ readiness[row.review.readiness] }}</div>
-          <div>来源：{{ row.review.sourceSystem || '未填写' }}</div>
-          <div>映射：{{ row.review.fieldMapping || '未填写' }}</div>
+          <div v-if="row.review.confirmedTupleJson"
+            >确认引用：{{ confirmationBinding(row.review.confirmedTupleJson) }}</div
+          >
+          <template v-else
+            ><div>旧来源线索：{{ row.review.sourceSystem || '未填写' }}</div
+            ><div>旧映射线索：{{ row.review.fieldMapping || '未填写' }}</div></template
+          >
           <div>验收：{{ row.review.acceptance || '未填写' }}</div
           ><div>依据：{{ row.review.evidence || '未填写' }}</div>
           <div v-if="row.review.validationReason">系统校验：{{ row.review.validationReason }}</div>
@@ -341,6 +383,7 @@
 <script setup lang="ts">
 import ProjectPanel from './ProjectPanel.vue'
 import ScopeFields from './ScopeFields.vue'
+import WorkbenchPanel from './WorkbenchPanel.vue'
 import { useWindowSize } from '@vueuse/core'
 import { formatDate } from '@/utils/formatTime'
 import { checkPermi } from '@/utils/permission'
@@ -379,6 +422,27 @@ const sources = computed(() =>
   sourcesForModules(module.value ? [module.value] : (Object.keys(modules) as PayrollModule[]))
 )
 
+const confirmationBinding = (raw: string) => {
+  try {
+    const value = JSON.parse(raw)
+    const refs = (value.sources || []).map(
+      (r: any) =>
+        `来源${r.sourceId}规格v${r.semanticVersion} / 关系${r.relationId}映射v${r.mappingVersion}`
+    )
+    return [
+      `需求语义v${value.semanticVersion}`,
+      `规则：${value.ruleVersion}`,
+      value.applicability === 'NOT_APPLICABLE'
+        ? `来源不适用：${value.applicabilityReason}`
+        : refs.join('；'),
+      value.sourceReferencesRestricted ? '部分来源引用无当前读权' : ''
+    ]
+      .filter(Boolean)
+      .join('；')
+  } catch {
+    return '历史引用格式待核对'
+  }
+}
 const scopeStates: Record<string, string> = {
   MATCH: '匹配',
   UNDEFINED: '尚未定义',
@@ -413,7 +477,10 @@ const empty = (): PayrollRequirement => ({
   description: '',
   priority: 2,
   status: 'PENDING',
-  readiness: 'MISSING'
+  readiness: 'MISSING',
+  sourceApplicability: 'APPLICABLE',
+  applicabilityReason: '',
+  ruleVersion: ''
 })
 const form = ref<PayrollRequirement>(empty())
 const rules = {
@@ -472,6 +539,9 @@ const originalReview = ref<PayrollRequirement>()
 const reviewFields = [
   'scopeMode',
   'scopeJson',
+  'sourceApplicability',
+  'applicabilityReason',
+  'ruleVersion',
   'code',
   'module',
   'description',
@@ -509,7 +579,7 @@ const save = async () => {
     message.warning('请先保存需求，再使用列表中的确认版本操作')
     return
   }
-  if (form.value.status === 'CONFIRMED' && !reviewRevision.value) {
+  if (!projectId.value && form.value.status === 'CONFIRMED' && !reviewRevision.value) {
     if (!form.value.fieldMapping?.trim()) {
       message.warning('请填写字段映射；不适用时需说明具体理由')
       return

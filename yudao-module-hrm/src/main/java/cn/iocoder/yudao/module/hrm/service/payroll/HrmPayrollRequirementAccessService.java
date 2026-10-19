@@ -17,7 +17,7 @@ import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
 /** Current database authorization only. No role/admin bypass and no cached grant decisions. */
 @Service
 public class HrmPayrollRequirementAccessService {
-    public static final Set<String> ACTIONS = new HashSet<>(Arrays.asList("READ","META","EDIT","ASSIGN","CONFIRM","EXPORT","MEMBER","SCOPE"));
+    public static final Set<String> ACTIONS = new HashSet<>(Arrays.asList("READ","META","EDIT","ASSIGN","CONFIRM","EXPORT","MEMBER","SCOPE","SOURCE_EDIT","SOURCE_VERIFY","ISSUE_MANAGE","ISSUE_HANDLE","ISSUE_REVIEW"));
     /** project_id=0 is a tenant-local creation authority, never a project membership. */
     public HrmPayrollRequirementProjectGrantDO creationAuthority(Long actor,String scopeJson) {
         HrmPayrollRequirementScope requested=HrmPayrollRequirementScope.parse(scopeJson);
@@ -63,21 +63,35 @@ public class HrmPayrollRequirementAccessService {
         if(creator(p,actor,action)) return true;
         return active(p.getId(),actor).stream().anyMatch(g->actions(g.getActions()).contains(action) && coversRow(g,r,p));
     }
-    private boolean coversRow(HrmPayrollRequirementProjectGrantDO g,HrmPayrollRequirementDO r,HrmPayrollRequirementProjectDO p) {
+    public boolean coversRow(HrmPayrollRequirementProjectGrantDO g,HrmPayrollRequirementDO r,HrmPayrollRequirementProjectDO p) {
         try {
             Set<String> modules=set(g.getModulesJson(),String.class);Set<Long> ids=set(g.getRequirementIdsJson(),Long.class);
             if(!modules.isEmpty() && !modules.contains(r.getModule()))return false;
             if(!ids.isEmpty() && !ids.contains(r.getId()))return false;
+            if(ids.isEmpty() && !set(g.getSourceIdsJson(),Long.class).isEmpty())return false;
             return (r.getScopeJson()==null && p.getScopeJson()==null && Boolean.TRUE.equals(g.getFullProject())) || (g.getCeilingJson()==null && p.getScopeJson()==null) || (r.getScopeJson()!=null && g.getCeilingJson()!=null && HrmPayrollRequirementScope.parse(g.getCeilingJson()).contains(HrmPayrollRequirementScope.parse(r.getScopeJson())));
         } catch(RuntimeException invalid) {return false;}
     }
     public boolean full(HrmPayrollRequirementProjectDO p,Long actor,String action) {
         if(p==null || !activeUser(actor))return false;
         if(creator(p,actor,action))return true;
-        return active(p.getId(),actor).stream().anyMatch(g->actions(g.getActions()).contains(action) && !Boolean.FALSE.equals(g.getFullProject()) && set(g.getModulesJson(),String.class).isEmpty() && set(g.getRequirementIdsJson(),Long.class).isEmpty() && (p.getScopeJson()==null || (g.getCeilingJson()!=null && HrmPayrollRequirementScope.parse(g.getCeilingJson()).contains(HrmPayrollRequirementScope.parse(p.getScopeJson())))));
+        return active(p.getId(),actor).stream().anyMatch(g->actions(g.getActions()).contains(action) && !Boolean.FALSE.equals(g.getFullProject()) && set(g.getModulesJson(),String.class).isEmpty() && set(g.getRequirementIdsJson(),Long.class).isEmpty() && set(g.getSourceIdsJson(),Long.class).isEmpty() && (p.getScopeJson()==null || (g.getCeilingJson()!=null && HrmPayrollRequirementScope.parse(g.getCeilingJson()).contains(HrmPayrollRequirementScope.parse(p.getScopeJson())))));
     }
     public void requireRow(HrmPayrollRequirementProjectDO p,HrmPayrollRequirementDO r,Long actor,String action) {
         if(!row(p,r,actor,"READ") || !row(p,r,actor,action))throw exception(PAYROLL_PROJECT_DENIED);
+    }
+    /** Source authorization is independent of requirement traversal. Narrow readers need explicit source IDs. */
+    public boolean source(HrmPayrollRequirementProjectDO p,Long sourceId,String module,String scope,Long actor,String action) {
+        if(p==null || scope==null || !activeUser(actor))return false;
+        return active(p.getId(),actor).stream().anyMatch(g->{
+            Set<Long> ids=set(g.getSourceIdsJson(),Long.class);
+            if(!actions(g.getActions()).contains(action))return false;
+            if(ids.isEmpty() && (!Boolean.TRUE.equals(g.getFullProject()) || !set(g.getRequirementIdsJson(),Long.class).isEmpty() || !set(g.getModulesJson(),String.class).isEmpty()))return false;
+            if(!ids.isEmpty() && (sourceId==null || !ids.contains(sourceId)))return false;
+            Set<String> modules=set(g.getModulesJson(),String.class);
+            try {return (modules.isEmpty() || modules.contains(module)) && g.getCeilingJson()!=null && HrmPayrollRequirementScope.parse(g.getCeilingJson()).contains(HrmPayrollRequirementScope.parse(scope));}
+            catch(RuntimeException invalid){return false;}
+        });
     }
     public boolean reviewer(HrmPayrollRequirementProjectDO p,HrmPayrollRequirementDO r,Long user) {
         return activeUser(user) && row(p,r,user,"READ") && row(p,r,user,"CONFIRM") && permissions.hasAnyPermissions(user,"hrm:payroll:requirement:query") && permissions.hasAnyPermissions(user,"hrm:payroll:requirement:confirm");
@@ -89,6 +103,8 @@ public class HrmPayrollRequirementAccessService {
             if(Boolean.FALSE.equals(parent.getFullProject()) && !Boolean.FALSE.equals(child.getFullProject()))return false;
             Set<String> pm=set(parent.getModulesJson(),String.class),cm=set(child.getModulesJson(),String.class);
             Set<Long> pi=set(parent.getRequirementIdsJson(),Long.class),ci=set(child.getRequirementIdsJson(),Long.class);
+            Set<Long> ps=set(parent.getSourceIdsJson(),Long.class),cs=set(child.getSourceIdsJson(),Long.class);
+            if(!ps.isEmpty() && (cs.isEmpty() || !ps.containsAll(cs) || pi.isEmpty() && !ci.isEmpty()))return false;
             if(!pm.isEmpty() && (cm.isEmpty() || !pm.containsAll(cm)))return false;
             if(!pi.isEmpty() && (ci.isEmpty() || !pi.containsAll(ci)))return false;
             return child.getCeilingJson()!=null && (parent.getCeilingJson()==null || HrmPayrollRequirementScope.parse(parent.getCeilingJson()).contains(HrmPayrollRequirementScope.parse(child.getCeilingJson())));
@@ -102,6 +118,6 @@ public class HrmPayrollRequirementAccessService {
         if(!activeUser(g.getUserId()) || !ACTIONS.containsAll(actions(g.getActions())) || !ACTIONS.containsAll(actions(g.getDelegableActions())) || !actions(g.getActions()).contains("READ") || g.getEvidence()==null || g.getEvidence().trim().isEmpty() || g.getValidFrom()==null || g.getValidTo()==null || g.getValidFrom().isAfter(g.getValidTo()))throw exception(PAYROLL_PROJECT_DENIED);
         HrmPayrollRequirementScope.parse(g.getCeilingJson());
         Set<String> modules=set(g.getModulesJson(),String.class);Set<Long> ids=set(g.getRequirementIdsJson(),Long.class);
-        if(!new HashSet<>(Arrays.asList("OV","PLAN","CALC","TAX","ATT","OT","HOUR","INS","RPT","COL")).containsAll(modules) || ids.stream().anyMatch(x->x==null || x<=0) || (!Boolean.FALSE.equals(g.getFullProject()) && (!modules.isEmpty() || !ids.isEmpty())))throw exception(PAYROLL_PROJECT_DENIED);
+        if(!new HashSet<>(Arrays.asList("OV","PLAN","CALC","TAX","ATT","OT","HOUR","INS","RPT","COL")).containsAll(modules) || ids.stream().anyMatch(x->x==null || x<=0) || set(g.getSourceIdsJson(),Long.class).stream().anyMatch(x->x==null || x<=0) || (!Boolean.FALSE.equals(g.getFullProject()) && (!modules.isEmpty() || !ids.isEmpty() || !set(g.getSourceIdsJson(),Long.class).isEmpty())))throw exception(PAYROLL_PROJECT_DENIED);
     }
 }

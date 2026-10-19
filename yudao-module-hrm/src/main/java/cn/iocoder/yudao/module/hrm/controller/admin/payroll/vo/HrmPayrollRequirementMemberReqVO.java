@@ -12,6 +12,7 @@ public class HrmPayrollRequirementMemberReqVO {
  @NotBlank @Size(max=12000) private String ceilingJson;
  @Size(max=1000) private String modulesJson;
  @Size(max=12000) private String requirementIdsJson;
+ @Size(max=12000) private String sourceIdsJson;
  @NotNull private Boolean fullProject;
  @NotBlank @Size(max=2000) private String evidence;
  @NotNull @JsonFormat(pattern="yyyy-MM-dd") private LocalDate validFrom;

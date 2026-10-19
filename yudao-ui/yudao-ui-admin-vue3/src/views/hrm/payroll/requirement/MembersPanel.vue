@@ -109,6 +109,11 @@
         <el-form-item label="稳定需求ID集合"
           ><el-input v-model="form.ids" placeholder="逗号分隔；留空代表范围内全部需求"
         /></el-form-item>
+        <el-form-item label="显式来源ID集合"
+          ><el-input
+            v-model="form.sourceIds"
+            placeholder="逗号分隔；部分范围成员须显式登记来源，需求读权不自动扩展"
+        /></el-form-item>
       </template>
       <ScopeFields v-model="form.ceilingJson" />
       <el-form-item label="授权开始日期"
@@ -150,7 +155,12 @@ const labels = {
   CONFIRM: '本人确认',
   EXPORT: '导出',
   MEMBER: '管理成员',
-  SCOPE: '修订项目范围'
+  SCOPE: '修订项目范围',
+  SOURCE_EDIT: '维护实际来源',
+  SOURCE_VERIFY: '核验来源及质量',
+  ISSUE_MANAGE: '管理评审问题',
+  ISSUE_HANDLE: '处理评审问题',
+  ISSUE_REVIEW: '独立复核问题'
 }
 const form = ref({
   userId: undefined as number | undefined,
@@ -159,6 +169,7 @@ const form = ref({
   fullProject: false,
   modules: '',
   ids: '',
+  sourceIds: '',
   ceilingJson: props.scopeJson,
   validFrom: '',
   validTo: '',
@@ -194,6 +205,9 @@ const grant = async () => {
       requirementIdsJson: form.value.fullProject
         ? null
         : JSON.stringify(split(form.value.ids).map(Number)),
+      sourceIdsJson: form.value.fullProject
+        ? null
+        : JSON.stringify(split(form.value.sourceIds).map(Number)),
       ceilingJson: form.value.ceilingJson,
       validFrom: form.value.validFrom,
       validTo: form.value.validTo,

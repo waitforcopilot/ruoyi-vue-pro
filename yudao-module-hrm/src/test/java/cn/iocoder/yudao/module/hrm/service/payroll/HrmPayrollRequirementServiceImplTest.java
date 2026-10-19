@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import static org.junit.jupiter.api.Assertions.*;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
-@Import({HrmPayrollRequirementAccessService.class,HrmPayrollRequirementServiceImpl.class,HrmPayrollRequirementProjectService.class})
+@Import({HrmPayrollWorkbenchService.class,HrmPayrollRequirementAccessService.class,HrmPayrollRequirementServiceImpl.class,HrmPayrollRequirementProjectService.class})
 class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
  @Resource private HrmPayrollRequirementService service;
  @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementProjectGrantMapper grants;

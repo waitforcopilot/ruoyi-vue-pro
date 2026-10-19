@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
-@Import({HrmPayrollRequirementAccessService.class,HrmPayrollRequirementProjectService.class,HrmPayrollRequirementServiceImpl.class})
+@Import({HrmPayrollWorkbenchService.class,HrmPayrollRequirementAccessService.class,HrmPayrollRequirementProjectService.class,HrmPayrollRequirementServiceImpl.class})
 class HrmPayrollRequirementProjectServiceTest extends BaseDbUnitTest {
  @Resource HrmPayrollRequirementProjectService service;
  @Resource HrmPayrollRequirementAccessService access;

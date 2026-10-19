@@ -1,0 +1,20 @@
+{
+  "suite": "RequirementPermission(9), WorkbenchService(25), RequirementProjectService(26), RequirementServiceImpl(31)",
+  "tests": 91,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "buildSuccess": true,
+  "typecheckExit": 0,
+  "eslintChangedFilesExit": 0,
+  "auditCheck": "46 requirements,58 migrations",
+  "logsPrivateDirectory": "/Users/waitforpro/.hrm-payroll-local/stage3-20261019",
+  "logSHA256": {
+    "tests-final.log": "0f7bfdf7c4dbfe52ee444ef8a213275815dd711ff1dee306db8a25c02e9de65c",
+    "build-final.log": "5795e44438b7127331c3a4f41a6d60bd53620a7b3b7c00f05915353f8dde9630",
+    "typecheck-final.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "eslint-final.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "samePackagedClasses": 1083,
+  "readOnlyPrdUnchanged": true
+}

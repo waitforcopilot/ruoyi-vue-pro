@@ -1,0 +1,15 @@
+{
+  "isolatedDatabase": "hrm_s3_restore_20261019_112642",
+  "S3MigrationTwice": true,
+  "originalColumnsExact": {
+    "hrm_payroll_requirement": 492,
+    "hrm_payroll_requirement_history": 718,
+    "hrm_payroll_requirement_project": 22,
+    "hrm_payroll_requirement_project_grant": 68,
+    "hrm_payroll_requirement_project_event": 107,
+    "system_role_menu": 1824,
+    "system_user_role": 34
+  },
+  "noFabricatedSourcesOrEvidence": true,
+  "matchingPrivateKeysPreserved": true
+}

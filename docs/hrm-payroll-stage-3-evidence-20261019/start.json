@@ -1,0 +1,14 @@
+{
+  "head": "bbc3912d66ab01053725f3facfac11f28acb4247",
+  "baseline": {
+    "hrm_payroll_requirement": 492,
+    "hrm_payroll_requirement_history": 718,
+    "hrm_payroll_requirement_project": 22,
+    "hrm_payroll_requirement_project_grant": 68,
+    "hrm_payroll_requirement_project_event": 107,
+    "system_role_menu": 1824,
+    "system_user_role": 34
+  },
+  "readonlyPrdSHA256": "7350322dd7d729275d2e424cecc04961f3c672edd86e29043a7502151523e985",
+  "backupPrivateDirectory": "/Users/waitforpro/.hrm-payroll-local/backups/20261019-105557"
+}

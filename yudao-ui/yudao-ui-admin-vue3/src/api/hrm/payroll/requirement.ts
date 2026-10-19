@@ -13,6 +13,11 @@ export interface PayrollRequirement {
   code: string
   module: string
   description: string
+  sourceApplicability?: string
+  applicabilityReason?: string
+  ruleVersion?: string
+  semanticVersion?: number
+  currentConfirmationValid?: boolean
   fieldMapping?: string
   sourceSystem?: string
   sourceOwnerId?: number

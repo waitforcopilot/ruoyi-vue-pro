@@ -25,7 +25,7 @@ public class HrmPayrollDataPermissionRule implements DataPermissionRule {
     @Resource private PermissionCommonApi permissionApi;
     private static final String CONTEXT_KEY = HrmPayrollDataPermissionRule.class.getName();
     private static final Set<String> SHARED = new HashSet<>(Arrays.asList(
-            "hrm_payroll_requirement_project_grant", "hrm_payroll_requirement_project_event", "hrm_payroll_requirement_template", "hrm_payroll_config_guard", "hrm_payroll_requirement_project", "hrm_payroll_requirement", "hrm_payroll_requirement_history",
+            "hrm_payroll_workbench_record", "hrm_payroll_requirement_project_grant", "hrm_payroll_requirement_project_event", "hrm_payroll_requirement_template", "hrm_payroll_config_guard", "hrm_payroll_requirement_project", "hrm_payroll_requirement", "hrm_payroll_requirement_history",
             "hrm_payroll_formula", "hrm_payroll_grade_policy", "hrm_payroll_bank_template",
             "hrm_payroll_legal_entity", "hrm_payroll_entity_grant", "hrm_payroll_insurance_policy",
             "hrm_payroll_tax_policy", "hrm_payroll_tax_policy_event", "hrm_payroll_financial_plan"));

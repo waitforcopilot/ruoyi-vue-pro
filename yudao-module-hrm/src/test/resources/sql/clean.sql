@@ -145,3 +145,4 @@ DELETE FROM hrm_payroll_insurance_adjustment;
 DELETE FROM "hrm_payroll_requirement_project_grant";
 DELETE FROM "hrm_payroll_requirement_project_event";
 DELETE FROM "hrm_payroll_requirement_template";
+DELETE FROM hrm_payroll_workbench_record;

@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 public class HrmPayrollRequirementDO extends BaseDO {
     @TableId private Long id;
     @TableField(exist=false) @cn.idev.excel.annotation.ExcelIgnore private java.util.List<String> permittedActions;
+    @TableField(exist=false) @ExcelProperty("当前确认绑定有效") private Boolean currentConfirmationValid;
     @ExcelProperty("项目编号") private Long projectId;
     private String templateItemId;
     private Integer templateVersion;
@@ -21,6 +22,11 @@ public class HrmPayrollRequirementDO extends BaseDO {
     private Integer confirmedScopeVersion;
     private String confirmedScopeJson;
     private String scopeDecision;
+    @ExcelProperty("来源适用性") private String sourceApplicability;
+    @ExcelProperty("不适用理由") private String applicabilityReason;
+    @ExcelProperty("规则引用版本") private String ruleVersion;
+    private Integer semanticVersion;
+    private String confirmedTupleJson;
     @ExcelProperty("需求编号") private String code;
     @ExcelProperty("模块") private String module;
     @ExcelProperty("功能") private String description;

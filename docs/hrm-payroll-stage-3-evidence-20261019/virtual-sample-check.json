@@ -1,0 +1,17 @@
+{
+  "sample": "TEST-D1.csv",
+  "sha256": "d5c32ce6da8652e6b7e67bc0cd24be59cfd1642a60bae45bfd10ec722fde25b1",
+  "onlyVirtualData": true,
+  "rows": 2,
+  "QS_V1_minutes": true,
+  "QC_R1_expectedHours": [
+    1,
+    2
+  ],
+  "QC_R2_expectedSumHours": 3,
+  "actualHours": [
+    1.0,
+    2.0
+  ],
+  "actualSum": 3.0
+}

@@ -89,6 +89,8 @@ class HrmPayrollRequirementPermissionTest {
     @Configuration
     @EnableGlobalMethodSecurity(prePostEnabled = true, proxyTargetClass = true)
     static class Config {
+        @Bean cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWorkbenchService workbench(){return mock(cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWorkbenchService.class);}
+        @Bean cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollWorkbenchRecordMapper workbenchRecords(){return mock(cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollWorkbenchRecordMapper.class);}
         @Bean HrmPayrollRequirementController controller() { return new HrmPayrollRequirementController(); }
         @Bean HrmPayrollRequirementService service() { return mock(HrmPayrollRequirementService.class); }
         @Bean cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRequirementProjectService projectServiceTestDouble(){return mock(cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRequirementProjectService.class);}

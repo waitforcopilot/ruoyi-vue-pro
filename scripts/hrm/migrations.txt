@@ -51,3 +51,9 @@ sql/mysql/upgrade/20261016-hrm-tax-absorption.sql
 sql/mysql/upgrade/20261016-hrm-installer-charset.sql
 sql/mysql/upgrade/20261016-hrm-complete-salary-catalog.sql
 sql/mysql/upgrade/20261016-hrm-requirement-confirmation-repair.sql
+sql/mysql/upgrade/20261018-hrm-requirement-confirm-permission.sql
+sql/mysql/upgrade/20261018-hrm-requirement-assign-permission.sql
+sql/mysql/upgrade/20261018-hrm-requirement-legacy-project.sql
+sql/mysql/upgrade/20261019-hrm-requirement-workbench.sql
+sql/mysql/upgrade/20261019-hrm-requirement-members.sql
+sql/mysql/upgrade/20261019-hrm-workbench-sources.sql
