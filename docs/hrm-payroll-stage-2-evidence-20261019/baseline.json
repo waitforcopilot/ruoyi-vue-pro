@@ -1,0 +1,34 @@
+{
+  "head": "5099a850b31af28c16c576bf2682e1f91e573850",
+  "tables": {
+    "hrm_payroll_requirement": {
+      "rows": 481,
+      "sha256": "3d2baa84eb3e3cc2f4f2b568f0cf1308cf1453770b76ea1d7bb328e279a909af"
+    },
+    "hrm_payroll_requirement_history": {
+      "rows": 685,
+      "sha256": "9c0985957521c709c4c798e3f2286af98abf556cb64969290b5523791eeacbfd"
+    },
+    "hrm_payroll_requirement_project": {
+      "rows": 16,
+      "sha256": "6f2e25f36f2ae2d955fd7b74665d0dc469a53a73049e31c47d37a6ac4a50eb55"
+    },
+    "hrm_payroll_requirement_project_grant": {
+      "rows": 18,
+      "sha256": "acc42a3b46c1070e2ffab1a59771b1a0da1052b674eb5196ea6f84411a7b210e"
+    },
+    "hrm_payroll_requirement_project_event": {
+      "rows": 57,
+      "sha256": "36aeb500ab7141ac5ecf9edfaeab47e914b181ed6498d8dc1aa12ac6eeffa975"
+    },
+    "system_role_menu": {
+      "rows": 1814,
+      "sha256": "3d287e82d6a72de2118339de2c7cbf188c223105a0a09707042ed7901282f3cd"
+    },
+    "system_user_role": {
+      "rows": 29,
+      "sha256": "c4da961e19fac9fd7fcbde3f9b965a936e9d4005e4af92db784f9b7cf42fecb8"
+    }
+  },
+  "privateState": "~/.hrm-payroll-local/stage2-20261019/"
+}

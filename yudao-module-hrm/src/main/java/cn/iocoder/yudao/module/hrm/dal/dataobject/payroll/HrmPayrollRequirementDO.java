@@ -10,6 +10,7 @@ import lombok.EqualsAndHashCode;
 @KeySequence("hrm_payroll_requirement_seq")
 public class HrmPayrollRequirementDO extends BaseDO {
     @TableId private Long id;
+    @TableField(exist=false) @cn.idev.excel.annotation.ExcelIgnore private java.util.List<String> permittedActions;
     @ExcelProperty("项目编号") private Long projectId;
     private String templateItemId;
     private Integer templateVersion;

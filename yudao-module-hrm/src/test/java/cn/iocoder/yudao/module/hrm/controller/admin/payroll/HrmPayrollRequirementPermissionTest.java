@@ -99,6 +99,8 @@ class HrmPayrollRequirementPermissionTest {
         @Bean cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementTemplateMapper dependency3(){return mock(cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementTemplateMapper.class);}
         @Bean cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementHistoryMapper dependency4(){return mock(cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementHistoryMapper.class);}
         @Bean cn.iocoder.yudao.module.system.api.user.AdminUserApi dependency5(){return mock(cn.iocoder.yudao.module.system.api.user.AdminUserApi.class);}
+        @Bean cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRequirementAccessService access(){return mock(cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRequirementAccessService.class);}
+        @Bean cn.iocoder.yudao.module.system.api.permission.PermissionApi permissionApi(){return mock(cn.iocoder.yudao.module.system.api.permission.PermissionApi.class);}
         @Bean(name = "ss") Permissions permissions() { return new Permissions(); }
     }
 }

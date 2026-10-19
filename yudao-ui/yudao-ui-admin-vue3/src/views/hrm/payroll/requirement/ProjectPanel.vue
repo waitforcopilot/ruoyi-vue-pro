@@ -14,12 +14,19 @@
         >新建评审项目</el-button
       >
       <template v-if="current">
-        <el-button @click="openName">修改项目名称</el-button>
-        <el-button @click="openScope">修订项目范围</el-button>
+        <el-button v-if="caps.META" @click="openName">修改项目名称</el-button>
+        <el-button v-if="caps.SCOPE && caps.FULL_READ" @click="openScope">修订项目范围</el-button>
         <el-button @click="compare">模板版本比较</el-button>
-        <el-button @click="showEvents">项目变更历史</el-button>
+        <el-button v-if="caps.FULL_READ" @click="showEvents">项目变更历史</el-button>
+        <el-button v-if="caps.MEMBER" @click="membersVisible = true">项目成员与授权</el-button>
       </template>
     </el-space>
+    <MembersPanel
+      v-if="current"
+      v-model="membersVisible"
+      :project-id="current.id"
+      :scope-json="current.scopeJson"
+    />
     <el-alert
       v-if="error"
       title="项目列表读取失败，请重试；不会自动转入其他项目"
@@ -49,9 +56,10 @@
           /></el-form-item>
           <el-alert
             v-if="kind === 'create'"
-            title="新项目范围尚未定义，创建不代表范围获批。仅创建人可访问；范围修订仍需独立有效授权。"
+            title="初始业务边界须在独立创建授权内；创建不代表业务范围获批。草稿访问可撤销，范围修订仍需独立授权。"
             :closable="false"
           />
+          <ScopeFields v-if="kind === 'create'" v-model="creationScopeJson" />
         </template>
         <template v-else>
           <p
@@ -127,6 +135,8 @@
   </ContentWrap>
 </template>
 <script setup lang="ts">
+import MembersPanel from './MembersPanel.vue'
+import ScopeFields from './ScopeFields.vue'
 import * as api from '@/api/hrm/payroll/requirement'
 const props = defineProps<{ projectId?: number }>()
 const emit = defineEmits<{ changed: [] }>()
@@ -136,6 +146,8 @@ const router = useRouter(),
 const selected = ref(props.projectId || 0)
 const projects = ref<api.PayrollRequirementProject[]>([])
 const current = computed(() => projects.value.find((p) => p.id === props.projectId))
+const caps = ref<Record<string, boolean>>({})
+const membersVisible = ref(false)
 const error = ref(false),
   busy = ref(false),
   dialog = ref(false),
@@ -143,6 +155,7 @@ const error = ref(false),
   eventsVisible = ref(false)
 const kind = ref<'create' | 'name' | 'scope'>('create')
 const form = ref({ projectKey: '', name: '' })
+const creationScopeJson = ref<string>()
 const scope = ref({
   entities: '',
   organizations: '',
@@ -159,6 +172,7 @@ const load = async () => {
   error.value = false
   try {
     projects.value = await api.listRequirementProjects()
+    caps.value = props.projectId ? await api.requirementCapabilities(props.projectId) : {}
   } catch {
     error.value = true
   }
@@ -166,6 +180,7 @@ const load = async () => {
 const selectProject = () =>
   router.replace({ query: { ...route.query, projectId: selected.value || undefined } })
 const openCreate = () => {
+  creationScopeJson.value = undefined
   kind.value = 'create'
   form.value = { projectKey: '', name: '' }
   dialog.value = true
@@ -200,7 +215,10 @@ const submit = async () => {
   busy.value = true
   try {
     if (kind.value === 'create') {
-      const id = await api.createRequirementProject(form.value)
+      const id = await api.createRequirementProject({
+        ...form.value,
+        creationScopeJson: creationScopeJson.value
+      })
       dialog.value = false
       await router.replace({ query: { ...route.query, projectId: id } })
       return

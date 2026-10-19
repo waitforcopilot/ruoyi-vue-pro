@@ -1,0 +1,222 @@
+Browser tab: 1, Title: "芋道管理系统 - 需求评审", URL: "http://127.0.0.1:5173/hrm-payroll/requirement?module=COL&projectId=19".
+1 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?module=COL&projectId=19
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			56 首页
+				57 text 首页
+			58 作者动态
+				59 text 作者动态
+			60 Boot 开发文档
+				61 text Boot 开发文档
+			62 Cloud 开发文档
+				63 text Cloud 开发文档
+			5 (collapsed) 系统管理, Secondary Actions: Expand
+				64 container
+					65 text 系统管理
+					66 image
+			6 (collapsed) 基础设施, Secondary Actions: Expand
+				67 container
+					68 text 基础设施
+					69 image
+			7 (collapsed) 支付管理, Secondary Actions: Expand
+				70 container
+					71 text 支付管理
+					72 image
+			8 (collapsed) 报表管理, Secondary Actions: Expand
+				73 container
+					74 text 报表管理
+					75 image
+			9 (collapsed) 工作流程, Secondary Actions: Expand
+				76 container
+					77 text 工作流程
+					78 image
+			10 (collapsed) 会员中心, Secondary Actions: Expand
+				79 container
+					80 text 会员中心
+					81 image
+			11 (expanded) 薪酬管理, Secondary Actions: Collapse
+				82 container
+					83 text 薪酬管理
+					84 image
+				12 menu
+					85 定调薪审批
+						86 text 定调薪审批
+					87 工时与加班
+						88 text 工时与加班
+					89 薪级薪档
+						90 text 薪级薪档
+					91 考勤归集与异常
+						92 text 考勤归集与异常
+					93 法人主体与归属
+						94 text 法人主体与归属
+					95 缴费政策与年度调基
+						96 text 缴费政策与年度调基
+					97 缴费实缴对账
+						98 text 缴费实缴对账
+					99 核算输入与就绪
+						100 text 核算输入与就绪
+					101 年度税务政策
+						102 text 年度税务政策
+					103 薪酬成本分摊
+						104 text 薪酬成本分摊
+					105 预算与成本分析
+						106 text 预算与成本分析
+					107 薪酬输入缺口工单
+						108 text 薪酬输入缺口工单
+					109 社保公积金工资差额
+						110 text 社保公积金工资差额
+					111 薪酬总览
+						112 text 薪酬总览
+					113 独立工资收回
+						114 text 独立工资收回
+					115 需求评审
+						116 text 需求评审
+					117 核算审批
+						118 text 核算审批
+					119 银行代发
+						120 text 银行代发
+					121 薪资公式
+						122 text 薪资公式
+			13 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				123 container
+					124 text MALL 商城系统
+					125 image
+			14 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				126 container
+					127 text EAM 资产管理
+					128 image
+			15 (collapsed) CRM 系统, Secondary Actions: Expand
+				129 container
+					130 text CRM 系统
+					131 image
+			16 (collapsed) ERP 系统, Secondary Actions: Expand
+				132 container
+					133 text ERP 系统
+					134 image
+			17 (collapsed) WMS 系统, Secondary Actions: Expand
+				135 container
+					136 text WMS 系统
+					137 image
+			18 (collapsed) MES 系统, Secondary Actions: Expand
+				138 container
+					139 text MES 系统
+					140 image
+			19 (collapsed) OA 办公协同, Secondary Actions: Expand
+				141 container
+					142 text OA 办公协同
+					143 image
+			20 (collapsed) HRM 人力资源, Secondary Actions: Expand
+				144 container
+					145 text HRM 人力资源
+					146 image
+			21 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				147 container
+					148 text FMS 财务管理
+					149 image
+			22 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				150 container
+					151 text PMS 项目管理
+					152 image
+			23 (collapsed) AI 大模型, Secondary Actions: Expand
+				153 container
+					154 text AI 大模型
+					155 image
+			24 (collapsed) IoT 物联网, Secondary Actions: Expand
+				156 container
+					157 text IoT 物联网
+					158 image
+			25 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				159 container
+					160 text IM 即时通讯
+					161 image
+			26 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				162 container
+					163 text MP 公众号管理
+					164 image
+			27 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				165 container
+					166 text CMS 内容管理
+					167 image
+		28 container
+			29 container v-tool-header
+				168 container 面包屑
+					169 link 薪酬管理
+						170 text 薪酬管理
+					171 text /
+					172 link 需求评审
+						173 text 需求评审
+				30 container
+					31 combo box (collapsed, settable) ID: el-id-3299-78, Secondary Actions: Expand
+					174 text 请选择租户
+					32 image
+				175 container
+					176 container
+						177 combo box (collapsed, settable) ID: el-id-3299-79, Secondary Actions: Expand
+						178 text 请输入菜单内容
+				35 pop up button (collapsed) ID: el-id-3299-6, Secondary Actions: Expand
+				36 pop up button (collapsed) ID: el-id-3299-11, Secondary Actions: Expand
+				37 pop up button (collapsed) 芋道源码, ID: el-id-3299-16, Secondary Actions: Expand
+			38 container v-tags-view
+				179 container
+					180 pop up button (collapsed) 首页, ID: el-id-3299-22, Secondary Actions: Expand
+						181 container
+							182 text 首页
+					183 pop up button (collapsed) 需求评审, ID: el-id-3299-30, Secondary Actions: Expand
+						184 container
+							185 text 需求评审
+					275 pop up button (collapsed) 需求评审 (2), ID: el-id-3299-120, Secondary Actions: Expand
+						276 container
+							277 text 需求评审 (2)
+				41 pop up button (collapsed) ID: el-id-3299-38, Secondary Actions: Expand
+			278 container
+				279 container
+					280 combo box (collapsed, settable) Description: 评审项目, ID: el-id-3299-165, Secondary Actions: Expand
+					297 text TEST S2 浏览器创建授权边界回归
+					282 image
+				283 button 新建评审项目
+				298 button 修改项目名称
+				299 button 模板版本比较
+				300 button 项目变更历史
+			284 text TEST S2 浏览器创建授权边界回归 · 项目编号 19 · 范围尚未定义，不能确认
+			285 text 业务确认状态与数据就绪状态分别维护；确认需有效负责人、字段映射、来源、验收条件及依据；请先保存，再由评审负责人本人点击“确认版本”。
+			286 container
+				287 container
+					288 combo box (collapsed, settable) ID: el-id-3299-166, Secondary Actions: Expand
+					289 text 需求征集
+					290 image
+				291 button 刷新
+				292 button 新增需求
+				293 button 初始化 PRD 清单
+				294 button 导出评审清单
+			295 button (collapsed) 需求征集候选数据源与字段, ID: el-collapse-head-149, Secondary Actions: Expand
+				296 text 需求征集候选数据源与字段
+			301 container
+				302 table
+					303 row
+						304 cell
+							305 text 需求ID
+						306 cell
+							307 text 编号
+						308 cell
+							309 text 模块
+						310 cell
+							311 text 功能
+						312 cell
+							313 text 评审状态
+						314 cell
+							315 text 数据就绪
+						316 cell
+							317 text 数据来源
+						318 cell
+							319 text 范围适配
+						320 cell
+							321 text 版本
+						322 cell
+							323 text 操作
+				324 container
+					325 table
+					326 text 暂无数据
+			274 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 1 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?module=COL&projectId=19

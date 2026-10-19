@@ -86,14 +86,13 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
     @Override public List<HrmPayrollRequirementDO> list(String module) {
         HrmPayrollRequirementProjectDO p=legacyProject();
         if(p==null) return java.util.Collections.emptyList();
-        return mapper.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementDO>()
-            .eq(HrmPayrollRequirementDO::getProjectId,p.getId()).eqIfPresent(HrmPayrollRequirementDO::getModule, module).orderByAsc(HrmPayrollRequirementDO::getCode));
+        return projectService.rows(p.getId(),module,cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId(),"READ");
     }
-    @Override @Transactional(rollbackFor=Exception.class)
+    @Override @Transactional(rollbackFor=Exception.class,isolation=org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
     public Long save(HrmPayrollRequirementSaveReqVO request, Long actorId) {
         return saveInternal(request,actorId,false,"EDIT");
     }
-    @Override @Transactional(rollbackFor=Exception.class)
+    @Override @Transactional(rollbackFor=Exception.class,isolation=org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
     public void confirm(Long id,Integer version,Long actorId) {
         if(id==null||version==null||version<1||actorId==null) throw exception(PAYROLL_REQUIREMENT_CONFIRM_ACTION_REQUIRED);
         guardTarget(id,actorId,"CONFIRM");
@@ -107,7 +106,7 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         request.setStatus("CONFIRMED");
         saveInternal(request,actorId,true,"CONFIRM");
     }
-    @Override @Transactional(rollbackFor=Exception.class)
+    @Override @Transactional(rollbackFor=Exception.class,isolation=org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
     public void assign(Long id,Integer version,Long reviewerId,Long actorId) {
         if(actorId==null || !permissions.hasAnyPermissions(actorId,"hrm:payroll:requirement:assign"))
             throw exception(PAYROLL_REQUIREMENT_ASSIGN_FORBIDDEN);
@@ -128,7 +127,11 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         if(request.getProjectId()!=null) {
             selected=projectService.check(request.getProjectId(),actorId,action,true);
             projectService.version(selected,request.getProjectScopeVersion());
+            // S5 supplies formal decision validation. Until then, new-project confirmation
+            // is limited to explicitly synthetic fixtures, still subject to every grant check.
+            if(confirming && !selected.getProjectKey().startsWith("TEST_"))throw exception(PAYROLL_PROJECT_DENIED);
         }
+        if(request.getProjectId()==null)projectService.check(ensureLegacyProject(),actorId,action,true);
         HrmPayrollRequirementDO previous = request.getId()==null ? null : mapper.selectOneForUpdate(HrmPayrollRequirementDO::getId, request.getId());
         if (request.getId()!=null && previous==null) throw exception(PAYROLL_REQUIREMENT_NOT_EXISTS);
         if (previous!=null && !Objects.equals(previous.getVersion(),request.getVersion())) throw exception(PAYROLL_VERSION_CONFLICT);
@@ -146,11 +149,14 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
             throw exception(PAYROLL_REQUIREMENT_CONFIRM_ACTION_REQUIRED);
         if (!Objects.equals(previous==null ? null : previous.getReviewerId(),request.getReviewerId())) {
             // The saved reviewer is an assignment, not an editable identity assertion.
+            if(selected!=null && previous!=null)projectService.requireRow(previous,actorId,"ASSIGN");
             if(actorId==null || !permissions.hasAnyPermissions(actorId,"hrm:payroll:requirement:assign")
                 || Objects.equals(actorId,request.getReviewerId()))
                 throw exception(PAYROLL_REQUIREMENT_ASSIGN_FORBIDDEN);
             if(request.getReviewerId()!=null) {
                 requireActiveUser(request.getReviewerId());
+                if(selected!=null && previous!=null)projectService.requireRow(previous,actorId,"ASSIGN");
+                if(selected!=null){HrmPayrollRequirementDO target=BeanUtils.toBean(request,HrmPayrollRequirementDO.class);target.setProjectId(selected.getId());projectService.bind(target,selected,request.getScopeMode(),request.getScopeJson());if(!projectService.reviewer(target,request.getReviewerId()))throw exception(PAYROLL_REQUIREMENT_ASSIGNEE_FORBIDDEN);}
                 if(!permissions.hasAnyPermissions(request.getReviewerId(),"hrm:payroll:requirement:query")
                     || !permissions.hasAnyPermissions(request.getReviewerId(),"hrm:payroll:requirement:confirm"))
                     throw exception(PAYROLL_REQUIREMENT_ASSIGNEE_FORBIDDEN);
@@ -174,9 +180,11 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         HrmPayrollRequirementDO record=BeanUtils.toBean(request,HrmPayrollRequirementDO.class);
         // Project identity is server-owned. The legacy API cannot move an existing requirement.
         record.setProjectId(targetProject);
+        if(selected==null)projectService.requireRow(record,actorId,action);
         if(previous!=null){record.setTemplateItemId(previous.getTemplateItemId());record.setTemplateVersion(previous.getTemplateVersion());record.setScopeDecision(previous.getScopeDecision());}
         if(selected!=null) {
             projectService.bind(record,selected,request.getScopeMode(),request.getScopeJson());
+            projectService.requireRow(record,actorId,action);
             if("CONFIRMED".equals(record.getStatus()) && (selected.getProjectScopeVersion()==null || !"MATCH".equals(record.getScopeState())))throw exception(PAYROLL_PROJECT_SCOPE_STALE);
             if("CONFIRMED".equals(record.getStatus())){record.setConfirmedScopeVersion(selected.getProjectScopeVersion());record.setConfirmedScopeJson(record.getScopeJson());}
         }
@@ -215,7 +223,8 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
         HrmPayrollRequirementDO r=mapper.selectById(id);
         if(r==null)return;
         HrmPayrollRequirementProjectDO p=projectMapper.selectById(r.getProjectId());
-        if(p!=null && !"LEGACY".equals(p.getProjectKey()))projectService.check(p.getId(),actor,action,true);
+        if(p==null)throw exception(PAYROLL_PROJECT_DENIED);
+        projectService.requireRow(r,actor,action);
     }
     private boolean reviewContractChanged(HrmPayrollRequirementDO before,HrmPayrollRequirementSaveReqVO after) {
         return (after.getProjectId()!=null && !Objects.equals(before.getScopeMode(),after.getScopeMode()))
@@ -249,12 +258,17 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
     @Override public List<HrmPayrollRequirementHistoryDO> history(Long id) {
         guardTarget(id,cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId(),"READ");
         if (mapper.selectById(id)==null) throw exception(PAYROLL_REQUIREMENT_NOT_EXISTS);
-        return historyMapper.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementHistoryDO>()
-            .eq(HrmPayrollRequirementHistoryDO::getRequirementId,id).orderByDesc(HrmPayrollRequirementHistoryDO::getVersion));
+        List<HrmPayrollRequirementHistoryDO> result=historyMapper.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementHistoryDO>().eq(HrmPayrollRequirementHistoryDO::getRequirementId,id).orderByDesc(HrmPayrollRequirementHistoryDO::getVersion));
+        HrmPayrollRequirementDO current=mapper.selectById(id);
+        boolean legacy="LEGACY".equals(projectMapper.selectById(current.getProjectId()).getProjectKey());
+        Long actor=cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId();
+        return result.stream().filter(h->{try{HrmPayrollRequirementDO snapshot=JsonUtils.parseObject(h.getSnapshot(),HrmPayrollRequirementDO.class);if(legacy && snapshot.getProjectId()==null)snapshot.setProjectId(current.getProjectId());return projectService.visible(snapshot,actor,"READ");}catch(RuntimeException ex){return false;}}).collect(java.util.stream.Collectors.toList());
     }
-    @Override @Transactional(rollbackFor=Exception.class)
+    @Override @Transactional(rollbackFor=Exception.class,isolation=org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
     public int initialize(Long actorId) {
         int count=0;Long legacy=ensureLegacyProject();
+        projectService.check(legacy,actorId,"EDIT",true);
+        if(!projectService.full(legacy,actorId,"READ") || !projectService.full(legacy,actorId,"EDIT"))throw exception(PAYROLL_PROJECT_DENIED);
         for(String[] seed:SEEDS) {
             if(mapper.selectOne(new LambdaQueryWrapperX<HrmPayrollRequirementDO>().eq(HrmPayrollRequirementDO::getProjectId,legacy).eq(HrmPayrollRequirementDO::getCode,seed[0]))!=null) continue;
             HrmPayrollRequirementSaveReqVO request=new HrmPayrollRequirementSaveReqVO();

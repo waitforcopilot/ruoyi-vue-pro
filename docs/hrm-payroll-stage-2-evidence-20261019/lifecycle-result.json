@@ -1,0 +1,12 @@
+{
+  "expiredGrantDenied": true,
+  "delegationChainParentRevocationDenied": true,
+  "revokedCreatorDenied": true,
+  "syntheticGrantIds": [
+    60,
+    61,
+    62
+  ],
+  "revokedCreatorGrantId": 54,
+  "projectId": 18
+}

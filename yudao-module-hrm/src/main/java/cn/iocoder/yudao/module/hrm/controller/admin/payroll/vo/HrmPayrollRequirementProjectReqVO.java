@@ -6,4 +6,5 @@ import javax.validation.constraints.*;
  @NotBlank @Size(max=64) @Pattern(regexp="[A-Z][A-Z0-9_-]{1,63}") private String projectKey;
  @NotBlank @Size(max=200) private String name;
  private Integer metadataVersion;
+ @Size(max=12000) private String creationScopeJson;
 }

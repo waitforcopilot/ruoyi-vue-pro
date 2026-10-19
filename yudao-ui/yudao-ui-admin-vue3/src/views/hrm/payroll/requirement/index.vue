@@ -94,6 +94,7 @@
             v-hasPermi="['hrm:payroll:requirement:update']"
             link
             type="primary"
+            :disabled="row.permittedActions && !row.permittedActions.includes('EDIT')"
             @click="edit(row)"
             >编辑</el-button
           >
@@ -102,7 +103,12 @@
             v-hasPermi="['hrm:payroll:requirement:assign']"
             link
             type="primary"
-            :disabled="loading || saving || confirming"
+            :disabled="
+              loading ||
+              saving ||
+              confirming ||
+              (row.permittedActions && !row.permittedActions.includes('ASSIGN'))
+            "
             @click="openAssignment(row)"
             >分派</el-button
           >
@@ -111,7 +117,13 @@
             v-hasPermi="['hrm:payroll:requirement:confirm']"
             link
             type="primary"
-            :disabled="loading || saving || confirming || row.reviewerId !== userStore.getUser.id"
+            :disabled="
+              loading ||
+              saving ||
+              confirming ||
+              row.reviewerId !== userStore.getUser.id ||
+              (row.permittedActions && !row.permittedActions.includes('CONFIRM'))
+            "
             @click="confirmVersion(row)"
             >确认版本</el-button
           >
@@ -138,7 +150,12 @@
           clearable
           placeholder="选择评审人；留空取消分派"
         >
-          <el-option v-for="user in users" :key="user.id" :value="user.id" :label="user.nickname" />
+          <el-option
+            v-for="user in assignmentUsers"
+            :key="user.id"
+            :value="user.id"
+            :label="user.nickname"
+          />
         </el-select>
       </el-form-item>
       <el-button :disabled="saving" @click="assignmentReviewerId = undefined">清空负责人</el-button>
@@ -517,7 +534,11 @@ const assignmentVisible = ref(false)
 const assignmentRow = ref<PayrollRequirement>()
 const assignmentReviewerId = ref<number>()
 let assignmentContext: { path: string; module?: string } | undefined
-const openAssignment = (row: PayrollRequirement) => {
+const eligibleReviewers = ref<number[] | undefined>()
+const assignmentUsers = computed(() =>
+  users.value.filter((u) => !eligibleReviewers.value || eligibleReviewers.value.includes(u.id))
+)
+const openAssignment = async (row: PayrollRequirement) => {
   if (
     !confirmationActive ||
     loading.value ||
@@ -528,6 +549,9 @@ const openAssignment = (row: PayrollRequirement) => {
     !checkPermi(['hrm:payroll:requirement:assign'])
   )
     return
+  eligibleReviewers.value = projectId.value
+    ? await api.eligibleRequirementReviewers(projectId.value, row.id)
+    : undefined
   assignmentRow.value = { ...row }
   assignmentReviewerId.value = row.reviewerId
   assignmentContext = { path: route.fullPath, module: module.value }

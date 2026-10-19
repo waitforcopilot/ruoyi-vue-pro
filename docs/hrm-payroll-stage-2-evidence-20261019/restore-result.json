@@ -1,0 +1,15 @@
+{
+  "isolatedRestoreDatabase": "hrm_s2_restore_20261019_101038",
+  "backupPrivateDirectory": "/Users/waitforpro/.hrm-payroll-local/backups/20261019-092413",
+  "migrationsTwice": true,
+  "originalRowsExact": {
+    "hrm_payroll_requirement": 481,
+    "hrm_payroll_requirement_history": 685,
+    "hrm_payroll_requirement_project": 16,
+    "hrm_payroll_requirement_project_grant": 18,
+    "hrm_payroll_requirement_project_event": 57,
+    "system_role_menu": 1814,
+    "system_user_role": 29
+  },
+  "matchingKeysPreserved": true
+}

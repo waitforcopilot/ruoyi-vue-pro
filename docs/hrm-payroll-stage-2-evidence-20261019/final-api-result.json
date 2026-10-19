@@ -1,0 +1,17 @@
+{
+  "targetBoundsRejected": [
+    "entity",
+    "organization",
+    "workerType",
+    "scenario",
+    "period"
+  ],
+  "hiddenIdsFiltered": true,
+  "crossProjectAssignAndHistoryDenied": true,
+  "disabledAccountSameTokenDeniedAndRestored": true,
+  "crossTenantRejected": true,
+  "browserCreatedProject": 19,
+  "creatorBusinessActionsDenied": true,
+  "initialBoundaryDoesNotMeanScopeApproved": true,
+  "projectId": 18
+}

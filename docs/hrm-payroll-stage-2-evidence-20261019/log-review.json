@@ -1,0 +1,17 @@
+{
+  "observedWarnEntries": 75,
+  "observedErrorEntries": 4,
+  "intentionalDenials": [
+    "partial member initialize rejected",
+    "revoked reviewer history rejected",
+    "revoked reviewer list refresh rejected",
+    "out-of-bound project creation rejected"
+  ],
+  "remainingNonBlockingWarnings": [
+    "Vue Router next callback deprecation",
+    "Element Plus boolean underline deprecation",
+    "expected request rejection reaches global Vue error handler after permission toast"
+  ],
+  "backendHistoricalWarning": "Previous process shutdown logged NoClassDefFoundError after replacing a jar in use; current process is UP. Prefer stopping before the next package replacement.",
+  "acceptance": "No startup/login blocker observed in this S2 flow; warnings are not reported as zero errors"
+}

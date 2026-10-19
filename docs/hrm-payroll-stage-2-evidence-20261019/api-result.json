@@ -1,0 +1,18 @@
+{
+  "projectId": 20,
+  "requirements": [
+    490,
+    491
+  ],
+  "actionScopeIntersection": true,
+  "legacyUnscopedDenied": true,
+  "crossModuleWriteDenied": true,
+  "validMinimalAssignmentAndConfirmation": true,
+  "concurrentSaveWinners": 1,
+  "revocationRaceSaveCode": 1050810043,
+  "sameTokenAfterRevokeDenied": true,
+  "otherGrantReadPreserved": true,
+  "originalSignatureHistoryRetained": true,
+  "platformAndProjectReviewerQualifications": true,
+  "browserAcceptance": "SEPARATE_GATE"
+}

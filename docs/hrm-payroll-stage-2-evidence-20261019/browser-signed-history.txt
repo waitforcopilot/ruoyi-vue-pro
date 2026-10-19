@@ -1,0 +1,26 @@
+Browser tab: 1, Title: "芋道管理系统 - 需求评审", URL: "http://127.0.0.1:5173/hrm-payroll/requirement?module=COL&projectId=17".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 108-130
++				233 table
++					234 row
++						235 cell
++							236 text 486
++						237 cell
++							238 text CUSTOM-0001
++						239 cell
++							240 text 需求征集
++						241 cell
++							242 text TEST S2 浏览器最小权限编辑后持久化，后续分派确认撤销
++						243 cell
++							244 text 已确认
++						245 cell
++							246 text 未就绪
++						247 cell
++							248 text TEST synthetic source
++						249 cell
++							250 text 匹配
++						251 cell
++							252 text 4
++						253 cell
++							254 button 历史
+The focused UI element is 131 container 当前项目编号：17。 以下项目编号按当时快照展示；旧快照未记录时不推定归属。 关闭评审历史

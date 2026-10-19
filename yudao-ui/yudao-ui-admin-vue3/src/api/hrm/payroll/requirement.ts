@@ -9,6 +9,7 @@ export interface PayrollRequirement {
   templateItemId?: string
   templateVersion?: number
   projectId?: number
+  permittedActions?: string[]
   code: string
   module: string
   description: string
@@ -76,8 +77,11 @@ export const assignRequirement = (
 
 export const listRequirementProjects = () =>
   request.get<PayrollRequirementProject[]>({ url: '/hrm/payroll/requirement-project/list' })
-export const createRequirementProject = (data: { projectKey: string; name: string }) =>
-  request.post<number>({ url: '/hrm/payroll/requirement-project/create', data })
+export const createRequirementProject = (data: {
+  projectKey: string
+  name: string
+  creationScopeJson?: string
+}) => request.post<number>({ url: '/hrm/payroll/requirement-project/create', data })
 export const renameRequirementProject = (data: {
   id: number
   projectKey: string
@@ -104,3 +108,20 @@ export const decideRequirementTemplate = (data: {
 }) => request.post({ url: '/hrm/payroll/requirement-project/template-decision', data })
 export const requirementProjectEvents = (projectId: number) =>
   request.get<any[]>({ url: '/hrm/payroll/requirement-project/events', params: { projectId } })
+
+export const requirementCapabilities = (projectId: number) =>
+  request.get<Record<string, boolean>>({
+    url: '/hrm/payroll/requirement-project/capabilities',
+    params: { projectId }
+  })
+export const requirementMembers = (projectId: number) =>
+  request.get<any[]>({ url: '/hrm/payroll/requirement-project/members', params: { projectId } })
+export const grantRequirementMember = (data: any) =>
+  request.post<number>({ url: '/hrm/payroll/requirement-project/member-grant', data })
+export const revokeRequirementMember = (data: any) =>
+  request.post({ url: '/hrm/payroll/requirement-project/member-revoke', data })
+export const eligibleRequirementReviewers = (projectId: number, requirementId: number) =>
+  request.get<number[]>({
+    url: '/hrm/payroll/requirement-project/eligible-reviewers',
+    params: { projectId, requirementId }
+  })

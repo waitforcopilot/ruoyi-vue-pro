@@ -8,15 +8,21 @@ import javax.annotation.Resource;
 import static org.junit.jupiter.api.Assertions.*;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
-@Import({HrmPayrollRequirementServiceImpl.class,HrmPayrollRequirementProjectService.class})
+@Import({HrmPayrollRequirementAccessService.class,HrmPayrollRequirementServiceImpl.class,HrmPayrollRequirementProjectService.class})
 class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
  @Resource private HrmPayrollRequirementService service;
+ @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementProjectGrantMapper grants;
+ @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementProjectMapper projects;
  @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.system.api.user.AdminUserApi users;
  @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.system.api.permission.PermissionApi permissions;
  @org.junit.jupiter.api.BeforeEach void users() {
   org.mockito.Mockito.when(permissions.hasAnyPermissions(org.mockito.ArgumentMatchers.anyLong(),org.mockito.ArgumentMatchers.anyString())).thenReturn(true);
-  for(long id:new long[]{2,3}) org.mockito.Mockito.when(users.getUser(id)).thenReturn(new cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO().setId(id).setStatus(0));
+  for(long id:new long[]{1,2,3}) org.mockito.Mockito.when(users.getUser(id)).thenReturn(new cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO().setId(id).setStatus(0));
+  cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.setLoginUser(new cn.iocoder.yudao.framework.security.core.LoginUser().setId(1L).setUserType(2),new org.springframework.mock.web.MockHttpServletRequest());
+  projects.insert(new cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRequirementProjectDO().setId(1L).setProjectKey("LEGACY").setName("TEST explicit legacy fixture").setMetadataVersion(1));
+  for(long id:new long[]{1,2,3}){cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRequirementProjectGrantDO g=new cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRequirementProjectGrantDO();g.setProjectId(1L);g.setUserId(id);g.setActions("READ,EDIT,ASSIGN,CONFIRM,EXPORT");g.setEvidence("TEST legacy explicit access, no role bypass");g.setValidFrom(java.time.LocalDate.of(2020,1,1));g.setValidTo(java.time.LocalDate.of(2099,12,31));grants.insert(g);}
  }
+ @org.junit.jupiter.api.AfterEach void clearIdentity(){org.springframework.security.core.context.SecurityContextHolder.clearContext();}
  private HrmPayrollRequirementSaveReqVO request() {
   HrmPayrollRequirementSaveReqVO r=new HrmPayrollRequirementSaveReqVO();r.setCode("PLAN-06");r.setModule("PLAN");r.setDescription("测试薪资方案规则");r.setStatus("PENDING");r.setReadiness("MISSING");r.setPriority(2);return r;
  }
@@ -33,7 +39,7 @@ class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
  }
  @Test void savingCannotGenerateSignatureEvenWithCompleteConfirmationFields() {
   HrmPayrollRequirementSaveReqVO r=ready();r.setStatus("CONFIRMED");
-  assertServiceException(()->service.save(r,2L),PAYROLL_REQUIREMENT_CONFIRM_ACTION_REQUIRED);assertTrue(service.list(null).isEmpty());assertNull(service.legacyProject());
+  assertServiceException(()->service.save(r,2L),PAYROLL_REQUIREMENT_CONFIRM_ACTION_REQUIRED);assertTrue(service.list(null).isEmpty());assertEquals(1L,service.legacyProject().getId());
   r.setStatus("PENDING");r.setId(service.save(r,1L));r.setVersion(1);r.setStatus("CONFIRMED");
   assertServiceException(()->service.save(r,2L),PAYROLL_REQUIREMENT_CONFIRM_ACTION_REQUIRED);assertNull(row(r.getId()).getConfirmedBy());assertEquals(1,service.history(r.getId()).size());
  }
@@ -74,7 +80,7 @@ class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
   r.setReviewerId(2L);r.setId(service.save(r,1L));assertServiceException(()->service.confirm(r.getId(),1,3L),PAYROLL_REQUIREMENT_CONFIRMATION_INVALID);
  }
  @Test void legacyProjectIsServerOwnedAndStableAcrossEdits() {
-  assertNull(service.legacyProject());HrmPayrollRequirementSaveReqVO r=request();r.setId(service.save(r,1L));Long project=service.legacyProject().getId();assertNull(service.legacyProject().getProjectScopeVersion());assertEquals(1,service.legacyProject().getMetadataVersion());
+  assertEquals(1L,service.legacyProject().getId());HrmPayrollRequirementSaveReqVO r=request();r.setId(service.save(r,1L));Long project=service.legacyProject().getId();assertNull(service.legacyProject().getProjectScopeVersion());assertEquals(1,service.legacyProject().getMetadataVersion());
   r.setVersion(1);r.setDescription("只修改说明，保留归属");service.save(r,1L);assertEquals(project,row(r.getId()).getProjectId());assertTrue(service.history(r.getId()).get(0).getSnapshot().contains("\"projectId\":"+project));
  }
  @Test void multipleRequirementsReuseLegacyProject() {
@@ -158,4 +164,13 @@ class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
   assertServiceException(()->service.assign(id,1,3L,1L),PAYROLL_REQUIREMENT_ASSIGNEE_FORBIDDEN);assertEquals(1,service.history(id).size());service.assign(id,1,null,1L);assertNull(row(id).getReviewerId());assertEquals(2,service.history(id).size());
  }
 
+
+ @Test void legacyEndpointsRequireExplicitProjectAccessEvenForTechnicalRoles(){
+  Long id=service.save(request(),1L);
+  grants.delete(null);
+  assertServiceException(()->service.list(null),PAYROLL_PROJECT_DENIED);
+  assertServiceException(()->service.history(id),PAYROLL_PROJECT_DENIED);
+  assertServiceException(()->service.save(request(),1L),PAYROLL_PROJECT_DENIED);
+  assertServiceException(()->service.initialize(1L),PAYROLL_PROJECT_DENIED);
+ }
 }

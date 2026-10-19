@@ -1,0 +1,30 @@
+{
+  "backendTests": {
+    "tests": 64,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "command": "JAVA_HOME=~/.local/jdks/java8/Contents/Home mvn -pl yudao-module-hrm -am test -Dtest=HrmPayrollRequirementProjectServiceTest,HrmPayrollRequirementServiceImplTest,HrmPayrollRequirementPermissionTest -Dsurefire.failIfNoSpecifiedTests=false"
+  },
+  "backendPackage": {
+    "result": "BUILD SUCCESS",
+    "command": "mvn -pl yudao-server -am package -DskipTests"
+  },
+  "frontend": {
+    "vue-tsc": {
+      "exitCode": 0,
+      "maxHeapMB": 8192
+    },
+    "eslintFourAffectedFiles": {
+      "exitCode": 0
+    },
+    "prettierFourAffectedFiles": {
+      "exitCode": 0
+    }
+  },
+  "gitDiffCheck": {
+    "exitCode": 0
+  },
+  "privateRawLogDirectory": "/Users/waitforpro/.hrm-payroll-local/stage2-20261019",
+  "browser": "Actual Codex IAB operations; separate from API and unit tests"
+}

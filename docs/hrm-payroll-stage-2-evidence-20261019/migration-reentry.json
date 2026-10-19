@@ -1,0 +1,35 @@
+{
+  "currentDatabaseMigrationTwice": true,
+  "allGrantRowsUnchanged": true,
+  "originalRecordsPreserved": {
+    "hrm_payroll_requirement": {
+      "originalRows": 481,
+      "exactOriginalColumns": true
+    },
+    "hrm_payroll_requirement_history": {
+      "originalRows": 685,
+      "exactOriginalColumns": true
+    },
+    "hrm_payroll_requirement_project": {
+      "originalRows": 16,
+      "exactOriginalColumns": true
+    },
+    "hrm_payroll_requirement_project_grant": {
+      "originalRows": 18,
+      "exactOriginalColumns": true
+    },
+    "hrm_payroll_requirement_project_event": {
+      "originalRows": 57,
+      "exactOriginalColumns": true
+    },
+    "system_role_menu": {
+      "originalRows": 1814,
+      "exactOriginalColumns": true
+    },
+    "system_user_role": {
+      "originalRows": 29,
+      "exactOriginalColumns": true
+    }
+  },
+  "revokedAndSoftDeletedCreatorNotResurrected": true
+}

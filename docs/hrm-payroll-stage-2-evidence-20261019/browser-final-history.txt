@@ -1,0 +1,230 @@
+Browser tab: 1, Title: "芋道管理系统 - 需求评审", URL: "http://127.0.0.1:5173/hrm-payroll/requirement?module=COL&projectId=17".
+1 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?module=COL&projectId=17
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			15 container v-tool-header
+				16 container 面包屑
+					17 link 薪酬管理
+						18 text 薪酬管理
+					19 text /
+					20 link 需求评审
+						21 text 需求评审
+				22 container
+					23 container
+						24 combo box (collapsed, settable) ID: el-id-3286-76, Secondary Actions: Expand
+						25 text 请输入菜单内容
+				26 pop up button (collapsed) ID: el-id-3286-4, Secondary Actions: Expand
+				27 pop up button (collapsed) ID: el-id-3286-9, Secondary Actions: Expand
+				28 pop up button (collapsed) TEST S2 manager, ID: el-id-3286-14, Secondary Actions: Expand
+			29 container v-tags-view
+				30 container
+					31 pop up button (collapsed) 首页, ID: el-id-3286-20, Secondary Actions: Expand
+						32 container
+							33 text 首页
+					34 pop up button (collapsed) 需求评审, ID: el-id-3286-28, Secondary Actions: Expand
+						35 container
+							36 text 需求评审
+				37 pop up button (collapsed) ID: el-id-3286-36, Secondary Actions: Expand
+			260 container
+				261 container
+					262 combo box (collapsed, settable) Description: 评审项目, ID: el-id-3286-77, Secondary Actions: Expand
+					263 text TEST S2 成员授权回归
+					264 image
+				265 button 修改项目名称
+				266 button 修订项目范围
+				267 button 模板版本比较
+				268 button 项目变更历史
+				269 button 项目成员与授权
+			42 text TEST S2 成员授权回归 · 项目编号 17 · 范围版本 1
+			43 text 业务确认状态与数据就绪状态分别维护；确认需有效负责人、字段映射、来源、验收条件及依据；请先保存，再由评审负责人本人点击“确认版本”。
+			44 container
+				45 container
+					46 combo box (collapsed, settable) ID: el-id-3286-78, Secondary Actions: Expand
+					47 text 需求征集
+					48 image
+				49 button 刷新
+			50 button (collapsed) 需求征集候选数据源与字段, ID: el-collapse-head-65, Secondary Actions: Expand
+				51 text 需求征集候选数据源与字段
+			270 container
+				271 table
+					272 row
+						273 cell
+							274 text 需求ID
+						275 cell
+							276 text 编号
+						277 cell
+							278 text 模块
+						279 cell
+							280 text 功能
+						281 cell
+							282 text 评审状态
+						283 cell
+							284 text 数据就绪
+						285 cell
+							286 text 数据来源
+						287 cell
+							288 text 范围适配
+						289 cell
+							290 text 版本
+						291 cell
+							292 text 操作
+				440 table
+					441 row
+						442 cell
+							443 text 486
+						444 cell
+							445 text CUSTOM-0001
+						446 cell
+							447 text 需求征集
+						448 cell
+							449 text TEST S2 浏览器最小权限编辑后持久化，后续分派确认撤销
+						450 cell
+							451 text 评审中
+						452 cell
+							453 text 未就绪
+						454 cell
+							455 text TEST synthetic source
+						456 cell
+							457 text 匹配
+						458 cell
+							459 text 5
+						460 cell
+							461 container
+								462 button 历史
+								463 button 分派
+			464 container 当前项目编号：17。 以下项目编号按当时快照展示；旧快照未记录时不推定归属。 关闭评审历史
+				465 container
+					466 text 评审历史 · 需求ID 486 · CUSTOM-0001
+				467 container
+					468 text 当前项目编号：17。 以下项目编号按当时快照展示；旧快照未记录时不推定归属。
+					469 container
+						470 table
+							471 row
+								472 cell
+									473 text 范围适配
+								474 cell
+									475 text 版本
+								476 cell
+									477 text 操作人
+								478 cell
+									479 text 时间
+								480 cell
+									481 text 评审内容
+						482 table
+							483 container
+								484 row
+									485 cell
+										486 text 匹配
+									487 cell
+										488 text 5
+									489 cell
+										490 text TEST S2 manager
+									491 cell
+										492 text 2026-10-19 10:16:33
+									493 cell
+										494 text 快照需求ID：486
+										495 text 快照项目编号：17
+										496 text 当时编号：CUSTOM-0001
+										497 text 当时范围版本：1 / SUBSET
+										498 text TEST S2 浏览器最小权限编辑后持久化，后续分派确认撤销
+										499 text 评审中 / 未就绪
+										500 text 来源：TEST synthetic source
+										501 text 映射：TEST input -> requirement
+										502 text 验收：TEST 验证成员分派确认撤销
+										503 text 依据：TEST 合成评审依据，不作正式业务批准
+								504 row
+									505 cell
+										506 text 匹配
+									507 cell
+										508 text 4
+									509 cell
+										510 text TEST S2 reviewer
+									511 cell
+										512 text 2026-10-19 10:12:13
+									513 cell
+										514 text 快照需求ID：486
+										515 text 快照项目编号：17
+										516 text 当时编号：CUSTOM-0001
+										517 text 当时范围版本：1 / SUBSET
+										518 text 当时确认人：258；签署范围版本：1
+										519 text TEST S2 浏览器最小权限编辑后持久化，后续分派确认撤销
+										520 text 已确认 / 未就绪
+										521 text 来源：TEST synthetic source
+										522 text 映射：TEST input -> requirement
+										523 text 验收：TEST 验证成员分派确认撤销
+										524 text 依据：TEST 合成评审依据，不作正式业务批准
+								525 row
+									526 cell
+										527 text 匹配
+									528 cell
+										529 text 3
+									530 cell
+										531 text TEST S2 manager
+									532 cell
+										533 text 2026-10-19 10:11:36
+									534 cell
+										535 text 快照需求ID：486
+										536 text 快照项目编号：17
+										537 text 当时编号：CUSTOM-0001
+										538 text 当时范围版本：1 / SUBSET
+										539 text TEST S2 浏览器最小权限编辑后持久化，后续分派确认撤销
+										540 text 待确认 / 未就绪
+										541 text 来源：TEST synthetic source
+										542 text 映射：TEST input -> requirement
+										543 text 验收：TEST 验证成员分派确认撤销
+										544 text 依据：TEST 合成评审依据，不作正式业务批准
+								545 row
+									546 cell
+										547 text 匹配
+									548 cell
+										549 text 2
+									550 cell
+										551 text TEST S2 editor
+									552 cell
+										553 text 2026-10-19 10:08:48
+									554 cell
+										555 text 快照需求ID：486
+										556 text 快照项目编号：17
+										557 text 当时编号：CUSTOM-0001
+										558 text 当时范围版本：1 / SUBSET
+										559 text TEST S2 浏览器最小权限编辑后持久化，后续分派确认撤销
+										560 text 待确认 / 未就绪
+										561 text 来源：TEST synthetic source
+										562 text 映射：TEST input -> requirement
+										563 text 验收：TEST 验证成员分派确认撤销
+										564 text 依据：TEST 合成评审依据，不作正式业务批准
+								565 row
+									566 cell
+										567 text 匹配
+									568 cell
+										569 text 1
+									570 cell
+										571 text 芋道源码
+									572 cell
+										573 text 2026-10-19 09:25:11
+									574 cell
+										575 text 快照需求ID：486
+										576 text 快照项目编号：17
+										577 text 当时编号：CUSTOM-0001
+										578 text 当时范围版本：1 / SUBSET
+										579 text TEST S2 COL 隔离授权主链
+										580 text 待确认 / 未就绪
+										581 text 来源：TEST synthetic source
+										582 text 映射：TEST input -> requirement
+										583 text 验收：TEST 验证成员分派确认撤销
+										584 text 依据：TEST 合成评审依据，不作正式业务批准
+				585 button 关闭评审历史
+			78 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 464 container 当前项目编号：17。 以下项目编号按当时快照展示；旧快照未记录时不推定归属。 关闭评审历史
