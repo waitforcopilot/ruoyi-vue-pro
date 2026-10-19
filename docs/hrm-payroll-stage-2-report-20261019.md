@@ -4,7 +4,7 @@
 
 ## 当前结论
 
-S2阶段任务8/8通过，A1～A8阶段验收8/8通过；初版6f4cc997b3已推送；最终创建人边界补丁已验通过，提交推送待收尾。完整证据见[验收矩阵](hrm-payroll-stage-2-evidence-20261019/README.md)。这是本机TEST合成实现回归，不是正式业务批准或全部PRD验收。
+S2阶段任务8/8通过，A1～A8阶段验收8/8通过；最终实现764198fbb5b722891164cb7ad68c2cfe28f92ce2（含创建人边界补丁）已提交、push work并核对远端一致。完整证据见[验收矩阵](hrm-payroll-stage-2-evidence-20261019/README.md)。这是本机TEST合成实现回归，不是正式业务批准或全部PRD验收。
 
 ## 实现内容和边界
 
@@ -76,6 +76,6 @@ SCOPE不等于SCOPE_DECIDE，未知新动作不默认授予。来源、问题、
 
 实现提交：`6f4cc997b3189fc7fca5c057c57ace740bc2695d`，`feat(hrm): deliver S2 bounded project membership and revocation`。
 
-实际执行`git push origin HEAD:work`成功，GitHub仓库https://github.com/waitforcopilot/ruoyi-vue-pro ，分支work；实现推送后远端refs/heads/work与本地均为上述SHA。[交付记录](hrm-payroll-stage-2-evidence-20261019/git-delivery.json)。最终边界补丁和交付记录将在实际推送后补记，当前不能据初版SHA认定最终代码已推送。
+实际执行`git push origin HEAD:work`成功，GitHub仓库https://github.com/waitforcopilot/ruoyi-vue-pro ，分支work；实现推送后远端refs/heads/work与本地均为上述SHA。[交付记录](hrm-payroll-stage-2-evidence-20261019/git-delivery.json)。最终边界补丁提交：`764198fbb5b722891164cb7ad68c2cfe28f92ce2`，`fix(hrm): freeze migrated creator authorization bounds`；实际push成功，远端work为同一SHA。19个候选源码文件与该提交逐一核对SHA256一致。后续仅文档收尾，不修改已验实现。
 
 推送后健康复查：后端UP、前端HTTP200、MySQL healthy、Redis运行中，见[状态](hrm-payroll-stage-2-evidence-20261019/service-final.json)。最终源码逐文件与运行候选哈希一致，未混入私有凭据、无关交接改动或S3～S6文档。S2已完成后停止；S3尚未启动。

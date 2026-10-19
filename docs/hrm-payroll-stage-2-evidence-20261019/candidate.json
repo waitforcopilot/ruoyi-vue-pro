@@ -25,5 +25,6 @@
   "frontend": "Vite serves the recorded workspace source",
   "testCandidate": "S2 final candidate; source hash rechecked before commit",
   "priorImplementationCommit": "6f4cc997b3189fc7fca5c057c57ace740bc2695d",
-  "postfixBrowserCoverage": "Creator fixed/unknown boundary cases plus main project signature history; original bounded-member flow reused by impact; fresh real API regression after rebuild"
+  "postfixBrowserCoverage": "Creator fixed/unknown boundary cases plus main project signature history; original bounded-member flow reused by impact; fresh real API regression after rebuild",
+  "verifiedImplementationCommit": "764198fbb5b722891164cb7ad68c2cfe28f92ce2"
 }

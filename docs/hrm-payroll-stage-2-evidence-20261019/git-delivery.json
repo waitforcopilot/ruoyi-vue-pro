@@ -4,5 +4,9 @@
   "push": "success",
   "remoteAtImplementationCheck": "6f4cc997b3189fc7fca5c057c57ace740bc2695d",
   "browserAcceptanceBeforeCommit": true,
-  "note": "Following documentation-only closure does not change the verified source candidate."
+  "note": "Initial implementation and final creator-boundary repair both pushed; later documentation-only closure commit tracked in Git history",
+  "finalImplementationCommit": "764198fbb5b722891164cb7ad68c2cfe28f92ce2",
+  "remoteAtFinalImplementationCheck": "764198fbb5b722891164cb7ad68c2cfe28f92ce2",
+  "finalImplementationPush": "success",
+  "finalCandidateSourceHashesMatchCommit": true
 }
