@@ -1,0 +1,8 @@
+{
+  "backend": "UP",
+  "frontendHTTP": 200,
+  "containers": [
+    "codex-ruoyi-redis: Up 39 hours",
+    "codex-ruoyi-mysql: Up 39 hours (healthy)"
+  ]
+}

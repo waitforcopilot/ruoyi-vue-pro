@@ -9,19 +9,21 @@
     "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementProjectService.java": "ff8d455c76617024192f57c1d9142dccdb14a98e41bf27e2b26a2ac63c5ab182",
     "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementServiceImpl.java": "5b1f206e88bf45497295fcd35f915e931973cbb281e3b46875067246a35219cd",
     "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/controller/admin/payroll/HrmPayrollRequirementPermissionTest.java": "f836f02de39629d3e4a47c467e37f8c34089175d43cf8c662f336121f6e7323f",
-    "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementProjectServiceTest.java": "898d8f214abb3b34f2af814ad280abe5d3e672e7f90a9b0dcf3d5afc241db205",
+    "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementProjectServiceTest.java": "dafd30cedacd00b4dee4bc388a59e78c9641dd24ee84bfc88c28a75921c8f935",
     "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementServiceImplTest.java": "0d7ddb18bea4e84ebc46eb2a8c3632a1f51150bb99778465c5da125e856a995a",
     "yudao-module-hrm/src/test/resources/sql/create_tables.sql": "a2d58f5ea65c7e828bd499cb5aea11664d4967da8cd0220f22de3442a319bb9c",
     "yudao-ui/yudao-ui-admin-vue3/src/api/hrm/payroll/requirement.ts": "fd861f80115fcb4833e0d04c3769bd420b3a0be121aabbe4a173af314814a125",
     "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/ProjectPanel.vue": "3653e6c7da5a4d4118ce1d740c1cfe9810b3df71db28fcd6f84624dbec4566dc",
     "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/index.vue": "3bf18d4c290edf115ccfb2deff94d21ae70fac219d071005d0b5953700354380",
     "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/controller/admin/payroll/vo/HrmPayrollRequirementMemberReqVO.java": "e39b4dc9c522b63d6122fd87783f9a51da8579780eb3a8f60a4138700699e56a",
-    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementAccessService.java": "98fba9aff6fd2490bb1dc6a3fcc38ae044da98042afe68dad611892e86b17085",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementAccessService.java": "91e1492fb6d60f315c0293bf1c47f046d0b92c2366fe67d165211d0a5e78a882",
     "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/MembersPanel.vue": "608891acfdb7f8aa52f93e7fb0d7fe0254c726369e0b1c5f2efadd2e8f8919a4",
-    "sql/mysql/upgrade/20261019-hrm-requirement-members.sql": "1934a90094c8da39a87feb32bb744fecf623c6bb358e0b440a1a3599c94a7ee7",
+    "sql/mysql/upgrade/20261019-hrm-requirement-members.sql": "b2bf2d1febec9d77d30df5cb7055815dc79ce20b97576f3e2fb35e0dd07c77cb",
     "scripts/hrm/runtime_workbench_stage2.py": "886ba0b511bec5b0b7a6ea1cb7e1f7643163ea278cb9e483256b616b9255c1fd"
   },
-  "runningJarSha256": "5672b354523d960e747112e27bf1cc79cb74289490f30e67db2289bd272fdf3d",
+  "runningJarSha256": "7feddaae770b848a86f57c6bfd126ba7f466e1df74374e2f720586dd84412f33",
   "frontend": "Vite serves the recorded workspace source",
-  "testCandidate": "S2 final candidate; source hash rechecked before commit"
+  "testCandidate": "S2 final candidate; source hash rechecked before commit",
+  "priorImplementationCommit": "6f4cc997b3189fc7fca5c057c57ace740bc2695d",
+  "postfixBrowserCoverage": "Creator fixed/unknown boundary cases plus main project signature history; original bounded-member flow reused by impact; fresh real API regression after rebuild"
 }

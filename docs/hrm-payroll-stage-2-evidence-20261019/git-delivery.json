@@ -1,0 +1,8 @@
+{
+  "implementationCommit": "6f4cc997b3189fc7fca5c057c57ace740bc2695d",
+  "branch": "work",
+  "push": "success",
+  "remoteAtImplementationCheck": "6f4cc997b3189fc7fca5c057c57ace740bc2695d",
+  "browserAcceptanceBeforeCommit": true,
+  "note": "Following documentation-only closure does not change the verified source candidate."
+}

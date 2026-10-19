@@ -68,13 +68,13 @@ public class HrmPayrollRequirementAccessService {
             Set<String> modules=set(g.getModulesJson(),String.class);Set<Long> ids=set(g.getRequirementIdsJson(),Long.class);
             if(!modules.isEmpty() && !modules.contains(r.getModule()))return false;
             if(!ids.isEmpty() && !ids.contains(r.getId()))return false;
-            return (r.getScopeJson()==null && p.getScopeJson()==null && Boolean.TRUE.equals(g.getFullProject())) || g.getCeilingJson()==null || (r.getScopeJson()!=null && HrmPayrollRequirementScope.parse(g.getCeilingJson()).contains(HrmPayrollRequirementScope.parse(r.getScopeJson())));
+            return (r.getScopeJson()==null && p.getScopeJson()==null && Boolean.TRUE.equals(g.getFullProject())) || (g.getCeilingJson()==null && p.getScopeJson()==null) || (r.getScopeJson()!=null && g.getCeilingJson()!=null && HrmPayrollRequirementScope.parse(g.getCeilingJson()).contains(HrmPayrollRequirementScope.parse(r.getScopeJson())));
         } catch(RuntimeException invalid) {return false;}
     }
     public boolean full(HrmPayrollRequirementProjectDO p,Long actor,String action) {
         if(p==null || !activeUser(actor))return false;
         if(creator(p,actor,action))return true;
-        return active(p.getId(),actor).stream().anyMatch(g->actions(g.getActions()).contains(action) && !Boolean.FALSE.equals(g.getFullProject()) && set(g.getModulesJson(),String.class).isEmpty() && set(g.getRequirementIdsJson(),Long.class).isEmpty() && (g.getCeilingJson()==null || (p.getScopeJson()==null || HrmPayrollRequirementScope.parse(g.getCeilingJson()).contains(HrmPayrollRequirementScope.parse(p.getScopeJson())))));
+        return active(p.getId(),actor).stream().anyMatch(g->actions(g.getActions()).contains(action) && !Boolean.FALSE.equals(g.getFullProject()) && set(g.getModulesJson(),String.class).isEmpty() && set(g.getRequirementIdsJson(),Long.class).isEmpty() && (p.getScopeJson()==null || (g.getCeilingJson()!=null && HrmPayrollRequirementScope.parse(g.getCeilingJson()).contains(HrmPayrollRequirementScope.parse(p.getScopeJson())))));
     }
     public void requireRow(HrmPayrollRequirementProjectDO p,HrmPayrollRequirementDO r,Long actor,String action) {
         if(!row(p,r,actor,"READ") || !row(p,r,actor,action))throw exception(PAYROLL_PROJECT_DENIED);

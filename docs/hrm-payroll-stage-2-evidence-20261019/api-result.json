@@ -1,15 +1,15 @@
 {
-  "projectId": 20,
+  "projectId": 22,
   "requirements": [
-    490,
-    491
+    495,
+    496
   ],
   "actionScopeIntersection": true,
   "legacyUnscopedDenied": true,
   "crossModuleWriteDenied": true,
   "validMinimalAssignmentAndConfirmation": true,
   "concurrentSaveWinners": 1,
-  "revocationRaceSaveCode": 1050810043,
+  "revocationRaceSaveCode": 0,
   "sameTokenAfterRevokeDenied": true,
   "otherGrantReadPreserved": true,
   "originalSignatureHistoryRetained": true,

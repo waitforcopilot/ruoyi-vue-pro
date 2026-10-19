@@ -1,0 +1,8 @@
+{
+  "projectId": 21,
+  "technicalDraftReadableBeforeBusinessScope": true,
+  "businessRowsHiddenAfterScopeDefined": true,
+  "knownRequirementHistoryDenied": true,
+  "migrationRerunDoesNotGrantUnknownBoundary": true,
+  "creatorGrantVersion": 2
+}

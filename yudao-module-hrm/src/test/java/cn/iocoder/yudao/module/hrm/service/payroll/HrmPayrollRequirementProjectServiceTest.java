@@ -96,4 +96,19 @@ class HrmPayrollRequirementProjectServiceTest extends BaseDbUnitTest {
   long p=create("AA");manager(p);HrmPayrollRequirementProjectGrantDO bootstrap=grants.selectList().stream().filter(g->Objects.equals(g.getProjectId(),p)&&Objects.equals(g.getUserId(),1L)).findFirst().get();
   service.revoke(p,bootstrap.getId(),1,"TEST remove creator",2L);assertTrue(service.list(1L).isEmpty());assertTrue(service.list(2L).stream().anyMatch(x->x.getId()==p));
  }
+
+ @Test void unknownCreatorCeilingCannotFollowLaterBusinessScope(){
+  long p=create("AA");HrmPayrollRequirementProjectGrantDO creator=grants.selectList().stream().filter(g->Objects.equals(g.getProjectId(),p)&&Objects.equals(g.getUserId(),1L)).findFirst().get();
+  // Reproduce the pre-S2 migrated creator grant whose original business boundary was unknown.
+  grants.update(null,new com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper<HrmPayrollRequirementProjectGrantDO>().eq(HrmPayrollRequirementProjectGrantDO::getId,creator.getId()).set(HrmPayrollRequirementProjectGrantDO::getCeilingJson,null));
+  scopedProject(p);HrmPayrollRequirementDO r=scopedRow(p,"COL");
+  assertFalse(access.row(projects.selectById(p),r,1L,"READ"));assertFalse(access.full(projects.selectById(p),1L,"EDIT"));
+ }
+ @Test void boundedCreatorRetainsOldSubsetButNeverFollowsScopeExpansion(){
+  long p=create("AA");scopedProject(p);HrmPayrollRequirementDO old=scopedRow(p,"COL");
+  assertTrue(access.row(projects.selectById(p),old,1L,"READ"));
+  HrmPayrollRequirementProjectDO project=projects.selectById(p);String expanded=scope(10,true).replace("101,102","101,102,103");project.setScopeJson(expanded);projects.updateById(project);
+  HrmPayrollRequirementDO inherited=new HrmPayrollRequirementDO();inherited.setProjectId(p);inherited.setModule("COL");inherited.setScopeJson(expanded);
+  assertFalse(access.row(projects.selectById(p),inherited,1L,"READ"));assertFalse(access.full(projects.selectById(p),1L,"EDIT"));assertTrue(access.row(projects.selectById(p),old,1L,"READ"));
+ }
 }

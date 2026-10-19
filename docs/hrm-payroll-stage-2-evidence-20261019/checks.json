@@ -1,6 +1,6 @@
 {
   "backendTests": {
-    "tests": 64,
+    "tests": 66,
     "failures": 0,
     "errors": 0,
     "skipped": 0,
@@ -26,5 +26,11 @@
     "exitCode": 0
   },
   "privateRawLogDirectory": "/Users/waitforpro/.hrm-payroll-local/stage2-20261019",
-  "browser": "Actual Codex IAB operations; separate from API and unit tests"
+  "browser": "Actual Codex IAB operations; separate from API and unit tests",
+  "creatorRegressionBeforeRepair": {
+    "tests": 26,
+    "failures": 1,
+    "errors": 0,
+    "failedExpectation": "unknown creator ceiling must not follow later business scope"
+  }
 }
