@@ -1,0 +1,239 @@
+Browser tab: 1, Title: "芋道管理系统 - 缴费政策与年度调基", URL: "http://127.0.0.1:5173/hrm-payroll/insurance-policy".
+0 AXWebArea 芋道管理系统 - 缴费政策与年度调基, URL: 127.0.0.1:5173/hrm-payroll/insurance-policy
+	1 container
+		2 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		476 menu bar
+			477 首页
+				478 text 首页
+			479 作者动态
+				480 text 作者动态
+			481 Boot 开发文档
+				482 text Boot 开发文档
+			483 Cloud 开发文档
+				484 text Cloud 开发文档
+			485 (collapsed) 系统管理, Secondary Actions: Expand
+				486 container
+					487 text 系统管理
+					488 image
+			489 (collapsed) 基础设施, Secondary Actions: Expand
+				490 container
+					491 text 基础设施
+					492 image
+			493 (collapsed) 支付管理, Secondary Actions: Expand
+				494 container
+					495 text 支付管理
+					496 image
+			497 (collapsed) 报表管理, Secondary Actions: Expand
+				498 container
+					499 text 报表管理
+					500 image
+			501 (collapsed) 工作流程, Secondary Actions: Expand
+				502 container
+					503 text 工作流程
+					504 image
+			505 (collapsed) 会员中心, Secondary Actions: Expand
+				506 container
+					507 text 会员中心
+					508 image
+			509 (expanded) 薪酬管理, Secondary Actions: Collapse
+				510 container
+					511 text 薪酬管理
+					512 image
+				513 menu
+					514 定调薪审批
+						515 text 定调薪审批
+					516 工时与加班
+						517 text 工时与加班
+					518 薪级薪档
+						519 text 薪级薪档
+					520 考勤归集与异常
+						521 text 考勤归集与异常
+					522 法人主体与归属
+						523 text 法人主体与归属
+					524 缴费政策与年度调基
+						525 text 缴费政策与年度调基
+					526 缴费实缴对账
+						527 text 缴费实缴对账
+					528 核算输入与就绪
+						529 text 核算输入与就绪
+					530 年度税务政策
+						531 text 年度税务政策
+					532 薪酬成本分摊
+						533 text 薪酬成本分摊
+					534 预算与成本分析
+						535 text 预算与成本分析
+					536 薪酬输入缺口工单
+						537 text 薪酬输入缺口工单
+					538 社保公积金工资差额
+						539 text 社保公积金工资差额
+					540 薪酬总览
+						541 text 薪酬总览
+					542 独立工资收回
+						543 text 独立工资收回
+					544 需求评审
+						545 text 需求评审
+					546 核算审批
+						547 text 核算审批
+					548 银行代发
+						549 text 银行代发
+					550 薪资公式
+						551 text 薪资公式
+			552 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				553 container
+					554 text MALL 商城系统
+					555 image
+			556 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				557 container
+					558 text EAM 资产管理
+					559 image
+			560 (collapsed) CRM 系统, Secondary Actions: Expand
+				561 container
+					562 text CRM 系统
+					563 image
+			564 (collapsed) ERP 系统, Secondary Actions: Expand
+				565 container
+					566 text ERP 系统
+					567 image
+			568 (collapsed) WMS 系统, Secondary Actions: Expand
+				569 container
+					570 text WMS 系统
+					571 image
+			572 (collapsed) MES 系统, Secondary Actions: Expand
+				573 container
+					574 text MES 系统
+					575 image
+			576 (collapsed) OA 办公协同, Secondary Actions: Expand
+				577 container
+					578 text OA 办公协同
+					579 image
+			580 (collapsed) HRM 人力资源, Secondary Actions: Expand
+				581 container
+					582 text HRM 人力资源
+					583 image
+			584 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				585 container
+					586 text FMS 财务管理
+					587 image
+			588 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				589 container
+					590 text PMS 项目管理
+					591 image
+			592 (collapsed) AI 大模型, Secondary Actions: Expand
+				593 container
+					594 text AI 大模型
+					595 image
+			596 (collapsed) IoT 物联网, Secondary Actions: Expand
+				597 container
+					598 text IoT 物联网
+					599 image
+			600 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				601 container
+					602 text IM 即时通讯
+					603 image
+			604 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				605 container
+					606 text MP 公众号管理
+					607 image
+			608 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				609 container
+					610 text CMS 内容管理
+					611 image
+		140 container
+			141 container v-tool-header
+				142 container 面包屑
+					143 link 薪酬管理
+						144 text 薪酬管理
+					145 text /
+					411 link 缴费政策与年度调基
+						412 text 缴费政策与年度调基
+				148 container
+					149 combo box (collapsed, settable) ID: el-id-629-1695, Secondary Actions: Expand
+					150 text 请选择租户
+					151 image
+				152 container
+					153 container
+						154 combo box (collapsed, settable) ID: el-id-629-1696, Secondary Actions: Expand
+						155 text 请输入菜单内容
+				156 pop up button (collapsed) ID: el-id-629-1661, Secondary Actions: Expand
+				157 pop up button (collapsed) ID: el-id-629-1666, Secondary Actions: Expand
+				158 pop up button (collapsed) ID: el-id-629-1671, Secondary Actions: Expand
+			159 container v-tags-view
+				160 container
+					161 pop up button (collapsed) 首页, ID: el-id-629-1677, Secondary Actions: Expand
+						162 container
+							163 text 首页
+					164 pop up button (collapsed) 年度税务政策, ID: el-id-629-1700, Secondary Actions: Expand
+						165 container
+							166 text 年度税务政策
+					167 pop up button (collapsed) 定调薪审批, ID: el-id-629-1796, Secondary Actions: Expand
+						168 container
+							169 text 定调薪审批
+					413 pop up button (collapsed) 缴费政策与年度调基, ID: el-id-629-1816, Secondary Actions: Expand
+						414 container
+							415 text 缴费政策与年度调基
+				170 pop up button (collapsed) ID: el-id-629-1685, Secondary Actions: Expand
+			416 container
+				417 button 本模块需求（社保公积金）
+				418 button 候选数据源（2）
+			419 container
+				420 text 缴费主体
+				421 container
+					422 combo box (collapsed, settable) 缴费主体, ID: el-id-629-1841, Secondary Actions: Expand
+					612 text ACCEPT_BROWSER_20261017 隔离浏览器全流程主体（虚构）
+					424 image
+				425 button 刷新
+				426 button 新建政策版本
+				427 button 申报或年度调基
+			428 text 政策记录项目上下限、个人及单位比例和生效月份，需独立审批。申报基数经 HR 复核、财务审批后生效；已批准的豁免也保留依据。
+			429 tab group
+				430 tab (selected, settable, boolean) 地区政策版本, Value: 1, ID: tab-0
+				431 tab (selectable, settable, boolean) 年度申报与历史归属, Value: 0, ID: tab-1
+				432 tab (selectable, settable, boolean) 应缴测算, Value: 0, ID: tab-2
+				433 tab (selectable, settable, boolean) 审计履历, Value: 0, ID: tab-3
+				434 tab (selectable, settable, boolean) 年度基数批量导入, Value: 0, ID: tab-4
+			435 container Description: 地区政策版本, ID: pane-0
+				436 container
+					437 table
+						438 row
+							439 cell
+								440 text 政策编码
+							441 cell
+								442 text 城市
+							443 cell
+								444 text 版本
+							445 cell
+								446 text 开始月份
+							447 cell
+								448 text 截止月份
+							449 cell
+								450 text 状态
+							451 cell
+								452 text 正式政策依据
+							453 cell
+								454 text 操作
+					455 table
+						613 row
+							614 cell
+								615 text ACCEPT_BROWSER_POLICY
+							616 cell
+								617 text 验收城市
+							618 cell
+								619 text 1
+							620 cell
+								621 text 2026-10-01
+							622 cell
+								623 text 2026-12-31
+							624 cell
+								625 text APPROVED
+							626 cell
+								627 text 虚构缴费政策：养老个人8%、单位16%，仅供本机验收
+							628 cell
+								629 container
+									630 button 项目及比例
+									631 button 复制版本
+									632 button 截止或更正
+			273 text Copyright ©2026 芋道管理系统
+	633 container message_12
+		634 text 操作成功
+
+The focused UI element is 0 AXWebArea 芋道管理系统 - 缴费政策与年度调基, URL: 127.0.0.1:5173/hrm-payroll/insurance-policy

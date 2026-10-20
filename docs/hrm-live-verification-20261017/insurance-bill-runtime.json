@@ -1,0 +1,63 @@
+{
+  "billId": 1,
+  "status": "RECONCILED",
+  "reviewedBy": 249,
+  "approvedBy": 251,
+  "lines": [
+    {
+      "createTime": 1792242594000,
+      "updateTime": 1792242594000,
+      "creator": "251",
+      "updater": "251",
+      "deleted": false,
+      "id": 1,
+      "billId": 1,
+      "entityId": 1,
+      "employeeId": 1,
+      "revision": 0,
+      "jobNumber": "ACCEPT_SCOPE_103",
+      "employeeName": "隔离范围员工103",
+      "projectCode": "PENSION",
+      "projectName": "验收养老",
+      "status": "MATCHED",
+      "expectedPersonal": 400.0,
+      "expectedCorporate": 800.0,
+      "originalPersonal": 400.0,
+      "originalCorporate": 800.0,
+      "actualPersonal": 400.0,
+      "actualCorporate": 800.0,
+      "personalDifference": 0.0,
+      "corporateDifference": 0.0
+    },
+    {
+      "createTime": 1792242594000,
+      "updateTime": 1792242594000,
+      "creator": "251",
+      "updater": "251",
+      "deleted": false,
+      "id": 2,
+      "billId": 1,
+      "entityId": 1,
+      "employeeId": 2,
+      "revision": 0,
+      "jobNumber": "ACCEPT_SCOPE_104",
+      "employeeName": "隔离范围员工104",
+      "projectCode": "PENSION",
+      "projectName": "验收养老",
+      "status": "MATCHED",
+      "expectedPersonal": 400.0,
+      "expectedCorporate": 800.0,
+      "originalPersonal": 400.0,
+      "originalCorporate": 800.0,
+      "actualPersonal": 400.0,
+      "actualCorporate": 800.0,
+      "personalDifference": 0.0,
+      "corporateDifference": 0.0
+    }
+  ],
+  "exportSheets": [
+    "应实对账"
+  ],
+  "exportRows": 3,
+  "testCorrection": "审批后系统直接进入RECONCILED；首次脚本预期APPROVED不正确，已按实际状态及金额复核"
+}

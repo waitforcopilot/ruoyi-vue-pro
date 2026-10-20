@@ -1,0 +1,50 @@
+{
+  "actorPermissions": [],
+  "editOnlyActorSelfAssignConfirm": {
+    "code": 0,
+    "msg": "",
+    "data": 45
+  },
+  "savedRow": {
+    "createTime": 1792242715000,
+    "updateTime": 1792242715000,
+    "creator": "1",
+    "updater": "250",
+    "deleted": false,
+    "id": 45,
+    "code": "COL-9301",
+    "module": "COL",
+    "description": "隔离PRD0.4动作授权实测",
+    "fieldMapping": "employeeId → 员工编号",
+    "sourceSystem": "虚构映射来源",
+    "sourceOwnerId": 250,
+    "reviewerId": 250,
+    "priority": 2,
+    "status": "CONFIRMED",
+    "readiness": "READY",
+    "acceptance": "虚构验收字段可追踪",
+    "evidence": "仅供本机PRD逐项核实",
+    "version": 2,
+    "confirmedBy": 250,
+    "confirmedAt": 1792242715000
+  },
+  "validNAWithoutSourceOwnerOrSystem": {
+    "code": 1050810003,
+    "msg": "请补齐责任人、评审依据、数据来源及验收条件",
+    "data": null
+  },
+  "seedCandidateCodes": [],
+  "assignedMenuPermissions": [
+    {
+      "id": 13480,
+      "permission": "hrm:payroll:requirement:update"
+    },
+    {
+      "id": 13479,
+      "permission": "hrm:payroll:requirement:query"
+    }
+  ],
+  "actorUserId": 250,
+  "confirmActor": 250,
+  "afterRestoreWithoutUpdatePermissionCode": 403
+}

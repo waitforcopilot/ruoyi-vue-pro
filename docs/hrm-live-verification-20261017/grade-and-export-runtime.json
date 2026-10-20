@@ -1,0 +1,30 @@
+{
+  "gradeId": 1,
+  "templateRows": 3,
+  "importValidated": true,
+  "importedAndIndependentApproved": true,
+  "exportRows": 3,
+  "versions": [
+    {
+      "id": 2,
+      "version": 2,
+      "status": "PENDING",
+      "grades": "[{\"gradeCode\":\"L1\",\"stepCode\":\"S1\",\"minimum\":5500.00,\"standard\":6500.00,\"maximum\":7500.00}]"
+    },
+    {
+      "id": 1,
+      "version": 1,
+      "status": "APPROVED",
+      "grades": "[{\"gradeCode\":\"L1\",\"stepCode\":\"S1\",\"minimum\":5000.00,\"standard\":6000.00,\"maximum\":7000.00}]"
+    }
+  ],
+  "historyComparisonUiVerified": false,
+  "groupCorrectPath": "/hrm/salary/group/simple-list",
+  "groupCount": 2,
+  "requirementCount": 44,
+  "requirementExportRows": 45,
+  "requirementExportColumns": 21,
+  "requirementExportSheets": [
+    "评审清单"
+  ]
+}

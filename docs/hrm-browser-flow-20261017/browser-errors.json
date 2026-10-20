@@ -1,0 +1,20 @@
+[
+  {
+    "level": "error",
+    "message": "error",
+    "timestamp": "2026-10-17T13:20:50.872Z",
+    "url": "http://127.0.0.1:5173/hrm-payroll/entity"
+  },
+  {
+    "level": "error",
+    "message": "error",
+    "timestamp": "2026-10-17T13:33:30.189Z",
+    "url": "http://127.0.0.1:5173/hrm-payroll/tax-policy"
+  },
+  {
+    "level": "error",
+    "message": "error",
+    "timestamp": "2026-10-17T13:35:29.237Z",
+    "url": "http://127.0.0.1:5173/hrm-payroll/salary-proposal"
+  }
+]

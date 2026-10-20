@@ -1,0 +1,281 @@
+Browser tab: 1, Title: "芋道管理系统 - 法人主体与归属", URL: "http://127.0.0.1:5173/hrm-payroll/entity".
+0 AXWebArea 芋道管理系统 - 法人主体与归属, URL: 127.0.0.1:5173/hrm-payroll/entity
+	1 container
+		2 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		1036 menu bar
+			1037 首页
+				1038 text 首页
+			1039 作者动态
+				1040 text 作者动态
+			1041 Boot 开发文档
+				1042 text Boot 开发文档
+			1043 Cloud 开发文档
+				1044 text Cloud 开发文档
+			1045 (collapsed) 系统管理, Secondary Actions: Expand
+				1046 container
+					1047 text 系统管理
+					1048 image
+			1049 (collapsed) 基础设施, Secondary Actions: Expand
+				1050 container
+					1051 text 基础设施
+					1052 image
+			1053 (collapsed) 支付管理, Secondary Actions: Expand
+				1054 container
+					1055 text 支付管理
+					1056 image
+			1057 (collapsed) 报表管理, Secondary Actions: Expand
+				1058 container
+					1059 text 报表管理
+					1060 image
+			1061 (collapsed) 工作流程, Secondary Actions: Expand
+				1062 container
+					1063 text 工作流程
+					1064 image
+			1065 (collapsed) 会员中心, Secondary Actions: Expand
+				1066 container
+					1067 text 会员中心
+					1068 image
+			1069 (expanded) 薪酬管理, Secondary Actions: Collapse
+				1070 container
+					1071 text 薪酬管理
+					1072 image
+				1073 menu
+					1074 定调薪审批
+						1075 text 定调薪审批
+					1076 工时与加班
+						1077 text 工时与加班
+					1078 薪级薪档
+						1079 text 薪级薪档
+					1080 考勤归集与异常
+						1081 text 考勤归集与异常
+					1082 法人主体与归属
+						1083 text 法人主体与归属
+					1084 缴费政策与年度调基
+						1085 text 缴费政策与年度调基
+					1086 缴费实缴对账
+						1087 text 缴费实缴对账
+					1088 核算输入与就绪
+						1089 text 核算输入与就绪
+					1090 年度税务政策
+						1091 text 年度税务政策
+					1092 薪酬成本分摊
+						1093 text 薪酬成本分摊
+					1094 预算与成本分析
+						1095 text 预算与成本分析
+					1096 薪酬输入缺口工单
+						1097 text 薪酬输入缺口工单
+					1098 社保公积金工资差额
+						1099 text 社保公积金工资差额
+					1100 薪酬总览
+						1101 text 薪酬总览
+					1102 独立工资收回
+						1103 text 独立工资收回
+					1104 需求评审
+						1105 text 需求评审
+					1106 核算审批
+						1107 text 核算审批
+					1108 银行代发
+						1109 text 银行代发
+					1110 薪资公式
+						1111 text 薪资公式
+			1112 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				1113 container
+					1114 text MALL 商城系统
+					1115 image
+			1116 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				1117 container
+					1118 text EAM 资产管理
+					1119 image
+			1120 (collapsed) CRM 系统, Secondary Actions: Expand
+				1121 container
+					1122 text CRM 系统
+					1123 image
+			1124 (collapsed) ERP 系统, Secondary Actions: Expand
+				1125 container
+					1126 text ERP 系统
+					1127 image
+			1128 (collapsed) WMS 系统, Secondary Actions: Expand
+				1129 container
+					1130 text WMS 系统
+					1131 image
+			1132 (collapsed) MES 系统, Secondary Actions: Expand
+				1133 container
+					1134 text MES 系统
+					1135 image
+			1136 (collapsed) OA 办公协同, Secondary Actions: Expand
+				1137 container
+					1138 text OA 办公协同
+					1139 image
+			1140 (collapsed) HRM 人力资源, Secondary Actions: Expand
+				1141 container
+					1142 text HRM 人力资源
+					1143 image
+			1144 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				1145 container
+					1146 text FMS 财务管理
+					1147 image
+			1148 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				1149 container
+					1150 text PMS 项目管理
+					1151 image
+			1152 (collapsed) AI 大模型, Secondary Actions: Expand
+				1153 container
+					1154 text AI 大模型
+					1155 image
+			1156 (collapsed) IoT 物联网, Secondary Actions: Expand
+				1157 container
+					1158 text IoT 物联网
+					1159 image
+			1160 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				1161 container
+					1162 text IM 即时通讯
+					1163 image
+			1164 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				1165 container
+					1166 text MP 公众号管理
+					1167 image
+			1168 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				1169 container
+					1170 text CMS 内容管理
+					1171 image
+		154 container
+			155 container v-tool-header
+				156 container 面包屑
+					965 link 薪酬管理
+						966 text 薪酬管理
+					967 text /
+					968 link 法人主体与归属
+						969 text 法人主体与归属
+				165 container
+					166 combo box (collapsed, settable) ID: el-id-629-471, Secondary Actions: Expand
+					167 text 请选择租户
+					168 image
+				169 container
+					170 container
+						171 combo box (collapsed, settable) ID: el-id-629-472, Secondary Actions: Expand
+						172 text 请输入菜单内容
+				173 pop up button (collapsed) ID: el-id-629-437, Secondary Actions: Expand
+				174 pop up button (collapsed) ID: el-id-629-442, Secondary Actions: Expand
+				175 pop up button (collapsed) ID: el-id-629-447, Secondary Actions: Expand
+			176 container v-tags-view
+				177 container
+					178 pop up button (collapsed) 首页, ID: el-id-629-453, Secondary Actions: Expand
+						179 container
+							180 text 首页
+					181 pop up button (collapsed) 法人主体与归属, ID: el-id-629-476, Secondary Actions: Expand
+						182 container
+							183 text 法人主体与归属
+					184 pop up button (collapsed) 员工档案, ID: el-id-629-491, Secondary Actions: Expand
+						185 container
+							186 text 员工档案
+					187 pop up button (collapsed) 员工档案详情, ID: el-id-629-821, Secondary Actions: Expand
+						188 text 员工档案详情
+					189 pop up button (collapsed) 月度工资表, ID: el-id-629-870, Secondary Actions: Expand
+						190 container
+							191 text 月度工资表
+				192 pop up button (collapsed) ID: el-id-629-461, Secondary Actions: Expand
+			970 container
+				971 button 本模块需求（工资核算）
+				972 button 候选数据源（8）
+			973 button 新建法人主体
+			974 button 刷新
+			975 container
+				976 table
+					977 row
+						978 cell
+							979 text 主体编码
+						980 cell
+							981 text 主体名称
+						982 cell
+							983 text 纳税识别号
+						984 cell
+							985 text 审批状态
+						986 cell
+							987 text 登记依据
+						988 cell
+							989 text 操作
+				990 table
+					991 container
+						992 row
+							993 cell
+								994 text ACCEPT_20261016
+							995 cell
+								996 text 隔离验收主体（虚构）
+							997 cell
+								998 text TESTENTITY20260001
+							999 cell
+								1000 text APPROVED
+							1001 cell
+								1002 text 仅供隔离测试的虚构登记，不作真实业务依据
+						1003 row
+							1004 cell
+								1005 text ACCEPT_BROWSER_20261017
+							1006 cell
+								1007 text 隔离浏览器全流程主体（虚构）
+							1008 cell
+								1009 text TESTBROWSER20261017
+							1010 cell
+								1011 text APPROVED
+							1012 cell
+								1013 text 仅用于本机浏览器完整流程验证，无真实企业、人员或付款
+						1014 row
+							1015 cell
+								1016 text ACCEPT_TAX_HISTORY
+							1017 cell
+								1018 text 隔离历史工资申报主体（虚构）
+							1019 cell
+								1020 text TESTACCEPTTAXHISTORY
+							1021 cell
+								1022 text APPROVED
+							1023 cell
+								1024 text 虚构隔离人员金标；按周期自然日加权，归属日期内全勤；非正式业务签字
+						1025 row
+							1026 cell
+								1027 text ACCEPT_WORK_SYSTEMS
+							1028 cell
+								1029 text 隔离三类工时主体（虚构）
+							1030 cell
+								1031 text TESTWORKSYSTEMS123
+							1032 cell
+								1033 text APPROVED
+							1034 cell
+								1035 text 虚构隔离三类工时验收，缩短周期基准仅供独立金额验算，非正式工时批准文件
+			1172 text 隔离浏览器全流程主体（虚构）：人员归属按批准的生效期间适用，调动或更正须创建并审批替代版本。
+			1173 button 新增人员归属
+			1174 button 新增授权
+			1175 tab group
+				1176 tab (selected, settable, boolean) 人员归属及历史, Value: 1, ID: tab-0
+				1177 tab (selectable, settable, boolean) 有效授权, Value: 0, ID: tab-1
+				1178 tab (selectable, settable, boolean) 审计履历, Value: 0, ID: tab-2
+			1179 container Description: 人员归属及历史, ID: pane-0
+				1180 container
+					1181 table
+						1182 row
+							1183 cell
+								1184 text 版本编号
+							1185 cell
+								1186 text 员工编号
+							1187 cell
+								1188 text 部门编号
+							1189 cell
+								1190 text 员工类别
+							1191 cell
+								1192 text 工作城市
+							1193 cell
+								1194 text 起始日
+							1195 cell
+								1196 text 截止日
+							1197 cell
+								1198 text 状态
+							1199 cell
+								1200 text 替代版本
+							1201 cell
+								1202 text 依据
+							1203 cell
+								1204 text 操作
+					1205 container
+						1206 table
+						1207 text 暂无数据
+			751 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 991 container

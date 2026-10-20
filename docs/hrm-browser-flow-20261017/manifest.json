@@ -1,0 +1,121 @@
+{
+  "environment": "localhost isolated synthetic browser workflow",
+  "files": [
+    {
+      "path": "01-entity-created.txt",
+      "sha256": "6baf46ce80fc0669666f738e9a429417fccbad628c0886c7175cb964b489dbd7"
+    },
+    {
+      "path": "02-entity-self-approval-rejected.txt",
+      "sha256": "8b77103b6444ef35978b7219d8e870ab7bff14373bf72f4a143a94f726f9f397"
+    },
+    {
+      "path": "04-entity-approved.txt",
+      "sha256": "ebac81e1c8a8cd95aebdb102049ed20da8f0453168ea4f4311dfdbe194857551"
+    },
+    {
+      "path": "06-employee-created.txt",
+      "sha256": "56f5d655486f6f4078bd511191c0d56187a8c048803e244713444b0e051e3fed"
+    },
+    {
+      "path": "08-batch-created.txt",
+      "sha256": "4bbc7010f511f1ebfc271a896a6473b0fef09677e4f0ab13ec2e169d0cac083f"
+    },
+    {
+      "path": "11-entity-row-selection.txt",
+      "sha256": "7e42f5501dee959932f8ca3f7d6a134ed7d370625465e338763ced35ef33a6cf"
+    },
+    {
+      "path": "12-membership-submitted.txt",
+      "sha256": "f13141726ff488784b1da3511da85a683116c7245036588e659dd5c09ee86629"
+    },
+    {
+      "path": "13-membership-approved.txt",
+      "sha256": "6ce32146282afcde96d9fb3e7cde57ee6529eabfca2d553aca3f87cdb3511f1e"
+    },
+    {
+      "path": "14-salary-proposal-submitted.txt",
+      "sha256": "f840ac12ee8315c84bd976ea31dcdfa4fa6a57773ccb4a27d2c78e0a36b3cfbe"
+    },
+    {
+      "path": "15-work-rule-submitted.txt",
+      "sha256": "b7ad6321808879385ec696e8b6035110087e7034b20c98b6be2981c93c65e845"
+    },
+    {
+      "path": "16-insurance-policy-submitted.txt",
+      "sha256": "e1476cdec51ab49c084a75d288a6b0db9a8396f2d0b248969a71dc555219ddee"
+    },
+    {
+      "path": "17-tax-policy-submitted.txt",
+      "sha256": "1c8199de1d2e2c198da652e3b8b91cacaafb1c3f1a8a203470764a368903f99f"
+    },
+    {
+      "path": "18-tax-profile-submitted.txt",
+      "sha256": "46c3229cfa9e50812c122dfbf6e43126f491e222f76d9e0240b3a21d604dda68"
+    },
+    {
+      "path": "19-tax-policy-approved.txt",
+      "sha256": "6ca0e378dad3c2414713837a1b318d6a18a2a96d0f717c0664b656fcc09a1601"
+    },
+    {
+      "path": "20-salary-hr-reviewed.txt",
+      "sha256": "fe14d9789ec2e815c7785cabc92d7be3e90e4ec18fd0add0beb3a21e065f8ffc"
+    },
+    {
+      "path": "21-insurance-policy-approved.txt",
+      "sha256": "a834cf69faed83e79529a34c5787ba370ef8c0e16c823668352bb534dc667984"
+    },
+    {
+      "path": "22-work-rule-approved.txt",
+      "sha256": "411ed214166bda903269767f58cecf6574cffc0ad098eea981bae34d67422817"
+    },
+    {
+      "path": "23-salary-finance-result.txt",
+      "sha256": "256bbb43643a5dbeaaab515d81e6b19c2baf258499d8f8f3243ebf160f273445"
+    },
+    {
+      "path": "23-salary-finance-result.png",
+      "sha256": "2ca0d0a7a43e743ff6cdbb2f613a058cbce5b9c11d9f6fa5b6d3f979d5c4d64a"
+    },
+    {
+      "path": "24-salary-approval-blocker-detail.txt",
+      "sha256": "6beaa5692da1fb30a7b4b30997e393dce813eddd68c942a14f42cefa830c0ed6"
+    },
+    {
+      "path": "25-salary-rejected-template.txt",
+      "sha256": "81f29e74eda9ce1180ee3e670c0f3f9e5323521ae5cd1e37e0e8136263e107fa"
+    },
+    {
+      "path": "27-basic-salary-template-created.txt",
+      "sha256": "02731d4c0eb5604743696d52ff6866f00d0ef8e84a907f8ee13bd05051c5e78e"
+    },
+    {
+      "path": "27-basic-salary-template-created.png",
+      "sha256": "989deca9dcf97ca40c0e4679667b09c221a583b04ad81f980783ef8357448d1d"
+    },
+    {
+      "path": "28-salary-template-options-empty.txt",
+      "sha256": "509d339d4f8a5d64a1b2c7784906ec314acdd828565c4cccb5697c175680152c"
+    },
+    {
+      "path": "29-salary-template-refresh-empty.txt",
+      "sha256": "86e30eb361035868d98e59ef34b481e556e8f699b84e9565874a1fe8cd8ffbdf"
+    },
+    {
+      "path": "30-salary-template-reopen-empty.txt",
+      "sha256": "363b6fc4c32628a9394f2f535b983b0f421afc3ea53a3758e1bed3d3861eb6d5"
+    },
+    {
+      "path": "30-salary-template-reopen-empty.png",
+      "sha256": "42015da01a44e3b731d8dbefe903058a68e4bf17e78cc8707f82c5e485d99586"
+    },
+    {
+      "path": "timeline.json",
+      "sha256": "6dabf5ffdd1c32eac4c7ec8a0c9f2551215e9e0782391bf7de51b135e7679436"
+    },
+    {
+      "path": "browser-errors.json",
+      "sha256": "74bc5b71778b87203ddbb279d1c2c514942a2fcec1b0fbebbd06ec9475676d66"
+    }
+  ]
+}

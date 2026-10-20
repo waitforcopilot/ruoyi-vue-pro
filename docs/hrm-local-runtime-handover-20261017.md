@@ -1,6 +1,16 @@
 # HRM 薪酬项目本地运行交接
 
-交接日期：2026-10-17。代码仓库：<https://github.com/waitforcopilot/ruoyi-vue-pro>，本次交付分支为 `work`。本机运行不依赖 Codex Cloud；以下命令在本机终端执行，推荐 Linux、macOS 或 Windows 的 WSL2。文中的配置生成步骤经过代码核对，**未在你的本机执行**。
+交接日期：2026-10-17。代码仓库：<https://github.com/waitforcopilot/ruoyi-vue-pro>，本次交付分支为 `work`。本机运行不依赖 Codex Cloud；以下命令在本机终端执行，推荐 Linux、macOS 或 Windows 的 WSL2。文中的配置生成步骤经过代码核对，**原稿编写时未在本机执行；后续实机记录见第10/11节，最新阅读入口见第0节**。
+
+## 0. 最新阅读入口（2026-10-20归档补充）
+
+**第1～11节保留各次历史交接及执行记录，包含曾经未启动、旧提交/迁移数量和后来完成的状态，不能将其当作当前库状态执行。** 第10节的首次建库、`--fresh`和一次性密钥生成只适用于当时证明不存在的新库；本机环境此后已有数据和固定密钥，日常续接不得照旧初始化或覆盖。
+
+- 当前交付与剩余问题以[阶段路线](hrm-payroll-stage-delivery-plan-20261019.md)、[S6报告](hrm-payroll-stage-6-report-20261019.md)及[FA-01处理报告](hrm-payroll-fa01-fix-report-20261020.md)为准。上一轮FA-01实现`f64de5524c`及回执`50db82ea68`已push；本轮仅审查归档文档，不重新开展业务验收。
+- 当前需求依据：[工作台PRD v0.4](hrm-payroll-requirements-workbench-prd-20261017.md)，仍是待业务确认的评审稿；[独立修复审计](hrm-payroll-stage-1-6-fix-audit-20261020.md)、[独立复核](hrm-payroll-stage-1-6-fix-audit-reaudit-20261020.md)保留当时结论，FA-01后续处理另见上链，不修改历史审计原文。
+- F-07真实受控授权/条款批准材料和F-15正式组合验收仍未关闭；不得以TEST发布或旧工资业务样本替代正式批准。
+- 日常管理入口仍为`~/.hrm-payroll-local/manage.sh status|start|stop|restart|backup`。凭据、连接配置、数据库备份和税务密钥留在仓库外`~/.hrm-payroll-local/`；不要上传该私有目录。
+- 本次归档范围、敏感检查及验证边界见[Git变更审查记录](hrm-git-change-review-20261020.md)。
 
 ## 1. 当前状态和验收边界
 
@@ -292,3 +302,178 @@ docker compose -p hrm-local -f "$HRM_LOCAL_DIR/compose.yaml" start
 | 门禁拒绝数据库/Redis | 使用尚不存在的数据库和空Redis索引；不要清空日常库/缓存来迁就门禁 |
 | 页面为空但接口正常 | 新库没有业务数据；先生成样例或手工建档，再检查角色菜单/主体授权 |
 | OA待验脚本失败 | 该矩阵尚未完成运行验收；保存错误码与阶段，不以静态源码推断已满足 |
+
+## 10. 本机续接记录（2026-10-17 19:43，Asia/Shanghai）
+
+用户因 Codex 额度不足主动暂停，准备切换账号后继续。以下为本次本机实际执行状态，不能把第1节历史运行证据算作本机验收。已取消等待建库的后台命令及未完成的 Compose 拉取命令；没有留下自动建库/初始化任务。
+
+### 10.1 当前仓库与机器
+
+- 聚合目录：`/Users/waitforpro/source/github-yudao`；真正 Git 根目录：`/Users/waitforpro/source/github-yudao/ruoyi-vue-pro`。
+- 原来检出 `docs/hrm-payroll-prd`，工作区干净。已 fetch `origin work` 并创建/切换本地跟踪分支 `work`，当前交付提交 `e1983f94ac`。不需要重新克隆或切回 PRD 分支。
+- 已阅读本交接及修复记录；本仓库和适用上级目录未发现 `AGENTS.md`。恢复时如规则文件新增，再读取。
+- macOS 26.5（25F71），arm64，CPU 15核，物理内存24GiB；检查时磁盘可用约528GiB、系统可用内存比例约36%（会随运行变化）。13306、16380、48080、5173最初均空闲；现在5173由本项目Vite占用。
+- 本次没有启动或连接 Codex Cloud 服务，没有迁移 Cloud 数据/账号/密钥。
+
+### 10.2 工具和已完成验证
+
+| 工具/步骤 | 本机实际状态 |
+| --- | --- |
+| Git | 2.50.1（Apple Git-155） |
+| JDK8 | 已有 Amazon Corretto 1.8.0_492，`/Users/waitforpro/.local/jdks/java8/Contents/Home/bin/java`；Maven实际也使用JDK8 |
+| Maven | 使用已有 `/opt/homebrew/bin/mvn` 3.9.16；终端默认另有3.8.9，后续明确使用3.9路径 |
+| Node22 | 新安装 `/opt/homebrew/opt/node@22/bin/node` v22.23.3；保留原Node24，不修改全局默认 |
+| pnpm10 | 独立安装10.30.0，`/Users/waitforpro/.hrm-payroll-local/tools/node_modules/.bin/pnpm`；调用时PATH前置Node22 |
+| Python | 已有3.12.13；独立虚拟环境 `~/.hrm-payroll-local/venv` |
+| Python依赖 | requirements-runtime.txt全部安装，bcrypt5.0.0、openpyxl3.1.5、playwright1.62.0；`pip check`通过 |
+| 浏览器 | 复用本机已缓存Playwright Chromium修订1234；实际headless启动Chromium151.0.7922.34成功 |
+| Docker | 新安装CLI29.9.0；Colima中实际Engine29.5.2 |
+| Compose | 新安装5.6.0，`docker compose version`成功；`~/.docker/config.json`增补Homebrew插件目录，保留其他配置 |
+| Colima | 新安装0.10.3，Lima2.2.1；独立profile `hrm-local`，VZ/arm64、4CPU、6GiB内存、40GiB数据盘，虚拟机运行中 |
+| Java编译 | `/opt/homebrew/bin/mvn -B -ntp -pl yudao-server -am package -Dmaven.test.skip=true` 本机BUILD SUCCESS；未执行完整测试 |
+| 前端依赖 | pnpm10 `install --frozen-lockfile`成功；未改lockfile |
+| 前端启动 | launchd已运行Vite8.1.4，`http://127.0.0.1:5173`实际HTTP200 |
+
+Homebrew安装过程中升级了其依赖openssl@3、readline、sqlite，并安装其他所需依赖；保留本机原有MySQL8.4、Redis6.2、Java和Node版本，没有启动或修改已有数据库。终端默认工具版本不等于本项目实际使用版本。
+
+### 10.3 暂停时的真实状态与私有文件
+
+私有目录 `/Users/waitforpro/.hrm-payroll-local` 权限700，准备文件权限600；不得提交Git、打印凭据或上传全部目录。此目录属于本机用户，切换Codex账号后应继续复用。
+
+- Colima运行中，当前Docker context已切为 `colima-hrm-local`，后续命令显式指定context以免误操作其他Docker环境。
+- Redis7镜像已经完整下载（`redis:7`）；MySQL8镜像仍缺部分层，暂停时未形成完整镜像。
+- **尚无本项目MySQL/Redis容器，尚未创建目标库、未执行迁移、未生成管理员口令和税务密钥、未启动Java后端。** 暂停检查时没有 `migrations.log`、`initialize.log`、`application-workstation.yaml`、`credentials.json` 或 `browser-verification.json`，48080无监听。恢复时必须重新核实，不能依据此快照覆盖后来产生的数据。
+- 前端由 `local.hrm.frontend` 用户launchd任务运行，KeepAlive=true；关闭聊天不依赖PTY存活。前后端plist仅在私有目录，没有安装成登录自动加载任务。
+- `compose.yaml`：本项目MySQL8/Redis7独立容器与具名卷定义，端口仅绑定回环。数据库沿用文档本地隔离容器空root密码，严禁公网暴露。
+- `initialize.py`：根据第4节命令生成的私有一次性初始化脚本。它自动生成16位随机admin口令并写入 `credentials.json`，生成两把固定税务密钥到 `application-workstation.yaml`，禁用mock/验证码、Quartz、Flowable异步执行及Admin注册；另外禁用短信渠道/模板、邮件模板，把邮件SMTP改为127.0.0.1:1并清除示例SMTP口令，暂停infra_job。**该脚本尚未执行。** 已有配置时会退出，不允许对既有加密库重新生成密钥。
+- `backend.plist`、`frontend.plist`：launchd定义，进程日志和后端业务日志均指向私有目录，Umask077。
+- `manage.sh`：start/stop/restart/status/backup；stop保留数据卷；backup同时保存库、配置密钥和凭据。**首次建库和配置完成前不要直接start/restart，否则后端会在缺配置时启动。**
+- `verify-browser.py`：待执行的本机真实表单登录与9个主要薪酬页面检查脚本，记录实际API地址、HTTP/业务码、console/pageerror和截图；不生成业务样例、不运行完整业务矩阵。结果文件尚不存在，不能宣称通过；执行后还应人工核查页面内容及接口错误，不能只看脚本passed。
+- `README.md`：私有环境说明；安装/构建日志包括 `maven-build.log`、`frontend-install.log`、`python-final-install.log`、`compose-start.log`。原 `python-install.log` / `uv-install.log` 是先前低速下载后取消的尝试；最终安装成功以 `python-final-install.log` 及pip check为准。Playwright最终分段下载并核对PyPI官方SHA256成功。
+
+### 10.4 切换账号后的续接步骤
+
+先读本节和本机适用规则。仅继续本地环境准备、启动和有限验证，不自动运行完整runtime_gate/OA工时矩阵。
+
+```bash
+cd /Users/waitforpro/source/github-yudao/ruoyi-vue-pro
+export HRM_LOCAL_DIR=/Users/waitforpro/.hrm-payroll-local
+export DOCKER_CONTEXT=colima-hrm-local
+export JAVA_HOME=/Users/waitforpro/.local/jdks/java8/Contents/Home
+export PATH="$JAVA_HOME/bin:/opt/homebrew/opt/node@22/bin:/opt/homebrew/bin:$PATH"
+
+git status --short
+colima -p hrm-local status
+# 若虚拟机未运行：colima start hrm-local
+docker compose -p hrm-local -f "$HRM_LOCAL_DIR/compose.yaml" ps -a
+docker compose -p hrm-local -f "$HRM_LOCAL_DIR/compose.yaml" up -d --wait
+# 此命令继续拉取未完成镜像层，并创建独立容器；不删除任何已有数据卷。
+
+docker exec codex-ruoyi-mysql mysql -NBe \
+  "SELECT schema_name FROM information_schema.schemata WHERE schema_name='hrm_local_20261017'"
+```
+
+确认目标库**不存在**时，才使用第3节的 `--fresh` 完整安装（基础SQL＋52迁移），日志留在私有目录。如果库已存在，先查表、迁移状态及对应密钥，必要时先备份；不导入基础SQL，不用 `--fresh`，也不盲目重复一次性初始化。
+
+```bash
+# 仅在上一步证明库不存在时：
+python3.12 scripts/hrm/migrate.py --container codex-ruoyi-mysql \
+  --database hrm_local_20261017 --fresh > "$HRM_LOCAL_DIR/migrations.log" 2>&1
+# 检查迁移退出码和全部53条Applied（基础SQL1条＋清单52条），不能只看文件已生成。
+
+# 仅在确认这是新库且私有配置/口令均未初始化时：
+"$HRM_LOCAL_DIR/venv/bin/python" "$HRM_LOCAL_DIR/initialize.py"
+# 输出仅应为初始化状态，不要cat配置或credentials.json。
+
+"$HRM_LOCAL_DIR/manage.sh" start
+```
+
+JAR和前端依赖已经构建/安装，不需要为了续接重复全量构建。若期间源码变化，使用上述明确JDK8/Maven3.9/Node22/pnpm10路径重新构建。等待后端真正就绪，再执行：
+
+```bash
+docker exec codex-ruoyi-mysql mysql -NBe 'SELECT VERSION(), 1'
+docker exec codex-ruoyi-redis redis-cli ping
+curl --get --data-urlencode 'name=芋道源码' \
+  http://127.0.0.1:48080/admin-api/system/tenant/get-id-by-name
+# 应核实code=0且data=1。
+
+"$HRM_LOCAL_DIR/venv/bin/python" "$HRM_LOCAL_DIR/verify-browser.py"
+```
+
+待完成的实际验收：浏览器通过租户“芋道源码”、admin和私有随机口令真实登录；主要薪酬页面内容可见、请求确实指向127.0.0.1:48080；检查浏览器console/pageerror、接口业务码和后端日志，修复启动/登录阻断。新库无工资数据正常，不运行完整业务矩阵或写样例来代替本次目标。
+
+完成后报告软件版本、地址/登录方法、私有配置位置、运行状态、日志、停止/重启命令、验证结果、剩余问题和代码改动。当前仅交接文档追加本机记录，没有业务代码修改，没有新增提交或推送。
+
+### 10.5 当前服务管理
+
+```bash
+# 此时仅前端正在运行；以下停止它不会删除任何文件或数据。
+launchctl bootout gui/$(id -u)/local.hrm.frontend
+# 单独恢复前端：
+launchctl bootstrap gui/$(id -u) "$HOME/.hrm-payroll-local/frontend.plist"
+# 初始建库与配置完成后，再使用统一管理：
+~/.hrm-payroll-local/manage.sh status
+~/.hrm-payroll-local/manage.sh stop
+~/.hrm-payroll-local/manage.sh start
+~/.hrm-payroll-local/manage.sh restart
+~/.hrm-payroll-local/manage.sh backup
+# 停止应用/容器后还需释放虚拟机内存：
+colima -p hrm-local stop
+```
+
+未完成：MySQL镜像拉取、容器运行、数据库迁移、私有口令/密钥初始化、后端启动、真实登录及薪酬页面浏览器验证。前端HTTP200不等于业务验收通过。
+
+## 11. 本机续接完成记录（2026-10-17 19:55，Asia/Shanghai）
+
+本节是第10节暂停后的新增实机结果；第10节保留为历史快照。环境准备、启动、真实登录和主要页面检查已完成，没有执行完整业务矩阵或Cloud服务。
+
+### 11.1 当前运行与访问
+
+- 仓库仍为 `/Users/waitforpro/source/github-yudao/ruoyi-vue-pro`，分支 `work`、交付代码 `e1983f94ac`；业务代码未修改，本次仅追加交接文档，未提交/推送。
+- 前端：<http://127.0.0.1:5173>；后端API：<http://127.0.0.1:48080/admin-api>。
+- 登录：租户“芋道源码”，账号 `admin`；随机16位口令在本机私有文件 `/Users/waitforpro/.hrm-payroll-local/credentials.json`，不在文档中显示。使用文件查看器本机读取，不将内容发到聊天、截图或Git。
+- MySQL容器 `codex-ruoyi-mysql`：8.0.46，健康，回环端口13306，数据库 `hrm_local_20261017`；Redis容器 `codex-ruoyi-redis`：7.4.11，运行，回环端口16380、索引0、AOF持久化。
+- Java后端和Vite前端由当前用户launchd的 `local.hrm.backend` / `local.hrm.frontend` 管理，KeepAlive自动恢复，独立于聊天终端。Colima专用profile `hrm-local` 正在运行，Docker context `colima-hrm-local`。
+- 四个服务的主机监听均为127.0.0.1。服务未配置成重启电脑后自动加载；重启电脑后使用下方start命令恢复。
+
+实际使用版本沿用第10.2节：Git2.50.1、Corretto JDK8u492、Maven3.9.16、Node22.23.3、pnpm10.30.0、Python3.12.13、Docker CLI29.9.0/Engine29.5.2、Compose5.6.0、Colima0.10.3、Vite8.1.4；MySQL和Redis版本以本节实机结果为准。
+
+### 11.2 实际执行和验证
+
+1. 完成MySQL镜像拉取及两个独立容器启动。SQL查询证明目标库不存在后才执行 `--fresh`；迁移退出码0，日志53条Applied（基础SQL1＋清单52），初始化后219张表；启动Flowable后其自有工作流表由引擎管理。
+2. 一次性生成私有口令和两把税务密钥，并设置数据库管理员密码散列；配置文件权限600，私有目录700。未使用已有业务库或原Cloud库；没有重置其他库。
+3. 禁用短信渠道/模板、邮件模板、infra_job，邮件账号指向127.0.0.1:1并清除示例SMTP口令；实际查询各启用数均0。Quartz自启动、Flowable异步执行、Admin客户端注册、mock认证均关闭。
+4. Java后端启动成功，租户就绪查询返回 `{"code":0,"msg":"","data":1}`；MySQL查询正常，Redis返回PONG。
+5. Chromium通过真实表单和真实admin口令登录成功，实际登录响应含有效token，系统登录日志成功；验证脚本没有在证据中记录token/口令。
+6. 浏览器打开薪酬总览、薪资公式、核算审批、考勤归集与异常、工时与加班、缴费政策与年度调基、年度税务政策、预算与成本分析、需求评审，共9页；检查实际文本并保存截图，人工查看总览及税务页布局。新库暂无工资数据正常，未造业务样例。
+7. 最终浏览器记录50次API响应，全部请求127.0.0.1:48080；HTTP及业务码均成功，pageerror=0、console error=0、HTTP资源错误=0、请求失败=0。证据在私有目录 `browser-verification.json` 和9张页面截图，不因路由打开或脚本passed单独认定完整业务通过。
+8. 实际配套备份数据库、对应配置密钥和凭据到私有 `backups/`。扫描运行日志未发现当前登录口令或两把税务密钥明文。
+
+本机首次浏览器检查遇到脚本定位隐藏登录表单的问题，已将输入限定到可见元素，修正后真实登录。首次9页检查发现10次外部头像资源502；独立诊断确认来自基础SQL中admin的 `test.yudao.iocoder.cn` 示例头像，已仅清空新建本地库中admin的头像，改用系统默认头像；最终9页已重跑无资源错误。未修改项目业务代码。
+
+私有配置另覆盖了仓库local中具体Mapper的DEBUG日志级别，避免父级WARN被更具体的DEBUG覆盖而输出敏感SQL；税务密钥原样保留。私有manage.sh增加配置存在检查，防止未初始化时启动后端。上述私有脚本不在Git中。
+
+### 11.3 日常管理、日志与限制
+
+```bash
+~/.hrm-payroll-local/manage.sh status
+~/.hrm-payroll-local/manage.sh stop
+~/.hrm-payroll-local/manage.sh start
+~/.hrm-payroll-local/manage.sh restart
+~/.hrm-payroll-local/manage.sh backup
+```
+
+stop停止前后端和两个容器，保留数据卷；还需释放6GiB虚拟机内存时执行 `colima -p hrm-local stop`。start先启动专用虚拟机和容器，再加载前后端；backend首次就绪约需20秒，可重复查询租户接口确认。禁止用 `down -v` 删除数据。
+
+私有配置：`~/.hrm-payroll-local/application-workstation.yaml`（连接配置和固定税务密钥）；口令：同目录 `credentials.json`。数据库与此配置必须一起备份，已有加密数据不得重新生成密钥。
+
+日志均在私有目录：后端 `server.log`、`backend.stdout.log`、`backend.stderr.log`；前端 `frontend.stdout.log`、`frontend.stderr.log`；迁移 `migrations.log`；浏览器检查 `browser-run.log`、`browser-verification.json`。容器日志：
+
+```bash
+docker --context colima-hrm-local compose -p hrm-local \
+  -f ~/.hrm-payroll-local/compose.yaml logs --tail 100
+```
+
+剩余非阻断提示：Netty在macOS缺少原生DNS解析器，已回退系统解析，实际本机连接正常；前端Browserslist数据过期提示。本次没有为这些提示升级依赖或改动lockfile。
+
+本次未执行：完整Java测试、完整前端类型/生产构建复验、工资核算/审批/发放等业务矩阵、OA工时回归、真实银行/税务机构对接。第1节的历史证据与待验事项仍然适用，不据本机启动检查宣称业务全部验收。

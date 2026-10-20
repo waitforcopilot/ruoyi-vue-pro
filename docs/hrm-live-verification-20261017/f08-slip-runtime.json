@@ -1,0 +1,11 @@
+{
+  "employeeId": 2,
+  "activeSlipId": 2,
+  "realPaySalary": 5582.0,
+  "otherAccountDeniedCode": 1050400013,
+  "withdrawnSlipHidden": true,
+  "channels": [
+    "STATION"
+  ],
+  "outboundJobsDisabled": true
+}

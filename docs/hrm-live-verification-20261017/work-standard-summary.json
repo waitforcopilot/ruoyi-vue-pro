@@ -1,0 +1,10 @@
+{
+  "recognizedMinutes": 120,
+  "amount": 150.0,
+  "timeOffBalance": 0,
+  "monthlyMinutes": {
+    "2026-09-01": 120
+  },
+  "limitExceeded": false,
+  "cycles": []
+}

@@ -1,0 +1,378 @@
+{
+  "checked_at": "2026-10-17T20:52:06.371522+08:00",
+  "code_head": "e1983f94ac1967949f0e30272dc931413ca3e48a",
+  "real_login_succeeded": true,
+  "frontend": {
+    "http": 200,
+    "note": "HTML response only; browser interaction not verified"
+  },
+  "api_results": [
+    {
+      "path": "/hrm/payroll/entity/list",
+      "http": 200,
+      "code": 0,
+      "count": 0
+    },
+    {
+      "path": "/hrm/payroll/requirement/list",
+      "http": 200,
+      "code": 0,
+      "count": 0
+    },
+    {
+      "path": "/hrm/payroll/formula/list",
+      "http": 200,
+      "code": 0,
+      "count": 0
+    },
+    {
+      "path": "/hrm/payroll/grade-policy/list",
+      "http": 200,
+      "code": 0,
+      "count": 0
+    },
+    {
+      "path": "/hrm/payroll/batch/page?pageNo=1&pageSize=10",
+      "http": 200,
+      "code": 0,
+      "count": 0
+    },
+    {
+      "path": "/hrm/salary/month-record/page?pageNo=1&pageSize=10",
+      "http": 200,
+      "code": 0,
+      "count": 0
+    },
+    {
+      "path": "/hrm/salary/option/list",
+      "http": 200,
+      "code": 0,
+      "count": 0
+    },
+    {
+      "path": "/hrm/salary/group/list",
+      "http": 200,
+      "code": 404,
+      "message": "HRM 接口不存在，请检查请求路径及版本"
+    },
+    {
+      "path": "/hrm/payroll/tax-policy/entities",
+      "http": 200,
+      "code": 0,
+      "count": 0
+    },
+    {
+      "path": "/hrm/payroll/financial/options",
+      "http": 200,
+      "code": 0,
+      "count": null
+    },
+    {
+      "path": "/hrm/employee/page?pageNo=1&pageSize=10",
+      "http": 200,
+      "code": 0,
+      "count": 0
+    },
+    {
+      "path": "/hrm/salary/slip/page?pageNo=1&pageSize=10",
+      "http": 200,
+      "code": 0,
+      "count": 0
+    },
+    {
+      "path": "/hrm/payroll/requirement/export",
+      "http": 200,
+      "code": null
+    }
+  ],
+  "current_export": {
+    "xlsx_opened": true,
+    "sheets": [
+      {
+        "name": "评审清单",
+        "rows_including_header": 1,
+        "columns": 21
+      }
+    ]
+  },
+  "browser_blocker": "Local browser use is disabled in Work settings",
+  "scope": "read-only live HTTP checks; no business fixtures/approvals/payments created",
+  "items": [
+    {
+      "id": "OV-01",
+      "feature": "总览层汇总指标（应发/实发/法定成本/个税）的统计口径定义",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "OV-02",
+      "feature": "核算期间切换与历史批次查询",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "OV-03",
+      "feature": "各数据要素(考勤/加班/工时/社保)归集完成度看板",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "OV-04",
+      "feature": "异常数据触发核对的规则与提醒",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "PLAN-01",
+      "feature": "薪酬结构与各项目的规则可配置化",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "PLAN-02",
+      "feature": "薪级薪档表的维护与批量导入",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "PLAN-03",
+      "feature": "定薪/调薪流程（含审批链与生效追溯）",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "PLAN-04",
+      "feature": "薪酬方案版本管理与历史对比",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "CALC-01",
+      "feature": "核算批次生命周期（草稿→试算→审批→发放→归档）",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "CALC-02",
+      "feature": "算薪公式引擎（各薪酬项目自动计算与调整）",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "CALC-03",
+      "feature": "异常数据拦截与人工核对",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "CALC-04",
+      "feature": "银行代发文件生成与回盘核对",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "CALC-05",
+      "feature": "工资条生成与员工自助查看",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "TAX-01",
+      "feature": "个税累计预扣法自动计算",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "TAX-02",
+      "feature": "专项附加扣除采集与同步",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "TAX-03",
+      "feature": "工资条模板配置与多渠道推送(自助端/邮件/短信)",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "TAX-04",
+      "feature": "个税申报表与完税数据导出",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "TAX-05",
+      "feature": "年终奖单独计税处理",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "ATT-01",
+      "feature": "考勤数据按日/按月归集与汇总",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "ATT-02",
+      "feature": "请假/出差/外出单据与打卡数据自动关联",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "ATT-03",
+      "feature": "迟到/早退/缺勤/旷工规则判定",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "ATT-04",
+      "feature": "异常考勤提醒与人工处理闭环",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "ATT-05",
+      "feature": "考勤结果与薪酬计算的联动",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "OT-01",
+      "feature": "加班申请与审批流（关联考勤打卡时长）",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "OT-02",
+      "feature": "加班时长统计与倍率规则计算",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "OT-03",
+      "feature": "加班费自动生成并进入工资核算",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "OT-04",
+      "feature": "调休/补休管理",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "OT-05",
+      "feature": "加班合规上限提醒",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "HOUR-01",
+      "feature": "不同工时制度的员工适用维护",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "HOUR-02",
+      "feature": "综合/不定时工时周期结算",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "HOUR-03",
+      "feature": "工时报表生成与异常提醒",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "HOUR-04",
+      "feature": "工时数据与加班费/考勤扣款的联动",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "HOUR-05",
+      "feature": "工时与排班表关联核对",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "INS-01",
+      "feature": "缴存基数申报与年度调基",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "INS-02",
+      "feature": "比例与基数按城市/政策配置",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "INS-03",
+      "feature": "个人扣款自动进入工资核算",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "INS-04",
+      "feature": "单位缴费计入用工成本报表",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "INS-05",
+      "feature": "社保公积金月度缴纳台账与对账",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "RPT-01",
+      "feature": "薪酬成本按部门/成本中心/项目分摊",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "RPT-02",
+      "feature": "人力成本率与人均指标计算",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "RPT-03",
+      "feature": "薪酬结构多维分析(占比/变动)",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "RPT-04",
+      "feature": "工资总额预算与实际对比",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "RPT-05",
+      "feature": "报表口径与导出格式",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "COL-01",
+      "feature": "按模块汇总功能及数据源，关联附录 A 的编号",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "COL-02",
+      "feature": "维护确认 / 待确认 / 异议，记录确认人、时间、依据及未决问题",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    },
+    {
+      "id": "COL-03",
+      "feature": "补充字段映射、负责人、优先级与导出评审清单",
+      "verification": "未核实",
+      "reason": "需浏览器实际操作及带数据业务断言；空列表或接口可达不构成完成依据"
+    }
+  ]
+}

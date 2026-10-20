@@ -1,0 +1,40 @@
+{
+  "capturedAt": "2026-10-17T21:02:12.374612",
+  "cases": [
+    {
+      "case": "empty-mapping",
+      "code": 1050810036
+    },
+    {
+      "case": "bare-exemption",
+      "code": 1050810036
+    },
+    {
+      "case": "unknown-owner",
+      "code": 1050810037
+    },
+    {
+      "case": "unknown-reviewer",
+      "code": 1050810037
+    },
+    {
+      "case": "disabled-owner",
+      "code": 1050810037
+    },
+    {
+      "case": "confirmation-by-other-actor",
+      "code": 1050810036
+    },
+    {
+      "case": "valid-confirmation-does-not-change-readiness",
+      "id": 44,
+      "version": 2,
+      "readiness": "MISSING"
+    },
+    {
+      "case": "explicit-exemption-reopening-stale-version-and-history",
+      "historyAdded": 3,
+      "latestVersion": 4
+    }
+  ]
+}

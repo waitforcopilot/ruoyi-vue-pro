@@ -1,0 +1,240 @@
+Browser tab: 1, Title: "芋道管理系统 - 工时与加班", URL: "http://127.0.0.1:5173/hrm-payroll/work".
+0 AXWebArea 芋道管理系统 - 工时与加班, URL: 127.0.0.1:5173/hrm-payroll/work
+	1 container
+		2 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		1287 menu bar
+			1288 首页
+				1289 text 首页
+			1290 作者动态
+				1291 text 作者动态
+			1292 Boot 开发文档
+				1293 text Boot 开发文档
+			1294 Cloud 开发文档
+				1295 text Cloud 开发文档
+			1296 (collapsed) 系统管理, Secondary Actions: Expand
+				1297 container
+					1298 text 系统管理
+					1299 image
+			1300 (collapsed) 基础设施, Secondary Actions: Expand
+				1301 container
+					1302 text 基础设施
+					1303 image
+			1304 (collapsed) 支付管理, Secondary Actions: Expand
+				1305 container
+					1306 text 支付管理
+					1307 image
+			1308 (collapsed) 报表管理, Secondary Actions: Expand
+				1309 container
+					1310 text 报表管理
+					1311 image
+			1312 (collapsed) 工作流程, Secondary Actions: Expand
+				1313 container
+					1314 text 工作流程
+					1315 image
+			1316 (collapsed) 会员中心, Secondary Actions: Expand
+				1317 container
+					1318 text 会员中心
+					1319 image
+			1320 (expanded) 薪酬管理, Secondary Actions: Collapse
+				1321 container
+					1322 text 薪酬管理
+					1323 image
+				1324 menu
+					1325 定调薪审批
+						1326 text 定调薪审批
+					1327 工时与加班
+						1328 text 工时与加班
+					1329 薪级薪档
+						1330 text 薪级薪档
+					1331 考勤归集与异常
+						1332 text 考勤归集与异常
+					1333 法人主体与归属
+						1334 text 法人主体与归属
+					1335 缴费政策与年度调基
+						1336 text 缴费政策与年度调基
+					1337 缴费实缴对账
+						1338 text 缴费实缴对账
+					1339 核算输入与就绪
+						1340 text 核算输入与就绪
+					1341 年度税务政策
+						1342 text 年度税务政策
+					1343 薪酬成本分摊
+						1344 text 薪酬成本分摊
+					1345 预算与成本分析
+						1346 text 预算与成本分析
+					1347 薪酬输入缺口工单
+						1348 text 薪酬输入缺口工单
+					1349 社保公积金工资差额
+						1350 text 社保公积金工资差额
+					1351 薪酬总览
+						1352 text 薪酬总览
+					1353 独立工资收回
+						1354 text 独立工资收回
+					1355 需求评审
+						1356 text 需求评审
+					1357 核算审批
+						1358 text 核算审批
+					1359 银行代发
+						1360 text 银行代发
+					1361 薪资公式
+						1362 text 薪资公式
+			1363 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				1364 container
+					1365 text MALL 商城系统
+					1366 image
+			1367 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				1368 container
+					1369 text EAM 资产管理
+					1370 image
+			1371 (collapsed) CRM 系统, Secondary Actions: Expand
+				1372 container
+					1373 text CRM 系统
+					1374 image
+			1375 (collapsed) ERP 系统, Secondary Actions: Expand
+				1376 container
+					1377 text ERP 系统
+					1378 image
+			1379 (collapsed) WMS 系统, Secondary Actions: Expand
+				1380 container
+					1381 text WMS 系统
+					1382 image
+			1383 (collapsed) MES 系统, Secondary Actions: Expand
+				1384 container
+					1385 text MES 系统
+					1386 image
+			1387 (collapsed) OA 办公协同, Secondary Actions: Expand
+				1388 container
+					1389 text OA 办公协同
+					1390 image
+			1391 (collapsed) HRM 人力资源, Secondary Actions: Expand
+				1392 container
+					1393 text HRM 人力资源
+					1394 image
+			1395 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				1396 container
+					1397 text FMS 财务管理
+					1398 image
+			1399 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				1400 container
+					1401 text PMS 项目管理
+					1402 image
+			1403 (collapsed) AI 大模型, Secondary Actions: Expand
+				1404 container
+					1405 text AI 大模型
+					1406 image
+			1407 (collapsed) IoT 物联网, Secondary Actions: Expand
+				1408 container
+					1409 text IoT 物联网
+					1410 image
+			1411 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				1412 container
+					1413 text IM 即时通讯
+					1414 image
+			1415 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				1416 container
+					1417 text MP 公众号管理
+					1418 image
+			1419 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				1420 container
+					1421 text CMS 内容管理
+					1422 image
+		312 container
+			313 container v-tool-header
+				314 container 面包屑
+					1218 link 薪酬管理
+						1219 text 薪酬管理
+					1220 text /
+					1221 link 工时与加班
+						1222 text 工时与加班
+				320 container
+					321 combo box (collapsed, settable) ID: el-id-629-1096, Secondary Actions: Expand
+					322 text 请选择租户
+					323 image
+				324 container
+					325 container
+						326 combo box (collapsed, settable) ID: el-id-629-1097, Secondary Actions: Expand
+						327 text 请输入菜单内容
+				328 pop up button (collapsed) ID: el-id-629-1062, Secondary Actions: Expand
+				329 pop up button (collapsed) ID: el-id-629-1067, Secondary Actions: Expand
+				330 pop up button (collapsed) ID: el-id-629-1072, Secondary Actions: Expand
+			331 container v-tags-view
+				332 container
+					333 pop up button (collapsed) 首页, ID: el-id-629-1078, Secondary Actions: Expand
+						334 container
+							335 text 首页
+					336 pop up button (collapsed) 法人主体与归属, ID: el-id-629-1101, Secondary Actions: Expand
+						337 container
+							338 text 法人主体与归属
+					742 pop up button (collapsed) 薪资档案, ID: el-id-629-1116, Secondary Actions: Expand
+						743 container
+							744 text 薪资档案
+					1223 pop up button (collapsed) 工时与加班, ID: el-id-629-1272, Secondary Actions: Expand
+						1224 container
+							1225 text 工时与加班
+				339 pop up button (collapsed) ID: el-id-629-1086, Secondary Actions: Expand
+			1226 container
+				1227 button 本模块需求（加班）
+				1228 button 本模块需求（工时）
+				1229 button 候选数据源（4）
+			1230 container
+				1231 text 法人主体
+				1232 container
+					1233 combo box (collapsed, settable) 法人主体, ID: el-id-629-1297, Secondary Actions: Expand
+					1423 text 隔离浏览器全流程主体（虚构）
+					1235 image
+				1236 text 员工
+				1237 container
+					1238 combo box (collapsed, settable) 员工, ID: el-id-629-1298, Secondary Actions: Expand
+					1424 text ACCEPT_BROWSER_EMP 隔离浏览器流程员工
+					1240 image
+				1241 text 统计区间
+				1242 container
+					1243 image
+					1244 combo box (collapsed, settable) 统计区间, Value: 2026-10-01, ID: el-id-629-1299, Secondary Actions: Expand
+					1245 text -
+					1246 combo box (collapsed, settable) Value: 2026-10-31, Secondary Actions: Expand
+				1247 button 查询
+				1248 button 新建工时制度
+				1249 button 核实加班
+				1250 button 登记加班未发生差异
+				1251 button 占用调休
+			1425 text 认可加班：0 分钟；加班费：0 元；有效调休余额：0 分钟
+			1252 tab group
+				1253 tab (selected, settable, boolean) 工时与排班差异, Value: 1, ID: tab-0
+				1254 tab (selectable, settable, boolean) 工时制度, Value: 0, ID: tab-1
+				1255 tab (selectable, settable, boolean) 加班认可记录, Value: 0, ID: tab-2
+				1256 tab (selectable, settable, boolean) 加班未发生差异, Value: 0, ID: tab-3
+				1257 tab (selectable, settable, boolean) 调休台账, Value: 0, ID: tab-4
+				1258 tab (selectable, settable, boolean) 综合工时周期对账, Value: 0, ID: tab-5
+			1259 container Description: 工时与排班差异, ID: pane-0
+				1260 text 核对计划、实际及认可工时。缺卡不自动当作零；工单处理依据由独立人员复核。
+				1261 button 登记工时排班差异
+				1262 container
+					1263 table
+						1264 row
+							1265 cell
+								1266 text 日期
+							1267 cell
+								1268 text 差异说明
+							1269 cell
+								1270 text 责任人
+							1271 cell
+								1272 text 独立复核人
+							1273 cell
+								1274 text 期限
+							1275 cell
+								1276 text 状态
+							1277 cell
+								1278 text 来源
+							1279 cell
+								1280 text 逾期提醒
+							1281 cell
+								1282 text 操作
+					1283 container
+						1284 table
+						1285 text 暂无数据
+			1286 text Copyright ©2026 芋道管理系统
+	1426 container message_10
+		1427 text 提交成功
+
+The focused UI element is 0 AXWebArea 芋道管理系统 - 工时与加班, URL: 127.0.0.1:5173/hrm-payroll/work

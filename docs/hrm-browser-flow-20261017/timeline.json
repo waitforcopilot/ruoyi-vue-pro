@@ -1,0 +1,212 @@
+[
+  {
+    "step": 1,
+    "name": "entity-created",
+    "note": "浏览器填写并提交虚构主体登记",
+    "capturedAt": "2026-10-17T13:20:31.839Z",
+    "file": "01-entity-created"
+  },
+  {
+    "step": 2,
+    "name": "entity-self-approval-rejected",
+    "note": "提交人审批的负向检查，不改用接口批准",
+    "capturedAt": "2026-10-17T13:20:51.148Z",
+    "file": "02-entity-self-approval-rejected"
+  },
+  {
+    "step": 3,
+    "name": "reviewer-login",
+    "note": "浏览器登录隔离复核人，记住我关闭",
+    "capturedAt": "2026-10-17T13:21:26.807Z",
+    "file": "03-reviewer-login"
+  },
+  {
+    "step": 4,
+    "name": "entity-approved",
+    "note": "复核人通过浏览器批准新主体",
+    "capturedAt": "2026-10-17T13:21:45.817Z",
+    "file": "04-entity-approved"
+  },
+  {
+    "step": 5,
+    "name": "entity-approved-no-actions",
+    "note": "主体已批准，但操作列为空，页面未显示人员归属或授权入口",
+    "capturedAt": "2026-10-17T13:21:59.947Z",
+    "file": "05-entity-approved-no-actions"
+  },
+  {
+    "step": 6,
+    "name": "employee-created",
+    "note": "通过新增表单填写虚构员工，部门芋道源码、2026-10-01入职",
+    "capturedAt": "2026-10-17T13:23:12.141Z",
+    "file": "06-employee-created"
+  },
+  {
+    "step": 7,
+    "name": "employee-salary-tab",
+    "note": "新建员工详情工资社保页检查",
+    "capturedAt": "2026-10-17T13:23:44.554Z",
+    "file": "07-employee-salary-tab"
+  },
+  {
+    "step": 8,
+    "name": "batch-created",
+    "note": "浏览器为新主体创建2026-10-01至10-31批次",
+    "capturedAt": "2026-10-17T13:25:00.633Z",
+    "file": "08-batch-created"
+  },
+  {
+    "step": 9,
+    "name": "empty-batch-calculation",
+    "note": "新主体2026-10批次0人，浏览器点击核算并确认",
+    "capturedAt": "2026-10-17T13:25:21.223Z",
+    "file": "09-empty-batch-calculation"
+  },
+  {
+    "step": 10,
+    "name": "empty-batch-final",
+    "note": "核算确认后仍为0人；尚无可用核算结果，继续检查就绪页",
+    "capturedAt": "2026-10-17T13:25:42.233Z",
+    "file": "10-empty-batch-final"
+  },
+  {
+    "step": 11,
+    "name": "entity-row-selection",
+    "note": "点击主体整行后才展开人员归属与授权区；修正此前入口缺失的初步判断",
+    "capturedAt": "2026-10-17T13:26:17.796Z",
+    "file": "11-entity-row-selection"
+  },
+  {
+    "step": 12,
+    "name": "membership-submitted",
+    "note": "复核账号作为本次归属申请人提交；后续切换admin独立批准",
+    "capturedAt": "2026-10-17T13:26:59.681Z",
+    "file": "12-membership-submitted"
+  },
+  {
+    "step": 13,
+    "name": "membership-approved",
+    "note": "admin与归属提交人不同，页面批准人员归属",
+    "capturedAt": "2026-10-17T13:27:58.091Z",
+    "file": "13-membership-approved"
+  },
+  {
+    "step": 14,
+    "name": "salary-proposal-submitted",
+    "note": "浏览器定薪基本工资6000，试用与转正同值，提交审批",
+    "capturedAt": "2026-10-17T13:28:34.356Z",
+    "file": "14-salary-proposal-submitted"
+  },
+  {
+    "step": 15,
+    "name": "work-rule-submitted",
+    "note": "为同一员工创建标准工时制度，时薪50，倍率1.5/2/3",
+    "capturedAt": "2026-10-17T13:29:37.450Z",
+    "file": "15-work-rule-submitted"
+  },
+  {
+    "step": 16,
+    "name": "insurance-policy-submitted",
+    "note": "浏览器创建养老政策，基数上下限3000/20000，个人8%单位16%",
+    "capturedAt": "2026-10-17T13:30:12.072Z",
+    "file": "16-insurance-policy-submitted"
+  },
+  {
+    "step": 17,
+    "name": "tax-policy-submitted",
+    "note": "浏览器提交新主体年度政策，待独立审批",
+    "capturedAt": "2026-10-17T13:32:55.447Z",
+    "file": "17-tax-policy-submitted"
+  },
+  {
+    "step": 18,
+    "name": "tax-profile-submitted",
+    "note": "年度档案提交未成功：年度政策当时尚未批准，界面返回未就绪；不计为已提交或产品缺陷",
+    "capturedAt": "2026-10-17T13:33:30.928Z",
+    "file": "18-tax-profile-submitted"
+  },
+  {
+    "step": 19,
+    "name": "tax-policy-approved",
+    "note": "reviewer独立批准新主体年度政策",
+    "capturedAt": "2026-10-17T13:33:53.877Z",
+    "file": "19-tax-policy-approved"
+  },
+  {
+    "step": 20,
+    "name": "salary-hr-reviewed",
+    "note": "reviewer复核定薪，待第三人财务批准",
+    "capturedAt": "2026-10-17T13:34:04.388Z",
+    "file": "20-salary-hr-reviewed"
+  },
+  {
+    "step": 21,
+    "name": "insurance-policy-approved",
+    "note": "独立批准缴费政策",
+    "capturedAt": "2026-10-17T13:34:18.525Z",
+    "file": "21-insurance-policy-approved"
+  },
+  {
+    "step": 22,
+    "name": "work-rule-approved",
+    "note": "reviewer独立批准员工8标准工时制度",
+    "capturedAt": "2026-10-17T13:34:48.490Z",
+    "file": "22-work-rule-approved"
+  },
+  {
+    "step": 23,
+    "name": "salary-finance-result",
+    "note": "第三人财务审批定薪结果",
+    "capturedAt": "2026-10-17T13:35:30.008Z",
+    "file": "23-salary-finance-result"
+  },
+  {
+    "step": 24,
+    "name": "salary-approval-blocker-detail",
+    "note": "财务审批拒绝：薪资数据不合法；检查同一申请详情",
+    "capturedAt": "2026-10-17T13:35:36.416Z",
+    "file": "24-salary-approval-blocker-detail"
+  },
+  {
+    "step": 25,
+    "name": "salary-rejected-template",
+    "note": "正常退回并保留失败记录",
+    "capturedAt": "2026-10-17T13:36:50.367Z",
+    "file": "25-salary-rejected-template"
+  },
+  {
+    "step": 26,
+    "name": "salary-template-create-blocker",
+    "note": "新增模板表单经等待加载后出现，原阻断判断撤回；不计产品缺陷",
+    "capturedAt": "2026-10-17T13:37:50.685Z",
+    "file": "26-salary-template-create-blocker"
+  },
+  {
+    "step": 27,
+    "name": "basic-salary-template-created",
+    "note": "通过正常UI创建仅含基本工资的独立模板，不改默认配置",
+    "capturedAt": "2026-10-17T13:38:01.937Z",
+    "file": "27-basic-salary-template-created"
+  },
+  {
+    "step": 28,
+    "name": "salary-template-options-empty",
+    "note": "已创建基本工资模板，但定薪弹窗模板下拉仍显示无数据",
+    "capturedAt": "2026-10-17T13:38:47.879Z",
+    "file": "28-salary-template-options-empty"
+  },
+  {
+    "step": 29,
+    "name": "salary-template-refresh-empty",
+    "note": "整页刷新后模板仍显示无数据",
+    "capturedAt": "2026-10-17T13:38:54.181Z",
+    "file": "29-salary-template-refresh-empty"
+  },
+  {
+    "step": 30,
+    "name": "salary-template-reopen-empty",
+    "note": "关闭重开定薪弹窗后模板仍无数据，最终阻断现场",
+    "capturedAt": "2026-10-17T13:39:48.731Z",
+    "file": "30-salary-template-reopen-empty"
+  }
+]

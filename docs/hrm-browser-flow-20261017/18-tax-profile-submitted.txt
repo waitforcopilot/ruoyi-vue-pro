@@ -1,0 +1,396 @@
+Browser tab: 1, Title: "芋道管理系统 - 年度税务政策", URL: "http://127.0.0.1:5173/hrm-payroll/tax-policy".
+0 AXWebArea 芋道管理系统 - 年度税务政策, URL: 127.0.0.1:5173/hrm-payroll/tax-policy
+	1 container
+		2 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		2102 menu bar
+			2103 首页
+				2104 text 首页
+			2105 作者动态
+				2106 text 作者动态
+			2107 Boot 开发文档
+				2108 text Boot 开发文档
+			2109 Cloud 开发文档
+				2110 text Cloud 开发文档
+			2111 (collapsed) 系统管理, Secondary Actions: Expand
+				2112 container
+					2113 text 系统管理
+					2114 image
+			2115 (collapsed) 基础设施, Secondary Actions: Expand
+				2116 container
+					2117 text 基础设施
+					2118 image
+			2119 (collapsed) 支付管理, Secondary Actions: Expand
+				2120 container
+					2121 text 支付管理
+					2122 image
+			2123 (collapsed) 报表管理, Secondary Actions: Expand
+				2124 container
+					2125 text 报表管理
+					2126 image
+			2127 (collapsed) 工作流程, Secondary Actions: Expand
+				2128 container
+					2129 text 工作流程
+					2130 image
+			2131 (collapsed) 会员中心, Secondary Actions: Expand
+				2132 container
+					2133 text 会员中心
+					2134 image
+			2135 (expanded) 薪酬管理, Secondary Actions: Collapse
+				2136 container
+					2137 text 薪酬管理
+					2138 image
+				2139 menu
+					2140 定调薪审批
+						2141 text 定调薪审批
+					2142 工时与加班
+						2143 text 工时与加班
+					2144 薪级薪档
+						2145 text 薪级薪档
+					2146 考勤归集与异常
+						2147 text 考勤归集与异常
+					2148 法人主体与归属
+						2149 text 法人主体与归属
+					2150 缴费政策与年度调基
+						2151 text 缴费政策与年度调基
+					2152 缴费实缴对账
+						2153 text 缴费实缴对账
+					2154 核算输入与就绪
+						2155 text 核算输入与就绪
+					2156 年度税务政策
+						2157 text 年度税务政策
+					2158 薪酬成本分摊
+						2159 text 薪酬成本分摊
+					2160 预算与成本分析
+						2161 text 预算与成本分析
+					2162 薪酬输入缺口工单
+						2163 text 薪酬输入缺口工单
+					2164 社保公积金工资差额
+						2165 text 社保公积金工资差额
+					2166 薪酬总览
+						2167 text 薪酬总览
+					2168 独立工资收回
+						2169 text 独立工资收回
+					2170 需求评审
+						2171 text 需求评审
+					2172 核算审批
+						2173 text 核算审批
+					2174 银行代发
+						2175 text 银行代发
+					2176 薪资公式
+						2177 text 薪资公式
+			2178 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				2179 container
+					2180 text MALL 商城系统
+					2181 image
+			2182 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				2183 container
+					2184 text EAM 资产管理
+					2185 image
+			2186 (collapsed) CRM 系统, Secondary Actions: Expand
+				2187 container
+					2188 text CRM 系统
+					2189 image
+			2190 (collapsed) ERP 系统, Secondary Actions: Expand
+				2191 container
+					2192 text ERP 系统
+					2193 image
+			2194 (collapsed) WMS 系统, Secondary Actions: Expand
+				2195 container
+					2196 text WMS 系统
+					2197 image
+			2198 (collapsed) MES 系统, Secondary Actions: Expand
+				2199 container
+					2200 text MES 系统
+					2201 image
+			2202 (collapsed) OA 办公协同, Secondary Actions: Expand
+				2203 container
+					2204 text OA 办公协同
+					2205 image
+			2206 (collapsed) HRM 人力资源, Secondary Actions: Expand
+				2207 container
+					2208 text HRM 人力资源
+					2209 image
+			2210 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				2211 container
+					2212 text FMS 财务管理
+					2213 image
+			2214 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				2215 container
+					2216 text PMS 项目管理
+					2217 image
+			2218 (collapsed) AI 大模型, Secondary Actions: Expand
+				2219 container
+					2220 text AI 大模型
+					2221 image
+			2222 (collapsed) IoT 物联网, Secondary Actions: Expand
+				2223 container
+					2224 text IoT 物联网
+					2225 image
+			2226 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				2227 container
+					2228 text IM 即时通讯
+					2229 image
+			2230 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				2231 container
+					2232 text MP 公众号管理
+					2233 image
+			2234 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				2235 container
+					2236 text CMS 内容管理
+					2237 image
+		2238 container
+			2239 container
+				2240 container v-tool-header
+					2241 container 面包屑
+						2242 link 薪酬管理
+							2243 text 薪酬管理
+						2244 text /
+						2245 link 年度税务政策
+							2246 text 年度税务政策
+					2247 container
+						2248 combo box (collapsed, settable) ID: el-id-629-1096, Secondary Actions: Expand
+						2249 text 请选择租户
+						2250 image
+					2251 container
+						2252 container
+							2253 combo box (collapsed, settable) ID: el-id-629-1097, Secondary Actions: Expand
+							2254 text 请输入菜单内容
+					2255 pop up button (collapsed) ID: el-id-629-1062, Secondary Actions: Expand
+					2256 pop up button (collapsed) ID: el-id-629-1067, Secondary Actions: Expand
+					2257 pop up button (collapsed) ID: el-id-629-1072, Secondary Actions: Expand
+				2258 container v-tags-view
+					2259 container
+						2260 pop up button (collapsed) 首页, ID: el-id-629-1078, Secondary Actions: Expand
+							2261 container
+								2262 text 首页
+						2263 pop up button (collapsed) 法人主体与归属, ID: el-id-629-1101, Secondary Actions: Expand
+							2264 container
+								2265 text 法人主体与归属
+						2266 pop up button (collapsed) 薪资档案, ID: el-id-629-1116, Secondary Actions: Expand
+							2267 container
+								2268 text 薪资档案
+						2269 pop up button (collapsed) 工时与加班, ID: el-id-629-1272, Secondary Actions: Expand
+							2270 container
+								2271 text 工时与加班
+						2272 pop up button (collapsed) 缴费政策与年度调基, ID: el-id-629-1336, Secondary Actions: Expand
+							2273 container
+								2274 text 缴费政策与年度调基
+						2275 pop up button (collapsed) 年度税务政策, ID: el-id-629-1403, Secondary Actions: Expand
+							2276 container
+								2277 text 年度税务政策
+					2278 pop up button (collapsed) ID: el-id-629-1086, Secondary Actions: Expand
+			2279 container
+				2280 button 本模块需求（个税与工资条）
+				2281 button 候选数据源（3）
+				2282 container
+					2283 text 纳税主体
+					2284 container
+						2285 combo box (collapsed, settable) 纳税主体, ID: el-id-629-1481, Secondary Actions: Expand
+						2286 text 隔离浏览器全流程主体（虚构）
+						2287 image
+				2288 container
+					2289 text 年度
+					2290 container
+						2291 button 减少数值
+						2292 button 增加数值
+						2293 stepper (settable, integer) 年度, Value: 2026, ID: el-id-629-1482
+				2294 button 查询
+				2295 button 提交年度政策版本
+				2296 text 政策版本须填写正式适用出处并独立批准。政策试算用于核对参数；员工实际累计、扣除与发放来源按税务档案确认。
+				2297 container
+					2298 table
+						2299 row
+							2300 cell
+								2301 text 年度
+							2302 cell
+								2303 text 版本
+							2304 cell
+								2305 text 政策名称
+							2306 cell
+								2307 text 纳税登记号
+							2308 cell
+								2309 text 月减除费用
+							2310 cell
+								2311 text 状态
+							2312 cell
+								2313 text 正式适用出处
+							2314 cell
+								2315 text 操作
+					2316 table
+						2317 row
+							2318 cell
+								2319 text 2026
+							2320 cell
+								2321 text 1
+							2322 cell
+								2323 text 2026年居民工资及年终奖税务政策
+							2324 cell
+								2325 text TESTBROWSER20261017
+							2326 cell
+								2327 text 5000
+							2328 cell
+								2329 text 待审批
+							2330 cell
+								2331 text 虚构验收参数，仅用于本机隔离浏览器流程
+							2332 cell
+								2333 container
+									2334 button 参数与依据
+									2335 button 履历
+									2336 button 试算
+									2337 button 批准
+									2338 button 驳回
+				2339 container
+					2340 text 员工
+					2341 container
+						2342 combo box (collapsed, settable) 员工, ID: el-id-629-1483, Secondary Actions: Expand
+						2425 text ACCEPT_BROWSER_EMP 隔离浏览器流程员工
+						2426 image
+				2345 button 查询税务档案
+				2346 button 提交年度档案
+				2347 text 历史累计只填写本扣缴单位所属年度金额。零累计须明确声明；居民身份、首次工资在新入职前的资格及外单位奖金使用情况须提供可核实依据。
+				2348 container
+					2349 table
+						2350 row
+							2351 cell
+								2352 text 纳税人
+							2353 cell
+								2354 text 脱敏标识
+							2355 cell
+								2356 text 居民资格
+							2357 cell
+								2358 text 版本
+							2359 cell
+								2360 text 状态
+							2361 cell
+								2362 text 期初资料截止日
+							2363 cell
+								2364 text 历史累计收入
+							2365 cell
+								2366 text 历史预缴
+							2367 cell
+								2368 text 操作
+					2369 container
+						2370 table
+						2371 text 暂无数据
+				2372 container
+					2373 text 报告月份
+					2374 container
+						2375 combo box (collapsed, settable) 报告月份, ID: el-id-629-1484, Secondary Actions: Expand
+						2376 text 10月
+						2377 image
+				2378 button 查询扣除来源
+				2379 button 提交申报资料
+				2380 text 先选择员工。金额采用经授权的扣缴申报端本年累计资料，提交后需独立复核。工资输入可同步批准版本，资料变更后须重新复核。大病医疗仅年度汇算，不填入工资预扣资料。
+				2381 container
+					2382 table
+						2383 row
+							2384 cell
+								2385 text 版本
+							2386 cell
+								2387 text 资料日期
+							2388 cell
+								2389 text 状态
+							2390 cell
+								2391 text 正式来源
+							2392 cell
+								2393 text 操作
+					2394 container
+						2395 table
+						2396 text 暂无数据
+				2427 container
+					2428 container
+						2429 text 年度税务档案（待独立复核）
+					2430 container
+						2431 text 纳税人姓名
+						2432 text field 纳税人姓名, Value: 隔离浏览器流程员工, ID: el-id-629-1582
+						2433 text 标识类型
+						2434 container
+							2435 combo box (collapsed, settable) 标识类型, ID: el-id-629-1583, Secondary Actions: Expand
+							2489 text 护照
+							2437 image
+						2438 text 签发国家代码
+						2439 text field (settable) 签发国家代码, Value: CN, ID: el-id-629-1584
+						2440 text 完整税务标识
+						2490 container
+							2491 text field (settable) 完整税务标识, Value: <redacted>
+							2492 image
+						2442 text 年度税收居民资格
+						2443 container
+							2444 combo box (collapsed, settable) 年度税收居民资格, ID: el-id-629-1586, Secondary Actions: Expand
+							2494 text 已核实居民个人
+							2446 image
+						2447 container
+							2448 switch (settable, boolean) Description: 本年首次工资优惠资格, Value: 0, ID: el-id-629-1587
+						2449 container
+							2450 switch (settable, boolean) Description: 本年新入职前未取得工资薪金, Value: 0, ID: el-id-629-1588
+						2451 container
+							2452 switch (settable, boolean) Description: 本年新入职前无连续性劳务, Value: 0, ID: el-id-629-1589
+						2453 container
+							2454 switch (settable, boolean) Description: 外单位已用奖金单独计税, Value: 0, ID: el-id-629-1590
+						2455 text 本单位历史累计状态
+						2456 container
+							2457 combo box (collapsed, settable) 本单位历史累计状态, ID: el-id-629-1591, Secondary Actions: Expand
+							2495 text 确认无额外历史累计资料，仍归集系统已发事实
+							2459 image
+						2460 text 资料截止日
+						2461 container
+							2462 image
+							2463 combo box (collapsed, settable) 资料截止日, Value: 2026-09-30, ID: el-id-629-1592, Secondary Actions: Expand
+						2464 text 本单位历史工资收入
+						2465 container
+							2466 button 减少数值
+							2467 button 增加数值
+							2468 stepper (disabled, settable, integer) 本单位历史工资收入, Value: 0, Details: 0.00, ID: el-id-629-1593
+						2469 text 本单位历史专项扣除
+						2470 container
+							2471 button 减少数值
+							2472 button 增加数值
+							2473 stepper (disabled, settable, integer) 本单位历史专项扣除, Value: 0, Details: 0.00, ID: el-id-629-1594
+						2474 text 本单位历史减除费用
+						2475 container
+							2476 button 减少数值
+							2477 button 增加数值
+							2478 stepper (disabled, settable, integer) 本单位历史减除费用, Value: 0, Details: 0.00, ID: el-id-629-1595
+						2479 text 本单位历史预缴（工资）
+						2480 container
+							2481 button 减少数值
+							2482 button 增加数值
+							2483 stepper (disabled, settable, integer) 本单位历史预缴（工资）, Value: 0, Details: 0.00, ID: el-id-629-1596
+						2484 text 正式资料出处
+						2485 text entry area (settable) 正式资料出处, Value: 合成资料：2026年首次受雇，本单位九月末累计为零, ID: el-id-629-1597
+						2486 text 核实依据
+						2487 text entry area (settable) 核实依据, Value: 虚构员工，仅验证浏览器闭环，非真实申报, ID: el-id-629-1598
+					2488 button 提交独立复核
+				2397 text 按实际到账月份归集已成功付款及冻结税务来源，独立复核后导出申报准备文件。正式申报按主管税务机关格式办理，回填申报凭据并核对正式缴税／退税凭证；本页不向税务机关提交或付款。
+				2398 container
+					2399 text 收入月份
+					2400 container
+						2401 combo box (collapsed, settable) 收入月份, ID: el-id-629-1485, Secondary Actions: Expand
+						2402 text 9月
+						2403 image
+				2404 button 查询
+				2405 button 生成申报版本
+				2406 container
+					2407 table
+						2408 row
+							2409 cell
+								2410 text 版本
+							2411 cell
+								2412 text 状态
+							2413 cell
+								2414 text 申报应缴税合计
+							2415 cell
+								2416 text 正式申报凭据
+							2417 cell
+								2418 text 申报日期
+							2419 cell
+								2420 text 操作
+					2421 container
+						2422 table
+						2423 text 暂无数据
+			2424 text Copyright ©2026 芋道管理系统
+	2496 container notification_3
+		2497 heading 年度税务政策、年度金额、年终奖策略、审批或纳税主体不合法或未就绪, Value: 2
+			2498 text 年度税务政策、年度金额、年终奖策略、审批或纳税主体不合法或未就绪
+
+The focused UI element is 0 AXWebArea 芋道管理系统 - 年度税务政策, URL: 127.0.0.1:5173/hrm-payroll/tax-policy

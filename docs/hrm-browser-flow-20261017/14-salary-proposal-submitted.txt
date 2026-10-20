@@ -1,0 +1,475 @@
+Browser tab: 1, Title: "芋道管理系统 - 薪资档案", URL: "http://127.0.0.1:5173/hrm/salary/employee-info".
+0 AXWebArea 芋道管理系统 - 薪资档案, URL: 127.0.0.1:5173/hrm/salary/employee-info
+	1 container
+		2 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		1033 menu bar
+			1034 首页
+				1035 text 首页
+			1036 作者动态
+				1037 text 作者动态
+			1038 Boot 开发文档
+				1039 text Boot 开发文档
+			1040 Cloud 开发文档
+				1041 text Cloud 开发文档
+			1042 (collapsed) 系统管理, Secondary Actions: Expand
+				1043 container
+					1044 text 系统管理
+					1045 image
+			1046 (collapsed) 基础设施, Secondary Actions: Expand
+				1047 container
+					1048 text 基础设施
+					1049 image
+			1050 (collapsed) 支付管理, Secondary Actions: Expand
+				1051 container
+					1052 text 支付管理
+					1053 image
+			1054 (collapsed) 报表管理, Secondary Actions: Expand
+				1055 container
+					1056 text 报表管理
+					1057 image
+			1058 (collapsed) 工作流程, Secondary Actions: Expand
+				1059 container
+					1060 text 工作流程
+					1061 image
+			1062 (collapsed) 会员中心, Secondary Actions: Expand
+				1063 container
+					1064 text 会员中心
+					1065 image
+			1066 (collapsed) 薪酬管理, Secondary Actions: Expand
+				1067 container
+					1068 text 薪酬管理
+					1069 image
+			1070 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				1071 container
+					1072 text MALL 商城系统
+					1073 image
+			1074 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				1075 container
+					1076 text EAM 资产管理
+					1077 image
+			1078 (collapsed) CRM 系统, Secondary Actions: Expand
+				1079 container
+					1080 text CRM 系统
+					1081 image
+			1082 (collapsed) ERP 系统, Secondary Actions: Expand
+				1083 container
+					1084 text ERP 系统
+					1085 image
+			1086 (collapsed) WMS 系统, Secondary Actions: Expand
+				1087 container
+					1088 text WMS 系统
+					1089 image
+			1090 (collapsed) MES 系统, Secondary Actions: Expand
+				1091 container
+					1092 text MES 系统
+					1093 image
+			1094 (collapsed) OA 办公协同, Secondary Actions: Expand
+				1095 container
+					1096 text OA 办公协同
+					1097 image
+			1098 (expanded) HRM 人力资源, Secondary Actions: Collapse
+				1099 container
+					1100 text HRM 人力资源
+					1101 image
+				1102 menu
+					1103 HR 工作台
+						1104 text HR 工作台
+					1105 团队工作台
+						1106 text 团队工作台
+					1107 组织管理
+						1108 text 组织管理
+					1109 (collapsed) 招聘管理, Secondary Actions: Expand
+						1110 container
+							1111 text 招聘管理
+							1112 image
+					1113 (collapsed) 员工管理, Secondary Actions: Expand
+						1114 container
+							1115 text 员工管理
+							1116 image
+					1117 (collapsed) 考勤管理, Secondary Actions: Expand
+						1118 container
+							1119 text 考勤管理
+							1120 image
+					1121 (collapsed) 社保管理, Secondary Actions: Expand
+						1122 container
+							1123 text 社保管理
+							1124 image
+					1125 (expanded) 薪资管理, Secondary Actions: Collapse
+						1126 container
+							1127 text 薪资管理
+							1128 image
+						1129 menu
+							1130 月度工资表
+								1131 text 月度工资表
+							1132 历史工资表
+								1133 text 历史工资表
+							1134 薪资档案
+								1135 text 薪资档案
+							1136 发放记录
+								1137 text 发放记录
+							1138 (collapsed) 薪资设置, Secondary Actions: Expand
+								1139 container
+									1140 text 薪资设置
+									1141 image
+					1142 (collapsed) 绩效管理, Secondary Actions: Expand
+						1143 container
+							1144 text 绩效管理
+							1145 image
+					1146 (collapsed) HRM 员工端, Secondary Actions: Expand
+						1147 container
+							1148 text HRM 员工端
+							1149 image
+			1150 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				1151 container
+					1152 text FMS 财务管理
+					1153 image
+			1154 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				1155 container
+					1156 text PMS 项目管理
+					1157 image
+			1158 (collapsed) AI 大模型, Secondary Actions: Expand
+				1159 container
+					1160 text AI 大模型
+					1161 image
+			1162 (collapsed) IoT 物联网, Secondary Actions: Expand
+				1163 container
+					1164 text IoT 物联网
+					1165 image
+			1166 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				1167 container
+					1168 text IM 即时通讯
+					1169 image
+			1170 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				1171 container
+					1172 text MP 公众号管理
+					1173 image
+			1174 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				1175 container
+					1176 text CMS 内容管理
+					1177 image
+		312 container
+			313 container v-tool-header
+				314 container 面包屑
+					734 link HRM 人力资源
+						735 text HRM 人力资源
+					736 text /
+					737 link 薪资管理
+						738 text 薪资管理
+					739 text /
+					740 link 薪资档案
+						741 text 薪资档案
+				320 container
+					321 combo box (collapsed, settable) ID: el-id-629-1096, Secondary Actions: Expand
+					322 text 请选择租户
+					323 image
+				324 container
+					325 container
+						326 combo box (collapsed, settable) ID: el-id-629-1097, Secondary Actions: Expand
+						327 text 请输入菜单内容
+				328 pop up button (collapsed) ID: el-id-629-1062, Secondary Actions: Expand
+				329 pop up button (collapsed) ID: el-id-629-1067, Secondary Actions: Expand
+				330 pop up button (collapsed) ID: el-id-629-1072, Secondary Actions: Expand
+			331 container v-tags-view
+				332 container
+					333 pop up button (collapsed) 首页, ID: el-id-629-1078, Secondary Actions: Expand
+						334 container
+							335 text 首页
+					336 pop up button (collapsed) 法人主体与归属, ID: el-id-629-1101, Secondary Actions: Expand
+						337 container
+							338 text 法人主体与归属
+					742 pop up button (collapsed) 薪资档案, ID: el-id-629-1116, Secondary Actions: Expand
+						743 container
+							744 text 薪资档案
+				339 pop up button (collapsed) ID: el-id-629-1086, Secondary Actions: Expand
+			745 container
+				746 image
+				747 text 【【薪资】计薪设置、薪资档案、月度工资、工资条】文档地址：https://doc.iocoder.cn/hrm/salary/config/
+				748 image
+			749 container
+				750 text 员工
+				751 text field (settable) 员工, ID: el-id-629-1149
+				752 text 部门
+				753 container
+					754 combo box (collapsed, settable) 部门, ID: el-id-629-1150, Secondary Actions: Expand
+					755 text 请选择部门
+					756 image
+				757 text 岗位
+				758 text field (settable) 岗位, ID: el-id-629-1151
+				759 text 状态
+				760 container
+					761 combo box (collapsed, settable) 状态, ID: el-id-629-1152, Secondary Actions: Expand
+					762 text 请选择档案状态
+					763 image
+				764 container
+					765 button 搜索
+						766 text 搜索
+					767 button 重置
+						768 text 重置
+					769 button 批量调薪
+						770 text 批量调薪
+					771 button 导入定薪
+						772 text 导入定薪
+					773 button 导入调薪
+						774 text 导入调薪
+			775 container
+				776 tab group
+					777 tab (selected, settable, boolean) 在职（8）, Value: 1, ID: tab-11
+					778 tab (selectable, settable, boolean) 全职（8）, Value: 0, ID: tab-12
+					779 tab (selectable, settable, boolean) 实习（0）, Value: 0, ID: tab-3
+					780 tab (selectable, settable, boolean) 劳务（0）, Value: 0, ID: tab-5
+					781 tab (selectable, settable, boolean) 顾问（0）, Value: 0, ID: tab-6
+					782 tab (selectable, settable, boolean) 返聘（0）, Value: 0, ID: tab-7
+					783 tab (selectable, settable, boolean) 外包（0）, Value: 0, ID: tab-8
+					784 tab (selectable, settable, boolean) 兼职（0）, Value: 0, ID: tab-4
+					785 tab (selectable, settable, boolean) 试用（0）, Value: 0, ID: tab-2
+					786 tab (selectable, settable, boolean) 正式（8）, Value: 0, ID: tab-1
+			787 container Description: 在职（8）, ID: pane-11
+			788 container
+				789 table
+					790 row
+						791 cell
+							792 container 选择所有行
+								793 checkbox (settable, integer) Description: 选择所有行, Value: 0, ID: el-id-629-1155
+						794 cell
+							795 text 员工姓名
+						796 cell
+							797 text 工号
+						798 cell
+							799 text 部门
+						800 cell
+							801 text 岗位
+						802 cell
+							803 text 员工状态
+						804 cell
+							805 text 入职日期
+						806 cell
+							807 text 转正日期
+						808 cell
+							809 text 最近调整日期
+						810 cell
+							811 text 调薪原因
+						812 cell
+							813 text 工资合计
+						814 cell
+							815 text 操作
+				816 table
+					817 container
+						818 row
+							819 cell
+								820 container 选择当前行
+									821 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-629-1168
+							822 cell
+								823 link 隔离浏览器流程员工
+									824 text 隔离浏览器流程员工
+							825 cell
+								826 text ACCEPT_BROWSER_EMP
+							827 cell
+								828 text 芋道源码
+							829 cell
+								830 text 浏览器验收岗位
+							831 cell
+								832 text 正式
+							833 cell
+								834 text 2026-10-01
+							835 cell
+								836 text 2026-10-01
+							837 cell
+								838 text -
+							839 cell
+								840 text 0.00
+							841 cell
+								842 button 定薪
+						843 row
+							844 cell
+								845 container 选择当前行
+									846 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-629-1169
+							847 cell
+								848 link 隔离历史工资员工
+									849 text 隔离历史工资员工
+							850 cell
+								851 text ACCEPT_TAX_HISTORY
+							852 cell
+								853 text 研发部门
+							854 cell
+								855 text 验收岗位
+							856 cell
+								857 text 正式
+							858 cell
+								859 text 2026-01-01
+							860 cell
+								861 text 2026-01-01
+							862 cell
+								863 text 2026-10-16
+							864 cell
+								865 text 年度调薪
+							866 cell
+								867 text 9000.00
+							868 cell
+								869 button 调薪
+						870 row
+							871 cell
+								872 container 选择当前行
+									873 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-629-1170
+							874 cell
+								875 link 隔离IRREGULAR员工
+									876 text 隔离IRREGULAR员工
+							877 cell
+								878 text ACCEPT_WORK_IRREGULAR
+							879 cell
+								880 text 研发部门
+							881 cell
+								882 text 验收岗位
+							883 cell
+								884 text 正式
+							885 cell
+								886 text 2026-08-01
+							887 cell
+								888 text 2026-08-01
+							889 cell
+								890 text -
+							891 cell
+								892 text 0.00
+							893 cell
+								894 button 定薪
+						895 row
+							896 cell
+								897 container 选择当前行
+									898 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-629-1171
+							899 cell
+								900 link 隔离COMPREHENSIVE员工
+									901 text 隔离COMPREHENSIVE员工
+							902 cell
+								903 text ACCEPT_WORK_COMPREHENSIVE
+							904 cell
+								905 text 研发部门
+							906 cell
+								907 text 验收岗位
+							908 cell
+								909 text 正式
+							910 cell
+								911 text 2026-08-01
+							912 cell
+								913 text 2026-08-01
+							914 cell
+								915 text -
+							916 cell
+								917 text 0.00
+							918 cell
+								919 button 定薪
+						920 row
+							921 cell
+								922 container 选择当前行
+									923 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-629-1172
+							924 cell
+								925 link 隔离STANDARD员工
+									926 text 隔离STANDARD员工
+							927 cell
+								928 text ACCEPT_WORK_STANDARD
+							929 cell
+								930 text 研发部门
+							931 cell
+								932 text 验收岗位
+							933 cell
+								934 text 正式
+							935 cell
+								936 text 2026-08-01
+							937 cell
+								938 text 2026-08-01
+							939 cell
+								940 text -
+							941 cell
+								942 text 0.00
+							943 cell
+								944 button 定薪
+						945 row
+							946 cell
+								947 container 选择当前行
+									948 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-629-1173
+							949 cell
+								950 link 隔离考勤工单员工
+									951 text 隔离考勤工单员工
+							952 cell
+								953 text ACCEPT_ATTENDANCE
+							954 cell
+								955 text 研发部门
+							956 cell
+								957 text 验收岗位
+							958 cell
+								959 text 正式
+							960 cell
+								961 text 2025-01-01
+							962 cell
+								963 text 2025-01-01
+							964 cell
+								965 text -
+							966 cell
+								967 text 0.00
+							968 cell
+								969 button 定薪
+						970 row
+							971 cell
+								972 container 选择当前行
+									973 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-629-1174
+							974 cell
+								975 link 隔离范围员工104
+									976 text 隔离范围员工104
+							977 cell
+								978 text ACCEPT_SCOPE_104
+							979 cell
+								980 text 市场部门
+							981 cell
+								982 text 验收岗位
+							983 cell
+								984 text 正式
+							985 cell
+								986 text 2026-01-01
+							987 cell
+								988 text 2026-10-01
+							989 cell
+								990 text 入职定薪
+							991 cell
+								992 text 6000.00
+							993 cell
+								994 button 调薪
+						995 row
+							996 cell
+								997 container 选择当前行
+									998 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-629-1175
+							999 cell
+								1000 link 隔离范围员工103
+									1001 text 隔离范围员工103
+							1002 cell
+								1003 text ACCEPT_SCOPE_103
+							1004 cell
+								1005 text 研发部门
+							1006 cell
+								1007 text 验收岗位
+							1008 cell
+								1009 text 正式
+							1010 cell
+								1011 text 2026-01-01
+							1012 cell
+								1013 text 2026-10-01
+							1014 cell
+								1015 text 入职定薪
+							1016 cell
+								1017 text 6000.00
+							1018 cell
+								1019 button 调薪
+			1020 text 共 8 条
+			1021 container
+				1022 combo box (collapsed, settable) ID: el-id-629-1153, Secondary Actions: Expand
+				1023 text 10条/页
+				1024 image
+			1025 button (disabled) 上一页
+			1026 content list
+				1027 container 第 1 页
+					1028 text 1
+			1029 button (disabled) 下一页
+			1030 text 前往
+			1031 stepper (settable, integer) Description: 页, Value: 1, ID: el-id-629-1154
+			1032 text 页 Copyright ©2026 芋道管理系统
+	1178 container message_8
+		1179 text 定调薪申请已提交，HR与财务批准后按生效日期应用
+
+The focused UI element is 0 AXWebArea 芋道管理系统 - 薪资档案, URL: 127.0.0.1:5173/hrm/salary/employee-info

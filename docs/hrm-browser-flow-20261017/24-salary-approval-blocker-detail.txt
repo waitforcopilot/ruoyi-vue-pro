@@ -1,0 +1,822 @@
+Browser tab: 1, Title: "芋道管理系统 - 定调薪审批", URL: "http://127.0.0.1:5173/hrm-payroll/salary-proposal".
+0 AXWebArea 芋道管理系统 - 定调薪审批, URL: 127.0.0.1:5173/hrm-payroll/salary-proposal
+	1 container
+		2 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		445 menu bar
+			446 首页
+				447 text 首页
+			448 作者动态
+				449 text 作者动态
+			450 Boot 开发文档
+				451 text Boot 开发文档
+			452 Cloud 开发文档
+				453 text Cloud 开发文档
+			454 (collapsed) 系统管理, Secondary Actions: Expand
+				455 container
+					456 text 系统管理
+					457 image
+			458 (collapsed) 基础设施, Secondary Actions: Expand
+				459 container
+					460 text 基础设施
+					461 image
+			462 (collapsed) 支付管理, Secondary Actions: Expand
+				463 container
+					464 text 支付管理
+					465 image
+			466 (collapsed) 报表管理, Secondary Actions: Expand
+				467 container
+					468 text 报表管理
+					469 image
+			470 (collapsed) 工作流程, Secondary Actions: Expand
+				471 container
+					472 text 工作流程
+					473 image
+			474 (collapsed) 会员中心, Secondary Actions: Expand
+				475 container
+					476 text 会员中心
+					477 image
+			478 (expanded) 薪酬管理, Secondary Actions: Collapse
+				479 container
+					480 text 薪酬管理
+					481 image
+				482 menu
+					483 定调薪审批
+						484 text 定调薪审批
+					485 工时与加班
+						486 text 工时与加班
+					487 薪级薪档
+						488 text 薪级薪档
+					489 考勤归集与异常
+						490 text 考勤归集与异常
+					491 法人主体与归属
+						492 text 法人主体与归属
+					493 缴费政策与年度调基
+						494 text 缴费政策与年度调基
+					495 缴费实缴对账
+						496 text 缴费实缴对账
+					497 核算输入与就绪
+						498 text 核算输入与就绪
+					499 年度税务政策
+						500 text 年度税务政策
+					501 薪酬成本分摊
+						502 text 薪酬成本分摊
+					503 预算与成本分析
+						504 text 预算与成本分析
+					505 薪酬输入缺口工单
+						506 text 薪酬输入缺口工单
+					507 社保公积金工资差额
+						508 text 社保公积金工资差额
+					509 薪酬总览
+						510 text 薪酬总览
+					511 独立工资收回
+						512 text 独立工资收回
+					513 需求评审
+						514 text 需求评审
+					515 核算审批
+						516 text 核算审批
+					517 银行代发
+						518 text 银行代发
+					519 薪资公式
+						520 text 薪资公式
+			521 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				522 container
+					523 text MALL 商城系统
+					524 image
+			525 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				526 container
+					527 text EAM 资产管理
+					528 image
+			529 (collapsed) CRM 系统, Secondary Actions: Expand
+				530 container
+					531 text CRM 系统
+					532 image
+			533 (collapsed) ERP 系统, Secondary Actions: Expand
+				534 container
+					535 text ERP 系统
+					536 image
+			537 (collapsed) WMS 系统, Secondary Actions: Expand
+				538 container
+					539 text WMS 系统
+					540 image
+			541 (collapsed) MES 系统, Secondary Actions: Expand
+				542 container
+					543 text MES 系统
+					544 image
+			545 (collapsed) OA 办公协同, Secondary Actions: Expand
+				546 container
+					547 text OA 办公协同
+					548 image
+			549 (collapsed) HRM 人力资源, Secondary Actions: Expand
+				550 container
+					551 text HRM 人力资源
+					552 image
+			553 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				554 container
+					555 text FMS 财务管理
+					556 image
+			557 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				558 container
+					559 text PMS 项目管理
+					560 image
+			561 (collapsed) AI 大模型, Secondary Actions: Expand
+				562 container
+					563 text AI 大模型
+					564 image
+			565 (collapsed) IoT 物联网, Secondary Actions: Expand
+				566 container
+					567 text IoT 物联网
+					568 image
+			569 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				570 container
+					571 text IM 即时通讯
+					572 image
+			573 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				574 container
+					575 text MP 公众号管理
+					576 image
+			577 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				578 container
+					579 text CMS 内容管理
+					580 image
+		312 container
+			313 container v-tool-header
+				314 container 面包屑
+					315 link 薪酬管理
+						316 text 薪酬管理
+					317 text /
+					318 link 定调薪审批
+						319 text 定调薪审批
+				320 container
+					321 combo box (collapsed, settable) ID: el-id-629-2035, Secondary Actions: Expand
+					322 text 请选择租户
+					323 image
+				324 container
+					325 container
+						326 combo box (collapsed, settable) ID: el-id-629-2036, Secondary Actions: Expand
+						327 text 请输入菜单内容
+				328 pop up button (collapsed) ID: el-id-629-2001, Secondary Actions: Expand
+				329 pop up button (collapsed) ID: el-id-629-2006, Secondary Actions: Expand
+				330 pop up button (collapsed) ID: el-id-629-2011, Secondary Actions: Expand
+			331 container v-tags-view
+				332 container
+					333 pop up button (collapsed) 首页, ID: el-id-629-2017, Secondary Actions: Expand
+						334 container
+							335 text 首页
+					336 pop up button (collapsed) 定调薪审批, ID: el-id-629-2040, Secondary Actions: Expand
+						337 container
+							338 text 定调薪审批
+				339 pop up button (collapsed) ID: el-id-629-2025, Secondary Actions: Expand
+			340 container
+				341 button 本模块需求（薪酬方案）
+				342 button 候选数据源（3）
+			343 text 员工定薪、调薪及批量导入先提交审批申请。提交人、HR复核人、财务审批人必须不同；批准后按生效日期应用，冻结工资批次保持原版本。
+			344 container
+				345 combo box (collapsed, settable) ID: el-id-629-2057, Secondary Actions: Expand
+				346 text 全部状态
+				347 image
+			348 button 刷新
+			349 container
+				350 table
+					351 row
+						352 cell
+							353 text 员工
+						354 cell
+							355 text 提交时间
+						356 cell
+							357 text 状态
+						358 cell
+							359 text 提交人
+						360 cell
+							361 text HR复核人
+						362 cell
+							363 text 审批人
+						364 cell
+							365 text 操作
+				366 table
+					367 container
+						368 row
+							369 cell
+								370 text 隔离浏览器流程员工（ACCEPT_BROWSER_EMP）
+							371 cell
+								372 text 2026-10-17 21:28:34
+							373 cell
+								374 text 待财务审批
+							375 cell
+								376 text 1
+							377 cell
+								378 text 249
+							379 cell
+								380 container
+									381 button 申请详情
+									382 button 财务审批
+									383 button 退回
+						384 row
+							385 cell
+								386 text 隔离历史工资员工（ACCEPT_TAX_HISTORY）
+							387 cell
+								388 text 2026-10-17 21:03:09
+							389 cell
+								390 text 已批准
+							391 cell
+								392 text 1
+							393 cell
+								394 text 249
+							395 cell
+								396 text 251
+							397 cell
+								398 button 申请详情
+						399 row
+							400 cell
+								401 text 隔离历史工资员工（ACCEPT_TAX_HISTORY）
+							402 cell
+								403 text 2026-10-17 21:03:05
+							404 cell
+								405 text 已批准
+							406 cell
+								407 text 1
+							408 cell
+								409 text 249
+							410 cell
+								411 text 251
+							412 cell
+								413 button 申请详情
+						414 row
+							415 cell
+								416 text 隔离范围员工104（ACCEPT_SCOPE_104）
+							417 cell
+								418 text 2026-10-17 21:02:07
+							419 cell
+								420 text 已批准
+							421 cell
+								422 text 1
+							423 cell
+								424 text 249
+							425 cell
+								426 text 251
+							427 cell
+								428 button 申请详情
+						429 row
+							430 cell
+								431 text 隔离范围员工103（ACCEPT_SCOPE_103）
+							432 cell
+								433 text 2026-10-17 21:02:06
+							434 cell
+								435 text 已批准
+							436 cell
+								437 text 1
+							438 cell
+								439 text 249
+							440 cell
+								441 text 251
+							442 cell
+								443 button 申请详情
+			581 container 正式薪资变化 试用期薪资
+				582 container
+					583 text 定调薪申请详情
+				584 container el-id-629-2056
+					585 table
+						586 row
+							587 cell
+								588 text 员工
+							589 cell
+								590 text 隔离浏览器流程员工（ACCEPT_BROWSER_EMP）
+							591 cell
+								592 text 类型
+							593 cell
+								594 text 定薪
+						595 row
+							596 cell
+								597 text 生效日期
+							598 cell
+								599 text 2026-10-01 00:00:00
+							600 cell
+								601 text 备注
+							602 cell
+								603 text 虚构员工基本工资6000，其他项目由核算来源生成
+						604 row
+							605 cell
+								606 text HR复核意见
+							607 cell
+								608 text 核对虚构员工基本工资6000，无其他定额项目
+							609 cell
+								610 text 财务审批/退回意见
+					611 heading 正式薪资变化, Value: 4
+						612 text 正式薪资变化
+					613 container
+						614 table
+							615 row
+								616 cell
+									617 text 工资项
+								618 cell
+									619 text 申请前
+								620 cell
+									621 text 申请值
+						622 table
+							623 container
+								624 row
+									625 cell
+										626 text 基本工资
+									627 cell
+										628 text 未设置
+									629 cell
+										630 text 6000
+								631 row
+									632 cell
+										633 text 岗位工资
+									634 cell
+										635 text 未设置
+									636 cell
+										637 text 0
+								638 row
+									639 cell
+										640 text 批准工资补发/收回
+									641 cell
+										642 text 未设置
+									643 cell
+										644 text 0
+								645 row
+									646 cell
+										647 text 餐补
+									648 cell
+										649 text 未设置
+									650 cell
+										651 text 0
+								652 row
+									653 cell
+										654 text 个人社保
+									655 cell
+										656 text 未设置
+									657 cell
+										658 text 0
+								659 row
+									660 cell
+										661 text 个人公积金
+									662 cell
+										663 text 未设置
+									664 cell
+										665 text 0
+								666 row
+									667 cell
+										668 text 公司社保
+									669 cell
+										670 text 未设置
+									671 cell
+										672 text 0
+								673 row
+									674 cell
+										675 text 公司公积金
+									676 cell
+										677 text 未设置
+									678 cell
+										679 text 0
+								680 row
+									681 cell
+										682 text 批准年终奖
+									683 cell
+										684 text 未设置
+									685 cell
+										686 text 0
+								687 row
+									688 cell
+										689 text 批准税款工资退还
+									690 cell
+										691 text 未设置
+									692 cell
+										693 text 0
+								694 row
+									695 cell
+										696 text 批准缴费差额工资退还
+									697 cell
+										698 text 未设置
+									699 cell
+										700 text 0
+								701 row
+									702 cell
+										703 text 批准税款工资补扣
+									704 cell
+										705 text 未设置
+									706 cell
+										707 text 0
+								708 row
+									709 cell
+										710 text 批准缴费差额工资补扣
+									711 cell
+										712 text 未设置
+									713 cell
+										714 text 0
+								715 row
+									716 cell
+										717 text 加班工资
+									718 cell
+										719 text 未设置
+									720 cell
+										721 text 0
+								722 row
+									723 cell
+										724 text 迟到扣款
+									725 cell
+										726 text 未设置
+									727 cell
+										728 text 0
+								729 row
+									730 cell
+										731 text 早退扣款
+									732 cell
+										733 text 未设置
+									734 cell
+										735 text 0
+								736 row
+									737 cell
+										738 text 旷工扣款
+									739 cell
+										740 text 未设置
+									741 cell
+										742 text 0
+								743 row
+									744 cell
+										745 text 假期扣款
+									746 cell
+										747 text 未设置
+									748 cell
+										749 text 0
+								750 row
+									751 cell
+										752 text 缺卡扣款
+									753 cell
+										754 text 未设置
+									755 cell
+										756 text 0
+								757 row
+									758 cell
+										759 text 综合扣款
+									760 cell
+										761 text 未设置
+									762 cell
+										763 text 0
+								764 row
+									765 cell
+										766 text 考勤扣款合计
+									767 cell
+										768 text 未设置
+									769 cell
+										770 text 0
+								771 row
+									772 cell
+										773 text 应发工资
+									774 cell
+										775 text 未设置
+									776 cell
+										777 text 0
+								778 row
+									779 cell
+										780 text 应税工资
+									781 cell
+										782 text 未设置
+									783 cell
+										784 text 0
+								785 row
+									786 cell
+										787 text 个人所得税
+									788 cell
+										789 text 未设置
+									790 cell
+										791 text 0
+								792 row
+									793 cell
+										794 text 实发工资
+									795 cell
+										796 text 未设置
+									797 cell
+										798 text 0
+								799 row
+									800 cell
+										801 text 累计收入额（截至上月）
+									802 cell
+										803 text 未设置
+									804 cell
+										805 text 0
+								806 row
+									807 cell
+										808 text 累计减除费用（截至上月）
+									809 cell
+										810 text 未设置
+									811 cell
+										812 text 0
+								813 row
+									814 cell
+										815 text 累计专项扣除（截至上月）
+									816 cell
+										817 text 未设置
+									818 cell
+										819 text 0
+								820 row
+									821 cell
+										822 text 累计已预缴税额
+									823 cell
+										824 text 未设置
+									825 cell
+										826 text 0
+								827 row
+									828 cell
+										829 text 累计子女教育
+									830 cell
+										831 text 未设置
+									832 cell
+										833 text 0
+								834 row
+									835 cell
+										836 text 累计住房租金
+									837 cell
+										838 text 未设置
+									839 cell
+										840 text 0
+								841 row
+									842 cell
+										843 text 累计住房贷款利息
+									844 cell
+										845 text 未设置
+									846 cell
+										847 text 0
+								848 row
+									849 cell
+										850 text 累计赡养老人
+									851 cell
+										852 text 未设置
+									853 cell
+										854 text 0
+								855 row
+									856 cell
+										857 text 累计继续教育
+									858 cell
+										859 text 未设置
+									860 cell
+										861 text 0
+								862 row
+									863 cell
+										864 text 累计婴幼儿照护
+									865 cell
+										866 text 未设置
+									867 cell
+										868 text 0
+								869 row
+									870 cell
+										871 text 累计收入额
+									872 cell
+										873 text 未设置
+									874 cell
+										875 text 0
+								876 row
+									877 cell
+										878 text 累计减除费用
+									879 cell
+										880 text 未设置
+									881 cell
+										882 text 0
+								883 row
+									884 cell
+										885 text 累计专项扣除
+									886 cell
+										887 text 未设置
+									888 cell
+										889 text 0
+								890 row
+									891 cell
+										892 text 累计专项附加扣除
+									893 cell
+										894 text 未设置
+									895 cell
+										896 text 0
+								897 row
+									898 cell
+										899 text 累计应纳税所得额
+									900 cell
+										901 text 未设置
+									902 cell
+										903 text 0
+								904 row
+									905 cell
+										906 text 累计应纳税额
+									907 cell
+										908 text 未设置
+									909 cell
+										910 text 0
+					911 heading 试用期薪资, Value: 4
+						912 text 试用期薪资
+					913 container
+						914 table
+							915 row
+								916 cell
+									917 text 工资项
+								918 cell
+									919 text 申请值
+						920 table
+							921 container
+								922 row
+									923 cell
+										924 text 基本工资
+									925 cell
+										926 text 6000
+								927 row
+									928 cell
+										929 text 岗位工资
+									930 cell
+										931 text 0
+								932 row
+									933 cell
+										934 text 批准工资补发/收回
+									935 cell
+										936 text 0
+								937 row
+									938 cell
+										939 text 餐补
+									940 cell
+										941 text 0
+								942 row
+									943 cell
+										944 text 个人社保
+									945 cell
+										946 text 0
+								947 row
+									948 cell
+										949 text 个人公积金
+									950 cell
+										951 text 0
+								952 row
+									953 cell
+										954 text 公司社保
+									955 cell
+										956 text 0
+								957 row
+									958 cell
+										959 text 公司公积金
+									960 cell
+										961 text 0
+								962 row
+									963 cell
+										964 text 批准年终奖
+									965 cell
+										966 text 0
+								967 row
+									968 cell
+										969 text 批准税款工资退还
+									970 cell
+										971 text 0
+								972 row
+									973 cell
+										974 text 批准缴费差额工资退还
+									975 cell
+										976 text 0
+								977 row
+									978 cell
+										979 text 批准税款工资补扣
+									980 cell
+										981 text 0
+								982 row
+									983 cell
+										984 text 批准缴费差额工资补扣
+									985 cell
+										986 text 0
+								987 row
+									988 cell
+										989 text 加班工资
+									990 cell
+										991 text 0
+								992 row
+									993 cell
+										994 text 迟到扣款
+									995 cell
+										996 text 0
+								997 row
+									998 cell
+										999 text 早退扣款
+									1000 cell
+										1001 text 0
+								1002 row
+									1003 cell
+										1004 text 旷工扣款
+									1005 cell
+										1006 text 0
+								1007 row
+									1008 cell
+										1009 text 假期扣款
+									1010 cell
+										1011 text 0
+								1012 row
+									1013 cell
+										1014 text 缺卡扣款
+									1015 cell
+										1016 text 0
+								1017 row
+									1018 cell
+										1019 text 综合扣款
+									1020 cell
+										1021 text 0
+								1022 row
+									1023 cell
+										1024 text 考勤扣款合计
+									1025 cell
+										1026 text 0
+								1027 row
+									1028 cell
+										1029 text 应发工资
+									1030 cell
+										1031 text 0
+								1032 row
+									1033 cell
+										1034 text 应税工资
+									1035 cell
+										1036 text 0
+								1037 row
+									1038 cell
+										1039 text 个人所得税
+									1040 cell
+										1041 text 0
+								1042 row
+									1043 cell
+										1044 text 实发工资
+									1045 cell
+										1046 text 0
+								1047 row
+									1048 cell
+										1049 text 累计收入额（截至上月）
+									1050 cell
+										1051 text 0
+								1052 row
+									1053 cell
+										1054 text 累计减除费用（截至上月）
+									1055 cell
+										1056 text 0
+								1057 row
+									1058 cell
+										1059 text 累计专项扣除（截至上月）
+									1060 cell
+										1061 text 0
+								1062 row
+									1063 cell
+										1064 text 累计已预缴税额
+									1065 cell
+										1066 text 0
+								1067 row
+									1068 cell
+										1069 text 累计子女教育
+									1070 cell
+										1071 text 0
+								1072 row
+									1073 cell
+										1074 text 累计住房租金
+									1075 cell
+										1076 text 0
+								1077 row
+									1078 cell
+										1079 text 累计住房贷款利息
+									1080 cell
+										1081 text 0
+								1082 row
+									1083 cell
+										1084 text 累计赡养老人
+									1085 cell
+										1086 text 0
+								1087 row
+									1088 cell
+										1089 text 累计继续教育
+									1090 cell
+										1091 text 0
+								1092 row
+									1093 cell
+										1094 text 累计婴幼儿照护
+									1095 cell
+										1096 text 0
+								1097 row
+									1098 cell
+										1099 text 累计收入额
+									1100 cell
+										1101 text 0
+								1102 row
+									1103 cell
+										1104 text 累计减除费用
+									1105 cell
+										1106 text 0
+								1107 row
+									1108 cell
+										1109 text 累计专项扣除
+									1110 cell
+										1111 text 0
+								1112 row
+									1113 cell
+										1114 text 累计专项附加扣除
+									1115 cell
+										1116 text 0
+								1117 row
+									1118 cell
+										1119 text 累计应纳税所得额
+									1120 cell
+										1121 text 0
+								1122 row
+									1123 cell
+										1124 text 累计应纳税额
+									1125 cell
+										1126 text 0
+					1127 text 调薪申请中未列出的工资项沿用原值。审批期间基线发生变化时需退回并重新提交；批准后未来生效的申请在到期后由原生效任务应用。
+			444 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 581 container 正式薪资变化 试用期薪资

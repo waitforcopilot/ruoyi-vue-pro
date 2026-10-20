@@ -1,0 +1,1133 @@
+Browser tab: 1, Title: "芋道管理系统 - 薪资档案", URL: "http://127.0.0.1:5173/hrm/salary/employee-info".
+1 AXWebArea 芋道管理系统 - 薪资档案, URL: 127.0.0.1:5173/hrm/salary/employee-info
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 作者动态
+				8 text 作者动态
+			9 Boot 开发文档
+				10 text Boot 开发文档
+			11 Cloud 开发文档
+				12 text Cloud 开发文档
+			13 (collapsed) 系统管理, Secondary Actions: Expand
+				14 container
+					15 text 系统管理
+					16 image
+			17 (collapsed) 基础设施, Secondary Actions: Expand
+				18 container
+					19 text 基础设施
+					20 image
+			21 (collapsed) 支付管理, Secondary Actions: Expand
+				22 container
+					23 text 支付管理
+					24 image
+			25 (collapsed) 报表管理, Secondary Actions: Expand
+				26 container
+					27 text 报表管理
+					28 image
+			29 (collapsed) 工作流程, Secondary Actions: Expand
+				30 container
+					31 text 工作流程
+					32 image
+			33 (collapsed) 会员中心, Secondary Actions: Expand
+				34 container
+					35 text 会员中心
+					36 image
+			37 (collapsed) 薪酬管理, Secondary Actions: Expand
+				38 container
+					39 text 薪酬管理
+					40 image
+			41 (collapsed) MALL 商城系统, Secondary Actions: Expand
+				42 container
+					43 text MALL 商城系统
+					44 image
+			45 (collapsed) EAM 资产管理, Secondary Actions: Expand
+				46 container
+					47 text EAM 资产管理
+					48 image
+			49 (collapsed) CRM 系统, Secondary Actions: Expand
+				50 container
+					51 text CRM 系统
+					52 image
+			53 (collapsed) ERP 系统, Secondary Actions: Expand
+				54 container
+					55 text ERP 系统
+					56 image
+			57 (collapsed) WMS 系统, Secondary Actions: Expand
+				58 container
+					59 text WMS 系统
+					60 image
+			61 (collapsed) MES 系统, Secondary Actions: Expand
+				62 container
+					63 text MES 系统
+					64 image
+			65 (collapsed) OA 办公协同, Secondary Actions: Expand
+				66 container
+					67 text OA 办公协同
+					68 image
+			69 (expanded) HRM 人力资源, Secondary Actions: Collapse
+				70 container
+					71 text HRM 人力资源
+					72 image
+				73 menu
+					74 HR 工作台
+						75 text HR 工作台
+					76 团队工作台
+						77 text 团队工作台
+					78 组织管理
+						79 text 组织管理
+					80 (collapsed) 招聘管理, Secondary Actions: Expand
+						81 container
+							82 text 招聘管理
+							83 image
+					84 (collapsed) 员工管理, Secondary Actions: Expand
+						85 container
+							86 text 员工管理
+							87 image
+					88 (collapsed) 考勤管理, Secondary Actions: Expand
+						89 container
+							90 text 考勤管理
+							91 image
+					92 (collapsed) 社保管理, Secondary Actions: Expand
+						93 container
+							94 text 社保管理
+							95 image
+					96 (expanded) 薪资管理, Secondary Actions: Collapse
+						97 container
+							98 text 薪资管理
+							99 image
+						100 menu
+							101 月度工资表
+								102 text 月度工资表
+							103 历史工资表
+								104 text 历史工资表
+							105 薪资档案
+								106 text 薪资档案
+							107 发放记录
+								108 text 发放记录
+							109 (collapsed) 薪资设置, Secondary Actions: Expand
+								110 container
+									111 text 薪资设置
+									112 image
+					113 (collapsed) 绩效管理, Secondary Actions: Expand
+						114 container
+							115 text 绩效管理
+							116 image
+					117 (collapsed) HRM 员工端, Secondary Actions: Expand
+						118 container
+							119 text HRM 员工端
+							120 image
+			121 (collapsed) FMS 财务管理, Secondary Actions: Expand
+				122 container
+					123 text FMS 财务管理
+					124 image
+			125 (collapsed) PMS 项目管理, Secondary Actions: Expand
+				126 container
+					127 text PMS 项目管理
+					128 image
+			129 (collapsed) AI 大模型, Secondary Actions: Expand
+				130 container
+					131 text AI 大模型
+					132 image
+			133 (collapsed) IoT 物联网, Secondary Actions: Expand
+				134 container
+					135 text IoT 物联网
+					136 image
+			137 (collapsed) IM 即时通讯, Secondary Actions: Expand
+				138 container
+					139 text IM 即时通讯
+					140 image
+			141 (collapsed) MP 公众号管理, Secondary Actions: Expand
+				142 container
+					143 text MP 公众号管理
+					144 image
+			145 (collapsed) CMS 内容管理, Secondary Actions: Expand
+				146 container
+					147 text CMS 内容管理
+					148 image
+		149 container
+			150 container v-tool-header
+				151 container 面包屑
+					152 link HRM 人力资源
+						153 text HRM 人力资源
+					154 text /
+					155 link 薪资管理
+						156 text 薪资管理
+					157 text /
+					158 link 薪资档案
+						159 text 薪资档案
+				160 container
+					161 combo box (collapsed, settable) ID: el-id-3560-75, Secondary Actions: Expand
+					162 text 请选择租户
+					163 image
+				164 container
+					165 container
+						166 combo box (collapsed, settable) ID: el-id-3560-76, Secondary Actions: Expand
+						167 text 请输入菜单内容
+				168 pop up button (collapsed) ID: el-id-3560-6, Secondary Actions: Expand
+				169 pop up button (collapsed) ID: el-id-3560-11, Secondary Actions: Expand
+				170 pop up button (collapsed) ID: el-id-3560-16, Secondary Actions: Expand
+			171 container v-tags-view
+				172 container
+					173 pop up button (collapsed) 首页, ID: el-id-3560-22, Secondary Actions: Expand
+						174 container
+							175 text 首页
+					176 pop up button (collapsed) 薪资档案, ID: el-id-3560-30, Secondary Actions: Expand
+						177 container
+							178 text 薪资档案
+				179 pop up button (collapsed) ID: el-id-3560-38, Secondary Actions: Expand
+			180 container
+				181 image
+				182 text 【【薪资】计薪设置、薪资档案、月度工资、工资条】文档地址：https://doc.iocoder.cn/hrm/salary/config/
+				183 image
+			184 container
+				185 text 员工
+				186 text field (settable) 员工, ID: el-id-3560-77
+				187 text 部门
+				188 container
+					189 combo box (collapsed, settable) 部门, ID: el-id-3560-78, Secondary Actions: Expand
+					190 text 请选择部门
+					191 image
+				192 text 岗位
+				193 text field (settable) 岗位, ID: el-id-3560-79
+				194 text 状态
+				195 container
+					196 combo box (collapsed, settable) 状态, ID: el-id-3560-80, Secondary Actions: Expand
+					197 text 请选择档案状态
+					198 image
+				199 container
+					200 button 搜索
+						201 text 搜索
+					202 button 重置
+						203 text 重置
+					204 button 批量调薪
+						205 text 批量调薪
+					206 button 导入定薪
+						207 text 导入定薪
+					208 button 导入调薪
+						209 text 导入调薪
+			210 container
+				211 tab group
+					212 tab (selected, settable, boolean) 在职（8）, Value: 1, ID: tab-11
+					213 tab (selectable, settable, boolean) 全职（8）, Value: 0, ID: tab-12
+					214 tab (selectable, settable, boolean) 实习（0）, Value: 0, ID: tab-3
+					215 tab (selectable, settable, boolean) 劳务（0）, Value: 0, ID: tab-5
+					216 tab (selectable, settable, boolean) 顾问（0）, Value: 0, ID: tab-6
+					217 tab (selectable, settable, boolean) 返聘（0）, Value: 0, ID: tab-7
+					218 tab (selectable, settable, boolean) 外包（0）, Value: 0, ID: tab-8
+					219 tab (selectable, settable, boolean) 兼职（0）, Value: 0, ID: tab-4
+					220 tab (selectable, settable, boolean) 试用（0）, Value: 0, ID: tab-2
+					221 tab (selectable, settable, boolean) 正式（8）, Value: 0, ID: tab-1
+			222 container Description: 在职（8）, ID: pane-11
+			223 container
+				224 table
+					225 row
+						226 cell
+							227 container 选择所有行
+								228 checkbox (settable, integer) Description: 选择所有行, Value: 0, ID: el-id-3560-83
+						229 cell
+							230 text 员工姓名
+						231 cell
+							232 text 工号
+						233 cell
+							234 text 部门
+						235 cell
+							236 text 岗位
+						237 cell
+							238 text 员工状态
+						239 cell
+							240 text 入职日期
+						241 cell
+							242 text 转正日期
+						243 cell
+							244 text 最近调整日期
+						245 cell
+							246 text 调薪原因
+						247 cell
+							248 text 工资合计
+						249 cell
+							250 text 操作
+				251 table
+					252 container
+						253 row
+							254 cell
+								255 container 选择当前行
+									256 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-3560-99
+							257 cell
+								258 link 隔离浏览器流程员工
+									259 text 隔离浏览器流程员工
+							260 cell
+								261 text ACCEPT_BROWSER_EMP
+							262 cell
+								263 text 芋道源码
+							264 cell
+								265 text 浏览器验收岗位
+							266 cell
+								267 text 正式
+							268 cell
+								269 text 2026-10-01
+							270 cell
+								271 text 2026-10-01
+							272 cell
+								273 text -
+							274 cell
+								275 text 0.00
+							276 cell
+								277 button 定薪
+						278 row
+							279 cell
+								280 container 选择当前行
+									281 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-3560-100
+							282 cell
+								283 link 隔离历史工资员工
+									284 text 隔离历史工资员工
+							285 cell
+								286 text ACCEPT_TAX_HISTORY
+							287 cell
+								288 text 研发部门
+							289 cell
+								290 text 验收岗位
+							291 cell
+								292 text 正式
+							293 cell
+								294 text 2026-01-01
+							295 cell
+								296 text 2026-01-01
+							297 cell
+								298 text 2026-10-16
+							299 cell
+								300 text 年度调薪
+							301 cell
+								302 text 9000.00
+							303 cell
+								304 button 调薪
+						305 row
+							306 cell
+								307 container 选择当前行
+									308 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-3560-101
+							309 cell
+								310 link 隔离IRREGULAR员工
+									311 text 隔离IRREGULAR员工
+							312 cell
+								313 text ACCEPT_WORK_IRREGULAR
+							314 cell
+								315 text 研发部门
+							316 cell
+								317 text 验收岗位
+							318 cell
+								319 text 正式
+							320 cell
+								321 text 2026-08-01
+							322 cell
+								323 text 2026-08-01
+							324 cell
+								325 text -
+							326 cell
+								327 text 0.00
+							328 cell
+								329 button 定薪
+						330 row
+							331 cell
+								332 container 选择当前行
+									333 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-3560-102
+							334 cell
+								335 link 隔离COMPREHENSIVE员工
+									336 text 隔离COMPREHENSIVE员工
+							337 cell
+								338 text ACCEPT_WORK_COMPREHENSIVE
+							339 cell
+								340 text 研发部门
+							341 cell
+								342 text 验收岗位
+							343 cell
+								344 text 正式
+							345 cell
+								346 text 2026-08-01
+							347 cell
+								348 text 2026-08-01
+							349 cell
+								350 text -
+							351 cell
+								352 text 0.00
+							353 cell
+								354 button 定薪
+						355 row
+							356 cell
+								357 container 选择当前行
+									358 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-3560-103
+							359 cell
+								360 link 隔离STANDARD员工
+									361 text 隔离STANDARD员工
+							362 cell
+								363 text ACCEPT_WORK_STANDARD
+							364 cell
+								365 text 研发部门
+							366 cell
+								367 text 验收岗位
+							368 cell
+								369 text 正式
+							370 cell
+								371 text 2026-08-01
+							372 cell
+								373 text 2026-08-01
+							374 cell
+								375 text -
+							376 cell
+								377 text 0.00
+							378 cell
+								379 button 定薪
+						380 row
+							381 cell
+								382 container 选择当前行
+									383 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-3560-104
+							384 cell
+								385 link 隔离考勤工单员工
+									386 text 隔离考勤工单员工
+							387 cell
+								388 text ACCEPT_ATTENDANCE
+							389 cell
+								390 text 研发部门
+							391 cell
+								392 text 验收岗位
+							393 cell
+								394 text 正式
+							395 cell
+								396 text 2025-01-01
+							397 cell
+								398 text 2025-01-01
+							399 cell
+								400 text -
+							401 cell
+								402 text 0.00
+							403 cell
+								404 button 定薪
+						405 row
+							406 cell
+								407 container 选择当前行
+									408 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-3560-105
+							409 cell
+								410 link 隔离范围员工104
+									411 text 隔离范围员工104
+							412 cell
+								413 text ACCEPT_SCOPE_104
+							414 cell
+								415 text 市场部门
+							416 cell
+								417 text 验收岗位
+							418 cell
+								419 text 正式
+							420 cell
+								421 text 2026-01-01
+							422 cell
+								423 text 2026-10-01
+							424 cell
+								425 text 入职定薪
+							426 cell
+								427 text 6000.00
+							428 cell
+								429 button 调薪
+						430 row
+							431 cell
+								432 container 选择当前行
+									433 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-3560-106
+							434 cell
+								435 link 隔离范围员工103
+									436 text 隔离范围员工103
+							437 cell
+								438 text ACCEPT_SCOPE_103
+							439 cell
+								440 text 研发部门
+							441 cell
+								442 text 验收岗位
+							443 cell
+								444 text 正式
+							445 cell
+								446 text 2026-01-01
+							447 cell
+								448 text 2026-10-01
+							449 cell
+								450 text 入职定薪
+							451 cell
+								452 text 6000.00
+							453 cell
+								454 button 调薪
+			455 text 共 8 条
+			456 container
+				457 combo box (collapsed, settable) ID: el-id-3560-81, Secondary Actions: Expand
+				458 text 10条/页
+				459 image
+			460 button (disabled) 上一页
+			461 content list
+				462 container 第 1 页
+					463 text 1
+			464 button (disabled) 下一页
+			465 text 前往
+			466 stepper (settable, integer) Description: 页, Value: 1, ID: el-id-3560-82
+			467 text 页
+			801 container
+				802 container
+					803 text 定薪/调薪
+				804 container
+					805 container el-id-3560-203
+						806 text *
+						807 text 员工
+					808 container
+						809 text field * 员工, Value: 隔离浏览器流程员工, ID: el-id-3560-213
+						810 image
+					811 container el-id-3560-207
+						812 text *
+						813 text 记录类型
+					814 Description: * 记录类型, ID: el-id-3560-214
+						815 container
+							816 radio button (disabled, settable, integer) Description: 定薪, Value: 1
+							817 text 定薪
+						818 container
+							819 radio button (disabled, settable, integer) Description: 调薪, Value: 0
+							820 text 调薪
+					821 text 调薪模板
+					822 container
+						823 combo box (expanded, settable) 调薪模板, ID: el-id-3560-215, Secondary Actions: Collapse
+						824 text 全部薪资项
+						825 image
+					826 container
+						827 table
+							828 row
+								829 cell
+									830 text 薪资项
+								831 cell
+									832 text 编码
+								833 cell
+									834 text 试用期工资
+								835 cell
+									836 text 转正后工资
+						837 table
+							838 container
+								839 row
+									840 cell
+										841 text 基本工资
+									842 cell
+										843 text 10101
+									844 cell
+										845 container
+											846 button 减少数值
+											847 button 增加数值
+											848 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-217
+									849 cell
+										850 container
+											851 button 减少数值
+											852 button 增加数值
+											853 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-218
+								854 row
+									855 cell
+										856 text 岗位工资
+									857 cell
+										858 text 10102
+									859 cell
+										860 container
+											861 button 减少数值
+											862 button 增加数值
+											863 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-219
+									864 cell
+										865 container
+											866 button 减少数值
+											867 button 增加数值
+											868 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-220
+								869 row
+									870 cell
+										871 text 批准工资补发/收回
+									872 cell
+										873 text 10901
+									874 cell
+										875 container
+											876 button 减少数值
+											877 button 增加数值
+											878 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-221
+									879 cell
+										880 container
+											881 button 减少数值
+											882 button 增加数值
+											883 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-222
+								884 row
+									885 cell
+										886 text 餐补
+									887 cell
+										888 text 20104
+									889 cell
+										890 container
+											891 button 减少数值
+											892 button 增加数值
+											893 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-223
+									894 cell
+										895 container
+											896 button 减少数值
+											897 button 增加数值
+											898 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-224
+								899 row
+									900 cell
+										901 text 个人社保
+									902 cell
+										903 text 100101
+									904 cell
+										905 container
+											906 button 减少数值
+											907 button 增加数值
+											908 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-225
+									909 cell
+										910 container
+											911 button 减少数值
+											912 button 增加数值
+											913 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-226
+								914 row
+									915 cell
+										916 text 个人公积金
+									917 cell
+										918 text 100102
+									919 cell
+										920 container
+											921 button 减少数值
+											922 button 增加数值
+											923 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-227
+									924 cell
+										925 container
+											926 button 减少数值
+											927 button 增加数值
+											928 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-228
+								929 row
+									930 cell
+										931 text 公司社保
+									932 cell
+										933 text 110101
+									934 cell
+										935 container
+											936 button 减少数值
+											937 button 增加数值
+											938 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-229
+									939 cell
+										940 container
+											941 button 减少数值
+											942 button 增加数值
+											943 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-230
+								944 row
+									945 cell
+										946 text 公司公积金
+									947 cell
+										948 text 120101
+									949 cell
+										950 container
+											951 button 减少数值
+											952 button 增加数值
+											953 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-231
+									954 cell
+										955 container
+											956 button 减少数值
+											957 button 增加数值
+											958 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-232
+								959 row
+									960 cell
+										961 text 批准年终奖
+									962 cell
+										963 text 140101
+									964 cell
+										965 container
+											966 button 减少数值
+											967 button 增加数值
+											968 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-233
+									969 cell
+										970 container
+											971 button 减少数值
+											972 button 增加数值
+											973 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-234
+								974 row
+									975 cell
+										976 text 批准税款工资退还
+									977 cell
+										978 text 150901
+									979 cell
+										980 container
+											981 button 减少数值
+											982 button 增加数值
+											983 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-235
+									984 cell
+										985 container
+											986 button 减少数值
+											987 button 增加数值
+											988 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-236
+								989 row
+									990 cell
+										991 text 批准缴费差额工资退还
+									992 cell
+										993 text 150902
+									994 cell
+										995 container
+											996 button 减少数值
+											997 button 增加数值
+											998 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-237
+									999 cell
+										1000 container
+											1001 button 减少数值
+											1002 button 增加数值
+											1003 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-238
+								1004 row
+									1005 cell
+										1006 text 批准税款工资补扣
+									1007 cell
+										1008 text 160901
+									1009 cell
+										1010 container
+											1011 button 减少数值
+											1012 button 增加数值
+											1013 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-239
+									1014 cell
+										1015 container
+											1016 button 减少数值
+											1017 button 增加数值
+											1018 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-240
+								1019 row
+									1020 cell
+										1021 text 批准缴费差额工资补扣
+									1022 cell
+										1023 text 160902
+									1024 cell
+										1025 container
+											1026 button 减少数值
+											1027 button 增加数值
+											1028 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-241
+									1029 cell
+										1030 container
+											1031 button 减少数值
+											1032 button 增加数值
+											1033 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-242
+								1034 row
+									1035 cell
+										1036 text 加班工资
+									1037 cell
+										1038 text 180101
+									1039 cell
+										1040 container
+											1041 button 减少数值
+											1042 button 增加数值
+											1043 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-243
+									1044 cell
+										1045 container
+											1046 button 减少数值
+											1047 button 增加数值
+											1048 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-244
+								1049 row
+									1050 cell
+										1051 text 迟到扣款
+									1052 cell
+										1053 text 190101
+									1054 cell
+										1055 container
+											1056 button 减少数值
+											1057 button 增加数值
+											1058 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-245
+									1059 cell
+										1060 container
+											1061 button 减少数值
+											1062 button 增加数值
+											1063 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-246
+								1064 row
+									1065 cell
+										1066 text 早退扣款
+									1067 cell
+										1068 text 190102
+									1069 cell
+										1070 container
+											1071 button 减少数值
+											1072 button 增加数值
+											1073 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-247
+									1074 cell
+										1075 container
+											1076 button 减少数值
+											1077 button 增加数值
+											1078 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-248
+								1079 row
+									1080 cell
+										1081 text 旷工扣款
+									1082 cell
+										1083 text 190103
+									1084 cell
+										1085 container
+											1086 button 减少数值
+											1087 button 增加数值
+											1088 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-249
+									1089 cell
+										1090 container
+											1091 button 减少数值
+											1092 button 增加数值
+											1093 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-250
+								1094 row
+									1095 cell
+										1096 text 假期扣款
+									1097 cell
+										1098 text 190104
+									1099 cell
+										1100 container
+											1101 button 减少数值
+											1102 button 增加数值
+											1103 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-251
+									1104 cell
+										1105 container
+											1106 button 减少数值
+											1107 button 增加数值
+											1108 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-252
+								1109 row
+									1110 cell
+										1111 text 缺卡扣款
+									1112 cell
+										1113 text 190105
+									1114 cell
+										1115 container
+											1116 button 减少数值
+											1117 button 增加数值
+											1118 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-253
+									1119 cell
+										1120 container
+											1121 button 减少数值
+											1122 button 增加数值
+											1123 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-254
+								1124 row
+									1125 cell
+										1126 text 综合扣款
+									1127 cell
+										1128 text 190106
+									1129 cell
+										1130 container
+											1131 button 减少数值
+											1132 button 增加数值
+											1133 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-255
+									1134 cell
+										1135 container
+											1136 button 减少数值
+											1137 button 增加数值
+											1138 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-256
+								1139 row
+									1140 cell
+										1141 text 考勤扣款合计
+									1142 cell
+										1143 text 200101
+									1144 cell
+										1145 container
+											1146 button 减少数值
+											1147 button 增加数值
+											1148 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-257
+									1149 cell
+										1150 container
+											1151 button 减少数值
+											1152 button 增加数值
+											1153 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-258
+								1154 row
+									1155 cell
+										1156 text 应发工资
+									1157 cell
+										1158 text 210101
+									1159 cell
+										1160 container
+											1161 button 减少数值
+											1162 button 增加数值
+											1163 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-259
+									1164 cell
+										1165 container
+											1166 button 减少数值
+											1167 button 增加数值
+											1168 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-260
+								1169 row
+									1170 cell
+										1171 text 应税工资
+									1172 cell
+										1173 text 220101
+									1174 cell
+										1175 container
+											1176 button 减少数值
+											1177 button 增加数值
+											1178 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-261
+									1179 cell
+										1180 container
+											1181 button 减少数值
+											1182 button 增加数值
+											1183 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-262
+								1184 row
+									1185 cell
+										1186 text 个人所得税
+									1187 cell
+										1188 text 230101
+									1189 cell
+										1190 container
+											1191 button 减少数值
+											1192 button 增加数值
+											1193 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-263
+									1194 cell
+										1195 container
+											1196 button 减少数值
+											1197 button 增加数值
+											1198 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-264
+								1199 row
+									1200 cell
+										1201 text 实发工资
+									1202 cell
+										1203 text 240101
+									1204 cell
+										1205 container
+											1206 button 减少数值
+											1207 button 增加数值
+											1208 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-265
+									1209 cell
+										1210 container
+											1211 button 减少数值
+											1212 button 增加数值
+											1213 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-266
+								1214 row
+									1215 cell
+										1216 text 累计收入额（截至上月）
+									1217 cell
+										1218 text 250101
+									1219 cell
+										1220 container
+											1221 button 减少数值
+											1222 button 增加数值
+											1223 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-267
+									1224 cell
+										1225 container
+											1226 button 减少数值
+											1227 button 增加数值
+											1228 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-268
+								1229 row
+									1230 cell
+										1231 text 累计减除费用（截至上月）
+									1232 cell
+										1233 text 250102
+									1234 cell
+										1235 container
+											1236 button 减少数值
+											1237 button 增加数值
+											1238 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-269
+									1239 cell
+										1240 container
+											1241 button 减少数值
+											1242 button 增加数值
+											1243 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-270
+								1244 row
+									1245 cell
+										1246 text 累计专项扣除（截至上月）
+									1247 cell
+										1248 text 250103
+									1249 cell
+										1250 container
+											1251 button 减少数值
+											1252 button 增加数值
+											1253 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-271
+									1254 cell
+										1255 container
+											1256 button 减少数值
+											1257 button 增加数值
+											1258 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-272
+								1259 row
+									1260 cell
+										1261 text 累计已预缴税额
+									1262 cell
+										1263 text 250105
+									1264 cell
+										1265 container
+											1266 button 减少数值
+											1267 button 增加数值
+											1268 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-273
+									1269 cell
+										1270 container
+											1271 button 减少数值
+											1272 button 增加数值
+											1273 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-274
+								1274 row
+									1275 cell
+										1276 text 累计子女教育
+									1277 cell
+										1278 text 260101
+									1279 cell
+										1280 container
+											1281 button 减少数值
+											1282 button 增加数值
+											1283 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-275
+									1284 cell
+										1285 container
+											1286 button 减少数值
+											1287 button 增加数值
+											1288 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-276
+								1289 row
+									1290 cell
+										1291 text 累计住房租金
+									1292 cell
+										1293 text 260102
+									1294 cell
+										1295 container
+											1296 button 减少数值
+											1297 button 增加数值
+											1298 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-277
+									1299 cell
+										1300 container
+											1301 button 减少数值
+											1302 button 增加数值
+											1303 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-278
+								1304 row
+									1305 cell
+										1306 text 累计住房贷款利息
+									1307 cell
+										1308 text 260103
+									1309 cell
+										1310 container
+											1311 button 减少数值
+											1312 button 增加数值
+											1313 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-279
+									1314 cell
+										1315 container
+											1316 button 减少数值
+											1317 button 增加数值
+											1318 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-280
+								1319 row
+									1320 cell
+										1321 text 累计赡养老人
+									1322 cell
+										1323 text 260104
+									1324 cell
+										1325 container
+											1326 button 减少数值
+											1327 button 增加数值
+											1328 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-281
+									1329 cell
+										1330 container
+											1331 button 减少数值
+											1332 button 增加数值
+											1333 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-282
+								1334 row
+									1335 cell
+										1336 text 累计继续教育
+									1337 cell
+										1338 text 260105
+									1339 cell
+										1340 container
+											1341 button 减少数值
+											1342 button 增加数值
+											1343 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-283
+									1344 cell
+										1345 container
+											1346 button 减少数值
+											1347 button 增加数值
+											1348 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-284
+								1349 row
+									1350 cell
+										1351 text 累计婴幼儿照护
+									1352 cell
+										1353 text 260106
+									1354 cell
+										1355 container
+											1356 button 减少数值
+											1357 button 增加数值
+											1358 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-285
+									1359 cell
+										1360 container
+											1361 button 减少数值
+											1362 button 增加数值
+											1363 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-286
+								1364 row
+									1365 cell
+										1366 text 累计收入额
+									1367 cell
+										1368 text 270101
+									1369 cell
+										1370 container
+											1371 button 减少数值
+											1372 button 增加数值
+											1373 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-287
+									1374 cell
+										1375 container
+											1376 button 减少数值
+											1377 button 增加数值
+											1378 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-288
+								1379 row
+									1380 cell
+										1381 text 累计减除费用
+									1382 cell
+										1383 text 270102
+									1384 cell
+										1385 container
+											1386 button 减少数值
+											1387 button 增加数值
+											1388 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-289
+									1389 cell
+										1390 container
+											1391 button 减少数值
+											1392 button 增加数值
+											1393 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-290
+								1394 row
+									1395 cell
+										1396 text 累计专项扣除
+									1397 cell
+										1398 text 270103
+									1399 cell
+										1400 container
+											1401 button 减少数值
+											1402 button 增加数值
+											1403 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-291
+									1404 cell
+										1405 container
+											1406 button 减少数值
+											1407 button 增加数值
+											1408 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-292
+								1409 row
+									1410 cell
+										1411 text 累计专项附加扣除
+									1412 cell
+										1413 text 270104
+									1414 cell
+										1415 container
+											1416 button 减少数值
+											1417 button 增加数值
+											1418 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-293
+									1419 cell
+										1420 container
+											1421 button 减少数值
+											1422 button 增加数值
+											1423 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-294
+								1424 row
+									1425 cell
+										1426 text 累计应纳税所得额
+									1427 cell
+										1428 text 270105
+									1429 cell
+										1430 container
+											1431 button 减少数值
+											1432 button 增加数值
+											1433 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-295
+									1434 cell
+										1435 container
+											1436 button 减少数值
+											1437 button 增加数值
+											1438 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-296
+								1439 row
+									1440 cell
+										1441 text 累计应纳税额
+									1442 cell
+										1443 text 270106
+									1444 cell
+										1445 container
+											1446 button 减少数值
+											1447 button 增加数值
+											1448 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-297
+									1449 cell
+										1450 container
+											1451 button 减少数值
+											1452 button 增加数值
+											1453 stepper (settable, integer) Value: 0, Details: 0.00, ID: el-id-3560-298
+					1454 text 备注
+					1455 container
+						1456 text entry area (settable) 备注, ID: el-id-3560-216
+						1457 text 0 / 500
+				1458 container
+					1459 button 确 定
+					1460 button 取 消
+			800 text Copyright ©2026 芋道管理系统
+	1461 container 无数据, ID: el-id-3560-211
+		1462 text 无数据
+
+The focused UI element is 823 combo box (expanded, settable) 调薪模板, ID: el-id-3560-215, Secondary Actions: Collapse
