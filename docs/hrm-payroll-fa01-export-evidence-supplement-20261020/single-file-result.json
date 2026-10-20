@@ -1,0 +1,48 @@
+{
+  "verifiedAt": "2026-10-20T20:25:23.940715+08:00",
+  "checkedFields": 638,
+  "sixSheetsExactly": true,
+  "longFieldsWithContinuation": 73,
+  "noOrphanExplicitReferences": true,
+  "validationMode": "single historical downloaded file against newly archived frozen-release projection",
+  "historicalReexportCompared": false,
+  "verifierInputPathsIdentical": true,
+  "checks": [
+    {
+      "sheet": "评审版本说明",
+      "businessRows": 26,
+      "columns": 115,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "功能需求清单",
+      "businessRows": 14,
+      "columns": 53,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "数据源清单",
+      "businessRows": 2,
+      "columns": 79,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "字段映射",
+      "businessRows": 1,
+      "columns": 80,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "问题与待办",
+      "businessRows": 14,
+      "columns": 7,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "范围与变更",
+      "businessRows": 14,
+      "columns": 156,
+      "fieldsReconstructedExactly": true
+    }
+  ]
+}

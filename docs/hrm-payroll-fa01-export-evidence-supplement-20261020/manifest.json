@@ -1,0 +1,52 @@
+{
+  "capturedAt": "2026-10-20T20:25:23.971897+08:00",
+  "baseHead": "ac5ecf3d7117837879aca719bf0e2c660cfd1743",
+  "source": {
+    "method": "GET",
+    "endpoint": "http://127.0.0.1:48080/admin-api/hrm/payroll/governance/release?projectId=105&releaseId=1352",
+    "actorId": 266,
+    "newlyFetchedProjection": true,
+    "restricted": false,
+    "notClaimedAsByteIdenticalToUnarchivedPreviousMemoryInput": true
+  },
+  "workbook": {
+    "origin": "previous actual IAB download, job1361, frozen release1352",
+    "sha256": "355be0724f359b8a37db48541f7a043d0b6c257ed2405fa0944db097a6aa5aa0",
+    "matchesPreviousWorkbookEvidence": true,
+    "newBrowserDownloadPerformed": false
+  },
+  "verifier": {
+    "path": "scripts/hrm/verify_governance_workbook.py",
+    "sha256": "740c4ee6dac889245021fdb161921ba333d4f2ed5fdc3609928e50c9a5408ae0",
+    "samePathPassedTwiceForLegacyCLI": true,
+    "rawReexportFlagsNotHistoricalEqualityEvidence": true
+  },
+  "readOnlyAuditSha256": "3ef169b627051446f2e64382698e404b32ff63b0c70787e17fb9d851a9464a99",
+  "files": [
+    {
+      "path": "prior-commit-files.json",
+      "bytes": 2079,
+      "sha256": "bfe968ca5569025eb9f72055ec21da1748c9f7a95b4d1f41c2cf2a6baa9013af"
+    },
+    {
+      "path": "projection-1352.json",
+      "bytes": 521551,
+      "sha256": "9e8160a24f819c4c2c6c0a7c8183589caf48033d5e75efa50a5af9146f7745a7"
+    },
+    {
+      "path": "release-1352-job-1361.xlsx",
+      "bytes": 59039,
+      "sha256": "355be0724f359b8a37db48541f7a043d0b6c257ed2405fa0944db097a6aa5aa0"
+    },
+    {
+      "path": "single-file-result.json",
+      "bytes": 1195,
+      "sha256": "8a690ab672d180926b302db103621c50cb782f242f019b1dac794fdd408fa803"
+    },
+    {
+      "path": "verifier-raw-output.json",
+      "bytes": 1578,
+      "sha256": "1f853a8f04c63bb0ed069ebe81093a3a6362e9889a56980dbab810120ff23169"
+    }
+  ]
+}

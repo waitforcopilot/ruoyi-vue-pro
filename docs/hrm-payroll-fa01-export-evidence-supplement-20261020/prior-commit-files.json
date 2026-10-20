@@ -1,0 +1,33 @@
+{
+  "implementationCommit": "c112770ed9bb97d8bbd677f7a8e39864fbbe88ba",
+  "implementationPaths": [
+    "docs/hrm-payroll-fa01-export-evidence-20261020/README.md",
+    "docs/hrm-payroll-fa01-export-evidence-20261020/api-iab.json",
+    "docs/hrm-payroll-fa01-export-evidence-20261020/api.json",
+    "docs/hrm-payroll-fa01-export-evidence-20261020/browser-claim-visible.png",
+    "docs/hrm-payroll-fa01-export-evidence-20261020/browser-claim.txt",
+    "docs/hrm-payroll-fa01-export-evidence-20261020/browser-decision-body.png",
+    "docs/hrm-payroll-fa01-export-evidence-20261020/browser-decision-body.txt",
+    "docs/hrm-payroll-fa01-export-evidence-20261020/browser-export-before-anchor.txt",
+    "docs/hrm-payroll-fa01-export-evidence-20261020/browser-failure-visible.png",
+    "docs/hrm-payroll-fa01-export-evidence-20261020/browser-failure-visible.txt",
+    "docs/hrm-payroll-fa01-export-evidence-20261020/browser-frozen-visible.png",
+    "docs/hrm-payroll-fa01-export-evidence-20261020/browser-frozen-visible.txt",
+    "docs/hrm-payroll-fa01-export-evidence-20261020/browser-new-ready.txt",
+    "docs/hrm-payroll-fa01-export-evidence-20261020/candidate.json",
+    "docs/hrm-payroll-fa01-export-evidence-20261020/runtime.json",
+    "docs/hrm-payroll-fa01-export-evidence-20261020/submission-scan.json",
+    "docs/hrm-payroll-fa01-export-evidence-20261020/workbook.json",
+    "docs/hrm-payroll-fa01-fix-report-audit-20261020.md",
+    "docs/hrm-payroll-fa01-followup-fix-report-20261020.md",
+    "docs/hrm-payroll-fix-progress-20261017.md",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceExportService.java",
+    "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceServiceTest.java"
+  ],
+  "receiptCommit": "ac5ecf3d7117837879aca719bf0e2c660cfd1743",
+  "receiptPaths": [
+    "docs/hrm-payroll-fa01-export-evidence-20261020/delivery.json",
+    "docs/hrm-payroll-fa01-followup-fix-report-20261020.md"
+  ],
+  "omittedInPreviousNarrative": "docs/hrm-payroll-fix-progress-20261017.md"
+}
