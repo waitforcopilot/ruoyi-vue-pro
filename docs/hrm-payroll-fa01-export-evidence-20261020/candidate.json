@@ -1,0 +1,20 @@
+{
+  "baseHead": "bfa68aa559cc524e33e68cf6201f33a31c361291",
+  "jarSha256": "90b6d03f62cb03724f8729c1d581790da2f16ed2672b2d246e9aeb294ebcb036",
+  "hrmClassesExact": 1109,
+  "sourceSha256": {
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceExportService.java": "e45374aa0c350e56afe046bc74b00119e2119c614ef05ace7ad62d1a92312dfd",
+    "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceServiceTest.java": "baa9be43293b2e12461ca9ef81803818f171d1670c18cc45e5a62644d40318c1"
+  },
+  "tests": {
+    "tests": 135,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "logSha256": "c5890739bb814996229e7564b86ab2649760a56af8d5a4a721581736f0d26d20",
+  "buildSuccess": true,
+  "beforeFixLogSha256": "0d425bfe9c7971b1d533e704297f8a16ad374c069e11962ac26a6facefe87b6e",
+  "beforeFix": "1 test, 0 assertion failures, 1 service error at generation after unrelated ANCHOR, BUILD FAILURE",
+  "readOnlyAuditSha256": "5a9c259b7eeea58b0a0d78ed59193bf1556e06f19dde0d0ebc321a00f39dce54"
+}

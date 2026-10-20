@@ -1,0 +1,361 @@
+Browser tab: 1, Title: "芋道管理系统 - 业务决议与基线发布", URL: "http://127.0.0.1:5173/hrm-payroll/governance?projectId=105".
+0 AXWebArea 芋道管理系统 - 业务决议与基线发布, URL: 127.0.0.1:5173/hrm-payroll/governance?projectId=105
+	1 container 冻结记录与受控正文
+		2 container { "记录类型": "DECISION", "记录号": "DEC-604", "决议ID": "c511507a-968c-4b95-bf22-91a9be774bdf", "决议版本": 1, "本次发布使用": true, "条款及批准事实": { "projectId": 105, "projectScopeVersion": 1, "previousId": null, "title": "TEST S6 浏览器当前范围及授权矩阵合成决议", "questions": [ "Q-01", "Q-02", "Q-03", "Q-04", "Q-05", "Q-06", "Q-07", "Q-08", "Q-09", "Q-10" ], "clauses": "TEST PRD v0.4 6.4/6.8/7.5/7.6/8.1/8.2/8.3/9.1", "clauseVersion": "TEST-S6-PRD04-V1", "body": "TEST 合成材料：仅验证需求征集工作台功能、当前范围、授权矩阵、状态变更、六表和实施关联，不构成真实业务批准。", "scopeJson": "{\"entities\":[101],\"organizations\":[201],\"workerTypes\":[\"TEST\"],\"scenarios\":[\"TEST\"],\"from\":\"2026-10-01\",\"to\":\"2026-10-31\",\"explanation\":\"TEST S5 independent synthetic project scope, not actual approval\"}", "validFrom": "2026-10-19", "validTo": "2027-12-31", "approverId": 267, "approvalConditions": "TEST 独立账号267本人核对合成材料后批准，不替真实业务签署", "semanticChange": false, "otherQuestions": {}, "reason": "TEST S6 本地合成验收，独立已登记根471/474", "decisionId": "c511507a-968c-4b95-bf22-91a9be774bdf", "decisionVersion": 1, "state": "APPROVED", "createdBy": 266, "createdAt": "2026-10-19T21:25:14.857", "digest": "eb6f27f2459561d3f711264c4bf6fee0e12f8ae27d50033c59d6c1355397eb45", "draftAuthority": [ { "grant": { "createTime": 1792415098000, "updateTime": 1792415098000, "creator": "267", "updater": "267", "deleted": false, "id": 351, "rootRecordId": 471, "authorityFactsJson": "{\"grantorAtGrant\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"recipientAtGrant\":{\"id\":266,\"nickname\":\"TEST S5 editor NEW DISPLAY\",\"status\":0},\"rootId\":471,\"rootVersion\":2,\"rootBodyDigest\":\"7c4374079007f0c318bc66002c2977a4bef5120a96d62be9bc910804953cb21f\",\"grantedAt\":\"2026-10-19T21:04:58.385\"}", "parentGrantId": null, "grantorId": 267, "grantVersion": 1, "delegableActions": "META,ISSUE_HANDLE,SCOPE,SCOPE_DECIDE,ISSUE_REVIEW,EXPORT,EDIT,SOURCE_EDIT,ASSIGN,GRANT_READ,DECISION_EDIT,MEMBER,READ,BASELINE_PUBLISH,DECISION_READ,PERSON_READ,CONFIRM,SOURCE_VERIFY,DECISION_APPROVE,ISSUE_MANAGE", "modulesJson": null, "requirementIdsJson": null, "sourceIdsJson": null, "fullProject": true, "revokedAt": null, "revokeReason": null, "projectId": 105, "userId": 266, "actions": "META,ISSUE_HANDLE,SCOPE,SCOPE_DECIDE,ISSUE_REVIEW,EXPORT,EDIT,SOURCE_EDIT,ASSIGN,GRANT_READ,DECISION_EDIT,MEMBER,READ,BASELINE_PUBLISH,DECISION_READ,PERSON_READ,CONFIRM,SOURCE_VERIFY,DECISION_APPROVE,ISSUE_MANAGE", "ceilingJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}", "evidence": "CONTROLLED_ROOT:471:TEST-S6-ROOT-V1:7c4374079007f0c318bc66002c2977a4bef5120a96d62be9bc910804953cb21f", "validFrom": [ 2026, 1, 1 ], "validTo": [ 2027, 12, 31 ] }, "account": { "id": 266, "nickname": "TEST S5 editor NEW DISPLAY", "status": 0 }, "accountActive": true, "effectiveAt": "2026-10-19T21:25:14.850" }, { "rootId": 471, "rootVersion": 2, "root": { "projectId": 105, "anchorId": 4, "userId": 266, "actions": [ "ASSIGN", "BASELINE_PUBLISH", "CONFIRM", "DECISION_APPROVE", "DECISION_EDIT", "DECISION_READ", "EDIT", "EXPORT", "GRANT_READ", "ISSUE_HANDLE", "ISSUE_MANAGE", "ISSUE_REVIEW", "MEMBER", "META", "PERSON_READ", "READ", "SCOPE", "SCOPE_DECIDE", "SOURCE_EDIT", "SOURCE_VERIFY" ], "delegableActions": [ "ASSIGN", "BASELINE_PUBLISH", "CONFIRM", "DECISION_APPROVE", "DECISION_EDIT", "DECISION_READ", "EDIT", "EXPORT", "GRANT_READ", "ISSUE_HANDLE", "ISSUE_MANAGE", "ISSUE_REVIEW", "MEMBER", "META", "PERSON_READ", "READ", "SCOPE", "SCOPE_DECIDE", "SOURCE_EDIT", "SOURCE_VERIFY" ], "scopeJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}", "validFrom": "2026-01-01", "validTo": "2027-12-31", "materialVersion": "TEST-S6-ROOT-V1", "body": "TEST 合成授权 editor，非正式业务批准；独立登记依据，仅限当前 TEST 项目。", "reason": "TEST independent synthetic root", "state": "ACTIVE", "registeredBy": 266, "registeredByFact": { "id": 266, "nickname": "TEST S5 editor NEW DISPLAY", "status": 0 }, "registeredAt": "2026-10-19T21:04:58.338", "digest": "7c4374079007f0c318bc66002c2977a4bef5120a96d62be9bc910804953cb21f", "mode": "TEST", "anchorVersion": "TEST-S5-ANCHOR-V1", "designatedSignerId": 267, "signedBy": 267, "signedByFact": { "id": 267, "nickname": "TEST S5 approver NEW DISPLAY", "status": 0 }, "signedAt": "2026-10-19T21:04:58.378", "signatureReason": "TEST signer independently checked synthetic material", "anchorFact": { "state": "REGISTERED", "mode": "TEST", "custodianId": 266, "signerId": 267, "actions": [ "ASSIGN", "BASELINE_PUBLISH", "CONFIRM", "DECISION_APPROVE", "DECISION_EDIT", "DECISION_READ", "EDIT", "EXPORT", "GRANT_READ", "ISSUE_HANDLE", "ISSUE_MANAGE", "ISSUE_REVIEW", "MEMBER", "META", "PERSON_READ", "PROJECT_CREATE", "READ", "SCOPE", "SCOPE_DECIDE", "SOURCE_EDIT", "SOURCE_VERIFY" ], "scopeJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}", "validFrom": "2026-01-01", "validTo": "2027-12-31", "body": "TEST S5 independent synthetic authority material V1. This is an externally registered TEST fixture, not a formal business authorization. Custodian and signer are two independent TEST accounts. Only synthetic TEST projects, subjects 101/102, organization 201, TEST workforce/scenarios and the registered 2026-10 through 2026-12 scope are authorized. It cannot grant formal business approval.", "digest": "8496a1b848b511bc2d861ef361314fa4c75918e0bdd97b5c91b9426b98174109", "materialVersion": "TEST-S5-ANCHOR-V1", "registeredAt": "2026-10-19T17:02:34.410401+08:00", "registrationSource": "TEST independently registered synthetic trust material; no current decision grants its own approval authority" } } } ], "approvedBy": 267, "approvedAt": "2026-10-19T21:27:51.152", "approvalReason": "TEST S6 267本人核对当前范围、全部Q条款和独立根；此为合成实现验证，非真实批准", "approvalAuthority": [ { "grant": { "createTime": 1792415098000, "updateTime": 1792415098000, "creator": "267", "updater": "267", "deleted": false, "id": 352, "rootRecordId": 474, "authorityFactsJson": "{\"grantorAtGrant\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"recipientAtGrant\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"rootId\":474,\"rootVersion\":2,\"rootBodyDigest\":\"91180039ca2dda14f49899f461e6f765c8b13a09a91984e85feb443c541fc53c\",\"grantedAt\":\"2026-10-19T21:04:58.456\"}", "parentGrantId": null, "grantorId": 267, "grantVersion": 1, "delegableActions": "", "modulesJson": null, "requirementIdsJson": null, "sourceIdsJson": null, "fullProject": true, "revokedAt": null, "revokeReason": null, "projectId": 105, "userId": 267, "actions": "META,ISSUE_HANDLE,SCOPE,SCOPE_DECIDE,ISSUE_REVIEW,EXPORT,EDIT,SOURCE_EDIT,ASSIGN,GRANT_READ,DECISION_EDIT,MEMBER,READ,BASELINE_PUBLISH,DECISION_READ,PERSON_READ,CONFIRM,SOURCE_VERIFY,DECISION_APPROVE,ISSUE_MANAGE", "ceilingJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}", "evidence": "CONTROLLED_ROOT:474:TEST-S6-ROOT-V1:91180039ca2dda14f49899f461e6f765c8b13a09a91984e85feb443c541fc53c", "validFrom": [ 2026, 1, 1 ], "validTo": [ 2027, 12, 31 ] }, "account": { "id": 267, "nickname": "TEST S5 approver NEW DISPLAY", "status": 0 }, "accountActive": true, "effectiveAt": "2026-10-19T21:27:51.139" }, { "rootId": 474, "rootVersion": 2, "root": { "projectId": 105, "anchorId": 4, "userId": 267, "actions": [ "ASSIGN", "BASELINE_PUBLISH", "CONFIRM", "DECISION_APPROVE", "DECISION_EDIT", "DECISION_READ", "EDIT", "EXPORT", "GRANT_READ", "ISSUE_HANDLE", "ISSUE_MANAGE", "ISSUE_REVIEW", "MEMBER", "META", "PERSON_READ", "READ", "SCOPE", "SCOPE_DECIDE", "SOURCE_EDIT", "SOURCE_VERIFY" ], "delegableActions": [], "scopeJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}", "validFrom": "2026-01-01", "validTo": "2027-12-31", "materialVersion": "TEST-S6-ROOT-V1", "body": "TEST 合成授权 approver，非正式业务批准；独立登记依据，仅限当前 TEST 项目。", "reason": "TEST independent synthetic root", "state": "ACTIVE", "registeredBy": 266, "registeredByFact": { "id": 266, "nickname": "TEST S5 editor NEW DISPLAY", "status": 0 }, "registeredAt": "2026-10-19T21:04:58.420", "digest": "91180039ca2dda14f49899f461e6f765c8b13a09a91984e85feb443c541fc53c", "mode": "TEST", "anchorVersion": "TEST-S5-ANCHOR-V1", "designatedSignerId": 267, "signedBy": 267, "signedByFact": { "id": 267, "nickname": "TEST S5 approver NEW DISPLAY", "status": 0 }, "signedAt": "2026-10-19T21:04:58.452", "signatureReason": "TEST signer independently checked synthetic material", "anchorFact": { "state": "REGISTERED", "mode": "TEST", "custodianId": 266, "signerId": 267, "actions": [ "ASSIGN", "BASELINE_PUBLISH", "CONFIRM", "DECISION_APPROVE", "DECISION_EDIT", "DECISION_READ", "EDIT", "EXPORT", "GRANT_READ", "ISSUE_HANDLE", "ISSUE_MANAGE", "ISSUE_REVIEW", "MEMBER", "META", "PERSON_READ", "PROJECT_CREATE", "READ", "SCOPE", "SCOPE_DECIDE", "SOURCE_EDIT", "SOURCE_VERIFY" ], "scopeJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}", "validFrom": "2026-01-01", "validTo": "2027-12-31", "body": "TEST S5 independent synthetic authority material V1. This is an externally registered TEST fixture, not a formal business authorization. Custodian and signer are two independent TEST accounts. Only synthetic TEST projects, subjects 101/102, organization 201, TEST workforce/scenarios and the registered 2026-10 through 2026-12 scope are authorized. It cannot grant formal business approval.", "digest": "8496a1b848b511bc2d861ef361314fa4c75918e0bdd97b5c91b9426b98174109", "materialVersion": "TEST-S5-ANCHOR-V1", "registeredAt": "2026-10-19T17:02:34.410401+08:00", "registrationSource": "TEST independently registered synthetic trust material; no current decision grants its own approval authority" } } } ] }, "发布时状态": "EFFECTIVE", "授权关联": "APPROVAL-GRANT-604" } 关闭记录
+			3 container
+				4 heading 冻结记录与受控正文, Value: 2
+					5 text 冻结记录与受控正文
+				6 button 关闭此对话框
+			7 text {
+  "记录类型": "DECISION",
+  "记录号": "DEC-604",
+  "决议ID": "c511507a-968c-4b95-bf22-91a9be774bdf",
+  "决议版本": 1,
+  "本次发布使用": true,
+  "条款及批准事实": {
+    "projectId": 105,
+    "projectScopeVersion": 1,
+    "previousId": null,
+    "title": "TEST S6 浏览器当前范围及授权矩阵合成决议",
+    "questions": [
+      "Q-01",
+      "Q-02",
+      "Q-03",
+      "Q-04",
+      "Q-05",
+      "Q-06",
+      "Q-07",
+      "Q-08",
+      "Q-09",
+      "Q-10"
+    ],
+    "clauses": "TEST PRD v0.4 6.4/6.8/7.5/7.6/8.1/8.2/8.3/9.1",
+    "clauseVersion": "TEST-S6-PRD04-V1",
+    "body": "TEST 合成材料：仅验证需求征集工作台功能、当前范围、授权矩阵、状态变更、六表和实施关联，不构成真实业务批准。",
+    "scopeJson": "{\"entities\":[101],\"organizations\":[201],\"workerTypes\":[\"TEST\"],\"scenarios\":[\"TEST\"],\"from\":\"2026-10-01\",\"to\":\"2026-10-31\",\"explanation\":\"TEST S5 independent synthetic project scope, not actual approval\"}",
+    "validFrom": "2026-10-19",
+    "validTo": "2027-12-31",
+    "approverId": 267,
+    "approvalConditions": "TEST 独立账号267本人核对合成材料后批准，不替真实业务签署",
+    "semanticChange": false,
+    "otherQuestions": {},
+    "reason": "TEST S6 本地合成验收，独立已登记根471/474",
+    "decisionId": "c511507a-968c-4b95-bf22-91a9be774bdf",
+    "decisionVersion": 1,
+    "state": "APPROVED",
+    "createdBy": 266,
+    "createdAt": "2026-10-19T21:25:14.857",
+    "digest": "eb6f27f2459561d3f711264c4bf6fee0e12f8ae27d50033c59d6c1355397eb45",
+    "draftAuthority": [
+      {
+        "grant": {
+          "createTime": 1792415098000,
+          "updateTime": 1792415098000,
+          "creator": "267",
+          "updater": "267",
+          "deleted": false,
+          "id": 351,
+          "rootRecordId": 471,
+          "authorityFactsJson": "{\"grantorAtGrant\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"recipientAtGrant\":{\"id\":266,\"nickname\":\"TEST S5 editor NEW DISPLAY\",\"status\":0},\"rootId\":471,\"rootVersion\":2,\"rootBodyDigest\":\"7c4374079007f0c318bc66002c2977a4bef5120a96d62be9bc910804953cb21f\",\"grantedAt\":\"2026-10-19T21:04:58.385\"}",
+          "parentGrantId": null,
+          "grantorId": 267,
+          "grantVersion": 1,
+          "delegableActions": "META,ISSUE_HANDLE,SCOPE,SCOPE_DECIDE,ISSUE_REVIEW,EXPORT,EDIT,SOURCE_EDIT,ASSIGN,GRANT_READ,DECISION_EDIT,MEMBER,READ,BASELINE_PUBLISH,DECISION_READ,PERSON_READ,CONFIRM,SOURCE_VERIFY,DECISION_APPROVE,ISSUE_MANAGE",
+          "modulesJson": null,
+          "requirementIdsJson": null,
+          "sourceIdsJson": null,
+          "fullProject": true,
+          "revokedAt": null,
+          "revokeReason": null,
+          "projectId": 105,
+          "userId": 266,
+          "actions": "META,ISSUE_HANDLE,SCOPE,SCOPE_DECIDE,ISSUE_REVIEW,EXPORT,EDIT,SOURCE_EDIT,ASSIGN,GRANT_READ,DECISION_EDIT,MEMBER,READ,BASELINE_PUBLISH,DECISION_READ,PERSON_READ,CONFIRM,SOURCE_VERIFY,DECISION_APPROVE,ISSUE_MANAGE",
+          "ceilingJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}",
+          "evidence": "CONTROLLED_ROOT:471:TEST-S6-ROOT-V1:7c4374079007f0c318bc66002c2977a4bef5120a96d62be9bc910804953cb21f",
+          "validFrom": [
+            2026,
+            1,
+            1
+          ],
+          "validTo": [
+            2027,
+            12,
+            31
+          ]
+        },
+        "account": {
+          "id": 266,
+          "nickname": "TEST S5 editor NEW DISPLAY",
+          "status": 0
+        },
+        "accountActive": true,
+        "effectiveAt": "2026-10-19T21:25:14.850"
+      },
+      {
+        "rootId": 471,
+        "rootVersion": 2,
+        "root": {
+          "projectId": 105,
+          "anchorId": 4,
+          "userId": 266,
+          "actions": [
+            "ASSIGN",
+            "BASELINE_PUBLISH",
+            "CONFIRM",
+            "DECISION_APPROVE",
+            "DECISION_EDIT",
+            "DECISION_READ",
+            "EDIT",
+            "EXPORT",
+            "GRANT_READ",
+            "ISSUE_HANDLE",
+            "ISSUE_MANAGE",
+            "ISSUE_REVIEW",
+            "MEMBER",
+            "META",
+            "PERSON_READ",
+            "READ",
+            "SCOPE",
+            "SCOPE_DECIDE",
+            "SOURCE_EDIT",
+            "SOURCE_VERIFY"
+          ],
+          "delegableActions": [
+            "ASSIGN",
+            "BASELINE_PUBLISH",
+            "CONFIRM",
+            "DECISION_APPROVE",
+            "DECISION_EDIT",
+            "DECISION_READ",
+            "EDIT",
+            "EXPORT",
+            "GRANT_READ",
+            "ISSUE_HANDLE",
+            "ISSUE_MANAGE",
+            "ISSUE_REVIEW",
+            "MEMBER",
+            "META",
+            "PERSON_READ",
+            "READ",
+            "SCOPE",
+            "SCOPE_DECIDE",
+            "SOURCE_EDIT",
+            "SOURCE_VERIFY"
+          ],
+          "scopeJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}",
+          "validFrom": "2026-01-01",
+          "validTo": "2027-12-31",
+          "materialVersion": "TEST-S6-ROOT-V1",
+          "body": "TEST 合成授权 editor，非正式业务批准；独立登记依据，仅限当前 TEST 项目。",
+          "reason": "TEST independent synthetic root",
+          "state": "ACTIVE",
+          "registeredBy": 266,
+          "registeredByFact": {
+            "id": 266,
+            "nickname": "TEST S5 editor NEW DISPLAY",
+            "status": 0
+          },
+          "registeredAt": "2026-10-19T21:04:58.338",
+          "digest": "7c4374079007f0c318bc66002c2977a4bef5120a96d62be9bc910804953cb21f",
+          "mode": "TEST",
+          "anchorVersion": "TEST-S5-ANCHOR-V1",
+          "designatedSignerId": 267,
+          "signedBy": 267,
+          "signedByFact": {
+            "id": 267,
+            "nickname": "TEST S5 approver NEW DISPLAY",
+            "status": 0
+          },
+          "signedAt": "2026-10-19T21:04:58.378",
+          "signatureReason": "TEST signer independently checked synthetic material",
+          "anchorFact": {
+            "state": "REGISTERED",
+            "mode": "TEST",
+            "custodianId": 266,
+            "signerId": 267,
+            "actions": [
+              "ASSIGN",
+              "BASELINE_PUBLISH",
+              "CONFIRM",
+              "DECISION_APPROVE",
+              "DECISION_EDIT",
+              "DECISION_READ",
+              "EDIT",
+              "EXPORT",
+              "GRANT_READ",
+              "ISSUE_HANDLE",
+              "ISSUE_MANAGE",
+              "ISSUE_REVIEW",
+              "MEMBER",
+              "META",
+              "PERSON_READ",
+              "PROJECT_CREATE",
+              "READ",
+              "SCOPE",
+              "SCOPE_DECIDE",
+              "SOURCE_EDIT",
+              "SOURCE_VERIFY"
+            ],
+            "scopeJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}",
+            "validFrom": "2026-01-01",
+            "validTo": "2027-12-31",
+            "body": "TEST S5 independent synthetic authority material V1. This is an externally registered TEST fixture, not a formal business authorization. Custodian and signer are two independent TEST accounts. Only synthetic TEST projects, subjects 101/102, organization 201, TEST workforce/scenarios and the registered 2026-10 through 2026-12 scope are authorized. It cannot grant formal business approval.",
+            "digest": "8496a1b848b511bc2d861ef361314fa4c75918e0bdd97b5c91b9426b98174109",
+            "materialVersion": "TEST-S5-ANCHOR-V1",
+            "registeredAt": "2026-10-19T17:02:34.410401+08:00",
+            "registrationSource": "TEST independently registered synthetic trust material; no current decision grants its own approval authority"
+          }
+        }
+      }
+    ],
+    "approvedBy": 267,
+    "approvedAt": "2026-10-19T21:27:51.152",
+    "approvalReason": "TEST S6 267本人核对当前范围、全部Q条款和独立根；此为合成实现验证，非真实批准",
+    "approvalAuthority": [
+      {
+        "grant": {
+          "createTime": 1792415098000,
+          "updateTime": 1792415098000,
+          "creator": "267",
+          "updater": "267",
+          "deleted": false,
+          "id": 352,
+          "rootRecordId": 474,
+          "authorityFactsJson": "{\"grantorAtGrant\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"recipientAtGrant\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"rootId\":474,\"rootVersion\":2,\"rootBodyDigest\":\"91180039ca2dda14f49899f461e6f765c8b13a09a91984e85feb443c541fc53c\",\"grantedAt\":\"2026-10-19T21:04:58.456\"}",
+          "parentGrantId": null,
+          "grantorId": 267,
+          "grantVersion": 1,
+          "delegableActions": "",
+          "modulesJson": null,
+          "requirementIdsJson": null,
+          "sourceIdsJson": null,
+          "fullProject": true,
+          "revokedAt": null,
+          "revokeReason": null,
+          "projectId": 105,
+          "userId": 267,
+          "actions": "META,ISSUE_HANDLE,SCOPE,SCOPE_DECIDE,ISSUE_REVIEW,EXPORT,EDIT,SOURCE_EDIT,ASSIGN,GRANT_READ,DECISION_EDIT,MEMBER,READ,BASELINE_PUBLISH,DECISION_READ,PERSON_READ,CONFIRM,SOURCE_VERIFY,DECISION_APPROVE,ISSUE_MANAGE",
+          "ceilingJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}",
+          "evidence": "CONTROLLED_ROOT:474:TEST-S6-ROOT-V1:91180039ca2dda14f49899f461e6f765c8b13a09a91984e85feb443c541fc53c",
+          "validFrom": [
+            2026,
+            1,
+            1
+          ],
+          "validTo": [
+            2027,
+            12,
+            31
+          ]
+        },
+        "account": {
+          "id": 267,
+          "nickname": "TEST S5 approver NEW DISPLAY",
+          "status": 0
+        },
+        "accountActive": true,
+        "effectiveAt": "2026-10-19T21:27:51.139"
+      },
+      {
+        "rootId": 474,
+        "rootVersion": 2,
+        "root": {
+          "projectId": 105,
+          "anchorId": 4,
+          "userId": 267,
+          "actions": [
+            "ASSIGN",
+            "BASELINE_PUBLISH",
+            "CONFIRM",
+            "DECISION_APPROVE",
+            "DECISION_EDIT",
+            "DECISION_READ",
+            "EDIT",
+            "EXPORT",
+            "GRANT_READ",
+            "ISSUE_HANDLE",
+            "ISSUE_MANAGE",
+            "ISSUE_REVIEW",
+            "MEMBER",
+            "META",
+            "PERSON_READ",
+            "READ",
+            "SCOPE",
+            "SCOPE_DECIDE",
+            "SOURCE_EDIT",
+            "SOURCE_VERIFY"
+          ],
+          "delegableActions": [],
+          "scopeJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}",
+          "validFrom": "2026-01-01",
+          "validTo": "2027-12-31",
+          "materialVersion": "TEST-S6-ROOT-V1",
+          "body": "TEST 合成授权 approver，非正式业务批准；独立登记依据，仅限当前 TEST 项目。",
+          "reason": "TEST independent synthetic root",
+          "state": "ACTIVE",
+          "registeredBy": 266,
+          "registeredByFact": {
+            "id": 266,
+            "nickname": "TEST S5 editor NEW DISPLAY",
+            "status": 0
+          },
+          "registeredAt": "2026-10-19T21:04:58.420",
+          "digest": "91180039ca2dda14f49899f461e6f765c8b13a09a91984e85feb443c541fc53c",
+          "mode": "TEST",
+          "anchorVersion": "TEST-S5-ANCHOR-V1",
+          "designatedSignerId": 267,
+          "signedBy": 267,
+          "signedByFact": {
+            "id": 267,
+            "nickname": "TEST S5 approver NEW DISPLAY",
+            "status": 0
+          },
+          "signedAt": "2026-10-19T21:04:58.452",
+          "signatureReason": "TEST signer independently checked synthetic material",
+          "anchorFact": {
+            "state": "REGISTERED",
+            "mode": "TEST",
+            "custodianId": 266,
+            "signerId": 267,
+            "actions": [
+              "ASSIGN",
+              "BASELINE_PUBLISH",
+              "CONFIRM",
+              "DECISION_APPROVE",
+              "DECISION_EDIT",
+              "DECISION_READ",
+              "EDIT",
+              "EXPORT",
+              "GRANT_READ",
+              "ISSUE_HANDLE",
+              "ISSUE_MANAGE",
+              "ISSUE_REVIEW",
+              "MEMBER",
+              "META",
+              "PERSON_READ",
+              "PROJECT_CREATE",
+              "READ",
+              "SCOPE",
+              "SCOPE_DECIDE",
+              "SOURCE_EDIT",
+              "SOURCE_VERIFY"
+            ],
+            "scopeJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}",
+            "validFrom": "2026-01-01",
+            "validTo": "2027-12-31",
+            "body": "TEST S5 independent synthetic authority material V1. This is an externally registered TEST fixture, not a formal business authorization. Custodian and signer are two independent TEST accounts. Only synthetic TEST projects, subjects 101/102, organization 201, TEST workforce/scenarios and the registered 2026-10 through 2026-12 scope are authorized. It cannot grant formal business approval.",
+            "digest": "8496a1b848b511bc2d861ef361314fa4c75918e0bdd97b5c91b9426b98174109",
+            "materialVersion": "TEST-S5-ANCHOR-V1",
+            "registeredAt": "2026-10-19T17:02:34.410401+08:00",
+            "registrationSource": "TEST independently registered synthetic trust material; no current decision grants its own approval authority"
+          }
+        }
+      }
+    ]
+  },
+  "发布时状态": "EFFECTIVE",
+  "授权关联": "APPROVAL-GRANT-604"
+}
+			8 button 关闭记录
+
+The focused UI element is 2 container { "记录类型": "DECISION", "记录号": "DEC-604", "决议ID": "c511507a-968c-4b95-bf22-91a9be774bdf", "决议版本": 1, "本次发布使用": true, "条款及批准事实": { "projectId": 105, "projectScopeVersion": 1, "previousId": null, "title": "TEST S6 浏览器当前范围及授权矩阵合成决议", "questions": [ "Q-01", "Q-02", "Q-03", "Q-04", "Q-05", "Q-06", "Q-07", "Q-08", "Q-09", "Q-10" ], "clauses": "TEST PRD v0.4 6.4/6.8/7.5/7.6/8.1/8.2/8.3/9.1", "clauseVersion": "TEST-S6-PRD04-V1", "body": "TEST 合成材料：仅验证需求征集工作台功能、当前范围、授权矩阵、状态变更、六表和实施关联，不构成真实业务批准。", "scopeJson": "{\"entities\":[101],\"organizations\":[201],\"workerTypes\":[\"TEST\"],\"scenarios\":[\"TEST\"],\"from\":\"2026-10-01\",\"to\":\"2026-10-31\",\"explanation\":\"TEST S5 independent synthetic project scope, not actual approval\"}", "validFrom": "2026-10-19", "validTo": "2027-12-31", "approverId": 267, "approvalConditions": "TEST 独立账号267本人核对合成材料后批准，不替真实业务签署", "semanticChange": false, "otherQuestions": {}, "reason": "TEST S6 本地合成验收，独立已登记根471/474", "decisionId": "c511507a-968c-4b95-bf22-91a9be774bdf", "decisionVersion": 1, "state": "APPROVED", "createdBy": 266, "createdAt": "2026-10-19T21:25:14.857", "digest": "eb6f27f2459561d3f711264c4bf6fee0e12f8ae27d50033c59d6c1355397eb45", "draftAuthority": [ { "grant": { "createTime": 1792415098000, "updateTime": 1792415098000, "creator": "267", "updater": "267", "deleted": false, "id": 351, "rootRecordId": 471, "authorityFactsJson": "{\"grantorAtGrant\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"recipientAtGrant\":{\"id\":266,\"nickname\":\"TEST S5 editor NEW DISPLAY\",\"status\":0},\"rootId\":471,\"rootVersion\":2,\"rootBodyDigest\":\"7c4374079007f0c318bc66002c2977a4bef5120a96d62be9bc910804953cb21f\",\"grantedAt\":\"2026-10-19T21:04:58.385\"}", "parentGrantId": null, "grantorId": 267, "grantVersion": 1, "delegableActions": "META,ISSUE_HANDLE,SCOPE,SCOPE_DECIDE,ISSUE_REVIEW,EXPORT,EDIT,SOURCE_EDIT,ASSIGN,GRANT_READ,DECISION_EDIT,MEMBER,READ,BASELINE_PUBLISH,DECISION_READ,PERSON_READ,CONFIRM,SOURCE_VERIFY,DECISION_APPROVE,ISSUE_MANAGE", "modulesJson": null, "requirementIdsJson": null, "sourceIdsJson": null, "fullProject": true, "revokedAt": null, "revokeReason": null, "projectId": 105, "userId": 266, "actions": "META,ISSUE_HANDLE,SCOPE,SCOPE_DECIDE,ISSUE_REVIEW,EXPORT,EDIT,SOURCE_EDIT,ASSIGN,GRANT_READ,DECISION_EDIT,MEMBER,READ,BASELINE_PUBLISH,DECISION_READ,PERSON_READ,CONFIRM,SOURCE_VERIFY,DECISION_APPROVE,ISSUE_MANAGE", "ceilingJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}", "evidence": "CONTROLLED_ROOT:471:TEST-S6-ROOT-V1:7c4374079007f0c318bc66002c2977a4bef5120a96d62be9bc910804953cb21f", "validFrom": [ 2026, 1, 1 ], "validTo": [ 2027, 12, 31 ] }, "account": { "id": 266, "nickname": "TEST S5 editor NEW DISPLAY", "status": 0 }, "accountActive": true, "effectiveAt": "2026-10-19T21:25:14.850" }, { "rootId": 471, "rootVersion": 2, "root": { "projectId": 105, "anchorId": 4, "userId": 266, "actions": [ "ASSIGN", "BASELINE_PUBLISH", "CONFIRM", "DECISION_APPROVE", "DECISION_EDIT", "DECISION_READ", "EDIT", "EXPORT", "GRANT_READ", "ISSUE_HANDLE", "ISSUE_MANAGE", "ISSUE_REVIEW", "MEMBER", "META", "PERSON_READ", "READ", "SCOPE", "SCOPE_DECIDE", "SOURCE_EDIT", "SOURCE_VERIFY" ], "delegableActions": [ "ASSIGN", "BASELINE_PUBLISH", "CONFIRM", "DECISION_APPROVE", "DECISION_EDIT", "DECISION_READ", "EDIT", "EXPORT", "GRANT_READ", "ISSUE_HANDLE", "ISSUE_MANAGE", "ISSUE_REVIEW", "MEMBER", "META", "PERSON_READ", "READ", "SCOPE", "SCOPE_DECIDE", "SOURCE_EDIT", "SOURCE_VERIFY" ], "scopeJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}", "validFrom": "2026-01-01", "validTo": "2027-12-31", "materialVersion": "TEST-S6-ROOT-V1", "body": "TEST 合成授权 editor，非正式业务批准；独立登记依据，仅限当前 TEST 项目。", "reason": "TEST independent synthetic root", "state": "ACTIVE", "registeredBy": 266, "registeredByFact": { "id": 266, "nickname": "TEST S5 editor NEW DISPLAY", "status": 0 }, "registeredAt": "2026-10-19T21:04:58.338", "digest": "7c4374079007f0c318bc66002c2977a4bef5120a96d62be9bc910804953cb21f", "mode": "TEST", "anchorVersion": "TEST-S5-ANCHOR-V1", "designatedSignerId": 267, "signedBy": 267, "signedByFact": { "id": 267, "nickname": "TEST S5 approver NEW DISPLAY", "status": 0 }, "signedAt": "2026-10-19T21:04:58.378", "signatureReason": "TEST signer independently checked synthetic material", "anchorFact": { "state": "REGISTERED", "mode": "TEST", "custodianId": 266, "signerId": 267, "actions": [ "ASSIGN", "BASELINE_PUBLISH", "CONFIRM", "DECISION_APPROVE", "DECISION_EDIT", "DECISION_READ", "EDIT", "EXPORT", "GRANT_READ", "ISSUE_HANDLE", "ISSUE_MANAGE", "ISSUE_REVIEW", "MEMBER", "META", "PERSON_READ", "PROJECT_CREATE", "READ", "SCOPE", "SCOPE_DECIDE", "SOURCE_EDIT", "SOURCE_VERIFY" ], "scopeJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}", "validFrom": "2026-01-01", "validTo": "2027-12-31", "body": "TEST S5 independent synthetic authority material V1. This is an externally registered TEST fixture, not a formal business authorization. Custodian and signer are two independent TEST accounts. Only synthetic TEST projects, subjects 101/102, organization 201, TEST workforce/scenarios and the registered 2026-10 through 2026-12 scope are authorized. It cannot grant formal business approval.", "digest": "8496a1b848b511bc2d861ef361314fa4c75918e0bdd97b5c91b9426b98174109", "materialVersion": "TEST-S5-ANCHOR-V1", "registeredAt": "2026-10-19T17:02:34.410401+08:00", "registrationSource": "TEST independently registered synthetic trust material; no current decision grants its own approval authority" } } } ], "approvedBy": 267, "approvedAt": "2026-10-19T21:27:51.152", "approvalReason": "TEST S6 267本人核对当前范围、全部Q条款和独立根；此为合成实现验证，非真实批准", "approvalAuthority": [ { "grant": { "createTime": 1792415098000, "updateTime": 1792415098000, "creator": "267", "updater": "267", "deleted": false, "id": 352, "rootRecordId": 474, "authorityFactsJson": "{\"grantorAtGrant\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"recipientAtGrant\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"rootId\":474,\"rootVersion\":2,\"rootBodyDigest\":\"91180039ca2dda14f49899f461e6f765c8b13a09a91984e85feb443c541fc53c\",\"grantedAt\":\"2026-10-19T21:04:58.456\"}", "parentGrantId": null, "grantorId": 267, "grantVersion": 1, "delegableActions": "", "modulesJson": null, "requirementIdsJson": null, "sourceIdsJson": null, "fullProject": true, "revokedAt": null, "revokeReason": null, "projectId": 105, "userId": 267, "actions": "META,ISSUE_HANDLE,SCOPE,SCOPE_DECIDE,ISSUE_REVIEW,EXPORT,EDIT,SOURCE_EDIT,ASSIGN,GRANT_READ,DECISION_EDIT,MEMBER,READ,BASELINE_PUBLISH,DECISION_READ,PERSON_READ,CONFIRM,SOURCE_VERIFY,DECISION_APPROVE,ISSUE_MANAGE", "ceilingJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}", "evidence": "CONTROLLED_ROOT:474:TEST-S6-ROOT-V1:91180039ca2dda14f49899f461e6f765c8b13a09a91984e85feb443c541fc53c", "validFrom": [ 2026, 1, 1 ], "validTo": [ 2027, 12, 31 ] }, "account": { "id": 267, "nickname": "TEST S5 approver NEW DISPLAY", "status": 0 }, "accountActive": true, "effectiveAt": "2026-10-19T21:27:51.139" }, { "rootId": 474, "rootVersion": 2, "root": { "projectId": 105, "anchorId": 4, "userId": 267, "actions": [ "ASSIGN", "BASELINE_PUBLISH", "CONFIRM", "DECISION_APPROVE", "DECISION_EDIT", "DECISION_READ", "EDIT", "EXPORT", "GRANT_READ", "ISSUE_HANDLE", "ISSUE_MANAGE", "ISSUE_REVIEW", "MEMBER", "META", "PERSON_READ", "READ", "SCOPE", "SCOPE_DECIDE", "SOURCE_EDIT", "SOURCE_VERIFY" ], "delegableActions": [], "scopeJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}", "validFrom": "2026-01-01", "validTo": "2027-12-31", "materialVersion": "TEST-S6-ROOT-V1", "body": "TEST 合成授权 approver，非正式业务批准；独立登记依据，仅限当前 TEST 项目。", "reason": "TEST independent synthetic root", "state": "ACTIVE", "registeredBy": 266, "registeredByFact": { "id": 266, "nickname": "TEST S5 editor NEW DISPLAY", "status": 0 }, "registeredAt": "2026-10-19T21:04:58.420", "digest": "91180039ca2dda14f49899f461e6f765c8b13a09a91984e85feb443c541fc53c", "mode": "TEST", "anchorVersion": "TEST-S5-ANCHOR-V1", "designatedSignerId": 267, "signedBy": 267, "signedByFact": { "id": 267, "nickname": "TEST S5 approver NEW DISPLAY", "status": 0 }, "signedAt": "2026-10-19T21:04:58.452", "signatureReason": "TEST signer independently checked synthetic material", "anchorFact": { "state": "REGISTERED", "mode": "TEST", "custodianId": 266, "signerId": 267, "actions": [ "ASSIGN", "BASELINE_PUBLISH", "CONFIRM", "DECISION_APPROVE", "DECISION_EDIT", "DECISION_READ", "EDIT", "EXPORT", "GRANT_READ", "ISSUE_HANDLE", "ISSUE_MANAGE", "ISSUE_REVIEW", "MEMBER", "META", "PERSON_READ", "PROJECT_CREATE", "READ", "SCOPE", "SCOPE_DECIDE", "SOURCE_EDIT", "SOURCE_VERIFY" ], "scopeJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}", "validFrom": "2026-01-01", "validTo": "2027-12-31", "body": "TEST S5 independent synthetic authority material V1. This is an externally registered TEST fixture, not a formal business authorization. Custodian and signer are two independent TEST accounts. Only synthetic TEST projects, subjects 101/102, organization 201, TEST workforce/scenarios and the registered 2026-10 through 2026-12 scope are authorized. It cannot grant formal business approval.", "digest": "8496a1b848b511bc2d861ef361314fa4c75918e0bdd97b5c91b9426b98174109", "materialVersion": "TEST-S5-ANCHOR-V1", "registeredAt": "2026-10-19T17:02:34.410401+08:00", "registrationSource": "TEST independently registered synthetic trust material; no current decision grants its own approval authority" } } } ] }, "发布时状态": "EFFECTIVE", "授权关联": "APPROVAL-GRANT-604" } 关闭记录

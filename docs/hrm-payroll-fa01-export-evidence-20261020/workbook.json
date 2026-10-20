@@ -1,0 +1,53 @@
+{
+  "sixSheetsExactly": true,
+  "checkedFields": 638,
+  "longFieldsWithContinuation": 73,
+  "noOrphanExplicitReferences": true,
+  "onlyExportMetadataExcludedFromComparison": true,
+  "checks": [
+    {
+      "sheet": "评审版本说明",
+      "businessRows": 26,
+      "columns": 115,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "功能需求清单",
+      "businessRows": 14,
+      "columns": 53,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "数据源清单",
+      "businessRows": 2,
+      "columns": 79,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "字段映射",
+      "businessRows": 1,
+      "columns": 80,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "问题与待办",
+      "businessRows": 14,
+      "columns": 7,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "范围与变更",
+      "businessRows": 14,
+      "columns": 156,
+      "fieldsReconstructedExactly": true
+    }
+  ],
+  "sameFileOnly": true,
+  "twoDistinctFilesCompared": false,
+  "actualIABDownload": true,
+  "jobId": 1361,
+  "releaseId": 1352,
+  "sha256": "355be0724f359b8a37db48541f7a043d0b6c257ed2405fa0944db097a6aa5aa0",
+  "time": "2026-10-20T20:12:44.612399+08:00",
+  "meaning": "single browser-downloaded file checked against frozen projection, no historical reexport equality claim"
+}

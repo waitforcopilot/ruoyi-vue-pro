@@ -1,0 +1,15 @@
+{
+  "time": "2026-10-20T20:09:33.346715+08:00",
+  "projectId": 105,
+  "releaseId": 1352,
+  "jobId": 1359,
+  "jobStateBefore": "READY",
+  "unrelatedAnchorId": 1360,
+  "fixture": "new unregistered TEST anchor; no custodian/signer, no root references or privileges; SQL fixture only",
+  "jobStateAfter": "READY",
+  "actualApiDownloadSha256": "1a318de5a72c5a507f41ebee30651db085d99392b6f4bf9c362c88871fcd26bb",
+  "exactOriginalPublishRequestDigestMatchesStored": true,
+  "sameRequestKey": "TEST-FA01-IAB-20261020-0928",
+  "sameRequestRejectedCode": 1050810003,
+  "errorCodeMeaning": "shared PAYROLL_REVIEW_INCOMPLETE, not dependency-specific; exact payload identity checked separately"
+}

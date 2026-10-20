@@ -1,0 +1,9 @@
+{
+  "checkedAt": "2026-10-20T20:14:38.039424+08:00",
+  "backend": "UP",
+  "frontendHttpStatus": 200,
+  "sourceHashesUnchangedAfterBrowser": true,
+  "inputAuditUnchanged": true,
+  "jarStillMatchesCandidate": true,
+  "actualIabDownloadFileExists": true
+}

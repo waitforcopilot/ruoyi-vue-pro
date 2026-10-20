@@ -25,7 +25,19 @@ public class HrmPayrollGovernanceExportService {
     @Resource private HrmPayrollRequirementProjectMapper projects;
     private HrmPayrollGovernanceRecordDO job(Long project,Long id,Long actor){HrmPayrollGovernanceRecordDO j=store.record(id,"JOB");allowed(Objects.equals(j.getProjectId(),project)&&Objects.equals(id(store.data(j).get("actorId")),actor));return j;}
     private Map<String,Object> projected(HrmPayrollGovernanceRecordDO j,Long actor){Map<String,Object>d=store.data(j);roots.platform(actor,"export");List<Long> filter=null;if(d.get("filter")!=null){filter=new ArrayList<>();for(Object raw:(List<?>)d.get("filter"))filter.add(id(raw));}return projection.project(j.getProjectId(),id(d.get("releaseId")),actor,"EXPORT",filter);}
-    private String stamp(HrmPayrollGovernanceRecordDO j,Map<String,Object> projected){return digest(map("projection",projected,"project",projects.selectById(j.getProjectId()),"grants",grants.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementProjectGrantDO>().eq(HrmPayrollRequirementProjectGrantDO::getProjectId,j.getProjectId()).orderByAsc(HrmPayrollRequirementProjectGrantDO::getId)),"roots",store.all(j.getProjectId(),"ROOT"),"anchors",store.all(0L,"ANCHOR")));}
+    private String stamp(HrmPayrollGovernanceRecordDO j,Map<String,Object> projected){
+        List<HrmPayrollRequirementProjectGrantDO> currentGrants=grants.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementProjectGrantDO>().eq(HrmPayrollRequirementProjectGrantDO::getProjectId,j.getProjectId()).orderByAsc(HrmPayrollRequirementProjectGrantDO::getId));
+        List<HrmPayrollGovernanceRecordDO> controlled=new ArrayList<>(store.all(j.getProjectId(),"ROOT"));
+        Set<Long> rootIds=new TreeSet<>();for(HrmPayrollRequirementProjectGrantDO grant:currentGrants)if(grant.getRootRecordId()!=null)rootIds.add(grant.getRootRecordId());
+        Set<Long> present=new HashSet<>();for(HrmPayrollGovernanceRecordDO root:controlled)present.add(root.getId());
+        for(Long rootId:rootIds)if(present.add(rootId))controlled.add(store.record(rootId,"ROOT"));
+        controlled.sort(Comparator.comparing(HrmPayrollGovernanceRecordDO::getId));
+        Set<Long> anchorIds=new HashSet<>();for(HrmPayrollGovernanceRecordDO root:controlled)anchorIds.add(id(store.data(root).get("anchorId")));
+        List<HrmPayrollGovernanceRecordDO> anchors=new ArrayList<>();for(HrmPayrollGovernanceRecordDO anchor:store.all(0L,"ANCHOR"))if(anchorIds.contains(anchor.getId()))anchors.add(anchor);
+        // Unrelated trust anchors must not invalidate a queued/ready download. Current
+        // projection and the complete relevant authority chain are still rechecked.
+        return digest(map("projection",projected,"project",projects.selectById(j.getProjectId()),"grants",currentGrants,"roots",controlled,"anchors",anchors));
+    }
     public Long create(Job c,Long actor){
         store.lock();roots.platform(actor,"export");if(c.getRequirementIds()!=null)need(!c.getRequirementIds().isEmpty()&&c.getRequirementIds().size()<=10000&&c.getRequirementIds().stream().allMatch(x->x!=null&&x>0)&&new HashSet<>(c.getRequirementIds()).size()==c.getRequirementIds().size());Map<String,Object>p=projection.project(c.getProjectId(),c.getReleaseId(),actor,"EXPORT",c.getRequirementIds());
         HrmPayrollGovernanceRecordDO j=store.insert(c.getProjectId(),"JOB",UUID.randomUUID().toString(),map("actorId",actor,"releaseId",c.getReleaseId(),"filter",c.getRequirementIds(),"state","QUEUED","createdAt",now()));
