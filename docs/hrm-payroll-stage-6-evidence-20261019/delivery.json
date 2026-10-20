@@ -1,0 +1,30 @@
+{
+  "implementationCommit": "916f487e3e3625d8c073ce5b87342beb583ae42c",
+  "branch": "work",
+  "remote": "origin",
+  "remoteRef": "refs/heads/work",
+  "observedRemoteImplementationSha": "916f487e3e3625d8c073ce5b87342beb583ae42c",
+  "actualPushSucceeded": true,
+  "remoteEqualityVerifiedAt": "2026-10-20T08:51:17.415839+08:00",
+  "sourceFilesMatchCommittedBlobs": true,
+  "runningJarSha256": "368cf64ca566bcea3fc5e390948c1d50af4055244b534026bca8f0ba9e9167f6",
+  "runningHrmClassesMatch": 1109,
+  "browserRegressionPassedForDeliveredEngineeringCandidate": true,
+  "finalIABRoot": 1344,
+  "finalIABRelease": 1347,
+  "finalIABDownloadJob": 1349,
+  "stageTaskAccepted": "6/8",
+  "stageAcceptance": "6/8",
+  "engineeringACPass": "26/28",
+  "blockedAC": [
+    "AC-25 formal material",
+    "AC-28 formal material"
+  ],
+  "openWorkPackages": [
+    "F-07",
+    "F-15"
+  ],
+  "formalBusinessAcceptance": false,
+  "credentialsBackupsAndRawSamplesCommitted": false,
+  "note": "This metadata is a following docs-only commit; implementation and runtime code identity remains the implementationCommit. Latest docs-only remote HEAD is checked separately after its push."
+}

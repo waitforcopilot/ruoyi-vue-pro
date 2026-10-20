@@ -95,7 +95,7 @@ S5 A1d要求真实有权业务人员提供的受控授权根/正式条款批准�
 
 ## 8. 交付、服务与恢复点
 
-代码及证据仅白名单提交，最终实现SHA、push和远端核对见 `hrm-payroll-stage-6-evidence-20261019/delivery.json`。保留原有交接修改及其他未跟踪PRD/审计等。
+代码及证据白名单实现提交[`916f487e3e`](https://github.com/waitforcopilot/ruoyi-vue-pro/commit/916f487e3e3625d8c073ce5b87342beb583ae42c)已实际push到origin/work，远端SHA与完整实现SHA一致；后续仅补交付元数据，不修改运行代码。最终实现SHA、push和远端核对见 `hrm-payroll-stage-6-evidence-20261019/delivery.json`。保留原有交接修改及其他未跟踪PRD/审计等。
 
 - 前端：`http://127.0.0.1:5173`；工作台 `/hrm-payroll/review?projectId=105&module=OT`，发布 `/hrm-payroll/governance?projectId=105`。受限测试账号268在105的grant491已撤销，不能作为再次登录的可见正例。
 - 后端：`http://127.0.0.1:48080/actuator/health` 返回UP；前端HTTP200；MySQL13306/Redis16380仅环回，launchd前后端持续运行。readiness专用路径未提供(404)，不记该接口通过。
