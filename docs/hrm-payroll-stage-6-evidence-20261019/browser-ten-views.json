@@ -1,0 +1,63 @@
+[
+  {
+    "view": "薪酬总览",
+    "example": true,
+    "purposeFieldsDemandSource": true,
+    "savedRow": "\t\n1501\n\t\nCUSTOM-0006\n\t\nTEST S6 十视图征集 薪酬总览：仅虚构业务需求，异常不得自动归零。\n\t\n待确认\n\t\n候选\n\t\n未就绪\n\t\n未排期\n\t\n1\n\t\n编辑意见\n历史/比较\n返回原位置\n范围决策\n实施关联\n会议与站内提醒"
+  },
+  {
+    "view": "薪酬方案",
+    "example": true,
+    "purposeFieldsDemandSource": true,
+    "savedRow": "\t\n1505\n\t\nCUSTOM-0007\n\t\nTEST S6 十视图征集 薪酬方案：仅虚构业务需求，异常不得自动归零。\n\t\n待确认\n\t\n候选\n\t\n未就绪\n\t\n未排期\n\t\n1\n\t\n编辑意见\n历史/比较\n返回原位置\n范围决策\n实施关联\n会议与站内提醒"
+  },
+  {
+    "view": "个税与工资条",
+    "example": true,
+    "purposeFieldsDemandSource": true,
+    "savedRow": "\t\n1506\n\t\nCUSTOM-0008\n\t\nTEST S6 十视图征集 个税与工资条：同人同期应发11750，实发10219.50，仅演示不外发。\n\t\n待确认\n\t\n候选\n\t\n未就绪\n\t\n未排期\n\t\n1\n\t\n编辑意见\n历史/比较\n返回原位置\n范围决策\n实施关联\n会议与站内提醒"
+  },
+  {
+    "view": "考勤",
+    "example": true,
+    "purposeFieldsDemandSource": true,
+    "savedRow": "\t\n1602\n\t\nCUSTOM-0009\n\t\nTEST S6 十视图征集 考勤：152小时加带薪假8小时，缺卡须处理。\n\t\n待确认\n\t\n候选\n\t\n未就绪\n\t\n未排期\n\t\n1\n\t\n编辑意见\n历史/比较\n返回原位置\n范围决策\n实施关联\n会议与站内提醒"
+  },
+  {
+    "view": "加班",
+    "example": true,
+    "purposeFieldsDemandSource": true,
+    "savedRow": "\t\n1649\n\t\nCUSTOM-0010\n\t\nTEST S6 十视图征集 加班：认可8小时，不同时计薪与调休。\n\t\n待确认\n\t\n候选\n\t\n未就绪\n\t\n未排期\n\t\n1\n\t\n编辑意见\n历史/比较\n返回原位置\n范围决策\n实施关联\n会议与站内提醒"
+  },
+  {
+    "view": "工时",
+    "example": true,
+    "purposeFieldsDemandSource": true,
+    "savedRow": "\t\n1651\n\t\nCUSTOM-0011\n\t\nTEST S6 十视图征集 工时：标准工时160小时，其他工时制度独立征集。\n\t\n待确认\n\t\n候选\n\t\n未就绪\n\t\n未排期\n\t\n1\n\t\n编辑意见\n历史/比较\n返回原位置\n范围决策\n实施关联\n会议与站内提醒"
+  },
+  {
+    "view": "社保公积金",
+    "example": true,
+    "purposeFieldsDemandSource": true,
+    "savedRow": "\t\n1653\n\t\nCUSTOM-0012\n\t\nTEST S6 十视图征集 社保公积金：个人1400，单位2100，地区标准待核定。\n\t\n待确认\n\t\n候选\n\t\n未就绪\n\t\n未排期\n\t\n1\n\t\n编辑意见\n历史/比较\n返回原位置\n范围决策\n实施关联\n会议与站内提醒"
+  },
+  {
+    "view": "报表分析",
+    "example": true,
+    "purposeFieldsDemandSource": true,
+    "savedRow": "\t\n1654\n\t\nCUSTOM-0013\n\t\nTEST S6 十视图征集 报表分析：同人应发11750、实发10219.50、单位成本13850须一致。\n\t\n待确认\n\t\n候选\n\t\n未就绪\n\t\n未排期\n\t\n1\n\t\n编辑意见\n历史/比较\n返回原位置\n范围决策\n实施关联\n会议与站内提醒"
+  },
+  {
+    "view": "需求征集",
+    "example": true,
+    "purposeFieldsDemandSource": true,
+    "savedRow": "\t\n1656\n\t\nCUSTOM-0014\n\t\nTEST S6 十视图征集 需求征集：统一清单、责任、范围、版本与来源缺口分别记录。\n\t\n待确认\n\t\n候选\n\t\n未就绪\n\t\n未排期\n\t\n1\n\t\n编辑意见\n历史/比较\n返回原位置\n范围决策\n实施关联\n会议与站内提醒"
+  },
+  {
+    "view": "工资核算",
+    "example": true,
+    "purposeFieldsDemandSource": true,
+    "savedRow": "\t\n1488\n\t\nCUSTOM-0003\n\t\nTEST S6 390网络失败必须保留，恢复后重试保存。\n\t\n待确认\n\t\n候选\n\t\n未就绪\n\t\n未排期\n\t\n2\n\t\n编辑意见\n历史/比较\n返回原位置\n范围决策\n实施关联\n会议与站内提醒",
+    "otherOperations": "已实际演示核算、复核和工资条；字段、OPERATION、FLOW意见已保存"
+  }
+]

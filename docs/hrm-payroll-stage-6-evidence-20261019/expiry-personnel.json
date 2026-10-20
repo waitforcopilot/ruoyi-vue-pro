@@ -1,0 +1,35 @@
+[
+  {
+    "case": "DATE_ONLY_GRANT_EXPIRY_FIXTURE",
+    "pass": true,
+    "projectId": 144,
+    "actor": 269,
+    "rootId": 1265,
+    "readyJob": 1268,
+    "expiredGrantDate": "2026-10-18",
+    "serverDate": "2026-10-19",
+    "fixtureMethod": "only new TEST grant date changed after READY, no OS clock change",
+    "secondsWaited": 1.1924512920086272,
+    "sameTokenReadHistorySaveSourceCountReleaseDownloadDenied": true,
+    "otherMemberSignaturePreserved": true
+  },
+  {
+    "case": "MODULE_RESTRICTION",
+    "pass": true,
+    "projectId": 144,
+    "actor": 270,
+    "allowedModule": "OT",
+    "objectModule": "COL",
+    "count": 0
+  },
+  {
+    "case": "CURRENT_PERSONNEL_DISPLAY_FROZEN_RELEASE",
+    "pass": true,
+    "projectId": 107,
+    "releaseId": 501,
+    "actor": 269,
+    "oldLabel": "TEST S6 reviewer 0",
+    "currentLabel": "TEST S6 reviewer0 NEW",
+    "fullProjectionUnchanged": true
+  }
+]

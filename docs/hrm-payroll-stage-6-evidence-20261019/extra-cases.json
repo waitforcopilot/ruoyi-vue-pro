@@ -1,0 +1,81 @@
+[
+  {
+    "case": "MULTI_TO_MULTI",
+    "pass": true,
+    "projectId": 138,
+    "requirements": [
+      1502,
+      1503
+    ],
+    "sources": [
+      3207,
+      3217
+    ],
+    "relations": [
+      3210,
+      3227,
+      3220
+    ],
+    "mappingRows": 3,
+    "release": 1162
+  },
+  {
+    "case": "ISSUE_ALL_MANUAL_BRANCHES",
+    "pass": true,
+    "projectId": 138,
+    "issueId": 3246,
+    "excludedIssue": 3269,
+    "dataIssue": 3272,
+    "selfCloseNoEvidenceAndSelfDowngradeRejected": true,
+    "functionalSignatureRetained": true
+  },
+  {
+    "case": "FROZEN_V1_CURRENT_MUTATIONS",
+    "pass": true,
+    "projectId": 138,
+    "releaseId": 1162,
+    "checks": [
+      "source name and unit",
+      "mapping",
+      "issue reopen",
+      "decision replacement",
+      "current owner"
+    ],
+    "fullBusinessProjectionEqual": true,
+    "files": [
+      "multi-v1.xlsx",
+      "multi-v1-after.xlsx"
+    ]
+  },
+  {
+    "case": "RESTRICTED_SIX_SHEETS",
+    "pass": true,
+    "projectId": 138,
+    "releaseId": 1162,
+    "requirementId": 1502,
+    "jobId": 1171,
+    "restricted": true,
+    "sheetRows": {
+      "评审版本说明": 2,
+      "功能需求清单": 1,
+      "数据源清单": 1,
+      "字段映射": 1,
+      "问题与待办": 1,
+      "范围与变更": 1
+    }
+  },
+  {
+    "case": "S4_EMPTY",
+    "pass": true,
+    "projectId": 139,
+    "draftRelease": 1190,
+    "counts": {
+      "U": 0,
+      "E": 0,
+      "I": 0,
+      "C": 0,
+      "T": 0,
+      "D": 0
+    }
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "file": "browser-release-900.xlsx",
+  "projectId": 105,
+  "releaseId": 900,
+  "application": "LibreOffice /Applications/LibreOffice.app",
+  "summaryOpened": true,
+  "otherSheetsActuallyNavigated": [
+    "功能需求清单",
+    "数据源清单",
+    "字段映射",
+    "问题与待办",
+    "范围与变更"
+  ],
+  "method": "Native UI Sheet > Navigate > To Next Sheet; exported file not modified; independent artifact renders separately"
+}

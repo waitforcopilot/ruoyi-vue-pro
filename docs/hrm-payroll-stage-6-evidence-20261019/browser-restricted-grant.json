@@ -1,0 +1,10 @@
+{
+  "projectId": 105,
+  "grantId": 491,
+  "userId": 268,
+  "actions": "READ,EXPORT",
+  "requirementIds": [
+    1359
+  ],
+  "phase": "before browser regression"
+}

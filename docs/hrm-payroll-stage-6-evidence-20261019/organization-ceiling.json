@@ -1,0 +1,14 @@
+{
+  "projectId": 105,
+  "requirementId": 1359,
+  "authorizedOrganizations": [
+    201
+  ],
+  "attemptedOrganizations": [
+    202
+  ],
+  "requirementSaveCode": 1050810043,
+  "scopeRevisionCode": 1050810043,
+  "persistedVersionUnchanged": true,
+  "additionalRowLevelFiltering": "current H2 access suites; evidence class explicitly simulated"
+}

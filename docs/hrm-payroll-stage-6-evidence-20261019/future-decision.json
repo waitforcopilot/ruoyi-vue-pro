@@ -1,0 +1,9 @@
+{
+  "projectId": 146,
+  "decisionId": 1313,
+  "notBefore": "2026-10-20T08:34:46",
+  "futureConfirmationDenied": true,
+  "futurePublishBlocked": true,
+  "serverClockAllowedAfterStart": true,
+  "releaseId": 1317
+}

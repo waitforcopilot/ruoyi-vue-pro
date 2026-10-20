@@ -108,10 +108,10 @@ public class HrmPayrollReviewService {
  }
  public Map<String,Object> page(Long project,Long actor,String module,String status,String decision,String text,int pageNo,int pageSize,String sort){
   valid(pageNo>0&&pageSize>0&&pageSize<=100&&Arrays.asList("code","-code","version","-version").contains(sort));
-  List<HrmPayrollRequirementDO> rows=filtered(project,actor,"READ",module,status,decision,text);
+  List<HrmPayrollRequirementDO> rows=projects.authorizedRows(project,module,actor,"READ").stream().filter(r->status==null||status.equals(r.getStatus())).filter(r->decision==null||decision.equals(r.getScopeDecision())).filter(r->blank(text)||r.getDescription().contains(text)||r.getCode().contains(text)).collect(Collectors.toList());
   Comparator<HrmPayrollRequirementDO> cmp=sort.contains("version")?Comparator.comparing(HrmPayrollRequirementDO::getVersion):Comparator.comparing(HrmPayrollRequirementDO::getCode);
   if(sort.startsWith("-"))cmp=cmp.reversed();rows.sort(cmp.thenComparing(HrmPayrollRequirementDO::getId));
-  int from=Math.min(rows.size(),(int)Math.min(Integer.MAX_VALUE,((long)pageNo-1)*pageSize));return map("list",rows.subList(from,Math.min(rows.size(),from+pageSize)),"total",rows.size());
+  int from=Math.min(rows.size(),(int)Math.min(Integer.MAX_VALUE,((long)pageNo-1)*pageSize));return map("list",projects.presentRows(project,rows.subList(from,Math.min(rows.size(),from+pageSize))),"total",rows.size());
  }
  public Map<String,Object> export(Long project,Long actor,String module,String status,String decision,String text){
   platform(actor,"export");Map<String,Object> result=statistics(project,actor,"EXPORT",module,status,decision,text);

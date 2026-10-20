@@ -74,12 +74,14 @@ public class HrmPayrollGovernanceReleaseService {
         if(access.full(p,actor,"READ")){Map<String,Object>b=workbench.blockers(p.getId(),actor);if(Boolean.TRUE.equals(b.get("baselineBlocked")))blocks.add(map("code","BASELINE_ISSUES_OPEN","issueIds",b.get("baselineIssueIds")));}
         return map("allowed",blocks.isEmpty(),"blocks",blocks,"decisions",selected,"otherQuestionClassification",classification,"publicationMeaning","需求规格基线，不代表数据就绪或可投产");
     }
-    public Map<String,Object> precheck(Long project,Long actor){
+    public Map<String,Object> precheck(Long project,Long actor){return access.withReadAuthorization(()->precheckRead(project,actor));}
+    private Map<String,Object> precheckRead(Long project,Long actor){
         store.lock();HrmPayrollRequirementProjectDO p=project(project,actor);List<Map<String,Object>>users=store.userFacts();Map<String,Object> gate=access.full(p,actor,"READ")?judgement(p,actor):map("allowed",false,"blocks",Collections.singletonList(map("code","FULL_CLOSURE_READ_REQUIRED")));
         if(!fullClosure(p,actor)){gate.remove("decisions");gate.put("blocks",Collections.singletonList(map("code","FULL_CLOSURE_READ_REQUIRED")));}
         gate.put("projectScopeVersion",p.getProjectScopeVersion());gate.put("dependencyToken",digest(dependencies(p,users)));return gate;
     }
-    @SuppressWarnings("unchecked") public Long publish(Publish c,Long actor){
+    @SuppressWarnings("unchecked") public Long publish(Publish c,Long actor){return access.withReadAuthorization(()->publishRead(c,actor));}
+    private Long publishRead(Publish c,Long actor){
         store.lock();HrmPayrollRequirementProjectDO p=project(c.getProjectId(),actor);allowed(access.project(p,actor,"EXPORT")||!c.getDraft());List<Map<String,Object>> users=store.userFacts();
         if(!c.getDraft()){roots.platform(actor,"baseline-publish");allowed(fullClosure(p,actor));roots.authority(p.getId(),actor,"BASELINE_PUBLISH",p.getScopeJson());}
         else roots.platform(actor,"export");

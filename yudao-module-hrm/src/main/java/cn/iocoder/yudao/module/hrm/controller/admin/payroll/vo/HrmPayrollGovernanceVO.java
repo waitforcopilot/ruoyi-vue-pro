@@ -17,6 +17,17 @@ public interface HrmPayrollGovernanceVO {
         @NotBlank @Size(max=128) private String materialVersion;
         @NotBlank @Size(max=100000) private String body;
         @NotBlank @Size(max=2000) private String reason;
+        @com.fasterxml.jackson.annotation.JsonIgnore
+        @AssertTrue(message="授权起止日期必须是有效的yyyy-MM-dd日期")
+        public boolean isCalendarDatesValid() {
+            try {
+                java.time.LocalDate.parse(validFrom);
+                java.time.LocalDate.parse(validTo);
+                return true;
+            } catch (RuntimeException invalid) {
+                return false;
+            }
+        }
     }
     @Data class Action {
         @NotNull private Long projectId;

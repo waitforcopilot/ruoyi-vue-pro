@@ -1,0 +1,47 @@
+[
+  {
+    "case": "FIXED_D1_D2_DRAFT",
+    "pass": true,
+    "projectId": 133,
+    "V1": 1047,
+    "D1": 1039,
+    "D2": 1043,
+    "V1Unchanged": true
+  },
+  {
+    "case": "FIXED_D1_D2_REPLACE",
+    "pass": true,
+    "projectId": 134,
+    "V1": 1069,
+    "D1": 1061,
+    "D2": 1065,
+    "V1Unchanged": true
+  },
+  {
+    "case": "FIXED_D1_D2_REVOKE",
+    "pass": true,
+    "projectId": 135,
+    "V1": 1096,
+    "D1": 1088,
+    "D2": 1092,
+    "V1Unchanged": true
+  },
+  {
+    "case": "FIXED_D1_D2_EXPIRE",
+    "pass": true,
+    "projectId": 136,
+    "V1": 1117,
+    "D1": 1109,
+    "D2": 1113,
+    "V1Unchanged": true
+  },
+  {
+    "case": "FIXED_D1_D2_RULE_SEMANTIC",
+    "pass": true,
+    "projectId": 137,
+    "V1": 1137,
+    "D1": 1129,
+    "D2": 1133,
+    "V1Unchanged": true
+  }
+]

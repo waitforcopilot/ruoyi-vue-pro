@@ -1,0 +1,11 @@
+{
+  "identities": [
+    "editor266 at 127.0.0.1",
+    "approver267 at localhost"
+  ],
+  "bothSimultaneous": true,
+  "actualLogoutReloginAndReload": true,
+  "bothReadMergedAfterReload": true,
+  "passwordRememberDisabled": true,
+  "sessionIsolation": "different host origins, actual independent browser login forms"
+}

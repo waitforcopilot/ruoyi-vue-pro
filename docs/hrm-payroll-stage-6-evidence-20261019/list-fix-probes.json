@@ -1,0 +1,38 @@
+[
+  {
+    "actor": 266,
+    "seconds": 0.25901716703083366,
+    "total": 500,
+    "returnedRows": 10
+  },
+  {
+    "actor": 266,
+    "seconds": 0.1397427909541875,
+    "total": 500,
+    "returnedRows": 10
+  },
+  {
+    "actor": 266,
+    "seconds": 0.11805454094428569,
+    "total": 500,
+    "returnedRows": 10
+  },
+  {
+    "actor": 269,
+    "seconds": 0.1302080000168644,
+    "total": 500,
+    "returnedRows": 10
+  },
+  {
+    "actor": 269,
+    "seconds": 0.1118815410300158,
+    "total": 500,
+    "returnedRows": 10
+  },
+  {
+    "actor": 269,
+    "seconds": 0.1091754169901833,
+    "total": 500,
+    "returnedRows": 10
+  }
+]

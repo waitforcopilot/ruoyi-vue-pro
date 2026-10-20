@@ -1,0 +1,30 @@
+{
+  "projectId": 147,
+  "TESTAnchorId": 1319,
+  "materialMode": "TEST only",
+  "existingAnchor4Unchanged": true,
+  "temporaryCreationRootRevoked": 1320,
+  "organizations": [
+    201,
+    202
+  ],
+  "requirements": [
+    1658,
+    1659
+  ],
+  "sources": [
+    3341,
+    3360
+  ],
+  "issues": [
+    3357,
+    3376
+  ],
+  "releaseId": 1341,
+  "reader": 268,
+  "visibleOrg": 201,
+  "explicitObjectsAndCeilingAloneVerified": true,
+  "foreignDetailsHistorySourceIssueRejected": true,
+  "visibleCount": 1,
+  "restrictedRelease": true
+}

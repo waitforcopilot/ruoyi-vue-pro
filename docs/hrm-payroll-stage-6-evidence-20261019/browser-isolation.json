@@ -1,0 +1,14 @@
+{
+  "method": "Same Codex IAB, different origins/hosts; host cookies and origin storage isolated by browser, without modifying tokens/storage",
+  "A": {
+    "origin": "http://127.0.0.1:5173",
+    "visibleIdentity": "TEST S5 editor NEW DISPLAY",
+    "actorId": 266
+  },
+  "B": {
+    "origin": "http://localhost:5173",
+    "visibleIdentity": "TEST S6 reviewer 0",
+    "actorId": 269
+  },
+  "afterBothLoggedInDistinctIdentitiesVerified": true
+}

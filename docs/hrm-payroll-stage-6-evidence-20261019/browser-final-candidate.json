@@ -1,0 +1,22 @@
+{
+  "projectId": 105,
+  "rootId": 1344,
+  "rootState": "ACTIVE",
+  "rootRegistrar": 266,
+  "independentSigner": 267,
+  "materialMode": "TEST",
+  "releaseId": 1347,
+  "releaseVersion": 2,
+  "retryReturnedSameRelease": true,
+  "retryFailureMessageAbsent": true,
+  "downloadJobId": 1349,
+  "actualDownload": "browser-final-1347.xlsx in private directory",
+  "browserErrorsSinceFinalRestart": 0,
+  "historicalConsoleErrors": [
+    {
+      "time": "2026-10-19T13:21:20.911Z",
+      "category": "historical network error; old notify query near earlier service restart"
+    }
+  ],
+  "sameSixReadServicesAsPerformanceCandidate": true
+}

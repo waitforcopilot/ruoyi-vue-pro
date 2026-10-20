@@ -1,0 +1,16 @@
+{
+  "externalAndSchedulerBooleans": {
+    ".spring.quartz.auto-startup": false
+  },
+  "infraJobStatusCounts": "2\t36",
+  "activePrivateConfigAndKeyBackupByteIdentical": {
+    "application-workstation.yaml": true,
+    "credentials.json": true
+  },
+  "credentialsAndTaxKeyValuesNotIncluded": true,
+  "schedulerAll36JobsStopped": true,
+  "all3SmsChannelsDisabled": true,
+  "all4MailAccountsLoopbackOnly": true,
+  "all36JobsStopped": true,
+  "quartzAutoStart": false
+}

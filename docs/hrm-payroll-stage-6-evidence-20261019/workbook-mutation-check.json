@@ -1,0 +1,61 @@
+{
+  "sixSheetsExactly": true,
+  "checkedFields": 235,
+  "longFieldsWithContinuation": 26,
+  "noOrphanExplicitReferences": true,
+  "onlyExportMetadataExcludedFromComparison": true,
+  "checks": [
+    {
+      "sheet": "评审版本说明",
+      "businessRows": 15,
+      "columns": 74,
+      "reexportOrderedCellsIdentical": true,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "功能需求清单",
+      "businessRows": 2,
+      "columns": 85,
+      "reexportOrderedCellsIdentical": true,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "数据源清单",
+      "businessRows": 2,
+      "columns": 139,
+      "reexportOrderedCellsIdentical": true,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "字段映射",
+      "businessRows": 3,
+      "columns": 147,
+      "reexportOrderedCellsIdentical": true,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "问题与待办",
+      "businessRows": 7,
+      "columns": 4,
+      "reexportOrderedCellsIdentical": true,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "范围与变更",
+      "businessRows": 2,
+      "columns": 121,
+      "reexportOrderedCellsIdentical": true,
+      "fieldsReconstructedExactly": true
+    }
+  ],
+  "files": [
+    {
+      "file": "multi-v1.xlsx",
+      "sha256": "6abbf9d798b4d10e1472cf0220c89b1cbc4734df14faf62424ae93d6a4759f85"
+    },
+    {
+      "file": "multi-v1-after.xlsx",
+      "sha256": "001059544bd3bb9927509ccd24679c9ea0713ebd8bbbbc77b9c7c918869834ff"
+    }
+  ]
+}

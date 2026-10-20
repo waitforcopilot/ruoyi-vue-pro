@@ -1,0 +1,441 @@
+{
+  "startedAt": "2026-10-19T21:32:59.763775+08:00",
+  "finishedAt": "2026-10-19T21:44:59.776100+08:00",
+  "warmupSeconds": 120,
+  "sampleWindowSeconds": 600,
+  "elapsedSeconds": 720.0084733749973,
+  "projectId": 107,
+  "releaseId": 501,
+  "load": {
+    "requirements": 500,
+    "sources": 100,
+    "fieldMappingRows": 2000,
+    "reviewerUsers": 10,
+    "relations": 499
+  },
+  "schedule": "10 simultaneous independent members, 5-second cycles; 20 sequential exports scheduled 28 seconds apart during same sample window",
+  "sampling": "nearest-rank ceil(0.95*N); all started-in-window samples including failures/timeouts retained; no latency samples discarded",
+  "metrics": {
+    "list": {
+      "samples": 1200,
+      "successfulSamples": 1200,
+      "unexpectedFailures": 0,
+      "failureRate": 0.0,
+      "p95SecondsNearestRank": 0.2116005409625359,
+      "maxSeconds": 0.32374204200459644
+    },
+    "save": {
+      "samples": 1200,
+      "successfulSamples": 1200,
+      "unexpectedFailures": 0,
+      "failureRate": 0.0,
+      "p95SecondsNearestRank": 0.6222904580063187,
+      "maxSeconds": 1.270136833016295
+    }
+  },
+  "exports": [
+    {
+      "number": 1,
+      "offsetSeconds": 120.00804616697133,
+      "success": true,
+      "jobId": 880,
+      "secondsToDownload": 3.3112200829782523,
+      "sha256": "712087770759f098756e9d26be2de05906ab9f145224ae766e6bfe95fde0f7bd",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 124.46706429199548
+    },
+    {
+      "number": 2,
+      "offsetSeconds": 148.00209812499816,
+      "success": true,
+      "jobId": 881,
+      "secondsToDownload": 2.737449749954976,
+      "sha256": "c0669bd70fc09886750a07995a5fad11339011d16abc1e2f5d5b58f9e453389e",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 151.902847041958
+    },
+    {
+      "number": 3,
+      "offsetSeconds": 176.00209187495057,
+      "success": true,
+      "jobId": 882,
+      "secondsToDownload": 2.787801084050443,
+      "sha256": "5197789fe398368df425d46165d5be650b8d328e1bb852635bf748fd8fd35aad",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 179.99332129198592
+    },
+    {
+      "number": 4,
+      "offsetSeconds": 204.0013738339767,
+      "success": true,
+      "jobId": 883,
+      "secondsToDownload": 3.174459207977634,
+      "sha256": "6d80ddc58b787a33673c35431025281a755e8e44b68a55b78aca8321fd0197b2",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 208.35068958398188
+    },
+    {
+      "number": 5,
+      "offsetSeconds": 232.00173779198667,
+      "success": true,
+      "jobId": 884,
+      "secondsToDownload": 2.561136708012782,
+      "sha256": "b77adbb0af125f4ac6ca6bf3d314dea38c96d28e430a2276a9586ec971f351c1",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 235.7965823749546
+    },
+    {
+      "number": 6,
+      "offsetSeconds": 260.00438058399595,
+      "success": true,
+      "jobId": 885,
+      "secondsToDownload": 3.3508961249608546,
+      "sha256": "c3758e3c855074e869de4571d21262cabe715cac88ca0cb8bf8c49fae23385ec",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 264.52141437499085
+    },
+    {
+      "number": 7,
+      "offsetSeconds": 288.00457724998705,
+      "success": true,
+      "jobId": 886,
+      "secondsToDownload": 2.650730458961334,
+      "sha256": "25ca6d7cdd5640a50f3181e7190d268bf3f2b5aa9e9824c0217d4dbaa5924f6a",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 291.8211035839631
+    },
+    {
+      "number": 8,
+      "offsetSeconds": 316.00459295895416,
+      "success": true,
+      "jobId": 887,
+      "secondsToDownload": 2.6465127500123344,
+      "sha256": "eb71aa9f8b9ff353e754dada9d4d959b920849e65947254c688465738fe7ce87",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 319.83218762499746
+    },
+    {
+      "number": 9,
+      "offsetSeconds": 344.00143574998947,
+      "success": true,
+      "jobId": 888,
+      "secondsToDownload": 3.0454681669943966,
+      "sha256": "6261e627383869e14c2febd693c365a7e946005867ee6c4a636eb29f4452f711",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 348.21809712494723
+    },
+    {
+      "number": 10,
+      "offsetSeconds": 372.00034104200313,
+      "success": true,
+      "jobId": 889,
+      "secondsToDownload": 2.6569339580019005,
+      "sha256": "9ddcb2b2e2124bdfa566523b9ff004f58632b0889d8e77a343b11ff4961e37a1",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 375.92447145900223
+    },
+    {
+      "number": 11,
+      "offsetSeconds": 400.00206137495115,
+      "success": true,
+      "jobId": 890,
+      "secondsToDownload": 3.108973959053401,
+      "sha256": "b9dbbaf4c9e97cbd8d10fcf945bf7b9cf2c1f73aa6d04fe1726be90f230fe44c",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 404.2859269999899
+    },
+    {
+      "number": 12,
+      "offsetSeconds": 428.0012844169978,
+      "success": true,
+      "jobId": 891,
+      "secondsToDownload": 2.6651159579632804,
+      "sha256": "2ac76e8d85bab4a9743ff5553514ffb0f56646e90c87159e03c5685f4159424e",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 431.8194933339837
+    },
+    {
+      "number": 13,
+      "offsetSeconds": 456.00136991695035,
+      "success": true,
+      "jobId": 892,
+      "secondsToDownload": 2.697759667003993,
+      "sha256": "c921ccbbdaa22eb6678595cbfd2b8e3e1946f754dffbd8c561e0f2408a60e8f1",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 459.85929383395705
+    },
+    {
+      "number": 14,
+      "offsetSeconds": 484.0007617919473,
+      "success": true,
+      "jobId": 893,
+      "secondsToDownload": 3.1182979580480605,
+      "sha256": "e8e2a9666ddec609c886b2a01be32706629ffa12d2b04914adeec8426ee7758a",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 488.2975584169617
+    },
+    {
+      "number": 15,
+      "offsetSeconds": 512.0037886669743,
+      "success": true,
+      "jobId": 894,
+      "secondsToDownload": 2.5745347919873893,
+      "sha256": "7c7d2d75cca432616d074a60f45e889f043be67234a895999b11b9ee43197a74",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 515.7708647089894
+    },
+    {
+      "number": 16,
+      "offsetSeconds": 540.0041806249646,
+      "success": true,
+      "jobId": 895,
+      "secondsToDownload": 3.1639779999968596,
+      "sha256": "4f47227e0094c321d0c99defcf7a32be9bf91fe25faadcf8b6f663050f70b288",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 544.3790787920007
+    },
+    {
+      "number": 17,
+      "offsetSeconds": 568.001527958957,
+      "success": true,
+      "jobId": 896,
+      "secondsToDownload": 2.705818166024983,
+      "sha256": "9feda881a792a22b41e104b454ec1366ac9718c6dd059c5e1492d3bbd8b21db2",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 571.9547708749888
+    },
+    {
+      "number": 18,
+      "offsetSeconds": 596.0036271669669,
+      "success": true,
+      "jobId": 897,
+      "secondsToDownload": 2.9721872500376776,
+      "sha256": "c1cc6e0aee0fd6617cbfac0c3e454f5c3924d6037a9090312cab92d19ebfb12b",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 600.1784290419891
+    },
+    {
+      "number": 19,
+      "offsetSeconds": 624.0001962919487,
+      "success": true,
+      "jobId": 898,
+      "secondsToDownload": 3.233766875055153,
+      "sha256": "73f784dcd277bfbdc34aeae7c5755aef4ed444409ad0436856b6eb3373b72090",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 628.4634654999827
+    },
+    {
+      "number": 20,
+      "offsetSeconds": 652.0009914999828,
+      "success": true,
+      "jobId": 899,
+      "secondsToDownload": 2.6448439169907942,
+      "sha256": "8dbb1304f0d0eaacd5cdfb2c89a4d4742f473fc0d9d0f694c6b3cf3e5e577e23",
+      "checkedFields": 40245,
+      "businessRows": [
+        25,
+        500,
+        101,
+        2000,
+        3,
+        500
+      ],
+      "sixSheets": true,
+      "noOrphanReferences": true,
+      "finishedOffset": 655.922990958963
+    }
+  ],
+  "pass": true,
+  "rawSamples": "/Users/waitforpro/.hrm-payroll-local/stage6-20261019/performance-run-3/samples.jsonl",
+  "negativeTestsIncluded": false
+}

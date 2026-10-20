@@ -1,0 +1,8 @@
+{
+  "projectId": 105,
+  "grantId": 491,
+  "actorId": 268,
+  "oldReadyJobId": 1244,
+  "revoked": true,
+  "next": "same IAB session same READY button, no relogin"
+}

@@ -1,0 +1,11 @@
+{
+  "projects": [
+    126,
+    127
+  ],
+  "each": 46,
+  "concurrentTwiceAndRetry": true,
+  "distinctIDs": true,
+  "sameCodes": true,
+  "defaultPending": true
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "requested": 390,
+    "documentWidth": 390,
+    "innerHeight": 1000,
+    "innerWidth": 390
+  },
+  {
+    "requested": 768,
+    "documentWidth": 768,
+    "innerHeight": 1000,
+    "innerWidth": 768
+  },
+  {
+    "requested": 1440,
+    "documentWidth": 1440,
+    "innerHeight": 1000,
+    "innerWidth": 1440
+  }
+]

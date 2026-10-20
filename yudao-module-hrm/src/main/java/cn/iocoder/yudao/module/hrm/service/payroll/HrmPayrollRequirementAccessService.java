@@ -50,9 +50,19 @@ public class HrmPayrollRequirementAccessService {
         HrmPayrollRequirementProjectGrantDO parent=grants.selectById(g.getParentGrantId());
         return parent!=null && Objects.equals(parent.getRootRecordId(),g.getRootRecordId()) && Objects.equals(parent.getProjectId(),g.getProjectId()) && Objects.equals(parent.getUserId(),g.getGrantorId()) && effective(parent,seen) && coversGrant(parent,g);
     }
+    /** Read-operation-local current grant chains; always discarded before the next operation. */
+    private final ThreadLocal<Map<List<Long>,List<HrmPayrollRequirementProjectGrantDO>>> readChains=new ThreadLocal<>();
+    public <T>T withReadAuthorization(java.util.function.Supplier<T> read){
+        if(readChains.get()!=null)return read.get();
+        readChains.set(new HashMap<>());try{return read.get();}finally{readChains.remove();}
+    }
     public List<HrmPayrollRequirementProjectGrantDO> active(Long project,Long actor) {
+        Map<List<Long>,List<HrmPayrollRequirementProjectGrantDO>> local=readChains.get();
+        List<Long> key=Arrays.asList(cn.iocoder.yudao.framework.tenant.core.context.TenantContextHolder.getTenantId(),project,actor);
+        if(local!=null&&local.containsKey(key))return local.get(key);
         if(!activeUser(actor)) return Collections.emptyList();
-        return grants.selectList(new cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX<HrmPayrollRequirementProjectGrantDO>().eq(HrmPayrollRequirementProjectGrantDO::getProjectId,project).eq(HrmPayrollRequirementProjectGrantDO::getUserId,actor)).stream().filter(this::effective).collect(Collectors.toList());
+        List<HrmPayrollRequirementProjectGrantDO> current=grants.selectList(new cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX<HrmPayrollRequirementProjectGrantDO>().eq(HrmPayrollRequirementProjectGrantDO::getProjectId,project).eq(HrmPayrollRequirementProjectGrantDO::getUserId,actor)).stream().filter(this::effective).collect(Collectors.toList());
+        if(local!=null)local.put(key,current);return current;
     }
     public boolean project(HrmPayrollRequirementProjectDO p,Long actor,String action) {
         return p!=null && activeUser(actor) && (creator(p,actor,action) || active(p.getId(),actor).stream().anyMatch(g->actions(g.getActions()).contains(action)));

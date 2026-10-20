@@ -1,0 +1,19 @@
+{
+  "projectId": 105,
+  "deferredRequirementIds": [
+    1488,
+    1494,
+    1495,
+    1501,
+    1505,
+    1506,
+    1602,
+    1649,
+    1651,
+    1653,
+    1654,
+    1656
+  ],
+  "noDraftConfirmed": true,
+  "reason": "TEST UI regression opinions retained and explicitly deferred; only two previously signed requirements included"
+}

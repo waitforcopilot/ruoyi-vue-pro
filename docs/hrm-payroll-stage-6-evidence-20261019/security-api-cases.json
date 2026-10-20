@@ -1,0 +1,62 @@
+[
+  {
+    "case": "cross-project-all-object-types-and-cross-tenant",
+    "projectId": 122,
+    "peerId": 123,
+    "requirementId": 1390,
+    "sourceId": 3122,
+    "issueId": 3132,
+    "releaseId": 845,
+    "crossTenantCode": 403,
+    "allSubstitutionsRejected": true
+  },
+  {
+    "case": "minimal-assign-parent-revoke-old-session-and-ready-download",
+    "projectId": 122,
+    "parentGrant": 428,
+    "childGrant": 429,
+    "readyJob": 850,
+    "oldSignaturePreservedForOtherMembers": true,
+    "allReadWriteExportPathsRejectedAfterRevoke": true,
+    "downloadCorrection": {
+      "originalRoute": "/export/claim (nonexistent; excluded as authorization proof)",
+      "correctRoute": "/export/download",
+      "correctRouteDeniedCode": 1050810043,
+      "freshRestrictedSession": true,
+      "oldSessionProof": "Completed separately in actual IAB project105, actor268, grant491, same old READY job1244/button: legal download before revocation, DENIED after revocation without relogin; browser-old-download-denied.png"
+    }
+  },
+  {
+    "case": "edit-only-forged-confirmation-rejected",
+    "actor": 270,
+    "businessActions": "READ,EDIT",
+    "requirementId": 1393,
+    "statusAfter": "PENDING"
+  },
+  {
+    "case": "signer-membership-revoked-historical-signature-retained",
+    "projectId": 122,
+    "signerId": 267,
+    "requirementId": 1392,
+    "historicalSignatureRetained": true,
+    "futureConfirmationRejected": true
+  },
+  {
+    "case": "unresolved-item-reassigned",
+    "newReviewerId": 279,
+    "projectId": 122,
+    "requirementId": 1393,
+    "pass": true
+  },
+  {
+    "case": "cross-project-source-copy",
+    "sourceProject": 124,
+    "targetProject": 125,
+    "sourceId": 3138,
+    "copyId": 3148,
+    "supplyQualityAndVersionIndependent": true,
+    "originalChangesDoNotPropagate": true,
+    "missingRightsAndTamperedSourceProjectRejected": true,
+    "pass": true
+  }
+]

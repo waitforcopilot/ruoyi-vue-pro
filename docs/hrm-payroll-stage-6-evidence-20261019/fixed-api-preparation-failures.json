@@ -1,0 +1,7 @@
+{
+  "attempt": 1,
+  "functionalCasesExecuted": 0,
+  "rejectedCaseSetupCount": 14,
+  "cause": "Harness passed lowercase label to uppercase-only projectKey; server validation correctly rejected all before fixture creation",
+  "remedy": "Uppercase TEST project key; retain original raw failures privately and re-execute from new independent fixtures"
+}

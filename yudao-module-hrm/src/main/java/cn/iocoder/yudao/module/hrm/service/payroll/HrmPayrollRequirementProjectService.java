@@ -37,10 +37,21 @@ public class HrmPayrollRequirementProjectService {
  public boolean visible(HrmPayrollRequirementDO r,Long actor,String action){HrmPayrollRequirementProjectDO p=projects.selectById(r.getProjectId());return access.row(p,r,actor,"READ") && access.row(p,r,actor,action);}
  public boolean full(Long project,Long actor,String action){return access.full(projects.selectById(project),actor,action);}
  public boolean reviewer(HrmPayrollRequirementDO r,Long user){return access.reviewer(projects.selectById(r.getProjectId()),r,user);}
- public List<HrmPayrollRequirementDO> rows(Long id,String module,Long actor,String action){
+ public List<HrmPayrollRequirementDO> rows(Long id,String module,Long actor,String action){return presentRows(id,authorizedRows(id,module,actor,action));}
+ public List<HrmPayrollRequirementDO> presentRows(Long id,List<HrmPayrollRequirementDO> rows){
+  return access.withReadAuthorization(()->workbench.withReadSnapshot(id,()->{for(HrmPayrollRequirementDO r:rows){r.setReadiness(workbench.readiness(r));r.setCurrentConfirmationValid(workbench.currentConfirmationValid(r));r.setConfirmedTupleJson(null);}return rows;}));
+ }
+ /** Filter against current grants before pagination, then hydrate only the selected page. */
+ public List<HrmPayrollRequirementDO> authorizedRows(Long id,String module,Long actor,String action){
   HrmPayrollRequirementProjectDO p=check(id,actor,action,false);
   List<HrmPayrollRequirementDO> result=requirements.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementDO>().eq(HrmPayrollRequirementDO::getProjectId,id).eqIfPresent(HrmPayrollRequirementDO::getModule,module).orderByAsc(HrmPayrollRequirementDO::getCode));
-  return result.stream().filter(r->access.row(p,r,actor,"READ") && access.row(p,r,actor,action)).peek(r->{r.setReadiness(workbench.readiness(r));r.setCurrentConfirmationValid(workbench.currentConfirmationValid(r));r.setConfirmedTupleJson(null);sanitizeReviewMetadata(r,actor);}).peek(r->r.setPermittedActions(HrmPayrollRequirementAccessService.ACTIONS.stream().filter(a->access.row(p,r,actor,a)).collect(Collectors.toList()))).collect(Collectors.toList());
+  // Resolve the current chain once for this read, never cache it across requests.
+  List<HrmPayrollRequirementProjectGrantDO> currentGrants=access.active(id,actor);
+  return result.stream().filter(r->{
+   Set<String> permitted=new HashSet<>();
+   for(HrmPayrollRequirementProjectGrantDO g:currentGrants)if(access.coversRow(g,r,p))permitted.addAll(access.actions(g.getActions()));
+   r.setPermittedActions(new ArrayList<>(permitted));return permitted.contains("READ")&&permitted.contains(action);
+  }).peek(r->sanitizeReviewMetadata(r,actor)).collect(Collectors.toList());
  }
  @SuppressWarnings("unchecked") public void sanitizeReviewMetadata(HrmPayrollRequirementDO r,Long actor){
   if(r.getScopeDecisionJson()==null)return;

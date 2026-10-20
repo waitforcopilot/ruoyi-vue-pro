@@ -1,0 +1,44 @@
+[
+  {
+    "case": "TEMPLATE_UPGRADE_MANUAL_REMOVED_CUSTOM",
+    "pass": true,
+    "projectId": 141,
+    "catalog": "TEST_S6_CATALOG_141",
+    "initial": 46,
+    "afterNewItem": 47,
+    "manualPreservedUntilExplicitAdoption": true,
+    "removedRetained": true,
+    "customCodes": [
+      "CUSTOM-0001",
+      "CUSTOM-0002"
+    ]
+  },
+  {
+    "case": "S3_INDEPENDENT_S0",
+    "pass": true,
+    "projectId": 142,
+    "counts": {
+      "U": 46,
+      "E": 46,
+      "I": 40,
+      "C": 39,
+      "T": 6,
+      "D": 0
+    },
+    "baseline": {
+      "U": 46,
+      "E": 46,
+      "I": 40,
+      "C": 40,
+      "T": 6,
+      "D": 0
+    },
+    "oldReleaseUnchanged": true,
+    "publishDenied": true
+  },
+  {
+    "case": "FORMAL_CREATION_REFUSES_TEST_ROOT",
+    "pass": true,
+    "formalProjectCreated": false
+  }
+]

@@ -1,0 +1,37 @@
+{
+  "head": "aeb8f0f2fe5763a4f97e17ac085e39e7fe7e7e17",
+  "frozenAt": "2026-10-20T08:45:25.695756+08:00",
+  "sourceSha256": {
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceProjectionService.java": "6cc052e92b8aec911aad08738cc16bc76bb61048d4ca9805463601d062aced00",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceReleaseService.java": "33fd58799bda4692d5c48cc87e0466fcddf44d263400a397ceda5efbcb3f5f92",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementAccessService.java": "14e9d18fcac45f1bf1bcb79f6a28db639ce1d6f70ab8bddaa31be76845133086",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementProjectService.java": "61bf88c8f46e5ef52ee27f09ea95638a4cb409cd6fd7fb73cc3a6781df32cdd5",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollReviewService.java": "c20f1580311d11999d99c0f637be7976804b84a65d97645ac9f1aaee0ca44595",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollWorkbenchService.java": "bcda3467ee9505499879b206d88e2faa1d75c5094d55d4096e0bfc4cb200fd77",
+    "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceServiceTest.java": "14f0cfb99149d5fe997577c59084fa1d3782e6f5b55c84166d8bb4ff302bc91d",
+    "scripts/hrm/benchmark_review_workbench.py": "8b54e586bc259c78eea9f58a40ff5604a29724333f8b931ea439a7e8147bd7a8",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/controller/admin/payroll/vo/HrmPayrollGovernanceVO.java": "359d4943ac02cfb688f50d2ca1d3ade62db4783bb4f8a234f18d4de6f82f593d"
+  },
+  "jarSha256": "368cf64ca566bcea3fc5e390948c1d50af4055244b534026bca8f0ba9e9167f6",
+  "hrmClassesMatchJar": 1109,
+  "migrationCount": 60,
+  "runtimePid": "42376",
+  "cpu": "arm64",
+  "logicalCpus": "15",
+  "memoryBytes": "25769803776",
+  "diskFreeBytes": 535319207936,
+  "backendHeap": "Xms256m/Xmx1536m",
+  "network": "loopback localhost/127.0.0.1, no Cloud",
+  "configuration": "existing private workstation configuration; credentials and tax keys unchanged",
+  "harnessCorrectedAt": "2026-10-19T21:32:56.054308+08:00",
+  "performanceImpactReview": {
+    "originalRun3Jar": "6302369e198dc1fab1c6e206733bc29bd249e34676d21f28499561da6ffce953",
+    "onlyLaterChange": "Root DTO date validation; JsonIgnore prevents new serialized property",
+    "allSixPerformanceAndAuthorityReadServiceSourcesUnchanged": true,
+    "listSaveExportEndpointsAndReadAuthorityImplementationUnchanged": true,
+    "notRerunningWholePerformanceWindowWithoutRelevantChange": true,
+    "finalFullTests": "tests-final-input-validation.log",
+    "finalInvalidDateAPI": "root-date-validation.json",
+    "finalBrowserNormalRegistration": "recorded after this freeze in browser-final-candidate.json"
+  }
+}

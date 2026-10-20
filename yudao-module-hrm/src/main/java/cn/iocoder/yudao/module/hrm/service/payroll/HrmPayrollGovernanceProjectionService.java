@@ -28,7 +28,8 @@ public class HrmPayrollGovernanceProjectionService {
     boolean allVisible(Collection<?> ids,Set<Long> visible){return ids==null||ids.stream().allMatch(x->visible.contains(id(x)));}
     String name(Object id,Map<Long,String>names){return id==null?"":names.getOrDefault(HrmPayrollGovernanceStore.id(id),"当时未记录显示名");}
     Map<String,Object> ratio(long n,long d){return map("numerator",n,"denominator",d,"label",d==0?"暂无适用项（0/0）":n+"/"+d,"percent",d==0?null:java.math.BigDecimal.valueOf(n*100.0/d).setScale(2,java.math.RoundingMode.HALF_UP));}
-    public Map<String,Object> project(Long project,Long releaseId,Long actor,String action,List<Long> filter){
+    public Map<String,Object> project(Long project,Long releaseId,Long actor,String action,List<Long> filter){return access.withReadAuthorization(()->projectRead(project,releaseId,actor,action,filter));}
+    private Map<String,Object> projectRead(Long project,Long releaseId,Long actor,String action,List<Long> filter){
         store.lock();
         HrmPayrollRequirementProjectDO p=projects.selectById(project);allowed(p!=null&&access.project(p,actor,"READ")&&access.project(p,actor,action));
         HrmPayrollGovernanceRecordDO release=store.record(releaseId,"RELEASE");allowed(Objects.equals(project,release.getProjectId()));Map<String,Object> releaseData=store.data(release),snapshot=obj(releaseData.get("snapshot"));

@@ -1,0 +1,78 @@
+{
+  "stoppedAt": "2026-10-19T21:32:00.990830+08:00",
+  "sampleRowsRetained": 1300,
+  "lastOffsetSeconds": 320.4912669999758,
+  "listSaveUnexpectedFailures": 0,
+  "exports": [
+    {
+      "number": 1,
+      "offsetSeconds": 120.00127683399478,
+      "success": false,
+      "jobId": 816,
+      "error": "AssertionError: download not XLSX",
+      "secondsToFailure": 2.620282165997196
+    },
+    {
+      "number": 2,
+      "offsetSeconds": 148.00553129200125,
+      "success": false,
+      "jobId": 817,
+      "error": "AssertionError: download not XLSX",
+      "secondsToFailure": 2.4267094579990953
+    },
+    {
+      "number": 3,
+      "offsetSeconds": 176.00391149998177,
+      "success": false,
+      "jobId": 818,
+      "error": "AssertionError: download not XLSX",
+      "secondsToFailure": 2.0890885420376435
+    },
+    {
+      "number": 4,
+      "offsetSeconds": 204.00571412499994,
+      "success": false,
+      "jobId": 819,
+      "error": "AssertionError: download not XLSX",
+      "secondsToFailure": 2.261742874979973
+    },
+    {
+      "number": 5,
+      "offsetSeconds": 232.00615916698007,
+      "success": false,
+      "jobId": 820,
+      "error": "AssertionError: download not XLSX",
+      "secondsToFailure": 2.045958208036609
+    },
+    {
+      "number": 6,
+      "offsetSeconds": 260.00542054197285,
+      "success": false,
+      "jobId": 847,
+      "error": "AssertionError: download not XLSX",
+      "secondsToFailure": 2.538156541995704
+    },
+    {
+      "number": 7,
+      "offsetSeconds": 288.0049882089952,
+      "success": false,
+      "jobId": 852,
+      "error": "AssertionError: download not XLSX",
+      "secondsToFailure": 2.1689496660255827
+    },
+    {
+      "number": 8,
+      "offsetSeconds": 316.0076611249824,
+      "success": false,
+      "jobId": 853,
+      "error": "AssertionError: download not XLSX",
+      "secondsToFailure": 2.060841959028039
+    }
+  ],
+  "result": "NOT ACCEPTED; stopped rather than count invalid download-route checks",
+  "reason": "Harness requested /export/claim instead of controller-declared /export/download. Original raw samples and errors retained privately. Complete warmup/sample must rerun.",
+  "privateRaw": "/Users/waitforpro/.hrm-payroll-local/stage6-20261019/performance-run-1",
+  "terminatedPid": 48046,
+  "terminatedAt": "2026-10-19T21:32:56.053483+08:00",
+  "correction": "First stop lookup failed to match process name. Process 48046 then explicitly terminated; short run-2 warmup overlap retained and excluded, full run-3 starts with only ten workers."
+}

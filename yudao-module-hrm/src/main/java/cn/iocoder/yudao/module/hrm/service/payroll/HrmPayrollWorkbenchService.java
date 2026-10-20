@@ -31,6 +31,20 @@ public class HrmPayrollWorkbenchService {
  @Resource private HrmPayrollRequirementHistoryMapper histories;
  @Resource private HrmPayrollRequirementAccessService access;
  @Resource private PermissionApi permissions;
+ /** A read-local object graph. No authorization result survives the supplier or a request. */
+ private final ThreadLocal<ReadGraph> readGraph=new ThreadLocal<>();
+ private static final class ReadGraph {
+  final Long project;final Map<Long,HrmPayrollWorkbenchRecordDO> objects=new HashMap<>();
+  final Map<String,List<HrmPayrollWorkbenchRecordDO>> kinds=new HashMap<>();
+  final Map<String,Object> parsed=new HashMap<>();
+  ReadGraph(Long project,List<HrmPayrollWorkbenchRecordDO> rows){this.project=project;for(HrmPayrollWorkbenchRecordDO o:rows){objects.put(o.getId(),o);kinds.computeIfAbsent(o.getKind(),k->new ArrayList<>()).add(o);}}
+ }
+ public <T>T withReadSnapshot(Long project,java.util.function.Supplier<T> read){
+  ReadGraph previous=readGraph.get();if(previous!=null&&Objects.equals(previous.project,project))return read.get();
+  ReadGraph current=new ReadGraph(project,records.selectList(new LambdaQueryWrapperX<HrmPayrollWorkbenchRecordDO>().eq(HrmPayrollWorkbenchRecordDO::getProjectId,project).orderByAsc(HrmPayrollWorkbenchRecordDO::getId)));
+  readGraph.set(current);try{return read.get();}finally{if(previous==null)readGraph.remove();else readGraph.set(previous);}
+ }
+ private <T>T read(Long project,java.util.function.Supplier<T> query){return access.withReadAuthorization(()->withReadSnapshot(project,query));}
  private static final Set<String> KINDS=new HashSet<>(Arrays.asList("SOURCE","RELATION","ISSUE","EVIDENCE","HISTORY","TODO","PROPOSAL"));
  private static final ZoneId SHANGHAI=ZoneId.of("Asia/Shanghai");
  static Map<String,Object> map(Object... pairs){Map<String,Object> m=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)m.put((String)pairs[i],pairs[i+1]);return m;}
@@ -52,9 +66,9 @@ public class HrmPayrollWorkbenchService {
   denied(p!=null&&access.project(p,actor,"READ"));return p;
  }
  private HrmPayrollRequirementProjectDO context(Context c,Long actor){HrmPayrollRequirementProjectDO p=project(c.getProjectId(),actor,true);current(p.getProjectScopeVersion(),c.getProjectScopeVersion());valid(!blank(c.getReason()));return p;}
- private HrmPayrollWorkbenchRecordDO object(Long project,Long id,String kind){HrmPayrollWorkbenchRecordDO o=id==null?null:records.selectById(id);denied(o!=null&&Objects.equals(o.getProjectId(),project)&&kind.equals(o.getKind()));return o;}
- private <T>T data(HrmPayrollWorkbenchRecordDO o,Class<T> type){return JsonUtils.parseObject(o.getDataJson(),type);}
- private List<HrmPayrollWorkbenchRecordDO> all(Long project,String kind){return records.selectList(new LambdaQueryWrapperX<HrmPayrollWorkbenchRecordDO>().eq(HrmPayrollWorkbenchRecordDO::getProjectId,project).eq(HrmPayrollWorkbenchRecordDO::getKind,kind).orderByAsc(HrmPayrollWorkbenchRecordDO::getId));}
+ private HrmPayrollWorkbenchRecordDO object(Long project,Long id,String kind){ReadGraph graph=readGraph.get();HrmPayrollWorkbenchRecordDO o=id==null?null:graph!=null&&Objects.equals(graph.project,project)?graph.objects.get(id):records.selectById(id);denied(o!=null&&Objects.equals(o.getProjectId(),project)&&kind.equals(o.getKind()));return o;}
+ @SuppressWarnings("unchecked") private <T>T data(HrmPayrollWorkbenchRecordDO o,Class<T> type){ReadGraph graph=readGraph.get();if(graph==null||!Objects.equals(graph.project,o.getProjectId()))return JsonUtils.parseObject(o.getDataJson(),type);return (T)graph.parsed.computeIfAbsent(o.getId()+":"+type.getName(),key->JsonUtils.parseObject(o.getDataJson(),type));}
+ private List<HrmPayrollWorkbenchRecordDO> all(Long project,String kind){ReadGraph graph=readGraph.get();if(graph!=null&&Objects.equals(graph.project,project))return graph.kinds.getOrDefault(kind,Collections.emptyList());return records.selectList(new LambdaQueryWrapperX<HrmPayrollWorkbenchRecordDO>().eq(HrmPayrollWorkbenchRecordDO::getProjectId,project).eq(HrmPayrollWorkbenchRecordDO::getKind,kind).orderByAsc(HrmPayrollWorkbenchRecordDO::getId));}
  private HrmPayrollWorkbenchRecordDO insert(Long project,String kind,Object value){HrmPayrollWorkbenchRecordDO o=new HrmPayrollWorkbenchRecordDO();o.setProjectId(project);o.setKind(kind);o.setVersion(1);o.setDataJson(JsonUtils.toJsonString(value));records.insert(o);return o;}
  private void update(HrmPayrollWorkbenchRecordDO o,Object value){o.setVersion(o.getVersion()+1);o.setDataJson(JsonUtils.toJsonString(value));records.updateById(o);}
  private HrmPayrollRequirementDO requirement(Long project,Long id){HrmPayrollRequirementDO r=requirements.selectById(id);denied(r!=null&&Objects.equals(r.getProjectId(),project));return r;}
@@ -164,7 +178,8 @@ public class HrmPayrollWorkbenchService {
  }
  public static boolean validExemption(String reason){if(blank(reason))return false;String x=reason.trim();return x.length()>=8&&!Arrays.asList("N/A","NA","不适用").contains(x.toUpperCase(Locale.ROOT));}
  public String readiness(HrmPayrollRequirementDO req){if("NOT_APPLICABLE".equals(req.getSourceApplicability())&&validExemption(req.getApplicabilityReason()))return "EXEMPT";HrmPayrollRequirementProjectDO p=projects.selectById(req.getProjectId());List<HrmPayrollWorkbenchRecordDO>rs=relations(p.getId(),null,req.getId(),true);if(rs.isEmpty())return "MISSING";long n=rs.stream().filter(o->available(p,o)).count();return n==rs.size()?"READY":n==0?"MISSING":"PARTIAL";}
- public Map<String,Object> readinessSnapshot(Long project,Long actor){
+ public Map<String,Object> readinessSnapshot(Long project,Long actor){return read(project,()->readinessSnapshotRead(project,actor));}
+    private Map<String,Object> readinessSnapshotRead(Long project,Long actor){
   HrmPayrollRequirementProjectDO p=project(project,actor,false);List<Object> items=new ArrayList<>();int gaps=0,usable=0,exempt=0;
   for(HrmPayrollRequirementDO req:requirements.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementDO>().eq(HrmPayrollRequirementDO::getProjectId,project))){
    if("REMOVED".equals(req.getScopeDecision())||!access.row(p,req,actor,"READ"))continue;
@@ -234,7 +249,8 @@ public class HrmPayrollWorkbenchService {
  }
  private boolean dataBlocked(HrmPayrollRequirementProjectDO p,Long req,Long source){return all(p.getId(),"ISSUE").stream().anyMatch(o->{Issue i=data(o,Issue.class);return !"CLOSED".equals(i.getState())&&"DATA_READINESS".equals(i.getCategory())&&(Boolean.TRUE.equals(i.getWholeProject())||i.getSourceIds().contains(source)||issueImpact(p.getId(),i).contains(req));});}
  /** Real blocker data for S5; only project-wide readers receive complete project judgement. */
- public Map<String,Object> blockers(Long project,Long actor){HrmPayrollRequirementProjectDO p=project(project,actor,false);denied(access.full(p,actor,"READ"));Set<Long> included=requirements.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementDO>().eq(HrmPayrollRequirementDO::getProjectId,project)).stream().filter(r->"INCLUDED".equals(r.getScopeDecision())).map(HrmPayrollRequirementDO::getId).collect(Collectors.toSet());List<Long> blocks=new ArrayList<>();for(HrmPayrollWorkbenchRecordDO o:all(project,"ISSUE")){Issue i=data(o,Issue.class);if(!"CLOSED".equals(i.getState())&&"BASELINE_BLOCK".equals(i.getCategory())&&(Boolean.TRUE.equals(i.getWholeProject())||!Collections.disjoint(included,issueImpact(project,i))))blocks.add(o.getId());}return map("baselineIssueIds",blocks,"baselineBlocked",!blocks.isEmpty(),"includedRequirementIds",included,"formalReleaseGate","INDEPENDENT_PUBLISH_CHECK_REQUIRED");}
+ public Map<String,Object> blockers(Long project,Long actor){return read(project,()->blockersRead(project,actor));}
+    private Map<String,Object> blockersRead(Long project,Long actor){HrmPayrollRequirementProjectDO p=project(project,actor,false);denied(access.full(p,actor,"READ"));Set<Long> included=requirements.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementDO>().eq(HrmPayrollRequirementDO::getProjectId,project)).stream().filter(r->"INCLUDED".equals(r.getScopeDecision())).map(HrmPayrollRequirementDO::getId).collect(Collectors.toSet());List<Long> blocks=new ArrayList<>();for(HrmPayrollWorkbenchRecordDO o:all(project,"ISSUE")){Issue i=data(o,Issue.class);if(!"CLOSED".equals(i.getState())&&"BASELINE_BLOCK".equals(i.getCategory())&&(Boolean.TRUE.equals(i.getWholeProject())||!Collections.disjoint(included,issueImpact(project,i))))blocks.add(o.getId());}return map("baselineIssueIds",blocks,"baselineBlocked",!blocks.isEmpty(),"includedRequirementIds",included,"formalReleaseGate","INDEPENDENT_PUBLISH_CHECK_REQUIRED");}
  private boolean visible(HrmPayrollRequirementProjectDO p,HrmPayrollWorkbenchRecordDO o,Long actor){try{switch(o.getKind()){
   case "SOURCE":sourceAccess(p,o,data(o,Source.class),actor,"READ");return true;
   case "RELATION":relationAccess(p,o,actor,"READ");return true;
@@ -251,8 +267,10 @@ public class HrmPayrollWorkbenchService {
   values.remove("authority");if(values.remove("governance")!=null)values.put("governanceReferencesRestricted",true);if(values.containsKey("affectedRequirementIds")){List<?> ids=(List<?>)values.get("affectedRequirementIds");values.put("affectedRequirementIds",ids.stream().filter(id->access.row(p,requirement(p.getId(),Long.valueOf(String.valueOf(id))),actor,"READ")).collect(Collectors.toList()));}
   return result;
  }
- public List<Object> list(Long project,String kind,Long actor){valid(KINDS.contains(kind));HrmPayrollRequirementProjectDO p=project(project,actor,false);return all(project,kind).stream().filter(o->visible(p,o,actor)).map(o->view(p,o,actor)).collect(Collectors.toList());}
- public Object detail(Long project,String kind,Long id,Long actor){HrmPayrollRequirementProjectDO p=project(project,actor,false);HrmPayrollWorkbenchRecordDO o=object(project,id,kind);denied(visible(p,o,actor));return view(p,o,actor);}
+ public List<Object> list(Long project,String kind,Long actor){return read(project,()->listRead(project,kind,actor));}
+    private List<Object> listRead(Long project,String kind,Long actor){valid(KINDS.contains(kind));HrmPayrollRequirementProjectDO p=project(project,actor,false);return all(project,kind).stream().filter(o->visible(p,o,actor)).map(o->view(p,o,actor)).collect(Collectors.toList());}
+ public Object detail(Long project,String kind,Long id,Long actor){return read(project,()->detailRead(project,kind,id,actor));}
+    private Object detailRead(Long project,String kind,Long id,Long actor){HrmPayrollRequirementProjectDO p=project(project,actor,false);HrmPayrollWorkbenchRecordDO o=object(project,id,kind);denied(visible(p,o,actor));return view(p,o,actor);}
  private boolean exportable(HrmPayrollRequirementProjectDO p,HrmPayrollWorkbenchRecordDO o,Long actor){
   if(!visible(p,o,actor))return false;
   try{switch(o.getKind()){
@@ -263,10 +281,12 @@ public class HrmPayrollWorkbenchService {
   }}catch(cn.iocoder.yudao.framework.common.exception.ServiceException denied){return false;}
  }
  /** Current synchronous working list, explicitly not a frozen baseline or S5 six-table release. */
- public Map<String,Object> export(Long project,Long actor){
+ public Map<String,Object> export(Long project,Long actor){return read(project,()->exportRead(project,actor));}
+    private Map<String,Object> exportRead(Long project,Long actor){
   HrmPayrollRequirementProjectDO p=project(project,actor,true);platform(actor,"EXPORT");denied(access.project(p,actor,"EXPORT"));
   Map<String,Object> result=map("label",access.full(p,actor,"READ")&&access.full(p,actor,"EXPORT")?"当前来源关系工作清单（非发布基线）":"权限受限节选（非发布基线）","projectId",project,"projectScopeVersion",p.getProjectScopeVersion(),"exportedAt",LocalDateTime.now(SHANGHAI).toString());
   for(String kind:Arrays.asList("SOURCE","RELATION","ISSUE","EVIDENCE"))result.put(kind,all(project,kind).stream().filter(o->exportable(p,o,actor)).map(o->view(p,o,actor)).collect(Collectors.toList()));return result;
  }
- public List<Object> history(Long project,String kind,Long id,Long actor){HrmPayrollRequirementProjectDO p=project(project,actor,false);HrmPayrollWorkbenchRecordDO o=object(project,id,kind);denied(visible(p,o,actor));return all(project,"HISTORY").stream().filter(h->String.valueOf(id).equals(String.valueOf(evidenceData(h).get("objectId")))&&visible(p,h,actor)).map(h->view(p,h,actor)).collect(Collectors.toList());}
+ public List<Object> history(Long project,String kind,Long id,Long actor){return read(project,()->historyRead(project,kind,id,actor));}
+    private List<Object> historyRead(Long project,String kind,Long id,Long actor){HrmPayrollRequirementProjectDO p=project(project,actor,false);HrmPayrollWorkbenchRecordDO o=object(project,id,kind);denied(visible(p,o,actor));return all(project,"HISTORY").stream().filter(h->String.valueOf(id).equals(String.valueOf(evidenceData(h).get("objectId")))&&visible(p,h,actor)).map(h->view(p,h,actor)).collect(Collectors.toList());}
 }

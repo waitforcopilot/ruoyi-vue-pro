@@ -1,0 +1,18 @@
+{
+  "sixSheetsExactly": true,
+  "checkedFields": 167,
+  "longFieldsWithContinuation": 20,
+  "noOrphanExplicitReferences": true,
+  "onlyExportMetadataExcludedFromComparison": true,
+  "checks": [
+    "source name and unit",
+    "mapping",
+    "issue status",
+    "decision replacement",
+    "personnel display name of actual frozen source owner"
+  ],
+  "projectId": 145,
+  "releaseId": 1287,
+  "allChangesOnSameV1": true,
+  "onlyNewS6PersonnelChanged": 269
+}

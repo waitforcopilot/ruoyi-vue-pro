@@ -1,0 +1,7 @@
+{
+  "exactPrivateSecretValuesScanned": 29,
+  "candidateFiles": 92,
+  "secretAndJwtMatches": 0,
+  "unrelatedHandoverExcluded": true,
+  "rawBackupsCredentialsAndPerformanceSamplesExcluded": true
+}

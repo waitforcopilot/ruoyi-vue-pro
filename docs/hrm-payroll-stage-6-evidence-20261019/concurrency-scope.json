@@ -1,0 +1,114 @@
+[
+  {
+    "case": "ROOT_REVOKE",
+    "operations": [
+      {
+        "method": "POST",
+        "path": "/hrm/payroll/governance/publish",
+        "actor": 266,
+        "startedNs": 1792417875619208000,
+        "finishedNs": 1792417875687646000,
+        "code": 1050810043,
+        "data": null
+      },
+      {
+        "method": "POST",
+        "path": "/hrm/payroll/governance/root/action",
+        "actor": 267,
+        "startedNs": 1792417875618870000,
+        "finishedNs": 1792417875655039000,
+        "code": 0,
+        "data": true
+      }
+    ],
+    "noTornSnapshot": true
+  },
+  {
+    "case": "SCOPE_CHANGE",
+    "operations": [
+      {
+        "method": "POST",
+        "path": "/hrm/payroll/governance/publish",
+        "actor": 266,
+        "startedNs": 1792417879381194000,
+        "finishedNs": 1792417879539029000,
+        "code": 1050810003,
+        "data": null
+      },
+      {
+        "method": "POST",
+        "path": "/hrm/payroll/requirement-project/scope",
+        "actor": 266,
+        "startedNs": 1792417879381110000,
+        "finishedNs": 1792417879465777000,
+        "code": 0,
+        "data": true
+      }
+    ],
+    "noTornSnapshot": true
+  },
+  {
+    "case": "DECISION_REVOKE",
+    "operations": [
+      {
+        "method": "POST",
+        "path": "/hrm/payroll/governance/publish",
+        "actor": 266,
+        "startedNs": 1792417883663244000,
+        "finishedNs": 1792417883840624000,
+        "code": 1050810003,
+        "data": null
+      },
+      {
+        "method": "POST",
+        "path": "/hrm/payroll/governance/decision/action",
+        "actor": 267,
+        "startedNs": 1792417883663155000,
+        "finishedNs": 1792417883738634000,
+        "code": 0,
+        "data": true
+      }
+    ],
+    "noTornSnapshot": true
+  },
+  {
+    "case": "SOURCE_CHANGE",
+    "operations": [
+      {
+        "method": "POST",
+        "path": "/hrm/payroll/governance/publish",
+        "actor": 266,
+        "startedNs": 1792417888568936000,
+        "finishedNs": 1792417889089350000,
+        "code": 0,
+        "data": 1007
+      },
+      {
+        "method": "POST",
+        "path": "/hrm/payroll/workbench/source/save",
+        "actor": 266,
+        "startedNs": 1792417888568819000,
+        "finishedNs": 1792417889200671000,
+        "code": 0,
+        "data": 3195
+      }
+    ],
+    "noTornSnapshot": true
+  },
+  {
+    "case": "SIMULTANEOUS_EXACT_RETRY",
+    "answers": [
+      {
+        "code": 0,
+        "msg": "",
+        "data": 1027
+      },
+      {
+        "code": 0,
+        "msg": "",
+        "data": 1027
+      }
+    ],
+    "releaseRows": 1
+  }
+]

@@ -1,0 +1,26 @@
+{
+  "cases": [
+    {
+      "from": "2026-10-20T08:45:00",
+      "to": "2027-12-31",
+      "code": 400,
+      "clearFormatMessage": true
+    },
+    {
+      "from": "2026-02-30",
+      "to": "2027-12-31",
+      "code": 400,
+      "clearFormatMessage": true
+    },
+    {
+      "from": "2026-10-20",
+      "to": "not-a-date",
+      "code": 400,
+      "clearFormatMessage": true
+    }
+  ],
+  "rootRowsBefore": 3,
+  "rootRowsAfter": 3,
+  "noRootCreated": true,
+  "finalCandidateApi": true
+}

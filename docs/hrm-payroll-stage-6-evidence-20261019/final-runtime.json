@@ -1,0 +1,14 @@
+{
+  "sourceHashesAndJarUnchanged": true,
+  "hrmClassesEqual": 1109,
+  "health": {
+    "status": "UP"
+  },
+  "frontendStatus": 200,
+  "frontendTypecheckExit": 0,
+  "unitLog": "tests-final-input-validation.log",
+  "migrationManifestCount": 60,
+  "servicesRemainRunning": true,
+  "finalJarSha256": "368cf64ca566bcea3fc5e390948c1d50af4055244b534026bca8f0ba9e9167f6",
+  "finalRuntimePid": "42376"
+}

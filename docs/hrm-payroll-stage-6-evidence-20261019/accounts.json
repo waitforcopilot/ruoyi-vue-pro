@@ -1,0 +1,101 @@
+{
+  "reviewers": [
+    {
+      "id": 269,
+      "username": "hrms6worker0",
+      "grants": {
+        "105": 359,
+        "107": 360
+      }
+    },
+    {
+      "id": 270,
+      "username": "hrms6worker1",
+      "grants": {
+        "105": 361,
+        "107": 362
+      }
+    },
+    {
+      "id": 271,
+      "username": "hrms6worker2",
+      "grants": {
+        "105": 363,
+        "107": 364
+      }
+    },
+    {
+      "id": 272,
+      "username": "hrms6worker3",
+      "grants": {
+        "105": 365,
+        "107": 366
+      }
+    },
+    {
+      "id": 273,
+      "username": "hrms6worker4",
+      "grants": {
+        "105": 367,
+        "107": 368
+      }
+    },
+    {
+      "id": 274,
+      "username": "hrms6worker5",
+      "grants": {
+        "105": 369,
+        "107": 370
+      }
+    },
+    {
+      "id": 275,
+      "username": "hrms6worker6",
+      "grants": {
+        "105": 371,
+        "107": 372
+      }
+    },
+    {
+      "id": 276,
+      "username": "hrms6worker7",
+      "grants": {
+        "105": 373,
+        "107": 374
+      }
+    },
+    {
+      "id": 277,
+      "username": "hrms6worker8",
+      "grants": {
+        "105": 375,
+        "107": 376
+      }
+    },
+    {
+      "id": 278,
+      "username": "hrms6worker9",
+      "grants": {
+        "105": 377,
+        "107": 378
+      }
+    }
+  ],
+  "mainActors": {
+    "editor": {
+      "id": 266,
+      "username": "hrms5editor"
+    },
+    "approver": {
+      "id": 267,
+      "username": "hrms5approver"
+    },
+    "restricted": {
+      "id": 268,
+      "username": "hrms5restricted"
+    }
+  },
+  "rights": "Ten new TEST users share platform editor role but have only READ/EDIT/EXPORT business grants in new S6 main/performance projects; no actual payroll/employee binding",
+  "anchorId": 4,
+  "formalMaterial": false
+}

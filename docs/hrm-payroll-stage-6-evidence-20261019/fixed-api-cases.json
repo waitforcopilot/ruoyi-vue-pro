@@ -1,0 +1,1177 @@
+[
+  {
+    "case": "contact",
+    "projectId": 108,
+    "checks": {
+      "sameIndependentStart": true,
+      "D1UntouchedExceptDeliveryBranch": true,
+      "before": {
+        "statuses": [
+          "CONFIRMED",
+          "CONFIRMED"
+        ],
+        "currentC": [
+          true,
+          true
+        ],
+        "semanticVersions": [
+          3,
+          3
+        ],
+        "available": 2,
+        "denominator": 2
+      },
+      "steps": [
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 2,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 2,
+          "denominator": 2
+        }
+      ],
+      "oldV1Unchanged": true,
+      "newRelease": null
+    },
+    "pass": true
+  },
+  {
+    "case": "supply",
+    "projectId": 110,
+    "checks": {
+      "sameIndependentStart": true,
+      "D1UntouchedExceptDeliveryBranch": true,
+      "before": {
+        "statuses": [
+          "CONFIRMED",
+          "CONFIRMED"
+        ],
+        "currentC": [
+          true,
+          true
+        ],
+        "semanticVersions": [
+          3,
+          3
+        ],
+        "available": 2,
+        "denominator": 2
+      },
+      "steps": [
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 2,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 0,
+          "denominator": 2
+        }
+      ],
+      "oldV1Unchanged": true,
+      "newRelease": null
+    },
+    "pass": true
+  },
+  {
+    "case": "unit",
+    "projectId": 111,
+    "checks": {
+      "sameIndependentStart": true,
+      "D1UntouchedExceptDeliveryBranch": true,
+      "before": {
+        "statuses": [
+          "CONFIRMED",
+          "CONFIRMED"
+        ],
+        "currentC": [
+          true,
+          true
+        ],
+        "semanticVersions": [
+          3,
+          3
+        ],
+        "available": 2,
+        "denominator": 2
+      },
+      "steps": [
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 2,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            4,
+            4
+          ],
+          "available": 0,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            4,
+            4
+          ],
+          "available": 0,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            4,
+            4
+          ],
+          "available": 0,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            4,
+            4
+          ],
+          "available": 1,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            4,
+            4
+          ],
+          "available": 2,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            4,
+            4
+          ],
+          "available": 2,
+          "denominator": 2
+        }
+      ],
+      "oldV1Unchanged": true,
+      "newRelease": null
+    },
+    "pass": true
+  },
+  {
+    "case": "type",
+    "projectId": 112,
+    "checks": {
+      "sameIndependentStart": true,
+      "D1UntouchedExceptDeliveryBranch": true,
+      "before": {
+        "statuses": [
+          "CONFIRMED",
+          "CONFIRMED"
+        ],
+        "currentC": [
+          true,
+          true
+        ],
+        "semanticVersions": [
+          3,
+          3
+        ],
+        "available": 2,
+        "denominator": 2
+      },
+      "steps": [
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 2,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            4,
+            4
+          ],
+          "available": 0,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            4,
+            4
+          ],
+          "available": 0,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            4,
+            4
+          ],
+          "available": 0,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            4,
+            4
+          ],
+          "available": 1,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            4,
+            4
+          ],
+          "available": 2,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            4,
+            4
+          ],
+          "available": 2,
+          "denominator": 2
+        }
+      ],
+      "oldV1Unchanged": true,
+      "newRelease": null
+    },
+    "pass": true
+  },
+  {
+    "case": "interface",
+    "projectId": 113,
+    "checks": {
+      "sameIndependentStart": true,
+      "D1UntouchedExceptDeliveryBranch": true,
+      "before": {
+        "statuses": [
+          "CONFIRMED",
+          "CONFIRMED"
+        ],
+        "currentC": [
+          true,
+          true
+        ],
+        "semanticVersions": [
+          3,
+          3
+        ],
+        "available": 2,
+        "denominator": 2
+      },
+      "steps": [
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 2,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            4,
+            4
+          ],
+          "available": 0,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            4,
+            4
+          ],
+          "available": 0,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            4,
+            4
+          ],
+          "available": 0,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            4,
+            4
+          ],
+          "available": 1,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            4,
+            4
+          ],
+          "available": 2,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            4,
+            4
+          ],
+          "available": 2,
+          "denominator": 2
+        }
+      ],
+      "oldV1Unchanged": true,
+      "newRelease": null
+    },
+    "pass": true
+  },
+  {
+    "case": "mapping",
+    "projectId": 114,
+    "checks": {
+      "sameIndependentStart": true,
+      "D1UntouchedExceptDeliveryBranch": true,
+      "before": {
+        "statuses": [
+          "CONFIRMED",
+          "CONFIRMED"
+        ],
+        "currentC": [
+          true,
+          true
+        ],
+        "semanticVersions": [
+          3,
+          3
+        ],
+        "available": 2,
+        "denominator": 2
+      },
+      "steps": [
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 2,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            false,
+            true
+          ],
+          "semanticVersions": [
+            4,
+            3
+          ],
+          "available": 1,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            false,
+            true
+          ],
+          "semanticVersions": [
+            4,
+            3
+          ],
+          "available": 2,
+          "denominator": 2
+        }
+      ],
+      "oldV1Unchanged": true,
+      "newRelease": null
+    },
+    "pass": true
+  },
+  {
+    "case": "delivery",
+    "projectId": 115,
+    "checks": {
+      "sameIndependentStart": true,
+      "D1UntouchedExceptDeliveryBranch": false,
+      "before": {
+        "statuses": [
+          "CONFIRMED",
+          "CONFIRMED"
+        ],
+        "currentC": [
+          true,
+          true
+        ],
+        "semanticVersions": [
+          3,
+          3
+        ],
+        "available": 2,
+        "denominator": 2
+      },
+      "steps": [
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 2,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 0,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 1,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 2,
+          "denominator": 2
+        }
+      ],
+      "oldV1Unchanged": true,
+      "newRelease": null
+    },
+    "pass": true
+  },
+  {
+    "case": "qsRule",
+    "projectId": 116,
+    "checks": {
+      "sameIndependentStart": true,
+      "D1UntouchedExceptDeliveryBranch": true,
+      "before": {
+        "statuses": [
+          "CONFIRMED",
+          "CONFIRMED"
+        ],
+        "currentC": [
+          true,
+          true
+        ],
+        "semanticVersions": [
+          3,
+          3
+        ],
+        "available": 2,
+        "denominator": 2
+      },
+      "steps": [
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 2,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 0,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 1,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 2,
+          "denominator": 2
+        }
+      ],
+      "oldV1Unchanged": true,
+      "newRelease": null
+    },
+    "pass": true
+  },
+  {
+    "case": "qcRule",
+    "projectId": 117,
+    "checks": {
+      "sameIndependentStart": true,
+      "D1UntouchedExceptDeliveryBranch": true,
+      "before": {
+        "statuses": [
+          "CONFIRMED",
+          "CONFIRMED"
+        ],
+        "currentC": [
+          true,
+          true
+        ],
+        "semanticVersions": [
+          3,
+          3
+        ],
+        "available": 2,
+        "denominator": 2
+      },
+      "steps": [
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 2,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 1,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 2,
+          "denominator": 2
+        }
+      ],
+      "oldV1Unchanged": true,
+      "newRelease": null
+    },
+    "pass": true
+  },
+  {
+    "case": "expand",
+    "projectId": 118,
+    "checks": {
+      "sameIndependentStart": true,
+      "D1UntouchedExceptDeliveryBranch": true,
+      "before": {
+        "statuses": [
+          "CONFIRMED",
+          "CONFIRMED"
+        ],
+        "currentC": [
+          true,
+          true
+        ],
+        "semanticVersions": [
+          3,
+          4
+        ],
+        "available": 2,
+        "denominator": 2
+      },
+      "steps": [
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            4
+          ],
+          "available": 2,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            5,
+            6
+          ],
+          "available": 0,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            5,
+            6
+          ],
+          "available": 2,
+          "denominator": 2
+        }
+      ],
+      "oldV1Unchanged": true,
+      "newRelease": 739
+    },
+    "pass": true
+  },
+  {
+    "case": "period",
+    "projectId": 119,
+    "checks": {
+      "sameIndependentStart": true,
+      "D1UntouchedExceptDeliveryBranch": true,
+      "before": {
+        "statuses": [
+          "CONFIRMED",
+          "CONFIRMED"
+        ],
+        "currentC": [
+          true,
+          true
+        ],
+        "semanticVersions": [
+          3,
+          4
+        ],
+        "available": 2,
+        "denominator": 2
+      },
+      "steps": [
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            4
+          ],
+          "available": 2,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "REVIEWING",
+            "REVIEWING"
+          ],
+          "currentC": [
+            false,
+            false
+          ],
+          "semanticVersions": [
+            5,
+            7
+          ],
+          "available": 0,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            5,
+            7
+          ],
+          "available": 2,
+          "denominator": 2
+        }
+      ],
+      "oldV1Unchanged": true,
+      "newRelease": 774
+    },
+    "pass": true
+  },
+  {
+    "case": "rename",
+    "projectId": 120,
+    "checks": {
+      "sameIndependentStart": true,
+      "D1UntouchedExceptDeliveryBranch": true,
+      "before": {
+        "statuses": [
+          "CONFIRMED",
+          "CONFIRMED"
+        ],
+        "currentC": [
+          true,
+          true
+        ],
+        "semanticVersions": [
+          3,
+          3
+        ],
+        "available": 2,
+        "denominator": 2
+      },
+      "steps": [
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 2,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 2,
+          "denominator": 2
+        }
+      ],
+      "oldV1Unchanged": true,
+      "newRelease": null
+    },
+    "pass": true
+  },
+  {
+    "case": "applicability",
+    "projectId": 121,
+    "checks": {
+      "sameIndependentStart": true,
+      "D1UntouchedExceptDeliveryBranch": true,
+      "before": {
+        "statuses": [
+          "CONFIRMED",
+          "CONFIRMED"
+        ],
+        "currentC": [
+          true,
+          true
+        ],
+        "semanticVersions": [
+          3,
+          3
+        ],
+        "available": 2,
+        "denominator": 2
+      },
+      "steps": [
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            3,
+            3
+          ],
+          "available": 2,
+          "denominator": 2
+        },
+        {
+          "statuses": [
+            "CONFIRMED",
+            "CONFIRMED"
+          ],
+          "currentC": [
+            true,
+            true
+          ],
+          "semanticVersions": [
+            4,
+            3
+          ],
+          "available": 1,
+          "denominator": 3
+        }
+      ],
+      "oldV1Unchanged": true,
+      "newRelease": null
+    },
+    "pass": true
+  },
+  {
+    "case": "owner",
+    "projectId": 109,
+    "pass": true,
+    "checks": {
+      "initialHandoffReady": 0,
+      "sourceSemanticOnlyReady": 0,
+      "relationSemanticRecheckedReady": 2,
+      "functionalSignaturesPreserved": true,
+      "D1Unchanged": true,
+      "QSandQCNotRecreated": true,
+      "initialFailure": "Harness omitted both owner-bound relation semantic rechecks; server correctly retained 0/2"
+    }
+  }
+]

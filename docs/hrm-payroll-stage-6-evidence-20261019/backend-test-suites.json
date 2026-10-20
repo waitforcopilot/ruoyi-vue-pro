@@ -1,0 +1,1795 @@
+{
+  "source": "tests-final-input-validation.log actual executed suites only",
+  "suites": [
+    {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.common.util.collection.CollectionUtilsTest"
+    },
+    {
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtilsTest"
+    },
+    {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.common.util.json.databind.PayrollDateContractTest"
+    },
+    {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.common.util.object.PageUtilsTest"
+    },
+    {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.common.util.http.HttpUtilsTest"
+    },
+    {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.desensitize.core.DesensitizeTest"
+    },
+    {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.encrypt.ApiEncryptTest"
+    },
+    {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.jackson.config.YudaoJacksonDateContractTest"
+    },
+    {
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.mybatis.core.util.MyBatisUtilsTest"
+    },
+    {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperXTest"
+    },
+    {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.mybatis.core.query.QueryWrapperXTest"
+    },
+    {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.mybatis.core.interceptor.LockingSelectInnerInterceptorTest"
+    },
+    {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2,
+      "suite": "cn.iocoder.yudao.framework.mybatis.core.interceptor.LockingSelectMySqlTest"
+    },
+    {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.ip.core.utils.AreaUtilsTest"
+    },
+    {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.ip.core.utils.IPUtilsTest"
+    },
+    {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.excel.core.util.ExcelUtilsTest"
+    },
+    {
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.excel.core.convert.MultiDictConvertTest"
+    },
+    {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.dict.core.util.DictFrameworkUtilsTest"
+    },
+    {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.datapermission.core.util.DataPermissionUtilsTest"
+    },
+    {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.datapermission.core.aop.DataPermissionContextHolderTest"
+    },
+    {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.datapermission.core.aop.DataPermissionAnnotationInterceptorTest"
+    },
+    {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.datapermission.core.rule.DataPermissionRuleFactoryImplTest"
+    },
+    {
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.datapermission.core.rule.dept.DeptDataPermissionRuleTest"
+    },
+    {
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.framework.datapermission.core.db.DataPermissionRuleHandlerTest"
+    },
+    {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "suite": "cn.iocoder.yudao.module.infra.framework.file.core.ftp.FtpFileClientTest"
+    },
+    {
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 6,
+      "suite": "cn.iocoder.yudao.module.infra.framework.file.core.s3.S3FileClientTest"
+    },
+    {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "suite": "cn.iocoder.yudao.module.infra.framework.file.core.sftp.SftpFileClientTest"
+    },
+    {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.framework.file.core.utils.FileTypeUtilsTest"
+    },
+    {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2,
+      "suite": "cn.iocoder.yudao.module.infra.framework.file.core.local.LocalFileClientTest"
+    },
+    {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.service.logger.ApiAccessLogServiceImplTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.service.logger.ApiErrorLogServiceImplTest"
+    },
+    {
+      "tests": 35,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.service.file.FileServiceImplTest"
+    },
+    {
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.service.file.FileConfigServiceImplTest"
+    },
+    {
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.service.config.ConfigServiceImplTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.service.codegen.inner.CodegenEngineVben5EleGeneralTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.service.codegen.inner.CodegenEngineVben5EleSchemaTest"
+    },
+    {
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.service.codegen.inner.CodegenEngineVben5AntdvNextTest"
+    },
+    {
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.service.codegen.inner.CodegenEngineUniappTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.service.codegen.inner.CodegenEngineVue2Test"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.service.codegen.inner.CodegenEngineVben5AntdSchemaTest"
+    },
+    {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.service.codegen.inner.CodegenBuilderTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.service.codegen.inner.CodegenEngineVben5AntdGeneralTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.service.codegen.inner.CodegenEngineVue3Test"
+    },
+    {
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.service.codegen.CodegenServiceImplTest"
+    },
+    {
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.service.job.JobServiceImplTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.service.job.JobLogServiceImplTest"
+    },
+    {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.service.db.DatabaseTableServiceImplTest"
+    },
+    {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.infra.service.db.DataSourceConfigServiceImplTest"
+    },
+    {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.framework.sms.core.client.impl.HuaweiSmsClientTest"
+    },
+    {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.framework.sms.core.client.impl.QiniuSmsClientTest"
+    },
+    {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 7,
+      "suite": "cn.iocoder.yudao.module.system.framework.sms.core.client.impl.SmsClientTests"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.framework.sms.core.client.impl.TencentSmsClientTest"
+    },
+    {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.framework.sms.core.client.impl.AliyunSmsClientTest"
+    },
+    {
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.controller.admin.oauth2.OAuth2OpenControllerTest"
+    },
+    {
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.tenant.TenantPackageServiceImplTest"
+    },
+    {
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.tenant.TenantServiceImplTest"
+    },
+    {
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.notify.NotifyTemplateServiceImplTest"
+    },
+    {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.notify.NotifySendServiceImplTest"
+    },
+    {
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.notify.NotifyMessageServiceImplTest"
+    },
+    {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.logger.OperateLogServiceImplTest"
+    },
+    {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.logger.LoginLogServiceImplTest"
+    },
+    {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.sms.SmsLogServiceImplTest"
+    },
+    {
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.sms.SmsTemplateServiceImplTest"
+    },
+    {
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.sms.SmsChannelServiceTest"
+    },
+    {
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.sms.SmsCodeServiceImplTest"
+    },
+    {
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.sms.SmsSendServiceImplTest"
+    },
+    {
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.auth.AdminAuthServiceImplTest"
+    },
+    {
+      "tests": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.mail.MailTemplateServiceImplTest"
+    },
+    {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "suite": "cn.iocoder.yudao.module.system.service.mail.MailSendServiceImplTest"
+    },
+    {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.mail.MailAccountServiceImplTest"
+    },
+    {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.mail.MailLogServiceImplTest"
+    },
+    {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.oauth2.OAuth2CodeServiceImplTest"
+    },
+    {
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.oauth2.OAuth2ClientServiceImplTest"
+    },
+    {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.oauth2.OAuth2GrantServiceImplTest"
+    },
+    {
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.oauth2.OAuth2TokenServiceImplTest"
+    },
+    {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.oauth2.OAuth2ApproveServiceImplTest"
+    },
+    {
+      "tests": 44,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.user.AdminUserServiceImplTest"
+    },
+    {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.notice.NoticeServiceImplTest"
+    },
+    {
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.social.SocialClientServiceImplTest"
+    },
+    {
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.social.SocialUserServiceImplTest"
+    },
+    {
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.dept.PostServiceImplTest"
+    },
+    {
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.dept.DeptServiceImplTest"
+    },
+    {
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.permission.MenuServiceImplTest"
+    },
+    {
+      "tests": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.permission.PermissionServiceTest"
+    },
+    {
+      "tests": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.permission.RoleServiceImplTest"
+    },
+    {
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.dict.DictDataServiceImplTest"
+    },
+    {
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.system.service.dict.DictTypeServiceImplTest"
+    },
+    {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.bpm.framework.flowable.core.candidate.BpmTaskCandidateInvokerTest"
+    },
+    {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.bpm.framework.flowable.core.candidate.expression.BpmTaskAssignLeaderExpressionTest"
+    },
+    {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2,
+      "suite": "cn.iocoder.yudao.module.bpm.framework.flowable.core.candidate.strategy.other.BpmTaskCandidateExpressionStrategyTest"
+    },
+    {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.bpm.framework.flowable.core.candidate.strategy.other.BpmTaskCandidateAssignEmptyStrategyTest"
+    },
+    {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "suite": "cn.iocoder.yudao.module.bpm.framework.flowable.core.candidate.strategy.user.BpmTaskCandidatePostStrategyTest"
+    },
+    {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "suite": "cn.iocoder.yudao.module.bpm.framework.flowable.core.candidate.strategy.user.BpmTaskCandidateRoleStrategyTest"
+    },
+    {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "suite": "cn.iocoder.yudao.module.bpm.framework.flowable.core.candidate.strategy.user.BpmTaskCandidateGroupStrategyTest"
+    },
+    {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.bpm.framework.flowable.core.candidate.strategy.user.BpmTaskCandidateStartUserStrategyTest"
+    },
+    {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "suite": "cn.iocoder.yudao.module.bpm.framework.flowable.core.candidate.strategy.user.BpmTaskCandidateUserStrategyTest"
+    },
+    {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.bpm.framework.flowable.core.candidate.strategy.dept.BpmTaskCandidateDeptMemberStrategyTest"
+    },
+    {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.bpm.framework.flowable.core.candidate.strategy.dept.BpmTaskCandidateStartUserDeptLeaderMultiStrategyTest"
+    },
+    {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.bpm.framework.flowable.core.candidate.strategy.dept.BpmTaskCandidateStartUserDeptLeaderStrategyTest"
+    },
+    {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.bpm.framework.flowable.core.candidate.strategy.dept.BpmTaskCandidateDeptLeaderMultiStrategyTest"
+    },
+    {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.bpm.framework.flowable.core.candidate.strategy.dept.BpmTaskCandidateStartUserSelectStrategyTest"
+    },
+    {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.bpm.framework.flowable.core.candidate.strategy.dept.BpmTaskCandidateDeptLeaderStrategyTest"
+    },
+    {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.bpm.framework.flowable.core.util.FlowableUtilsTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.bpm.service.category.BpmCategoryServiceImplTest"
+    },
+    {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.bpm.service.message.BpmMessageServiceImplTest"
+    },
+    {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.bpm.service.definition.BpmModelServiceImplTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.bpm.service.definition.BpmUserGroupServiceTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.bpm.service.definition.BpmFormServiceTest"
+    },
+    {
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.attendance.OaAttendanceServiceImplTest"
+    },
+    {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.note.OaNoteCategoryServiceImplTest"
+    },
+    {
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.note.OaNoteServiceImplTest"
+    },
+    {
+      "tests": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.contact.OaContactServiceImplTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.contact.OaContactCategoryServiceImplTest"
+    },
+    {
+      "tests": 31,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.schedule.OaScheduleServiceImplTest"
+    },
+    {
+      "tests": 29,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.vehicle.OaVehicleApplyServiceImplTest"
+    },
+    {
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.vehicle.OaVehicleServiceImplTest"
+    },
+    {
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.vehicle.OaVehicleReturnServiceImplTest"
+    },
+    {
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.file.OaFilePermissionServiceImplTest"
+    },
+    {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.file.OaFileFavoriteServiceImplTest"
+    },
+    {
+      "tests": 60,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.file.OaFileNodeServiceImplTest"
+    },
+    {
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.mail.OaMailAccountServiceImplTest"
+    },
+    {
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.mail.OaMailMessageServiceImplTest"
+    },
+    {
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.plan.OaPlanServiceImplTest"
+    },
+    {
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.officialdoc.OaOfficialDocTemplateServiceImplTest"
+    },
+    {
+      "tests": 42,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.officialdoc.OaOfficialDocReceiveServiceImplTest"
+    },
+    {
+      "tests": 29,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.officialdoc.OaOfficialDocSendServiceImplTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.meetingroom.OaMeetingRoomServiceImplTest"
+    },
+    {
+      "tests": 42,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.meetingroom.OaMeetingRoomBookingServiceImplTest"
+    },
+    {
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 14,
+      "suite": "cn.iocoder.yudao.module.oa.service.OaBpmModelInitTest"
+    },
+    {
+      "tests": 44,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.seal.OaSealApplyServiceImplTest"
+    },
+    {
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.seal.OaSealServiceImplTest"
+    },
+    {
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.supply.OaSupplyItemServiceImplTest"
+    },
+    {
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.supply.OaSupplyApplyServiceImplTest"
+    },
+    {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.supply.OaSupplyIssueServiceImplTest"
+    },
+    {
+      "tests": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.task.OaTaskServiceImplTest"
+    },
+    {
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.regular.OaRegularApplyServiceImplTest"
+    },
+    {
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.workreport.OaWorkReportServiceImplTest"
+    },
+    {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.discussion.OaDiscussionServiceImplTest"
+    },
+    {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.discussion.OaDiscussionVoteServiceImplTest"
+    },
+    {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.discussion.OaDiscussionReplyServiceImplTest"
+    },
+    {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.discussion.OaDiscussionLikeServiceImplTest"
+    },
+    {
+      "tests": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.announcement.OaAnnouncementServiceImplTest"
+    },
+    {
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.overtime.OaOvertimeApplyServiceImplTest"
+    },
+    {
+      "tests": 46,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.travel.OaTravelReimbursementServiceImplTest"
+    },
+    {
+      "tests": 47,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.travel.OaTravelApplyServiceImplTest"
+    },
+    {
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.resign.OaResignApplyServiceImplTest"
+    },
+    {
+      "tests": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.leave.OaLeaveApplyServiceImplTest"
+    },
+    {
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.oa.service.reimbursement.OaReimbursementServiceImplTest"
+    },
+    {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.framework.datapermission.HrmPayrollDataPermissionRuleTest"
+    },
+    {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.controller.admin.salary.HrmSalaryMonthImportGuardTest"
+    },
+    {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.controller.admin.payroll.HrmPayrollFinancialExcelTest"
+    },
+    {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.controller.admin.payroll.HrmPayrollRequirementPermissionTest"
+    },
+    {
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.attendance.statistics.HrmAttendanceStatisticsServiceImplTest"
+    },
+    {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.attendance.record.HrmAttendanceLeaveServiceImplTest"
+    },
+    {
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.attendance.record.HrmAttendanceClockServiceImplTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.attendance.config.HrmAttendanceGroupServiceImplTest"
+    },
+    {
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.attendance.config.HrmAttendanceHolidayServiceImplTest"
+    },
+    {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.home.HrmHomeServiceImplTest"
+    },
+    {
+      "tests": 31,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.recruit.candidate.HrmRecruitCandidateServiceImplTest"
+    },
+    {
+      "tests": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.recruit.candidate.HrmRecruitInterviewServiceImplTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.recruit.post.HrmRecruitPostTypeServiceImplTest"
+    },
+    {
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.recruit.post.HrmRecruitPostServiceImplTest"
+    },
+    {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.recruit.config.HrmRecruitConfigServiceImplTest"
+    },
+    {
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.recruit.config.HrmRecruitChannelServiceImplTest"
+    },
+    {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.config.HrmConfigServiceImplTest"
+    },
+    {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.salary.config.HrmSalaryConfigServiceImplTest"
+    },
+    {
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.salary.config.HrmSalaryTaxRuleServiceImplTest"
+    },
+    {
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.salary.config.HrmSalaryOptionServiceImplTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.salary.config.HrmSalaryChangeTemplateServiceImplTest"
+    },
+    {
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.salary.config.HrmSalaryGroupServiceImplTest"
+    },
+    {
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.salary.slip.HrmSalarySlipSendRecordServiceImplTest"
+    },
+    {
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.salary.slip.HrmSalarySlipDeliveryServiceTest"
+    },
+    {
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.salary.slip.HrmSalarySlipServiceImplTest"
+    },
+    {
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.salary.slip.HrmSalarySlipTemplateServiceImplTest"
+    },
+    {
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.salary.employee.HrmSalaryChangeRecordServiceImplTest"
+    },
+    {
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.salary.employee.HrmSalaryEmployeeInfoServiceImplTest"
+    },
+    {
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.salary.monthrecord.HrmSalaryMonthEmployeeRecordServiceImplTest"
+    },
+    {
+      "tests": 27,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.salary.monthrecord.HrmSalaryMonthRecordServiceImplTest"
+    },
+    {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWorkServiceTest"
+    },
+    {
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollReviewServiceTest"
+    },
+    {
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWageRecoveryServiceTest"
+    },
+    {
+      "tests": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWorkbenchServiceTest"
+    },
+    {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInsuranceImportServiceTest"
+    },
+    {
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInsuranceAdjustmentServiceTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxWithholdingServiceTest"
+    },
+    {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.PayrollFormulaEngineTest"
+    },
+    {
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollCostServiceTest"
+    },
+    {
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxCorrectionServiceTest"
+    },
+    {
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWageStructureServiceTest"
+    },
+    {
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWorkVarianceServiceTest"
+    },
+    {
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRequirementProjectServiceTest"
+    },
+    {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollBankTemplateServiceTest"
+    },
+    {
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxPolicyServiceTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollPaymentServiceTest"
+    },
+    {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxFilingSourceServiceTest"
+    },
+    {
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollFinancialServiceTest"
+    },
+    {
+      "tests": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollOffsetIntegrationTest"
+    },
+    {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollReadinessServiceTest"
+    },
+    {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollBatchServiceTest"
+    },
+    {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSupplementServiceTest"
+    },
+    {
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRetroServiceTest"
+    },
+    {
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxProfileServiceTest"
+    },
+    {
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollFormulaServiceTest"
+    },
+    {
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxSettlementServiceTest"
+    },
+    {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInsurancePolicyServiceTest"
+    },
+    {
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSourceClaimServiceTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollGradePolicyServiceTest"
+    },
+    {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.PayrollTaxEmploymentEngineTest"
+    },
+    {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInsuranceBillServiceTest"
+    },
+    {
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollOverviewServiceTest"
+    },
+    {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSalaryProposalIntegrationTest"
+    },
+    {
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxFilingServiceTest"
+    },
+    {
+      "tests": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollGovernanceServiceTest"
+    },
+    {
+      "tests": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInputServiceTest"
+    },
+    {
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollBonusServiceTest"
+    },
+    {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSalarySourceServiceTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxDeductionServiceTest"
+    },
+    {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTimeOffLeaveTest"
+    },
+    {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollEntityServiceTest"
+    },
+    {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxEmploymentServiceTest"
+    },
+    {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollSalaryProposalServiceTest"
+    },
+    {
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollTaxCashLedgerServiceTest"
+    },
+    {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWindowServiceTest"
+    },
+    {
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollInputIssueServiceTest"
+    },
+    {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollScopeServiceTest"
+    },
+    {
+      "tests": 31,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRequirementServiceImplTest"
+    },
+    {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollAttendanceServiceTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollAttendanceIssueServiceTest"
+    },
+    {
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.performance.config.HrmPerformanceAssessmentTemplateServiceImplTest"
+    },
+    {
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.performance.config.HrmPerformanceResultTemplateServiceImplTest"
+    },
+    {
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.performance.plan.HrmPerformancePlanServiceImplTest"
+    },
+    {
+      "tests": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.performance.assessment.HrmPerformanceAssessmentProcessServiceImplTest"
+    },
+    {
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.performance.assessment.HrmPerformanceAssessmentServiceImplTest"
+    },
+    {
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.performance.assessment.HrmPerformanceAssessmentReviewServiceImplTest"
+    },
+    {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.performance.assessment.HrmPerformanceAssessmentActionRecordServiceImplTest"
+    },
+    {
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.performance.assessment.HrmPerformanceAssessmentQueryServiceImplTest"
+    },
+    {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.employee.experience.HrmEmployeeWorkExperienceServiceImplTest"
+    },
+    {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.employee.experience.HrmEmployeeCertificateServiceImplTest"
+    },
+    {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.employee.experience.HrmEmployeeTrainingExperienceServiceImplTest"
+    },
+    {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.employee.experience.HrmEmployeeEducationExperienceServiceImplTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.employee.config.HrmEmployeeFieldConfigServiceImplTest"
+    },
+    {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.employee.employment.HrmEmployeeSalaryCardServiceImplTest"
+    },
+    {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.employee.employment.HrmEmployeeContractServiceImplTest"
+    },
+    {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.employee.employment.HrmEmployeeChangeRecordServiceImplTest"
+    },
+    {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.employee.employment.HrmEmployeeQuitInfoServiceImplTest"
+    },
+    {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.employee.info.HrmEmployeePersonalNoteServiceImplTest"
+    },
+    {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.employee.info.HrmEmployeeFileServiceImplTest"
+    },
+    {
+      "tests": 63,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.employee.info.HrmEmployeeServiceImplTest"
+    },
+    {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.employee.info.HrmEmployeeContactServiceImplTest"
+    },
+    {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.insurance.config.HrmInsuranceStandardServiceImplTest"
+    },
+    {
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.insurance.config.HrmInsuranceSchemeServiceImplTest"
+    },
+    {
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.insurance.employee.HrmInsuranceEmployeeInfoServiceImplTest"
+    },
+    {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.insurance.monthrecord.HrmInsuranceMonthRecordServiceImplTest"
+    },
+    {
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suite": "cn.iocoder.yudao.module.hrm.service.insurance.monthrecord.HrmInsuranceMonthEmployeeRecordServiceImplTest"
+    }
+  ],
+  "totals": {
+    "tests": 2910,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 40
+  },
+  "hrm": {
+    "tests": 1233,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}
