@@ -1,0 +1,23 @@
+{
+  "time": "2026-10-20T09:27:15.852313+08:00",
+  "mainProjectId": 105,
+  "otherProjectId": 148,
+  "fixture": "SQL-created new TEST empty project; not project-creation acceptance; no new members or signed grants",
+  "unrelatedPendingRootIds": [
+    1350,
+    1354
+  ],
+  "precheckAllowed": true,
+  "beforeTokenSha256": "c1a76f07162c9388b3174dee6070af62c03c35d54d8d3065f5da4b86ebe6c32e",
+  "afterTokenSha256": "c1a76f07162c9388b3174dee6070af62c03c35d54d8d3065f5da4b86ebe6c32e",
+  "relatedPendingRootId": 1356,
+  "relatedRejectedCode": 1050810003,
+  "phase": "related",
+  "afterSecondUnrelatedChangeTokenSha256": "c1a76f07162c9388b3174dee6070af62c03c35d54d8d3065f5da4b86ebe6c32e",
+  "browserReleaseId": 1352,
+  "requestKey": "TEST-FA01-IAB-20261020-0928",
+  "releaseRowsForRequestKey": 1,
+  "mainProjectTotalReleaseRows": 3,
+  "otherProjectReleaseRows": 0,
+  "allNewRootsPendingUnsigned": true
+}

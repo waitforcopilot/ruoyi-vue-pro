@@ -1,0 +1,9 @@
+{
+  "candidateSourceHashesMatch": true,
+  "originalAuditAndReauditHashesUnchanged": true,
+  "plaintextFilesChecked": 17,
+  "exactPrivatePasswordMatches": 0,
+  "jwtMatches": 0,
+  "screenshotsContainOnlyTESTGovernancePages": "visually inspected browser-retry; no login or password-entry screenshots",
+  "unrelatedHandoverExcluded": true
+}

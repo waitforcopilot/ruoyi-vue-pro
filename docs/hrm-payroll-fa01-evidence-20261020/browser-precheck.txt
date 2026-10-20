@@ -1,0 +1,9 @@
+Browser tab: 1, Title: "芋道管理系统 - 业务决议与基线发布", URL: "http://127.0.0.1:5173/hrm-payroll/governance?projectId=105".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 174, 176
+~					167 button 执行发布预检查
++					468 text 当前发布条件齐备，尚未因此发布 · 范围版本 1
+~					173 button 发布本期完整需求基线
+~					175 button 保存固定草稿快照
+~					177 button 重试相同发布请求
+The focused UI element is 0 AXWebArea 芋道管理系统 - 业务决议与基线发布, URL: 127.0.0.1:5173/hrm-payroll/governance?projectId=105

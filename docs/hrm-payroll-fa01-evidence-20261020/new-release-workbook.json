@@ -1,0 +1,58 @@
+{
+  "sixSheetsExactly": true,
+  "checkedFields": 638,
+  "longFieldsWithContinuation": 73,
+  "noOrphanExplicitReferences": true,
+  "onlyExportMetadataExcludedFromComparison": true,
+  "checks": [
+    {
+      "sheet": "评审版本说明",
+      "businessRows": 26,
+      "columns": 115,
+      "reexportOrderedCellsIdentical": true,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "功能需求清单",
+      "businessRows": 14,
+      "columns": 53,
+      "reexportOrderedCellsIdentical": true,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "数据源清单",
+      "businessRows": 2,
+      "columns": 79,
+      "reexportOrderedCellsIdentical": true,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "字段映射",
+      "businessRows": 1,
+      "columns": 80,
+      "reexportOrderedCellsIdentical": true,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "问题与待办",
+      "businessRows": 14,
+      "columns": 7,
+      "reexportOrderedCellsIdentical": true,
+      "fieldsReconstructedExactly": true
+    },
+    {
+      "sheet": "范围与变更",
+      "businessRows": 14,
+      "columns": 156,
+      "reexportOrderedCellsIdentical": true,
+      "fieldsReconstructedExactly": true
+    }
+  ],
+  "time": "2026-10-20T09:28:37.234555+08:00",
+  "releaseId": 1352,
+  "jobId": 1358,
+  "sha256": "12c06cec7d0c1c30eb501fc8368fc791f4e63cbfbf8625838554b29024899047",
+  "singleFileContentVerification": true,
+  "notReexportComparison": true,
+  "method": "real API download of current candidate, not browser or native-open acceptance"
+}

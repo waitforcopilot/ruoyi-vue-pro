@@ -40,8 +40,34 @@ public class HrmPayrollGovernanceReleaseService {
         }
         return true;
     }
-    private Map<String,Object> dependencies(HrmPayrollRequirementProjectDO p,List<Map<String,Object>> users){
-        return map("project",p,"requirements",rows(p.getId()),"workbench",nodes(p.getId()),"grants",grants.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementProjectGrantDO>().eq(HrmPayrollRequirementProjectGrantDO::getProjectId,p.getId()).orderByAsc(HrmPayrollRequirementProjectGrantDO::getId)),"decisions",store.all(p.getId(),"DECISION"),"roots",store.all(null,"ROOT"),"anchors",store.all(null,"ANCHOR"),"users",users);
+    private static final Set<String> PERSON_FIELDS=new HashSet<>(Arrays.asList("ownerId","reviewerId","sourceOwnerId","handlerId","actorId","userId","grantorId","custodianId","signerId","designatedSignerId","approverId","createdBy","registeredBy","signedBy","approvedBy","revokedBy","confirmedBy","responsibleId"));
+    /** Follow typed person references, never arbitrary object IDs that happen to equal a user ID. */
+    private void referencedPeople(Object value,Set<Long> people){
+        if(value instanceof Map)for(Map.Entry<?,?> entry:((Map<?,?>)value).entrySet()){
+            if(PERSON_FIELDS.contains(entry.getKey())&&entry.getValue()!=null)people.add(id(entry.getValue()));
+            else referencedPeople(entry.getValue(),people);
+        }
+        else if(value instanceof Collection)for(Object item:(Collection<?>)value)referencedPeople(item,people);
+    }
+    private Map<String,Object> dependencies(HrmPayrollRequirementProjectDO p,List<Map<String,Object>> users,Long actor){
+        List<HrmPayrollRequirementProjectGrantDO> currentGrants=grants.selectList(new LambdaQueryWrapperX<HrmPayrollRequirementProjectGrantDO>().eq(HrmPayrollRequirementProjectGrantDO::getProjectId,p.getId()).orderByAsc(HrmPayrollRequirementProjectGrantDO::getId));
+        Set<Long> rootIds=currentGrants.stream().map(HrmPayrollRequirementProjectGrantDO::getRootRecordId).filter(Objects::nonNull).collect(Collectors.toSet());
+        List<HrmPayrollGovernanceRecordDO> controlled=new ArrayList<>(store.all(p.getId(),"ROOT"));
+        Set<Long> present=controlled.stream().map(HrmPayrollGovernanceRecordDO::getId).collect(Collectors.toSet());
+        for(Long rootId:new TreeSet<>(rootIds))if(present.add(rootId))controlled.add(store.record(rootId,"ROOT"));
+        controlled.sort(Comparator.comparing(HrmPayrollGovernanceRecordDO::getId));
+        Set<Long> anchorIds=controlled.stream().map(r->id(store.data(r).get("anchorId"))).collect(Collectors.toSet());
+        List<HrmPayrollGovernanceRecordDO> anchors=store.all(0L,"ANCHOR").stream().filter(r->anchorIds.contains(r.getId())).collect(Collectors.toList());
+        Map<String,Object> deps=map("project",p,"requirements",rows(p.getId()),"workbench",nodes(p.getId()),"grants",currentGrants,"decisions",store.all(p.getId(),"DECISION"),"roots",controlled,"anchors",anchors);
+        Set<Long> people=new HashSet<>(Arrays.asList(actor,p.getOwnerId()));
+        // Parse JSON-backed records as well as DOs to include upstream signers and decision approvers.
+        referencedPeople(JsonUtils.parseObject(JsonUtils.toJsonString(deps),Map.class),people);
+        for(HrmPayrollGovernanceRecordDO record:controlled)referencedPeople(store.data(record),people);
+        for(HrmPayrollGovernanceRecordDO record:anchors)referencedPeople(store.data(record),people);
+        for(HrmPayrollGovernanceRecordDO record:store.all(p.getId(),"DECISION"))referencedPeople(store.data(record),people);
+        for(HrmPayrollWorkbenchRecordDO record:nodes(p.getId()))referencedPeople(JsonUtils.parseObject(record.getDataJson(),Map.class),people);
+        deps.put("users",users.stream().filter(u->people.contains(id(u.get("id")))).collect(Collectors.toList()));
+        return deps;
     }
     @SuppressWarnings("unchecked") private Map<String,Object> judgement(HrmPayrollRequirementProjectDO p,Long actor){
         List<Object> blocks=new ArrayList<>(),selected=new ArrayList<>();Map<String,Object> classification=new LinkedHashMap<>();
@@ -78,7 +104,7 @@ public class HrmPayrollGovernanceReleaseService {
     private Map<String,Object> precheckRead(Long project,Long actor){
         store.lock();HrmPayrollRequirementProjectDO p=project(project,actor);List<Map<String,Object>>users=store.userFacts();Map<String,Object> gate=access.full(p,actor,"READ")?judgement(p,actor):map("allowed",false,"blocks",Collections.singletonList(map("code","FULL_CLOSURE_READ_REQUIRED")));
         if(!fullClosure(p,actor)){gate.remove("decisions");gate.put("blocks",Collections.singletonList(map("code","FULL_CLOSURE_READ_REQUIRED")));}
-        gate.put("projectScopeVersion",p.getProjectScopeVersion());gate.put("dependencyToken",digest(dependencies(p,users)));return gate;
+        gate.put("projectScopeVersion",p.getProjectScopeVersion());gate.put("dependencyToken",digest(dependencies(p,users,actor)));return gate;
     }
     @SuppressWarnings("unchecked") public Long publish(Publish c,Long actor){return access.withReadAuthorization(()->publishRead(c,actor));}
     private Long publishRead(Publish c,Long actor){
@@ -86,7 +112,7 @@ public class HrmPayrollGovernanceReleaseService {
         if(!c.getDraft()){roots.platform(actor,"baseline-publish");allowed(fullClosure(p,actor));roots.authority(p.getId(),actor,"BASELINE_PUBLISH",p.getScopeJson());}
         else roots.platform(actor,"export");
         Map<String,Object>request=map("projectId",p.getId(),"scopeVersion",c.getProjectScopeVersion(),"reason",c.getReason(),"draft",c.getDraft(),"actor",actor,"dependencyToken",c.getDependencyToken());String requestDigest=digest(request);
-        need(Objects.equals(p.getProjectScopeVersion(),c.getProjectScopeVersion()));Map<String,Object>deps=dependencies(p,users);need(Objects.equals(c.getDependencyToken(),digest(deps)));Map<String,Object>gate=access.full(p,actor,"READ")?judgement(p,actor):map("allowed",false);if(!c.getDraft())need(Boolean.TRUE.equals(gate.get("allowed")));
+        need(Objects.equals(p.getProjectScopeVersion(),c.getProjectScopeVersion()));Map<String,Object>deps=dependencies(p,users,actor);need(Objects.equals(c.getDependencyToken(),digest(deps)));Map<String,Object>gate=access.full(p,actor,"READ")?judgement(p,actor):map("allowed",false);if(!c.getDraft())need(Boolean.TRUE.equals(gate.get("allowed")));
         for(HrmPayrollGovernanceRecordDO existing:store.all(p.getId(),"RELEASE"))if(existing.getObjectKey().equals(c.getRequestKey())){Map<String,Object>d=store.data(existing);need(Objects.equals(d.get("requestDigest"),requestDigest));return existing.getId();}
 
         List<HrmPayrollRequirementDO> frozenRows=JsonUtils.parseArray(JsonUtils.toJsonString(rows(p.getId())),HrmPayrollRequirementDO.class);for(HrmPayrollRequirementDO req:frozenRows)req.setCurrentConfirmationValid(workbench.currentConfirmationValid(req));

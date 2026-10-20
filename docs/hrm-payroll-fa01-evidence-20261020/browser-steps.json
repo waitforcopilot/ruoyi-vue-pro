@@ -1,0 +1,55 @@
+{
+  "recordedAt": "2026-10-20T09:30:07.396473+08:00",
+  "browser": "actual Codex IAB",
+  "steps": [
+    {
+      "order": 1,
+      "action": "IAB project105 precheck on current deployed candidate",
+      "result": "publish enabled; precheck response received before other project mutation",
+      "evidence": "browser-precheck.txt (AX diff only)"
+    },
+    {
+      "order": 2,
+      "action": "real API register pending unsigned ROOT1350 on new SQL TEST fixture project148",
+      "result": "precheck token hash unchanged",
+      "evidence": "api.json"
+    },
+    {
+      "order": 3,
+      "action": "IAB set new TEST reason/key and click publish",
+      "result": "release1352 version3",
+      "evidence": "browser-publish.txt/browser-publish.png"
+    },
+    {
+      "order": 4,
+      "action": "real API add unrelated pending ROOT1354 project148",
+      "result": "token unchanged",
+      "evidence": "api.json"
+    },
+    {
+      "order": 5,
+      "action": "IAB retry exact same request",
+      "result": "same1352; database single request row",
+      "evidence": "browser-retry.txt/browser-retry.png"
+    },
+    {
+      "order": 6,
+      "action": "real API add pending ROOT1356 to project105 then send prior prepared request",
+      "result": "1050810003 rejected",
+      "evidence": "api.json"
+    },
+    {
+      "order": 7,
+      "action": "IAB retry prior successful request after related dependency changed",
+      "result": "visible failure message; input retained; no new release",
+      "evidence": "browser-related-rejected.txt/browser-related-rejected.png"
+    },
+    {
+      "order": 8,
+      "action": "IAB read frozen1352",
+      "result": "SUMMARY/DECISION/GRANT and six tabs visible",
+      "evidence": "browser-frozen.txt/browser-frozen.png"
+    }
+  ],
+  "notFullS1S6Reacceptance": true
+}

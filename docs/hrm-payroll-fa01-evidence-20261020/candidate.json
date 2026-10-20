@@ -1,0 +1,21 @@
+{
+  "baseHead": "5f8fa3d9a0b607073748b6b60c4cf4fced75d8bb",
+  "sourceSha256": {
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceReleaseService.java": "9bc3562a414b0d22137d1dd79b60104ae16e007380ec85450c729fe745adfabf",
+    "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceServiceTest.java": "b560177e3afd1b7bda84c44e5f552f063ebebe05994a39702e43145d9735fc69"
+  },
+  "jarSha256": "619d2cba0d4da4c767425ea2fd4c4a958ea7026e3d3d243a8fca412f1b688af2",
+  "hrmClassesMatch": 1109,
+  "testTotals": {
+    "tests": 133,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "testLogSha256": "33a862364b8e83a4998bb2a1bd3ce346add4bac174a31e975b16a33ee930d86c",
+  "buildSuccess": true,
+  "unchangedInputs": {
+    "docs/hrm-payroll-stage-1-6-fix-audit-20261020.md": "9e17cfc0c3af83d7cf10d5c9ee60862fd70169cbf14cb19861a617ec935e92d5",
+    "docs/hrm-payroll-stage-1-6-fix-audit-reaudit-20261020.md": "2a178eda302ef423ba690d02a15160ae4df60e33e145562141c0b87e4271cc6e"
+  }
+}

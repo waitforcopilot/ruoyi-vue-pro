@@ -1,0 +1,63 @@
+{
+  "beforeFix": {
+    "test": "unrelatedProjectRootAnchorAndPersonnelCannotInvalidatePublishOrExactRetry",
+    "failures": 1,
+    "assertion": "dependency token changed after unrelated project ROOT/ANCHOR/personnel fixture mutation",
+    "logSha256": "01f40b8a30201e6628ce08a1ca21fbc7d5e02729ab352b6c94a414894177fd78"
+  },
+  "afterFix": {
+    "suites": [
+      {
+        "suite": "cn.iocoder.yudao.module.hrm.controller.admin.payroll.HrmPayrollRequirementPermissionTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollReviewServiceTest",
+        "tests": 17,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWorkbenchServiceTest",
+        "tests": 25,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRequirementProjectServiceTest",
+        "tests": 26,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollGovernanceServiceTest",
+        "tests": 25,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRequirementServiceImplTest",
+        "tests": 31,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    ],
+    "totals": {
+      "tests": 133,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "buildSuccess": true,
+    "logSha256": "33a862364b8e83a4998bb2a1bd3ce346add4bac174a31e975b16a33ee930d86c"
+  },
+  "scope": "H2 real service implementations; external account/platform APIs mocked; not browser acceptance"
+}

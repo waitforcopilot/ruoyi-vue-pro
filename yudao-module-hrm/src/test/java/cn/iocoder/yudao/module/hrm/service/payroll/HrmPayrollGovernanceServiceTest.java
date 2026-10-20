@@ -80,6 +80,44 @@ class HrmPayrollGovernanceServiceTest extends BaseDbUnitTest {
     @Test void matrixReplacementPreservesSignatureButRuleReplacementRequiresRereview(){List<Long> ds=policy();Long r=requirement();confirm(r);Integer v=reqs.selectById(r).getVersion();HrmPayrollGovernanceVO.Decision matrix=draftReq(Collections.singletonList("Q-04"));matrix.setPreviousId(ds.get(1));matrix.setBody("TEST updated matrix, same business semantics");approve(matrix);assertEquals(v,reqs.selectById(r).getVersion());assertEquals("CONFIRMED",reqs.selectById(r).getStatus());HrmPayrollGovernanceVO.Decision rule=draftReq(Collections.singletonList("Q-05"));rule.setPreviousId(ds.get(2));rule.setBody("TEST changed acceptance semantics");approve(rule);assertEquals("REVIEWING",reqs.selectById(r).getStatus());assertNull(reqs.selectById(r).getConfirmedBy());confirm(r);assertEquals("CONFIRMED",reqs.selectById(r).getStatus());}
     @Test void futureAndExpiredVersionsAreCalculatedWithoutChangingSystemTime(){policy();HrmPayrollGovernanceVO.Decision c=draftReq(Collections.singletonList("Q-04"));Long old=id(((Map<?,?>)decisions.current(project,scope,Collections.singletonList("Q-04")).get(0)).get("recordId"));c.setPreviousId(old);c.setValidFrom("2026-10-20T09:00:00");c.setBody("TEST future matrix");ReflectionTestUtils.setField(decisions,"clock",Clock.fixed(Instant.parse("2026-10-19T08:00:00Z"),ZONE));Long next=approve(c);assertEquals("FUTURE",decisions.lifecycle(store.data(store.record(next,"DECISION"))));assertEquals("EFFECTIVE",decisions.lifecycle(store.data(store.record(old,"DECISION"))));ReflectionTestUtils.setField(decisions,"clock",Clock.fixed(Instant.parse("2026-10-20T02:00:00Z"),ZONE));assertEquals("EFFECTIVE",decisions.lifecycle(store.data(store.record(next,"DECISION"))));assertEquals("REPLACED",decisions.lifecycle(store.data(store.record(old,"DECISION"))));ReflectionTestUtils.setField(decisions,"clock",Clock.fixed(Instant.parse("2028-01-01T02:00:00Z"),ZONE));assertEquals("EXPIRED",decisions.lifecycle(store.data(store.record(next,"DECISION"))));}
     @Test void publishAndRetriesRequireCurrentRootAndExactDependencyAndRequest(){policy();Long r=requirement();confirm(r);Publish c=request(false);assertTrue((Boolean)releases.precheck(project,1L).get("allowed"));Long id=releases.publish(c,1L);assertEquals(id,releases.publish(c,1L));c.setReason("TEST changed content under same key");assertThrows(RuntimeException.class,()->releases.publish(c,1L));c.setReason("TEST synthetic release, not formal");roots.action(action(editorRoot,"ROOT","REVOKE"),2L);assertThrows(RuntimeException.class,()->releases.publish(c,1L));}
+    @Test void unrelatedProjectRootAnchorAndPersonnelCannotInvalidatePublishOrExactRetry(){
+        policy();Long requirement=requirement();confirm(requirement);Publish command=request(false);
+        HrmPayrollRequirementProjectDO other=JsonUtils.parseObject(JsonUtils.toJsonString(projects.selectById(project)),HrmPayrollRequirementProjectDO.class);
+        other.setId(null);other.setProjectKey("TEST_UNRELATED");projects.insert(other);
+        Root root=rootReq(4L);root.setProjectId(other.getId());Long otherRoot=roots.register(root,1L);
+        String body="TEST unrelated independently registered anchor";
+        store.insert(0L,"ANCHOR","TEST-UNRELATED",map("state","REGISTERED","mode","TEST","body",body,"digest",bodyDigest(body)));
+        doReturn(Arrays.asList(map("id",1L,"nickname","TEST frozen user 1","status",0),map("id",2L,"nickname","TEST frozen user 2","status",0),map("id",3L,"nickname","TEST frozen user 3","status",0),map("id",4L,"nickname","TEST unrelated renamed user","status",0))).when(store).userFacts();
+        assertEquals(command.getDependencyToken(),releases.precheck(project,1L).get("dependencyToken"));
+        Long release=releases.publish(command,1L);
+        Action sign=action(otherRoot,"ROOT","SIGN");sign.setProjectId(other.getId());roots.action(sign,2L);
+        assertEquals(release,releases.publish(command,1L));
+        assertEquals(1,store.all(project,"RELEASE").size());
+    }
+    @Test void relatedAnchorAndPersonnelChangesStillInvalidatePreparedPublication(){
+        policy();Long requirement=requirement();confirm(requirement);Publish command=request(false);
+        doReturn(Arrays.asList(map("id",1L,"nickname","TEST changed relevant user","status",0),map("id",2L,"nickname","TEST frozen user 2","status",0),map("id",3L,"nickname","TEST frozen user 3","status",0))).when(store).userFacts();
+        final Publish beforePersonnelChange=command;
+        assertThrows(RuntimeException.class,()->releases.publish(beforePersonnelChange,1L));
+        final Publish prepared=request(false);
+        HrmPayrollGovernanceRecordDO current=store.record(anchor,"ANCHOR");Map<String,Object> data=store.data(current);data.put("materialVersion","TEST-ANCHOR-V2");store.state(current,data);
+        assertThrows(RuntimeException.class,()->releases.publish(prepared,1L));
+        assertTrue(store.all(project,"RELEASE").isEmpty());
+    }
+    @Test void relatedDecisionRevocationStillRejectsExactRetryAfterSuccessfulPublication(){
+        List<Long> policy=policy();Long requirement=requirement();confirm(requirement);Publish command=request(false);
+        Long release=releases.publish(command,1L);
+        decisions.action(action(policy.get(1),"DECISION","REVOKE"),2L);
+        assertThrows(RuntimeException.class,()->releases.publish(command,1L));
+        assertEquals(release,store.all(project,"RELEASE").get(0).getId());
+        assertEquals(1,store.all(project,"RELEASE").size());
+    }
+    @Test void disabledPublisherCannotReuseSuccessfulRequest(){
+        policy();Long requirement=requirement();confirm(requirement);Publish command=request(false);releases.publish(command,1L);
+        when(users.getUser(1L)).thenReturn(new cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO().setId(1L).setStatus(1).setNickname("TEST disabled publisher"));
+        assertThrows(RuntimeException.class,()->releases.publish(command,1L));
+        assertEquals(1,store.all(project,"RELEASE").size());
+    }
     @Test void emptyProjectOnlyCreatesFixedEmptyDraft(){policy();assertFalse((Boolean)releases.precheck(project,1L).get("allowed"));assertThrows(RuntimeException.class,()->releases.publish(request(false),1L));Long release=releases.publish(request(true),1L);Map<String,Object> p=projection.project(project,release,1L,"READ",null);assertEquals("空草稿",p.get("label"));}
     @Test void archiveAndStaleScopeAndUnexplainedExclusionBlockPublication(){policy();Long r=requirement();confirm(r);Publish c=request(false);HrmPayrollRequirementProjectDO p=projects.selectById(project);p.setArchived(true);projects.updateById(p);assertFalse((Boolean)releases.precheck(project,1L).get("allowed"));assertThrows(RuntimeException.class,()->releases.publish(c,1L));p.setArchived(false);projects.updateById(p);projectService.scope(project,1,upper(),"TEST explicitly expanded scope",1L);assertThrows(RuntimeException.class,()->releases.publish(c,1L));assertThrows(RuntimeException.class,()->confirm(r));}
     @Test void fixedSnapshotKeepsOldNamesRulesDeclarationsAndStatisticsAfterCurrentChanges(){List<Long> ds=policy();Long r=requirement();confirm(r);Long release=releases.publish(request(false),1L);Map<String,Object> before=projection.project(project,release,1L,"EXPORT",null);HrmPayrollRequirementDO row=reqs.selectById(r);row.setDescription("TEST changed current text");reqs.updateById(row);when(users.getUser(2L)).thenReturn(new cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO().setId(2L).setStatus(0).setNickname("TEST NEW NAME"));HrmPayrollGovernanceVO.Decision matrix=draftReq(Collections.singletonList("Q-04"));matrix.setPreviousId(ds.get(1));matrix.setBody("TEST NEW MATRIX");approve(matrix);Map<String,Object> after=projection.project(project,release,1L,"EXPORT",null);assertEquals(JsonUtils.toJsonString(before),JsonUtils.toJsonString(after));assertTrue(JsonUtils.toJsonString(after).contains("TEST frozen user 2"));assertFalse(JsonUtils.toJsonString(after).contains("TEST NEW NAME"));}
