@@ -69,3 +69,7 @@ JAVA_HOME="$HOME/.local/jdks/java8/Contents/Home" /opt/homebrew/bin/mvn -pl yuda
 ## 6. 剩余动作
 
 FA-01在上述工程边界关闭。业务方仍须提供真实根、当前范围/授权矩阵及必需条款的受控批准材料，再在确定候选上补齐AC-25/28正式链及受影响组合验收。MB-01/AV-01不能由开发者补签或用本次TEST发布替代。
+
+## 实际交付回执
+
+实现提交`f64de5524c41850b335ec762c67a9007de24eef5`已成功push至`origin/work`，`git ls-remote`核对相同完整SHA。浏览器通过后才提交；随后仅补本回执及delivery.json，不改运行源码。

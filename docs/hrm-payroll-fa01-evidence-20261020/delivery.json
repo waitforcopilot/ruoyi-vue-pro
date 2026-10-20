@@ -1,0 +1,12 @@
+{
+  "verifiedAt": "2026-10-20T09:32:15.228209+08:00",
+  "implementationCommit": "f64de5524c41850b335ec762c67a9007de24eef5",
+  "branch": "work",
+  "pushExitCode": 0,
+  "remoteObserved": "f64de5524c41850b335ec762c67a9007de24eef5",
+  "sourceHashesStillMatchCandidate": true,
+  "browserAcceptedBeforeImplementationCommit": true,
+  "backend": "UP",
+  "frontendHttpStatus": 200,
+  "followingChange": "documentation-only receipt commit; no additional runtime source changes"
+}
