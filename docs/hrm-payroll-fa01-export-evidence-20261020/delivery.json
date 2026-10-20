@@ -1,0 +1,11 @@
+{
+  "observedAt": "2026-10-20T20:15:29.664140+08:00",
+  "implementationCommit": "c112770ed9bb97d8bbd677f7a8e39864fbbe88ba",
+  "remoteAtObservation": "c112770ed9bb97d8bbd677f7a8e39864fbbe88ba",
+  "branch": "work",
+  "pushExitCode": 0,
+  "currentSourceMatchesBrowserCandidate": true,
+  "backend": "UP",
+  "frontendHttpStatus": 200,
+  "receiptBoundary": "observation of implementation push; following documentation-only receipt may advance remote; not permanent remote HEAD"
+}
