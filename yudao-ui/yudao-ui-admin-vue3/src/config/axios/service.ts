@@ -217,6 +217,11 @@ service.interceptors.response.use(
       } else {
         ElNotification.error({ title: msg })
       }
+      // Payroll forms need the business failure to distinguish stale versions,
+      // denied actions and field guidance while retaining the user's input.
+      if (response.config.url?.startsWith('/hrm/payroll/')) {
+        return Promise.reject(Object.assign(new Error(msg), { code }))
+      }
       return Promise.reject('error')
     } else {
       return data

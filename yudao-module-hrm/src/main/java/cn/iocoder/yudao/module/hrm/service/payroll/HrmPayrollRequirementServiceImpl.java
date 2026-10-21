@@ -170,8 +170,8 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
                     throw exception(PAYROLL_REQUIREMENT_ASSIGNEE_FORBIDDEN);
             }
         }
-        if (("CONFIRMED".equals(request.getStatus()) || "DISPUTED".equals(request.getStatus()) || "DEFERRED".equals(request.getStatus()))
-            && (StrUtil.isBlank(request.getEvidence()) || request.getReviewerId()==null)) throw exception(PAYROLL_REVIEW_INCOMPLETE);
+        if (java.util.Arrays.asList("CONFIRMED","DISPUTED","DEFERRED").contains(request.getStatus()))
+            HrmPayrollReviewService.required("依据或异议说明",request.getEvidence(),"评审负责人",request.getReviewerId());
         if ((selected==null || "LEGACY".equals(selected.getProjectKey())) && "CONFIRMED".equals(request.getStatus()) && (StrUtil.isBlank(request.getAcceptance())
             || StrUtil.isBlank(request.getSourceSystem()) || request.getSourceOwnerId()==null)) throw exception(PAYROLL_REVIEW_INCOMPLETE);
         if (java.util.Arrays.asList("CONFIRMED", "DISPUTED", "DEFERRED").contains(request.getStatus())) {

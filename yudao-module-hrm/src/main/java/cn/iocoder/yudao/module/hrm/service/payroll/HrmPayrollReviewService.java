@@ -27,15 +27,27 @@ public class HrmPayrollReviewService {
  private static final ZoneId ZONE=ZoneId.of("Asia/Shanghai");
  static boolean blank(String s){return s==null || s.trim().isEmpty();}
  static void valid(boolean b){if(!b)throw exception(PAYROLL_REVIEW_INCOMPLETE);}
+ static void required(Object... fields){
+  List<String> missing=new ArrayList<>();for(int n=0;n<fields.length;n+=2)if(fields[n+1]==null||blank(String.valueOf(fields[n+1])))missing.add(String.valueOf(fields[n]));
+  if(!missing.isEmpty())throw new cn.iocoder.yudao.framework.common.exception.ServiceException(PAYROLL_REVIEW_INCOMPLETE.getCode(),"请补齐以下字段："+String.join("、",missing));
+ }
  private void platform(Long actor,String suffix){if(!permissions.hasAnyPermissions(actor,"hrm:payroll:requirement:query") || !permissions.hasAnyPermissions(actor,"hrm:payroll:requirement:"+suffix))throw exception(PAYROLL_PROJECT_DENIED);}
  public static Business business(String json){try{return blank(json)?new Business():JsonUtils.parseObject(json,Business.class);}catch(RuntimeException e){throw exception(PAYROLL_REVIEW_INCOMPLETE);}}
  /** Drafts can be incomplete; REVIEWING and confirmation have different, explicit gates. */
  public static void validateBusiness(HrmPayrollRequirementDO r,boolean confirming){
   Business b=business(r.getBusinessContextJson());
   if(!blank(b.getPage()))valid("/hrm-payroll/review".equals(b.getPage()) && Objects.equals(b.getContextModule(),r.getModule()) && b.getAnchor()!=null && b.getAnchor().matches("module|field-[a-z0-9-]+|operation-[a-z0-9-]+|flow-[a-z0-9-]+") && Arrays.asList("MODULE","FIELD","OPERATION","FLOW").contains(b.getTargetType()));
-  if("REVIEWING".equals(r.getStatus()))valid(!blank(b.getScenario())&&!blank(b.getExpected()));
-  if(confirming)valid(!blank(b.getRole())&&!blank(b.getScenario())&&!blank(b.getGoal())&&!blank(b.getExpected())&&!blank(b.getNormalCase())&&!blank(b.getExceptionCase())&&!blank(b.getCalculation())&&!blank(b.getUnit())&&!blank(b.getPrecision())&&!blank(b.getValidity())&&!blank(b.getRuleException()));
-  if("DISPUTED".equals(r.getStatus()) && r.getBusinessContextJson()!=null)valid(b.getDisputeOwnerId()!=null&&!blank(b.getNextStep()));
+  List<String> missing=new ArrayList<>();
+  if(confirming || "REVIEWING".equals(r.getStatus())){
+   if(blank(b.getScenario()))missing.add("触发场景");if(blank(b.getExpected()))missing.add("期望行为");
+  }
+  if(confirming){
+   String[] labels={"业务角色","业务目标","正常样例","异常样例","计算或业务规则","单位","精度与舍入","有效期或适用依据","规则例外与处理"};
+   String[] values={b.getRole(),b.getGoal(),b.getNormalCase(),b.getExceptionCase(),b.getCalculation(),b.getUnit(),b.getPrecision(),b.getValidity(),b.getRuleException()};
+   for(int n=0;n<labels.length;n++)if(blank(values[n]))missing.add(labels[n]);
+  }
+  if("DISPUTED".equals(r.getStatus()) && r.getBusinessContextJson()!=null){if(b.getDisputeOwnerId()==null)missing.add("异议责任人ID");if(blank(b.getNextStep()))missing.add("异议下一步");}
+  if(!missing.isEmpty())throw new cn.iocoder.yudao.framework.common.exception.ServiceException(PAYROLL_REVIEW_INCOMPLETE.getCode(),"请补齐以下字段："+String.join("、",missing));
  }
  private HrmPayrollRequirementDO target(Context c,Long actor,String action){return projects.target(c.getProjectId(),c.getId(),actor,action,c.getProjectScopeVersion(),true);}
  private void version(HrmPayrollRequirementDO r,Context c){if(!Objects.equals(r.getVersion(),c.getVersion()))throw exception(PAYROLL_VERSION_CONFLICT);}

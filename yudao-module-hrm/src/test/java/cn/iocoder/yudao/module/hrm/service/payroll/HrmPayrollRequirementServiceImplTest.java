@@ -58,7 +58,10 @@ class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
   service.confirm(id,1,2L);assertEquals("测试薪资方案规则",row(id).getDescription());assertEquals("CONFIRMED",row(id).getStatus());assertEquals("EXEMPT",row(id).getReadiness());assertEquals(2L,row(id).getConfirmedBy());assertEquals(2,service.history(id).size());
  }
  @Test void incompleteConfirmationIsRejectedWithoutNewHistory() {
-  Long id=service.save(request(),1L);assertServiceException(()->service.confirm(id,1,2L),PAYROLL_REVIEW_INCOMPLETE);assertEquals(1,service.history(id).size());assertEquals("PENDING",row(id).getStatus());
+  Long id=service.save(request(),1L);
+  cn.iocoder.yudao.framework.common.exception.ServiceException error=assertThrows(cn.iocoder.yudao.framework.common.exception.ServiceException.class,()->service.confirm(id,1,2L));
+  assertEquals(PAYROLL_REVIEW_INCOMPLETE.getCode(),error.getCode());assertTrue(error.getMessage().contains("依据或异议说明"));assertTrue(error.getMessage().contains("评审负责人"));
+  assertEquals(1,service.history(id).size());assertEquals("PENDING",row(id).getStatus());
  }
  @Test void staleUpdateIsRejected() {
   HrmPayrollRequirementSaveReqVO r=request();r.setId(service.save(r,1L));r.setVersion(1);service.save(r,1L);assertServiceException(()->service.save(r,2L),PAYROLL_VERSION_CONFLICT);

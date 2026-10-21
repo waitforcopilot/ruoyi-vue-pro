@@ -16,6 +16,19 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 @Import({HrmPayrollReviewService.class,HrmPayrollWorkbenchService.class,HrmPayrollRequirementAccessService.class,HrmPayrollRequirementProjectService.class,HrmPayrollRequirementServiceImpl.class})
 class HrmPayrollReviewServiceTest extends BaseDbUnitTest {
+ @Test void missingBusinessFieldsAreNamedAndDraftsRemainAllowed(){
+  HrmPayrollRequirementDO r=new HrmPayrollRequirementDO().setStatus("PENDING");
+  assertDoesNotThrow(()->HrmPayrollReviewService.validateBusiness(r,false));
+  r.setStatus("REVIEWING");
+  cn.iocoder.yudao.framework.common.exception.ServiceException e=assertThrows(cn.iocoder.yudao.framework.common.exception.ServiceException.class,()->HrmPayrollReviewService.validateBusiness(r,false));
+  assertTrue(e.getMessage().contains("触发场景"));assertTrue(e.getMessage().contains("期望行为"));assertFalse(e.getMessage().contains("业务角色"));
+  e=assertThrows(cn.iocoder.yudao.framework.common.exception.ServiceException.class,()->HrmPayrollReviewService.validateBusiness(r,true));assertTrue(e.getMessage().contains("业务角色"));assertTrue(e.getMessage().contains("精度与舍入"));
+ }
+ @Test void disputedGuidanceNamesOwnerAndNextStep(){
+  HrmPayrollRequirementDO r=new HrmPayrollRequirementDO().setStatus("DISPUTED").setBusinessContextJson("{}");
+  RuntimeException e=assertThrows(RuntimeException.class,()->HrmPayrollReviewService.validateBusiness(r,false));
+  assertTrue(e.getMessage().contains("异议责任人ID"));assertTrue(e.getMessage().contains("异议下一步"));
+ }
  // These tests isolate the pre-S5 contract. The real governance gate is covered by HrmPayrollGovernanceServiceTest and runtime regression.
  @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollGovernanceStore stage5Store;
  @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollGovernanceRootService stage5Roots;

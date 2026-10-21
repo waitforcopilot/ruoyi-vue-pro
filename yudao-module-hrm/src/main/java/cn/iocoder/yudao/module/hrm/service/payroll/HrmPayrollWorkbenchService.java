@@ -204,7 +204,7 @@ public class HrmPayrollWorkbenchService {
   }catch(RuntimeException invalid){return false;}
  }
  public String confirmationTuple(HrmPayrollRequirementDO req,Long actor){
-  HrmPayrollRequirementProjectDO p=project(req.getProjectId(),actor,true);valid(p.getProjectScopeVersion()!=null&&"MATCH".equals(req.getScopeState())&&!blank(req.getRuleVersion())&&!blank(req.getDescription())&&!blank(req.getAcceptance())&&!blank(req.getEvidence()));
+  HrmPayrollRequirementProjectDO p=project(req.getProjectId(),actor,true);valid(p.getProjectScopeVersion()!=null&&"MATCH".equals(req.getScopeState()));HrmPayrollReviewService.required("规则引用版本",req.getRuleVersion(),"功能说明",req.getDescription(),"验收条件",req.getAcceptance(),"依据或异议说明",req.getEvidence());
   List<Object> refs=new ArrayList<>();
   if("NOT_APPLICABLE".equals(req.getSourceApplicability()))valid(validExemption(req.getApplicabilityReason()));
   else{valid("APPLICABLE".equals(req.getSourceApplicability()));List<HrmPayrollWorkbenchRecordDO> rs=relations(p.getId(),null,req.getId(),true);valid(!rs.isEmpty());for(HrmPayrollWorkbenchRecordDO o:rs){Relation r=data(o,Relation.class);relationAccess(p,o,actor,"READ");HrmPayrollWorkbenchRecordDO src=object(p.getId(),r.getSourceId(),"SOURCE");Source s=data(src,Source.class);sourceOwner(p,src,s);valid(!r.getFields().isEmpty()&&HrmPayrollRequirementScope.parse(s.getScopeJson()).contains(HrmPayrollRequirementScope.parse(req.getScopeJson())));refs.add(map("sourceId",src.getId(),"semanticVersion",s.getSemanticVersion(),"relationId",o.getId(),"mappingVersion",r.getMappingVersion()));}}

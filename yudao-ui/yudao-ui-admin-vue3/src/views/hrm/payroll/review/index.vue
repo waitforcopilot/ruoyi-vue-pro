@@ -372,7 +372,7 @@
       ><pre>{{ JSON.stringify(conflictLatest, null, 2) }}</pre>
     </details>
     <el-form label-position="top">
-      <el-form-item label="功能说明"
+      <el-form-item label="功能说明" :error="opinionErrors.description ? '请填写功能说明' : ''"
         ><el-input
           v-model="form.description"
           aria-label="功能说明"
@@ -380,7 +380,11 @@
           maxlength="1000"
       /></el-form-item>
       <div class="form-grid"
-        ><el-form-item v-for="field in businessFields" :key="field.key" :label="field.label"
+        ><el-form-item
+          v-for="field in businessFields"
+          :key="field.key"
+          :label="field.label"
+          :error="opinionErrors[field.key] ? `请填写${field.label}` : ''"
           ><el-input
             v-model="business[field.key]"
             :aria-label="field.label"
@@ -604,6 +608,7 @@
 
 <script setup lang="ts">
 import { nextTick } from 'vue'
+import { opinionMissing, failureGuidance } from './validation'
 import { checkPermi } from '@/utils/permission'
 import * as api from '@/api/hrm/payroll/requirement'
 import * as review from '@/api/hrm/payroll/review'
@@ -857,7 +862,15 @@ const businessFields = [
   { key: 'validity', label: '有效期或适用依据' },
   { key: 'ruleException', label: '规则例外与处理' }
 ]
+const opinionErrors = ref<Record<string, string>>({})
+async function focusOpinionField(label: string) {
+  await nextTick()
+  const field = document.querySelector<HTMLElement>(`.hrm-review-dialog [aria-label="${label}"]`)
+  field?.scrollIntoView({ block: 'center' })
+  field?.focus()
+}
 function newOpinion(targetType: string, anchor: string) {
+  opinionErrors.value = {}
   conflictLatest.value = undefined
   form.value = {
     projectId: projectId.value,
@@ -876,6 +889,7 @@ function newOpinion(targetType: string, anchor: string) {
   formVisible.value = true
 }
 function edit(row: any) {
+  opinionErrors.value = {}
   conflictLatest.value = undefined
   form.value = {
     ...row,
@@ -893,6 +907,12 @@ function edit(row: any) {
   formVisible.value = true
 }
 async function saveOpinion() {
+  opinionErrors.value = opinionMissing(form.value, business.value)
+  if (Object.keys(opinionErrors.value).length) {
+    saveError.value = `请补齐以下字段：${Object.values(opinionErrors.value).join('、')}。输入已保留。`
+    await focusOpinionField(Object.values(opinionErrors.value)[0])
+    return
+  }
   saving.value = true
   saveError.value = ''
   try {
@@ -904,9 +924,8 @@ async function saveOpinion() {
     formVisible.value = false
     message.success('意见已真实保存')
     await load()
-  } catch {
-    saveError.value =
-      '保存未完成：请检查必填、权限和版本。输入已保留；版本冲突时可读取最新版本并人工核对后重试。'
+  } catch (error) {
+    saveError.value = failureGuidance(error)
   } finally {
     saving.value = false
   }
@@ -1036,6 +1055,11 @@ async function assignBatch() {
   }
 }
 async function confirm(row: any) {
+  const missing = opinionMissing(row, parse(row.businessContextJson) || {}, true)
+  if (Object.keys(missing).length) {
+    message.warning(`确认前请补齐以下字段：${Object.values(missing).join('、')}；尚未产生签字`)
+    return
+  }
   try {
     await message.confirm(`本人确认需求${row.id}的当前版本${row.version}？不会保存未提交表单。`)
     await api.confirmRequirement(
@@ -1045,8 +1069,8 @@ async function confirm(row: any) {
       project.value?.projectScopeVersion
     )
     await load()
-  } catch {
-    message.warning('确认未完成，请核对当前分派、范围、场景规则、来源和版本；取消不产生签字')
+  } catch (error) {
+    if (error !== 'cancel' && error !== 'close') message.warning(failureGuidance(error))
   }
 }
 watch(
