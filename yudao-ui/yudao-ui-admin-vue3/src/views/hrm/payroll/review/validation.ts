@@ -42,7 +42,7 @@ export function failureGuidance(error: unknown) {
   const message = error instanceof Error ? error.message : typeof error === 'string' ? error : ''
   // Only display controlled field guidance; never echo arbitrary infrastructure errors.
   if (/^请补齐以下字段：|^请修正新期限：/.test(message)) return `${message}。输入已保留。`
-  if (/版本|范围.*变|范围.*失效/.test(message))
+  if (/版本|记录已被更新|范围.*变|范围.*失效/.test(message))
     return '当前版本或范围已变化。输入已保留；请读取最新版本，人工合并后重试。'
   if (/权限|本人|分派|确认人/.test(message))
     return '当前账号没有此操作权限或不是被分派的确认人。输入已保留；请核对当前项目及分派。'
