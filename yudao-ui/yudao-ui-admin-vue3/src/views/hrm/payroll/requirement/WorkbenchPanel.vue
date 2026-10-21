@@ -226,13 +226,7 @@
     </el-tabs>
   </ContentWrap>
   <Dialog v-model="opened" :title="title" width="min(1100px, 95vw)">
-    <el-alert
-      v-if="failed"
-      title="操作未成功，输入已保留；请核对权限、当前版本和必填项。刷新前可先保留本次输入。"
-      type="error"
-      :closable="false"
-      class="mb-3"
-    />
+    <el-alert v-if="failed" :title="failureMessage" type="error" :closable="false" class="mb-3" />
     <el-form label-width="140px" :model="draft">
       <template v-if="mode === 'source'">
         <el-form-item label="来源名称"><el-input v-model="draft.source.name" /></el-form-item>
@@ -399,10 +393,21 @@
         /></el-form-item>
       </template>
       <template v-if="mode === 'action'"
-        ><el-form-item label="处理或复核依据"
-          ><el-input v-model="draft.evidence" type="textarea" /></el-form-item
-        ><el-form-item v-if="draft.action === 'REOPEN'" label="新期限"
-          ><el-date-picker v-model="draft.dueDate" value-format="YYYY-MM-DD" /></el-form-item
+        ><el-form-item
+          label="处理或复核依据"
+          :error="fieldErrors.evidence ? '请填写处理或复核依据' : ''"
+          ><el-input
+            v-model="draft.evidence"
+            aria-label="处理或复核依据"
+            type="textarea" /></el-form-item
+        ><el-form-item
+          v-if="draft.action === 'REOPEN'"
+          label="新期限"
+          :error="fieldErrors.dueDate ? '请填写本轮新期限' : ''"
+          ><el-date-picker
+            v-model="draft.dueDate"
+            aria-label="新期限"
+            value-format="YYYY-MM-DD" /></el-form-item
       ></template>
       <template v-if="mode === 'proposal'"
         ><el-form-item label="建议内容"
@@ -417,8 +422,8 @@
           title="仅复制规格，新来源不继承供给、核验、质量结论或签字；需具备两端权限。"
           :closable="false"
       /></template>
-      <el-form-item label="本次操作原因"
-        ><el-input v-model="draft.reason" type="textarea"
+      <el-form-item label="本次操作原因" :error="fieldErrors.reason ? '请填写本次操作原因' : ''"
+        ><el-input v-model="draft.reason" aria-label="本次操作原因" type="textarea"
       /></el-form-item>
     </el-form>
     <template #footer
@@ -447,7 +452,10 @@
   >
 </template>
 <script setup lang="ts">
+import { nextTick } from 'vue'
 import ScopeFields from './ScopeFields.vue'
+import { issueMissing } from './issueValidation'
+import { failureGuidance } from '../review/validation'
 import request from '@/config/axios'
 import download from '@/utils/download'
 import {
@@ -484,6 +492,8 @@ const users = ref<any[]>([]),
 const historyOpen = ref(false),
   historyRows = ref<WorkbenchRecord[]>([])
 const issueDraft = computed(() => (mode.value === 'issue' ? draft.value.issue : draft.value))
+const failureMessage = ref('')
+const fieldErrors = ref<Record<string, string>>({})
 const sourceLabels = {
   technicalContact: '技术联系人',
   acquisition: '获取方式',
@@ -542,6 +552,8 @@ const context = (o?: WorkbenchRecord) => ({
   reason: ''
 })
 const open = (m: string, t: string, d: Record<string, any>) => {
+  fieldErrors.value = {}
+  failureMessage.value = ''
   mode.value = m
   title.value = t
   draft.value = d
@@ -651,6 +663,17 @@ const history = async (o: WorkbenchRecord) => {
 }
 const save = async () => {
   if (saving.value) return
+  fieldErrors.value = issueMissing(mode.value, draft.value)
+  if (Object.keys(fieldErrors.value).length) {
+    failed.value = true
+    failureMessage.value = `请补齐以下字段：${Object.values(fieldErrors.value).join('、')}。输入已保留。`
+    await nextTick()
+    const label = Object.values(fieldErrors.value)[0]
+    const control = document.querySelector<HTMLElement>(`[aria-label="${label}"]`)
+    control?.scrollIntoView({ block: 'center' })
+    control?.focus()
+    return
+  }
   saving.value = true
   failed.value = false
   try {
@@ -669,8 +692,9 @@ const save = async () => {
     message.success('已保存，状态按当前证据重新计算')
     await load()
     emit('changed')
-  } catch {
+  } catch (error) {
     failed.value = true
+    failureMessage.value = failureGuidance(error)
   } finally {
     saving.value = false
   }
