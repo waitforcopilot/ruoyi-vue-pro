@@ -4,6 +4,8 @@
  <img src="https://img.shields.io/github/license/YunaiV/ruoyi-vue-pro"/>
 </p>
 
+本仓库 HRM 项目的 AI 协作采用三角色：编码者 GPT-6.1 Sol / Medium、执行者 GPT-6 Luna / Max、独立审计者 Cursor Grok 4.7 / Medium。职责、启动命令及模型身份核实要求见 [角色与模型约定](docs/role-model-policy.md) 和 [AGENTS.md](AGENTS.md)。
+
 **严肃声明：现在、未来都不会有商业版本，所有代码全部开源!！**
 
 **「我喜欢写代码，乐此不疲」**  
