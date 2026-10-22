@@ -1,0 +1,85 @@
+Browser tab: 2, Title: "芋道管理系统 - 需求评审", URL: "http://localhost:5173/hrm-payroll/requirement?projectId=153&module=COL".
+0 AXWebArea 芋道管理系统 - 需求评审, URL: localhost:5173/hrm-payroll/requirement?projectId=153&module=COL
+	1 container
+		2 link Description: 芋道管理系统, Value: localhost:5173/
+		3 menu bar
+			4 首页
+				5 text 首页
+			6 (expanded) 薪酬管理, Secondary Actions: Collapse
+				7 container
+					8 text 薪酬管理
+					9 image
+				10 menu
+					11 需求评审
+						12 text 需求评审
+		13 container
+			14 container v-tool-header
+				15 container 面包屑
+					16 link 薪酬管理
+						17 text 薪酬管理
+					18 text /
+					19 link 需求评审
+						20 text 需求评审
+				21 container
+					22 container
+						23 combo box (collapsed, settable) ID: el-id-6588-76, Secondary Actions: Expand
+						24 text 请输入菜单内容
+				25 pop up button (collapsed) ID: el-id-6588-4, Secondary Actions: Expand
+				26 pop up button (collapsed) ID: el-id-6588-9, Secondary Actions: Expand
+				27 pop up button (collapsed) TEST S5 restricted, ID: el-id-6588-14, Secondary Actions: Expand
+			28 container v-tags-view
+				29 container
+					30 pop up button (collapsed) 首页, ID: el-id-6588-20, Secondary Actions: Expand
+						31 container
+							32 text 首页
+					33 pop up button (collapsed) 需求评审, ID: el-id-6588-28, Secondary Actions: Expand
+						34 container
+							35 text 需求评审
+				36 pop up button (collapsed) ID: el-id-6588-36, Secondary Actions: Expand
+			37 button 进入十视图需求评审工作台
+			38 container
+				39 combo box (collapsed, settable) Description: 评审项目, ID: el-id-6588-77, Secondary Actions: Expand
+				40 text 153
+				41 image
+			42 text 项目列表读取失败，请重试；不会自动转入其他项目
+			43 button 重试项目列表
+			44 text 需求或项目归属加载失败，请刷新重试
+			45 text 功能确认与数据就绪分别核实；确认需当前范围、规则、验收条件和依据，由有权的被分派人本人操作。来源按适用性校验，合法不适用可豁免来源及映射。
+			46 container
+				47 container
+					48 combo box (collapsed, settable) ID: el-id-6588-78, Secondary Actions: Expand
+					49 text 需求征集
+					50 image
+				51 button 刷新
+				52 button 导出评审清单
+			53 button (collapsed) 需求征集候选数据源与字段, ID: el-collapse-head-65, Secondary Actions: Expand
+				54 text 需求征集候选数据源与字段
+			55 container
+				56 table
+					57 row
+						58 cell
+							59 text 需求ID
+						60 cell
+							61 text 编号
+						62 cell
+							63 text 模块
+						64 cell
+							65 text 功能
+						66 cell
+							67 text 评审状态
+						68 cell
+							69 text 数据就绪
+						70 cell
+							71 text 数据来源
+						72 cell
+							73 text 范围适配
+						74 cell
+							75 text 版本
+						76 cell
+							77 text 操作
+				78 container
+					79 table
+					80 text 暂无数据
+			81 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 0 AXWebArea 芋道管理系统 - 需求评审, URL: localhost:5173/hrm-payroll/requirement?projectId=153&module=COL

@@ -1,0 +1,926 @@
+Browser tab: 1, Title: "芋道管理系统 - 需求评审", URL: "http://127.0.0.1:5173/hrm-payroll/requirement?projectId=153&module=COL".
+1 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?projectId=153&module=COL
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			15 container v-tool-header
+				16 container 面包屑
+					17 link 薪酬管理
+						18 text 薪酬管理
+					19 text /
+					20 link 需求评审
+						21 text 需求评审
+				22 container
+					23 container
+						24 combo box (collapsed, settable) ID: el-id-5928-76, Secondary Actions: Expand
+						25 text 请输入菜单内容
+				26 pop up button (collapsed) ID: el-id-5928-4, Secondary Actions: Expand
+				27 pop up button (collapsed) ID: el-id-5928-9, Secondary Actions: Expand
+				28 pop up button (collapsed) TEST S6 reassign, ID: el-id-5928-14, Secondary Actions: Expand
+			29 container v-tags-view
+				30 container
+					31 pop up button (collapsed) 首页, ID: el-id-5928-20, Secondary Actions: Expand
+						32 container
+							33 text 首页
+					34 pop up button (collapsed) 需求评审, ID: el-id-5928-28, Secondary Actions: Expand
+						35 container
+							36 text 需求评审
+				37 pop up button (collapsed) ID: el-id-5928-36, Secondary Actions: Expand
+			38 button 进入十视图需求评审工作台
+			39 container
+				40 container
+					41 combo box (collapsed, settable) Description: 评审项目, ID: el-id-5928-77, Secondary Actions: Expand
+					42 text TEST WB completion 20261022 A · 非正式批准
+					43 image
+				44 button 模板版本比较
+				45 button 项目变更历史
+			46 text TEST WB completion 20261022 A · 非正式批准 · 项目编号 153 · 范围版本 5
+			47 text 功能确认与数据就绪分别核实；确认需当前范围、规则、验收条件和依据，由有权的被分派人本人操作。来源按适用性校验，合法不适用可豁免来源及映射。
+			48 container
+				49 container
+					50 combo box (collapsed, settable) ID: el-id-5928-78, Secondary Actions: Expand
+					51 text 需求征集
+					52 image
+				53 button 刷新
+				54 button 导出评审清单
+			55 button (collapsed) 需求征集候选数据源与字段, ID: el-collapse-head-65, Secondary Actions: Expand
+				56 text 需求征集候选数据源与字段
+			57 container
+				58 table
+					59 row
+						60 cell
+							61 text 需求ID
+						62 cell
+							63 text 编号
+						64 cell
+							65 text 模块
+						66 cell
+							67 text 功能
+						68 cell
+							69 text 评审状态
+						70 cell
+							71 text 数据就绪
+						72 cell
+							73 text 数据来源
+						74 cell
+							75 text 范围适配
+						76 cell
+							77 text 版本
+						78 cell
+							79 text 操作
+				145 table
+					146 row
+						147 cell
+							148 text 1844
+						149 cell
+							150 text CUSTOM-0001
+						151 cell
+							152 text 需求征集
+						153 cell
+							154 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+						155 cell
+							156 text 已确认
+						157 cell
+							158 text 不适用
+						159 cell
+							160 text 匹配
+						161 cell
+							162 text 38
+						163 cell
+							164 button 历史
+			102 text 实际来源与候选目录分开；功能确认、语义核验、QS/QC和问题关闭分别操作。只登记规格或虚构样例引用，不填写口令或真实工资明细。
+			103 container
+				104 button 刷新来源工作台
+				105 button 导出当前来源关系
+			106 tab group
+				107 tab (selected, settable, boolean) 实际来源, Value: 1, ID: tab-sources
+				108 tab (selectable, settable, boolean) 消费关系与映射, Value: 0, ID: tab-relations
+				109 tab (selectable, settable, boolean) 问题处理与独立复核, Value: 0, ID: tab-issues
+				110 tab (selectable, settable, boolean) 核验证据, Value: 0, ID: tab-evidence
+				111 tab (selectable, settable, boolean) 站内待办与建议, Value: 0, ID: tab-todos
+			112 container Description: 实际来源, ID: pane-sources
+				113 container
+					114 table
+						115 row
+							116 cell
+								117 text sourceId
+							118 cell
+								119 text 名称
+							120 cell
+								121 text 语义/运营/交付版本
+							122 cell
+								123 text 供给 / 语义 / QS
+							124 cell
+								125 text 操作
+					126 table
+						127 row
+							128 cell
+								129 text 3515
+							130 cell
+								131 text TEST-WBC-T01关系历史合成来源
+							132 cell
+								133 text 1 / 1 / 0
+							134 cell
+								135 text 未盘点 / 待核验 / 未通过或待检查
+							136 cell
+								137 container
+									138 button 规格详情
+									139 button 规格核验
+									140 button QS检查
+									141 button 变更建议
+									142 button 跨项目复制
+									143 button 来源历史
+			165 container 当前项目编号：153。 以下项目编号按当时快照展示；旧快照未记录时不推定归属。 关闭评审历史
+				166 container
+					167 text 评审历史 · 需求ID 1844 · CUSTOM-0001
+				168 container
+					169 text 当前项目编号：153。 以下项目编号按当时快照展示；旧快照未记录时不推定归属。
+					170 container
+						171 table
+							172 row
+								173 cell
+									174 text 范围适配
+								175 cell
+									176 text 版本
+								177 cell
+									178 text 操作人
+								179 cell
+									180 text 时间
+								181 cell
+									182 text 评审内容
+						183 table
+							184 container
+								185 row
+									186 cell
+										187 text 匹配
+									188 cell
+										189 text 38
+									190 cell
+										191 text TEST S6 reassign
+									192 cell
+										193 text 2026-10-22 20:30:30
+									194 cell
+										195 text 快照需求ID：1844
+										196 text 快照项目编号：153
+										197 text 当时编号：CUSTOM-0001
+										198 text 当时范围版本：5 / SUBSET
+										199 text 当时确认人：279；签署范围版本：5
+										200 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										201 text 已确认 / 未就绪
+										202 text 确认引用：需求语义v28；规则：TEST-WBC-T01-RULE-V1；来源不适用：TEST 当前改为纯导航说明，不再消费合成来源，旧映射须留存历史
+										203 text 验收：TEST 条件必填正确且本人签署可追溯
+										204 text 依据：TEST 最终候选需对重试及异议回读独立核实
+								205 row
+									206 cell
+										207 text 匹配
+									208 cell
+										209 text 37
+									210 cell
+										211 text TEST S5 editor NEW DISPLAY
+									212 cell
+										213 text 2026-10-22 20:29:47
+									214 cell
+										215 text 快照需求ID：1844
+										216 text 快照项目编号：153
+										217 text 当时编号：CUSTOM-0001
+										218 text 当时范围版本：5 / SUBSET
+										219 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										220 text 评审中 / 未就绪
+										221 text 旧来源线索：未填写
+										222 text 旧映射线索：未填写
+										223 text 验收：TEST 条件必填正确且本人签署可追溯
+										224 text 依据：TEST 最终候选需对重试及异议回读独立核实
+								225 row
+									226 cell
+										227 text 匹配
+									228 cell
+										229 text 36
+									230 cell
+										231 text TEST S5 approver NEW DISPLAY
+									232 cell
+										233 text 2026-10-22 19:48:54
+									234 cell
+										235 text 快照需求ID：1844
+										236 text 快照项目编号：153
+										237 text 当时编号：CUSTOM-0001
+										238 text 当时范围版本：5 / SUBSET
+										239 text 当时确认人：267；签署范围版本：5
+										240 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										241 text 已确认 / 未就绪
+										242 text 确认引用：需求语义v27；规则：TEST-WBC-T01-RULE-V1；来源不适用：TEST 当前改为纯导航说明，不再消费合成来源，旧映射须留存历史
+										243 text 验收：TEST 条件必填正确且本人签署可追溯
+										244 text 依据：TEST 最终候选需对重试及异议回读独立核实
+								245 row
+									246 cell
+										247 text 匹配
+									248 cell
+										249 text 35
+									250 cell
+										251 text TEST S5 editor NEW DISPLAY
+									252 cell
+										253 text 2026-10-22 19:46:16
+									254 cell
+										255 text 快照需求ID：1844
+										256 text 快照项目编号：153
+										257 text 当时编号：CUSTOM-0001
+										258 text 当时范围版本：5 / SUBSET
+										259 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										260 text 评审中 / 未就绪
+										261 text 旧来源线索：未填写
+										262 text 旧映射线索：未填写
+										263 text 验收：TEST 条件必填正确且本人签署可追溯
+										264 text 依据：TEST 最终候选需对重试及异议回读独立核实
+								265 row
+									266 cell
+										267 text 范围不匹配
+									268 cell
+										269 text 34
+									270 cell
+										271 text TEST S5 editor NEW DISPLAY
+									272 cell
+										273 text 2026-10-22 19:44:59
+									274 cell
+										275 text 快照需求ID：1844
+										276 text 快照项目编号：153
+										277 text 当时编号：CUSTOM-0001
+										278 text 当时范围版本：4 / SUBSET
+										279 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										280 text 评审中 / 未就绪
+										281 text 旧来源线索：未填写
+										282 text 旧映射线索：未填写
+										283 text 验收：TEST 条件必填正确且本人签署可追溯
+										284 text 依据：TEST 最终候选需对重试及异议回读独立核实
+								285 row
+									286 cell
+										287 text 匹配
+									288 cell
+										289 text 33
+									290 cell
+										291 text TEST S5 approver NEW DISPLAY
+									292 cell
+										293 text 2026-10-22 19:42:01
+									294 cell
+										295 text 快照需求ID：1844
+										296 text 快照项目编号：153
+										297 text 当时编号：CUSTOM-0001
+										298 text 当时范围版本：3 / SUBSET
+										299 text 当时确认人：267；签署范围版本：3
+										300 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										301 text 已确认 / 未就绪
+										302 text 确认引用：需求语义v25；规则：TEST-WBC-T01-RULE-V1；来源不适用：TEST 当前改为纯导航说明，不再消费合成来源，旧映射须留存历史
+										303 text 验收：TEST 条件必填正确且本人签署可追溯
+										304 text 依据：TEST 最终候选需对重试及异议回读独立核实
+								305 row
+									306 cell
+										307 text 匹配
+									308 cell
+										309 text 32
+									310 cell
+										311 text TEST S5 editor NEW DISPLAY
+									312 cell
+										313 text 2026-10-22 19:38:52
+									314 cell
+										315 text 快照需求ID：1844
+										316 text 快照项目编号：153
+										317 text 当时编号：CUSTOM-0001
+										318 text 当时范围版本：3 / SUBSET
+										319 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										320 text 评审中 / 未就绪
+										321 text 旧来源线索：未填写
+										322 text 旧映射线索：未填写
+										323 text 验收：TEST 条件必填正确且本人签署可追溯
+										324 text 依据：TEST 最终候选需对重试及异议回读独立核实
+								325 row
+									326 cell
+										327 text 范围不匹配
+									328 cell
+										329 text 31
+									330 cell
+										331 text TEST S5 editor NEW DISPLAY
+									332 cell
+										333 text 2026-10-22 19:28:47
+									334 cell
+										335 text 快照需求ID：1844
+										336 text 快照项目编号：153
+										337 text 当时编号：CUSTOM-0001
+										338 text 当时范围版本：2 / SUBSET
+										339 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										340 text 评审中 / 未就绪
+										341 text 旧来源线索：未填写
+										342 text 旧映射线索：未填写
+										343 text 验收：TEST 条件必填正确且本人签署可追溯
+										344 text 依据：TEST 最终候选需对重试及异议回读独立核实
+								345 row
+									346 cell
+										347 text 匹配
+									348 cell
+										349 text 30
+									350 cell
+										351 text TEST S5 editor NEW DISPLAY
+									352 cell
+										353 text 2026-10-22 19:27:55
+									354 cell
+										355 text 快照需求ID：1844
+										356 text 快照项目编号：153
+										357 text 当时编号：CUSTOM-0001
+										358 text 当时范围版本：1 / SUBSET
+										359 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										360 text 评审中 / 未就绪
+										361 text 旧来源线索：未填写
+										362 text 旧映射线索：未填写
+										363 text 验收：TEST 条件必填正确且本人签署可追溯
+										364 text 依据：TEST 最终候选需对重试及异议回读独立核实
+								365 row
+									366 cell
+										367 text 匹配
+									368 cell
+										369 text 29
+									370 cell
+										371 text TEST S5 approver NEW DISPLAY
+									372 cell
+										373 text 2026-10-22 19:23:35
+									374 cell
+										375 text 快照需求ID：1844
+										376 text 快照项目编号：153
+										377 text 当时编号：CUSTOM-0001
+										378 text 当时范围版本：1 / INHERIT
+										379 text 当时确认人：267；签署范围版本：1
+										380 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										381 text 已确认 / 未就绪
+										382 text 确认引用：需求语义v22；规则：TEST-WBC-T01-RULE-V1；来源不适用：TEST 当前改为纯导航说明，不再消费合成来源，旧映射须留存历史
+										383 text 验收：TEST 条件必填正确且本人签署可追溯
+										384 text 依据：TEST 最终候选需对重试及异议回读独立核实
+								385 row
+									386 cell
+										387 text 匹配
+									388 cell
+										389 text 28
+									390 cell
+										391 text TEST S5 editor NEW DISPLAY
+									392 cell
+										393 text 2026-10-22 19:23:07
+									394 cell
+										395 text 快照需求ID：1844
+										396 text 快照项目编号：153
+										397 text 当时编号：CUSTOM-0001
+										398 text 当时范围版本：1 / INHERIT
+										399 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										400 text 评审中 / 未就绪
+										401 text 旧来源线索：未填写
+										402 text 旧映射线索：未填写
+										403 text 验收：TEST 条件必填正确且本人签署可追溯
+										404 text 依据：TEST 最终候选需对重试及异议回读独立核实
+								405 row
+									406 cell
+										407 text 匹配
+									408 cell
+										409 text 27
+									410 cell
+										411 text TEST S5 editor NEW DISPLAY
+									412 cell
+										413 text 2026-10-22 19:20:52
+									414 cell
+										415 text 快照需求ID：1844
+										416 text 快照项目编号：153
+										417 text 当时编号：CUSTOM-0001
+										418 text 当时范围版本：1 / INHERIT
+										419 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										420 text 评审中 / 未就绪
+										421 text 旧来源线索：未填写
+										422 text 旧映射线索：未填写
+										423 text 验收：TEST 条件必填正确且本人签署可追溯
+										424 text 依据：TEST 最终候选需对重试及异议回读独立核实
+								425 row
+									426 cell
+										427 text 匹配
+									428 cell
+										429 text 26
+									430 cell
+										431 text TEST S5 editor NEW DISPLAY
+									432 cell
+										433 text 2026-10-22 19:20:07
+									434 cell
+										435 text 快照需求ID：1844
+										436 text 快照项目编号：153
+										437 text 当时编号：CUSTOM-0001
+										438 text 当时范围版本：1 / INHERIT
+										439 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										440 text 评审中 / 未就绪
+										441 text 旧来源线索：未填写
+										442 text 旧映射线索：未填写
+										443 text 验收：TEST 条件必填正确且本人签署可追溯
+										444 text 依据：TEST 最终候选需对重试及异议回读独立核实
+								445 row
+									446 cell
+										447 text 匹配
+									448 cell
+										449 text 25
+									450 cell
+										451 text TEST S5 editor NEW DISPLAY
+									452 cell
+										453 text 2026-10-22 19:19:03
+									454 cell
+										455 text 快照需求ID：1844
+										456 text 快照项目编号：153
+										457 text 当时编号：CUSTOM-0001
+										458 text 当时范围版本：1 / INHERIT
+										459 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										460 text 评审中 / 未就绪
+										461 text 旧来源线索：未填写
+										462 text 旧映射线索：未填写
+										463 text 验收：TEST 条件必填正确且本人签署可追溯
+										464 text 依据：TEST 最终候选需对重试及异议回读独立核实
+								465 row
+									466 cell
+										467 text 匹配
+									468 cell
+										469 text 24
+									470 cell
+										471 text TEST S5 editor NEW DISPLAY
+									472 cell
+										473 text 2026-10-22 19:18:10
+									474 cell
+										475 text 快照需求ID：1844
+										476 text 快照项目编号：153
+										477 text 当时编号：CUSTOM-0001
+										478 text 当时范围版本：1 / INHERIT
+										479 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										480 text 有异议 / 未就绪
+										481 text 旧来源线索：未填写
+										482 text 旧映射线索：未填写
+										483 text 验收：TEST 条件必填正确且本人签署可追溯
+										484 text 依据：TEST 最终候选需对重试及异议回读独立核实
+								485 row
+									486 cell
+										487 text 匹配
+									488 cell
+										489 text 23
+									490 cell
+										491 text TEST S5 editor NEW DISPLAY
+									492 cell
+										493 text 2026-10-22 19:16:59
+									494 cell
+										495 text 快照需求ID：1844
+										496 text 快照项目编号：153
+										497 text 当时编号：CUSTOM-0001
+										498 text 当时范围版本：1 / INHERIT
+										499 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										500 text 待确认 / 未就绪
+										501 text 旧来源线索：未填写
+										502 text 旧映射线索：未填写
+										503 text 验收：TEST 条件必填正确且本人签署可追溯
+										504 text 依据：TEST 字段逐项拒绝已核实，补齐后继续评审
+								505 row
+									506 cell
+										507 text 匹配
+									508 cell
+										509 text 22
+									510 cell
+										511 text TEST S5 editor NEW DISPLAY
+									512 cell
+										513 text 2026-10-22 19:14:41
+									514 cell
+										515 text 快照需求ID：1844
+										516 text 快照项目编号：153
+										517 text 当时编号：CUSTOM-0001
+										518 text 当时范围版本：1 / INHERIT
+										519 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										520 text 待确认 / 未就绪
+										521 text 旧来源线索：未填写
+										522 text 旧映射线索：未填写
+										523 text 验收：TEST 条件必填正确且本人签署可追溯
+										524 text 依据：未填写
+								525 row
+									526 cell
+										527 text 匹配
+									528 cell
+										529 text 21
+									530 cell
+										531 text TEST S5 editor NEW DISPLAY
+									532 cell
+										533 text 2026-10-22 19:13:39
+									534 cell
+										535 text 快照需求ID：1844
+										536 text 快照项目编号：153
+										537 text 当时编号：CUSTOM-0001
+										538 text 当时范围版本：1 / INHERIT
+										539 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										540 text 待确认 / 未就绪
+										541 text 旧来源线索：未填写
+										542 text 旧映射线索：未填写
+										543 text 验收：未填写
+										544 text 依据：TEST 需独立复核豁免理由，非正式业务意见
+								545 row
+									546 cell
+										547 text 匹配
+									548 cell
+										549 text 20
+									550 cell
+										551 text TEST S5 editor NEW DISPLAY
+									552 cell
+										553 text 2026-10-22 19:12:30
+									554 cell
+										555 text 快照需求ID：1844
+										556 text 快照项目编号：153
+										557 text 当时编号：CUSTOM-0001
+										558 text 当时范围版本：1 / INHERIT
+										559 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										560 text 待确认 / 未就绪
+										561 text 旧来源线索：未填写
+										562 text 旧映射线索：未填写
+										563 text 验收：TEST 条件必填正确且本人签署可追溯
+										564 text 依据：TEST 需独立复核豁免理由，非正式业务意见
+								565 row
+									566 cell
+										567 text 匹配
+									568 cell
+										569 text 19
+									570 cell
+										571 text TEST S5 editor NEW DISPLAY
+									572 cell
+										573 text 2026-10-22 19:09:24
+									574 cell
+										575 text 快照需求ID：1844
+										576 text 快照项目编号：153
+										577 text 当时编号：CUSTOM-0001
+										578 text 当时范围版本：1 / INHERIT
+										579 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										580 text 评审中 / 未就绪
+										581 text 旧来源线索：未填写
+										582 text 旧映射线索：未填写
+										583 text 验收：TEST 条件必填正确且本人签署可追溯
+										584 text 依据：TEST 需独立复核豁免理由，非正式业务意见
+								585 row
+									586 cell
+										587 text 匹配
+									588 cell
+										589 text 18
+									590 cell
+										591 text TEST S5 approver NEW DISPLAY
+									592 cell
+										593 text 2026-10-22 19:07:58
+									594 cell
+										595 text 快照需求ID：1844
+										596 text 快照项目编号：153
+										597 text 当时编号：CUSTOM-0001
+										598 text 当时范围版本：1 / INHERIT
+										599 text 当时确认人：267；签署范围版本：1
+										600 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										601 text 已确认 / 未就绪
+										602 text 确认引用：需求语义v14；规则：TEST-WBC-T01-RULE-V1；来源3515规格v1 / 关系3518映射v1
+										603 text 验收：TEST 条件必填正确且本人签署可追溯
+										604 text 依据：TEST 需独立复核豁免理由，非正式业务意见
+								605 row
+									606 cell
+										607 text 匹配
+									608 cell
+										609 text 17
+									610 cell
+										611 text TEST S5 editor NEW DISPLAY
+									612 cell
+										613 text 2026-10-22 19:07:18
+									614 cell
+										615 text 快照需求ID：1844
+										616 text 快照项目编号：153
+										617 text 当时编号：CUSTOM-0001
+										618 text 当时范围版本：1 / INHERIT
+										619 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										620 text 评审中 / 未就绪
+										621 text 旧来源线索：未填写
+										622 text 旧映射线索：未填写
+										623 text 验收：TEST 条件必填正确且本人签署可追溯
+										624 text 依据：TEST 需独立复核豁免理由，非正式业务意见
+								625 row
+									626 cell
+										627 text 匹配
+									628 cell
+										629 text 16
+									630 cell
+										631 text TEST S5 editor NEW DISPLAY
+									632 cell
+										633 text 2026-10-22 19:04:28
+									634 cell
+										635 text 快照需求ID：1844
+										636 text 快照项目编号：153
+										637 text 当时编号：CUSTOM-0001
+										638 text 当时范围版本：1 / INHERIT
+										639 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										640 text 评审中 / 未就绪
+										641 text 旧来源线索：未填写
+										642 text 旧映射线索：未填写
+										643 text 验收：TEST 条件必填正确且本人签署可追溯
+										644 text 依据：TEST 需独立复核豁免理由，非正式业务意见
+								645 row
+									646 cell
+										647 text 匹配
+									648 cell
+										649 text 15
+									650 cell
+										651 text TEST S5 editor NEW DISPLAY
+									652 cell
+										653 text 2026-10-22 11:58:19
+									654 cell
+										655 text 快照需求ID：1844
+										656 text 快照项目编号：153
+										657 text 当时编号：CUSTOM-0001
+										658 text 当时范围版本：1 / INHERIT
+										659 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										660 text 评审中 / 未就绪
+										661 text 旧来源线索：未填写
+										662 text 旧映射线索：未填写
+										663 text 验收：TEST 条件必填正确且本人签署可追溯
+										664 text 依据：TEST 需独立复核豁免理由，非正式业务意见
+								665 row
+									666 cell
+										667 text 匹配
+									668 cell
+										669 text 14
+									670 cell
+										671 text TEST S5 approver NEW DISPLAY
+									672 cell
+										673 text 2026-10-22 11:57:00
+									674 cell
+										675 text 快照需求ID：1844
+										676 text 快照项目编号：153
+										677 text 当时编号：CUSTOM-0001
+										678 text 当时范围版本：1 / INHERIT
+										679 text 当时确认人：267；签署范围版本：1
+										680 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										681 text 已确认 / 未就绪
+										682 text 确认引用：需求语义v11；规则：TEST-WBC-T01-RULE-V1；来源不适用：TEST 仅评审页面行为，不消费业务数据，无需来源映射
+										683 text 验收：TEST 条件必填正确且本人签署可追溯
+										684 text 依据：TEST 需独立复核豁免理由，非正式业务意见
+								685 row
+									686 cell
+										687 text 匹配
+									688 cell
+										689 text 13
+									690 cell
+										691 text TEST S5 editor NEW DISPLAY
+									692 cell
+										693 text 2026-10-22 11:56:34
+									694 cell
+										695 text 快照需求ID：1844
+										696 text 快照项目编号：153
+										697 text 当时编号：CUSTOM-0001
+										698 text 当时范围版本：1 / INHERIT
+										699 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										700 text 评审中 / 未就绪
+										701 text 旧来源线索：未填写
+										702 text 旧映射线索：未填写
+										703 text 验收：TEST 条件必填正确且本人签署可追溯
+										704 text 依据：TEST 需独立复核豁免理由，非正式业务意见
+								705 row
+									706 cell
+										707 text 匹配
+									708 cell
+										709 text 12
+									710 cell
+										711 text TEST S5 editor NEW DISPLAY
+									712 cell
+										713 text 2026-10-22 11:55:36
+									714 cell
+										715 text 快照需求ID：1844
+										716 text 快照项目编号：153
+										717 text 当时编号：CUSTOM-0001
+										718 text 当时范围版本：1 / INHERIT
+										719 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										720 text 评审中 / 未就绪
+										721 text 旧来源线索：未填写
+										722 text 旧映射线索：未填写
+										723 text 验收：TEST 条件必填正确且本人签署可追溯
+										724 text 依据：TEST 需独立复核豁免理由，非正式业务意见
+								725 row
+									726 cell
+										727 text 匹配
+									728 cell
+										729 text 11
+									730 cell
+										731 text TEST S5 editor NEW DISPLAY
+									732 cell
+										733 text 2026-10-22 11:55:16
+									734 cell
+										735 text 快照需求ID：1844
+										736 text 快照项目编号：153
+										737 text 当时编号：CUSTOM-0001
+										738 text 当时范围版本：1 / INHERIT
+										739 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										740 text 评审中 / 未就绪
+										741 text 旧来源线索：未填写
+										742 text 旧映射线索：未填写
+										743 text 验收：TEST 条件必填正确且本人签署可追溯
+										744 text 依据：TEST 需独立复核豁免理由，非正式业务意见
+								745 row
+									746 cell
+										747 text 匹配
+									748 cell
+										749 text 10
+									750 cell
+										751 text TEST S5 editor NEW DISPLAY
+									752 cell
+										753 text 2026-10-22 11:48:36
+									754 cell
+										755 text 快照需求ID：1844
+										756 text 快照项目编号：153
+										757 text 当时编号：CUSTOM-0001
+										758 text 当时范围版本：1 / INHERIT
+										759 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										760 text 评审中 / 未就绪
+										761 text 旧来源线索：未填写
+										762 text 旧映射线索：未填写
+										763 text 验收：TEST 条件必填正确且本人签署可追溯
+										764 text 依据：TEST 需独立复核豁免理由，非正式业务意见
+								765 row
+									766 cell
+										767 text 匹配
+									768 cell
+										769 text 9
+									770 cell
+										771 text TEST S5 approver NEW DISPLAY
+									772 cell
+										773 text 2026-10-22 11:47:53
+									774 cell
+										775 text 快照需求ID：1844
+										776 text 快照项目编号：153
+										777 text 当时编号：CUSTOM-0001
+										778 text 当时范围版本：1 / INHERIT
+										779 text 当时确认人：267；签署范围版本：1
+										780 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										781 text 已确认 / 未就绪
+										782 text 确认引用：需求语义v7；规则：TEST-WBC-T01-RULE-V1；来源不适用：TEST 仅校验导航与评审表单，不消费业务数据
+										783 text 验收：TEST 条件必填正确且本人签署可追溯
+										784 text 依据：TEST 需独立复核豁免理由，非正式业务意见
+								785 row
+									786 cell
+										787 text 匹配
+									788 cell
+										789 text 8
+									790 cell
+										791 text TEST S5 editor NEW DISPLAY
+									792 cell
+										793 text 2026-10-22 11:44:47
+									794 cell
+										795 text 快照需求ID：1844
+										796 text 快照项目编号：153
+										797 text 当时编号：CUSTOM-0001
+										798 text 当时范围版本：1 / INHERIT
+										799 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										800 text 评审中 / 未就绪
+										801 text 旧来源线索：未填写
+										802 text 旧映射线索：未填写
+										803 text 验收：TEST 条件必填正确且本人签署可追溯
+										804 text 依据：TEST 需独立复核豁免理由，非正式业务意见
+								805 row
+									806 cell
+										807 text 匹配
+									808 cell
+										809 text 7
+									810 cell
+										811 text TEST S5 editor NEW DISPLAY
+									812 cell
+										813 text 2026-10-22 11:44:03
+									814 cell
+										815 text 快照需求ID：1844
+										816 text 快照项目编号：153
+										817 text 当时编号：CUSTOM-0001
+										818 text 当时范围版本：1 / INHERIT
+										819 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										820 text 有异议 / 未就绪
+										821 text 旧来源线索：未填写
+										822 text 旧映射线索：未填写
+										823 text 验收：TEST 条件必填正确且本人签署可追溯
+										824 text 依据：TEST 需独立复核豁免理由，非正式业务意见
+								825 row
+									826 cell
+										827 text 匹配
+									828 cell
+										829 text 6
+									830 cell
+										831 text TEST S5 editor NEW DISPLAY
+									832 cell
+										833 text 2026-10-22 11:42:41
+									834 cell
+										835 text 快照需求ID：1844
+										836 text 快照项目编号：153
+										837 text 当时编号：CUSTOM-0001
+										838 text 当时范围版本：1 / INHERIT
+										839 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										840 text 评审中 / 未就绪
+										841 text 旧来源线索：未填写
+										842 text 旧映射线索：未填写
+										843 text 验收：TEST 条件必填正确且本人签署可追溯
+										844 text 依据：TEST WBC synthetic acceptance fixture
+								845 row
+									846 cell
+										847 text 匹配
+									848 cell
+										849 text 5
+									850 cell
+										851 text TEST S5 editor NEW DISPLAY
+									852 cell
+										853 text 2026-10-22 11:36:10
+									854 cell
+										855 text 快照需求ID：1844
+										856 text 快照项目编号：153
+										857 text 当时编号：CUSTOM-0001
+										858 text 当时范围版本：1 / INHERIT
+										859 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										860 text 评审中 / 未就绪
+										861 text 旧来源线索：未填写
+										862 text 旧映射线索：未填写
+										863 text 验收：TEST 条件必填正确且本人签署可追溯
+										864 text 依据：TEST WBC synthetic acceptance fixture
+								865 row
+									866 cell
+										867 text 匹配
+									868 cell
+										869 text 4
+									870 cell
+										871 text TEST S5 editor NEW DISPLAY
+									872 cell
+										873 text 2026-10-22 11:35:12
+									874 cell
+										875 text 快照需求ID：1844
+										876 text 快照项目编号：153
+										877 text 当时编号：CUSTOM-0001
+										878 text 当时范围版本：1 / INHERIT
+										879 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										880 text 评审中 / 未就绪
+										881 text 旧来源线索：未填写
+										882 text 旧映射线索：未填写
+										883 text 验收：未填写
+										884 text 依据：未填写
+								885 row
+									886 cell
+										887 text 匹配
+									888 cell
+										889 text 3
+									890 cell
+										891 text TEST S5 editor NEW DISPLAY
+									892 cell
+										893 text 2026-10-22 11:34:43
+									894 cell
+										895 text 快照需求ID：1844
+										896 text 快照项目编号：153
+										897 text 当时编号：CUSTOM-0001
+										898 text 当时范围版本：1 / INHERIT
+										899 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										900 text 评审中 / 未就绪
+										901 text 旧来源线索：未填写
+										902 text 旧映射线索：未填写
+										903 text 验收：未填写
+										904 text 依据：未填写
+								905 row
+									906 cell
+										907 text 匹配
+									908 cell
+										909 text 2
+									910 cell
+										911 text TEST S5 editor NEW DISPLAY
+									912 cell
+										913 text 2026-10-22 11:33:49
+									914 cell
+										915 text 快照需求ID：1844
+										916 text 快照项目编号：153
+										917 text 当时编号：CUSTOM-0001
+										918 text 当时范围版本：1 / INHERIT
+										919 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										920 text 评审中 / 未就绪
+										921 text 旧来源线索：未填写
+										922 text 旧映射线索：未填写
+										923 text 验收：未填写
+										924 text 依据：未填写
+								925 row
+									926 cell
+										927 text 匹配
+									928 cell
+										929 text 1
+									930 cell
+										931 text TEST S5 editor NEW DISPLAY
+									932 cell
+										933 text 2026-10-22 11:32:04
+									934 cell
+										935 text 快照需求ID：1844
+										936 text 快照项目编号：153
+										937 text 当时编号：CUSTOM-0001
+										938 text 当时范围版本：1 / INHERIT
+										939 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+										940 text 待确认 / 未就绪
+										941 text 旧来源线索：未填写
+										942 text 旧映射线索：未填写
+										943 text 验收：未填写
+										944 text 依据：未填写
+				945 button 关闭评审历史
+			144 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 165 container 当前项目编号：153。 以下项目编号按当时快照展示；旧快照未记录时不推定归属。 关闭评审历史

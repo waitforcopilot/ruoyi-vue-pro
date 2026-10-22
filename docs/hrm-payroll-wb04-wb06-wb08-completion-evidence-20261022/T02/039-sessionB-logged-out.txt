@@ -1,0 +1,36 @@
+Browser tab: 2, Title: "芋道管理系统 - 登录", URL: "http://localhost:5173/login?redirect=/index".
+1 AXWebArea 芋道管理系统 - 登录, URL: localhost:5173/login?redirect=/index
+	2 container
+		3 text 芋道管理系统
+		4 text 欢迎使用本系统
+		5 text 开箱即用的中后台管理系统
+		6 container
+			7 switch (settable, boolean) Value: 0, ID: el-id-420-261
+		8 pop up button (collapsed) ID: el-id-420-225, Secondary Actions: Expand
+		9 container
+			10 heading 登录, Value: 2
+				11 text 登录
+			12 container
+				13 text field (settable) Value: 芋道源码, ID: el-id-420-262
+			14 container
+				15 text field (settable) Value: admin, ID: el-id-420-263
+			16 container
+				17 text field (settable) <redacted>
+				18 image
+			19 container
+				20 container
+					21 checkbox (settable, integer) Description: 记住我, Value: 1
+					22 text 记住我
+				23 link 忘记密码?
+					24 text 忘记密码?
+			25 button 登录
+			26 container
+				27 button 手机登录
+				28 button 二维码登录
+				29 button 注册
+			30 link Description: 📚开发指南, Value: doc.iocoder.cn/
+			31 link Description: 🔥视频教程, Value: doc.iocoder.cn/video/
+			32 link Description: ⚡面试手册, Value: iocoder.cn/Interview/good-collection/
+			33 link Description: 🤝外包咨询, Value: static.yudao.iocoder.cn/mp/Aix9975.jpeg
+
+The focused UI element is 1 AXWebArea 芋道管理系统 - 登录, URL: localhost:5173/login?redirect=/index

@@ -1,0 +1,117 @@
+diff --git a/yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceExportService.java b/yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceExportService.java
+index a16e046f07..19c1a10be9 100644
+--- a/yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceExportService.java
++++ b/yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceExportService.java
+@@ -51,8 +51,21 @@ public class HrmPayrollGovernanceExportService {
+     public void failed(Long project,Long id,Long actor){store.lock();HrmPayrollGovernanceRecordDO j=job(project,id,actor);Map<String,Object>d=store.data(j);if("QUEUED".equals(d.get("state"))){d.putAll(map("state","FAILED","error","生成未完成：当前权限或版本已变化，请重新创建导出任务"));store.state(j,d);}}
+     public Map<String,Object> status(Long project,Long id,Long actor){store.lock();HrmPayrollGovernanceRecordDO j=job(project,id,actor);Map<String,Object>d=store.data(j);Map<String,Object>p=projected(j,actor);need(Objects.equals(d.get("authorizationStamp"),stamp(j,p)));return map("id",j.getId(),"state",d.get("state"),"error",d.get("error"),"label",p.get("label"),"releaseId",d.get("releaseId"));}
+     public byte[] claim(Long project,Long id,Long actor){store.lock();HrmPayrollGovernanceRecordDO j=job(project,id,actor);Map<String,Object>d=store.data(j);Map<String,Object>p=projected(j,actor);need("READY".equals(d.get("state"))&&Objects.equals(d.get("authorizationStamp"),stamp(j,p)));return Base64.getDecoder().decode(String.valueOf(d.get("bytes")));}
+-    /** Long text uses continuation columns in the SAME record, preserving row counts and every character. */
+-    static List<String> chunks(String text){List<String> out=new ArrayList<>();for(int at=0;at<text.length();){int end=Math.min(at+600,text.length());if(end<text.length()&&Character.isHighSurrogate(text.charAt(end-1)))end--;out.add(text.substring(at,end));at=end;}if(out.isEmpty())out.add("");return out;}
++    /** Bounded detail rows keep all characters and stable parent references within the six sheets. */
++    static List<String> chunks(String text){
++        List<String> out=new ArrayList<>();
++        for(int at=0;at<text.length();){
++            int end=Math.min(at+180,text.length()),newlines=0;
++            for(int n=at;n<end;n++)if(text.charAt(n)=='\n'&&++newlines==5){end=n+1;break;}
++            if(end<text.length()&&Character.isHighSurrogate(text.charAt(end-1)))end--;
++            out.add(text.substring(at,end));at=end;
++        }
++        if(out.isEmpty())out.add("");return out;
++    }
++    private static float detailHeight(String text){
++        int lines=0;for(String line:text.split("\n",-1))lines+=Math.max(1,(int)Math.ceil(line.length()/34.0));
++        return Math.max(30,Math.min(180,lines*15+12));
++    }
+     public static byte[] workbook(Map<String,Object> projected,Long exporter) throws IOException {
+         try(XSSFWorkbook book=new XSSFWorkbook();ByteArrayOutputStream output=new ByteArrayOutputStream()){
+             Font bodyFont=book.createFont();bodyFont.setFontName("Microsoft YaHei");bodyFont.setFontHeightInPoints((short)11);
+@@ -61,18 +74,39 @@ public class HrmPayrollGovernanceExportService {
+             CellStyle heading=book.createCellStyle();heading.cloneStyleFrom(body);heading.setFont(headingFont);heading.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());heading.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+             Map<String,List<Map<String,Object>>> tables=(Map<String,List<Map<String,Object>>>)projected.get("sheets");
+             for(String title:HrmPayrollGovernanceProjectionService.SHEETS){
+-                List<Map<String,Object>> records=new ArrayList<>(tables.get(title));if(title.equals(HrmPayrollGovernanceProjectionService.SHEETS.get(0)))records.add(map("记录类型","SUMMARY","记录号","EXPORT-METADATA","本次导出人ID",String.valueOf(exporter),"本次生成时间",now(),"文件完整性",projected.get("label"),"长文本说明","长文本在同一记录的续列保存，可横向查看；不截断正文，不增加第七张工作表。"));
+-                List<Map<String,Object>> rows=new ArrayList<>();LinkedHashSet<String> columns=new LinkedHashSet<>(Arrays.asList("记录类型","记录号"));
+-                for(Map<String,Object> record:records){Map<String,Object> expanded=new LinkedHashMap<>();for(Map.Entry<String,Object> field:record.entrySet()){
+-                    Object value=field.getValue();if(value instanceof Number||value instanceof Boolean||value==null)expanded.put(field.getKey(),value);
+-                    else{String text=value instanceof String?(String)value:JsonUtils.toJsonString(value);List<String> parts=chunks(text);for(int n=0;n<parts.size();n++)expanded.put(field.getKey()+(n==0?"":"（续"+(n+1)+"）"),parts.get(n));}
+-                }rows.add(expanded);columns.addAll(expanded.keySet());}
+-                Sheet sheet=book.createSheet(title);sheet.createFreezePane(2,1);sheet.setDefaultRowHeightInPoints(36);Row header=sheet.createRow(0);header.setHeightInPoints(34);int col=0;
+-                for(String name:columns){Cell cell=header.createCell(col);cell.setCellValue(name);cell.setCellStyle(heading);sheet.setColumnWidth(col,Math.min(255*256,(name.matches(".*(正文|闭包|字段|规则|场景|条件|事实|统计|范围|依据|处理|历史|供给|说明).*" )?60:24)*256));col++;}
+-                int rowNo=1;for(Map<String,Object> record:rows){Row row=sheet.createRow(rowNo++);int height=48;col=0;for(String name:columns){Cell cell=row.createCell(col++);Object value=record.get(name);cell.setCellStyle(body);if(value instanceof Number)cell.setCellValue(((Number)value).doubleValue());else if(value instanceof Boolean)cell.setCellValue((Boolean)value);else if(value!=null){String text=String.valueOf(value);cell.setCellValue(text);height=Math.max(height,(text.length()/25+2)*14);} }row.setHeightInPoints(Math.min(409,height));}
+-                if(!rows.isEmpty())sheet.setAutoFilter(new org.apache.poi.ss.util.CellRangeAddress(0,rows.size(),0,columns.size()-1));sheet.setHorizontallyCenter(false);sheet.setFitToPage(false);
++                List<Map<String,Object>> records=new ArrayList<>(tables.get(title));
++                if(title.equals(HrmPayrollGovernanceProjectionService.SHEETS.get(0)))records.add(map("记录类型","SUMMARY","记录号","EXPORT-METADATA","本次导出人ID",String.valueOf(exporter),"本次生成时间",now(),"文件完整性",projected.get("label"),"长文本说明","每个业务记录后列出关联明细行。按所属记录及字段名筛选，按片段序号拼接可还原完整正文；统计中的需求数量不含明细行。"));
++                List<String> columns=Arrays.asList("记录类型","记录号","所属记录","字段名","片段序号","片段总数","值类型","内容");
++                Sheet sheet=book.createSheet(title);sheet.createFreezePane(3,1);sheet.setDefaultRowHeightInPoints(30);
++                Row header=sheet.createRow(0);header.setHeightInPoints(30);
++                int[] widths={14,24,24,28,9,9,10,72};
++                for(int col=0;col<columns.size();col++){Cell cell=header.createCell(col);cell.setCellValue(columns.get(col));cell.setCellStyle(heading);sheet.setColumnWidth(col,widths[col]*256);}
++                int rowNo=1;
++                for(Map<String,Object> record:records){
++                    String ref=String.valueOf(record.get("记录号"));
++                    Row parent=sheet.createRow(rowNo++);parent.setHeightInPoints(30);
++                    Object[] summary={record.get("记录类型"),ref,ref,"",null,null,"RECORD","本记录完整字段见下方明细；按所属记录筛选可单独审阅。"};
++                    writeCells(parent,summary,body);
++                    for(Map.Entry<String,Object> field:record.entrySet()){
++                        Object value=field.getValue();String type=value==null?"NULL":value instanceof String?"TEXT":value instanceof Number?"NUMBER":value instanceof Boolean?"BOOLEAN":"JSON";
++                        String text=value==null?"":value instanceof String?(String)value:JsonUtils.toJsonString(value);
++                        List<String> parts=chunks(text);
++                        for(int n=0;n<parts.size();n++){
++                            if(rowNo>=1048576)throw new IOException("导出明细超过单表容量，请缩小筛选范围后重试");
++                            Row detail=sheet.createRow(rowNo++);
++                            detail.setHeightInPoints(detailHeight(parts.get(n)));
++                            writeCells(detail,new Object[]{"DETAIL",ref+"/"+field.getKey()+"/"+(n+1),ref,field.getKey(),n+1,parts.size(),type,parts.get(n)},body);
++                        }
++                    }
++                }
++                if(rowNo>1)sheet.setAutoFilter(new org.apache.poi.ss.util.CellRangeAddress(0,rowNo-1,0,7));
++                sheet.getPrintSetup().setLandscape(true);sheet.getPrintSetup().setPaperSize(PrintSetup.A3_PAPERSIZE);sheet.setFitToPage(true);sheet.getPrintSetup().setFitWidth((short)1);sheet.getPrintSetup().setFitHeight((short)0);sheet.setRepeatingRows(new org.apache.poi.ss.util.CellRangeAddress(0,0,-1,-1));
+             }
+             book.write(output);return output.toByteArray();
+         }
+     }
++    private static void writeCells(Row row,Object[] values,CellStyle style){
++        for(int n=0;n<values.length;n++){Cell cell=row.createCell(n);cell.setCellStyle(style);Object v=values[n];if(v instanceof Number)cell.setCellValue(((Number)v).doubleValue());else if(v!=null)cell.setCellValue(String.valueOf(v));}
++    }
++
+ }
+diff --git a/yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceServiceTest.java b/yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceServiceTest.java
+index 859724f36b..72f2998750 100644
+--- a/yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceServiceTest.java
++++ b/yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceServiceTest.java
+@@ -122,7 +122,33 @@ class HrmPayrollGovernanceServiceTest extends BaseDbUnitTest {
+     @Test void archiveAndStaleScopeAndUnexplainedExclusionBlockPublication(){policy();Long r=requirement();confirm(r);Publish c=request(false);HrmPayrollRequirementProjectDO p=projects.selectById(project);p.setArchived(true);projects.updateById(p);assertFalse((Boolean)releases.precheck(project,1L).get("allowed"));assertThrows(RuntimeException.class,()->releases.publish(c,1L));p.setArchived(false);projects.updateById(p);projectService.scope(project,1,upper(),"TEST explicitly expanded scope",1L);assertThrows(RuntimeException.class,()->releases.publish(c,1L));assertThrows(RuntimeException.class,()->confirm(r));}
+     @Test void fixedSnapshotKeepsOldNamesRulesDeclarationsAndStatisticsAfterCurrentChanges(){List<Long> ds=policy();Long r=requirement();confirm(r);Long release=releases.publish(request(false),1L);Map<String,Object> before=projection.project(project,release,1L,"EXPORT",null);HrmPayrollRequirementDO row=reqs.selectById(r);row.setDescription("TEST changed current text");reqs.updateById(row);when(users.getUser(2L)).thenReturn(new cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO().setId(2L).setStatus(0).setNickname("TEST NEW NAME"));HrmPayrollGovernanceVO.Decision matrix=draftReq(Collections.singletonList("Q-04"));matrix.setPreviousId(ds.get(1));matrix.setBody("TEST NEW MATRIX");approve(matrix);Map<String,Object> after=projection.project(project,release,1L,"EXPORT",null);assertEquals(JsonUtils.toJsonString(before),JsonUtils.toJsonString(after));assertTrue(JsonUtils.toJsonString(after).contains("TEST frozen user 2"));assertFalse(JsonUtils.toJsonString(after).contains("TEST NEW NAME"));}
+     @Test void downloadRechecksAuthorizationAtEveryStageAndOldJobsCannotBeClaimed() throws Exception {policy();Long r=requirement();confirm(r);Long release=releases.publish(request(false),1L);Job c=new Job();c.setProjectId(project);c.setReleaseId(release);Long job=exports.create(c,3L);exports.generate(project,job,3L);assertEquals("READY",exports.status(project,job,3L).get("state"));assertTrue(exports.claim(project,job,3L).length>0);roots.action(action(readerRoot,"ROOT","REVOKE"),2L);assertThrows(RuntimeException.class,()->exports.status(project,job,3L));assertThrows(RuntimeException.class,()->exports.claim(project,job,3L));assertThrows(RuntimeException.class,()->projection.project(project,release,3L,"READ",null));}
+-    @Test void sixSheetsKeepLongChineseTextAndNaStatementWithoutAFakeSourceId() throws Exception {policy();Long r=requirement();confirm(r);Long release=releases.publish(request(false),1L);Map<String,Object> p=projection.project(project,release,1L,"EXPORT",null);String text="中文长正文🌿";StringBuilder longText=new StringBuilder();for(int n=0;n<7000;n++)longText.append(text);Map<String,List<Map<String,Object>>> tables=(Map<String,List<Map<String,Object>>>)p.get("sheets");tables.get("评审版本说明").add(map("记录类型","DECISION","记录号","LONG","正文",longText.toString()));byte[] bytes=HrmPayrollGovernanceExportService.workbook(p,1L);try(XSSFWorkbook book=new XSSFWorkbook(new ByteArrayInputStream(bytes))){assertEquals(6,book.getNumberOfSheets());for(int n=0;n<6;n++)assertEquals(HrmPayrollGovernanceProjectionService.SHEETS.get(n),book.getSheetName(n));org.apache.poi.ss.usermodel.Sheet s=book.getSheetAt(0);StringBuilder reconstructed=new StringBuilder();org.apache.poi.ss.usermodel.Row row=s.getRow(s.getLastRowNum()-1);for(int col=0;col<s.getRow(0).getLastCellNum();col++)if(s.getRow(0).getCell(col).getStringCellValue().startsWith("正文"))reconstructed.append(row.getCell(col).getStringCellValue());assertEquals(longText.toString(),reconstructed.toString());}String sources=JsonUtils.toJsonString(tables.get("数据源清单"));assertTrue(sources.contains("不适用声明"));assertFalse(sources.contains("sourceId"));}
++    @Test void sixSheetsKeepLongChineseTextAndNaStatementWithoutAFakeSourceId() throws Exception {
++        policy();Long r=requirement();confirm(r);Long release=releases.publish(request(false),1L);Map<String,Object> p=projection.project(project,release,1L,"EXPORT",null);
++        String text="中文长正文🌿\n\n\n\n\n\n";StringBuilder longText=new StringBuilder();for(int n=0;n<7000;n++)longText.append(text);
++        Map<String,List<Map<String,Object>>> tables=(Map<String,List<Map<String,Object>>>)p.get("sheets");
++        tables.get("评审版本说明").add(map("记录类型","DECISION","记录号","LONG","正文",longText.toString(),"公式样例","=1+1"));
++        byte[] bytes=HrmPayrollGovernanceExportService.workbook(p,1L);
++        try(XSSFWorkbook book=new XSSFWorkbook(new ByteArrayInputStream(bytes))){
++            assertEquals(6,book.getNumberOfSheets());
++            for(int n=0;n<6;n++){
++                assertEquals(HrmPayrollGovernanceProjectionService.SHEETS.get(n),book.getSheetName(n));
++                org.apache.poi.ss.usermodel.Sheet sheet=book.getSheetAt(n);assertEquals(8,sheet.getRow(0).getLastCellNum());
++                Map<String,Map<String,StringBuilder>> actual=new LinkedHashMap<>();
++                for(int i=1;i<=sheet.getLastRowNum();i++){
++                    org.apache.poi.ss.usermodel.Row row=sheet.getRow(i);assertTrue(row.getHeightInPoints()<=180);
++                    if(!"DETAIL".equals(row.getCell(0).getStringCellValue()))continue;
++                    String ref=row.getCell(2).getStringCellValue(),field=row.getCell(3).getStringCellValue();
++                    assertEquals(org.apache.poi.ss.usermodel.CellType.STRING,row.getCell(7).getCellType());
++                    actual.computeIfAbsent(ref,k->new LinkedHashMap<>()).computeIfAbsent(field,k->new StringBuilder()).append(row.getCell(7).getStringCellValue());
++                }
++                for(Map<String,Object> record:tables.get(book.getSheetName(n)))for(Map.Entry<String,Object> field:record.entrySet()){
++                    Object value=field.getValue();String expected=value==null?"":value instanceof String?(String)value:JsonUtils.toJsonString(value);
++                    assertEquals(expected,actual.get(String.valueOf(record.get("记录号"))).get(field.getKey()).toString(),book.getSheetName(n)+"/"+record.get("记录号")+"/"+field.getKey());
++                }
++            }
++        }
++        String sources=JsonUtils.toJsonString(tables.get("数据源清单"));assertTrue(sources.contains("不适用声明"));assertFalse(sources.contains("sourceId"));
++    }
+     @Test void definedSpecificationsCanPublishWhileDataSupplyIsStillMissing(){policy();Long r=applicable();source(r,"TEST_PRIVATE_SOURCE_ONE");confirm(r);assertTrue((Boolean)releases.precheck(project,1L).get("allowed"));Long release=releases.publish(request(false),1L);Map<String,Object> p=projection.project(project,release,1L,"EXPORT",null);Map<?,?> stats=(Map<?,?>)p.get("statistics");assertEquals("0/1",((Map<?,?>)stats.get("readiness")).get("label"));assertEquals("1/1",((Map<?,?>)stats.get("confirmation")).get("label"));Map<String,List<Map<String,Object>>> sheets=(Map<String,List<Map<String,Object>>>)p.get("sheets");assertEquals(1,sheets.get("功能需求清单").size());assertEquals(1,sheets.get("范围与变更").size());}
+     @Test void hiddenSourcesAndPublicationEvidenceAreMergedWithoutIdsNamesFieldsOrCounts(){policy();Long r=applicable();source(r,"TEST_PRIVATE_SOURCE_ONE");source(r,"TEST_PRIVATE_SOURCE_TWO");confirm(r);Long release=releases.publish(request(false),1L);roots.action(action(readerRoot,"ROOT","REVOKE"),2L);HrmPayrollRequirementProjectGrantDO g=new HrmPayrollRequirementProjectGrantDO();g.setProjectId(project);g.setUserId(3L);g.setActions("READ,EXPORT");g.setDelegableActions("");g.setFullProject(false);g.setRequirementIdsJson("["+r+"]");g.setModulesJson("[\"COL\"]");g.setCeilingJson(scope);g.setValidFrom(LocalDate.of(2026,1,1));g.setValidTo(LocalDate.of(2027,12,31));g.setEvidence("TEST independently delegated narrow export");projectService.grant(g,1L);Map<String,Object> p=projection.project(project,release,3L,"EXPORT",null);String text=JsonUtils.toJsonString(p);assertTrue(text.contains("权限受限节选"));assertFalse(text.contains("TEST_PRIVATE_SOURCE_ONE"));assertFalse(text.contains("TEST_PRIVATE_SOURCE_TWO"));assertFalse(text.contains("TEST_HIDDEN_FIELD"));Map<?,?> stats=(Map<?,?>)p.get("statistics");assertEquals("0/1",((Map<?,?>)stats.get("readiness")).get("label"));assertEquals(0,stats.get("sourceCount"));Map<String,List<Map<String,Object>>> sheets=(Map<String,List<Map<String,Object>>>)p.get("sheets");assertEquals(1,sheets.get("数据源清单").size());assertEquals(1,sheets.get("字段映射").size());assertEquals(1,sheets.get("评审版本说明").stream().filter(x->"GRANT".equals(x.get("记录类型"))).count());}
+     @Test void unrelatedAnchorCannotInvalidateQueuedOrReadyExport() throws Exception {

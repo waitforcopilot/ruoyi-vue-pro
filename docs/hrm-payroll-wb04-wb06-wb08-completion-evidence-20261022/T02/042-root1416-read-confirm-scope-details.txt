@@ -1,0 +1,351 @@
+Browser tab: 1, Title: "芋道管理系统 - 业务决议与基线发布", URL: "http://127.0.0.1:5173/hrm-payroll/governance?projectId=153".
+1 AXWebArea 芋道管理系统 - 业务决议与基线发布, URL: 127.0.0.1:5173/hrm-payroll/governance?projectId=153
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			15 container
+				16 container v-tool-header
+					17 container 面包屑
+					18 container
+						19 container
+							20 combo box (collapsed, settable) ID: el-id-8389-61, Secondary Actions: Expand
+							21 text 请输入菜单内容
+					22 pop up button (collapsed) ID: el-id-8389-4, Secondary Actions: Expand
+					23 pop up button (collapsed) ID: el-id-8389-9, Secondary Actions: Expand
+					24 pop up button (collapsed) TEST S5 editor NEW DISPLAY, ID: el-id-8389-14, Secondary Actions: Expand
+				25 container v-tags-view
+					26 container
+						27 pop up button (collapsed) 首页, ID: el-id-8389-20, Secondary Actions: Expand
+							28 container
+								29 text 首页
+						30 pop up button (collapsed) 业务决议与基线发布, ID: el-id-8389-28, Secondary Actions: Expand
+							31 text 业务决议与基线发布
+					32 pop up button (collapsed) ID: el-id-8389-36, Secondary Actions: Expand
+			33 container
+				34 heading 业务决议、发布与快照导出, Value: 1
+					35 text 业务决议、发布与快照导出
+				36 text TEST材料及合成签署仅验证系统实现，不构成真实业务批准。正式授权根必须有实际有权业务人员提供的受控签署材料。
+				37 container
+					38 combo box (collapsed, settable) Description: 治理项目, ID: el-id-8389-62, Secondary Actions: Expand
+					39 text 153 · TEST WB completion 20261022 A · 非正式批准
+					40 image
+				41 button 刷新决议与发布
+				43 button 返回十视图评审
+				44 button 需求、成员及实际来源
+				45 text TEST WB completion 20261022 A · 非正式批准 · 范围版本 5
+				46 container 独立业务授权根
+					47 heading 独立业务授权根, Value: 2
+						48 text 独立业务授权根
+					49 text 登记与签署分开。授权依据读权独立，旧测试授权不会自动升级为正式授权。
+					50 button 登记授权根材料
+					51 container 授权根表，可横向滚动
+						52 container
+							53 table
+								54 row
+									55 cell
+										56 text 授权根ID
+									57 cell
+										58 text 记录版本
+									59 cell
+										60 text 材料版本
+									61 cell
+										62 text 材料性质
+									63 cell
+										64 text 签署状态
+									65 cell
+										66 text 被授权人ID
+									67 cell
+										68 text 操作
+							69 table
+								70 container
+									71 row
+										72 cell
+											73 text 1392
+										74 cell
+											75 text 2
+										76 cell
+											77 text TEST-WBC-20261022-EDITOR-V1
+										78 cell
+											79 text TEST
+										80 cell
+											81 text ACTIVE
+										82 cell
+											83 text 266
+										84 cell
+											85 button 查看受控材料
+									86 row
+										87 cell
+											88 text 1394
+										89 cell
+											90 text 3
+										91 cell
+											92 text TEST-WBC-20261022-REVIEWER-V1
+										93 cell
+											94 text TEST
+										95 cell
+											96 text REVOKED
+										97 cell
+											98 text 267
+										99 cell
+											100 button 查看受控材料
+									101 row
+										102 cell
+											103 text 1412
+										104 cell
+											105 text 2
+										106 cell
+											107 text TEST-WBC-T02-SUCCESSOR269-V1
+										108 cell
+											109 text TEST
+										110 cell
+											111 text ACTIVE
+										112 cell
+											113 text 269
+										114 cell
+											115 button 查看受控材料
+									116 row
+										117 cell
+											118 text 1416
+										119 cell
+											120 text 2
+										121 cell
+											122 text TEST-WBC-T02-SUCCESSOR279-V1
+										123 cell
+											124 text TEST
+										125 cell
+											126 text ACTIVE
+										127 cell
+											128 text 279
+										129 cell
+											130 button 查看受控材料
+				131 container 业务决议版本
+					132 heading 业务决议版本与独立批准, Value: 2
+						133 text 业务决议版本与独立批准
+					134 text 必须覆盖Q-01/02/04/05/07/10。Q-03/06/08/09另行决议或明确分类；正文修订建立新版本，批准和撤销保留原事实。
+					213 button 起草决议版本
+					136 container 决议表，可横向滚动
+						137 container
+							138 table
+								139 row
+									140 cell
+										141 text 版本记录ID
+									142 cell
+										143 text 决议标题
+									144 cell
+										145 text 决议版本
+									146 cell
+										147 text 覆盖问题
+									148 cell
+										149 text 当前生命周期
+									150 cell
+										151 text 指定批准人ID
+									152 cell
+										153 text 操作
+							214 table
+								215 container
+									216 row
+										217 cell
+											218 text 1398
+										219 cell
+											220 text TEST-WBC-T01确认条件合成决议
+										221 cell
+											222 text 1
+										223 cell
+											224 text Q-02,Q-04,Q-05
+										225 cell
+											226 text REPLACED
+										227 cell
+											228 text 267
+										229 cell
+											230 container
+												231 button 查看版本正文
+												232 button 决议事件历史
+												233 button 基于此版本修订
+									234 row
+										235 cell
+											236 text 1402
+										237 cell
+											238 text TEST-WBC-T01确认条件合成决议
+										239 cell
+											240 text 2
+										241 cell
+											242 text Q-02,Q-04,Q-05
+										243 cell
+											244 text REPLACED
+										245 cell
+											246 text 267
+										247 cell
+											248 container
+												249 button 查看版本正文
+												250 button 决议事件历史
+												251 button 基于此版本修订
+									252 row
+										253 cell
+											254 text 1407
+										255 cell
+											256 text TEST-WBC-T01确认条件合成决议
+										257 cell
+											258 text 3
+										259 cell
+											260 text Q-02,Q-04,Q-05
+										261 cell
+											262 text EFFECTIVE
+										263 cell
+											264 text 267
+										265 cell
+											266 container
+												267 button 查看版本正文
+												268 button 决议事件历史
+												269 button 基于此版本修订
+				157 container 发布检查与固定快照
+					158 heading 发布检查与固定快照, Value: 2
+						159 text 发布检查与固定快照
+					160 text 规格基线与数据可投产分开；供数待提供不会自动阻止规格明确的需求基线。正式发布须完整闭包可见及当前有效决议。
+					161 button 执行发布预检查
+					162 container
+						163 text 发布依据或草稿说明
+						164 text entry area (settable) Description: 发布依据或草稿说明, ID: el-id-8389-63
+						165 text 幂等请求号
+						166 text field (settable) Description: 幂等请求号, Value: 55afbf01-7653-4994-af0a-ab3d146e1d6e, ID: el-id-8389-64
+					167 button (disabled) 发布本期完整需求基线
+					168 button (disabled) 保存固定草稿快照
+					169 container 发布快照表，可横向滚动
+						170 container
+							171 table
+								172 row
+									173 cell
+										174 text 固定快照ID
+									175 cell
+										176 text 发布版本
+									177 cell
+										178 text 合成与正式
+									179 cell
+										180 text 类型
+									181 cell
+										182 text 创建时间
+									183 cell
+										184 text 操作
+							185 container
+								186 table
+								187 text 暂无数据
+					188 container
+						189 text 导出筛选需求ID（留空为全量可见）
+						190 text field (settable) Description: 导出筛选需求ID, ID: el-id-8389-65
+					191 heading 本轮下载任务, Value: 3
+						192 text 本轮下载任务
+					193 text 任务创建、生成、结果交付及领取均按当前权限检查；旧地址不能替代重新鉴权。
+					194 container
+						195 table
+							196 row
+								197 cell
+									198 text 任务ID
+								199 cell
+									200 text 快照ID
+								201 cell
+									202 text 状态
+								203 cell
+									204 text 文件范围
+								205 cell
+									206 text 提示
+								207 cell
+									208 text 操作
+						209 container
+							210 table
+							211 text 暂无数据
+				270 container 冻结记录与受控正文
+					271 container { "id": 1416, "version": 2, "data": { "projectId": 153, "anchorId": 4, "userId": 279, "actions": [ "READ", "CONFIRM" ], "delegableActions": [], "scopeJson": "{\"entities\":[101],\"organizations\":[201],\"workerTypes\":[\"TEST\"],\"scenarios\":[\"TEST\"],\"from\":\"2026-10-01\",\"to\":\"2026-10-31\",\"explanation\":\"TEST isolated synthetic scope for WB completion; not formal approval\"}", "validFrom": "2026-10-01", "validTo": "2026-10-31", "materialVersion": "TEST-WBC-T02-SUCCESSOR279-V1", "body": "TEST synthetic authorization for successor 279 in project153 only; READ and CONFIRM; not formal business approval.", "reason": "TEST T02 revoke old reviewer and reassign valid successor, isolated synthetic fixture.", "state": "ACTIVE", "registeredBy": 266, "registeredByFact": { "id": 266, "nickname": "TEST S5 editor NEW DISPLAY", "status": 0 }, "registeredAt": "2026-10-22T20:27:59.296", "digest": "9a247b127bf6aaee32eccf0d82898b956d63e4cc5b4c9f682b7ad7c5e8c42ff2", "mode": "TEST", "anchorVersion": "TEST-S5-ANCHOR-V1", "designatedSignerId": 267, "signedBy": 267, "signedByFact": { "id": 267, "nickname": "TEST S5 approver NEW DISPLAY", "status": 0 }, "signedAt": "2026-10-22T20:29:01.181", "signatureReason": "TEST independent signer267 activates project153 successor279 READ and CONFIRM only; synthetic regression, not formal approval.", "anchorFact": { "state": "REGISTERED", "mode": "TEST", "custodianId": 266, "signerId": 267, "actions": [ "ASSIGN", "BASELINE_PUBLISH", "CONFIRM", "DECISION_APPROVE", "DECISION_EDIT", "DECISION_READ", "EDIT", "EXPORT", "GRANT_READ", "ISSUE_HANDLE", "ISSUE_MANAGE", "ISSUE_REVIEW", "MEMBER", "META", "PERSON_READ", "PROJECT_CREATE", "READ", "SCOPE", "SCOPE_DECIDE", "SOURCE_EDIT", "SOURCE_VERIFY" ], "scopeJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}", "validFrom": "2026-01-01", "validTo": "2027-12-31", "body": "TEST S5 independent synthetic authority material V1. This is an externally registered TEST fixture, not a formal business authorization. Custodian and signer are two independent TEST accounts. Only synthetic TEST projects, subjects 101/102, organization 201, TEST workforce/scenarios and the registered 2026-10 through 2026-12 scope are authorized. It cannot grant formal business approval.", "digest": "8496a1b848b511bc2d861ef361314fa4c75918e0bdd97b5c91b9426b98174109", "materialVersion": "TEST-S5-ANCHOR-V1", "registeredAt": "2026-10-19T17:02:34.410401+08:00", "registrationSource": "TEST independently registered synthetic trust material; no current decision grants its own approval authority" } } } 关闭记录
+						272 container
+							273 heading 冻结记录与受控正文, Value: 2
+								274 text 冻结记录与受控正文
+							275 button 关闭此对话框
+						276 text {
+  "id": 1416,
+  "version": 2,
+  "data": {
+    "projectId": 153,
+    "anchorId": 4,
+    "userId": 279,
+    "actions": [
+      "READ",
+      "CONFIRM"
+    ],
+    "delegableActions": [],
+    "scopeJson": "{\"entities\":[101],\"organizations\":[201],\"workerTypes\":[\"TEST\"],\"scenarios\":[\"TEST\"],\"from\":\"2026-10-01\",\"to\":\"2026-10-31\",\"explanation\":\"TEST isolated synthetic scope for WB completion; not formal approval\"}",
+    "validFrom": "2026-10-01",
+    "validTo": "2026-10-31",
+    "materialVersion": "TEST-WBC-T02-SUCCESSOR279-V1",
+    "body": "TEST synthetic authorization for successor 279 in project153 only; READ and CONFIRM; not formal business approval.",
+    "reason": "TEST T02 revoke old reviewer and reassign valid successor, isolated synthetic fixture.",
+    "state": "ACTIVE",
+    "registeredBy": 266,
+    "registeredByFact": {
+      "id": 266,
+      "nickname": "TEST S5 editor NEW DISPLAY",
+      "status": 0
+    },
+    "registeredAt": "2026-10-22T20:27:59.296",
+    "digest": "9a247b127bf6aaee32eccf0d82898b956d63e4cc5b4c9f682b7ad7c5e8c42ff2",
+    "mode": "TEST",
+    "anchorVersion": "TEST-S5-ANCHOR-V1",
+    "designatedSignerId": 267,
+    "signedBy": 267,
+    "signedByFact": {
+      "id": 267,
+      "nickname": "TEST S5 approver NEW DISPLAY",
+      "status": 0
+    },
+    "signedAt": "2026-10-22T20:29:01.181",
+    "signatureReason": "TEST independent signer267 activates project153 successor279 READ and CONFIRM only; synthetic regression, not formal approval.",
+    "anchorFact": {
+      "state": "REGISTERED",
+      "mode": "TEST",
+      "custodianId": 266,
+      "signerId": 267,
+      "actions": [
+        "ASSIGN",
+        "BASELINE_PUBLISH",
+        "CONFIRM",
+        "DECISION_APPROVE",
+        "DECISION_EDIT",
+        "DECISION_READ",
+        "EDIT",
+        "EXPORT",
+        "GRANT_READ",
+        "ISSUE_HANDLE",
+        "ISSUE_MANAGE",
+        "ISSUE_REVIEW",
+        "MEMBER",
+        "META",
+        "PERSON_READ",
+        "PROJECT_CREATE",
+        "READ",
+        "SCOPE",
+        "SCOPE_DECIDE",
+        "SOURCE_EDIT",
+        "SOURCE_VERIFY"
+      ],
+      "scopeJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}",
+      "validFrom": "2026-01-01",
+      "validTo": "2027-12-31",
+      "body": "TEST S5 independent synthetic authority material V1. This is an externally registered TEST fixture, not a formal business authorization. Custodian and signer are two independent TEST accounts. Only synthetic TEST projects, subjects 101/102, organization 201, TEST workforce/scenarios and the registered 2026-10 through 2026-12 scope are authorized. It cannot grant formal business approval.",
+      "digest": "8496a1b848b511bc2d861ef361314fa4c75918e0bdd97b5c91b9426b98174109",
+      "materialVersion": "TEST-S5-ANCHOR-V1",
+      "registeredAt": "2026-10-19T17:02:34.410401+08:00",
+      "registrationSource": "TEST independently registered synthetic trust material; no current decision grants its own approval authority"
+    }
+  }
+}
+						277 button 关闭记录
+			212 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 271 container { "id": 1416, "version": 2, "data": { "projectId": 153, "anchorId": 4, "userId": 279, "actions": [ "READ", "CONFIRM" ], "delegableActions": [], "scopeJson": "{\"entities\":[101],\"organizations\":[201],\"workerTypes\":[\"TEST\"],\"scenarios\":[\"TEST\"],\"from\":\"2026-10-01\",\"to\":\"2026-10-31\",\"explanation\":\"TEST isolated synthetic scope for WB completion; not formal approval\"}", "validFrom": "2026-10-01", "validTo": "2026-10-31", "materialVersion": "TEST-WBC-T02-SUCCESSOR279-V1", "body": "TEST synthetic authorization for successor 279 in project153 only; READ and CONFIRM; not formal business approval.", "reason": "TEST T02 revoke old reviewer and reassign valid successor, isolated synthetic fixture.", "state": "ACTIVE", "registeredBy": 266, "registeredByFact": { "id": 266, "nickname": "TEST S5 editor NEW DISPLAY", "status": 0 }, "registeredAt": "2026-10-22T20:27:59.296", "digest": "9a247b127bf6aaee32eccf0d82898b956d63e4cc5b4c9f682b7ad7c5e8c42ff2", "mode": "TEST", "anchorVersion": "TEST-S5-ANCHOR-V1", "designatedSignerId": 267, "signedBy": 267, "signedByFact": { "id": 267, "nickname": "TEST S5 approver NEW DISPLAY", "status": 0 }, "signedAt": "2026-10-22T20:29:01.181", "signatureReason": "TEST independent signer267 activates project153 successor279 READ and CONFIRM only; synthetic regression, not formal approval.", "anchorFact": { "state": "REGISTERED", "mode": "TEST", "custodianId": 266, "signerId": 267, "actions": [ "ASSIGN", "BASELINE_PUBLISH", "CONFIRM", "DECISION_APPROVE", "DECISION_EDIT", "DECISION_READ", "EDIT", "EXPORT", "GRANT_READ", "ISSUE_HANDLE", "ISSUE_MANAGE", "ISSUE_REVIEW", "MEMBER", "META", "PERSON_READ", "PROJECT_CREATE", "READ", "SCOPE", "SCOPE_DECIDE", "SOURCE_EDIT", "SOURCE_VERIFY" ], "scopeJson": "{\"entities\": [101, 102], \"organizations\": [201], \"workerTypes\": [\"TEST\"], \"scenarios\": [\"TEST\"], \"from\": \"2026-10-01\", \"to\": \"2026-12-31\", \"explanation\": \"TEST S5 independent synthetic project scope, not actual approval\"}", "validFrom": "2026-01-01", "validTo": "2027-12-31", "body": "TEST S5 independent synthetic authority material V1. This is an externally registered TEST fixture, not a formal business authorization. Custodian and signer are two independent TEST accounts. Only synthetic TEST projects, subjects 101/102, organization 201, TEST workforce/scenarios and the registered 2026-10 through 2026-12 scope are authorized. It cannot grant formal business approval.", "digest": "8496a1b848b511bc2d861ef361314fa4c75918e0bdd97b5c91b9426b98174109", "materialVersion": "TEST-S5-ANCHOR-V1", "registeredAt": "2026-10-19T17:02:34.410401+08:00", "registrationSource": "TEST independently registered synthetic trust material; no current decision grants its own approval authority" } } } 关闭记录

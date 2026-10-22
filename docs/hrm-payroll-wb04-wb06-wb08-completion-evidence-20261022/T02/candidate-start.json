@@ -1,0 +1,29 @@
+{
+  "head": "234dca9b7e2e328c9fb107b539b9d45d78b8621f",
+  "trackedDiffSha256": "c65f4e5d498fb0f110eb30fcc9f73fdb9c58399175d0a20bb2660c60fd8a3ab4",
+  "files": {
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementServiceImpl.java": "298f1f6e91e45e7cd78e5306c1b50a0911de3bdb022d2f10677ecbab63c628ab",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementProjectService.java": "61bf88c8f46e5ef52ee27f09ea95638a4cb409cd6fd7fb73cc3a6781df32cdd5",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementAccessService.java": "14e9d18fcac45f1bf1bcb79f6a28db639ce1d6f70ab8bddaa31be76845133086",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollWorkbenchService.java": "4006b751f6c87d938962852bed7b6a08af757318ec718d870061aba921b9efe6",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceDecisionService.java": "69987457464d376b6524522d31692ef8ee13a978e010201433b1deaad15b907f",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceRootService.java": "b7f8b55a1272f4863a94dc77b5b926b69b6a818efea09eede9c156236787ad32"
+  },
+  "baseline": "T01 closed; current worktree is uncommitted; existing ExportService/GovernanceServiceTest differences preserved",
+  "fixture": {
+    "projectId": 153,
+    "scopeVersion": 5,
+    "requirementId": 1844,
+    "requirementVersion": 36,
+    "signedBy": 267,
+    "sourceId": 3515,
+    "inactiveRelationId": 3518,
+    "syntheticDecisionId": 1407
+  },
+  "roles": {
+    "browserOperator": "main thread",
+    "executorRequestedModel": "gpt-6-luna",
+    "executorRequestedEffort": "max",
+    "actualModel": "not independently verified"
+  }
+}
