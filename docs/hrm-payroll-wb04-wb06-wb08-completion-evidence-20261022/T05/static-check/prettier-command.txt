@@ -1,0 +1,1 @@
+node node_modules/prettier/bin/prettier.cjs --check src/views/hrm/payroll/review/demo.ts

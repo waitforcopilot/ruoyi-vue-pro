@@ -1,0 +1,2 @@
+cwd: yudao-ui/yudao-ui-admin-vue3
+command: node node_modules/prettier/bin/prettier.cjs --check src/views/hrm/payroll/review/demo.ts
