@@ -1,0 +1,56 @@
+/** UI guidance only. Authorization, versions and business gates remain server-owned. */
+export const businessLabels = {
+	role: "业务角色",
+	scenario: "触发场景",
+	goal: "业务目标",
+	expected: "期望行为",
+	normalCase: "正常样例",
+	exceptionCase: "异常样例",
+	calculation: "计算或业务规则",
+	unit: "单位",
+	precision: "精度与舍入",
+	validity: "有效期或适用依据",
+	ruleException: "规则例外与处理"
+};
+export function opinionMissing(row, business, confirming = false) {
+	const missing = {};
+	const need = (key, label, value) => {
+		if (value == null || String(value).trim() === "") missing[key] = label;
+	};
+	need("description", "功能说明", row.description);
+	if (confirming || row.status === "REVIEWING") {
+		for (const key of confirming ? Object.keys(businessLabels) : ["scenario", "expected"]) need(key, businessLabels[key], business[key]);
+	}
+	if (confirming || row.status === "DISPUTED") {
+		need("reviewerId", "评审负责人（请先分派）", row.reviewerId);
+		need("evidence", "依据或异议说明", row.evidence);
+	}
+	if (row.status === "DISPUTED") {
+		need("disputeOwnerId", "异议责任人ID", business.disputeOwnerId);
+		need("nextStep", "异议下一步", business.nextStep);
+	}
+	if (confirming) {
+		need("ruleVersion", "规则引用版本", row.ruleVersion);
+		need("acceptance", "验收条件", row.acceptance);
+		if (row.sourceApplicability === "NOT_APPLICABLE") {
+			// Match validExemption on the server; incomplete reasons remain valid drafts.
+			const reason = String(row.applicabilityReason ?? "").trim();
+			if (reason.length < 8 || [
+				"N/A",
+				"NA",
+				"不适用"
+			].includes(reason.toUpperCase())) missing.applicabilityReason = "不适用理由（至少8个字符，具体说明为何不消费业务数据）";
+		}
+	}
+	return missing;
+}
+export function failureGuidance(error) {
+	const message = error instanceof Error ? error.message : typeof error === "string" ? error : "";
+	// Only display controlled field guidance; never echo arbitrary infrastructure errors.
+	if (/^请补齐以下字段：|^请修正新期限：/.test(message)) return `${message}。输入已保留。`;
+	if (/版本|记录已被更新|范围.*变|范围.*失效/.test(message)) return "当前版本或范围已变化。输入已保留；请读取最新版本，人工合并后重试。";
+	if (/权限|本人|分派|确认人/.test(message)) return "当前账号没有此操作权限或不是被分派的确认人。输入已保留；请核对当前项目及分派。";
+	return "请求未完成，输入已保留；请检查连接及当前业务状态后重试。";
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJtYXBwaW5ncyI6IjtBQUNBLE9BQU8sTUFBTSxpQkFBeUM7Q0FDcEQsTUFBTTtDQUNOLFVBQVU7Q0FDVixNQUFNO0NBQ04sVUFBVTtDQUNWLFlBQVk7Q0FDWixlQUFlO0NBQ2YsYUFBYTtDQUNiLE1BQU07Q0FDTixXQUFXO0NBQ1gsVUFBVTtDQUNWLGVBQWU7QUFDakI7QUFDQSxPQUFPLFNBQVMsZUFBZSxLQUFVLFVBQStCLGFBQWEsT0FBTztDQUMxRixNQUFNLFVBQWtDLENBQUM7Q0FDekMsTUFBTSxRQUFRLEtBQWEsT0FBZSxVQUFtQjtFQUMzRCxJQUFJLFNBQVMsUUFBUSxPQUFPLEtBQUssQ0FBQyxDQUFDLEtBQUssTUFBTSxJQUFJLFFBQVEsT0FBTztDQUNuRTtDQUNBLEtBQUssZUFBZSxRQUFRLElBQUksV0FBVztDQUMzQyxJQUFJLGNBQWMsSUFBSSxXQUFXLGFBQWE7RUFDNUMsS0FBSyxNQUFNLE9BQU8sYUFBYSxPQUFPLEtBQUssY0FBYyxJQUFJLENBQUMsWUFBWSxVQUFVLEdBQ2xGLEtBQUssS0FBSyxlQUFlLE1BQU0sU0FBUyxJQUFJO0NBQ2hEO0NBQ0EsSUFBSSxjQUFjLElBQUksV0FBVyxZQUFZO0VBQzNDLEtBQUssY0FBYyxlQUFlLElBQUksVUFBVTtFQUNoRCxLQUFLLFlBQVksV0FBVyxJQUFJLFFBQVE7Q0FDMUM7Q0FDQSxJQUFJLElBQUksV0FBVyxZQUFZO0VBQzdCLEtBQUssa0JBQWtCLFdBQVcsU0FBUyxjQUFjO0VBQ3pELEtBQUssWUFBWSxTQUFTLFNBQVMsUUFBUTtDQUM3QztDQUNBLElBQUksWUFBWTtFQUNkLEtBQUssZUFBZSxVQUFVLElBQUksV0FBVztFQUM3QyxLQUFLLGNBQWMsUUFBUSxJQUFJLFVBQVU7RUFDekMsSUFBSSxJQUFJLHdCQUF3QixrQkFBa0I7O0dBRWhELE1BQU0sU0FBUyxPQUFPLElBQUksdUJBQXVCLEVBQUUsQ0FBQyxDQUFDLEtBQUs7R0FDMUQsSUFBSSxPQUFPLFNBQVMsS0FBSztJQUFDO0lBQU87SUFBTTtHQUFLLENBQUMsQ0FBQyxTQUFTLE9BQU8sWUFBWSxDQUFDLEdBQ3pFLFFBQVEsc0JBQXNCO0VBQ2xDO0NBQ0Y7Q0FDQSxPQUFPO0FBQ1Q7QUFDQSxPQUFPLFNBQVMsZ0JBQWdCLE9BQWdCO0NBQzlDLE1BQU0sVUFBVSxpQkFBaUIsUUFBUSxNQUFNLFVBQVUsT0FBTyxVQUFVLFdBQVcsUUFBUTs7Q0FFN0YsSUFBSSxxQkFBcUIsS0FBSyxPQUFPLEdBQUcsT0FBTyxHQUFHLFFBQVE7Q0FDMUQsSUFBSSx5QkFBeUIsS0FBSyxPQUFPLEdBQ3ZDLE9BQU87Q0FDVCxJQUFJLGVBQWUsS0FBSyxPQUFPLEdBQzdCLE9BQU87Q0FDVCxPQUFPO0FBQ1QiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsidmFsaWRhdGlvbi50cyJdLCJ2ZXJzaW9uIjozLCJzb3VyY2VzQ29udGVudCI6WyIvKiogVUkgZ3VpZGFuY2Ugb25seS4gQXV0aG9yaXphdGlvbiwgdmVyc2lvbnMgYW5kIGJ1c2luZXNzIGdhdGVzIHJlbWFpbiBzZXJ2ZXItb3duZWQuICovXG5leHBvcnQgY29uc3QgYnVzaW5lc3NMYWJlbHM6IFJlY29yZDxzdHJpbmcsIHN0cmluZz4gPSB7XG4gIHJvbGU6ICfkuJrliqHop5LoibInLFxuICBzY2VuYXJpbzogJ+inpuWPkeWcuuaZrycsXG4gIGdvYWw6ICfkuJrliqHnm67moIcnLFxuICBleHBlY3RlZDogJ+acn+acm+ihjOS4uicsXG4gIG5vcm1hbENhc2U6ICfmraPluLjmoLfkvosnLFxuICBleGNlcHRpb25DYXNlOiAn5byC5bi45qC35L6LJyxcbiAgY2FsY3VsYXRpb246ICforqHnrpfmiJbkuJrliqHop4TliJknLFxuICB1bml0OiAn5Y2V5L2NJyxcbiAgcHJlY2lzaW9uOiAn57K+5bqm5LiO6IiN5YWlJyxcbiAgdmFsaWRpdHk6ICfmnInmlYjmnJ/miJbpgILnlKjkvp3mja4nLFxuICBydWxlRXhjZXB0aW9uOiAn6KeE5YiZ5L6L5aSW5LiO5aSE55CGJ1xufVxuZXhwb3J0IGZ1bmN0aW9uIG9waW5pb25NaXNzaW5nKHJvdzogYW55LCBidXNpbmVzczogUmVjb3JkPHN0cmluZywgYW55PiwgY29uZmlybWluZyA9IGZhbHNlKSB7XG4gIGNvbnN0IG1pc3Npbmc6IFJlY29yZDxzdHJpbmcsIHN0cmluZz4gPSB7fVxuICBjb25zdCBuZWVkID0gKGtleTogc3RyaW5nLCBsYWJlbDogc3RyaW5nLCB2YWx1ZTogdW5rbm93bikgPT4ge1xuICAgIGlmICh2YWx1ZSA9PSBudWxsIHx8IFN0cmluZyh2YWx1ZSkudHJpbSgpID09PSAnJykgbWlzc2luZ1trZXldID0gbGFiZWxcbiAgfVxuICBuZWVkKCdkZXNjcmlwdGlvbicsICflip/og73or7TmmI4nLCByb3cuZGVzY3JpcHRpb24pXG4gIGlmIChjb25maXJtaW5nIHx8IHJvdy5zdGF0dXMgPT09ICdSRVZJRVdJTkcnKSB7XG4gICAgZm9yIChjb25zdCBrZXkgb2YgY29uZmlybWluZyA/IE9iamVjdC5rZXlzKGJ1c2luZXNzTGFiZWxzKSA6IFsnc2NlbmFyaW8nLCAnZXhwZWN0ZWQnXSlcbiAgICAgIG5lZWQoa2V5LCBidXNpbmVzc0xhYmVsc1trZXldLCBidXNpbmVzc1trZXldKVxuICB9XG4gIGlmIChjb25maXJtaW5nIHx8IHJvdy5zdGF0dXMgPT09ICdESVNQVVRFRCcpIHtcbiAgICBuZWVkKCdyZXZpZXdlcklkJywgJ+ivhOWuoei0n+i0o+S6uu+8iOivt+WFiOWIhua0vu+8iScsIHJvdy5yZXZpZXdlcklkKVxuICAgIG5lZWQoJ2V2aWRlbmNlJywgJ+S+neaNruaIluW8guiuruivtOaYjicsIHJvdy5ldmlkZW5jZSlcbiAgfVxuICBpZiAocm93LnN0YXR1cyA9PT0gJ0RJU1BVVEVEJykge1xuICAgIG5lZWQoJ2Rpc3B1dGVPd25lcklkJywgJ+W8guiurui0o+S7u+S6uklEJywgYnVzaW5lc3MuZGlzcHV0ZU93bmVySWQpXG4gICAgbmVlZCgnbmV4dFN0ZXAnLCAn5byC6K6u5LiL5LiA5q2lJywgYnVzaW5lc3MubmV4dFN0ZXApXG4gIH1cbiAgaWYgKGNvbmZpcm1pbmcpIHtcbiAgICBuZWVkKCdydWxlVmVyc2lvbicsICfop4TliJnlvJXnlKjniYjmnKwnLCByb3cucnVsZVZlcnNpb24pXG4gICAgbmVlZCgnYWNjZXB0YW5jZScsICfpqozmlLbmnaHku7YnLCByb3cuYWNjZXB0YW5jZSlcbiAgICBpZiAocm93LnNvdXJjZUFwcGxpY2FiaWxpdHkgPT09ICdOT1RfQVBQTElDQUJMRScpIHtcbiAgICAgIC8vIE1hdGNoIHZhbGlkRXhlbXB0aW9uIG9uIHRoZSBzZXJ2ZXI7IGluY29tcGxldGUgcmVhc29ucyByZW1haW4gdmFsaWQgZHJhZnRzLlxuICAgICAgY29uc3QgcmVhc29uID0gU3RyaW5nKHJvdy5hcHBsaWNhYmlsaXR5UmVhc29uID8/ICcnKS50cmltKClcbiAgICAgIGlmIChyZWFzb24ubGVuZ3RoIDwgOCB8fCBbJ04vQScsICdOQScsICfkuI3pgILnlKgnXS5pbmNsdWRlcyhyZWFzb24udG9VcHBlckNhc2UoKSkpXG4gICAgICAgIG1pc3NpbmcuYXBwbGljYWJpbGl0eVJlYXNvbiA9ICfkuI3pgILnlKjnkIbnlLHvvIjoh7PlsJE45Liq5a2X56ym77yM5YW35L2T6K+05piO5Li65L2V5LiN5raI6LS55Lia5Yqh5pWw5o2u77yJJ1xuICAgIH1cbiAgfVxuICByZXR1cm4gbWlzc2luZ1xufVxuZXhwb3J0IGZ1bmN0aW9uIGZhaWx1cmVHdWlkYW5jZShlcnJvcjogdW5rbm93bikge1xuICBjb25zdCBtZXNzYWdlID0gZXJyb3IgaW5zdGFuY2VvZiBFcnJvciA/IGVycm9yLm1lc3NhZ2UgOiB0eXBlb2YgZXJyb3IgPT09ICdzdHJpbmcnID8gZXJyb3IgOiAnJ1xuICAvLyBPbmx5IGRpc3BsYXkgY29udHJvbGxlZCBmaWVsZCBndWlkYW5jZTsgbmV2ZXIgZWNobyBhcmJpdHJhcnkgaW5mcmFzdHJ1Y3R1cmUgZXJyb3JzLlxuICBpZiAoL17or7fooaXpvZDku6XkuIvlrZfmrrXvvJp8Xuivt+S/ruato+aWsOacn+mZkO+8mi8udGVzdChtZXNzYWdlKSkgcmV0dXJuIGAke21lc3NhZ2V944CC6L6T5YWl5bey5L+d55WZ44CCYFxuICBpZiAoL+eJiOacrHzorrDlvZXlt7Looqvmm7TmlrB86IyD5Zu0Lirlj5h86IyD5Zu0LirlpLHmlYgvLnRlc3QobWVzc2FnZSkpXG4gICAgcmV0dXJuICflvZPliY3niYjmnKzmiJbojIPlm7Tlt7Llj5jljJbjgILovpPlhaXlt7Lkv53nlZnvvJvor7for7vlj5bmnIDmlrDniYjmnKzvvIzkurrlt6XlkIjlubblkI7ph43or5XjgIInXG4gIGlmICgv5p2D6ZmQfOacrOS6unzliIbmtL5856Gu6K6k5Lq6Ly50ZXN0KG1lc3NhZ2UpKVxuICAgIHJldHVybiAn5b2T5YmN6LSm5Y+35rKh5pyJ5q2k5pON5L2c5p2D6ZmQ5oiW5LiN5piv6KKr5YiG5rS+55qE56Gu6K6k5Lq644CC6L6T5YWl5bey5L+d55WZ77yb6K+35qC45a+55b2T5YmN6aG555uu5Y+K5YiG5rS+44CCJ1xuICByZXR1cm4gJ+ivt+axguacquWujOaIkO+8jOi+k+WFpeW3suS/neeVme+8m+ivt+ajgOafpei/nuaOpeWPiuW9k+WJjeS4muWKoeeKtuaAgeWQjumHjeivleOAgidcbn1cbiJdfQ==

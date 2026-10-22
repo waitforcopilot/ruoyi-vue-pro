@@ -403,16 +403,23 @@
             label="不适用"
             value="NOT_APPLICABLE" /></el-select
       ></el-form-item>
-      <el-form-item v-if="form.sourceApplicability === 'NOT_APPLICABLE'" label="不适用理由"
+      <el-form-item
+        v-if="form.sourceApplicability === 'NOT_APPLICABLE'"
+        label="不适用理由"
+        :error="opinionErrors.applicabilityReason ? '请填写至少8个字符的具体不适用理由' : ''"
         ><el-input v-model="form.applicabilityReason" aria-label="不适用理由" type="textarea"
       /></el-form-item>
-      <el-form-item label="规则引用版本"
+      <el-form-item
+        label="规则引用版本"
+        :error="opinionErrors.ruleVersion ? '请填写规则引用版本' : ''"
         ><el-input v-model="form.ruleVersion" aria-label="规则引用版本"
       /></el-form-item>
-      <el-form-item label="验收条件"
+      <el-form-item label="验收条件" :error="opinionErrors.acceptance ? '请填写验收条件' : ''"
         ><el-input v-model="form.acceptance" aria-label="验收条件" type="textarea"
       /></el-form-item>
-      <el-form-item label="依据或异议说明"
+      <el-form-item
+        label="依据或异议说明"
+        :error="opinionErrors.evidence ? '请填写依据或异议说明' : ''"
         ><el-input v-model="form.evidence" aria-label="依据或异议说明" type="textarea"
       /></el-form-item>
       <el-form-item label="功能评审状态"
@@ -422,12 +429,14 @@
             value="REVIEWING" /><el-option label="有异议" value="DISPUTED" /></el-select
       ></el-form-item>
       <template v-if="form.status === 'DISPUTED'"
-        ><el-form-item label="异议责任人ID"
+        ><el-form-item
+          label="异议责任人ID"
+          :error="opinionErrors.disputeOwnerId ? '请填写异议责任人ID' : ''"
           ><el-input-number
             v-model="business.disputeOwnerId"
             aria-label="异议责任人ID"
             :min="1" /></el-form-item
-        ><el-form-item label="异议下一步"
+        ><el-form-item label="异议下一步" :error="opinionErrors.nextStep ? '请填写异议下一步' : ''"
           ><el-input v-model="business.nextStep" aria-label="异议下一步" /></el-form-item
       ></template>
     </el-form>

@@ -204,10 +204,24 @@ public class HrmPayrollWorkbenchService {
   }catch(RuntimeException invalid){return false;}
  }
  public String confirmationTuple(HrmPayrollRequirementDO req,Long actor){
-  HrmPayrollRequirementProjectDO p=project(req.getProjectId(),actor,true);valid(p.getProjectScopeVersion()!=null&&"MATCH".equals(req.getScopeState()));HrmPayrollReviewService.required("规则引用版本",req.getRuleVersion(),"功能说明",req.getDescription(),"验收条件",req.getAcceptance(),"依据或异议说明",req.getEvidence());
+  HrmPayrollRequirementProjectDO p=project(req.getProjectId(),actor,true);
+  if(p.getProjectScopeVersion()==null||!"MATCH".equals(req.getScopeState()))throw new cn.iocoder.yudao.framework.common.exception.ServiceException(PAYROLL_REVIEW_INCOMPLETE.getCode(),"请补齐以下字段：需求适用范围（须与当前项目范围匹配）");
+  HrmPayrollReviewService.required("规则引用版本",req.getRuleVersion(),"功能说明",req.getDescription(),"验收条件",req.getAcceptance(),"依据或异议说明",req.getEvidence());
   List<Object> refs=new ArrayList<>();
-  if("NOT_APPLICABLE".equals(req.getSourceApplicability()))valid(validExemption(req.getApplicabilityReason()));
-  else{valid("APPLICABLE".equals(req.getSourceApplicability()));List<HrmPayrollWorkbenchRecordDO> rs=relations(p.getId(),null,req.getId(),true);valid(!rs.isEmpty());for(HrmPayrollWorkbenchRecordDO o:rs){Relation r=data(o,Relation.class);relationAccess(p,o,actor,"READ");HrmPayrollWorkbenchRecordDO src=object(p.getId(),r.getSourceId(),"SOURCE");Source s=data(src,Source.class);sourceOwner(p,src,s);valid(!r.getFields().isEmpty()&&HrmPayrollRequirementScope.parse(s.getScopeJson()).contains(HrmPayrollRequirementScope.parse(req.getScopeJson())));refs.add(map("sourceId",src.getId(),"semanticVersion",s.getSemanticVersion(),"relationId",o.getId(),"mappingVersion",r.getMappingVersion()));}}
+  if("NOT_APPLICABLE".equals(req.getSourceApplicability())){
+   if(!validExemption(req.getApplicabilityReason()))throw new cn.iocoder.yudao.framework.common.exception.ServiceException(PAYROLL_REVIEW_INCOMPLETE.getCode(),"请补齐以下字段：不适用理由（至少8个字符，说明为何不消费业务数据）");
+  }else{
+   if(!"APPLICABLE".equals(req.getSourceApplicability()))throw new cn.iocoder.yudao.framework.common.exception.ServiceException(PAYROLL_REVIEW_INCOMPLETE.getCode(),"请补齐以下字段：数据来源适用性（适用或不适用）");
+   List<HrmPayrollWorkbenchRecordDO> rs=relations(p.getId(),null,req.getId(),true);
+   if(rs.isEmpty())throw new cn.iocoder.yudao.framework.common.exception.ServiceException(PAYROLL_REVIEW_INCOMPLETE.getCode(),"请补齐以下字段：数据来源消费关系及字段映射（至少一条有效关系）");
+   for(HrmPayrollWorkbenchRecordDO o:rs){
+    Relation r=data(o,Relation.class);relationAccess(p,o,actor,"READ");
+    HrmPayrollWorkbenchRecordDO src=object(p.getId(),r.getSourceId(),"SOURCE");Source s=data(src,Source.class);sourceOwner(p,src,s);
+    if(r.getFields().isEmpty())throw new cn.iocoder.yudao.framework.common.exception.ServiceException(PAYROLL_REVIEW_INCOMPLETE.getCode(),"请补齐以下字段：消费关系"+o.getId()+"的字段映射（至少一个字段）");
+    if(!HrmPayrollRequirementScope.parse(s.getScopeJson()).contains(HrmPayrollRequirementScope.parse(req.getScopeJson())))throw new cn.iocoder.yudao.framework.common.exception.ServiceException(PAYROLL_REVIEW_INCOMPLETE.getCode(),"请补齐以下字段：数据来源"+src.getId()+"的适用范围（须覆盖需求适用范围）");
+    refs.add(map("sourceId",src.getId(),"semanticVersion",s.getSemanticVersion(),"relationId",o.getId(),"mappingVersion",r.getMappingVersion()));
+   }
+  }
   return JsonUtils.toJsonString(map("tenantId",cn.iocoder.yudao.framework.tenant.core.context.TenantContextHolder.getRequiredTenantId(),"projectId",p.getId(),"projectScopeVersion",p.getProjectScopeVersion(),"resolvedScopeDigest",digest(req.getScopeJson()),"requirementId",req.getId(),"semanticVersion",req.getSemanticVersion()==null?1:req.getSemanticVersion(),"applicability",req.getSourceApplicability(),"applicabilityReason",req.getApplicabilityReason(),"sources",refs,"ruleVersion",req.getRuleVersion(),"confirmedBy",actor,"confirmedAt",LocalDateTime.now(SHANGHAI).toString(),"authority",authority(p.getId(),actor),"governance",governanceDecisions.forRequirement(req,actor)));
  }
  /** Called inside the requirement save transaction, after its project lock. */

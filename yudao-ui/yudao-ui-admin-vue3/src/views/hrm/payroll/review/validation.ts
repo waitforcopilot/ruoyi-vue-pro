@@ -33,8 +33,12 @@ export function opinionMissing(row: any, business: Record<string, any>, confirmi
   if (confirming) {
     need('ruleVersion', '规则引用版本', row.ruleVersion)
     need('acceptance', '验收条件', row.acceptance)
-    if (row.sourceApplicability === 'NOT_APPLICABLE')
-      need('applicabilityReason', '不适用理由', row.applicabilityReason)
+    if (row.sourceApplicability === 'NOT_APPLICABLE') {
+      // Match validExemption on the server; incomplete reasons remain valid drafts.
+      const reason = String(row.applicabilityReason ?? '').trim()
+      if (reason.length < 8 || ['N/A', 'NA', '不适用'].includes(reason.toUpperCase()))
+        missing.applicabilityReason = '不适用理由（至少8个字符，具体说明为何不消费业务数据）'
+    }
   }
   return missing
 }

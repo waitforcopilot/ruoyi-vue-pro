@@ -1,0 +1,36 @@
+{
+  "runtime": {
+    "launchdLabel": "local.hrm.backend",
+    "pid": 55351,
+    "processStartLocal": "Thu Oct 22 19:36:46 2026",
+    "executable": "/Users/waitforpro/.local/jdks/java8/Contents/Home/bin/java",
+    "openJar": "/Users/waitforpro/source/github-yudao/ruoyi-vue-pro/yudao-server/target/yudao-server.jar",
+    "openJarSha256": "044a0625b5410cb8be5b086625ba60554b49f789402b5ff5423f46567cd850e5"
+  },
+  "frozenBackendSources": {
+    "HrmPayrollRequirementServiceImpl.java": "298f1f6e91e45e7cd78e5306c1b50a0911de3bdb022d2f10677ecbab63c628ab",
+    "HrmPayrollRequirementServiceImplTest.java": "f9ff1ab8eed7e50504f56c1aac3bf83015a8899c83361ba16053e4ed2c37d25f",
+    "HrmPayrollWorkbenchService.java": "4006b751f6c87d938962852bed7b6a08af757318ec718d870061aba921b9efe6",
+    "HrmPayrollWorkbenchServiceTest.java": "db440327168da05bb582b2c1b918cdec7b3e0c7de67da62f195beebf58eaede9"
+  },
+  "browserLoadedFrontend": [
+    {
+      "requestId": "85833.18861",
+      "status": 200,
+      "source": "index.vue",
+      "responseSha256": "03fa4637c0fe6364ce7b6e083278158ce3b341bddf1a573b19cfa9eaeb840764",
+      "sourceAndDiskSha256": "a5817f4eff90fe921238e04b4d6ca8d993b3a51b989e090923fb3cd302479bce",
+      "sourceMapContentEqualsDisk": true
+    },
+    {
+      "requestId": "85833.18865",
+      "status": 200,
+      "source": "validation.ts",
+      "responseSha256": "856b10cc100d99888521a6de0940bf0fca18a6a7c6c551d458a36253543dd77a",
+      "sourceAndDiskSha256": "82903174d28f1743aca049b787dd6099da63aa5647e95ed5e1d32f2076b87471",
+      "sourceMapContentEqualsDisk": true
+    }
+  ],
+  "requestedModel": "gpt-6-luna / max",
+  "actualRuntimeModel": "unverified"
+}

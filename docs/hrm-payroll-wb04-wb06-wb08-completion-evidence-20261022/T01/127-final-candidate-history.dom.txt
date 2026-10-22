@@ -1,0 +1,355 @@
+- link "芋道管理系统":
+  - /url: /
+  - generic: 芋道管理系统
+- menubar:
+  - menuitem "首页":
+    - generic: 首页
+  - menuitem "薪酬管理" [expanded]:
+    - generic: 薪酬管理
+    - menu:
+      - menuitem "需求评审":
+        - generic: 需求评审
+- navigation "面包屑"
+- generic "项目配置":
+- combobox
+- generic: 请输入菜单内容
+- button:
+- button:
+- button "TEST S5 approver NEW DISPLAY":
+  - generic: TEST S5 approver NEW DISPLAY
+- button "首页":
+  - text: 首页
+- button "薪酬需求评审工作台":
+  - generic: 薪酬需求评审工作台
+- button:
+- heading "薪酬需求评审工作台 · 需求征集" [level=1]
+- alert:
+  - generic: 示例数据，仅用于讨论。意见与评审记录真实保存；演示核算、审批及工资条只作用于虚构样例。
+- combobox "评审项目"
+- generic: 153 · TEST WB completion 20261022 A · 非正式批准
+- button "刷新工作台":
+  - generic: 刷新工作台
+- button "集中清单":
+  - generic: 集中清单
+- button "业务决议与发布":
+  - generic: 业务决议与发布
+- button "实际来源与核验":
+  - generic: 实际来源与核验
+- button "原有正式业务入口":
+  - generic: 原有正式业务入口
+- paragraph: TEST WB completion 20261022 A · 非正式批准 · 项目 153 · 范围版本 1
+- paragraph: "范围：{\"entities\":[101],\"organizations\":[201],\"workerTypes\":[\"TEST\"],\"scenarios\":[\"TEST\"],\"from\":\"2026-10-01\",\"to\":\"2026-10-31\",\"explanation\":\"TEST isolated synthetic scope for WB completion; not formal approval\"}"
+- navigation "十视图评审导航":
+  - button "薪酬总览":
+    - generic: 薪酬总览
+  - button "薪酬方案":
+    - generic: 薪酬方案
+  - button "工资核算":
+    - generic: 工资核算
+  - button "个税与工资条":
+    - generic: 个税与工资条
+  - button "考勤":
+    - generic: 考勤
+  - button "加班":
+    - generic: 加班
+  - button "工时":
+    - generic: 工时
+  - button "社保公积金":
+    - generic: 社保公积金
+  - button "报表分析":
+    - generic: 报表分析
+  - button "需求征集":
+    - generic: 需求征集
+- button "上一步":
+  - generic: 上一步
+- text: 第 10/10 视图
+- button "下一步" [disabled]:
+  - generic: 下一步
+- button "关联：薪酬总览":
+  - generic: 关联：薪酬总览
+- button "关联：工资核算":
+  - generic: 关联：工资核算
+- paragraph: 集中评审功能、来源、规则、责任、范围决策、问题、实施和版本，返回原意见位置。
+- region "虚构业务展示":
+  - heading "业务场景与字段" [level=2]
+  - paragraph: TEST-EMP-001 · 虚构员工甲 · 虚构研发组 · 2026-10；全为虚构，未绑定员工档案。
+  - generic "示例业务表，左右方向可横向滚动":
+    - table:
+      - rowgroup:
+        - row "维度 含义 依据":
+          - columnheader "维度"
+          - columnheader "含义"
+          - columnheader "依据"
+      - rowgroup:
+        - row "功能确认 本人确认当前语义/范围/来源映射版本 真实保存/签字，非示例状态":
+          - cell "功能确认"
+          - cell "本人确认当前语义/范围/来源映射版本"
+          - cell "真实保存/签字，非示例状态"
+        - row "来源可用 供给＋语义＋QS/QC＋问题 真实S3元组推导":
+          - cell "来源可用"
+          - cell "供给＋语义＋QS/QC＋问题"
+          - cell "真实S3元组推导"
+        - row "实施状态 未排期/开发中/待验收/验收通过 独立人工记录，证据待核实":
+          - cell "实施状态"
+          - cell "未排期/开发中/待验收/验收通过"
+          - cell "独立人工记录，证据待核实"
+        - row "发布状态 S5待实现 不因本页预检查通过宣称发布":
+          - cell "发布状态"
+          - cell "S5待实现"
+          - cell "不因本页预检查通过宣称发布"
+  - paragraph: 候选/纳入/暂缓/移除与待确认/评审中/已确认/异议分开。
+  - paragraph: 所有意见保留项目、模块及稳定页面锚点；历史可比较，不覆盖原事实。
+  - strong: 需求评审状态
+  - button "补充字段说明：需求评审状态" [disabled]:
+    - generic: 补充字段说明：需求评审状态
+  - button "这个字段从哪里来" [disabled]:
+    - generic: 这个字段从哪里来
+  - button "演示核算":
+    - generic: 演示核算
+  - button "演示复核":
+    - generic: 演示复核
+  - button "预览示例工资条":
+    - generic: 预览示例工资条
+  - button "补充操作规则或例外" [disabled]:
+    - generic: 补充操作规则或例外
+  - status: 示例尚未执行；不代表真实薪酬状态
+  - text: 示例流程：准备 → 试算 → 复核 → 发放讨论 → 归档讨论
+  - button "补充流程角色与异常" [disabled]:
+    - generic: 补充流程角色与异常
+- region "候选功能讨论场景":
+  - heading "逐项功能场景与例外（示例）" [level=2]
+  - strong: COL-01 · 范围与清单
+  - paragraph: 正常/预期：候选/纳入/暂缓/移除独立于功能评审和实施状态
+  - paragraph: 异常/待确认：重复移除须同项目保留项，恢复要重审
+  - button "围绕COL-01提意见" [disabled]:
+    - generic: 围绕COL-01提意见
+  - strong: COL-02 · 评审与问题
+  - paragraph: 正常/预期：本人确认、分派资格、未决/逾期和来源缺口独立
+  - paragraph: 异常/待确认：意见或会议记录不是正式业务决议
+  - button "围绕COL-02提意见" [disabled]:
+    - generic: 围绕COL-02提意见
+  - strong: COL-03 · 输出与版本
+  - paragraph: 正常/预期：当前筛选清单按实时权限导出；原锚点和历史保留
+  - paragraph: 异常/待确认：S5正式发布、六表快照和异步下载另验
+  - button "围绕COL-03提意见" [disabled]:
+    - generic: 围绕COL-03提意见
+- region "页面内功能需求征集":
+  - heading "功能需求与意见征集（真实保存）" [level=2]
+  - button "补充本模块需求" [disabled]:
+    - generic: 补充本模块需求
+  - button "初始化46项候选模板" [disabled]:
+    - generic: 初始化46项候选模板
+  - button "导出当前筛选评审清单":
+    - generic: 导出当前筛选评审清单
+  - textbox "查找需求":
+    - /placeholder: 编号或功能文本
+  - combobox "评审状态筛选"
+  - generic: 全部评审状态
+  - combobox "范围决策筛选"
+  - generic: 全部范围决策
+  - combobox "排序"
+  - generic: 编号升序
+  - button "应用筛选":
+    - generic: 应用筛选
+  - button "清除筛选":
+    - generic: 清除筛选
+  - generic "真实需求清单":
+    - table:
+      - rowgroup:
+        - row "选择所有行 需求ID 编号 功能/意见 功能评审 范围决策 来源 实施 版本 操作":
+          - columnheader "选择所有行":
+            - generic "选择所有行":
+              - checkbox "选择所有行"
+          - columnheader "需求ID":
+            - generic: 需求ID
+          - columnheader "编号":
+            - generic: 编号
+          - columnheader "功能/意见":
+            - generic: 功能/意见
+          - columnheader "功能评审":
+            - generic: 功能评审
+          - columnheader "范围决策":
+            - generic: 范围决策
+          - columnheader "来源":
+            - generic: 来源
+          - columnheader "实施":
+            - generic: 实施
+          - columnheader "版本":
+            - generic: 版本
+          - columnheader "操作":
+            - generic: 操作
+    - table:
+      - rowgroup:
+        - row "选择当前行 1844 CUSTOM-0001 TEST_WBC_T01：条件必填与失败恢复，不完整草稿 已确认 候选 不适用 未排期 14 编辑意见 历史/比较 返回原位置 实施关联 会议与站内提醒 本人确认":
+          - cell "选择当前行":
+            - generic "选择当前行":
+              - checkbox "选择当前行"
+          - cell "1844":
+            - generic: "1844"
+          - cell "CUSTOM-0001":
+            - generic: CUSTOM-0001
+          - cell "TEST_WBC_T01：条件必填与失败恢复，不完整草稿":
+            - generic: TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+          - cell "已确认":
+            - generic: 已确认
+          - cell "候选":
+            - generic: 候选
+          - cell "不适用":
+            - generic: 不适用
+          - cell "未排期":
+            - generic: 未排期
+          - cell "14":
+            - generic: "14"
+          - cell "编辑意见 历史/比较 返回原位置 实施关联 会议与站内提醒 本人确认":
+            - button "编辑意见" [disabled]:
+              - generic: 编辑意见
+            - button "历史/比较":
+              - generic: 历史/比较
+            - button "返回原位置":
+              - generic: 返回原位置
+            - button "实施关联" [disabled]:
+              - generic: 实施关联
+            - button "会议与站内提醒" [disabled]:
+              - generic: 会议与站内提醒
+            - button "本人确认" [disabled]:
+              - generic: 本人确认
+  - button "上一页" [disabled]:
+  - list:
+    - listitem "第 1 页": "1"
+  - button "下一页" [disabled]:
+  - generic: 共 1 条
+- region "数据来源征集":
+  - heading "依赖数据来源与盘点" [level=2]
+  - paragraph: 候选目录是征集线索，不能冒充实际已提供来源或质量通过。实际来源需按权限另行登记与核验。
+  - strong: DS-01 · HR 员工与组织档案
+  - paragraph: 员工唯一编号、主体、部门、入离职日期、计薪资格；候选确认方：HR
+  - strong: DS-02 · 考勤系统
+  - paragraph: 员工编号、周期、班次、应出勤、实出勤、请假、缺勤、异常状态；候选确认方：HR / 考勤管理员
+  - strong: DS-03 · OA 加班 / 请假审批
+  - paragraph: 单据编号、员工、起止时间、审批状态、认可时长、补休状态；候选确认方：业务主管 / OA 负责人
+  - strong: DS-04 · 工时制度与排班系统
+  - paragraph: 员工制度类型、适用有效期、结算周期、排班、实际工时、差异；候选确认方：部门主管 / HR / IT
+  - strong: DS-05 · 薪酬方案与员工薪资档案
+  - paragraph: 方案版本、适用人员、薪资项、金额 / 单价、有效期；候选确认方：HR / 财务
+  - strong: DS-06 · 社保公积金政策与缴费台账
+  - paragraph: 地区、项目、有效期、基数上下限、个人 / 单位比例、实际缴费额；候选确认方：HR / 财务
+  - strong: DS-07 · 税务及扣除资料
+  - paragraph: 纳税主体、年度、本年累计应税收入、已扣税额、专项扣除；候选确认方：财务
+  - strong: DS-08 · 业务需求征集
+  - paragraph: 需求编号、模块、功能、字段、来源、负责人、优先级、状态、备注；候选确认方：需求负责人
+  - strong: DS-09 · 绩效考核与薪级标准
+  - paragraph: 绩效周期、基数、系数、职级 / 薪档、岗位系数、补贴标准；候选确认方：HR / 业务主管
+  - strong: DS-10 · 财务预算与成本数据
+  - paragraph: 部门 / 成本中心 / 项目、营收、预算、编制人数、分摊比例；候选确认方：财务
+  - strong: DS-11 · 员工自助与联系方式
+  - paragraph: 员工编号、接收渠道、邮箱 / 手机、工资条可见字段、投递结果；候选确认方：HR / IT
+  - strong: DS-12 · 银行代发与回盘
+  - paragraph: 批次、员工、账户、应付金额、文件格式、回盘状态、失败原因；候选确认方：财务 / IT
+  - text: 当前可见实际来源
+  - combobox "选择实际来源"
+  - generic: 无来源时保持缺口
+  - button "维护实际来源、映射和QS/QC":
+    - generic: 维护实际来源、映射和QS/QC
+- region "我的站内提醒":
+  - heading "我的站内提醒（无外发）" [level=2]
+  - paragraph: 当前有权范围内暂无发给我的站内提醒；会议纪要及全部协作历史可在需求历史中查看。
+- region "真实统计与下钻":
+  - heading "范围、确认及来源统计（服务器集合）" [level=2]
+  - paragraph: U全部需求（含移除）；E未移除；I纳入本期；C当前确认有效；T暂缓；D有异议。暂缓与异议仍计入有效集合，范围决策不代替确认。
+  - paragraph: "全项目当前统计（非发布基线） · 筛选条件 {\"module\":null,\"status\":null,\"decision\":null,\"text\":null}"
+  - button "U · 1 · 查看集合"
+  - button "E · 1 · 查看集合"
+  - button "I · 0 · 查看集合"
+  - button "C · 1 · 查看集合"
+  - button "T · 0 · 查看集合"
+  - button "D · 0 · 查看集合"
+  - generic: 功能确认率：1/1
+  - generic: 范围处置率：0/1
+  - generic: 本期确认率：暂无适用项（0/0）
+  - generic: 来源可用率：暂无适用项（0/0）
+  - generic: 本期来源可用率：暂无适用项（0/0）
+  - paragraph: 去重实际来源 0；有效不适用 1；未决问题 0，逾期 0。关系和需求缺口以独立ID计数。
+  - paragraph: 当前统计不是发布成功或已实施证明；业务决议、发布检查与六表快照请使用独立入口核实。受限账号只展示可见集合，隐藏对象数量不输出。
+  - button "查看关系与缺口L":
+    - generic: 查看关系与缺口L
+- dialog "真实历史与版本差异":
+  - heading "真实历史与版本差异" [level=2]
+  - button "关闭此对话框":
+  - combobox "比较旧版"
+  - generic: 版本13
+  - combobox "比较新版"
+  - generic: 版本14
+  - table:
+    - rowgroup:
+      - row "字段 旧版 新版":
+        - columnheader "字段"
+        - columnheader "旧版"
+        - columnheader "新版"
+    - rowgroup:
+      - row "updateTime 1792641394135 1792641420065":
+        - cell "updateTime"
+        - cell "1792641394135"
+        - cell "1792641420065"
+      - row "updater \"266\" \"267\"":
+        - cell "updater"
+        - cell "\"266\""
+        - cell "\"267\""
+      - row "confirmedScopeVersion null 1":
+        - cell "confirmedScopeVersion"
+        - cell "null"
+        - cell "1"
+      - 'row "confirmedScopeJson null \"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\""':
+        - cell "confirmedScopeJson"
+        - cell "null"
+        - 'cell "\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\""'
+      - 'row "confirmedTupleJson null \"{\\\"tenantId\\\":1,\\\"projectId\\\":153,\\\"projectScopeVersion\\\":1,\\\"resolvedScopeDigest\\\":\\\"579dfbeb3216684338221546e8bb6c805e0a7b1061e32038a56b934ba90490e1\\\",\\\"requirementId\\\":1844,\\\"semanticVersion\\\":11,\\\"applicability\\\":\\\"NOT_APPLICABLE\\\",\\\"applicabilityReason\\\":\\\"TEST 仅评审页面行为，不消费业务数据，无需来源映射\\\",\\\"sources\\\":[],\\\"ruleVersion\\\":\\\"TEST-WBC-T01-RULE-V1\\\",\\\"confirmedBy\\\":267,\\\"confirmedAt\\\":\\\"2026-10-22T11:57:00.057\\\",\\\"governanceReferencesRestricted\\\":true}\""':
+        - cell "confirmedTupleJson"
+        - cell "null"
+        - 'cell "\"{\\\"tenantId\\\":1,\\\"projectId\\\":153,\\\"projectScopeVersion\\\":1,\\\"resolvedScopeDigest\\\":\\\"579dfbeb3216684338221546e8bb6c805e0a7b1061e32038a56b934ba90490e1\\\",\\\"requirementId\\\":1844,\\\"semanticVersion\\\":11,\\\"applicability\\\":\\\"NOT_APPLICABLE\\\",\\\"applicabilityReason\\\":\\\"TEST 仅评审页面行为，不消费业务数据，无需来源映射\\\",\\\"sources\\\":[],\\\"ruleVersion\\\":\\\"TEST-WBC-T01-RULE-V1\\\",\\\"confirmedBy\\\":267,\\\"confirmedAt\\\":\\\"2026-10-22T11:57:00.057\\\",\\\"governanceReferencesRestricted\\\":true}\""'
+      - row "status \"REVIEWING\" \"CONFIRMED\"":
+        - cell "status"
+        - cell "\"REVIEWING\""
+        - cell "\"CONFIRMED\""
+      - row "version 13 14":
+        - cell "version"
+        - cell "13"
+        - cell "14"
+      - row "confirmedBy null 267":
+        - cell "confirmedBy"
+        - cell "null"
+        - cell "267"
+      - row "confirmedAt null 1792641420065":
+        - cell "confirmedAt"
+        - cell "null"
+        - cell "1792641420065"
+  - strong: 版本14 · 操作人267
+  - generic: "{ \"createTime\": null, \"updateTime\": 1792641420065, \"creator\": null, \"updater\": \"267\", \"deleted\": null, \"id\": 1844, \"permittedActions\": null, \"currentConfirmationValid\": null, \"projectId\": 153, \"templateItemId\": null, \"templateVersion\": null, \"scopeMode\": \"INHERIT\", \"scopeJson\": \"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\", \"scopeState\": \"MATCH\", \"projectScopeVersion\": 1, \"confirmedScopeVersion\": 1, \"confirmedScopeJson\": \"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\", \"scopeDecision\": \"CANDIDATE\", \"scopeDecisionJson\": null, \"businessContextJson\": \"{\\\"page\\\":\\\"/hrm-payroll/review\\\",\\\"contextModule\\\":\\\"COL\\\",\\\"targetType\\\":\\\"MODULE\\\",\\\"anchor\\\":\\\"module\\\",\\\"scenario\\\":\\\"TEST T01 1440条件校验\\\",\\\"expected\\\":\\\"TEST B保留的期望行为，冲突后人工合并；768最终补齐恢复\\\",\\\"role\\\":\\\"TEST HR评审人\\\",\\\"goal\\\":\\\"TEST A先提交并要求B合并时保留的目标\\\",\\\"normalCase\\\":\\\"TEST 仅菜单导航无需业务数据\\\",\\\"exceptionCase\\\":\\\"TEST 空理由不能确认且输入保留\\\",\\\"calculation\\\":\\\"TEST 界面导航，无工资计算\\\",\\\"unit\\\":\\\"TEST 不适用，仅界面说明\\\",\\\"precision\\\":\\\"TEST 不适用，无数值计算\\\",\\\"validity\\\":\\\"TEST 2026-10合成评审依据\\\",\\\"ruleException\\\":\\\"TEST 需要数据时切回适用并重审\\\",\\\"disputeOwnerId\\\":267,\\\"nextStep\\\":\\\"TEST 请267复核理由后由266补齐评审说明\\\"}\", \"implementationJson\": null, \"collaborationJson\": null, \"legacyReviewStatus\": null, \"sourceApplicability\": \"NOT_APPLICABLE\", \"applicabilityReason\": \"TEST 仅评审页面行为，不消费业务数据，无需来源映射\", \"ruleVersion\": \"TEST-WBC-T01-RULE-V1\", \"semanticVersion\": 11, \"confirmedTupleJson\": \"{\\\"tenantId\\\":1,\\\"projectId\\\":153,\\\"projectScopeVersion\\\":1,\\\"resolvedScopeDigest\\\":\\\"579dfbeb3216684338221546e8bb6c805e0a7b1061e32038a56b934ba90490e1\\\",\\\"requirementId\\\":1844,\\\"semanticVersion\\\":11,\\\"applicability\\\":\\\"NOT_APPLICABLE\\\",\\\"applicabilityReason\\\":\\\"TEST 仅评审页面行为，不消费业务数据，无需来源映射\\\",\\\"sources\\\":[],\\\"ruleVersion\\\":\\\"TEST-WBC-T01-RULE-V1\\\",\\\"confirmedBy\\\":267,\\\"confirmedAt\\\":\\\"2026-10-22T11:57:00.057\\\",\\\"governanceReferencesRestricted\\\":true}\", \"code\": \"CUSTOM-0001\", \"module\": \"COL\", \"description\": \"TEST_WBC_T01：条件必填与失败恢复，不完整草稿\", \"fieldMapping\": null, \"sourceSystem\": null, \"sourceOwnerId\": null, \"reviewerId\": 267, \"priority\": 2, \"status\": \"CONFIRMED\", \"readiness\": \"MISSING\", \"acceptance\": \"TEST 条件必填正确且本人签署可追溯\", \"evidence\": \"TEST 需独立复核豁免理由，非正式业务意见\", \"version\": 14, \"confirmedBy\": 267, \"confirmedAt\": 1792641420065 }"
+  - strong: 版本13 · 操作人266
+  - generic: "{ \"createTime\": null, \"updateTime\": 1792641394135, \"creator\": null, \"updater\": \"266\", \"deleted\": null, \"id\": 1844, \"permittedActions\": null, \"currentConfirmationValid\": null, \"projectId\": 153, \"templateItemId\": null, \"templateVersion\": null, \"scopeMode\": \"INHERIT\", \"scopeJson\": \"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\", \"scopeState\": \"MATCH\", \"projectScopeVersion\": 1, \"confirmedScopeVersion\": null, \"confirmedScopeJson\": null, \"scopeDecision\": \"CANDIDATE\", \"scopeDecisionJson\": null, \"businessContextJson\": \"{\\\"page\\\":\\\"/hrm-payroll/review\\\",\\\"contextModule\\\":\\\"COL\\\",\\\"targetType\\\":\\\"MODULE\\\",\\\"anchor\\\":\\\"module\\\",\\\"scenario\\\":\\\"TEST T01 1440条件校验\\\",\\\"expected\\\":\\\"TEST B保留的期望行为，冲突后人工合并；768最终补齐恢复\\\",\\\"role\\\":\\\"TEST HR评审人\\\",\\\"goal\\\":\\\"TEST A先提交并要求B合并时保留的目标\\\",\\\"normalCase\\\":\\\"TEST 仅菜单导航无需业务数据\\\",\\\"exceptionCase\\\":\\\"TEST 空理由不能确认且输入保留\\\",\\\"calculation\\\":\\\"TEST 界面导航，无工资计算\\\",\\\"unit\\\":\\\"TEST 不适用，仅界面说明\\\",\\\"precision\\\":\\\"TEST 不适用，无数值计算\\\",\\\"validity\\\":\\\"TEST 2026-10合成评审依据\\\",\\\"ruleException\\\":\\\"TEST 需要数据时切回适用并重审\\\",\\\"disputeOwnerId\\\":267,\\\"nextStep\\\":\\\"TEST 请267复核理由后由266补齐评审说明\\\"}\", \"implementationJson\": null, \"collaborationJson\": null, \"legacyReviewStatus\": null, \"sourceApplicability\": \"NOT_APPLICABLE\", \"applicabilityReason\": \"TEST 仅评审页面行为，不消费业务数据，无需来源映射\", \"ruleVersion\": \"TEST-WBC-T01-RULE-V1\", \"semanticVersion\": 11, \"confirmedTupleJson\": null, \"code\": \"CUSTOM-0001\", \"module\": \"COL\", \"description\": \"TEST_WBC_T01：条件必填与失败恢复，不完整草稿\", \"fieldMapping\": null, \"sourceSystem\": null, \"sourceOwnerId\": null, \"reviewerId\": 267, \"priority\": 2, \"status\": \"REVIEWING\", \"readiness\": \"MISSING\", \"acceptance\": \"TEST 条件必填正确且本人签署可追溯\", \"evidence\": \"TEST 需独立复核豁免理由，非正式业务意见\", \"version\": 13, \"confirmedBy\": null, \"confirmedAt\": null }"
+  - strong: 版本12 · 操作人266
+  - generic: "{ \"createTime\": null, \"updateTime\": 1792641336048, \"creator\": null, \"updater\": \"266\", \"deleted\": null, \"id\": 1844, \"permittedActions\": null, \"currentConfirmationValid\": null, \"projectId\": 153, \"templateItemId\": null, \"templateVersion\": null, \"scopeMode\": \"INHERIT\", \"scopeJson\": \"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\", \"scopeState\": \"MATCH\", \"projectScopeVersion\": 1, \"confirmedScopeVersion\": null, \"confirmedScopeJson\": null, \"scopeDecision\": \"CANDIDATE\", \"scopeDecisionJson\": null, \"businessContextJson\": \"{\\\"page\\\":\\\"/hrm-payroll/review\\\",\\\"contextModule\\\":\\\"COL\\\",\\\"targetType\\\":\\\"MODULE\\\",\\\"anchor\\\":\\\"module\\\",\\\"scenario\\\":\\\"TEST T01 1440条件校验\\\",\\\"expected\\\":\\\"TEST B保留的期望行为，冲突后人工合并\\\",\\\"role\\\":\\\"TEST HR评审人\\\",\\\"goal\\\":\\\"TEST A先提交并要求B合并时保留的目标\\\",\\\"normalCase\\\":\\\"TEST 仅菜单导航无需业务数据\\\",\\\"exceptionCase\\\":\\\"TEST 空理由不能确认且输入保留\\\",\\\"calculation\\\":\\\"TEST 界面导航，无工资计算\\\",\\\"unit\\\":\\\"TEST 不适用，仅界面说明\\\",\\\"precision\\\":\\\"TEST 不适用，无数值计算\\\",\\\"validity\\\":\\\"TEST 2026-10合成评审依据\\\",\\\"ruleException\\\":\\\"TEST 需要数据时切回适用并重审\\\",\\\"disputeOwnerId\\\":267,\\\"nextStep\\\":\\\"TEST 请267复核理由后由266补齐评审说明\\\"}\", \"implementationJson\": null, \"collaborationJson\": null, \"legacyReviewStatus\": null, \"sourceApplicability\": \"APPLICABLE\", \"applicabilityReason\": \"TEST 仅校验导航与评审表单，不消费业务数据\", \"ruleVersion\": \"TEST-WBC-T01-RULE-V1\", \"semanticVersion\": 10, \"confirmedTupleJson\": null, \"code\": \"CUSTOM-0001\", \"module\": \"COL\", \"description\": \"TEST_WBC_T01：条件必填与失败恢复，不完整草稿\", \"fieldMapping\": null, \"sourceSystem\": null, \"sourceOwnerId\": null, \"reviewerId\": 267, \"priority\": 2, \"status\": \"REVIEWING\", \"readiness\": \"MISSING\", \"acceptance\": \"TEST 条件必填正确且本人签署可追溯\", \"evidence\": \"TEST 需独立复核豁免理由，非正式业务意见\", \"version\": 12, \"confirmedBy\": null, \"confirmedAt\": null }"
+  - strong: 版本11 · 操作人266
+  - generic: "{ \"createTime\": null, \"updateTime\": 1792641315593, \"creator\": null, \"updater\": \"266\", \"deleted\": null, \"id\": 1844, \"permittedActions\": null, \"currentConfirmationValid\": null, \"projectId\": 153, \"templateItemId\": null, \"templateVersion\": null, \"scopeMode\": \"INHERIT\", \"scopeJson\": \"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\", \"scopeState\": \"MATCH\", \"projectScopeVersion\": 1, \"confirmedScopeVersion\": null, \"confirmedScopeJson\": null, \"scopeDecision\": \"CANDIDATE\", \"scopeDecisionJson\": null, \"businessContextJson\": \"{\\\"page\\\":\\\"/hrm-payroll/review\\\",\\\"contextModule\\\":\\\"COL\\\",\\\"targetType\\\":\\\"MODULE\\\",\\\"anchor\\\":\\\"module\\\",\\\"scenario\\\":\\\"TEST T01 1440条件校验\\\",\\\"expected\\\":\\\"TEST 1440补齐字段后保存并回读\\\",\\\"role\\\":\\\"TEST HR评审人\\\",\\\"goal\\\":\\\"TEST A先提交并要求B合并时保留的目标\\\",\\\"normalCase\\\":\\\"TEST 仅菜单导航无需业务数据\\\",\\\"exceptionCase\\\":\\\"TEST 空理由不能确认且输入保留\\\",\\\"calculation\\\":\\\"TEST 界面导航，无工资计算\\\",\\\"unit\\\":\\\"TEST 不适用，仅界面说明\\\",\\\"precision\\\":\\\"TEST 不适用，无数值计算\\\",\\\"validity\\\":\\\"TEST 2026-10合成评审依据\\\",\\\"ruleException\\\":\\\"TEST 需要数据时切回适用并重审\\\",\\\"disputeOwnerId\\\":267,\\\"nextStep\\\":\\\"TEST 请267复核理由后由266补齐评审说明\\\"}\", \"implementationJson\": null, \"collaborationJson\": null, \"legacyReviewStatus\": null, \"sourceApplicability\": \"APPLICABLE\", \"applicabilityReason\": \"TEST 仅校验导航与评审表单，不消费业务数据\", \"ruleVersion\": \"TEST-WBC-T01-RULE-V1\", \"semanticVersion\": 9, \"confirmedTupleJson\": null, \"code\": \"CUSTOM-0001\", \"module\": \"COL\", \"description\": \"TEST_WBC_T01：条件必填与失败恢复，不完整草稿\", \"fieldMapping\": null, \"sourceSystem\": null, \"sourceOwnerId\": null, \"reviewerId\": 267, \"priority\": 2, \"status\": \"REVIEWING\", \"readiness\": \"MISSING\", \"acceptance\": \"TEST 条件必填正确且本人签署可追溯\", \"evidence\": \"TEST 需独立复核豁免理由，非正式业务意见\", \"version\": 11, \"confirmedBy\": null, \"confirmedAt\": null }"
+  - strong: 版本10 · 操作人266
+  - generic: "{ \"createTime\": null, \"updateTime\": 1792640916264, \"creator\": null, \"updater\": \"266\", \"deleted\": null, \"id\": 1844, \"permittedActions\": null, \"currentConfirmationValid\": null, \"projectId\": 153, \"templateItemId\": null, \"templateVersion\": null, \"scopeMode\": \"INHERIT\", \"scopeJson\": \"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\", \"scopeState\": \"MATCH\", \"projectScopeVersion\": 1, \"confirmedScopeVersion\": null, \"confirmedScopeJson\": null, \"scopeDecision\": \"CANDIDATE\", \"scopeDecisionJson\": null, \"businessContextJson\": \"{\\\"page\\\":\\\"/hrm-payroll/review\\\",\\\"contextModule\\\":\\\"COL\\\",\\\"targetType\\\":\\\"MODULE\\\",\\\"anchor\\\":\\\"module\\\",\\\"scenario\\\":\\\"TEST T01 1440条件校验\\\",\\\"expected\\\":\\\"TEST 1440补齐字段后保存并回读\\\",\\\"role\\\":\\\"TEST HR评审人\\\",\\\"goal\\\":\\\"TEST 校验需求确认与来源豁免边界\\\",\\\"normalCase\\\":\\\"TEST 仅菜单导航无需业务数据\\\",\\\"exceptionCase\\\":\\\"TEST 空理由不能确认且输入保留\\\",\\\"calculation\\\":\\\"TEST 界面导航，无工资计算\\\",\\\"unit\\\":\\\"TEST 不适用，仅界面说明\\\",\\\"precision\\\":\\\"TEST 不适用，无数值计算\\\",\\\"validity\\\":\\\"TEST 2026-10合成评审依据\\\",\\\"ruleException\\\":\\\"TEST 需要数据时切回适用并重审\\\",\\\"disputeOwnerId\\\":267,\\\"nextStep\\\":\\\"TEST 请267复核理由后由266补齐评审说明\\\"}\", \"implementationJson\": null, \"collaborationJson\": null, \"legacyReviewStatus\": null, \"sourceApplicability\": \"APPLICABLE\", \"applicabilityReason\": \"TEST 仅校验导航与评审表单，不消费业务数据\", \"ruleVersion\": \"TEST-WBC-T01-RULE-V1\", \"semanticVersion\": 8, \"confirmedTupleJson\": null, \"code\": \"CUSTOM-0001\", \"module\": \"COL\", \"description\": \"TEST_WBC_T01：条件必填与失败恢复，不完整草稿\", \"fieldMapping\": null, \"sourceSystem\": null, \"sourceOwnerId\": null, \"reviewerId\": 267, \"priority\": 2, \"status\": \"REVIEWING\", \"readiness\": \"MISSING\", \"acceptance\": \"TEST 条件必填正确且本人签署可追溯\", \"evidence\": \"TEST 需独立复核豁免理由，非正式业务意见\", \"version\": 10, \"confirmedBy\": null, \"confirmedAt\": null }"
+  - strong: 版本9 · 操作人267
+  - generic: "{ \"createTime\": null, \"updateTime\": 1792640872986, \"creator\": null, \"updater\": \"267\", \"deleted\": null, \"id\": 1844, \"permittedActions\": null, \"currentConfirmationValid\": null, \"projectId\": 153, \"templateItemId\": null, \"templateVersion\": null, \"scopeMode\": \"INHERIT\", \"scopeJson\": \"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\", \"scopeState\": \"MATCH\", \"projectScopeVersion\": 1, \"confirmedScopeVersion\": 1, \"confirmedScopeJson\": \"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\", \"scopeDecision\": \"CANDIDATE\", \"scopeDecisionJson\": null, \"businessContextJson\": \"{\\\"page\\\":\\\"/hrm-payroll/review\\\",\\\"contextModule\\\":\\\"COL\\\",\\\"targetType\\\":\\\"MODULE\\\",\\\"anchor\\\":\\\"module\\\",\\\"scenario\\\":\\\"TEST T01 1440条件校验\\\",\\\"expected\\\":\\\"TEST 1440补齐字段后保存并回读\\\",\\\"role\\\":\\\"TEST HR评审人\\\",\\\"goal\\\":\\\"TEST 校验需求确认与来源豁免边界\\\",\\\"normalCase\\\":\\\"TEST 仅菜单导航无需业务数据\\\",\\\"exceptionCase\\\":\\\"TEST 空理由不能确认且输入保留\\\",\\\"calculation\\\":\\\"TEST 界面导航，无工资计算\\\",\\\"unit\\\":\\\"TEST 不适用，仅界面说明\\\",\\\"precision\\\":\\\"TEST 不适用，无数值计算\\\",\\\"validity\\\":\\\"TEST 2026-10合成评审依据\\\",\\\"ruleException\\\":\\\"TEST 需要数据时切回适用并重审\\\",\\\"disputeOwnerId\\\":267,\\\"nextStep\\\":\\\"TEST 请267复核理由后由266补齐评审说明\\\"}\", \"implementationJson\": null, \"collaborationJson\": null, \"legacyReviewStatus\": null, \"sourceApplicability\": \"NOT_APPLICABLE\", \"applicabilityReason\": \"TEST 仅校验导航与评审表单，不消费业务数据\", \"ruleVersion\": \"TEST-WBC-T01-RULE-V1\", \"semanticVersion\": 7, \"confirmedTupleJson\": \"{\\\"tenantId\\\":1,\\\"projectId\\\":153,\\\"projectScopeVersion\\\":1,\\\"resolvedScopeDigest\\\":\\\"579dfbeb3216684338221546e8bb6c805e0a7b1061e32038a56b934ba90490e1\\\",\\\"requirementId\\\":1844,\\\"semanticVersion\\\":7,\\\"applicability\\\":\\\"NOT_APPLICABLE\\\",\\\"applicabilityReason\\\":\\\"TEST 仅校验导航与评审表单，不消费业务数据\\\",\\\"sources\\\":[],\\\"ruleVersion\\\":\\\"TEST-WBC-T01-RULE-V1\\\",\\\"confirmedBy\\\":267,\\\"confirmedAt\\\":\\\"2026-10-22T11:47:52.978\\\",\\\"governanceReferencesRestricted\\\":true}\", \"code\": \"CUSTOM-0001\", \"module\": \"COL\", \"description\": \"TEST_WBC_T01：条件必填与失败恢复，不完整草稿\", \"fieldMapping\": null, \"sourceSystem\": null, \"sourceOwnerId\": null, \"reviewerId\": 267, \"priority\": 2, \"status\": \"CONFIRMED\", \"readiness\": \"MISSING\", \"acceptance\": \"TEST 条件必填正确且本人签署可追溯\", \"evidence\": \"TEST 需独立复核豁免理由，非正式业务意见\", \"version\": 9, \"confirmedBy\": 267, \"confirmedAt\": 1792640872986 }"
+  - strong: 版本8 · 操作人266
+  - generic: "{ \"createTime\": null, \"updateTime\": 1792640686534, \"creator\": null, \"updater\": \"266\", \"deleted\": null, \"id\": 1844, \"permittedActions\": null, \"currentConfirmationValid\": null, \"projectId\": 153, \"templateItemId\": null, \"templateVersion\": null, \"scopeMode\": \"INHERIT\", \"scopeJson\": \"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\", \"scopeState\": \"MATCH\", \"projectScopeVersion\": 1, \"confirmedScopeVersion\": null, \"confirmedScopeJson\": null, \"scopeDecision\": \"CANDIDATE\", \"scopeDecisionJson\": null, \"businessContextJson\": \"{\\\"page\\\":\\\"/hrm-payroll/review\\\",\\\"contextModule\\\":\\\"COL\\\",\\\"targetType\\\":\\\"MODULE\\\",\\\"anchor\\\":\\\"module\\\",\\\"scenario\\\":\\\"TEST T01 1440条件校验\\\",\\\"expected\\\":\\\"TEST 1440补齐字段后保存并回读\\\",\\\"role\\\":\\\"TEST HR评审人\\\",\\\"goal\\\":\\\"TEST 校验需求确认与来源豁免边界\\\",\\\"normalCase\\\":\\\"TEST 仅菜单导航无需业务数据\\\",\\\"exceptionCase\\\":\\\"TEST 空理由不能确认且输入保留\\\",\\\"calculation\\\":\\\"TEST 界面导航，无工资计算\\\",\\\"unit\\\":\\\"TEST 不适用，仅界面说明\\\",\\\"precision\\\":\\\"TEST 不适用，无数值计算\\\",\\\"validity\\\":\\\"TEST 2026-10合成评审依据\\\",\\\"ruleException\\\":\\\"TEST 需要数据时切回适用并重审\\\",\\\"disputeOwnerId\\\":267,\\\"nextStep\\\":\\\"TEST 请267复核理由后由266补齐评审说明\\\"}\", \"implementationJson\": null, \"collaborationJson\": null, \"legacyReviewStatus\": null, \"sourceApplicability\": \"NOT_APPLICABLE\", \"applicabilityReason\": \"TEST 仅校验导航与评审表单，不消费业务数据\", \"ruleVersion\": \"TEST-WBC-T01-RULE-V1\", \"semanticVersion\": 7, \"confirmedTupleJson\": null, \"code\": \"CUSTOM-0001\", \"module\": \"COL\", \"description\": \"TEST_WBC_T01：条件必填与失败恢复，不完整草稿\", \"fieldMapping\": null, \"sourceSystem\": null, \"sourceOwnerId\": null, \"reviewerId\": 267, \"priority\": 2, \"status\": \"REVIEWING\", \"readiness\": \"MISSING\", \"acceptance\": \"TEST 条件必填正确且本人签署可追溯\", \"evidence\": \"TEST 需独立复核豁免理由，非正式业务意见\", \"version\": 8, \"confirmedBy\": null, \"confirmedAt\": null }"
+  - strong: 版本7 · 操作人266
+  - generic: "{ \"createTime\": null, \"updateTime\": 1792640643423, \"creator\": null, \"updater\": \"266\", \"deleted\": null, \"id\": 1844, \"permittedActions\": null, \"currentConfirmationValid\": null, \"projectId\": 153, \"templateItemId\": null, \"templateVersion\": null, \"scopeMode\": \"INHERIT\", \"scopeJson\": \"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\", \"scopeState\": \"MATCH\", \"projectScopeVersion\": 1, \"confirmedScopeVersion\": null, \"confirmedScopeJson\": null, \"scopeDecision\": \"CANDIDATE\", \"scopeDecisionJson\": null, \"businessContextJson\": \"{\\\"page\\\":\\\"/hrm-payroll/review\\\",\\\"contextModule\\\":\\\"COL\\\",\\\"targetType\\\":\\\"MODULE\\\",\\\"anchor\\\":\\\"module\\\",\\\"scenario\\\":\\\"TEST T01 1440条件校验\\\",\\\"expected\\\":\\\"TEST 1440补齐字段后保存并回读\\\",\\\"role\\\":\\\"TEST HR评审人\\\",\\\"goal\\\":\\\"TEST 校验需求确认与来源豁免边界\\\",\\\"normalCase\\\":\\\"TEST 仅菜单导航无需业务数据\\\",\\\"exceptionCase\\\":\\\"TEST 空理由不能确认且输入保留\\\",\\\"calculation\\\":\\\"TEST 界面导航，无工资计算\\\",\\\"unit\\\":\\\"TEST 不适用，仅界面说明\\\",\\\"precision\\\":\\\"TEST 不适用，无数值计算\\\",\\\"validity\\\":\\\"TEST 2026-10合成评审依据\\\",\\\"ruleException\\\":\\\"TEST 需要数据时切回适用并重审\\\",\\\"disputeOwnerId\\\":267,\\\"nextStep\\\":\\\"TEST 请267复核理由后由266补齐评审说明\\\"}\", \"implementationJson\": null, \"collaborationJson\": null, \"legacyReviewStatus\": null, \"sourceApplicability\": \"NOT_APPLICABLE\", \"applicabilityReason\": \"TEST 仅校验导航与评审表单，不消费业务数据\", \"ruleVersion\": \"TEST-WBC-T01-RULE-V1\", \"semanticVersion\": 7, \"confirmedTupleJson\": null, \"code\": \"CUSTOM-0001\", \"module\": \"COL\", \"description\": \"TEST_WBC_T01：条件必填与失败恢复，不完整草稿\", \"fieldMapping\": null, \"sourceSystem\": null, \"sourceOwnerId\": null, \"reviewerId\": 267, \"priority\": 2, \"status\": \"DISPUTED\", \"readiness\": \"MISSING\", \"acceptance\": \"TEST 条件必填正确且本人签署可追溯\", \"evidence\": \"TEST 需独立复核豁免理由，非正式业务意见\", \"version\": 7, \"confirmedBy\": null, \"confirmedAt\": null }"
+  - strong: 版本6 · 操作人266
+  - generic: "{ \"createTime\": null, \"updateTime\": 1792640561172, \"creator\": null, \"updater\": \"266\", \"deleted\": null, \"id\": 1844, \"permittedActions\": null, \"currentConfirmationValid\": null, \"projectId\": 153, \"templateItemId\": null, \"templateVersion\": null, \"scopeMode\": \"INHERIT\", \"scopeJson\": \"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\", \"scopeState\": \"MATCH\", \"projectScopeVersion\": 1, \"confirmedScopeVersion\": null, \"confirmedScopeJson\": null, \"scopeDecision\": \"CANDIDATE\", \"scopeDecisionJson\": null, \"businessContextJson\": \"{\\\"page\\\":\\\"/hrm-payroll/review\\\",\\\"contextModule\\\":\\\"COL\\\",\\\"targetType\\\":\\\"MODULE\\\",\\\"anchor\\\":\\\"module\\\",\\\"scenario\\\":\\\"TEST T01 1440条件校验\\\",\\\"expected\\\":\\\"TEST 1440补齐字段后保存并回读\\\",\\\"role\\\":\\\"TEST HR评审人\\\",\\\"goal\\\":\\\"TEST 校验需求确认与来源豁免边界\\\",\\\"normalCase\\\":\\\"TEST 仅菜单导航无需业务数据\\\",\\\"exceptionCase\\\":\\\"TEST 空理由不能确认且输入保留\\\",\\\"calculation\\\":\\\"TEST 界面导航，无工资计算\\\",\\\"unit\\\":\\\"TEST 不适用，仅界面说明\\\",\\\"precision\\\":\\\"TEST 不适用，无数值计算\\\",\\\"validity\\\":\\\"TEST 2026-10合成评审依据\\\",\\\"ruleException\\\":\\\"TEST 需要数据时切回适用并重审\\\"}\", \"implementationJson\": null, \"collaborationJson\": null, \"legacyReviewStatus\": null, \"sourceApplicability\": \"NOT_APPLICABLE\", \"applicabilityReason\": \"N/A\", \"ruleVersion\": \"TEST-WBC-T01-RULE-V1\", \"semanticVersion\": 6, \"confirmedTupleJson\": null, \"code\": \"CUSTOM-0001\", \"module\": \"COL\", \"description\": \"TEST_WBC_T01：条件必填与失败恢复，不完整草稿\", \"fieldMapping\": null, \"sourceSystem\": null, \"sourceOwnerId\": null, \"reviewerId\": 267, \"priority\": 2, \"status\": \"REVIEWING\", \"readiness\": \"MISSING\", \"acceptance\": \"TEST 条件必填正确且本人签署可追溯\", \"evidence\": \"TEST WBC synthetic acceptance fixture\", \"version\": 6, \"confirmedBy\": null, \"confirmedAt\": null }"
+  - strong: 版本5 · 操作人266
+  - generic: "{ \"createTime\": null, \"updateTime\": 1792640170410, \"creator\": null, \"updater\": \"266\", \"deleted\": null, \"id\": 1844, \"permittedActions\": null, \"currentConfirmationValid\": null, \"projectId\": 153, \"templateItemId\": null, \"templateVersion\": null, \"scopeMode\": \"INHERIT\", \"scopeJson\": \"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\", \"scopeState\": \"MATCH\", \"projectScopeVersion\": 1, \"confirmedScopeVersion\": null, \"confirmedScopeJson\": null, \"scopeDecision\": \"CANDIDATE\", \"scopeDecisionJson\": null, \"businessContextJson\": \"{\\\"page\\\":\\\"/hrm-payroll/review\\\",\\\"contextModule\\\":\\\"COL\\\",\\\"targetType\\\":\\\"MODULE\\\",\\\"anchor\\\":\\\"module\\\",\\\"scenario\\\":\\\"TEST T01 1440条件校验\\\",\\\"expected\\\":\\\"TEST 1440补齐字段后保存并回读\\\",\\\"role\\\":\\\"TEST HR评审人\\\",\\\"goal\\\":\\\"TEST 校验需求确认与来源豁免边界\\\",\\\"normalCase\\\":\\\"TEST 仅菜单导航无需业务数据\\\",\\\"exceptionCase\\\":\\\"TEST 空理由不能确认且输入保留\\\",\\\"calculation\\\":\\\"TEST 界面导航，无工资计算\\\",\\\"unit\\\":\\\"TEST 不适用，仅界面说明\\\",\\\"precision\\\":\\\"TEST 不适用，无数值计算\\\",\\\"validity\\\":\\\"TEST 2026-10合成评审依据\\\",\\\"ruleException\\\":\\\"TEST 需要数据时切回适用并重审\\\"}\", \"implementationJson\": null, \"collaborationJson\": null, \"legacyReviewStatus\": null, \"sourceApplicability\": \"NOT_APPLICABLE\", \"applicabilityReason\": \"N/A\", \"ruleVersion\": \"TEST-WBC-T01-RULE-V1\", \"semanticVersion\": 5, \"confirmedTupleJson\": null, \"code\": \"CUSTOM-0001\", \"module\": \"COL\", \"description\": \"TEST_WBC_T01：条件必填与失败恢复，不完整草稿\", \"fieldMapping\": null, \"sourceSystem\": null, \"sourceOwnerId\": null, \"reviewerId\": null, \"priority\": 2, \"status\": \"REVIEWING\", \"readiness\": \"MISSING\", \"acceptance\": \"TEST 条件必填正确且本人签署可追溯\", \"evidence\": \"TEST WBC synthetic acceptance fixture\", \"version\": 5, \"confirmedBy\": null, \"confirmedAt\": null }"
+  - strong: 版本4 · 操作人266
+  - generic: "{ \"createTime\": null, \"updateTime\": 1792640112169, \"creator\": null, \"updater\": \"266\", \"deleted\": null, \"id\": 1844, \"permittedActions\": null, \"currentConfirmationValid\": null, \"projectId\": 153, \"templateItemId\": null, \"templateVersion\": null, \"scopeMode\": \"INHERIT\", \"scopeJson\": \"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\", \"scopeState\": \"MATCH\", \"projectScopeVersion\": 1, \"confirmedScopeVersion\": null, \"confirmedScopeJson\": null, \"scopeDecision\": \"CANDIDATE\", \"scopeDecisionJson\": null, \"businessContextJson\": \"{\\\"page\\\":\\\"/hrm-payroll/review\\\",\\\"contextModule\\\":\\\"COL\\\",\\\"targetType\\\":\\\"MODULE\\\",\\\"anchor\\\":\\\"module\\\",\\\"scenario\\\":\\\"TEST T01 1440条件校验\\\",\\\"expected\\\":\\\"TEST 1440补齐字段后保存并回读\\\"}\", \"implementationJson\": null, \"collaborationJson\": null, \"legacyReviewStatus\": null, \"sourceApplicability\": \"APPLICABLE\", \"applicabilityReason\": null, \"ruleVersion\": null, \"semanticVersion\": 4, \"confirmedTupleJson\": null, \"code\": \"CUSTOM-0001\", \"module\": \"COL\", \"description\": \"TEST_WBC_T01：条件必填与失败恢复，不完整草稿\", \"fieldMapping\": null, \"sourceSystem\": null, \"sourceOwnerId\": null, \"reviewerId\": null, \"priority\": 2, \"status\": \"REVIEWING\", \"readiness\": \"MISSING\", \"acceptance\": null, \"evidence\": null, \"version\": 4, \"confirmedBy\": null, \"confirmedAt\": null }"
+  - strong: 版本3 · 操作人266
+  - generic: "{ \"createTime\": null, \"updateTime\": 1792640083062, \"creator\": null, \"updater\": \"266\", \"deleted\": null, \"id\": 1844, \"permittedActions\": null, \"currentConfirmationValid\": null, \"projectId\": 153, \"templateItemId\": null, \"templateVersion\": null, \"scopeMode\": \"INHERIT\", \"scopeJson\": \"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\", \"scopeState\": \"MATCH\", \"projectScopeVersion\": 1, \"confirmedScopeVersion\": null, \"confirmedScopeJson\": null, \"scopeDecision\": \"CANDIDATE\", \"scopeDecisionJson\": null, \"businessContextJson\": \"{\\\"page\\\":\\\"/hrm-payroll/review\\\",\\\"contextModule\\\":\\\"COL\\\",\\\"targetType\\\":\\\"MODULE\\\",\\\"anchor\\\":\\\"module\\\",\\\"scenario\\\":\\\"TEST T01 768条件校验\\\",\\\"expected\\\":\\\"TEST 768补齐字段后保存并回读\\\"}\", \"implementationJson\": null, \"collaborationJson\": null, \"legacyReviewStatus\": null, \"sourceApplicability\": \"APPLICABLE\", \"applicabilityReason\": null, \"ruleVersion\": null, \"semanticVersion\": 3, \"confirmedTupleJson\": null, \"code\": \"CUSTOM-0001\", \"module\": \"COL\", \"description\": \"TEST_WBC_T01：条件必填与失败恢复，不完整草稿\", \"fieldMapping\": null, \"sourceSystem\": null, \"sourceOwnerId\": null, \"reviewerId\": null, \"priority\": 2, \"status\": \"REVIEWING\", \"readiness\": \"MISSING\", \"acceptance\": null, \"evidence\": null, \"version\": 3, \"confirmedBy\": null, \"confirmedAt\": null }"
+  - strong: 版本2 · 操作人266
+  - generic: "{ \"createTime\": null, \"updateTime\": 1792640029440, \"creator\": null, \"updater\": \"266\", \"deleted\": null, \"id\": 1844, \"permittedActions\": null, \"currentConfirmationValid\": null, \"projectId\": 153, \"templateItemId\": null, \"templateVersion\": null, \"scopeMode\": \"INHERIT\", \"scopeJson\": \"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\", \"scopeState\": \"MATCH\", \"projectScopeVersion\": 1, \"confirmedScopeVersion\": null, \"confirmedScopeJson\": null, \"scopeDecision\": \"CANDIDATE\", \"scopeDecisionJson\": null, \"businessContextJson\": \"{\\\"page\\\":\\\"/hrm-payroll/review\\\",\\\"contextModule\\\":\\\"COL\\\",\\\"targetType\\\":\\\"MODULE\\\",\\\"anchor\\\":\\\"module\\\",\\\"scenario\\\":\\\"TEST T01 390条件校验\\\",\\\"expected\\\":\\\"TEST 390网络失败保留，恢复后允许保存\\\"}\", \"implementationJson\": null, \"collaborationJson\": null, \"legacyReviewStatus\": null, \"sourceApplicability\": \"APPLICABLE\", \"applicabilityReason\": null, \"ruleVersion\": null, \"semanticVersion\": 2, \"confirmedTupleJson\": null, \"code\": \"CUSTOM-0001\", \"module\": \"COL\", \"description\": \"TEST_WBC_T01：条件必填与失败恢复，不完整草稿\", \"fieldMapping\": null, \"sourceSystem\": null, \"sourceOwnerId\": null, \"reviewerId\": null, \"priority\": 2, \"status\": \"REVIEWING\", \"readiness\": \"MISSING\", \"acceptance\": null, \"evidence\": null, \"version\": 2, \"confirmedBy\": null, \"confirmedAt\": null }"
+  - strong: 版本1 · 操作人266
+  - generic: "{ \"createTime\": 1792639923950, \"updateTime\": 1792639923950, \"creator\": \"266\", \"updater\": \"266\", \"deleted\": null, \"id\": 1844, \"permittedActions\": null, \"currentConfirmationValid\": null, \"projectId\": 153, \"templateItemId\": null, \"templateVersion\": null, \"scopeMode\": \"INHERIT\", \"scopeJson\": \"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\", \"scopeState\": \"MATCH\", \"projectScopeVersion\": 1, \"confirmedScopeVersion\": null, \"confirmedScopeJson\": null, \"scopeDecision\": null, \"scopeDecisionJson\": null, \"businessContextJson\": \"{\\\"page\\\":\\\"/hrm-payroll/review\\\",\\\"contextModule\\\":\\\"COL\\\",\\\"targetType\\\":\\\"MODULE\\\",\\\"anchor\\\":\\\"module\\\"}\", \"implementationJson\": null, \"collaborationJson\": null, \"legacyReviewStatus\": null, \"sourceApplicability\": \"APPLICABLE\", \"applicabilityReason\": null, \"ruleVersion\": null, \"semanticVersion\": 1, \"confirmedTupleJson\": null, \"code\": \"CUSTOM-0001\", \"module\": \"COL\", \"description\": \"TEST_WBC_T01：条件必填与失败恢复，不完整草稿\", \"fieldMapping\": null, \"sourceSystem\": null, \"sourceOwnerId\": null, \"reviewerId\": null, \"priority\": 2, \"status\": \"PENDING\", \"readiness\": \"MISSING\", \"acceptance\": null, \"evidence\": null, \"version\": 1, \"confirmedBy\": null, \"confirmedAt\": null }"
+  - button "关闭历史":
+    - generic: 关闭历史
+- generic: Copyright ©2026 芋道管理系统

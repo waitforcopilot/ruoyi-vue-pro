@@ -1,0 +1,231 @@
+{
+  "cursor": 42688,
+  "hasMore": false,
+  "truncated": false,
+  "events": [
+    {
+      "sequence": 42592,
+      "method": "Network.requestWillBeSent",
+      "requestId": "85833.14505",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/requirement/save",
+      "httpMethod": "POST"
+    },
+    {
+      "sequence": 42593,
+      "method": "Network.requestWillBeSent",
+      "requestId": "7E11EBEB4A1F6CE87177767DB3F23F5D",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/requirement/save",
+      "httpMethod": "OPTIONS"
+    },
+    {
+      "sequence": 42596,
+      "method": "Network.responseReceived",
+      "requestId": "7E11EBEB4A1F6CE87177767DB3F23F5D",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/requirement/save",
+      "status": 200
+    },
+    {
+      "sequence": 42600,
+      "method": "Network.responseReceived",
+      "requestId": "85833.14505",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/requirement/save",
+      "status": 200
+    },
+    {
+      "sequence": 42602,
+      "method": "Network.requestWillBeSent",
+      "requestId": "4ADA9223A0C867E62670216A4092B329",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/requirement-project/list",
+      "httpMethod": "OPTIONS"
+    },
+    {
+      "sequence": 42604,
+      "method": "Network.requestWillBeSent",
+      "requestId": "85833.14506",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/requirement-project/list",
+      "httpMethod": "GET"
+    },
+    {
+      "sequence": 42608,
+      "method": "Network.responseReceived",
+      "requestId": "4ADA9223A0C867E62670216A4092B329",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/requirement-project/list",
+      "status": 200
+    },
+    {
+      "sequence": 42612,
+      "method": "Network.requestWillBeSent",
+      "requestId": "12B1027C907C351EA4DCA4FEC929F01B",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/review/page?projectId=153&pageNo=1&pageSize=10&sort=code",
+      "httpMethod": "OPTIONS"
+    },
+    {
+      "sequence": 42613,
+      "method": "Network.responseReceived",
+      "requestId": "85833.14506",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/requirement-project/list",
+      "status": 200
+    },
+    {
+      "sequence": 42615,
+      "method": "Network.requestWillBeSent",
+      "requestId": "85833.14507",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/review/page?projectId=153&pageNo=1&pageSize=10&sort=code",
+      "httpMethod": "GET"
+    },
+    {
+      "sequence": 42616,
+      "method": "Network.requestWillBeSent",
+      "requestId": "85833.14508",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/review/statistics?projectId=153",
+      "httpMethod": "GET"
+    },
+    {
+      "sequence": 42617,
+      "method": "Network.requestWillBeSent",
+      "requestId": "85833.14509",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/workbench/list?projectId=153&kind=SOURCE",
+      "httpMethod": "GET"
+    },
+    {
+      "sequence": 42618,
+      "method": "Network.requestWillBeSent",
+      "requestId": "85833.14510",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/requirement-project/capabilities?projectId=153",
+      "httpMethod": "GET"
+    },
+    {
+      "sequence": 42619,
+      "method": "Network.requestWillBeSent",
+      "requestId": "85833.14511",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/review/reminders?projectId=153",
+      "httpMethod": "GET"
+    },
+    {
+      "sequence": 42622,
+      "method": "Network.requestWillBeSent",
+      "requestId": "BD1567E0E08BFEE39945CD126E34DF4F",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/review/statistics?projectId=153",
+      "httpMethod": "OPTIONS"
+    },
+    {
+      "sequence": 42623,
+      "method": "Network.requestWillBeSent",
+      "requestId": "8904272D88CF868EA16A3E18759710FA",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/workbench/list?projectId=153&kind=SOURCE",
+      "httpMethod": "OPTIONS"
+    },
+    {
+      "sequence": 42624,
+      "method": "Network.requestWillBeSent",
+      "requestId": "50A22307B40EA240C7FB301FCB4C8A68",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/requirement-project/capabilities?projectId=153",
+      "httpMethod": "OPTIONS"
+    },
+    {
+      "sequence": 42626,
+      "method": "Network.requestWillBeSent",
+      "requestId": "2BF2019AFABF17A1A5FA0FAD849856D7",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/review/reminders?projectId=153",
+      "httpMethod": "OPTIONS"
+    },
+    {
+      "sequence": 42634,
+      "method": "Network.responseReceived",
+      "requestId": "12B1027C907C351EA4DCA4FEC929F01B",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/review/page?projectId=153&pageNo=1&pageSize=10&sort=code",
+      "status": 200
+    },
+    {
+      "sequence": 42635,
+      "method": "Network.responseReceived",
+      "requestId": "BD1567E0E08BFEE39945CD126E34DF4F",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/review/statistics?projectId=153",
+      "status": 200
+    },
+    {
+      "sequence": 42638,
+      "method": "Network.responseReceived",
+      "requestId": "50A22307B40EA240C7FB301FCB4C8A68",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/requirement-project/capabilities?projectId=153",
+      "status": 200
+    },
+    {
+      "sequence": 42641,
+      "method": "Network.responseReceived",
+      "requestId": "2BF2019AFABF17A1A5FA0FAD849856D7",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/review/reminders?projectId=153",
+      "status": 200
+    },
+    {
+      "sequence": 42642,
+      "method": "Network.responseReceived",
+      "requestId": "8904272D88CF868EA16A3E18759710FA",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/workbench/list?projectId=153&kind=SOURCE",
+      "status": 200
+    },
+    {
+      "sequence": 42652,
+      "method": "Network.responseReceived",
+      "requestId": "85833.14509",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/workbench/list?projectId=153&kind=SOURCE",
+      "status": 200
+    },
+    {
+      "sequence": 42657,
+      "method": "Network.responseReceived",
+      "requestId": "85833.14511",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/review/reminders?projectId=153",
+      "status": 200
+    },
+    {
+      "sequence": 42662,
+      "method": "Network.responseReceived",
+      "requestId": "85833.14507",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/review/page?projectId=153&pageNo=1&pageSize=10&sort=code",
+      "status": 200
+    },
+    {
+      "sequence": 42667,
+      "method": "Network.responseReceived",
+      "requestId": "85833.14508",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/review/statistics?projectId=153",
+      "status": 200
+    },
+    {
+      "sequence": 42672,
+      "method": "Network.responseReceived",
+      "requestId": "85833.14510",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/requirement-project/capabilities?projectId=153",
+      "status": 200
+    },
+    {
+      "sequence": 42677,
+      "method": "Network.requestWillBeSent",
+      "requestId": "85833.14512",
+      "url": "http://127.0.0.1:48080/admin-api/system/notify-message/get-unread-count",
+      "httpMethod": "GET"
+    },
+    {
+      "sequence": 42678,
+      "method": "Network.requestWillBeSent",
+      "requestId": "71F3329DA93EA16844635B2B8C0A8E57",
+      "url": "http://127.0.0.1:48080/admin-api/system/notify-message/get-unread-count",
+      "httpMethod": "OPTIONS"
+    },
+    {
+      "sequence": 42681,
+      "method": "Network.responseReceived",
+      "requestId": "71F3329DA93EA16844635B2B8C0A8E57",
+      "url": "http://127.0.0.1:48080/admin-api/system/notify-message/get-unread-count",
+      "status": 200
+    },
+    {
+      "sequence": 42685,
+      "method": "Network.responseReceived",
+      "requestId": "85833.14512",
+      "url": "http://127.0.0.1:48080/admin-api/system/notify-message/get-unread-count",
+      "status": 200
+    }
+  ]
+}

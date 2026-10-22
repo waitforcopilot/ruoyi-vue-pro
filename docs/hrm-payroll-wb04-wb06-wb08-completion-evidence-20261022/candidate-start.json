@@ -1,0 +1,16 @@
+{
+  "head": "234dca9b7e2e328c9fb107b539b9d45d78b8621f",
+  "trackedDiffSha256": "0fa7751b93eeb85bb980bf0061a2d9b1703f774486ed0a193dd0b6416bc9adec",
+  "files": {
+    "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/validation.ts": "9a555cc020f84a562fab9b3594f2e954eee6913eac4e929b1629fc078a3ec0f6",
+    "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/index.vue": "1910b55f8d76a870c0a5933234f8989a0a0cd718f31722a88e4bb5aed61343f2",
+    "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/demo.ts": "9f826832aef8e1755fb109dceaac18042a09a72159993cece6a0eb3d7864e263",
+    "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceExportService.java": "d244b492cd3e90ff1c03f8e255edcda9985abfccbad4991433492db259e8e4e0",
+    "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceServiceTest.java": "9374a3e8a29edbd9d9ad131cdf9e32fc13f45437481089ddfd5302f9ca2f499e",
+    "docs/hrm-payroll-wb04-wb06-wb08-completion-task-plan-20261022.md": "5e4100937f6be823469ce5aa7c69b2a6f3538cdd9ed9b2cb9feb2b6a322f6ecc"
+  },
+  "role": "coder",
+  "expectedModel": "gpt-6.1-sol",
+  "expectedEffort": "medium",
+  "actualModel": "not independently verified"
+}

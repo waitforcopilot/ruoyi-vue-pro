@@ -1,0 +1,35 @@
+{
+  "cursor": 69587,
+  "hasMore": false,
+  "truncated": false,
+  "events": [
+    {
+      "sequence": 69575,
+      "method": "Network.requestWillBeSent",
+      "requestId": "C6DEFA98B0954FF5E0F898BCAC265FDD",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/requirement/confirm",
+      "httpMethod": "OPTIONS"
+    },
+    {
+      "sequence": 69576,
+      "method": "Network.requestWillBeSent",
+      "requestId": "85833.19004",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/requirement/confirm",
+      "httpMethod": "POST"
+    },
+    {
+      "sequence": 69579,
+      "method": "Network.responseReceived",
+      "requestId": "C6DEFA98B0954FF5E0F898BCAC265FDD",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/requirement/confirm",
+      "status": 200
+    },
+    {
+      "sequence": 69583,
+      "method": "Network.responseReceived",
+      "requestId": "85833.19004",
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/requirement/confirm",
+      "status": 200
+    }
+  ]
+}

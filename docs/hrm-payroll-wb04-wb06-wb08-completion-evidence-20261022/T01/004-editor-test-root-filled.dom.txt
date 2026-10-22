@@ -1,0 +1,224 @@
+- link "芋道管理系统":
+  - /url: /
+  - generic: 芋道管理系统
+- menubar:
+  - menuitem "首页":
+    - generic: 首页
+  - menuitem "薪酬管理" [expanded]:
+    - generic: 薪酬管理
+    - menu:
+      - menuitem "需求评审":
+        - generic: 需求评审
+- navigation "面包屑"
+- generic "项目配置":
+- combobox
+- generic: 请输入菜单内容
+- button:
+- button:
+- button "TEST S5 editor NEW DISPLAY":
+  - generic: TEST S5 editor NEW DISPLAY
+- button "首页":
+  - text: 首页
+- button "薪酬需求评审工作台":
+  - generic: 薪酬需求评审工作台
+- button "需求评审":
+  - text: 需求评审
+- button "需求评审 (2)":
+  - text: 需求评审 (2)
+- button "薪酬需求评审工作台 (2)":
+  - generic: 薪酬需求评审工作台 (2)
+- button "业务决议与基线发布":
+  - generic: 业务决议与基线发布
+- button:
+- heading "业务决议、发布与快照导出" [level=1]
+- alert:
+  - generic: TEST材料及合成签署仅验证系统实现，不构成真实业务批准。正式授权根必须有实际有权业务人员提供的受控签署材料。
+- combobox "治理项目"
+- generic: 153 · TEST WB completion 20261022 A · 非正式批准
+- button "刷新决议与发布":
+  - generic: 刷新决议与发布
+- button "返回十视图评审":
+  - generic: 返回十视图评审
+- button "需求、成员及实际来源":
+  - generic: 需求、成员及实际来源
+- paragraph: TEST WB completion 20261022 A · 非正式批准 · 范围版本 未定义
+- region "独立业务授权根":
+  - heading "独立业务授权根" [level=2]
+  - paragraph: 登记与签署分开。授权依据读权独立，旧测试授权不会自动升级为正式授权。
+  - button "登记授权根材料":
+    - generic: 登记授权根材料
+  - generic "授权根表，可横向滚动":
+    - table:
+      - rowgroup:
+        - row "授权根ID 记录版本 材料版本 材料性质 签署状态 被授权人ID 操作":
+          - columnheader "授权根ID":
+            - generic: 授权根ID
+          - columnheader "记录版本":
+            - generic: 记录版本
+          - columnheader "材料版本":
+            - generic: 材料版本
+          - columnheader "材料性质":
+            - generic: 材料性质
+          - columnheader "签署状态":
+            - generic: 签署状态
+          - columnheader "被授权人ID":
+            - generic: 被授权人ID
+          - columnheader "操作":
+            - generic: 操作
+    - table:
+      - rowgroup
+    - generic: 暂无数据
+- region "业务决议版本":
+  - heading "业务决议版本与独立批准" [level=2]
+  - paragraph: 必须覆盖Q-01/02/04/05/07/10。Q-03/06/08/09另行决议或明确分类；正文修订建立新版本，批准和撤销保留原事实。
+  - paragraph: 当前没有独立决议读权，不能依据需求读权查看决议正文。
+  - generic "决议表，可横向滚动":
+    - table:
+      - rowgroup:
+        - row "版本记录ID 决议标题 决议版本 覆盖问题 当前生命周期 指定批准人ID 操作":
+          - columnheader "版本记录ID":
+            - generic: 版本记录ID
+          - columnheader "决议标题":
+            - generic: 决议标题
+          - columnheader "决议版本":
+            - generic: 决议版本
+          - columnheader "覆盖问题":
+            - generic: 覆盖问题
+          - columnheader "当前生命周期":
+            - generic: 当前生命周期
+          - columnheader "指定批准人ID":
+            - generic: 指定批准人ID
+          - columnheader "操作":
+            - generic: 操作
+    - table:
+      - rowgroup
+    - generic: 暂无数据
+- region "发布检查与固定快照":
+  - heading "发布检查与固定快照" [level=2]
+  - paragraph: 规格基线与数据可投产分开；供数待提供不会自动阻止规格明确的需求基线。正式发布须完整闭包可见及当前有效决议。
+  - button "执行发布预检查":
+    - generic: 执行发布预检查
+  - generic: 发布依据或草稿说明
+  - textbox "发布依据或草稿说明"
+  - generic: 幂等请求号
+  - textbox "幂等请求号": e1c8d0c2-1d4a-4b73-b4b0-cd1957c8cd0a
+  - button "发布本期完整需求基线" [disabled]:
+    - generic: 发布本期完整需求基线
+  - button "保存固定草稿快照" [disabled]:
+    - generic: 保存固定草稿快照
+  - generic "发布快照表，可横向滚动":
+    - table:
+      - rowgroup:
+        - row "固定快照ID 发布版本 合成与正式 类型 创建时间 操作":
+          - columnheader "固定快照ID":
+            - generic: 固定快照ID
+          - columnheader "发布版本":
+            - generic: 发布版本
+          - columnheader "合成与正式":
+            - generic: 合成与正式
+          - columnheader "类型":
+            - generic: 类型
+          - columnheader "创建时间":
+            - generic: 创建时间
+          - columnheader "操作":
+            - generic: 操作
+    - table:
+      - rowgroup
+    - generic: 暂无数据
+  - generic: 导出筛选需求ID（留空为全量可见）
+  - textbox "导出筛选需求ID":
+    - /placeholder: 例如 101,102
+  - heading "本轮下载任务" [level=3]
+  - paragraph: 任务创建、生成、结果交付及领取均按当前权限检查；旧地址不能替代重新鉴权。
+  - table:
+    - rowgroup:
+      - row "任务ID 快照ID 状态 文件范围 提示 操作":
+        - columnheader "任务ID":
+          - generic: 任务ID
+        - columnheader "快照ID":
+          - generic: 快照ID
+        - columnheader "状态":
+          - generic: 状态
+        - columnheader "文件范围":
+          - generic: 文件范围
+        - columnheader "提示":
+          - generic: 提示
+        - columnheader "操作":
+          - generic: 操作
+  - table:
+    - rowgroup
+  - generic: 暂无数据
+- dialog "登记授权根材料":
+  - heading "登记授权根材料" [level=2]
+  - button "关闭此对话框":
+  - generic: 独立登记材料
+  - combobox "独立登记材料"
+  - generic: 4 · TEST · TEST-S5-ANCHOR-V1
+  - generic: 被授权人ID
+  - button "减少数值":
+  - button "增加数值":
+  - spinbutton "被授权人ID": "266"
+  - generic: 许可动作
+  - group "许可动作":
+    - checkbox "读取项目" [checked]
+    - generic: 读取项目
+    - checkbox "修改项目名称" [checked]
+    - generic: 修改项目名称
+    - checkbox "编辑需求" [checked]
+    - generic: 编辑需求
+    - checkbox "分派评审" [checked]
+    - generic: 分派评审
+    - checkbox "本人确认需求"
+    - generic: 本人确认需求
+    - checkbox "导出" [checked]
+    - generic: 导出
+    - checkbox "管理成员" [checked]
+    - generic: 管理成员
+    - checkbox "修订项目范围" [checked]
+    - generic: 修订项目范围
+    - checkbox "需求范围取舍" [checked]
+    - generic: 需求范围取舍
+    - checkbox "维护来源" [checked]
+    - generic: 维护来源
+    - checkbox "核验来源质量" [checked]
+    - generic: 核验来源质量
+    - checkbox "管理问题" [checked]
+    - generic: 管理问题
+    - checkbox "处理问题" [checked]
+    - generic: 处理问题
+    - checkbox "独立复核问题"
+    - generic: 独立复核问题
+    - checkbox "读取决议正文" [checked]
+    - generic: 读取决议正文
+    - checkbox "读取授权依据" [checked]
+    - generic: 读取授权依据
+    - checkbox "读取关联人员显示名" [checked]
+    - generic: 读取关联人员显示名
+    - checkbox "起草决议" [checked]
+    - generic: 起草决议
+    - checkbox "独立批准决议"
+    - generic: 独立批准决议
+    - checkbox "发布基线" [checked]
+    - generic: 发布基线
+    - checkbox "创建项目"
+    - generic: 创建项目
+  - generic: 可继续委派动作
+  - combobox "可继续委派动作"
+  - generic: 请选择
+  - generic: 授权范围正文
+  - textbox "授权范围正文": "{\"entities\":[101],\"organizations\":[201],\"workerTypes\":[\"TEST\"],\"scenarios\":[\"TEST\"],\"from\":\"2026-10-01\",\"to\":\"2026-10-31\",\"explanation\":\"TEST WB completion synthetic scope; no real payroll or approval\"}"
+  - generic: 授权开始日期
+  - textbox "授权开始日期": 2026-10-01
+  - generic: 授权结束日期
+  - textbox "授权结束日期": 2026-12-31
+  - generic: 受控材料版本
+  - textbox "受控材料版本": TEST-WBC-20261022-EDITOR-V1
+  - generic: 受控签署材料正文
+  - textbox "受控签署材料正文": TEST synthetic authorization for project153 only, editor266; workflow regression, not formal business authorization.
+  - generic: 登记依据
+  - textbox "登记依据" [active]: TEST WBC task plan synthetic fixture; independent signature required
+  - button "取消登记":
+    - generic: 取消登记
+  - button "保存待签署材料":
+    - generic: 保存待签署材料
+- generic: Copyright ©2026 芋道管理系统

@@ -1,0 +1,21 @@
+{
+  "cursor": 831,
+  "events": [
+    {
+      "sequence": 831,
+      "source": {
+        "tabId": 1
+      },
+      "method": "Network.loadingFailed",
+      "params": {
+        "canceled": false,
+        "errorText": "net::ERR_INTERNET_DISCONNECTED",
+        "requestId": "54998.7452",
+        "timestamp": 337586.505793,
+        "type": "XHR"
+      }
+    }
+  ],
+  "hasMore": false,
+  "truncated": true
+}

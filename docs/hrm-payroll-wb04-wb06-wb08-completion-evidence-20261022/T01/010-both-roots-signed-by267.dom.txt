@@ -1,0 +1,178 @@
+- link "芋道管理系统":
+  - /url: /
+  - generic: 芋道管理系统
+- menubar:
+  - menuitem "首页":
+    - generic: 首页
+  - menuitem "薪酬管理" [expanded]:
+    - generic: 薪酬管理
+    - menu:
+      - menuitem "需求评审":
+        - generic: 需求评审
+- navigation "面包屑"
+- generic "项目配置":
+- combobox
+- generic: 请输入菜单内容
+- button:
+- button:
+- button "TEST S5 approver NEW DISPLAY":
+  - generic: TEST S5 approver NEW DISPLAY
+- button "首页":
+  - text: 首页
+- button "业务决议与基线发布":
+  - generic: 业务决议与基线发布
+- button:
+- heading "业务决议、发布与快照导出" [level=1]
+- alert:
+  - generic: TEST材料及合成签署仅验证系统实现，不构成真实业务批准。正式授权根必须有实际有权业务人员提供的受控签署材料。
+- combobox "治理项目"
+- generic: 153 · TEST WB completion 20261022 A · 非正式批准
+- button "刷新决议与发布" [disabled]:
+  - generic: 刷新决议与发布
+- button "返回十视图评审":
+  - generic: 返回十视图评审
+- button "需求、成员及实际来源":
+  - generic: 需求、成员及实际来源
+- paragraph: TEST WB completion 20261022 A · 非正式批准 · 范围版本 未定义
+- alert:
+  - generic: 本人动作已保存，生命周期按有效期和当前状态计算
+- region "独立业务授权根":
+  - heading "独立业务授权根" [level=2]
+  - paragraph: 登记与签署分开。授权依据读权独立，旧测试授权不会自动升级为正式授权。
+  - generic "授权根表，可横向滚动":
+    - table:
+      - rowgroup:
+        - row "授权根ID 记录版本 材料版本 材料性质 签署状态 被授权人ID 操作":
+          - columnheader "授权根ID":
+            - generic: 授权根ID
+          - columnheader "记录版本":
+            - generic: 记录版本
+          - columnheader "材料版本":
+            - generic: 材料版本
+          - columnheader "材料性质":
+            - generic: 材料性质
+          - columnheader "签署状态":
+            - generic: 签署状态
+          - columnheader "被授权人ID":
+            - generic: 被授权人ID
+          - columnheader "操作":
+            - generic: 操作
+    - table:
+      - rowgroup:
+        - row "1392 2 TEST-WBC-20261022-EDITOR-V1 TEST ACTIVE 266 查看受控材料 撤销授权根":
+          - cell "1392":
+            - generic: "1392"
+          - cell "2":
+            - generic: "2"
+          - cell "TEST-WBC-20261022-EDITOR-V1":
+            - generic: TEST-WBC-20261022-EDITOR-V1
+          - cell "TEST":
+            - generic: TEST
+          - cell "ACTIVE":
+            - generic: ACTIVE
+          - cell "266":
+            - generic: "266"
+          - cell "查看受控材料 撤销授权根":
+            - button "查看受控材料":
+              - generic: 查看受控材料
+            - button "撤销授权根":
+              - generic: 撤销授权根
+        - row "1394 2 TEST-WBC-20261022-REVIEWER-V1 TEST ACTIVE 267 查看受控材料 撤销授权根":
+          - cell "1394":
+            - generic: "1394"
+          - cell "2":
+            - generic: "2"
+          - cell "TEST-WBC-20261022-REVIEWER-V1":
+            - generic: TEST-WBC-20261022-REVIEWER-V1
+          - cell "TEST":
+            - generic: TEST
+          - cell "ACTIVE":
+            - generic: ACTIVE
+          - cell "267":
+            - generic: "267"
+          - cell "查看受控材料 撤销授权根":
+            - button "查看受控材料":
+              - generic: 查看受控材料
+            - button "撤销授权根":
+              - generic: 撤销授权根
+- region "业务决议版本":
+  - heading "业务决议版本与独立批准" [level=2]
+  - paragraph: 必须覆盖Q-01/02/04/05/07/10。Q-03/06/08/09另行决议或明确分类；正文修订建立新版本，批准和撤销保留原事实。
+  - paragraph: 当前没有独立决议读权，不能依据需求读权查看决议正文。
+  - generic "决议表，可横向滚动":
+    - table:
+      - rowgroup:
+        - row "版本记录ID 决议标题 决议版本 覆盖问题 当前生命周期 指定批准人ID 操作":
+          - columnheader "版本记录ID":
+            - generic: 版本记录ID
+          - columnheader "决议标题":
+            - generic: 决议标题
+          - columnheader "决议版本":
+            - generic: 决议版本
+          - columnheader "覆盖问题":
+            - generic: 覆盖问题
+          - columnheader "当前生命周期":
+            - generic: 当前生命周期
+          - columnheader "指定批准人ID":
+            - generic: 指定批准人ID
+          - columnheader "操作":
+            - generic: 操作
+    - table:
+      - rowgroup
+    - generic: 暂无数据
+- region "发布检查与固定快照":
+  - heading "发布检查与固定快照" [level=2]
+  - paragraph: 规格基线与数据可投产分开；供数待提供不会自动阻止规格明确的需求基线。正式发布须完整闭包可见及当前有效决议。
+  - button "执行发布预检查" [disabled]:
+    - generic: 执行发布预检查
+  - generic: 发布依据或草稿说明
+  - textbox "发布依据或草稿说明"
+  - generic: 幂等请求号
+  - textbox "幂等请求号": b072b154-48d1-434d-8226-761b7fff515e
+  - button "发布本期完整需求基线" [disabled]:
+    - generic: 发布本期完整需求基线
+  - button "保存固定草稿快照" [disabled]:
+    - generic: 保存固定草稿快照
+  - generic "发布快照表，可横向滚动":
+    - table:
+      - rowgroup:
+        - row "固定快照ID 发布版本 合成与正式 类型 创建时间 操作":
+          - columnheader "固定快照ID":
+            - generic: 固定快照ID
+          - columnheader "发布版本":
+            - generic: 发布版本
+          - columnheader "合成与正式":
+            - generic: 合成与正式
+          - columnheader "类型":
+            - generic: 类型
+          - columnheader "创建时间":
+            - generic: 创建时间
+          - columnheader "操作":
+            - generic: 操作
+    - table:
+      - rowgroup
+    - generic: 暂无数据
+  - generic: 导出筛选需求ID（留空为全量可见）
+  - textbox "导出筛选需求ID":
+    - /placeholder: 例如 101,102
+  - heading "本轮下载任务" [level=3]
+  - paragraph: 任务创建、生成、结果交付及领取均按当前权限检查；旧地址不能替代重新鉴权。
+  - table:
+    - rowgroup:
+      - row "任务ID 快照ID 状态 文件范围 提示 操作":
+        - columnheader "任务ID":
+          - generic: 任务ID
+        - columnheader "快照ID":
+          - generic: 快照ID
+        - columnheader "状态":
+          - generic: 状态
+        - columnheader "文件范围":
+          - generic: 文件范围
+        - columnheader "提示":
+          - generic: 提示
+        - columnheader "操作":
+          - generic: 操作
+  - table:
+    - rowgroup
+  - generic: 暂无数据
+- generic: Copyright ©2026 芋道管理系统

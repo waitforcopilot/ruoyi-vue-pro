@@ -99,7 +99,16 @@ public class HrmPayrollRequirementServiceImpl implements HrmPayrollRequirementSe
     public void confirm(Long id,Integer version,Long actorId) {
         if(id==null||version==null||version<1||actorId==null) throw exception(PAYROLL_REQUIREMENT_CONFIRM_ACTION_REQUIRED);
         governanceStore.lock();guardTarget(id,actorId,"CONFIRM");
-        HrmPayrollRequirementDO preliminary=mapper.selectById(id);if(preliminary==null)throw exception(PAYROLL_REQUIREMENT_NOT_EXISTS);governanceDecisions.refreshSemantics(preliminary.getProjectId(),actorId);governanceDecisions.forRequirement(preliminary,actorId);
+        HrmPayrollRequirementDO preliminary=mapper.selectById(id);if(preliminary==null)throw exception(PAYROLL_REQUIREMENT_NOT_EXISTS);
+        // Scope feedback is only available after guardTarget has authorized this requirement.
+        // Reject before governance coverage can obscure an undefined or invalidated scope.
+        HrmPayrollRequirementProjectDO currentProject=projectMapper.selectById(preliminary.getProjectId());
+        if(currentProject==null)throw exception(PAYROLL_PROJECT_DENIED);
+        if(currentProject.getProjectScopeVersion()==null || StrUtil.isBlank(currentProject.getScopeJson())
+            || !"MATCH".equals(preliminary.getScopeState())
+            || !Objects.equals(currentProject.getProjectScopeVersion(),preliminary.getProjectScopeVersion()))
+            throw exception(PAYROLL_PROJECT_SCOPE_STALE);
+        governanceDecisions.refreshSemantics(preliminary.getProjectId(),actorId);governanceDecisions.forRequirement(preliminary,actorId);
         HrmPayrollRequirementDO row=mapper.selectOneForUpdate(HrmPayrollRequirementDO::getId,id);
         if(row==null) throw exception(PAYROLL_REQUIREMENT_NOT_EXISTS);
         if(!Objects.equals(row.getVersion(),version)) throw exception(PAYROLL_VERSION_CONFLICT);

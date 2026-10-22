@@ -1,0 +1,166 @@
+- link "芋道管理系统":
+  - /url: /
+  - generic: 芋道管理系统
+- menubar:
+  - menuitem "首页":
+    - generic: 首页
+  - menuitem "薪酬管理" [expanded]:
+    - generic: 薪酬管理
+    - menu:
+      - menuitem "需求评审":
+        - generic: 需求评审
+- navigation "面包屑":
+  - link "薪酬管理":
+    - text: 薪酬管理
+  - text: /
+  - link "需求评审":
+    - text: 需求评审
+- generic "项目配置":
+- combobox
+- generic: 请输入菜单内容
+- button:
+- button:
+- button "TEST S5 editor NEW DISPLAY":
+  - generic: TEST S5 editor NEW DISPLAY
+- button "首页":
+  - text: 首页
+- button "需求评审":
+  - text: 需求评审
+- button:
+- button "进入十视图需求评审工作台":
+  - generic: 进入十视图需求评审工作台
+- combobox "评审项目"
+- generic: TEST WB completion 20261022 A · 非正式批准
+- button "新建评审项目":
+  - generic: 新建评审项目
+- button "修改项目名称":
+  - generic: 修改项目名称
+- button "修订项目范围":
+  - generic: 修订项目范围
+- button "模板版本比较":
+  - generic: 模板版本比较
+- button "项目变更历史":
+  - generic: 项目变更历史
+- button "项目成员与授权":
+  - generic: 项目成员与授权
+- alert:
+  - generic: TEST WB completion 20261022 A · 非正式批准 · 项目编号 153 · 范围版本 3
+- alert:
+  - generic: 功能确认与数据就绪分别核实；确认需当前范围、规则、验收条件和依据，由有权的被分派人本人操作。来源按适用性校验，合法不适用可豁免来源及映射。
+- combobox
+- generic: 需求征集
+- button "刷新":
+  - generic: 刷新
+- button "新增需求":
+  - generic: 新增需求
+- button "初始化 PRD 清单":
+  - generic: 初始化 PRD 清单
+- button "导出评审清单":
+  - generic: 导出评审清单
+- button "需求征集候选数据源与字段":
+  - generic: 需求征集候选数据源与字段
+- table:
+  - rowgroup:
+    - row "需求ID 编号 模块 功能 评审状态 数据就绪 数据来源 范围适配 版本 操作":
+      - columnheader "需求ID":
+        - generic: 需求ID
+      - columnheader "编号":
+        - generic: 编号
+      - columnheader "模块":
+        - generic: 模块
+      - columnheader "功能":
+        - generic: 功能
+      - columnheader "评审状态":
+        - generic: 评审状态
+      - columnheader "数据就绪":
+        - generic: 数据就绪
+      - columnheader "数据来源":
+        - generic: 数据来源
+      - columnheader "范围适配":
+        - generic: 范围适配
+      - columnheader "版本":
+        - generic: 版本
+      - columnheader "操作":
+        - generic: 操作
+- table:
+  - rowgroup:
+    - row "1844 CUSTOM-0001 需求征集 TEST_WBC_T01：条件必填与失败恢复，不完整草稿 评审中 不适用 匹配 32 编辑 历史 分派":
+      - cell "1844":
+        - generic: "1844"
+      - cell "CUSTOM-0001":
+        - generic: CUSTOM-0001
+      - cell "需求征集":
+        - generic: 需求征集
+      - cell "TEST_WBC_T01：条件必填与失败恢复，不完整草稿":
+        - generic: TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+      - cell "评审中":
+        - generic: 评审中
+      - cell "不适用":
+        - generic: 不适用
+      - cell
+      - cell "匹配":
+        - generic: 匹配
+      - cell "32":
+        - generic: "32"
+      - cell "编辑 历史 分派":
+        - button "编辑":
+          - generic: 编辑
+        - button "历史":
+          - generic: 历史
+        - button "分派":
+          - generic: 分派
+- alert:
+  - generic: 实际来源与候选目录分开；功能确认、语义核验、QS/QC和问题关闭分别操作。只登记规格或虚构样例引用，不填写口令或真实工资明细。
+- button "刷新来源工作台":
+  - generic: 刷新来源工作台
+- button "导出当前来源关系":
+  - generic: 导出当前来源关系
+- button "登记实际来源":
+  - generic: 登记实际来源
+- button "建立消费关系":
+  - generic: 建立消费关系
+- button "登记评审问题":
+  - generic: 登记评审问题
+- tablist:
+  - tab "实际来源" [selected]
+  - tab "消费关系与映射"
+  - tab "问题处理与独立复核"
+  - tab "核验证据"
+  - tab "站内待办与建议"
+- tabpanel "实际来源":
+  - table:
+    - rowgroup:
+      - row "sourceId 名称 语义/运营/交付版本 供给 / 语义 / QS 操作":
+        - columnheader "sourceId":
+          - generic: sourceId
+        - columnheader "名称":
+          - generic: 名称
+        - columnheader "语义/运营/交付版本":
+          - generic: 语义/运营/交付版本
+        - columnheader "供给 / 语义 / QS":
+          - generic: 供给 / 语义 / QS
+        - columnheader "操作":
+          - generic: 操作
+  - table:
+    - rowgroup:
+      - row "3515 TEST-WBC-T01关系历史合成来源 1 / 1 / 0 未盘点 / 待核验 / 未通过或待检查 规格详情 供给交付 变更建议 跨项目复制 来源历史":
+        - cell "3515":
+          - generic: "3515"
+        - cell "TEST-WBC-T01关系历史合成来源":
+          - generic: TEST-WBC-T01关系历史合成来源
+        - cell "1 / 1 / 0":
+          - generic: 1 / 1 / 0
+        - cell "未盘点 / 待核验 / 未通过或待检查":
+          - generic: 未盘点 / 待核验 / 未通过或待检查
+        - cell "规格详情 供给交付 变更建议 跨项目复制 来源历史":
+          - button "规格详情":
+            - generic: 规格详情
+          - button "供给交付":
+            - generic: 供给交付
+          - button "变更建议":
+            - generic: 变更建议
+          - button "跨项目复制":
+            - generic: 跨项目复制
+          - button "来源历史":
+            - generic: 来源历史
+- generic: Copyright ©2026 芋道管理系统

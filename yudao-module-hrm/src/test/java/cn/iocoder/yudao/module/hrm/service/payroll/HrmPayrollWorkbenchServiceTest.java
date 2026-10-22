@@ -68,6 +68,48 @@ class HrmPayrollWorkbenchServiceTest extends BaseDbUnitTest {
   q.setVersion(requirements.selectById(r1).getVersion());q.setApplicabilityReason("仅调整菜单导航，不读取任何业务数据");reqService.save(q,1L);assertEquals("EXEMPT",service.readiness(requirements.selectById(r1)));confirm(r1);assertEquals("CONFIRMED",requirements.selectById(r1).getStatus());assertFalse(JsonUtils.parseObject(records.selectById(rel1).getDataJson(),Relation.class).getActive());
   q=JsonUtils.parseObject(JsonUtils.toJsonString(requirements.selectById(r1)),HrmPayrollRequirementSaveReqVO.class);q.setSourceApplicability("APPLICABLE");reqService.save(q,1L);assertEquals("REVIEWING",requirements.selectById(r1).getStatus());assertThrows(cn.iocoder.yudao.framework.common.exception.ServiceException.class,()->confirm(r1));assertEquals("MISSING",service.readiness(requirements.selectById(r1)));assertFalse(JsonUtils.parseObject(records.selectById(rel1).getDataJson(),Relation.class).getActive());
  }
+ void assertConfirmationIncomplete(HrmPayrollRequirementDO req,String message){
+  cn.iocoder.yudao.framework.common.exception.ServiceException error=assertThrows(cn.iocoder.yudao.framework.common.exception.ServiceException.class,()->service.confirmationTuple(req,2L));
+  assertEquals(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_REVIEW_INCOMPLETE.getCode(),error.getCode());assertEquals(message,error.getMessage());
+ }
+ @Test void confirmationNamesScopeAndApplicabilityFailuresInExistingOrder(){
+  HrmPayrollRequirementDO req=requirements.selectById(r1);req.setScopeState("SCOPE_MISMATCH");req.setRuleVersion("");
+  assertConfirmationIncomplete(req,"请补齐以下字段：需求适用范围（须与当前项目范围匹配）");
+  req.setScopeState("MATCH");assertConfirmationIncomplete(req,"请补齐以下字段：规则引用版本");
+  req.setRuleVersion("TEST RULE V1");req.setSourceApplicability("UNKNOWN");assertConfirmationIncomplete(req,"请补齐以下字段：数据来源适用性（适用或不适用）");
+ }
+ @Test void confirmationNamesInvalidExemptionAndAcceptsValidExemptionWithoutRelations(){
+  HrmPayrollRequirementDO req=requirements.selectById(r1);req.setSourceApplicability("NOT_APPLICABLE");
+  for(String reason:Arrays.asList(null,"","N/A","不适用","短理由")){
+   req.setApplicabilityReason(reason);assertConfirmationIncomplete(req,"请补齐以下字段：不适用理由（至少8个字符，说明为何不消费业务数据）");
+  }
+  service.unlink(ctx(new Context(),rel1),1L);
+  HrmPayrollRequirementSaveReqVO draft=JsonUtils.parseObject(JsonUtils.toJsonString(requirements.selectById(r1)),HrmPayrollRequirementSaveReqVO.class);
+  draft.setSourceApplicability("NOT_APPLICABLE");draft.setApplicabilityReason("仅调整菜单导航，不读取任何业务数据");reqService.save(draft,1L);confirm(r1);
+  HrmPayrollRequirementDO confirmed=requirements.selectById(r1);assertEquals("CONFIRMED",confirmed.getStatus());
+  assertEquals(Collections.emptyList(),JsonUtils.parseObject(confirmed.getConfirmedTupleJson(),Map.class).get("sources"));
+ }
+ @Test void applicableConfirmationWithoutActiveRelationNamesMissingMappingAndDoesNotWrite(){
+  service.unlink(ctx(new Context(),rel1),1L);
+  HrmPayrollRequirementDO before=requirements.selectById(r1);int recordCount=records.selectList().size();
+  cn.iocoder.yudao.framework.common.exception.ServiceException error=assertThrows(cn.iocoder.yudao.framework.common.exception.ServiceException.class,()->confirm(r1));
+  assertEquals(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_REVIEW_INCOMPLETE.getCode(),error.getCode());
+  assertEquals("请补齐以下字段：数据来源消费关系及字段映射（至少一条有效关系）",error.getMessage());
+  HrmPayrollRequirementDO after=requirements.selectById(r1);assertEquals(before.getVersion(),after.getVersion());assertEquals(before.getStatus(),after.getStatus());assertEquals(before.getConfirmedTupleJson(),after.getConfirmedTupleJson());assertEquals(recordCount,records.selectList().size());
+ }
+ @Test void confirmationNamesEmptyMappingBeforeUncoveredSourceScope(){
+  HrmPayrollWorkbenchRecordDO relation=records.selectById(rel1);Relation data=JsonUtils.parseObject(relation.getDataJson(),Relation.class);data.setFields(Collections.emptyList());relation.setDataJson(JsonUtils.toJsonString(data));records.updateById(relation);
+  HrmPayrollWorkbenchRecordDO source=records.selectById(s);Source sourceData=sourceData();sourceData.setScopeJson(scope.replace("2026-10-31","2026-10-15"));source.setDataJson(JsonUtils.toJsonString(sourceData));records.updateById(source);
+  assertConfirmationIncomplete(requirements.selectById(r1),"请补齐以下字段：消费关系"+rel1+"的字段映射（至少一个字段）");
+  data=JsonUtils.parseObject(records.selectById(rel2).getDataJson(),Relation.class);data.setRequirementId(r1);relation.setDataJson(JsonUtils.toJsonString(data));records.updateById(relation);
+  assertConfirmationIncomplete(requirements.selectById(r1),"请补齐以下字段：数据来源"+s+"的适用范围（须覆盖需求适用范围）");
+ }
+ @Test void sourceOwnerAuthorizationStillPrecedesMappingBusinessGuidance(){
+  HrmPayrollWorkbenchRecordDO relation=records.selectById(rel1);Relation data=JsonUtils.parseObject(relation.getDataJson(),Relation.class);data.setFields(Collections.emptyList());relation.setDataJson(JsonUtils.toJsonString(data));records.updateById(relation);
+  when(users.getUser(1L)).thenReturn(new cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO().setId(1L).setStatus(1));
+  cn.iocoder.yudao.framework.common.exception.ServiceException error=assertThrows(cn.iocoder.yudao.framework.common.exception.ServiceException.class,()->service.confirmationTuple(requirements.selectById(r1),2L));
+  assertEquals(cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PAYROLL_PROJECT_DENIED.getCode(),error.getCode());
+ }
  @Test void operationalContactDoesNotInvalidateButOwnerRequiresNewSemanticCheck(){baseline();Source x=sourceData();int semantic=x.getSemanticVersion();x.setTechnicalContact("TEST next contact");x.setName("TEST display name");saveSource(x);assertEquals(semantic,sourceData().getSemanticVersion());assertEquals(2,available());assertEquals("CONFIRMED",requirements.selectById(r1).getStatus());x=sourceData();x.setOwnerId(2L);saveSource(x);assertEquals(0,available());assertEquals("CONFIRMED",requirements.selectById(r1).getStatus());assertFalse(service.list(p,"TODO",1L).isEmpty());}
  @Test void supplyAndReplacementDoNotCancelFunctionalConfirmation(){baseline();supply("PENDING",false);assertEquals(0,available());assertEquals("CONFIRMED",requirements.selectById(r1).getStatus());supply("PROVIDED",false);assertEquals(2,available());supply("PROVIDED",true);assertEquals(0,available());assertEquals("CONFIRMED",requirements.selectById(r2).getStatus());}
  @Test void sameD1UnitChangeRequiresBothQualityLayersAndDoesNotOverwriteEvidence(){baseline();int before=service.list(p,"EVIDENCE",1L).size();Source x=sourceData();x.getFields().get(0).setUnit("hour");saveSource(x);assertEquals(1,sourceData().getDeliveryVersion());assertEquals("REVIEWING",requirements.selectById(r1).getStatus());assertEquals("REVIEWING",requirements.selectById(r2).getStatus());assertEquals(0,available());verify(s,"SOURCE_SEMANTIC","PASS");verify(rel1,"RELATION_SEMANTIC","PASS");verify(rel2,"RELATION_SEMANTIC","PASS");assertEquals(0,available());verify(s,"QS","FAIL");assertEquals(0,available());verify(s,"QS","PASS");assertEquals(0,available());verify(rel1,"QC","PASS");assertEquals(1,available());verify(rel2,"QC","PASS");assertEquals(2,available());assertTrue(service.list(p,"EVIDENCE",1L).size()>before);assertEquals("REVIEWING",requirements.selectById(r1).getStatus());}

@@ -1,0 +1,16 @@
+[ERR_PNPM_ABORTED_REMOVE_MODULES_DIR_NO_TTY] Aborted removal of modules directory due to no TTY
+
+If you are running pnpm in CI, set the CI environment variable to "true", or set "confirmModulesPurge" to "false".
+[ERROR] Command failed with exit code 1: '/opt/homebrew/Cellar/node@22/22.23.3_2/bin/node' /Users/waitforpro/.cache/node/corepack/v1/pnpm/11.10.0/bin/pnpm.mjs install
+
+pnpm: Command failed with exit code 1: '/opt/homebrew/Cellar/node@22/22.23.3_2/bin/node' /Users/waitforpro/.cache/node/corepack/v1/pnpm/11.10.0/bin/pnpm.mjs install
+    at getFinalError (file:///Users/waitforpro/.cache/node/corepack/v1/pnpm/11.10.0/dist/pnpm.mjs:36339:14)
+    at makeError (file:///Users/waitforpro/.cache/node/corepack/v1/pnpm/11.10.0/dist/pnpm.mjs:38646:21)
+    at getSyncResult (file:///Users/waitforpro/.cache/node/corepack/v1/pnpm/11.10.0/dist/pnpm.mjs:40490:10)
+    at spawnSubprocessSync (file:///Users/waitforpro/.cache/node/corepack/v1/pnpm/11.10.0/dist/pnpm.mjs:40450:14)
+    at execaCoreSync (file:///Users/waitforpro/.cache/node/corepack/v1/pnpm/11.10.0/dist/pnpm.mjs:40380:23)
+    at callBoundExeca (file:///Users/waitforpro/.cache/node/corepack/v1/pnpm/11.10.0/dist/pnpm.mjs:42908:23)
+    at boundExeca (file:///Users/waitforpro/.cache/node/corepack/v1/pnpm/11.10.0/dist/pnpm.mjs:42885:49)
+    at sync (file:///Users/waitforpro/.cache/node/corepack/v1/pnpm/11.10.0/dist/pnpm.mjs:43044:10)
+    at runPnpmCli (file:///Users/waitforpro/.cache/node/corepack/v1/pnpm/11.10.0/dist/pnpm.mjs:247663:5)
+    at runDepsStatusCheck (file:///Users/waitforpro/.cache/node/corepack/v1/pnpm/11.10.0/dist/pnpm.mjs:249406:7)

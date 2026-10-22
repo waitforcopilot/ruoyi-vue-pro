@@ -1,0 +1,6 @@
+{
+  "status": "PASS",
+  "filename": "src/views/hrm/payroll/review/index.vue",
+  "hasScriptSetup": true,
+  "bindingCount": 107
+}

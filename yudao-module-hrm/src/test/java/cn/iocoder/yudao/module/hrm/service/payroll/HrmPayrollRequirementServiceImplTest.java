@@ -2,6 +2,10 @@ package cn.iocoder.yudao.module.hrm.service.payroll;
 import cn.iocoder.yudao.framework.test.core.ut.BaseDbUnitTest;
 import cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollRequirementSaveReqVO;
 import cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRequirementDO;
+import cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRequirementProjectDO;
+import cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.HrmPayrollRequirementProjectGrantDO;
+import cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementMapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
 import javax.annotation.Resource;
@@ -20,6 +24,8 @@ class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
  }
 
  @Resource private HrmPayrollRequirementService service;
+ @Resource private HrmPayrollRequirementProjectService projectService;
+ @Resource private HrmPayrollRequirementMapper requirements;
  @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementProjectGrantMapper grants;
  @Resource private cn.iocoder.yudao.module.hrm.dal.mysql.payroll.HrmPayrollRequirementProjectMapper projects;
  @org.springframework.boot.test.mock.mockito.MockBean private cn.iocoder.yudao.module.system.api.user.AdminUserApi users;
@@ -62,6 +68,59 @@ class HrmPayrollRequirementServiceImplTest extends BaseDbUnitTest {
   cn.iocoder.yudao.framework.common.exception.ServiceException error=assertThrows(cn.iocoder.yudao.framework.common.exception.ServiceException.class,()->service.confirm(id,1,2L));
   assertEquals(PAYROLL_REVIEW_INCOMPLETE.getCode(),error.getCode());assertTrue(error.getMessage().contains("依据或异议说明"));assertTrue(error.getMessage().contains("评审负责人"));
   assertEquals(1,service.history(id).size());assertEquals("PENDING",row(id).getStatus());
+ }
+ private Long structuredRequirement(){
+  HrmPayrollRequirementProjectDO project=new HrmPayrollRequirementProjectDO().setId(2L).setProjectKey("TEST_SCOPE_CONFIRM").setName("TEST confirmation scope ordering").setMetadataVersion(1).setProjectScopeVersion(1).setScopeJson(projects.selectById(1L).getScopeJson()).setCustomSequence(0L);projects.insert(project);
+  for(long actor:new long[]{1,2}){
+   HrmPayrollRequirementProjectGrantDO grant=new HrmPayrollRequirementProjectGrantDO();grant.setProjectId(project.getId());grant.setUserId(actor);grant.setFullProject(true);grant.setActions("READ,EDIT,ASSIGN,CONFIRM,SCOPE");grant.setCeilingJson(project.getScopeJson());grant.setEvidence("TEST explicit scope-confirm contract authority");grant.setValidFrom(java.time.LocalDate.of(2020,1,1));grant.setValidTo(java.time.LocalDate.of(2099,12,31));grants.insert(grant);
+  }
+  HrmPayrollRequirementSaveReqVO request=ready();request.setProjectId(project.getId());request.setScopeMode("SUBSET");request.setScopeJson(project.getScopeJson());return service.save(request,1L);
+ }
+ private void missingGovernance(){
+  org.mockito.Mockito.when(stage5Decisions.forRequirement(org.mockito.ArgumentMatchers.any(),org.mockito.ArgumentMatchers.anyLong())).thenThrow(new cn.iocoder.yudao.framework.common.exception.ServiceException(PAYROLL_REVIEW_INCOMPLETE.getCode(),PAYROLL_REVIEW_INCOMPLETE.getMsg()));
+  org.mockito.Mockito.clearInvocations(stage5Decisions);
+ }
+ private void assertScopeRejectedWithoutSignature(Long id){
+  HrmPayrollRequirementDO before=requirements.selectById(id);int historyCount=service.history(id).size();
+  cn.iocoder.yudao.framework.common.exception.ServiceException error=assertThrows(cn.iocoder.yudao.framework.common.exception.ServiceException.class,()->service.confirm(id,before.getVersion(),2L));
+  assertEquals(PAYROLL_PROJECT_SCOPE_STALE.getCode(),error.getCode());assertEquals(PAYROLL_PROJECT_SCOPE_STALE.getMsg(),error.getMessage());
+  assertTrue(error.getMessage().matches(".*范围.*变化.*"));
+  HrmPayrollRequirementDO after=requirements.selectById(id);assertEquals(before.getVersion(),after.getVersion());assertEquals(before.getStatus(),after.getStatus());assertNull(after.getConfirmedBy());assertNull(after.getConfirmedAt());assertNull(after.getConfirmedTupleJson());assertEquals(historyCount,service.history(id).size());
+  org.mockito.Mockito.verifyNoInteractions(stage5Decisions);
+ }
+ @Test void scopeMismatchIsReportedBeforeMissingGovernanceWithoutSigning(){
+  Long id=structuredRequirement();HrmPayrollRequirementDO req=requirements.selectById(id);
+  projectService.scope(req.getProjectId(),1,req.getScopeJson().replace("2026-10-01","2026-10-16"),"TEST narrow period while preserving explicit requirement subset",1L);
+  assertEquals("SCOPE_MISMATCH",requirements.selectById(id).getScopeState());assertEquals(2,requirements.selectById(id).getProjectScopeVersion());
+  missingGovernance();assertScopeRejectedWithoutSignature(id);
+ }
+ @Test void undefinedProjectScopeIsReportedBeforeMissingGovernanceWithoutSigning(){
+  Long id=structuredRequirement();Long project=requirements.selectById(id).getProjectId();
+  projects.update(null,new LambdaUpdateWrapper<HrmPayrollRequirementProjectDO>().eq(HrmPayrollRequirementProjectDO::getId,project).set(HrmPayrollRequirementProjectDO::getProjectScopeVersion,null).set(HrmPayrollRequirementProjectDO::getScopeJson,null));
+  missingGovernance();assertScopeRejectedWithoutSignature(id);
+ }
+ @Test void undefinedRequirementScopeAndStaleBoundVersionAreReportedBeforeMissingGovernance(){
+  Long id=structuredRequirement();HrmPayrollRequirementDO req=requirements.selectById(id);req.setScopeState("UNDEFINED");requirements.updateById(req);
+  missingGovernance();assertScopeRejectedWithoutSignature(id);
+  req.setScopeState("MATCH");requirements.updateById(req);HrmPayrollRequirementProjectDO project=projects.selectById(req.getProjectId());project.setProjectScopeVersion(2);projects.updateById(project);
+  assertScopeRejectedWithoutSignature(id);
+ }
+ @Test void inaccessibleRequirementDoesNotRevealScopeFailureOrReachGovernance(){
+  Long id=structuredRequirement();HrmPayrollRequirementDO req=requirements.selectById(id);req.setScopeState("SCOPE_MISMATCH");requirements.updateById(req);
+  grants.delete(new cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX<HrmPayrollRequirementProjectGrantDO>().eq(HrmPayrollRequirementProjectGrantDO::getProjectId,req.getProjectId()).eq(HrmPayrollRequirementProjectGrantDO::getUserId,2L));
+  missingGovernance();assertServiceException(()->service.confirm(id,req.getVersion(),2L),PAYROLL_PROJECT_DENIED);
+  org.mockito.Mockito.verifyNoInteractions(stage5Decisions);assertNull(requirements.selectById(id).getConfirmedBy());
+ }
+ @Test void matchingScopeStillRequiresGovernanceAndCanConfirmWhenSatisfied(){
+  Long id=structuredRequirement();HrmPayrollRequirementDO before=requirements.selectById(id);int historyCount=service.history(id).size();missingGovernance();
+  assertServiceException(()->service.confirm(id,before.getVersion(),2L),PAYROLL_REVIEW_INCOMPLETE);
+  org.mockito.Mockito.verify(stage5Decisions).forRequirement(org.mockito.ArgumentMatchers.any(),org.mockito.ArgumentMatchers.eq(2L));
+  assertEquals(before.getVersion(),requirements.selectById(id).getVersion());assertNull(requirements.selectById(id).getConfirmedBy());assertEquals(historyCount,service.history(id).size());
+  // This suite isolates governance: the successful response represents its satisfied contract.
+  org.mockito.Mockito.doReturn(java.util.Collections.singletonMap("decisions",java.util.Collections.singletonList("TEST effective decision"))).when(stage5Decisions).forRequirement(org.mockito.ArgumentMatchers.any(),org.mockito.ArgumentMatchers.eq(2L));
+  service.confirm(id,before.getVersion(),2L);HrmPayrollRequirementDO confirmed=requirements.selectById(id);
+  assertEquals("CONFIRMED",confirmed.getStatus());assertEquals(2L,confirmed.getConfirmedBy());assertNotNull(confirmed.getConfirmedAt());assertEquals(1,confirmed.getConfirmedScopeVersion());assertNotNull(confirmed.getConfirmedTupleJson());assertEquals(historyCount+1,service.history(id).size());
+  org.mockito.Mockito.verify(stage5Decisions,org.mockito.Mockito.atLeast(2)).forRequirement(org.mockito.ArgumentMatchers.any(),org.mockito.ArgumentMatchers.eq(2L));
  }
  @Test void staleUpdateIsRejected() {
   HrmPayrollRequirementSaveReqVO r=request();r.setId(service.save(r,1L));r.setVersion(1);service.save(r,1L);assertServiceException(()->service.save(r,2L),PAYROLL_VERSION_CONFLICT);

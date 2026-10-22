@@ -1,0 +1,39 @@
+{
+  "metaCursor": 69473,
+  "metaTruncated": true,
+  "hasMore": false,
+  "resources": [
+    {
+      "requestId": "85833.18861",
+      "url": "http://127.0.0.1:5173/src/views/hrm/payroll/review/index.vue?t=1792639332730",
+      "status": 200,
+      "bodyFile": "browser-loaded-index.js",
+      "bodySha256": "03fa4637c0fe6364ce7b6e083278158ce3b341bddf1a573b19cfa9eaeb840764",
+      "recordedResponseSha256": "03fa4637c0fe6364ce7b6e083278158ce3b341bddf1a573b19cfa9eaeb840764",
+      "responseHashMatches": true,
+      "sourceMapSources": [
+        "index.vue"
+      ],
+      "sourceMapContentSha256": "a5817f4eff90fe921238e04b4d6ca8d993b3a51b989e090923fb3cd302479bce",
+      "recordedDiskSha256": "a5817f4eff90fe921238e04b4d6ca8d993b3a51b989e090923fb3cd302479bce",
+      "diskSha256": "a5817f4eff90fe921238e04b4d6ca8d993b3a51b989e090923fb3cd302479bce",
+      "sourceMapMatchesDisk": true
+    },
+    {
+      "requestId": "85833.18865",
+      "url": "http://127.0.0.1:5173/src/views/hrm/payroll/review/validation.ts?t=1792639123101",
+      "status": 200,
+      "bodyFile": "browser-loaded-validation.js",
+      "bodySha256": "856b10cc100d99888521a6de0940bf0fca18a6a7c6c551d458a36253543dd77a",
+      "recordedResponseSha256": "856b10cc100d99888521a6de0940bf0fca18a6a7c6c551d458a36253543dd77a",
+      "responseHashMatches": true,
+      "sourceMapSources": [
+        "validation.ts"
+      ],
+      "sourceMapContentSha256": "82903174d28f1743aca049b787dd6099da63aa5647e95ed5e1d32f2076b87471",
+      "recordedDiskSha256": "82903174d28f1743aca049b787dd6099da63aa5647e95ed5e1d32f2076b87471",
+      "diskSha256": "82903174d28f1743aca049b787dd6099da63aa5647e95ed5e1d32f2076b87471",
+      "sourceMapMatchesDisk": true
+    }
+  ]
+}

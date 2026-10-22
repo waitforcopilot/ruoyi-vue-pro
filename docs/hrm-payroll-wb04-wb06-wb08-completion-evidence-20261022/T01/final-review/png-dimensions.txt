@@ -1,0 +1,42 @@
+/Users/waitforpro/source/github-yudao/ruoyi-vue-pro/docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T01/122-768-final-required.png
+  pixelWidth: 768
+  pixelHeight: 1024
+/Users/waitforpro/source/github-yudao/ruoyi-vue-pro/docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T01/123-768-restored-na-v13.png
+  pixelWidth: 768
+  pixelHeight: 1024
+/Users/waitforpro/source/github-yudao/ruoyi-vue-pro/docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T01/130-1440-final-required.png
+  pixelWidth: 1440
+  pixelHeight: 1000
+/Users/waitforpro/source/github-yudao/ruoyi-vue-pro/docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T01/131-1440-final-restored-v16.png
+  pixelWidth: 1440
+  pixelHeight: 1000
+/Users/waitforpro/source/github-yudao/ruoyi-vue-pro/docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T01/148-390-final-dispute-offline.png
+  pixelWidth: 390
+  pixelHeight: 844
+/Users/waitforpro/source/github-yudao/ruoyi-vue-pro/docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T01/149-390-final-dispute-retry-saved.png
+  pixelWidth: 390
+  pixelHeight: 844
+/Users/waitforpro/source/github-yudao/ruoyi-vue-pro/docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T01/150-dispute-forced-refresh-v24.png
+  pixelWidth: 390
+  pixelHeight: 844
+/Users/waitforpro/source/github-yudao/ruoyi-vue-pro/docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T01/164-scope-final-specific-rejection.png
+  pixelWidth: 1269
+  pixelHeight: 1190
+/Users/waitforpro/source/github-yudao/ruoyi-vue-pro/docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T01/170-scope-rejection-visible-notification.png
+  pixelWidth: 1269
+  pixelHeight: 1190
+/Users/waitforpro/source/github-yudao/ruoyi-vue-pro/docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T01/171-scope4-rejection-stable-no-sign.png
+  pixelWidth: 1269
+  pixelHeight: 1190
+/Users/waitforpro/source/github-yudao/ruoyi-vue-pro/docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T01/172-scope-restored-version5.png
+  pixelWidth: 1269
+  pixelHeight: 1190
+/Users/waitforpro/source/github-yudao/ruoyi-vue-pro/docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T01/173-scope5-test-decision-effective.png
+  pixelWidth: 1269
+  pixelHeight: 1190
+/Users/waitforpro/source/github-yudao/ruoyi-vue-pro/docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T01/174-T01-final-confirmed-v36-scope5.png
+  pixelWidth: 1269
+  pixelHeight: 1190
+/Users/waitforpro/source/github-yudao/ruoyi-vue-pro/docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T01/175-T01-final-history-v36-scope5.png
+  pixelWidth: 1269
+  pixelHeight: 1190
