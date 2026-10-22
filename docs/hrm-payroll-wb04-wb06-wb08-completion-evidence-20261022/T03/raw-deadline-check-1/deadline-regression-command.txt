@@ -1,0 +1,2 @@
+cwd: /Users/waitforpro/source/github-yudao/ruoyi-vue-pro
+command: node scripts/hrm/frontend_workbench_issue_deadline_regression.cjs

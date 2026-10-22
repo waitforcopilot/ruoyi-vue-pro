@@ -1,0 +1,613 @@
+Browser tab: 1, Title: "芋道管理系统 - 需求评审", URL: "http://127.0.0.1:5173/hrm-payroll/requirement?projectId=153&module=COL".
+1 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?projectId=153&module=COL
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			15 container v-tool-header
+				16 container 面包屑
+					17 link 薪酬管理
+						18 text 薪酬管理
+					19 text /
+					20 link 需求评审
+						21 text 需求评审
+				22 container
+					23 container
+						24 combo box (collapsed, settable) ID: el-id-581-76, Secondary Actions: Expand
+						25 text 请输入菜单内容
+				26 pop up button (collapsed) ID: el-id-581-4, Secondary Actions: Expand
+				27 pop up button (collapsed) ID: el-id-581-9, Secondary Actions: Expand
+				28 pop up button (collapsed) TEST S6 reassign, ID: el-id-581-14, Secondary Actions: Expand
+			29 container v-tags-view
+				30 container
+					31 pop up button (collapsed) 首页, ID: el-id-581-20, Secondary Actions: Expand
+						32 container
+							33 text 首页
+					34 pop up button (collapsed) 需求评审, ID: el-id-581-28, Secondary Actions: Expand
+						35 container
+							36 text 需求评审
+				37 pop up button (collapsed) ID: el-id-581-36, Secondary Actions: Expand
+			38 button 进入十视图需求评审工作台
+			39 container
+				40 container
+					41 combo box (collapsed, settable) Description: 评审项目, ID: el-id-581-77, Secondary Actions: Expand
+					42 text TEST WB completion 20261022 A · 非正式批准
+					43 image
+				44 button 模板版本比较
+				45 button 项目变更历史
+			46 text TEST WB completion 20261022 A · 非正式批准 · 项目编号 153 · 范围版本 5
+			47 text 功能确认与数据就绪分别核实；确认需当前范围、规则、验收条件和依据，由有权的被分派人本人操作。来源按适用性校验，合法不适用可豁免来源及映射。
+			48 container
+				49 container
+					50 combo box (collapsed, settable) ID: el-id-581-78, Secondary Actions: Expand
+					51 text 需求征集
+					52 image
+				53 button 刷新
+				54 button 导出评审清单
+			55 button (collapsed) 需求征集候选数据源与字段, ID: el-collapse-head-65, Secondary Actions: Expand
+				56 text 需求征集候选数据源与字段
+			57 container
+				58 table
+					59 row
+						60 cell
+							61 text 需求ID
+						62 cell
+							63 text 编号
+						64 cell
+							65 text 模块
+						66 cell
+							67 text 功能
+						68 cell
+							69 text 评审状态
+						70 cell
+							71 text 数据就绪
+						72 cell
+							73 text 数据来源
+						74 cell
+							75 text 范围适配
+						76 cell
+							77 text 版本
+						78 cell
+							79 text 操作
+				80 table
+					81 row
+						82 cell
+							83 text 1844
+						84 cell
+							85 text CUSTOM-0001
+						86 cell
+							87 text 需求征集
+						88 cell
+							89 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+						90 cell
+							91 text 评审中
+						92 cell
+							93 text 不适用
+						94 cell
+							95 text 匹配
+						96 cell
+							97 text 40
+						98 cell
+							99 container
+								100 button 历史
+								101 button 确认版本
+			102 text 实际来源与候选目录分开；功能确认、语义核验、QS/QC和问题关闭分别操作。只登记规格或虚构样例引用，不填写口令或真实工资明细。
+			103 container
+				104 button 刷新来源工作台
+				105 button 导出当前来源关系
+			106 tab group
+				107 tab (selectable, settable, boolean) 实际来源, Value: 0, ID: tab-sources
+				108 tab (selectable, settable, boolean) 消费关系与映射, Value: 0, ID: tab-relations
+				109 tab (selected, settable, boolean) 问题处理与独立复核, Value: 1, ID: tab-issues
+				110 tab (selectable, settable, boolean) 核验证据, Value: 0, ID: tab-evidence
+				111 tab (selectable, settable, boolean) 站内待办与建议, Value: 0, ID: tab-todos
+			145 container Description: 问题处理与独立复核, ID: pane-issues
+				146 container
+					147 table
+						148 row
+							149 cell
+								150 text issueId
+							151 cell
+								152 text 问题
+							153 cell
+								154 text 状态 / 类别 / 期限
+							155 cell
+								156 text 责任人 / 复核人
+							157 cell
+								158 text 操作
+					159 table
+						160 row
+							161 cell
+								162 text 3531
+							163 cell
+								164 text TEST_WBC_T03_TWO_CYCLES_20261023：驳回、补充、独立关闭与新依据重开
+							165 cell
+								166 text 待处理 / ADVISORY / 2026-10-31
+							167 cell
+								168 text 269 / 279
+							169 cell
+								170 container
+									175 button 复核分类及影响
+									174 button 问题历史
+			176 container 关闭对象历史
+				177 container
+					178 text 工作台对象历史
+				179 container
+					180 table
+						181 row
+							182 cell
+								183 text 动作
+							184 cell
+								185 text 对象版本
+							186 cell
+								187 text 操作者
+							188 cell
+								189 text 依据
+							190 cell
+								191 text 快照与影响集合
+					192 table
+						193 container
+							194 row
+								195 cell
+									196 text ISSUE_CREATE
+								197 cell
+									198 text 1
+								199 cell
+									200 text 266
+								201 cell
+									202 text TEST T03 browser cycle1 create, handler269 and independent reviewer279, no formal approval
+								203 cell
+									204 text {
+  "objectId": 3531,
+  "kind": "ISSUE",
+  "objectVersion": 1,
+  "action": "ISSUE_CREATE",
+  "actor": 266,
+  "time": "2026-10-23T07:02:00.952",
+  "reason": "TEST T03 browser cycle1 create, handler269 and independent reviewer279, no formal approval",
+  "snapshot": {
+    "description": "TEST_WBC_T03_TWO_CYCLES_20261023：驳回、补充、独立关闭与新依据重开",
+    "requirementIds": [
+      1844
+    ],
+    "sourceIds": [],
+    "wholeProject": false,
+    "category": "ADVISORY",
+    "handlerId": 269,
+    "reviewerId": 279,
+    "dueDate": "2026-10-31",
+    "relationIds": [],
+    "state": "OPEN",
+    "cycle": 1,
+    "wasOverdue": false,
+    "closedDate": null,
+    "processing": null,
+    "review": null
+  },
+  "affectedRequirementIds": [
+    1844
+  ]
+}
+							205 row
+								206 cell
+									207 text ISSUE_START
+								208 cell
+									209 text 2
+								210 cell
+									211 text 269
+								212 cell
+									213 text TEST handler269 cycle1 starts investigation of synthetic requirements
+								214 cell
+									215 text {
+  "objectId": 3531,
+  "kind": "ISSUE",
+  "objectVersion": 2,
+  "action": "ISSUE_START",
+  "actor": 269,
+  "time": "2026-10-23T07:05:50.319",
+  "reason": "TEST handler269 cycle1 starts investigation of synthetic requirements",
+  "snapshot": {
+    "description": "TEST_WBC_T03_TWO_CYCLES_20261023：驳回、补充、独立关闭与新依据重开",
+    "requirementIds": [
+      1844
+    ],
+    "sourceIds": [],
+    "wholeProject": false,
+    "category": "ADVISORY",
+    "handlerId": 269,
+    "reviewerId": 279,
+    "dueDate": "2026-10-31",
+    "relationIds": [],
+    "state": "PROCESSING",
+    "cycle": 1,
+    "wasOverdue": false,
+    "closedDate": null,
+    "processing": null,
+    "review": null
+  },
+  "affectedRequirementIds": [
+    1844
+  ]
+}
+							216 row
+								217 cell
+									218 text ISSUE_SUBMIT
+								219 cell
+									220 text 3
+								221 cell
+									222 text 269
+								223 cell
+									224 text TEST handler269 cycle1 first submission; reviewer should reject incomplete explanation
+								225 cell
+									226 text {
+  "objectId": 3531,
+  "kind": "ISSUE",
+  "objectVersion": 3,
+  "action": "ISSUE_SUBMIT",
+  "actor": 269,
+  "time": "2026-10-23T07:06:10.661",
+  "reason": "TEST handler269 cycle1 first submission; reviewer should reject incomplete explanation",
+  "snapshot": {
+    "description": "TEST_WBC_T03_TWO_CYCLES_20261023：驳回、补充、独立关闭与新依据重开",
+    "requirementIds": [
+      1844
+    ],
+    "sourceIds": [],
+    "wholeProject": false,
+    "category": "ADVISORY",
+    "handlerId": 269,
+    "reviewerId": 279,
+    "dueDate": "2026-10-31",
+    "relationIds": [],
+    "state": "REVIEW",
+    "cycle": 1,
+    "wasOverdue": false,
+    "closedDate": null,
+    "processing": "TEST handler269 cycle1 first submission; reviewer should reject incomplete explanation",
+    "review": null
+  },
+  "affectedRequirementIds": [
+    1844
+  ]
+}
+							227 row
+								228 cell
+									229 text ISSUE_REJECT
+								230 cell
+									231 text 4
+								232 cell
+									233 text 279
+								234 cell
+									235 text TEST independent reviewer279 rejects: cycle1 evidence lacks reproducible exception detail
+								236 cell
+									237 text {
+  "objectId": 3531,
+  "kind": "ISSUE",
+  "objectVersion": 4,
+  "action": "ISSUE_REJECT",
+  "actor": 279,
+  "time": "2026-10-23T07:06:45.627",
+  "reason": "TEST independent reviewer279 rejects: cycle1 evidence lacks reproducible exception detail",
+  "snapshot": {
+    "description": "TEST_WBC_T03_TWO_CYCLES_20261023：驳回、补充、独立关闭与新依据重开",
+    "requirementIds": [
+      1844
+    ],
+    "sourceIds": [],
+    "wholeProject": false,
+    "category": "ADVISORY",
+    "handlerId": 269,
+    "reviewerId": 279,
+    "dueDate": "2026-10-31",
+    "relationIds": [],
+    "state": "PROCESSING",
+    "cycle": 1,
+    "wasOverdue": false,
+    "closedDate": null,
+    "processing": "TEST handler269 cycle1 first submission; reviewer should reject incomplete explanation",
+    "review": "TEST independent reviewer279 rejects: cycle1 evidence lacks reproducible exception detail"
+  },
+  "affectedRequirementIds": [
+    1844
+  ]
+}
+							238 row
+								239 cell
+									240 text ISSUE_SUBMIT
+								241 cell
+									242 text 5
+								243 cell
+									244 text 269
+								245 cell
+									246 text TEST handler269 cycle1 adds reproducible normal and exception steps; preserves first rejected evidence in history
+								247 cell
+									248 text {
+  "objectId": 3531,
+  "kind": "ISSUE",
+  "objectVersion": 5,
+  "action": "ISSUE_SUBMIT",
+  "actor": 269,
+  "time": "2026-10-23T07:07:12.417",
+  "reason": "TEST handler269 cycle1 adds reproducible normal and exception steps; preserves first rejected evidence in history",
+  "snapshot": {
+    "description": "TEST_WBC_T03_TWO_CYCLES_20261023：驳回、补充、独立关闭与新依据重开",
+    "requirementIds": [
+      1844
+    ],
+    "sourceIds": [],
+    "wholeProject": false,
+    "category": "ADVISORY",
+    "handlerId": 269,
+    "reviewerId": 279,
+    "dueDate": "2026-10-31",
+    "relationIds": [],
+    "state": "REVIEW",
+    "cycle": 1,
+    "wasOverdue": false,
+    "closedDate": null,
+    "processing": "TEST handler269 cycle1 adds reproducible normal and exception steps; preserves first rejected evidence in history",
+    "review": "TEST independent reviewer279 rejects: cycle1 evidence lacks reproducible exception detail"
+  },
+  "affectedRequirementIds": [
+    1844
+  ]
+}
+							249 row
+								250 cell
+									251 text ISSUE_CLOSE
+								252 cell
+									253 text 6
+								254 cell
+									255 text 279
+								256 cell
+									257 text TEST reviewer279 independently verified cycle1 handler269 normal and exception details; closure accepted only for synthetic issue
+								258 cell
+									259 text {
+  "objectId": 3531,
+  "kind": "ISSUE",
+  "objectVersion": 6,
+  "action": "ISSUE_CLOSE",
+  "actor": 279,
+  "time": "2026-10-23T07:07:43.778",
+  "reason": "TEST reviewer279 independently verified cycle1 handler269 normal and exception details; closure accepted only for synthetic issue",
+  "snapshot": {
+    "description": "TEST_WBC_T03_TWO_CYCLES_20261023：驳回、补充、独立关闭与新依据重开",
+    "requirementIds": [
+      1844
+    ],
+    "sourceIds": [],
+    "wholeProject": false,
+    "category": "ADVISORY",
+    "handlerId": 269,
+    "reviewerId": 279,
+    "dueDate": "2026-10-31",
+    "relationIds": [],
+    "state": "CLOSED",
+    "cycle": 1,
+    "wasOverdue": false,
+    "closedDate": "2026-10-23",
+    "processing": "TEST handler269 cycle1 adds reproducible normal and exception steps; preserves first rejected evidence in history",
+    "review": "TEST reviewer279 independently verified cycle1 handler269 normal and exception details; closure accepted only for synthetic issue"
+  },
+  "affectedRequirementIds": [
+    1844
+  ]
+}
+							260 row
+								261 cell
+									262 text ISSUE_REOPEN
+								263 cell
+									264 text 7
+								265 cell
+									266 text 279
+								267 cell
+									268 text TEST new evidence for cycle2: reproduce an additional synthetic exception after cycle1 closure
+								269 cell
+									270 text {
+  "objectId": 3531,
+  "kind": "ISSUE",
+  "objectVersion": 7,
+  "action": "ISSUE_REOPEN",
+  "actor": 279,
+  "time": "2026-10-23T07:08:30.829",
+  "reason": "TEST new evidence for cycle2: reproduce an additional synthetic exception after cycle1 closure",
+  "snapshot": {
+    "description": "TEST_WBC_T03_TWO_CYCLES_20261023：驳回、补充、独立关闭与新依据重开",
+    "requirementIds": [
+      1844
+    ],
+    "sourceIds": [],
+    "wholeProject": false,
+    "category": "ADVISORY",
+    "handlerId": 269,
+    "reviewerId": 279,
+    "dueDate": "2027-02-09",
+    "relationIds": [],
+    "state": "OPEN",
+    "cycle": 2,
+    "wasOverdue": false,
+    "closedDate": null,
+    "processing": null,
+    "review": null
+  },
+  "affectedRequirementIds": [
+    1844
+  ]
+}
+							271 row
+								272 cell
+									273 text ISSUE_START
+								274 cell
+									275 text 8
+								276 cell
+									277 text 269
+								278 cell
+									279 text TEST cycle2 remediation acknowledges earlier invalid date normalization defect; preserves original failed history
+								280 cell
+									281 text {
+  "objectId": 3531,
+  "kind": "ISSUE",
+  "objectVersion": 8,
+  "action": "ISSUE_START",
+  "actor": 269,
+  "time": "2026-10-23T07:17:42.777",
+  "reason": "TEST cycle2 remediation acknowledges earlier invalid date normalization defect; preserves original failed history",
+  "snapshot": {
+    "description": "TEST_WBC_T03_TWO_CYCLES_20261023：驳回、补充、独立关闭与新依据重开",
+    "requirementIds": [
+      1844
+    ],
+    "sourceIds": [],
+    "wholeProject": false,
+    "category": "ADVISORY",
+    "handlerId": 269,
+    "reviewerId": 279,
+    "dueDate": "2027-02-09",
+    "relationIds": [],
+    "state": "PROCESSING",
+    "cycle": 2,
+    "wasOverdue": false,
+    "closedDate": null,
+    "processing": null,
+    "review": null
+  },
+  "affectedRequirementIds": [
+    1844
+  ]
+}
+							282 row
+								283 cell
+									284 text ISSUE_SUBMIT
+								285 cell
+									286 text 9
+								287 cell
+									288 text 269
+								289 cell
+									290 text TEST handler269 finishes synthetic cycle2 remediation; original normalized due date remains historical evidence
+								291 cell
+									292 text {
+  "objectId": 3531,
+  "kind": "ISSUE",
+  "objectVersion": 9,
+  "action": "ISSUE_SUBMIT",
+  "actor": 269,
+  "time": "2026-10-23T07:17:48.907",
+  "reason": "TEST handler269 finishes synthetic cycle2 remediation; original normalized due date remains historical evidence",
+  "snapshot": {
+    "description": "TEST_WBC_T03_TWO_CYCLES_20261023：驳回、补充、独立关闭与新依据重开",
+    "requirementIds": [
+      1844
+    ],
+    "sourceIds": [],
+    "wholeProject": false,
+    "category": "ADVISORY",
+    "handlerId": 269,
+    "reviewerId": 279,
+    "dueDate": "2027-02-09",
+    "relationIds": [],
+    "state": "REVIEW",
+    "cycle": 2,
+    "wasOverdue": false,
+    "closedDate": null,
+    "processing": "TEST handler269 finishes synthetic cycle2 remediation; original normalized due date remains historical evidence",
+    "review": null
+  },
+  "affectedRequirementIds": [
+    1844
+  ]
+}
+							293 row
+								294 cell
+									295 text ISSUE_CLOSE
+								296 cell
+									297 text 10
+								298 cell
+									299 text 279
+								300 cell
+									301 text TEST reviewer279 closes remediation cycle2 without erasing invalid-normalization history; final-candidate REOPEN regression follows
+								302 cell
+									303 text {
+  "objectId": 3531,
+  "kind": "ISSUE",
+  "objectVersion": 10,
+  "action": "ISSUE_CLOSE",
+  "actor": 279,
+  "time": "2026-10-23T07:18:06.969",
+  "reason": "TEST reviewer279 closes remediation cycle2 without erasing invalid-normalization history; final-candidate REOPEN regression follows",
+  "snapshot": {
+    "description": "TEST_WBC_T03_TWO_CYCLES_20261023：驳回、补充、独立关闭与新依据重开",
+    "requirementIds": [
+      1844
+    ],
+    "sourceIds": [],
+    "wholeProject": false,
+    "category": "ADVISORY",
+    "handlerId": 269,
+    "reviewerId": 279,
+    "dueDate": "2027-02-09",
+    "relationIds": [],
+    "state": "CLOSED",
+    "cycle": 2,
+    "wasOverdue": false,
+    "closedDate": "2026-10-23",
+    "processing": "TEST handler269 finishes synthetic cycle2 remediation; original normalized due date remains historical evidence",
+    "review": "TEST reviewer279 closes remediation cycle2 without erasing invalid-normalization history; final-candidate REOPEN regression follows"
+  },
+  "affectedRequirementIds": [
+    1844
+  ]
+}
+							304 row
+								305 cell
+									306 text ISSUE_REOPEN
+								307 cell
+									308 text 11
+								309 cell
+									310 text 279
+								311 cell
+									312 text TEST final raw-date regression must reject impossible calendar values without modifying closed cycle2
+								313 cell
+									314 text {
+  "objectId": 3531,
+  "kind": "ISSUE",
+  "objectVersion": 11,
+  "action": "ISSUE_REOPEN",
+  "actor": 279,
+  "time": "2026-10-23T07:18:29.716",
+  "reason": "TEST final raw-date regression must reject impossible calendar values without modifying closed cycle2",
+  "snapshot": {
+    "description": "TEST_WBC_T03_TWO_CYCLES_20261023：驳回、补充、独立关闭与新依据重开",
+    "requirementIds": [
+      1844
+    ],
+    "sourceIds": [],
+    "wholeProject": false,
+    "category": "ADVISORY",
+    "handlerId": 269,
+    "reviewerId": 279,
+    "dueDate": "2026-10-31",
+    "relationIds": [],
+    "state": "OPEN",
+    "cycle": 3,
+    "wasOverdue": false,
+    "closedDate": null,
+    "processing": null,
+    "review": null
+  },
+  "affectedRequirementIds": [
+    1844
+  ]
+}
+				315 button 关闭对象历史
+			144 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 176 container 关闭对象历史

@@ -388,8 +388,8 @@
                 :label="`${u.nickname} (${u.id})`" /></el-select
           ></el-form-item>
         </template>
-        <el-form-item v-if="mode === 'issue'" label="处理期限"
-          ><el-date-picker v-model="draft.issue.dueDate" value-format="YYYY-MM-DD"
+        <el-form-item v-if="mode === 'issue'" label="处理期限" :error="fieldErrors.dueDate"
+          ><el-input v-model="draft.issue.dueDate" aria-label="处理期限" placeholder="YYYY-MM-DD"
         /></el-form-item>
       </template>
       <template v-if="mode === 'action'"
@@ -400,14 +400,11 @@
             v-model="draft.evidence"
             aria-label="处理或复核依据"
             type="textarea" /></el-form-item
-        ><el-form-item
-          v-if="draft.action === 'REOPEN'"
-          label="新期限"
-          :error="fieldErrors.dueDate ? '请填写本轮新期限' : ''"
-          ><el-date-picker
+        ><el-form-item v-if="draft.action === 'REOPEN'" label="新期限" :error="fieldErrors.dueDate"
+          ><el-input
             v-model="draft.dueDate"
             aria-label="新期限"
-            value-format="YYYY-MM-DD" /></el-form-item
+            placeholder="YYYY-MM-DD" /></el-form-item
       ></template>
       <template v-if="mode === 'proposal'"
         ><el-form-item label="建议内容"
@@ -668,7 +665,11 @@ const save = async () => {
     failed.value = true
     failureMessage.value = `请补齐以下字段：${Object.values(fieldErrors.value).join('、')}。输入已保留。`
     await nextTick()
-    const label = Object.values(fieldErrors.value)[0]
+    const label = fieldErrors.value.dueDate
+      ? mode.value === 'issue'
+        ? '处理期限'
+        : '新期限'
+      : Object.values(fieldErrors.value)[0]
     const control = document.querySelector<HTMLElement>(`[aria-label="${label}"]`)
     control?.scrollIntoView({ block: 'center' })
     control?.focus()

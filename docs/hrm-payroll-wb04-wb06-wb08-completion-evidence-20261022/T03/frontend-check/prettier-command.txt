@@ -1,0 +1,2 @@
+cwd: /Users/waitforpro/source/github-yudao/ruoyi-vue-pro/yudao-ui/yudao-ui-admin-vue3
+command: node node_modules/prettier/bin/prettier.cjs --check src/views/hrm/payroll/review/validation.ts

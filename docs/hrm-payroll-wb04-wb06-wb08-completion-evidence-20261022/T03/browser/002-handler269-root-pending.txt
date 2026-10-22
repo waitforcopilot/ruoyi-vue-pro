@@ -1,0 +1,259 @@
+Browser tab: 1, Title: "芋道管理系统 - 业务决议与基线发布", URL: "http://127.0.0.1:5173/hrm-payroll/governance?projectId=153".
+1 AXWebArea 芋道管理系统 - 业务决议与基线发布, URL: 127.0.0.1:5173/hrm-payroll/governance?projectId=153
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			15 container
+				16 container v-tool-header
+					17 container 面包屑
+					18 container
+						19 container
+							20 combo box (collapsed, settable) ID: el-id-1219-61, Secondary Actions: Expand
+							21 text 请输入菜单内容
+					22 pop up button (collapsed) ID: el-id-1219-4, Secondary Actions: Expand
+					23 pop up button (collapsed) ID: el-id-1219-9, Secondary Actions: Expand
+					24 pop up button (collapsed) TEST S5 editor NEW DISPLAY, ID: el-id-1219-14, Secondary Actions: Expand
+				25 container v-tags-view
+					26 container
+						27 pop up button (collapsed) 首页, ID: el-id-1219-20, Secondary Actions: Expand
+							28 container
+								29 text 首页
+						30 pop up button (collapsed) 业务决议与基线发布, ID: el-id-1219-28, Secondary Actions: Expand
+							31 text 业务决议与基线发布
+					32 pop up button (collapsed) ID: el-id-1219-36, Secondary Actions: Expand
+			33 container
+				34 heading 业务决议、发布与快照导出, Value: 1
+					35 text 业务决议、发布与快照导出
+				36 text TEST材料及合成签署仅验证系统实现，不构成真实业务批准。正式授权根必须有实际有权业务人员提供的受控签署材料。
+				37 container
+					38 combo box (collapsed, settable) Description: 治理项目, ID: el-id-1219-62, Secondary Actions: Expand
+					39 text 153 · TEST WB completion 20261022 A · 非正式批准
+					40 image
+				41 button (disabled) 刷新决议与发布
+					605 text 刷新决议与发布
+				42 button 返回十视图评审
+				43 button 需求、成员及实际来源
+				44 text TEST WB completion 20261022 A · 非正式批准 · 范围版本 5 已登记待签署授权根1419，尚未生效
+				45 container 独立业务授权根
+					46 heading 独立业务授权根, Value: 2
+						47 text 独立业务授权根
+					48 text 登记与签署分开。授权依据读权独立，旧测试授权不会自动升级为正式授权。
+					49 button 登记授权根材料
+					50 container 授权根表，可横向滚动
+						51 container
+							52 table
+								53 row
+									54 cell
+										55 text 授权根ID
+									56 cell
+										57 text 记录版本
+									58 cell
+										59 text 材料版本
+									60 cell
+										61 text 材料性质
+									62 cell
+										63 text 签署状态
+									64 cell
+										65 text 被授权人ID
+									66 cell
+										67 text 操作
+							606 container
+								607 table
+								608 text 暂无数据
+				130 container 业务决议版本
+					131 heading 业务决议版本与独立批准, Value: 2
+						132 text 业务决议版本与独立批准
+					133 text 必须覆盖Q-01/02/04/05/07/10。Q-03/06/08/09另行决议或明确分类；正文修订建立新版本，批准和撤销保留原事实。
+					609 text 当前没有独立决议读权，不能依据需求读权查看决议正文。
+					135 container 决议表，可横向滚动
+						136 container
+							137 table
+								138 row
+									139 cell
+										140 text 版本记录ID
+									141 cell
+										142 text 决议标题
+									143 cell
+										144 text 决议版本
+									145 cell
+										146 text 覆盖问题
+									147 cell
+										148 text 当前生命周期
+									149 cell
+										150 text 指定批准人ID
+									151 cell
+										152 text 操作
+							610 container
+								611 table
+								612 text 暂无数据
+				209 container 发布检查与固定快照
+					210 heading 发布检查与固定快照, Value: 2
+						211 text 发布检查与固定快照
+					212 text 规格基线与数据可投产分开；供数待提供不会自动阻止规格明确的需求基线。正式发布须完整闭包可见及当前有效决议。
+					213 button (disabled) 执行发布预检查
+					214 container
+						215 text 发布依据或草稿说明
+						216 text entry area (settable) Description: 发布依据或草稿说明, ID: el-id-1219-63
+						217 text 幂等请求号
+						218 text field (settable) Description: 幂等请求号, Value: 6d35cd5f-0979-4e46-a6be-f9a8c1d74c89, ID: el-id-1219-64
+					219 button (disabled) 发布本期完整需求基线
+						613 text 发布本期完整需求基线
+					220 button (disabled) 保存固定草稿快照
+						614 text 保存固定草稿快照
+					221 container 发布快照表，可横向滚动
+						222 container
+							223 table
+								224 row
+									225 cell
+										226 text 固定快照ID
+									227 cell
+										228 text 发布版本
+									229 cell
+										230 text 合成与正式
+									231 cell
+										232 text 类型
+									233 cell
+										234 text 创建时间
+									235 cell
+										236 text 操作
+							237 container
+								238 table
+								239 text 暂无数据
+					240 container
+						241 text 导出筛选需求ID（留空为全量可见）
+						242 text field (settable) Description: 导出筛选需求ID, ID: el-id-1219-65
+					243 heading 本轮下载任务, Value: 3
+						244 text 本轮下载任务
+					245 text 任务创建、生成、结果交付及领取均按当前权限检查；旧地址不能替代重新鉴权。
+					246 container
+						247 table
+							248 row
+								249 cell
+									250 text 任务ID
+								251 cell
+									252 text 快照ID
+								253 cell
+									254 text 状态
+								255 cell
+									256 text 文件范围
+								257 cell
+									258 text 提示
+								259 cell
+									260 text 操作
+						261 container
+							262 table
+							263 text 暂无数据
+				501 container 登记授权根材料
+					502 container
+						600 heading 登记授权根材料, Value: 2
+							601 text 登记授权根材料
+						602 button 关闭此对话框
+						507 container
+							508 text 独立登记材料
+							509 container
+								510 combo box (collapsed, settable) Description: 独立登记材料, ID: el-id-1219-150, Secondary Actions: Expand
+								511 text 4 · TEST · TEST-S5-ANCHOR-V1
+								512 image
+							513 text 被授权人ID
+							514 container
+								515 button 减少数值
+								516 button 增加数值
+								517 stepper (settable, integer) Description: 被授权人ID, Value: 269, ID: el-id-1219-151
+							518 text 许可动作
+							519 container Description: 许可动作, ID: el-id-1219-152
+								520 container
+									521 checkbox (settable, integer) Description: 读取项目, Value: 1
+									522 text 读取项目
+								523 container
+									524 checkbox (settable, integer) Description: 修改项目名称, Value: 0
+									525 text 修改项目名称
+								526 container
+									527 checkbox (settable, integer) Description: 编辑需求, Value: 0
+									528 text 编辑需求
+								529 container
+									530 checkbox (settable, integer) Description: 分派评审, Value: 0
+									531 text 分派评审
+								532 container
+									533 checkbox (settable, integer) Description: 本人确认需求, Value: 0
+									534 text 本人确认需求
+								535 container
+									536 checkbox (settable, integer) Description: 导出, Value: 0
+									537 text 导出
+								538 container
+									539 checkbox (settable, integer) Description: 管理成员, Value: 0
+									540 text 管理成员
+								541 container
+									542 checkbox (settable, integer) Description: 修订项目范围, Value: 0
+									543 text 修订项目范围
+								544 container
+									545 checkbox (settable, integer) Description: 需求范围取舍, Value: 0
+									546 text 需求范围取舍
+								547 container
+									548 checkbox (settable, integer) Description: 维护来源, Value: 0
+									549 text 维护来源
+								550 container
+									551 checkbox (settable, integer) Description: 核验来源质量, Value: 0
+									552 text 核验来源质量
+								553 container
+									554 checkbox (settable, integer) Description: 管理问题, Value: 0
+									555 text 管理问题
+								556 container
+									557 checkbox (settable, integer) Description: 处理问题, Value: 1
+									558 text 处理问题
+								559 container
+									560 checkbox (settable, integer) Description: 独立复核问题, Value: 0
+									561 text 独立复核问题
+								562 container
+									563 checkbox (settable, integer) Description: 读取决议正文, Value: 0
+									564 text 读取决议正文
+								565 container
+									566 checkbox (settable, integer) Description: 读取授权依据, Value: 0
+									567 text 读取授权依据
+								568 container
+									569 checkbox (settable, integer) Description: 读取关联人员显示名, Value: 0
+									570 text 读取关联人员显示名
+								571 container
+									572 checkbox (settable, integer) Description: 起草决议, Value: 0
+									573 text 起草决议
+								574 container
+									575 checkbox (settable, integer) Description: 独立批准决议, Value: 0
+									576 text 独立批准决议
+								577 container
+									578 checkbox (settable, integer) Description: 发布基线, Value: 0
+									579 text 发布基线
+								580 container
+									581 checkbox (settable, integer) Description: 创建项目, Value: 0
+									582 text 创建项目
+							583 text 可继续委派动作
+							584 container
+								585 combo box (collapsed, settable) Description: 可继续委派动作, ID: el-id-1219-153, Secondary Actions: Expand
+								586 text 请选择
+								587 image
+							588 text 授权范围正文
+							589 text entry area (settable) Description: 授权范围正文, ID: el-id-1219-154, Value: {"entities":[101],"organizations":[201],"workerTypes":["TEST"],"scenarios":["TEST"],"from":"2026-10-01","to":"2026-10-31","explanation":"TEST isolated synthetic scope for WB completion; not formal approval"}
+							590 text 授权开始日期
+							591 text field (settable) Description: 授权开始日期, Value: 2026-10-01, ID: el-id-1219-155
+							592 text 授权结束日期
+							593 text field (settable) Description: 授权结束日期, Value: 2026-10-31, ID: el-id-1219-156
+							594 text 受控材料版本
+							595 text field (settable) Description: 受控材料版本, Value: TEST-WBC-T03-ISSUE-HANDLER269-V1, ID: el-id-1219-157
+							596 text 受控签署材料正文
+							597 text entry area (settable) Description: 受控签署材料正文, ID: el-id-1219-158, Value: TEST synthetic issue handler269, project153 only, READ and ISSUE_HANDLE, not formal business approval.
+							598 text 登记依据
+							599 text entry area (settable) Description: 登记依据, Value: TEST T03 isolated handling and revoked-handler reassignment regression., ID: el-id-1219-159
+						603 button 取消登记
+						604 button (disabled) 保存待签署材料
+							615 text 保存待签署材料
+			366 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 1 AXWebArea 芋道管理系统 - 业务决议与基线发布, URL: 127.0.0.1:5173/hrm-payroll/governance?projectId=153

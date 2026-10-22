@@ -1,0 +1,2 @@
+cwd: /Users/waitforpro/source/github-yudao/ruoyi-vue-pro/yudao-ui/yudao-ui-admin-vue3
+command: node node_modules/eslint/bin/eslint.js src/views/hrm/payroll/requirement/WorkbenchPanel.vue src/views/hrm/payroll/requirement/issueValidation.ts
