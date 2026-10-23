@@ -1,0 +1,21 @@
+{
+  "projectId": 105,
+  "releaseId": 1384,
+  "jobId": 1454,
+  "path": "/Users/waitforpro/Downloads/薪酬评审-快照1384-任务1454.xlsx",
+  "bytes": 352138,
+  "sha256": "d32e9c9efb141ae51cd0b1a0eb663d0b603db75f1254e3913e8ca5c3a975a3e5",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/governance/export/download?projectId=105&id=1454",
+      "status": 200,
+      "mimeType": ""
+    },
+    {
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/governance/export/download?projectId=105&id=1454",
+      "status": 200,
+      "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    }
+  ],
+  "method": "actual visible IAB create and download with response captured"
+}

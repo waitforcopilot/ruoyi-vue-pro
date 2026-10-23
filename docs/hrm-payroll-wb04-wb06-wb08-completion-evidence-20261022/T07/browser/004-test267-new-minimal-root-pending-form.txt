@@ -1,0 +1,104 @@
+Browser tab: 1, Title: "芋道管理系统 - 业务决议与基线发布", URL: "http://127.0.0.1:5173/hrm-payroll/governance?projectId=153".
+1 AXWebArea 芋道管理系统 - 业务决议与基线发布, URL: 127.0.0.1:5173/hrm-payroll/governance?projectId=153
+	2 container 登记授权根材料
+		3 container
+			101 heading 登记授权根材料, Value: 2
+				102 text 登记授权根材料
+			103 button 关闭此对话框
+			8 container
+				9 text 独立登记材料
+				10 container
+					11 combo box (collapsed, settable) Description: 独立登记材料, ID: el-id-2888-150, Secondary Actions: Expand
+					12 text 4 · TEST · TEST-S5-ANCHOR-V1
+					13 image
+				14 text 被授权人ID
+				15 container
+					16 button 减少数值
+					17 button 增加数值
+					18 stepper (settable, integer) Description: 被授权人ID, Value: 267, ID: el-id-2888-151
+				19 text 许可动作
+				20 container Description: 许可动作, ID: el-id-2888-152
+					21 container
+						22 checkbox (settable, integer) Description: 读取项目, Value: 1
+						23 text 读取项目
+					24 container
+						25 checkbox (settable, integer) Description: 修改项目名称, Value: 0
+						26 text 修改项目名称
+					27 container
+						28 checkbox (settable, integer) Description: 编辑需求, Value: 0
+						29 text 编辑需求
+					30 container
+						31 checkbox (settable, integer) Description: 分派评审, Value: 0
+						32 text 分派评审
+					33 container
+						34 checkbox (settable, integer) Description: 本人确认需求, Value: 0
+						35 text 本人确认需求
+					36 container
+						37 checkbox (settable, integer) Description: 导出, Value: 1
+						38 text 导出
+					39 container
+						40 checkbox (settable, integer) Description: 管理成员, Value: 0
+						41 text 管理成员
+					42 container
+						43 checkbox (settable, integer) Description: 修订项目范围, Value: 0
+						44 text 修订项目范围
+					45 container
+						46 checkbox (settable, integer) Description: 需求范围取舍, Value: 0
+						47 text 需求范围取舍
+					48 container
+						49 checkbox (settable, integer) Description: 维护来源, Value: 0
+						50 text 维护来源
+					51 container
+						52 checkbox (settable, integer) Description: 核验来源质量, Value: 1
+						53 text 核验来源质量
+					54 container
+						55 checkbox (settable, integer) Description: 管理问题, Value: 0
+						56 text 管理问题
+					57 container
+						58 checkbox (settable, integer) Description: 处理问题, Value: 0
+						59 text 处理问题
+					60 container
+						61 checkbox (settable, integer) Description: 独立复核问题, Value: 0
+						62 text 独立复核问题
+					63 container
+						64 checkbox (settable, integer) Description: 读取决议正文, Value: 1
+						65 text 读取决议正文
+					66 container
+						67 checkbox (settable, integer) Description: 读取授权依据, Value: 1
+						68 text 读取授权依据
+					69 container
+						70 checkbox (settable, integer) Description: 读取关联人员显示名, Value: 0
+						71 text 读取关联人员显示名
+					72 container
+						73 checkbox (settable, integer) Description: 起草决议, Value: 0
+						74 text 起草决议
+					75 container
+						76 checkbox (settable, integer) Description: 独立批准决议, Value: 1
+						77 text 独立批准决议
+					78 container
+						79 checkbox (settable, integer) Description: 发布基线, Value: 0
+						80 text 发布基线
+					81 container
+						82 checkbox (settable, integer) Description: 创建项目, Value: 0
+						83 text 创建项目
+				84 text 可继续委派动作
+				85 container
+					86 combo box (collapsed, settable) Description: 可继续委派动作, ID: el-id-2888-153, Secondary Actions: Expand
+					87 text 请选择
+					88 image
+				89 text 授权范围正文
+				90 text entry area (settable) Description: 授权范围正文, ID: el-id-2888-154, Value: {"entities":[101],"organizations":[201],"workerTypes":["TEST"],"scenarios":["TEST"],"from":"2026-10-01","to":"2026-10-31","explanation":"TEST isolated synthetic scope for WB completion; not formal approval"}
+				91 text 授权开始日期
+				92 text field (settable) Description: 授权开始日期, Value: 2026-10-01, ID: el-id-2888-155
+				93 text 授权结束日期
+				94 text field (settable) Description: 授权结束日期, Value: 2026-10-31, ID: el-id-2888-156
+				95 text 受控材料版本
+				96 text field (settable) Description: 受控材料版本, Value: TEST-WBC-T04T07-REVIEW267-V1, ID: el-id-2888-157
+				97 text 受控签署材料正文
+				98 text entry area (settable) Description: 受控签署材料正文, Value: TEST合成授权：仅本机项目153范围5的TEST工程回归。授权267读取、独立核验来源、读取并批准TEST决议、读取授权依据及导出自身可见TEST资料；不可委派，不构成正式业务批准，不涉及真实工资。, ID: el-id-2888-158
+				99 text 登记依据
+				100 text entry area (settable) Description: 登记依据, Value: 用户授权本机TEST工程验收；保留1394撤销历史，单独登记新最小授权供独立267本人签署。, ID: el-id-2888-159
+			104 button 取消登记
+			105 button 保存待签署材料
+
+The focused UI element is 100 text entry area (settable) Description: 登记依据, Value: 用户授权本机TEST工程验收；保留1394撤销历史，单独登记新最小授权供独立267本人签署。, ID: el-id-2888-159

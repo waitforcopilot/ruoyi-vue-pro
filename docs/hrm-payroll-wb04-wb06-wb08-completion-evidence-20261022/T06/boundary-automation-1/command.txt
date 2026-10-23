@@ -1,0 +1,1 @@
+JAVA_HOME=/Users/waitforpro/.local/jdks/java8/Contents/Home /opt/homebrew/bin/mvn -B -ntp -pl yudao-module-hrm -am -Dtest=HrmPayrollT06ExportFixtureTest -Dsurefire.failIfNoSpecifiedTests=false -Dhrm.payroll.t06.fixtureDir=/Users/waitforpro/.hrm-payroll-local/t06-native-fixtures-20261023 test

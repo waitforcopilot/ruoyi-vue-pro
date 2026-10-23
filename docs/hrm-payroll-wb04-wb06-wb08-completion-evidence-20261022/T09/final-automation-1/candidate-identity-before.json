@@ -1,0 +1,160 @@
+{
+  "capturedAt": "2026-10-23T06:43:41.244303+00:00",
+  "head": "fdc503dca517b4dad4ea136f73bd9fbe92e11c59",
+  "requestedModel": "gpt-6-luna",
+  "requestedReasoningEffort": "max",
+  "actualRuntimeModel": "unverified",
+  "candidateFiles": [
+    {
+      "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceExportService.java",
+      "exists": true,
+      "bytes": 11416,
+      "sha256": "d244b492cd3e90ff1c03f8e255edcda9985abfccbad4991433492db259e8e4e0",
+      "expectedSha256": "d244b492cd3e90ff1c03f8e255edcda9985abfccbad4991433492db259e8e4e0",
+      "matchesExpected": true
+    },
+    {
+      "path": "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceServiceTest.java",
+      "exists": true,
+      "bytes": 36198,
+      "sha256": "9374a3e8a29edbd9d9ad131cdf9e32fc13f45437481089ddfd5302f9ca2f499e",
+      "expectedSha256": "9374a3e8a29edbd9d9ad131cdf9e32fc13f45437481089ddfd5302f9ca2f499e",
+      "matchesExpected": true
+    },
+    {
+      "path": "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/governance/index.vue",
+      "exists": true,
+      "bytes": 29485,
+      "sha256": "663519c7dd73e8d001e2c2a911eebbf7e81d3c16b942c1bdca6850c7b016cdde",
+      "expectedSha256": "663519c7dd73e8d001e2c2a911eebbf7e81d3c16b942c1bdca6850c7b016cdde",
+      "matchesExpected": true
+    },
+    {
+      "path": "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollT04IssueConsistencyTest.java",
+      "exists": true,
+      "bytes": 36001,
+      "sha256": "52e26c3d4266065875552264dc035504f3aeb09879fcae439237f0fcc0160fc7",
+      "expectedSha256": "52e26c3d4266065875552264dc035504f3aeb09879fcae439237f0fcc0160fc7",
+      "matchesExpected": true
+    },
+    {
+      "path": "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollT06ExportFixtureTest.java",
+      "exists": true,
+      "bytes": 9407,
+      "sha256": "7626861eff2c8f8d43d6bbe0d081d48eb2eb227be054d4dcdfd36486b35b964a",
+      "expectedSha256": "7626861eff2c8f8d43d6bbe0d081d48eb2eb227be054d4dcdfd36486b35b964a",
+      "matchesExpected": true
+    },
+    {
+      "path": "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollT07GovernanceConsistencyTest.java",
+      "exists": true,
+      "bytes": 36547,
+      "sha256": "df7a1ca2f754e6a4ad3eb2f3d7ededc391b9415a56c19f8657f9c15c477e23fc",
+      "expectedSha256": "df7a1ca2f754e6a4ad3eb2f3d7ededc391b9415a56c19f8657f9c15c477e23fc",
+      "matchesExpected": true
+    },
+    {
+      "path": "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollT08FrozenExportContractTest.java",
+      "exists": true,
+      "bytes": 48415,
+      "sha256": "e2cb4de8ab689d1935305702c6d79abe3422ce9da68bb580b154989ddf6cd6b4",
+      "expectedSha256": "e2cb4de8ab689d1935305702c6d79abe3422ce9da68bb580b154989ddf6cd6b4",
+      "matchesExpected": true
+    },
+    {
+      "path": "script/hrm-payroll-governance-feedback.test.cjs",
+      "exists": true,
+      "bytes": 8194,
+      "sha256": "8e61d3f6307c7039f226cf4020f286429509318dbb8cae3881276d1a1f094eb8",
+      "expectedSha256": "8e61d3f6307c7039f226cf4020f286429509318dbb8cae3881276d1a1f094eb8",
+      "matchesExpected": true
+    },
+    {
+      "path": "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/validation.ts",
+      "exists": true,
+      "bytes": 2801,
+      "sha256": "e984e49b670ec12a804f8870c65c47e4fab482e798eacfbb554faa5c6169b094",
+      "expectedSha256": "e984e49b670ec12a804f8870c65c47e4fab482e798eacfbb554faa5c6169b094",
+      "matchesExpected": true
+    },
+    {
+      "path": "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/index.vue",
+      "exists": true,
+      "bytes": 44488,
+      "sha256": "a5817f4eff90fe921238e04b4d6ca8d993b3a51b989e090923fb3cd302479bce"
+    },
+    {
+      "path": "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/WorkbenchPanel.vue",
+      "exists": true,
+      "bytes": 28860,
+      "sha256": "f115485d3201beaa23c84e76c561d994a3ccac8ee030ae6bc57487a099d06650",
+      "expectedSha256": "f115485d3201beaa23c84e76c561d994a3ccac8ee030ae6bc57487a099d06650",
+      "matchesExpected": true
+    },
+    {
+      "path": "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/issueValidation.ts",
+      "exists": true,
+      "bytes": 2153,
+      "sha256": "7849171aa44e16816ca3ff0e4cce676133ea9d01dd1195d523da4d4f62f37d69",
+      "expectedSha256": "7849171aa44e16816ca3ff0e4cce676133ea9d01dd1195d523da4d4f62f37d69",
+      "matchesExpected": true
+    },
+    {
+      "path": "scripts/hrm/frontend_review_confirmation_regression.cjs",
+      "exists": true,
+      "bytes": 5952,
+      "sha256": "300b895151aac18f520646aa327b23c2b91b15e6bba7d641edcb695afc6282fd"
+    },
+    {
+      "path": "scripts/hrm/frontend_workbench_issue_deadline_regression.cjs",
+      "exists": true,
+      "bytes": 7812,
+      "sha256": "ee24848992b63f43cbedf64959a94e4ff9e84bbe49262be0277a525a4529432d"
+    },
+    {
+      "path": "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollWorkbenchServiceTest.java",
+      "exists": true,
+      "bytes": 33073,
+      "sha256": "db440327168da05bb582b2c1b918cdec7b3e0c7de67da62f195beebf58eaede9"
+    },
+    {
+      "path": "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollReviewServiceTest.java",
+      "exists": true,
+      "bytes": 17608,
+      "sha256": "209bc3be7c7d9424741817932d3a20e2107567d3ce2b675ff5716b128d59a344"
+    },
+    {
+      "path": "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementServiceImplTest.java",
+      "exists": true,
+      "bytes": 28315,
+      "sha256": "f9ff1ab8eed7e50504f56c1aac3bf83015a8899c83361ba16053e4ed2c37d25f"
+    },
+    {
+      "path": "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementProjectServiceTest.java",
+      "exists": true,
+      "bytes": 20325,
+      "sha256": "04fbe4bce32eef13b915bda8fceb4db353e7d04874b73b40ffbcc057f9feaa0a"
+    },
+    {
+      "path": "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollT02ConfirmationContractTest.java",
+      "exists": true,
+      "bytes": 29931,
+      "sha256": "eb9d9e40c0f902aec8942d58eebe00d1595c8c40f265d7208ac6c45705b4c3ae"
+    },
+    {
+      "path": "yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollT03IssueContractTest.java",
+      "exists": true,
+      "bytes": 28946,
+      "sha256": "dccdbc3e6ce4cc124afab8e91c152e8114986959a252d383547fc447e0e04ef2"
+    }
+  ],
+  "trackedCandidateDiffSha256": "2f9e5ac509384c372db98fcb7e97e4263889068d53f2e5081d5ca6dceabba668",
+  "trackedCandidateDiffBytes": 22412,
+  "worktreeStatusLineCount": 52,
+  "relevantTrackedStatus": [
+    " M yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceExportService.java",
+    " M yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceServiceTest.java",
+    " M yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/governance/index.vue"
+  ],
+  "allFixedManifestMatches": true
+}

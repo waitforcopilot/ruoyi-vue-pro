@@ -1,0 +1,121 @@
+{
+  "run": "read-only full-field reconstruction for T06 job 1429",
+  "expectedSource": "docs/hrm-payroll-wb04-wb06-wb08-fix-evidence-20261021/wb08-release1384-visible-six-tables.json",
+  "workbook": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T06/release1384-job1429-browser.xlsx",
+  "workbookBytes": 352138,
+  "workbookSha256": "6cdab6245a67bac6672b6dd837243a6b63d4312593c7d3cb2d924c34ab3f723e",
+  "identityJsonMatchesEvidenceCopy": true,
+  "identityDownloadPath": {
+    "exists": true,
+    "bytes": 352138,
+    "sha256": "6cdab6245a67bac6672b6dd837243a6b63d4312593c7d3cb2d924c34ab3f723e",
+    "matchesEvidenceCopy": true
+  },
+  "sixSheetNamesInOrder": [
+    "评审版本说明",
+    "功能需求清单",
+    "数据源清单",
+    "字段映射",
+    "问题与待办",
+    "范围与变更"
+  ],
+  "sheets": {
+    "评审版本说明": {
+      "expectedBusinessRecords": 30,
+      "actualBusinessRecords": 30,
+      "actualExportMetadataRows": 1,
+      "missingRecords": [],
+      "extraRecords": [],
+      "mismatchedRecords": []
+    },
+    "功能需求清单": {
+      "expectedBusinessRecords": 17,
+      "actualBusinessRecords": 17,
+      "actualExportMetadataRows": 0,
+      "missingRecords": [],
+      "extraRecords": [],
+      "mismatchedRecords": []
+    },
+    "数据源清单": {
+      "expectedBusinessRecords": 6,
+      "actualBusinessRecords": 6,
+      "actualExportMetadataRows": 0,
+      "missingRecords": [],
+      "extraRecords": [],
+      "mismatchedRecords": []
+    },
+    "字段映射": {
+      "expectedBusinessRecords": 3,
+      "actualBusinessRecords": 3,
+      "actualExportMetadataRows": 0,
+      "missingRecords": [],
+      "extraRecords": [],
+      "mismatchedRecords": []
+    },
+    "问题与待办": {
+      "expectedBusinessRecords": 53,
+      "actualBusinessRecords": 53,
+      "actualExportMetadataRows": 0,
+      "missingRecords": [],
+      "extraRecords": [],
+      "mismatchedRecords": []
+    },
+    "范围与变更": {
+      "expectedBusinessRecords": 17,
+      "actualBusinessRecords": 17,
+      "actualExportMetadataRows": 0,
+      "missingRecords": [],
+      "extraRecords": [],
+      "mismatchedRecords": []
+    }
+  },
+  "layout": [
+    {
+      "sheet": "评审版本说明",
+      "rowsIncludingHeader": 718,
+      "businessRecords": 31,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "功能需求清单",
+      "rowsIncludingHeader": 912,
+      "businessRecords": 17,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "数据源清单",
+      "rowsIncludingHeader": 787,
+      "businessRecords": 6,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "字段映射",
+      "rowsIncludingHeader": 850,
+      "businessRecords": 3,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "问题与待办",
+      "rowsIncludingHeader": 276,
+      "businessRecords": 53,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "范围与变更",
+      "rowsIncludingHeader": 3383,
+      "businessRecords": 17,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    }
+  ],
+  "loaderChecks": "existing verify_workbook.py load() only; main() was not called; formula/header/sheet/row-height/record/field-fragment parsing checks applied by loader",
+  "comparedFields": 1130,
+  "contentComparisonExcludingOnlyGeneratedExportMetadata": true,
+  "errors": [],
+  "overall": "PASS_CONTENT_RECONCILIATION"
+}

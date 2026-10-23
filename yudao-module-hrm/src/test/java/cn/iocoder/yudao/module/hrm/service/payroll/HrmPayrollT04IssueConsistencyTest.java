@@ -1,0 +1,297 @@
+package cn.iocoder.yudao.module.hrm.service.payroll;
+
+import cn.iocoder.yudao.framework.common.exception.ServiceException;
+import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
+import cn.iocoder.yudao.framework.mybatis.core.util.MyBatisUtils;
+import cn.iocoder.yudao.framework.security.core.LoginUser;
+import cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils;
+import cn.iocoder.yudao.framework.tenant.config.TenantProperties;
+import cn.iocoder.yudao.framework.tenant.core.context.TenantContextHolder;
+import cn.iocoder.yudao.framework.tenant.core.db.TenantDatabaseInterceptor;
+import cn.iocoder.yudao.framework.test.core.ut.BaseDbUnitTest;
+import cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollGovernanceVO;
+import cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollRequirementSaveReqVO;
+import cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollWorkbenchVO.*;
+import cn.iocoder.yudao.module.hrm.dal.dataobject.payroll.*;
+import cn.iocoder.yudao.module.hrm.dal.mysql.payroll.*;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.support.TransactionTemplate;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicReference;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import javax.annotation.Resource;
+import java.time.*;
+import java.util.*;
+import java.util.function.Consumer;
+
+import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
+import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.*;
+import static cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollGovernanceStore.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+
+/** T04 issue contracts on real H2 transactions, tenant SQL filtering, controlled roots and decisions.
+ * Only external user/permission APIs and the Store system-user fact query are stubbed.
+ * Tenant locking and all business services execute normally. This is not browser/session or MySQL acceptance. */
+@Import({HrmPayrollT04IssueConsistencyTest.TenantSql.class,HrmPayrollGovernanceStore.class,
+    HrmPayrollGovernanceRootService.class,HrmPayrollGovernanceDecisionService.class,
+    HrmPayrollRequirementAccessService.class,HrmPayrollRequirementProjectService.class,
+    HrmPayrollRequirementServiceImpl.class,HrmPayrollWorkbenchService.class,
+    HrmPayrollReviewService.class,HrmPayrollGovernanceReleaseService.class})
+@Timeout(40)
+class HrmPayrollT04IssueConsistencyTest extends BaseDbUnitTest {
+    @TestConfiguration
+    static class TenantSql {
+        // Same handler and insertion order as the production tenant configuration; no web/cache beans.
+        @Bean TenantLineInnerInterceptor t04TenantSql(MybatisPlusInterceptor interceptor) {
+            TenantLineInnerInterceptor tenant=new TenantLineInnerInterceptor(new TenantDatabaseInterceptor(new TenantProperties()));
+            MyBatisUtils.addInterceptor(interceptor,tenant,0);return tenant;
+        }
+    }
+    @Resource TenantLineInnerInterceptor t04TenantSql;
+    @Resource MybatisPlusInterceptor sqlInterceptors;
+    @SpyBean HrmPayrollGovernanceStore store;
+    @Resource HrmPayrollReviewService review;
+    @Resource HrmPayrollGovernanceReleaseService releases;
+    @Resource PlatformTransactionManager transactionManager;
+    @Resource DataSource dataSource;
+    @Resource HrmPayrollGovernanceRootService roots;
+    @Resource HrmPayrollGovernanceDecisionService decisions;
+    @Resource HrmPayrollRequirementService requirements;
+    @Resource HrmPayrollRequirementProjectService projectService;
+    @Resource HrmPayrollWorkbenchService workbench;
+    @Resource HrmPayrollRequirementMapper reqs;
+    @Resource HrmPayrollRequirementProjectMapper projects;
+    @Resource HrmPayrollRequirementProjectGrantMapper grants;
+    @Resource HrmPayrollRequirementHistoryMapper histories;
+    @Resource HrmPayrollWorkbenchRecordMapper records;
+    @MockBean cn.iocoder.yudao.module.system.api.user.AdminUserApi users;
+    @MockBean cn.iocoder.yudao.module.system.api.permission.PermissionApi permissions;
+    Long project,anchor,reviewerRoot;
+    final String scope="{\"entities\":[101],\"organizations\":[201],\"workerTypes\":[\"TEST\"],\"scenarios\":[\"TEST\"],\"from\":\"2026-10-01\",\"to\":\"2026-10-31\",\"explanation\":\"TEST T04 fixed scope\"}";
+    String upper(){return scope.replace("[101]","[101,102]").replace("2026-10-31","2026-12-31");}
+    void identity(long tenant,long actor){
+        TenantContextHolder.setTenantId(tenant);
+        SecurityFrameworkUtils.setLoginUser(new LoginUser().setId(actor).setUserType(2),new MockHttpServletRequest());
+    }
+    void clearIdentity(){TenantContextHolder.clear();SecurityContextHolder.clearContext();}
+    @BeforeEach void setup(){
+        identity(1L,1L);assertSame(t04TenantSql,sqlInterceptors.getInterceptors().get(0));
+        when(permissions.hasAnyPermissions(anyLong(),anyString())).thenReturn(true);
+        for(long user=1;user<=5;user++)when(users.getUser(user)).thenReturn(new cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO().setId(user).setStatus(0).setNickname("TEST T04 user "+user));
+        when(permissions.hasAnyPermissions(eq(5L),anyString())).thenAnswer(call->Arrays.asList("hrm:payroll:requirement:query","hrm:payroll:requirement:update").contains(call.getArgument(1)));
+        List<Map<String,Object>> facts=new ArrayList<>();for(long user=1;user<=5;user++)facts.add(map("id",user,"nickname","TEST T04 user "+user,"status",0));
+        // External system-user fact query boundary only: all governance locking/validation stays real.
+        doReturn(facts).when(store).userFacts();
+        store.insert(0L,"LOCK","TENANT",map());
+        String body="TEST independently registered T04 root evidence; not formal approval";
+        // Custodian 1 and signer 4 are independent of the business reviewer 2.
+        anchor=store.insert(0L,"ANCHOR","TEST-T04-ANCHOR",map("state","REGISTERED","mode","TEST","custodianId",1L,"signerId",4L,"actions",new ArrayList<>(HrmPayrollRequirementAccessService.ACTIONS),"scopeJson",upper(),"validFrom","2026-01-01","validTo","2027-12-31","body",body,"digest",bodyDigest(body),"materialVersion","TEST-T04-V1")).getId();
+        project=newProject("TEST_T04");
+        root(project,1L,new ArrayList<>(HrmPayrollRequirementAccessService.ACTIONS));
+        reviewerRoot=root(project,2L,new ArrayList<>(HrmPayrollRequirementAccessService.ACTIONS));
+        root(project,3L,new ArrayList<>(HrmPayrollRequirementAccessService.ACTIONS));
+        root(project,4L,new ArrayList<>(HrmPayrollRequirementAccessService.ACTIONS));
+        root(project,5L,Arrays.asList("READ","EDIT"));policy();
+    }
+    @AfterEach void cleanup(){clearIdentity();}
+    Long newProject(String key){
+        HrmPayrollRequirementProjectDO p=new HrmPayrollRequirementProjectDO().setProjectKey(key).setName("TEST T04 project").setOwnerId(1L).setProjectScopeVersion(1).setMetadataVersion(1).setCustomSequence(0L).setScopeJson(scope).setArchived(false);projects.insert(p);return p.getId();
+    }
+    HrmPayrollGovernanceVO.Action action(Long ownerProject,Long id,String kind,String operation){
+        HrmPayrollGovernanceVO.Action c=new HrmPayrollGovernanceVO.Action();c.setProjectId(ownerProject);c.setId(id);c.setVersion(store.record(id,kind).getVersion());c.setAction(operation);c.setReason("TEST independent T04 action");return c;
+    }
+    Long root(Long ownerProject,Long user,List<String> actions){
+        HrmPayrollGovernanceVO.Root c=new HrmPayrollGovernanceVO.Root();c.setProjectId(ownerProject);c.setAnchorId(anchor);c.setUserId(user);c.setActions(actions);c.setDelegableActions(actions);c.setScopeJson(upper());c.setValidFrom("2026-01-01");c.setValidTo("2027-12-31");c.setMaterialVersion("TEST-T04-V1");c.setBody("TEST controlled T04 user "+user);c.setReason("TEST independent grant");
+        Long id=roots.register(c,1L);roots.action(action(ownerProject,id,"ROOT","SIGN"),4L);return id;
+    }
+    void policy(){
+        for(List<String> qs:Arrays.asList(Arrays.asList("Q-01","Q-02","Q-07","Q-10"),Collections.singletonList("Q-04"),Collections.singletonList("Q-05"))){
+            HrmPayrollGovernanceVO.Decision c=new HrmPayrollGovernanceVO.Decision();c.setProjectId(project);c.setProjectScopeVersion(projects.selectById(project).getProjectScopeVersion());c.setTitle("TEST T04 "+qs);c.setQuestions(qs);c.setClauses("TEST PRD v0.4");c.setClauseVersion("TEST T04 V1");c.setBody("TEST controlled T04 decision "+qs);c.setScopeJson(projects.selectById(project).getScopeJson());c.setValidFrom("2026-01-01");c.setValidTo("2027-12-31");c.setApproverId(4L);c.setApprovalConditions("TEST independently reviewed");c.setSemanticChange(false);Map<String,String> other=new LinkedHashMap<>();for(String q:Arrays.asList("Q-03","Q-06","Q-08","Q-09"))other.put(q,"ADVISORY");c.setOtherQuestions(other);c.setReason("TEST controlled draft");
+            Long id=decisions.draft(c,1L);decisions.action(action(project,id,"DECISION","SUBMIT"),1L);decisions.action(action(project,id,"DECISION","APPROVE"),4L);
+        }
+    }
+    Long requirement(boolean applicable){
+        HrmPayrollRequirementSaveReqVO q=new HrmPayrollRequirementSaveReqVO();q.setProjectId(project);q.setProjectScopeVersion(projects.selectById(project).getProjectScopeVersion());q.setCode("CUSTOM-0000");q.setModule("COL");q.setDescription("TEST original requirement");q.setPriority(2);q.setStatus("PENDING");q.setReadiness("MISSING");q.setScopeMode("SUBSET");q.setScopeJson(scope);q.setRuleVersion("TEST RULE V1");q.setSourceApplicability(applicable?"APPLICABLE":"NOT_APPLICABLE");q.setApplicabilityReason("TEST navigation-only discussion consumes no business data");q.setAcceptance("TEST independently verifiable expected result");q.setEvidence("TEST T04 evidence, not formal approval");
+        q.setBusinessContextJson(JsonUtils.toJsonString(map("role","TEST HR","scenario","TEST monthly review","goal","TEST collect","expected","TEST expected","normalCase","TEST normal","exceptionCase","TEST missing","calculation","TEST rule","unit","TEST hour","precision","TEST 2 decimals","validity","TEST 2026-10","ruleException","TEST return for review")));
+        Long id=requirements.save(q,1L);requirements.assign(id,reqs.selectById(id).getVersion(),2L,1L);return id;
+    }
+    HrmPayrollRequirementSaveReqVO draft(HrmPayrollRequirementDO row){return JsonUtils.parseObject(JsonUtils.toJsonString(row),HrmPayrollRequirementSaveReqVO.class);}
+    <T extends Context>T context(T c,Long id){c.setProjectId(project);c.setProjectScopeVersion(projects.selectById(project).getProjectScopeVersion());c.setId(id);c.setVersion(id==null?null:records.selectById(id).getVersion());c.setReason("TEST T04 mutation");return c;}
+    Long source(){
+        Source s=new Source();s.setName("TEST source");s.setModule("COL");s.setScopeJson(scope);s.setOwnerId(1L);s.setTechnicalContact("TEST IT");s.setAcquisition("TEST file");s.setSpecification("TEST contract V1");s.setUniqueKey("employee,period");s.setEmployeeMatch("TEST employee ID");s.setFrequency("monthly");s.setCutoff("month end");s.setVolume("TEST two rows");s.setQualityRule("TEST QS");Field f=new Field();f.setName("hours");f.setMeaning("TEST work duration");f.setType("decimal");f.setUnit("hour");f.setRequired(true);s.setFields(Collections.singletonList(f));SourceSave c=context(new SourceSave(),null);c.setSource(s);return workbench.saveSource(c,1L);
+    }
+    Long link(Long source,Long requirement){
+        Mapping m=new Mapping();m.setSourceField("hours");m.setPageField("workingHours");m.setMeaning("TEST work duration");m.setType("decimal");m.setUnit("hour");m.setRequired(true);m.setTransform("TEST identity");m.setNullRule("reject");m.setDuplicateRule("reject");m.setPeriodRule("same month");m.setExceptionRule("TEST manual correction");Relation r=new Relation();r.setSourceId(source);r.setRequirementId(requirement);r.setFields(Collections.singletonList(m));r.setConsumptionRule("TEST QC");RelationSave c=context(new RelationSave(),null);c.setRelation(r);return workbench.saveRelation(c,1L);
+    }
+    Source sourceData(Long id){return JsonUtils.parseObject(records.selectById(id).getDataJson(),Source.class);}
+    void changeSource(Long id,Consumer<Source> change){Source s=sourceData(id);change.accept(s);SourceSave c=context(new SourceSave(),id);c.setSource(s);workbench.saveSource(c,1L);}
+    Long issue(Long req,String category,boolean wholeProject){
+        Issue i=new Issue();i.setDescription("TEST T04 independently reviewed discrepancy");i.setRequirementIds(Collections.singletonList(req));i.setSourceIds(Collections.emptyList());i.setRelationIds(Collections.emptyList());i.setWholeProject(wholeProject);i.setCategory(category);i.setHandlerId(2L);i.setReviewerId(3L);i.setDueDate(LocalDate.now(ZoneId.of("Asia/Shanghai")).minusDays(1).toString());
+        IssueSave c=context(new IssueSave(),null);c.setIssue(i);Long id=workbench.createIssue(c,1L);assertEquals(1,records.selectById(id).getVersion());assertEvent(id,1,"CREATE",1L,"OPEN",1);return id;
+    }
+    Issue data(Long id){return JsonUtils.parseObject(records.selectById(id).getDataJson(),Issue.class);}
+    @SuppressWarnings("unchecked") String binding(Long id){return (String)((Map<String,Object>)workbench.detail(project,"ISSUE",id,1L)).get("binding");}
+    IssueAction command(Long id,String operation){
+        IssueAction c=context(new IssueAction(),id);c.setAction(operation);c.setEvidence("TEST T04 "+operation+" independently supported evidence");c.setExpectedBinding(binding(id));return c;
+    }
+    void execute(Long id,String operation,Long actor){execute(command(id,operation),actor);}
+    void execute(IssueAction c,Long actor){
+        Issue before=data(c.getId());int version=records.selectById(c.getId()).getVersion();workbench.issueAction(c,actor);Issue after=data(c.getId());
+        String expected;
+        switch(c.getAction()){
+            case "START":case "REJECT":expected="PROCESSING";break;
+            case "SUBMIT":expected="REVIEW";break;
+            case "CLOSE":expected="CLOSED";break;
+            case "REOPEN":expected="OPEN";break;
+            default:expected=before.getState();
+        }
+        assertEquals(version+1,records.selectById(c.getId()).getVersion());assertEquals(expected,after.getState());
+        assertEvent(c.getId(),version+1,c.getAction(),actor,expected,after.getCycle());
+        assertEquals(c.getAction().equals("REOPEN")?before.getCycle()+1:before.getCycle(),after.getCycle());
+    }
+    void assertEvent(Long id,int version,String operation,Long actor,String state,int cycle){
+        List<Map> found=new ArrayList<>();
+        for(HrmPayrollWorkbenchRecordDO row:records.selectList())if("HISTORY".equals(row.getKind())){
+            Map event=JsonUtils.parseObject(row.getDataJson(),Map.class);
+            if(String.valueOf(id).equals(String.valueOf(event.get("objectId")))&&("ISSUE_"+operation).equals(event.get("action"))&&String.valueOf(version).equals(String.valueOf(event.get("objectVersion"))))found.add(event);
+        }
+        assertEquals(1,found.size());Map event=found.get(0);assertEquals(String.valueOf(actor),String.valueOf(event.get("actor")));assertEquals("ISSUE",event.get("kind"));
+        Issue snapshot=JsonUtils.parseObject(JsonUtils.toJsonString(event.get("snapshot")),Issue.class);assertEquals(state,snapshot.getState());assertEquals(cycle,snapshot.getCycle());
+        assertNotNull(event.get("time"));assertNotNull(event.get("reason"));
+    }
+    List<Map> issueEvents(Long id){
+        List<Map> result=new ArrayList<>();for(HrmPayrollWorkbenchRecordDO row:records.selectList())if("HISTORY".equals(row.getKind())){Map event=JsonUtils.parseObject(row.getDataJson(),Map.class);if(String.valueOf(id).equals(String.valueOf(event.get("objectId"))))result.add(event);}return result;
+    }
+    String persistentState(){
+        // Full persisted row snapshots catch unexpected EVIDENCE/HISTORY/TODO or signature writes.
+        return JsonUtils.toJsonString(map("records",records.selectList(),"requirements",reqs.selectList(),"requirementHistory",histories.selectList(),"governance",store.all(project,"EVENT")));
+    }
+    ServiceException rejected(IssueAction c,Long actor,cn.iocoder.yudao.framework.common.exception.ErrorCode code){
+        String before=persistentState();ServiceException error=assertThrows(ServiceException.class,()->workbench.issueAction(c,actor));assertEquals(code.getCode(),error.getCode());assertEquals(before,persistentState());return error;
+    }
+    void toReview(Long id){execute(id,"START",2L);execute(id,"SUBMIT",2L);}
+    void close(Long id){toReview(id);execute(id,"CLOSE",3L);}
+
+    void decision(Long id,String state){
+        cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollReviewVO.Decision c=new cn.iocoder.yudao.module.hrm.controller.admin.payroll.vo.HrmPayrollReviewVO.Decision();c.setProjectId(project);c.setProjectScopeVersion(1);c.setId(id);c.setVersion(reqs.selectById(id).getVersion());c.setDecision(state);c.setReason("TEST T04 explicit "+state+" scope basis");c.setResponsibleId(1L);c.setReevaluate("TEST independently re-evaluate next scope review");if("REMOVED".equals(state))c.setRemovalKind("OUT_OF_SCOPE");review.decide(c,1L);
+    }
+    Long included(){Long req=requirement(false);decision(req,"INCLUDED");requirements.confirm(req,reqs.selectById(req).getVersion(),2L);assertTrue(allowedGate());return req;}
+    @SuppressWarnings("unchecked") Map<String,Object> statistics(){return review.statistics(project,1L,"READ",null);}
+    boolean allowedGate(){return Boolean.TRUE.equals(releases.precheck(project,1L).get("allowed"));}
+    boolean baselineIssueBlock(Long issue){
+        Map<String,Object> gate=releases.precheck(project,1L);for(Object value:(List<?>)gate.get("blocks")){Map<?,?> block=(Map<?,?>)value;if("BASELINE_ISSUES_OPEN".equals(block.get("code")))for(Object id:(Collection<?>)block.get("issueIds"))if(String.valueOf(issue).equals(String.valueOf(id)))return true;}return false;
+    }
+    HrmPayrollGovernanceVO.Publish publication(){
+        Map<String,Object> gate=releases.precheck(project,1L);HrmPayrollGovernanceVO.Publish c=new HrmPayrollGovernanceVO.Publish();c.setProjectId(project);c.setProjectScopeVersion(1);c.setDraft(false);c.setReason("TEST T04 issue-consistent specification baseline, not formal approval");c.setRequestKey(UUID.randomUUID().toString());c.setDependencyToken(String.valueOf(gate.get("dependencyToken")));return c;
+    }
+    @SuppressWarnings("unchecked") Map<String,Object> snapshot(Long release){return (Map<String,Object>)store.data(store.record(release,"RELEASE")).get("snapshot");}
+    Map<?,?> frozenNode(Map<String,Object> snapshot,Long id){return ((List<?>)snapshot.get("workbench")).stream().map(x->(Map<?,?>)x).filter(x->String.valueOf(id).equals(String.valueOf(x.get("id")))).findFirst().get();}
+    Issue frozenIssue(Map<String,Object> snapshot,Long id){return JsonUtils.parseObject(String.valueOf(frozenNode(snapshot,id).get("dataJson")),Issue.class);}
+    @SuppressWarnings("unchecked") void frozenStatistics(Map<String,Object> snapshot,int unresolved){Map<String,Object> stats=(Map<String,Object>)snapshot.get("statistics");assertEquals(unresolved,((Number)stats.get("unresolvedIssues")).intValue());}
+    void verify(Long object,String kind,String layer){
+        Map<?,?> detail=(Map<?,?>)workbench.detail(project,kind,object,3L);Verify c=context(new Verify(),object);c.setLayer(layer);c.setResult("PASS");c.setReference("TEST T04 controlled execution reference");c.setSampleDigest("TEST synthetic immutable D1");c.setExpectedBinding(String.valueOf(((Map<?,?>)detail.get("bindings")).get(layer)));workbench.verify(c,3L);
+    }
+    Long[] availableFixture(){
+        Long req=requirement(true),src=source(),relation=link(src,req);verify(src,"SOURCE","SOURCE_SEMANTIC");verify(relation,"RELATION","RELATION_SEMANTIC");decision(req,"INCLUDED");requirements.confirm(req,reqs.selectById(req).getVersion(),2L);
+        Supply c=context(new Supply(),src);c.setSupply("PROVIDED");c.setReplaceDelivery(true);c.setDeliveryDigest("TEST T04 immutable D1");c.setDeliveryReference("TEST controlled synthetic D1");workbench.supply(c,1L);verify(src,"SOURCE","QS");verify(relation,"RELATION","QC");assertTrue(available(relation));assertTrue(allowedGate());return new Long[]{req,src,relation};
+    }
+    boolean available(Long relation){return Boolean.TRUE.equals(((Map<?,?>)workbench.detail(project,"RELATION",relation,1L)).get("available"));}
+    Set<String> quality(){Set<String> values=new TreeSet<>();for(HrmPayrollWorkbenchRecordDO row:records.selectList())if("EVIDENCE".equals(row.getKind())){Map<?,?> e=JsonUtils.parseObject(row.getDataJson(),Map.class);if(Arrays.asList("QS","QC","SOURCE_SEMANTIC","RELATION_SEMANTIC").contains(e.get("layer")))values.add(row.getDataJson());}return values;}
+
+    @ParameterizedTest @ValueSource(strings={"OPEN","PROCESSING","REVIEW","CLOSED"})
+    void fixedShanghaiOctober17DeadlineMatrixAndHistoricalOverdue(String state){
+        Clock clock=Clock.fixed(Instant.parse("2026-10-17T01:00:00Z"),ZoneOffset.UTC);
+        for(String due:Arrays.asList("2026-10-16","2026-10-17")){
+            Issue i=new Issue();i.setState(state);i.setDueDate(due);i.setWasOverdue("CLOSED".equals(state));Map<String,Object> dates=HrmPayrollWorkbenchService.dates(i,clock);boolean open=!"CLOSED".equals(state);
+            assertEquals("2026-10-17",dates.get("date"));assertEquals(open,dates.get("unresolved"));assertEquals(open&&due.endsWith("16"),dates.get("overdue"));assertEquals("CLOSED".equals(state)||due.endsWith("16"),dates.get("wasOverdue"));
+        }
+    }
+    @ParameterizedTest @ValueSource(strings={"OPEN","PROCESSING","REVIEW","CLOSED"})
+    void shanghaiMidnightIsIndependentOfUtcCalendarDay(String state){
+        Issue i=new Issue();i.setState(state);i.setDueDate("2026-10-16");i.setWasOverdue("CLOSED".equals(state));
+        Map<String,Object> before=HrmPayrollWorkbenchService.dates(i,Clock.fixed(Instant.parse("2026-10-16T15:59:59Z"),ZoneOffset.UTC)),after=HrmPayrollWorkbenchService.dates(i,Clock.fixed(Instant.parse("2026-10-16T16:00:00Z"),ZoneOffset.UTC));
+        assertEquals("2026-10-16",before.get("date"));assertEquals(false,before.get("overdue"));assertEquals("2026-10-17",after.get("date"));assertEquals(!"CLOSED".equals(state),after.get("overdue"));assertEquals(true,after.get("wasOverdue"));assertEquals(!"CLOSED".equals(state),after.get("unresolved"));
+    }
+    @ParameterizedTest @ValueSource(strings={"WHOLE_PROJECT","INCLUDED","DEFERRED","CANDIDATE","REMOVED"})
+    void baselineIssueImpactBlocksOnlyWholeProjectOrIncludedAndFreezesExclusionBasis(String target){
+        Long included=included(),excluded=requirement(false);String state=Arrays.asList("WHOLE_PROJECT","INCLUDED").contains(target)?"DEFERRED":target;decision(excluded,state);
+        Long affected="INCLUDED".equals(target)?included:excluded,id=issue(affected,"BASELINE_BLOCK","WHOLE_PROJECT".equals(target));boolean blocked=Arrays.asList("WHOLE_PROJECT","INCLUDED").contains(target);
+        assertEquals(blocked,baselineIssueBlock(id));assertEquals(!blocked,allowedGate());
+        if(blocked){String before=persistentState();int releasesBefore=store.all(project,"RELEASE").size();assertServiceException(()->releases.publish(publication(),1L),PAYROLL_REVIEW_INCOMPLETE);assertEquals(before,persistentState());assertEquals(releasesBefore,store.all(project,"RELEASE").size());}
+        else {
+            Long release=releases.publish(publication(),1L);Map<String,Object> frozen=snapshot(release);assertEquals("BASELINE_BLOCK",frozenIssue(frozen,id).getCategory());assertEquals("OPEN",frozenIssue(frozen,id).getState());
+            Map<?,?> frozenExcluded=((List<?>)frozen.get("requirements")).stream().map(x->(Map<?,?>)x).filter(x->String.valueOf(excluded).equals(String.valueOf(x.get("id")))).findFirst().get();assertEquals(state,frozenExcluded.get("scopeDecision"));assertEquals(reqs.selectById(excluded).getScopeDecisionJson(),frozenExcluded.get("scopeDecisionJson"));assertTrue(String.valueOf(frozenExcluded.get("scopeDecisionJson")).contains("TEST T04 explicit "+state));
+        }
+    }
+    @ParameterizedTest @ValueSource(strings={"DATA_READINESS","ADVISORY"})
+    void dataIssueAndAdvisoryPreserveFunctionalSignatureAndAllowSpecificationBaseline(String category){
+        Long[] f=availableFixture();Long req=f[0],relation=f[2];HrmPayrollRequirementDO before=reqs.selectById(req);Set<String> evidence=quality();Long id=issue(req,category,false);
+        HrmPayrollRequirementDO after=reqs.selectById(req);assertEquals(before.getVersion(),after.getVersion());assertEquals(before.getSemanticVersion(),after.getSemanticVersion());assertEquals(before.getConfirmedTupleJson(),after.getConfirmedTupleJson());assertEquals(before.getConfirmedBy(),after.getConfirmedBy());assertEquals(before.getConfirmedAt(),after.getConfirmedAt());assertTrue(workbench.currentConfirmationValid(after));assertEquals("ADVISORY".equals(category),available(relation));assertTrue(allowedGate());assertFalse(baselineIssueBlock(id));assertEquals(1,((Number)statistics().get("unresolvedIssues")).intValue());
+        Long release=releases.publish(publication(),1L);frozenStatistics(snapshot(release),1);assertEquals(category,frozenIssue(snapshot(release),id).getCategory());Set<String> beforeClose=quality();close(id);assertTrue(available(relation));assertEquals(evidence,quality());assertEquals(beforeClose,quality());assertEquals(before.getConfirmedTupleJson(),reqs.selectById(req).getConfirmedTupleJson());assertEquals(0,((Number)statistics().get("unresolvedIssues")).intValue());
+    }
+    @ParameterizedTest @ValueSource(strings={"DOWNGRADE","SHRINK"})
+    void handlerCannotRemoveBaselineBlockAndReviewerMustSupplyEvidence(String mutation){
+        Long included=included(),excluded=requirement(false);decision(excluded,"DEFERRED");Long id=issue(included,"BASELINE_BLOCK",false);assertTrue(baselineIssueBlock(id));
+        IssueAction c=command(id,"RECLASSIFY");c.setCategory("DOWNGRADE".equals(mutation)?"ADVISORY":"BASELINE_BLOCK");c.setWholeProject(false);c.setRequirementIds(Collections.singletonList("SHRINK".equals(mutation)?excluded:included));c.setSourceIds(Collections.emptyList());rejected(c,2L,PAYROLL_PROJECT_DENIED);assertTrue(baselineIssueBlock(id));assertFalse(allowedGate());
+        c.setEvidence(" ");rejected(c,3L,PAYROLL_REVIEW_INCOMPLETE);assertTrue(baselineIssueBlock(id));c.setEvidence("TEST independent reviewer approves "+mutation);int version=records.selectById(id).getVersion();execute(c,3L);assertEquals(version+1,records.selectById(id).getVersion());assertFalse(baselineIssueBlock(id));assertTrue(allowedGate());
+        List<Map> events=issueEvents(id);assertEquals(2,events.size());Issue original=JsonUtils.parseObject(JsonUtils.toJsonString(events.stream().filter(e->"ISSUE_CREATE".equals(e.get("action"))).findFirst().get().get("snapshot")),Issue.class);assertEquals("BASELINE_BLOCK",original.getCategory());assertEquals(Collections.singletonList(included),original.getRequirementIds());assertEquals(c.getCategory(),data(id).getCategory());assertEquals(c.getRequirementIds(),data(id).getRequirementIds());
+        Map change=events.stream().filter(e->"ISSUE_RECLASSIFY".equals(e.get("action"))).findFirst().get();assertEquals("3",String.valueOf(change.get("actor")));assertEquals(c.getEvidence(),change.get("reason"));
+    }
+    @ParameterizedTest @ValueSource(strings={"SOURCE","MAPPING"})
+    void staleSourceOrMappingCloseBindingRollsBackEvidenceAndHistory(String mutation){
+        Long[] f=availableFixture();Long id=issue(f[0],"DATA_READINESS",false);toReview(id);IssueAction old=command(id,"CLOSE");
+        if("SOURCE".equals(mutation))changeSource(f[1],s->s.setSpecification("TEST T04 revised source contract"));
+        else {Relation r=JsonUtils.parseObject(records.selectById(f[2]).getDataJson(),Relation.class);r.getFields().get(0).setNullRule("TEST quarantine null");RelationSave c=context(new RelationSave(),f[2]);c.setRelation(r);workbench.saveRelation(c,1L);}
+        rejected(old,3L,PAYROLL_VERSION_CONFLICT);assertEquals("REVIEW",data(id).getState());execute(id,"CLOSE",3L);assertEquals("CLOSED",data(id).getState());
+    }
+
+    static final class Outcome {final Object value;final Integer code;Outcome(Object value,Integer code){this.value=value;this.code=code;}}
+    TransactionTemplate transaction(){TransactionTemplate tx=new TransactionTemplate(transactionManager);tx.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);tx.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);return tx;}
+    void await(CountDownLatch latch){try{assertTrue(latch.await(8,TimeUnit.SECONDS),"Timed out awaiting T04 transaction checkpoint");}catch(InterruptedException e){Thread.currentThread().interrupt();throw new AssertionError(e);}}
+    Outcome worker(long actor,CyclicBarrier barrier,AtomicReference<Connection> connection,Callable<Object> operation){
+        identity(1L,actor);try{return transaction().execute(status->{Connection c=DataSourceUtils.getConnection(dataSource);connection.set(c);try{assertFalse(c.getAutoCommit());barrier.await(8,TimeUnit.SECONDS);return new Outcome(operation.call(),null);}catch(RuntimeException e){throw e;}catch(Exception e){throw new AssertionError(e);}});}catch(ServiceException e){return new Outcome(null,e.getCode());}finally{clearIdentity();}
+    }
+    Outcome[] orderedTransactions(long firstActor,long secondActor,Callable<Object> first,Callable<Object> second) throws Exception {
+        ExecutorService pool=Executors.newFixedThreadPool(2);CyclicBarrier barrier=new CyclicBarrier(2);CountDownLatch firstWrote=new CountDownLatch(1),secondAttempted=new CountDownLatch(1),commitFirst=new CountDownLatch(1);AtomicReference<Connection> ca=new AtomicReference<>(),cb=new AtomicReference<>();
+        try {
+            Future<Outcome> a=pool.submit(()->worker(firstActor,barrier,ca,()->{Object result=first.call();firstWrote.countDown();await(commitFirst);return result;}));
+            Future<Outcome> b=pool.submit(()->worker(secondActor,barrier,cb,()->{await(firstWrote);secondAttempted.countDown();return second.call();}));
+            await(firstWrote);await(secondAttempted);assertNotSame(ca.get(),cb.get());assertThrows(TimeoutException.class,()->b.get(200,TimeUnit.MILLISECONDS),"Second operation must wait for the actual tenant lock");commitFirst.countDown();Outcome firstResult=a.get(12,TimeUnit.SECONDS),secondResult=b.get(12,TimeUnit.SECONDS);assertNull(firstResult.code);return new Outcome[]{firstResult,secondResult};
+        }finally{commitFirst.countDown();pool.shutdownNow();assertTrue(pool.awaitTermination(12,TimeUnit.SECONDS),"T04 workers must stop before SQL cleanup");}
+    }
+    @Test void closeCommitsBeforeOldTokenPublishRejectsThenFreshTokenPublishesClosedState() throws Exception {
+        Long req=included(),id=issue(req,"BASELINE_BLOCK",false);toReview(id);assertFalse(allowedGate());HrmPayrollGovernanceVO.Publish stale=publication();IssueAction closing=command(id,"CLOSE");int releasesBefore=store.all(project,"RELEASE").size();
+        Outcome[] result=orderedTransactions(3L,1L,()->{workbench.issueAction(closing,3L);return persistentState();},()->releases.publish(stale,1L));assertEquals(PAYROLL_REVIEW_INCOMPLETE.getCode(),result[1].code);assertEquals(result[0].value,persistentState());assertEquals(releasesBefore,store.all(project,"RELEASE").size());assertEquals("CLOSED",data(id).getState());assertTrue(allowedGate());
+        Long release=releases.publish(publication(),1L);Map<String,Object> frozen=snapshot(release);assertEquals("CLOSED",frozenIssue(frozen,id).getState());assertEquals(records.selectById(id).getVersion().toString(),String.valueOf(frozenNode(frozen,id).get("version")));frozenStatistics(frozen,0);
+    }
+    @Test void publicationCommitsBeforeCloseKeepsFrozenReviewStateAndCounts() throws Exception {
+        Long req=included(),id=issue(req,"ADVISORY",false);toReview(id);assertTrue(allowedGate());HrmPayrollGovernanceVO.Publish publish=publication();IssueAction closing=command(id,"CLOSE");int version=records.selectById(id).getVersion();
+        Outcome[] result=orderedTransactions(1L,3L,()->releases.publish(publish,1L),()->{workbench.issueAction(closing,3L);return null;});assertNull(result[1].code);Long release=(Long)result[0].value;Map<String,Object> frozen=snapshot(release);String before=JsonUtils.toJsonString(frozen);assertEquals("CLOSED",data(id).getState());assertEquals("REVIEW",frozenIssue(frozen,id).getState());assertEquals(String.valueOf(version),String.valueOf(frozenNode(frozen,id).get("version")));frozenStatistics(frozen,1);assertEquals(0,((Number)statistics().get("unresolvedIssues")).intValue());assertEquals(before,JsonUtils.toJsonString(snapshot(release)));
+    }
+    @Test void reopenCommitsBeforeOldTokenPublishRejectsAndFreshGateBlocks() throws Exception {
+        Long req=included(),id=issue(req,"BASELINE_BLOCK",false);close(id);assertTrue(allowedGate());HrmPayrollGovernanceVO.Publish stale=publication();IssueAction reopening=command(id,"REOPEN");reopening.setDueDate(LocalDate.now(ZoneId.of("Asia/Shanghai")).plusDays(7).toString());int count=store.all(project,"RELEASE").size();
+        Outcome[] result=orderedTransactions(3L,1L,()->{workbench.issueAction(reopening,3L);return persistentState();},()->releases.publish(stale,1L));assertEquals(PAYROLL_REVIEW_INCOMPLETE.getCode(),result[1].code);assertEquals(result[0].value,persistentState());assertEquals(count,store.all(project,"RELEASE").size());assertEquals("OPEN",data(id).getState());assertEquals(2,data(id).getCycle());assertTrue(baselineIssueBlock(id));assertFalse(allowedGate());String before=persistentState();assertServiceException(()->releases.publish(publication(),1L),PAYROLL_REVIEW_INCOMPLETE);assertEquals(before,persistentState());assertEquals(count,store.all(project,"RELEASE").size());
+    }
+    @Test void publicationCommitsBeforeReopenKeepsFrozenClosedCycleAndCounts() throws Exception {
+        Long req=included(),id=issue(req,"BASELINE_BLOCK",false);close(id);HrmPayrollGovernanceVO.Publish publish=publication();IssueAction reopening=command(id,"REOPEN");reopening.setDueDate(LocalDate.now(ZoneId.of("Asia/Shanghai")).plusDays(7).toString());int version=records.selectById(id).getVersion();
+        Outcome[] result=orderedTransactions(1L,3L,()->releases.publish(publish,1L),()->{workbench.issueAction(reopening,3L);return null;});assertNull(result[1].code);Long release=(Long)result[0].value;Map<String,Object> frozen=snapshot(release);String before=JsonUtils.toJsonString(frozen);assertEquals("CLOSED",frozenIssue(frozen,id).getState());assertEquals(1,frozenIssue(frozen,id).getCycle());assertEquals(String.valueOf(version),String.valueOf(frozenNode(frozen,id).get("version")));frozenStatistics(frozen,0);assertEquals("OPEN",data(id).getState());assertEquals(2,data(id).getCycle());assertTrue(baselineIssueBlock(id));assertFalse(allowedGate());assertEquals(before,JsonUtils.toJsonString(snapshot(release)));
+    }
+}

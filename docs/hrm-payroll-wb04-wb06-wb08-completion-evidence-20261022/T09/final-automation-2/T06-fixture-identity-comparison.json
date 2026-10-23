@@ -1,0 +1,23 @@
+{
+  "newFinalAutomation2Outputs": [
+    {
+      "name": "TEST-long-text-real-exporter.xlsx",
+      "bytes": 307803,
+      "sha256": "0e90e7fea8f3a2cb0071f57474c294b8f961c054d30c725b066b34b3223976cc",
+      "oldNativeViewedBytes": 307804,
+      "oldNativeViewedSha256": "6e3c5ead092909eeb20ad750b07d1207d62dbdbb19d34c98f0763da8adecbaad",
+      "sameExactFileAsNativeViewed": false
+    },
+    {
+      "name": "TEST-empty-six-business-tables-real-exporter.xlsx",
+      "bytes": 8233,
+      "sha256": "f6d8005dcaed6347bbaf4da8669b694e8d7143397bd8eb78e59d5d141be1a178",
+      "oldNativeViewedBytes": 8231,
+      "oldNativeViewedSha256": "632eb7f02e5f34271b30e55e21a107b4a0584832c259fa21f49f7b1bea06fe16",
+      "sameExactFileAsNativeViewed": false
+    }
+  ],
+  "newOutputsAreOnlyPoIRegressionArtifacts": true,
+  "nativeViewsRemainBoundToOldFiles": true,
+  "provenance": "TEST 合成投影，经真实生产 workbook() 导出；非浏览器下载、非DB快照、非正式批准\nExporter: HrmPayrollGovernanceExportService.workbook(projected, 1L)\nLong fixture: 7000 repetitions of Chinese/emoji/six newlines; 2000 numbered basis clauses.\nEmpty fixture: six empty business tables; exporter-generated EXPORT-METADATA remains on sheet 1.\nPOI complete-field reconstruction passed before writing. Native Excel layout review is still required.\nTEST-long-text-real-exporter.xlsx SHA-256 0e90e7fea8f3a2cb0071f57474c294b8f961c054d30c725b066b34b3223976cc\nTEST-empty-six-business-tables-real-exporter.xlsx SHA-256 f6d8005dcaed6347bbaf4da8669b694e8d7143397bd8eb78e59d5d141be1a178"
+}

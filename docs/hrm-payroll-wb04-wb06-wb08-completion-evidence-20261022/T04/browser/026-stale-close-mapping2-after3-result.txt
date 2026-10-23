@@ -1,0 +1,17 @@
+Browser tab: 2, Title: "芋道管理系统 - 需求评审", URL: "http://localhost:5173/hrm-payroll/requirement?projectId=153&module=COL".
+1 AXWebArea 芋道管理系统 - 需求评审, URL: localhost:5173/hrm-payroll/requirement?projectId=153&module=COL
+	2 container
+		3 container
+			4 text 问题动作 CLOSE
+		13 container el-id-8798-84
+			14 text 当前版本或范围已变化。输入已保留；请读取最新版本，人工合并后重试。
+			15 container
+				16 text 处理或复核依据
+				17 text entry area (settable) Description: 处理或复核依据, Value: TEST独立复核279：本表单绑定映射2；打开后将由另一可见编辑会话修订为映射3，提交应因绑定过期被拒。, ID: el-id-8798-89
+				18 text 本次操作原因
+				19 text entry area (settable) Description: 本次操作原因, Value: TEST cycle2过期绑定负向回归，输入应保留，未通过时不关闭。, ID: el-id-8798-90
+		10 container
+			11 button 取消
+			12 button 提交并保存
+
+The focused UI element is 1 AXWebArea 芋道管理系统 - 需求评审, URL: localhost:5173/hrm-payroll/requirement?projectId=153&module=COL

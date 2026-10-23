@@ -1,0 +1,3 @@
+Requested executor model: gpt-6-luna
+Requested reasoning effort: max
+Actual runtime model: unverified; this execution environment exposes no runtime-model attestation.

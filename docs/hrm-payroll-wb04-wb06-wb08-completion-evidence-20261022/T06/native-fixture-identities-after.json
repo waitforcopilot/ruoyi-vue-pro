@@ -1,0 +1,18 @@
+{
+  "origin": "TEST synthetic projected tables through actual production exporter, not browser or database snapshot",
+  "saved": false,
+  "printed": false,
+  "files": [
+    {
+      "name": "TEST-long-text-real-exporter.xlsx",
+      "bytes": 307804,
+      "sha256": "6e3c5ead092909eeb20ad750b07d1207d62dbdbb19d34c98f0763da8adecbaad"
+    },
+    {
+      "name": "TEST-empty-six-business-tables-real-exporter.xlsx",
+      "bytes": 8231,
+      "sha256": "632eb7f02e5f34271b30e55e21a107b4a0584832c259fa21f49f7b1bea06fe16"
+    }
+  ],
+  "note": "All native images were actually saved under native-boundary1429 by the capture helper closure; empty/long/restricted directories do not hold these images. No sealed file moved or overwritten."
+}

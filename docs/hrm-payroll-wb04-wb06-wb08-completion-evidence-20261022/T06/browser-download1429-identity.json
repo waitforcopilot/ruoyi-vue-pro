@@ -1,0 +1,12 @@
+{
+  "downloadPath": "/Users/waitforpro/Downloads/薪酬评审-快照1384-任务1429.xlsx",
+  "bytes": 352138,
+  "sha256": "6cdab6245a67bac6672b6dd837243a6b63d4312593c7d3cb2d924c34ab3f723e",
+  "evidenceCopySha256": "6cdab6245a67bac6672b6dd837243a6b63d4312593c7d3cb2d924c34ab3f723e",
+  "releaseId": 1384,
+  "jobId": 1429,
+  "downloadMethod": "visible embedded browser create/generate/claim",
+  "native": "Microsoft Excel",
+  "nativeSaved": false,
+  "note": "Excel native sheet buttons altered in-memory sheet order; chose Do Not Save. Original disk bytes compared after close."
+}

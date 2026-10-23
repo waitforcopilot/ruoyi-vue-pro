@@ -1,0 +1,5 @@
+ ...b04-wb06-wb08-completion-fix-report-20261022.md | 32 ++++++++++++
+ .../payroll/HrmPayrollGovernanceExportService.java | 58 +++++++++++++++++-----
+ .../payroll/HrmPayrollGovernanceServiceTest.java   | 28 ++++++++++-
+ .../src/views/hrm/payroll/review/validation.ts     |  2 +-
+ 4 files changed, 106 insertions(+), 14 deletions(-)

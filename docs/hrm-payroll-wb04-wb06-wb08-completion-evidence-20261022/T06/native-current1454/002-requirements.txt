@@ -1,0 +1,177 @@
+Window: "薪酬评审-快照1384-任务1454", App: Microsoft Excel.
+0 标准窗口 薪酬评审-快照1384-任务1454, Secondary Actions: Raise, URL: file:///Users/waitforpro/Downloads/%E8%96%AA%E9%85%AC%E8%AF%84%E5%AE%A1-%E5%BF%AB%E7%85%A71384-%E4%BB%BB%E5%8A%A11454.xlsx
+	1 分离组
+		2 布局区域 内容区域, Description: 工作簿区域, 功能需求清单, 工作表 2，共 6 个工作表, 使用区域: A1 至 H912, Help: 窗口的内容区域
+			3 按钮 向左导航工作表标签视图， , ID: leftButton
+			4 按钮 向右导航工作表标签视图， , ID: rightButton
+			5 按钮 评审版本说明, , 使用区域: A1 至 H718, Description: 评审版本说明, Help: 按下可使此工作表活动
+			6 按钮 选定, 功能需求清单, , 使用区域: A1 至 H912, Description: 功能需求清单, Help: 按下可使此工作表活动
+			7 按钮 数据源清单, , 使用区域: A1 至 H787, Description: 数据源清单, Help: 按下可使此工作表活动
+			8 按钮 字段映射, , 使用区域: A1 至 H850, Description: 字段映射, Help: 按下可使此工作表活动
+			9 按钮 问题与待办, , 使用区域: A1 至 H276, Description: 问题与待办, Help: 按下可使此工作表活动
+			10 按钮 范围与变更, , 使用区域: A1 至 H3383, Description: 范围与变更, Help: 按下可使此工作表活动
+			11 按钮 插入工作表， , ID: addBlankSheetButton
+		12 分离器 (disabled, settable, float) 2000
+	13 标签组 Description: 功能区, Details: 开始
+		14 滚动区 开始 选项卡命令
+			15 container
+				16 菜单按钮 粘贴, Help: 有关更多选项，请按 Control-Option-Shift-M。
+				17 按钮 剪切
+				18 菜单按钮 复制, Help: 有关更多选项，请按 Control-Option-Shift-M。, Value: 0
+				19 开关按钮 格式, Help: 复制一个位置的格式并将其应用于另一个位置, Value: off
+			20 container
+				21 组合框 (settable) Description: 字体:, Value: 微软雅黑, Secondary Actions: Confirm
+					22 按钮
+				23 组合框 (settable) Description: 字号:, Value: 11, Secondary Actions: Confirm
+					24 按钮
+				25 按钮 增大字号
+				26 按钮 减小字号
+				27 开关按钮 加粗, Value: on
+				28 开关按钮 倾斜, Value: off
+				29 菜单按钮 下划线, Help: 有关更多选项，请按 Control-Option-Shift-M。, Value: 0
+				30 菜单按钮 边框, Help: 有关更多选项，请按 Control-Option-Shift-M。, Value: 0
+				31 菜单按钮 底纹, Help: 有关更多选项，请按 Control-Option-Shift-M。, Value: RGB(255, 255, 0)
+				32 菜单按钮 字体颜色, Help: 有关更多选项，请按 Control-Option-Shift-M。, Value: RGB(255, 0, 0)
+				33 菜单按钮 显示拼音字段, Help: 有关更多选项，请按 Control-Option-Shift-M。, Value: 0
+			34 container
+				35 开关按钮 顶端对齐, Value: on
+				36 开关按钮 垂直居中, Value: off
+				37 开关按钮 底端对齐, Value: off
+				38 菜单按钮 方向, Value: 0
+				39 开关按钮 左对齐, Value: off
+				40 开关按钮 居中, Help: 文字居中, Value: off
+				41 开关按钮 右对齐, Value: off
+				42 按钮 减少缩进量
+				43 按钮 增加缩进量
+				44 菜单按钮 自动换行, Help: 有关更多选项，请按 Control-Option-Shift-M。, Value: 1
+				45 菜单按钮 合并后居中, Help: 有关更多选项，请按 Control-Option-Shift-M。, Value: 0
+			46 container
+				47 组合框 (settable) Description: 数字格式, Value: 常规, Secondary Actions: Confirm
+					48 按钮
+				49 菜单按钮 会计数字格式, Help: 有关更多选项，请按 Control-Option-Shift-M。, Value: 0
+				50 按钮 百分比样式
+				51 按钮 千位分隔样式
+				52 按钮 增加小数位数
+				53 按钮 减少小数位数
+			54 container
+				55 菜单按钮 条件格式, Value: 0
+				56 菜单按钮 套用表格格式, Value: 0
+				57 按钮 下一个“单元格样式”库
+				58 库 Description: 单元格样式, Help: 库
+					59 按钮 Description: 常规, Value: 1, ID: in_ribbon_gallery_UxGalCellStyles_Control_1_0
+					60 按钮 Description: 差, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_1_1
+					61 按钮 Description: 好, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_1_2
+					62 按钮 Description: 适中, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_1_3
+					63 按钮 Description: 计算, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_2_0
+					64 按钮 Description: 检查单元格, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_2_1
+					65 按钮 Description: 解释性文本, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_2_2
+					66 按钮 Description: 警告文本, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_2_3
+					67 按钮 Description: 链接单元格, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_2_4
+					68 按钮 Description: 输出, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_2_5
+					69 按钮 Description: 输入, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_2_6
+					70 按钮 Description: 注释, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_2_7
+					71 按钮 Description: 标题, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_3_0
+					72 按钮 Description: 标题 1, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_3_1
+					73 按钮 Description: 标题 2, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_3_2
+					74 按钮 Description: 标题 3, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_3_3
+					75 按钮 Description: 标题 4, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_3_4
+					76 按钮 Description: 汇总, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_3_5
+					77 按钮 Description: 浅青绿, 20% - 着色 1, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_0
+					78 按钮 Description: 浅橙色, 20% - 着色 2, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_1
+					79 按钮 Description: 浅绿, 20% - 着色 3, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_2
+					80 按钮 Description: 浅青绿, 20% - 着色 4, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_3
+					81 按钮 Description: 粉红, 20% - 着色 5, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_4
+					82 按钮 Description: 浅绿, 20% - 着色 6, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_5
+					83 按钮 Description: 浅青绿, 40% - 着色 1, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_6
+					84 按钮 Description: 浅橙色, 40% - 着色 2, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_7
+					85 按钮 Description: 浅绿, 40% - 着色 3, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_8
+					86 按钮 Description: 浅青绿, 40% - 着色 4, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_9
+					87 按钮 Description: 粉红, 40% - 着色 5, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_10
+					88 按钮 Description: 浅绿, 40% - 着色 6, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_11
+					89 按钮 Description: 青绿, 60% - 着色 1, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_12
+					90 按钮 Description: 浅橙色, 60% - 着色 2, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_13
+					91 按钮 Description: 绿色, 60% - 着色 3, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_14
+					92 按钮 Description: 青绿, 60% - 着色 4, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_15
+					93 按钮 Description: 粉红, 60% - 着色 5, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_16
+					94 按钮 Description: 绿色, 60% - 着色 6, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_17
+					95 按钮 Description: 深青, 着色 1, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_18
+					96 按钮 Description: 橙色, 着色 2, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_19
+					97 按钮 Description: 深绿色, 着色 3, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_20
+					98 按钮 Description: 青绿, 着色 4, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_21
+					99 按钮 Description: 梅红, 着色 5, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_22
+					100 按钮 Description: 绿色, 着色 6, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_4_23
+					101 按钮 Description: 百分比, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_5_0
+					102 按钮 Description: 货币, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_5_1
+					103 按钮 Description: 货币[0], Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_5_2
+					104 按钮 Description: 千位分隔, Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_5_3
+					105 按钮 Description: 千位分隔[0], Value: 0, ID: in_ribbon_gallery_UxGalCellStyles_Control_5_4
+			106 container
+				107 菜单按钮 插入, Help: 有关更多选项，请按 Control-Option-Shift-M。, Value: 0
+				108 菜单按钮 删除, Help: 有关更多选项，请按 Control-Option-Shift-M。, Value: 0
+				109 菜单按钮 格式, Value: 0
+			110 container
+				111 菜单按钮 自动求和, Help: 有关更多选项，请按 Control-Option-Shift-M。, Value: 0
+				112 菜单按钮 填充, Value: 0
+				113 菜单按钮 清除, Value: 0
+				114 菜单按钮 排序和筛选, Value: 0
+				115 菜单按钮 查找和选择, Value: 0
+			116 菜单按钮 (disabled) 敏感度, Value: 0
+			117 按钮 加载项
+		118 选项卡 开始, Help: 折叠功能区, Value: 1
+		119 选项卡 插入
+		120 选项卡 绘图
+		121 选项卡 页面布局
+		122 选项卡 公式
+		123 选项卡 数据
+		124 选项卡 审阅
+		125 选项卡 视图
+		126 选项卡 自动化
+		127 按钮 批注
+		128 按钮 共享
+	129 按钮 Description: 打开公式生成器, Help: 插入函数, ID: FxButton
+	130 按钮 (disabled) Description: 输入公式, Help: 输入, ID: EnterButton
+	131 按钮 (disabled) Description: 取消公式, Help: 取消, ID: CancelButton
+	132 图像
+	133 组合框 (settable) Description: 名称框, Value: A1, ID: NameBox, Secondary Actions: Confirm
+		134 按钮
+	135 按钮 Description: 展开编辑栏, ID: ExpandButton
+	136 文本输入区 Description: 编辑栏. A,1 记录类型, ID: XLFormulaEditor
+	137 container 状态栏
+		138 文本 就绪, Help: 就绪模式
+		139 按钮 辅助功能: 一切就绪, Help: 已完成辅助功能检查。请单击此处了解详细信息。
+		140 单选按钮 普通, Value: 1
+		141 单选按钮 页面布局, Value: 0
+		142 单选按钮 分页预览, Value: 0
+		143 按钮 缩小
+		144 按钮 放大
+		145 滑块 (settable, float) Help: 缩放, Value: 1000, Details: 100%
+			146 值指示器 (settable, float) 1000
+		147 按钮 100%, Help: 缩放级别。单击可打开“缩放”对话框。
+	148 工具栏
+		149 container Secondary Actions: 从工具栏移除
+			150 转换 自动保存, Help: 单击以对此文件开启自动保存, Value: off
+			151 按钮 主页
+			152 按钮 保存
+			153 按钮 另存为
+			154 菜单按钮 (disabled) 撤消, Help: 有关更多选项，请按 Control-Option-Shift-M。
+			155 按钮 重复 关闭
+			156 菜单按钮 自定义快速访问工具栏, Value: 0
+			157 按钮 搜索(Cmd + Ctrl + U)
+			158 文本 Value: 薪酬评审-快照1384-任务1454, ID: CUIDocumentShellWindowTitleLabel
+			159 按钮 文档操作, ID: CUIDocumentShellWindowAutosaveWidgetAutoID
+	160 关闭按钮
+	161 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	162 最小化按钮
+163 menu bar
+	164 Excel, ID: AppMenu_MenuItem
+	165 文件
+	166 编辑, ID: EditMenu_MenuItem
+	167 视图, ID: ViewMenu_MenuItem
+	168 插入
+	169 格式
+	170 工具
+	171 数据
+	172 窗口, ID: WindowMenu_MenuItem
+	173 帮助, ID: HelpMenu_MenuItem
+
+The focused UI element is 2 布局区域 内容区域, Description: 工作簿区域, 功能需求清单, 工作表 2，共 6 个工作表, 使用区域: A1 至 H912, Help: 窗口的内容区域

@@ -1,0 +1,3 @@
+52e26c3d4266065875552264dc035504f3aeb09879fcae439237f0fcc0160fc7  yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollT04IssueConsistencyTest.java
+expected=52e26c3d4266065875552264dc035504f3aeb09879fcae439237f0fcc0160fc7
+match=true

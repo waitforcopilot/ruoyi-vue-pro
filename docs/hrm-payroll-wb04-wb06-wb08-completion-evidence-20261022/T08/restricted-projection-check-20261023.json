@@ -1,0 +1,359 @@
+{
+  "task": "T08 restricted frozen snapshot projection check",
+  "asOf": "2026-10-23 Asia/Shanghai",
+  "candidateHead": "fdc503dca517b4dad4ea136f73bd9fbe92e11c59",
+  "databaseRead": {
+    "schema": "hrm_local_20261017",
+    "sessionTransactionReadOnly": true,
+    "globalReadOnly": false,
+    "mutatingStatements": 0,
+    "rollbackIssued": true,
+    "credentialMaterialRecorded": false
+  },
+  "frozenRelease": {
+    "id": 1341,
+    "projectId": 147,
+    "kind": "RELEASE",
+    "objectKey": "37f18c301fab410cb84b7a6c02c42db4",
+    "releaseVersion": 1,
+    "tenantId": 1,
+    "dataJsonBytes": 665437,
+    "dataJsonSha256": "f8169b76c98b85b1064ecd7dfa61b5be1128fdc8d1b9b1ab8aa0e29112df6968",
+    "snapshotScopeVersion": 1,
+    "projectOrganizationIds": [
+      201,
+      202
+    ],
+    "counts": {
+      "requirements": 2,
+      "sources": 2,
+      "relations": 2,
+      "issues": 2
+    },
+    "statistics": {
+      "sourceCount": 2,
+      "unresolvedIssues": 2
+    },
+    "objectIdsByType": {
+      "requirements": [
+        1658,
+        1659
+      ],
+      "sources": [
+        3341,
+        3360
+      ],
+      "relations": [
+        3344,
+        3363
+      ],
+      "issues": [
+        3357,
+        3376
+      ]
+    },
+    "organizationIdsByObject": {
+      "REQ-1658": [
+        201
+      ],
+      "REQ-1659": [
+        202
+      ],
+      "SRC-3341": [
+        201
+      ],
+      "SRC-3360": [
+        202
+      ]
+    },
+    "relationLinks": {
+      "REL-3344": {
+        "requirementId": 1658,
+        "sourceId": 3341
+      },
+      "REL-3363": {
+        "requirementId": 1659,
+        "sourceId": 3360
+      }
+    },
+    "issueLinks": {
+      "ISSUE-3357": {
+        "requirements": [
+          1658
+        ],
+        "sources": [],
+        "relations": []
+      },
+      "ISSUE-3376": {
+        "requirements": [
+          1659
+        ],
+        "sources": [],
+        "relations": []
+      }
+    }
+  },
+  "currentRestrictedAccess": {
+    "projectId": 147,
+    "scopeVersion": 1,
+    "projectOwnerId": 266,
+    "archived": true,
+    "projectOrganizationIds": [
+      201,
+      202
+    ],
+    "restrictedUserId": 268,
+    "currentGrants": [
+      {
+        "id": 512,
+        "userId": 268,
+        "actions": [
+          "EXPORT",
+          "READ"
+        ],
+        "fullProject": false,
+        "requirementIds": [
+          1658
+        ],
+        "sourceIds": [
+          3341
+        ],
+        "organizationCeiling": [
+          201
+        ],
+        "rootRecordId": 1323,
+        "revoked": false,
+        "grantVersion": 1,
+        "parentGrantId": 510,
+        "grantorId": 266,
+        "validFrom": "2026-01-01",
+        "validTo": "2027-12-31"
+      },
+      {
+        "id": 513,
+        "userId": 268,
+        "actions": [
+          "EXPORT",
+          "READ"
+        ],
+        "fullProject": false,
+        "requirementIds": null,
+        "sourceIds": null,
+        "organizationCeiling": [
+          201
+        ],
+        "rootRecordId": 1323,
+        "revoked": false,
+        "grantVersion": 1,
+        "parentGrantId": 510,
+        "grantorId": 266,
+        "validFrom": "2026-01-01",
+        "validTo": "2027-12-31"
+      }
+    ],
+    "combinedOrganizationCeiling": [
+      201
+    ]
+  },
+  "expectedProjection": {
+    "visibleParentIds": {
+      "requirements": [
+        1658
+      ],
+      "sources": [
+        3341
+      ],
+      "relations": [
+        3344
+      ],
+      "issues": []
+    },
+    "hiddenCrossOrganizationIds": [
+      "ISSUE-3376",
+      "REL-3363",
+      "REQ-1659",
+      "SRC-3360"
+    ],
+    "omittedIssueIds": [
+      "ISSUE-3357",
+      "ISSUE-3376"
+    ],
+    "restrictedExcerptLabelRequired": true
+  },
+  "workbook": {
+    "file": "release1341-job1441-restricted268-browser.xlsx",
+    "bytes": 13947,
+    "sha256": "971914598e2a87da223fa11f8f9aedb75b7d0e820e34c61b9c85a20f35080718",
+    "identityMatchesDownloadReceipt": true,
+    "identityBytes": 13947,
+    "identitySha256": "971914598e2a87da223fa11f8f9aedb75b7d0e820e34c61b9c85a20f35080718",
+    "sheetOrder": [
+      "评审版本说明",
+      "功能需求清单",
+      "数据源清单",
+      "字段映射",
+      "问题与待办",
+      "范围与变更"
+    ],
+    "layout": [
+      {
+        "sheet": "评审版本说明",
+        "rowsIncludingHeader": 31,
+        "businessRecords": 3,
+        "columns": 8,
+        "maxRowHeightPt": 102.0
+      },
+      {
+        "sheet": "功能需求清单",
+        "rowsIncludingHeader": 28,
+        "businessRecords": 1,
+        "columns": 8,
+        "maxRowHeightPt": 30.0
+      },
+      {
+        "sheet": "数据源清单",
+        "rowsIncludingHeader": 20,
+        "businessRecords": 2,
+        "columns": 8,
+        "maxRowHeightPt": 102.0
+      },
+      {
+        "sheet": "字段映射",
+        "rowsIncludingHeader": 19,
+        "businessRecords": 2,
+        "columns": 8,
+        "maxRowHeightPt": 72.0
+      },
+      {
+        "sheet": "问题与待办",
+        "rowsIncludingHeader": 6,
+        "businessRecords": 1,
+        "columns": 8,
+        "maxRowHeightPt": 30.0
+      },
+      {
+        "sheet": "范围与变更",
+        "rowsIncludingHeader": 16,
+        "businessRecords": 1,
+        "columns": 8,
+        "maxRowHeightPt": 30.0
+      }
+    ],
+    "parentIdsBySheet": {
+      "评审版本说明": [
+        "EXPORT-METADATA",
+        "SUMMARY-1",
+        "受限发布依据"
+      ],
+      "功能需求清单": [
+        "REQ-1658"
+      ],
+      "数据源清单": [
+        "SRC-3341",
+        "受限关联-1"
+      ],
+      "字段映射": [
+        "REL-3344",
+        "受限关联-1"
+      ],
+      "问题与待办": [
+        "受限关联-1"
+      ],
+      "范围与变更": [
+        "REQ-1658"
+      ]
+    },
+    "parentIdsByBusinessType": {
+      "requirements": [
+        1658
+      ],
+      "sources": [
+        3341
+      ],
+      "relations": [
+        3344
+      ],
+      "issues": []
+    },
+    "selectedExportStatistics": {
+      "sourceCount": 1,
+      "unresolvedIssues": 0
+    },
+    "forbiddenReferencePresence": {
+      "ISSUE-3357": {
+        "inReconstructedValues": false,
+        "inWorkbookXml": false
+      },
+      "ISSUE-3376": {
+        "inReconstructedValues": false,
+        "inWorkbookXml": false
+      },
+      "REL-3363": {
+        "inReconstructedValues": false,
+        "inWorkbookXml": false
+      },
+      "REQ-1659": {
+        "inReconstructedValues": false,
+        "inWorkbookXml": false
+      },
+      "SRC-3360": {
+        "inReconstructedValues": false,
+        "inWorkbookXml": false
+      }
+    },
+    "hiddenRecordsHashedAndCounted": [
+      {
+        "kind": "REQ",
+        "id": 1659,
+        "fieldCount": 43,
+        "longTextCandidates": 7,
+        "uniqueLongTextCandidates": 7,
+        "canonicalRecordSha256": "1773ec8241fac0829a24ff11e61f43d53945c52255dbdb305a2ee1fb9c05a8ed"
+      },
+      {
+        "kind": "SOURCE",
+        "id": 3360,
+        "fieldCount": 22,
+        "longTextCandidates": 3,
+        "uniqueLongTextCandidates": 3,
+        "canonicalRecordSha256": "ed9a19932324ec34a4ce0d0f69d0f621dd4749b1f43ca1f22f9bb6654c0f69d7"
+      },
+      {
+        "kind": "RELATION",
+        "id": 3363,
+        "fieldCount": 6,
+        "longTextCandidates": 1,
+        "uniqueLongTextCandidates": 1,
+        "canonicalRecordSha256": "91c825f8f6318be41633018cb2de4e38242f18f4716a8513953e817ce95cb2e7"
+      },
+      {
+        "kind": "ISSUE",
+        "id": 3357,
+        "fieldCount": 15,
+        "longTextCandidates": 0,
+        "uniqueLongTextCandidates": 0,
+        "canonicalRecordSha256": "e53bf1c831145391adbcb921ee19af83da56f49d7a90ce615b5efc38521b520f"
+      },
+      {
+        "kind": "ISSUE",
+        "id": 3376,
+        "fieldCount": 15,
+        "longTextCandidates": 0,
+        "uniqueLongTextCandidates": 0,
+        "canonicalRecordSha256": "55b8e3294f8a07be00f4167788659cdfbc7f04c5c029afbffc38a8781e0cbdec"
+      }
+    ],
+    "uniqueLongHiddenTextVerbatimHits": 0,
+    "loader": "verify_workbook.py load() only; main() not called; formula, header, sheet, fragment checks applied"
+  },
+  "checks": {
+    "sessionReadOnly": true,
+    "organizationScopeMatchesDb": true,
+    "visibleParentSetMatchesExpected": true,
+    "hiddenReferenceIdsAbsent": true,
+    "fullSnapshotCountsNotLeaked": true,
+    "uniqueLongHiddenFieldsNotFoundVerbatim": true,
+    "downloadIdentityMatches": true
+  },
+  "result": "PASS_SCOPED_PROJECTION_CHECK"
+}

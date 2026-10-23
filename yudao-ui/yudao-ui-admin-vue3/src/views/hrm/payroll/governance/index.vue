@@ -472,6 +472,7 @@ const blockLabels: Record<string, string> = {
 }
 let ticket = 0
 async function load() {
+  success.value = ''
   const own = ++ticket,
     id = projectId.value
   loading.value = true
@@ -524,9 +525,11 @@ function showRecord(row: any) {
   recordOpen.value = true
 }
 async function history(row: any) {
+  success.value = ''
   showRecord(await api.get('/decision/history', { projectId: projectId.value, id: row.id }))
 }
 function openRoot() {
+  success.value = ''
   rootForm.value = {
     anchorId: anchors.value[0]?.id,
     userId: undefined,
@@ -542,6 +545,7 @@ function openRoot() {
   rootOpen.value = true
 }
 function openDecision(row?: any) {
+  success.value = ''
   decisionForm.value = row
     ? {
         ...JSON.parse(JSON.stringify(row.data)),
@@ -568,6 +572,7 @@ function openDecision(row?: any) {
   decisionOpen.value = true
 }
 async function saveRoot() {
+  success.value = ''
   busy.value = true
   error.value = ''
   try {
@@ -582,6 +587,7 @@ async function saveRoot() {
   }
 }
 async function saveDecision() {
+  success.value = ''
   busy.value = true
   error.value = ''
   try {
@@ -599,10 +605,12 @@ async function saveDecision() {
   }
 }
 function openAction(kind: string, row: any, action: string) {
+  success.value = ''
   actionForm.value = { kind, id: row.id, version: row.version, action, reason: '' }
   actionOpen.value = true
 }
 async function saveAction() {
+  success.value = ''
   busy.value = true
   error.value = ''
   try {
@@ -620,6 +628,7 @@ async function saveAction() {
   }
 }
 async function precheck() {
+  success.value = ''
   const own = ticket,
     target = projectId.value
   busy.value = true
@@ -646,6 +655,7 @@ async function publish(draft: boolean) {
   await retryPublish()
 }
 async function retryPublish() {
+  success.value = ''
   busy.value = true
   error.value = ''
   try {
@@ -659,6 +669,7 @@ async function retryPublish() {
   }
 }
 async function readRelease(releaseId: number) {
+  success.value = ''
   const own = ticket,
     target = projectId.value
   try {
@@ -672,6 +683,7 @@ async function readRelease(releaseId: number) {
   }
 }
 async function createJob(releaseId: number) {
+  success.value = ''
   const own = ticket,
     target = projectId.value
   try {
@@ -693,6 +705,7 @@ async function createJob(releaseId: number) {
   }
 }
 async function refreshJob(row: any) {
+  success.value = ''
   try {
     const result = await api.get('/export/status', { projectId: row.projectId, id: row.id })
     jobs.value = jobs.value.map((job) => (job.id === row.id ? { ...job, ...result } : job))
@@ -705,6 +718,7 @@ async function refreshJob(row: any) {
   }
 }
 async function claim(row: any) {
+  success.value = ''
   try {
     const blob = await api.download({ projectId: row.projectId, id: row.id })
     download.excel(blob, `薪酬评审-快照${row.releaseId}-任务${row.id}.xlsx`)

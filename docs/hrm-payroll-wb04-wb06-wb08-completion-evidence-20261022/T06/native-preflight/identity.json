@@ -1,0 +1,17 @@
+{
+  "observedAtDate": "2026-10-23",
+  "purpose": "Old sealed TEST workbook native readiness preview only; not current browser download acceptance",
+  "file": "/Users/waitforpro/source/github-yudao/ruoyi-vue-pro/docs/hrm-payroll-wb04-wb06-wb08-fix-evidence-20261021/wb08-release-1384-job-1386.xlsx",
+  "sha256": "16f011dd412981c9ed813a8b591d672a559805b82f2ed03cac47314d9dfff738",
+  "bytes": 352133,
+  "application": "Microsoft Excel",
+  "version": "16.114",
+  "build": "16.114.26101123",
+  "nativeOpenObserved": true,
+  "sheetsReportedByNativeUI": 6,
+  "sheetsVisuallyPreviewed": [
+    "评审版本说明"
+  ],
+  "savedOrModified": false,
+  "T06Closed": false
+}

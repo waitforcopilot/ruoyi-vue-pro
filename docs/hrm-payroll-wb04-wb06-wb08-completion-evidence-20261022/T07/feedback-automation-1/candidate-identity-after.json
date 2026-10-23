@@ -1,0 +1,16 @@
+{
+  "head": "fdc503dca517b4dad4ea136f73bd9fbe92e11c59",
+  "actualRuntimeModel": "unverified",
+  "candidates": [
+    {
+      "path": "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/governance/index.vue",
+      "sha256": "663519c7dd73e8d001e2c2a911eebbf7e81d3c16b942c1bdca6850c7b016cdde"
+    },
+    {
+      "path": "script/hrm-payroll-governance-feedback.test.cjs",
+      "sha256": "8e61d3f6307c7039f226cf4020f286429509318dbb8cae3881276d1a1f094eb8"
+    }
+  ],
+  "candidateHashesUnchanged": true,
+  "headUnchanged": true
+}

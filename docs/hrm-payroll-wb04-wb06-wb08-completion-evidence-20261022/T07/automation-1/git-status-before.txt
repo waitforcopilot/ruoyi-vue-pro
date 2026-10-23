@@ -1,0 +1,52 @@
+ M docs/hrm-payroll-wb04-wb06-wb08-completion-fix-report-20261022.md
+ M yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceExportService.java
+ M yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceServiceTest.java
+ M yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/WorkbenchPanel.vue
+ M yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/issueValidation.ts
+ M yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/validation.ts
+?? docs/hrm-menu-pruning-evidence-20261021/
+?? docs/hrm-menu-pruning-report-20261021.md
+?? docs/hrm-payroll-business-multirole-timeline-test-20261020.md
+?? docs/hrm-payroll-business-multirole-timeline-test-audit-20261020.md
+?? docs/hrm-payroll-business-timeline-audit-followup-20261021.md
+?? docs/hrm-payroll-business-timeline-audit-followup-evidence-20261021/
+?? docs/hrm-payroll-business-timeline-audit-response-20261021.md
+?? docs/hrm-payroll-business-timeline-audit-response-audit-20261021.md
+?? docs/hrm-payroll-business-timeline-audit-response-evidence-20261020/
+?? docs/hrm-payroll-multirole-timeline-evidence-20261020/
+?? docs/hrm-payroll-prd04-browser-fourth-verification-20261022/
+?? docs/hrm-payroll-prd04-browser-reverification-20261021/
+?? docs/hrm-payroll-prd04-browser-third-verification-20261021/
+?? docs/hrm-payroll-prd04-browser-verification-20261021/
+?? docs/hrm-payroll-prd04-function-audit-evidence-20261021/
+?? docs/hrm-payroll-prd04-function-completion-audit-20261021.md
+?? docs/hrm-payroll-prd04-function-completion-audit-response-20261021.md
+?? docs/hrm-payroll-prd04-function-completion-audit-response-evidence-20261021/
+?? docs/hrm-payroll-prd04-function-completion-independent-audit-20261021.md
+?? docs/hrm-payroll-prd04-function-completion-independent-audit-round2-20261021.md
+?? docs/hrm-payroll-prd04-function-completion-independent-audit-round3-20261022.md
+?? docs/hrm-payroll-prd04-function-completion-independent-audit-round4-20261022.md
+?? docs/hrm-payroll-prd04-round2-audit-response-20261021.md
+?? docs/hrm-payroll-prd04-round2-audit-response-evidence-20261021/
+?? docs/hrm-payroll-prd04-round3-audit-response-20261022.md
+?? docs/hrm-payroll-prd04-round3-audit-response-evidence-20261022/
+?? docs/hrm-payroll-prd04-round4-audit-response-20261022.md
+?? docs/hrm-payroll-prd04-round4-audit-response-evidence-20261022/
+?? docs/hrm-payroll-prd04-round4-operation-audit-20261022.md
+?? docs/hrm-payroll-prd04-round4-operation-audit-20261022/
+?? docs/hrm-payroll-prd04-visible-browser-reverification-20261022/
+?? docs/hrm-payroll-requirements-multirole-timeline-test-20261020.md
+?? docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T03/
+?? docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T04/
+?? docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T06/
+?? docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T07/
+?? docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T08/
+?? docs/hrm-payroll-wb04-wb06-wb08-fix-audit-response-20261021.md
+?? docs/hrm-payroll-wb04-wb06-wb08-fix-audit-response-evidence-20261021/
+?? docs/hrm-payroll-wb04-wb06-wb08-fix-evidence-20261021/
+?? docs/hrm-payroll-wb04-wb06-wb08-fix-report-20261021.md
+?? docs/hrm-payroll-wb04-wb06-wb08-fix-report-audit-20261021.md
+?? scripts/hrm/frontend_workbench_issue_deadline_regression.cjs
+?? yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollT03IssueContractTest.java
+?? yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollT04IssueConsistencyTest.java
+?? yudao-module-hrm/src/test/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollT07GovernanceConsistencyTest.java

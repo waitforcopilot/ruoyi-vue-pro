@@ -1,0 +1,157 @@
+{
+  "task": "T09 release1455 / job1457 full six-sheet reconciliation",
+  "method": "local frozen RELEASE JSON read in a session read-only consistent snapshot; full-project projection reconstructed from frozen objects; existing verify_workbook.py load() parser; only EXPORT-METADATA parent excluded",
+  "database": {
+    "schema": "hrm_local_20261017",
+    "sessionTransactionReadOnly": true,
+    "consistentSnapshot": true,
+    "mutatingStatements": 0,
+    "rollbackIssued": true,
+    "releaseRow": {
+      "id": 1455,
+      "projectId": 153,
+      "kind": "RELEASE",
+      "rowVersion": 1,
+      "tenantId": 1,
+      "dataJsonBytes": 702850,
+      "dataJsonSha256": "3d56b6fdf43e20e60cda3412a0c986fc2c92e01d2cfca038445aef5c13c80edd",
+      "releaseVersion": 4,
+      "mode": "TEST合成验证，非正式业务批准",
+      "snapshotScopeVersion": 5
+    },
+    "jobRow": {
+      "id": 1457,
+      "projectId": 153,
+      "kind": "JOB",
+      "state": "READY",
+      "actorId": 266,
+      "releaseId": 1455,
+      "storedBytes": 195902,
+      "storedBytesSha256": "823c2b41b9f187086bc291409276b2220ea9556ac8c0cf9343ce2a0ed75bc3eb",
+      "matchesBrowserFile": true
+    }
+  },
+  "confirmedRequirement1845": {
+    "confirmedBy": 279,
+    "scopeVersion": 5,
+    "semanticVersion": 8,
+    "sourceId": 3578,
+    "sourceSemanticVersion": 1,
+    "relationId": 3583,
+    "mappingVersion": 3
+  },
+  "browserDownload": {
+    "taskId": 1457,
+    "releaseId": 1455,
+    "actor": 266,
+    "method": "visible IAB click and download event",
+    "bytes": 195902,
+    "sha256": "823c2b41b9f187086bc291409276b2220ea9556ac8c0cf9343ce2a0ed75bc3eb",
+    "httpStatus": "not independently captured in this download"
+  },
+  "comparisonScope": "every parent record and every field in all six business sheets; only the per-job EXPORT-METADATA parent and its fields excluded",
+  "comparedBusinessRecords": 85,
+  "comparedBusinessFields": 474,
+  "sheets": {
+    "评审版本说明": {
+      "expectedBusinessRecords": 33,
+      "actualBusinessRecords": 33,
+      "expectedBusinessFields": 164,
+      "missingRecords": [],
+      "extraRecords": [],
+      "mismatches": [],
+      "exactEquality": true
+    },
+    "功能需求清单": {
+      "expectedBusinessRecords": 2,
+      "actualBusinessRecords": 2,
+      "expectedBusinessFields": 52,
+      "missingRecords": [],
+      "extraRecords": [],
+      "mismatches": [],
+      "exactEquality": true
+    },
+    "数据源清单": {
+      "expectedBusinessRecords": 3,
+      "actualBusinessRecords": 3,
+      "expectedBusinessFields": 33,
+      "missingRecords": [],
+      "extraRecords": [],
+      "mismatches": [],
+      "exactEquality": true
+    },
+    "字段映射": {
+      "expectedBusinessRecords": 2,
+      "actualBusinessRecords": 2,
+      "expectedBusinessFields": 22,
+      "missingRecords": [],
+      "extraRecords": [],
+      "mismatches": [],
+      "exactEquality": true
+    },
+    "问题与待办": {
+      "expectedBusinessRecords": 43,
+      "actualBusinessRecords": 43,
+      "expectedBusinessFields": 175,
+      "missingRecords": [],
+      "extraRecords": [],
+      "mismatches": [],
+      "exactEquality": true
+    },
+    "范围与变更": {
+      "expectedBusinessRecords": 2,
+      "actualBusinessRecords": 2,
+      "expectedBusinessFields": 28,
+      "missingRecords": [],
+      "extraRecords": [],
+      "mismatches": [],
+      "exactEquality": true
+    }
+  },
+  "layout": [
+    {
+      "sheet": "评审版本说明",
+      "rowsIncludingHeader": 787,
+      "businessRecords": 34,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "功能需求清单",
+      "rowsIncludingHeader": 145,
+      "businessRecords": 2,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "数据源清单",
+      "rowsIncludingHeader": 176,
+      "businessRecords": 3,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "字段映射",
+      "rowsIncludingHeader": 262,
+      "businessRecords": 2,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "问题与待办",
+      "rowsIncludingHeader": 243,
+      "businessRecords": 43,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "范围与变更",
+      "rowsIncludingHeader": 1883,
+      "businessRecords": 2,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    }
+  ],
+  "loaderChecks": "six ordered sheet names, eight-column headers, no formulas, unique parent rows, closed detail references, complete ordered fragments, bounded row heights",
+  "overall": "PASS_FULL_FIELD_RECONCILIATION"
+}

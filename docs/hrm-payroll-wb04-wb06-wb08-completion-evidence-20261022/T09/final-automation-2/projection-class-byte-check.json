@@ -1,0 +1,15 @@
+{
+  "class": "cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollGovernanceProjectionService",
+  "sourcePath": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceProjectionService.java",
+  "sourceSha256": "6cc052e92b8aec911aad08738cc16bc76bb61048d4ca9805463601d062aced00",
+  "targetClassSha256": "88c52d7c8d46d8cbc14734519f1e4a01c54609cdf0e05891fca7f66d21da6b80",
+  "nestedJarPath": "BOOT-INF/lib/yudao-module-hrm-2026.09-jdk8-SNAPSHOT.jar",
+  "embeddedClassSha256": "88c52d7c8d46d8cbc14734519f1e4a01c54609cdf0e05891fca7f66d21da6b80",
+  "embeddedEqualsTarget": true,
+  "backendJarPath": "yudao-server/target/yudao-server.jar",
+  "currentBackendJarSha256": "044a0625b5410cb8be5b086625ba60554b49f789402b5ff5423f46567cd850e5",
+  "matchesPriorRuntimeIdentity": true,
+  "backendPid": 55351,
+  "processPathIdentityFromPriorCapture": true,
+  "scope": "on-disk class bytes in packaged jar equal target/classes; not a JVM in-memory class dump"
+}

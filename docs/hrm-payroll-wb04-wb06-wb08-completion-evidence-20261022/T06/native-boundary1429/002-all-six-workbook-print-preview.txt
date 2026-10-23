@@ -1,0 +1,101 @@
+Window: "打印", App: Microsoft Excel.
+0 对话框 打印, Secondary Actions: Raise
+	1 分离组
+		2 滚动区 Secondary Actions: Scroll Up, Scroll Down
+			3 集合 (disabled)
+				4 节 (disabled) (showing 0-5 of 20 items)
+					5 container
+						6 图像
+						7 图像 已选择
+						8 文本 页码：1/863
+					9 container
+						10 图像
+						11 图像 已选择
+						12 文本 页码：2/863
+					13 container
+						14 图像
+						15 图像 已选择
+						16 文本 页码：3/863
+					17 container
+						18 图像
+						19 图像 已选择
+						20 文本 页码：4/863
+					21 container
+						22 图像
+						23 图像 已选择
+						24 文本 页码：5/863
+			25 滚动条 (settable, float) 0
+				26 值指示器 (settable, float) 0
+				27 增箭头按钮
+				28 减箭头按钮
+				29 增页面按钮
+				30 减页面按钮
+		31 分离器 (disabled, settable, float) 264
+		32 滚动区 Secondary Actions: Scroll Up, Scroll Down
+			33 container
+				34 文本栏 (settable) Description: 份数, Value: 1
+				35 文本 份数
+				36 步进器 Description: 份数, Value: 1, Secondary Actions: Increment, Decrement
+					37 增箭头按钮
+					38 减箭头按钮
+				39 文本 页数
+				40 文本栏 (settable) 1
+				41 文本 至
+				42 文本栏 (settable) 1
+				43 text 从边栏选择页面
+				44 单选按钮 所有863页, Value: 1
+				45 单选按钮 范围从, Value: 0
+				46 单选按钮 所选页, Value: 0
+				47 文本 纸张大小
+				48 弹出式按钮 Value: A3  297 x 420毫米, Help: A3：297 x 420毫米
+  上6.35毫米  下6.35毫米
+  左6.35毫米  右6.35毫米
+			49 container
+				50 显示三角形 1
+				51 文本 Excel
+				52 复选框 逐份打印页面, Value: 1
+				53 文本 打印:
+				54 弹出式按钮 整个工作簿
+				55 文本 页边距:
+				56 弹出式按钮 正常边距
+				57 文本 方向:
+				58 弹出式按钮 横向
+				59 复选框 (disabled) 调整为合适大小:, Value: 1
+				60 文本栏 (disabled) 1
+				61 文本 页宽 x
+				62 文本栏 (disabled) 0
+				63 text 页高 布局 每张1页
+				64 显示三角形 0
+				65 text 纸张处理 逐张打印 • 所有张数
+				66 显示三角形 0
+			67 滚动条 (disabled, settable, float) 1
+		68 container
+			69 文本 打印机
+			70 弹出式按钮 未选择打印机
+			71 文本 预置
+			72 弹出式按钮 默认设置
+		73 按钮 取消
+		74 按钮 帮助
+		75 container
+			76 按钮 PDF
+			77 菜单按钮 PDF
+		78 按钮 (disabled) 打印
+	79 缩放按钮
+	80 文本 打印
+81 menu bar
+	82 Excel, ID: AppMenu_MenuItem
+	83 文件
+	84 编辑, ID: EditMenu_MenuItem
+	85 视图, ID: ViewMenu_MenuItem
+	86 插入
+	87 格式
+	88 工具
+	89 数据
+	90 窗口, ID: WindowMenu_MenuItem
+	91 帮助, ID: HelpMenu_MenuItem
+
+Selected text: ```
+1
+```
+
+Note: Pay special attention to the content selected by the user. If the user asks a question or refers to the content they are looking at on-screen, they might be referring to the selected content (but they might be referring to something else that's visible, too).

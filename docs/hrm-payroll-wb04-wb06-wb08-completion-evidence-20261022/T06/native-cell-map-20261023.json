@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "created": "2026-10-23 Asia/Shanghai",
+  "purpose": "Address map for representative native Excel inspection; cell identity was derived from workbook rows and independently read-only reconstruction. It is a navigation guide, not proof of unseen visual inspection.",
+  "currentBrowserWorkbook": {
+    "file": "T06/release1384-job1454-browser-response-captured.xlsx",
+    "downloadIdentity": "T06/job1454-download-identity-response.json",
+    "sha256": "d32e9c9efb141ae51cd0b1a0eb663d0b603db75f1254e3913e8ca5c3a975a3e5",
+    "bytes": 352138,
+    "fullFieldReconciliation": "T06/job1454-full-field-reconciliation-20261023.json",
+    "comparison": "126 business records / 1130 fields exactly equal sealed projection and job1429 business projection; only EXPORT-METADATA parent and its task-specific detail rows excluded",
+    "nativeScreenshotStateAtMapCreation": "native-current1454 contains 001-summary and 002-requirements only; direct native proof for remaining four sheets was pending."
+  },
+  "priorBrowserWorkbook": {
+    "file": "T06/release1384-job1429-browser.xlsx",
+    "sha256": "6cdab6245a67bac6672b6dd837243a6b63d4312593c7d3cb2d924c34ab3f723e",
+    "bytes": 352138,
+    "relationTo1454": "exact business projection and same loader layout; files are distinct exports with distinct byte identities."
+  },
+  "representativeCells": [
+    {
+      "target": "Longest business-object history: opening, middle, and final fragment",
+      "workbook": "job1454; same cell addresses in job1429",
+      "sheet": "范围与变更",
+      "parent": "REQ-1707",
+      "field": "历史版本关联",
+      "textCharacters": 198296,
+      "fragmentCount": 1102,
+      "cells": [
+        {
+          "address": "H1948",
+          "part": "1/1102",
+          "purpose": "opening fragment"
+        },
+        {
+          "address": "H2499",
+          "part": "552/1102",
+          "purpose": "middle fragment"
+        },
+        {
+          "address": "H3049",
+          "part": "1102/1102",
+          "purpose": "last fragment"
+        }
+      ],
+      "captureStatus": "address recommendations; current 1454 visual capture pending at map creation"
+    },
+    {
+      "target": "Chinese prose with embedded paragraph break",
+      "workbook": "external TEST synthetic long-text fixture, not a browser download or database snapshot",
+      "file": "/Users/waitforpro/.hrm-payroll-local/t06-native-fixtures-20261023/TEST-T06-real-exporter-6005179490128899063/TEST-long-text-real-exporter.xlsx",
+      "sha256": "6e3c5ead092909eeb20ad750b07d1207d62dbdbb19d34c98f0763da8adecbaad",
+      "sheet": "功能需求清单",
+      "parent": "TEST-T06-2",
+      "field": "正文",
+      "cells": [
+        {
+          "address": "H6",
+          "purpose": "Chinese text, emoji, and two paragraphs; visible in native screenshot 003-requirement-newlines-literal-formula.png, although Name Box was A1"
+        }
+      ],
+      "captureStatus": "visible in prior native screenshot; not directly selected by Name Box"
+    },
+    {
+      "target": "Long synthetic body, chunk boundary stress",
+      "workbook": "same external TEST synthetic long-text fixture",
+      "sheet": "评审版本说明",
+      "parent": "TEST-T06-2",
+      "field": "正文",
+      "cells": [
+        {
+          "address": "H6",
+          "part": "1/8401",
+          "purpose": "opening fragment"
+        },
+        {
+          "address": "H4206",
+          "part": "4201/8401",
+          "purpose": "middle fragment"
+        },
+        {
+          "address": "H8406",
+          "part": "8401/8401",
+          "purpose": "final fragment and end marker"
+        }
+      ],
+      "captureStatus": "H8406 directly selected in 002-long-body-final-fragment; H6 visible at first-page boundary; H4206 recommended, not captured."
+    },
+    {
+      "target": "NA rationale",
+      "workbook": "job1454; same cell addresses in job1429",
+      "sheet": "数据源清单",
+      "parent": "NA-1660",
+      "field": "理由",
+      "cells": [
+        {
+          "address": "H19",
+          "purpose": "single-cell Chinese TEST explanation"
+        },
+        {
+          "address": "H30",
+          "purpose": "second NA reason for NA-1780, if a comparison is useful"
+        }
+      ],
+      "captureStatus": "H19 is visible in 008-source-na-and-long-fields.png; Name Box had H40 selected. The exact reason cell was not selected."
+    },
+    {
+      "target": "Multiple mapping records",
+      "workbook": "job1454; same cell addresses in job1429",
+      "sheet": "字段映射",
+      "records": [
+        {
+          "parent": "REL-3159",
+          "parentRow": "A2:H2",
+          "field": "字段映射及异常规则",
+          "cell": "H10",
+          "parts": "1/2"
+        },
+        {
+          "parent": "REL-3402",
+          "parentRow": "A246:H246",
+          "field": "字段映射及异常规则",
+          "cell": "H254",
+          "parts": "1/2"
+        },
+        {
+          "parent": "REL-3450",
+          "parentRow": "A492:H492",
+          "field": "字段映射及异常规则",
+          "cell": "H500",
+          "parts": "1/2"
+        }
+      ],
+      "directCapture": "006-mapping-middle-json-fragments.png selected H420, a REL-3402 semantic-evidence fragment; use H254 to inspect the mapping rule cell itself.",
+      "captureStatus": "first, middle, and last address recommendations; H420 direct capture is from job1429."
+    },
+    {
+      "target": "Issue cycle and linked late TODO",
+      "workbook": "job1454; same cell addresses in job1429",
+      "sheet": "问题与待办",
+      "issueParent": "ISSUE-3418",
+      "issueField": "处理及复核",
+      "currentCycle": 4,
+      "cells": [
+        {
+          "address": "H22",
+          "part": "1/3"
+        },
+        {
+          "address": "H23",
+          "part": "2/3"
+        },
+        {
+          "address": "H24",
+          "part": "3/3"
+        }
+      ],
+      "linkedTodoParent": "TODO-3473",
+      "linkedTodoField": "对象关联",
+      "linkedTodoCell": "H250",
+      "linkedTodoValue": "ISSUE-3418",
+      "directCapture": "009-issue-late-history-fragments.png selected H250, the linked TODO association; it does not directly select ISSUE-3418 history.",
+      "captureStatus": "use H23 as a representative middle history fragment; H22-H24 are the full three-part current issue snapshot."
+    },
+    {
+      "target": "Long scope history final business fragment",
+      "workbook": "job1454; same cell addresses in job1429",
+      "sheet": "范围与变更",
+      "parent": "REQ-1780",
+      "field": "历史版本关联",
+      "textCharacters": 56477,
+      "fragmentCount": 314,
+      "cells": [
+        {
+          "address": "H3068",
+          "part": "1/314",
+          "purpose": "opening"
+        },
+        {
+          "address": "H3225",
+          "part": "158/314",
+          "purpose": "middle"
+        },
+        {
+          "address": "H3381",
+          "part": "314/314",
+          "purpose": "last fragment"
+        }
+      ],
+      "directCapture": "005-scope-history-last-business-fragment.png selected H3381; AX row identifies last business fragment.",
+      "captureStatus": "last fragment directly captured for job1429; apply to job1454 only after direct current-file inspection."
+    },
+    {
+      "target": "Empty business tables",
+      "workbook": "external TEST synthetic long-text fixture companion, not browser/DB evidence",
+      "file": "/Users/waitforpro/.hrm-payroll-local/t06-native-fixtures-20261023/TEST-T06-real-exporter-6005179490128899063/TEST-empty-six-business-tables-real-exporter.xlsx",
+      "sha256": "632eb7f02e5f34271b30e55e21a107b4a0584832c259fa21f49f7b1bea06fe16",
+      "cells": "A1:H1 on each of the six sheets; business sheets are header-only, while the summary also contains generated EXPORT-METADATA.",
+      "captureStatus": "six native captures exist in T06/native-boundary1429, despite the folder name; do not move or overwrite them."
+    }
+  ],
+  "reviewLimits": [
+    "Cell addresses are suggestions unless the relevant AX Name Box records the address or screenshot visibly shows the content.",
+    "Native captures of job1429 do not themselves establish the rendering of the distinct job1454 bytes, even though business projections are identical.",
+    "No full-scroll visual claim is made; machine reconstruction covers all business fields, and native review should remain representative."
+  ]
+}

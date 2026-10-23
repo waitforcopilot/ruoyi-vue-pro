@@ -1,0 +1,7 @@
+TEST 合成投影，经真实生产 workbook() 导出；非浏览器下载、非DB快照、非正式批准
+Exporter: HrmPayrollGovernanceExportService.workbook(projected, 1L)
+Long fixture: 7000 repetitions of Chinese/emoji/six newlines; 2000 numbered basis clauses.
+Empty fixture: six empty business tables; exporter-generated EXPORT-METADATA remains on sheet 1.
+POI complete-field reconstruction passed before writing. Native Excel layout review is still required.
+TEST-long-text-real-exporter.xlsx SHA-256 0e90e7fea8f3a2cb0071f57474c294b8f961c054d30c725b066b34b3223976cc
+TEST-empty-six-business-tables-real-exporter.xlsx SHA-256 f6d8005dcaed6347bbaf4da8669b694e8d7143397bd8eb78e59d5d141be1a178

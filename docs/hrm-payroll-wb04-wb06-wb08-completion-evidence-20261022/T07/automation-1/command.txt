@@ -1,0 +1,1 @@
+JAVA_HOME=/Users/waitforpro/.local/jdks/java8/Contents/Home /opt/homebrew/bin/mvn -B -ntp -pl yudao-module-hrm -am -Dtest=HrmPayrollT07GovernanceConsistencyTest -Dsurefire.failIfNoSpecifiedTests=false test

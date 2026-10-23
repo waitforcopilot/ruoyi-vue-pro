@@ -1,0 +1,14 @@
+Browser tab: 1, Title: "芋道管理系统 - 业务决议与基线发布", URL: "http://127.0.0.1:5173/hrm-payroll/governance?projectId=153".
+1 AXWebArea 芋道管理系统 - 业务决议与基线发布, URL: 127.0.0.1:5173/hrm-payroll/governance?projectId=153
+	2 container 记录本人动作与依据
+		3 container
+			11 heading 记录本人动作与依据, Value: 2
+				12 text 记录本人动作与依据
+			13 button 关闭此对话框
+			8 container el-id-4337-54
+				9 text decision · 记录1426 · APPROVE · 版本2
+				10 text entry area (settable) Description: 本人动作依据, Value: TEST本人独立批准：267核对项目153范围5、Q01至Q10合成工程条款与anchor4/1430授权。仅供本机工程回归，正式业务批准另行安排。, ID: el-id-4337-128
+			14 button 取消本人动作
+			15 button 提交本人动作
+
+The focused UI element is 1 AXWebArea 芋道管理系统 - 业务决议与基线发布, URL: 127.0.0.1:5173/hrm-payroll/governance?projectId=153

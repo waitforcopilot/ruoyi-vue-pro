@@ -1,0 +1,113 @@
+{
+  "task": "T07 frozen historical release field-by-field comparison",
+  "asOf": "2026-10-23 Asia/Shanghai",
+  "head": "fdc503dca517b4dad4ea136f73bd9fbe92e11c59",
+  "method": {
+    "loader": "docs/hrm-payroll-wb04-wb06-wb08-fix-evidence-20261021/verify_workbook.py",
+    "function": "load() only",
+    "mainCalled": false,
+    "formulaCheck": "asserted by loader",
+    "recordAndFragmentValidation": "asserted by loader",
+    "sheetsAndHeaderValidation": "asserted by loader",
+    "comparison": "all reconstructed parent objects and fields by exact equality; only record_id EXPORT-METADATA excluded in every sheet where present",
+    "taskSpecificFragmentsExcluded": false
+  },
+  "job1439": {
+    "releaseId": 1437,
+    "jobId": 1439,
+    "file": "release1437-job1439-browser.xlsx",
+    "bytes": 166937,
+    "sha256": "989065da63eb79c8c4c5105f01c9f0dbd04936185f901077f7169de84c54a1ec",
+    "identityBytes": 166937,
+    "identitySha256": "989065da63eb79c8c4c5105f01c9f0dbd04936185f901077f7169de84c54a1ec",
+    "matchesIdentity": true
+  },
+  "job1440": {
+    "releaseId": 1437,
+    "jobId": 1440,
+    "file": "release1437-job1440-after-mapping-v2.xlsx",
+    "bytes": 166938,
+    "sha256": "96712e9a8cc0bd4de951630f6b42a8fbfe01a2b14a333d8cf4ecdc32274fb442",
+    "identityBytes": 166938,
+    "identitySha256": "96712e9a8cc0bd4de951630f6b42a8fbfe01a2b14a333d8cf4ecdc32274fb442",
+    "matchesIdentity": true
+  },
+  "sheets": [
+    {
+      "sheet": "评审版本说明",
+      "businessParents": 29,
+      "businessFields": 144,
+      "1439RowsIncludingHeader": 713,
+      "1440RowsIncludingHeader": 713,
+      "same": true
+    },
+    {
+      "sheet": "功能需求清单",
+      "businessParents": 2,
+      "businessFields": 52,
+      "1439RowsIncludingHeader": 145,
+      "1440RowsIncludingHeader": 145,
+      "same": true
+    },
+    {
+      "sheet": "数据源清单",
+      "businessParents": 3,
+      "businessFields": 33,
+      "1439RowsIncludingHeader": 176,
+      "1440RowsIncludingHeader": 176,
+      "same": true
+    },
+    {
+      "sheet": "字段映射",
+      "businessParents": 2,
+      "businessFields": 22,
+      "1439RowsIncludingHeader": 145,
+      "1440RowsIncludingHeader": 145,
+      "same": true
+    },
+    {
+      "sheet": "问题与待办",
+      "businessParents": 35,
+      "businessFields": 143,
+      "1439RowsIncludingHeader": 200,
+      "1440RowsIncludingHeader": 200,
+      "same": true
+    },
+    {
+      "sheet": "范围与变更",
+      "businessParents": 2,
+      "businessFields": 28,
+      "1439RowsIncludingHeader": 1553,
+      "1440RowsIncludingHeader": 1553,
+      "same": true
+    }
+  ],
+  "businessParentCount": 73,
+  "businessFieldCount": 422,
+  "differences": {
+    "missingFrom1440": [],
+    "extraIn1440": [],
+    "mismatchedFields": []
+  },
+  "metadataParents": {
+    "job1439": {
+      "评审版本说明": 6
+    },
+    "job1440": {
+      "评审版本说明": 6
+    }
+  },
+  "frozenFactsObservedIn1439": {
+    "frozenReleaseId": "1437",
+    "frozenReleaseVersion": 1,
+    "frozenScopeVersion": 5,
+    "frozenReq1845": {
+      "version": 6,
+      "reviewStatus": "CONFIRMED",
+      "signatureValidAtRelease": true
+    },
+    "frozenRelation3583MappingVersion": 1
+  },
+  "interpretation": "Both visible browser downloads reconstruct the same frozen release1437 business objects exactly; current relation3583 mappingVersion2 and requirement1845 REVIEWING v7 do not replace release1437 historical mappingVersion1 and CONFIRMED v6. This content check does not prove the missing UI stale-publication rejection→corrected-success sequence.",
+  "result": "PASS_EXACT_HISTORICAL_CONTENT"
+}

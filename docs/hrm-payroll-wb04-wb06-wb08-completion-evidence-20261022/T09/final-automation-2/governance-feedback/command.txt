@@ -1,0 +1,2 @@
+cwd: /Users/waitforpro/source/github-yudao/ruoyi-vue-pro
+command: /opt/homebrew/opt/node@22/bin/node --test script/hrm-payroll-governance-feedback.test.cjs

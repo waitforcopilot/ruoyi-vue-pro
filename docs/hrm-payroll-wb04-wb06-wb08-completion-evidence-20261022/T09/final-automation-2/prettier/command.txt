@@ -1,0 +1,2 @@
+cwd: /Users/waitforpro/source/github-yudao/ruoyi-vue-pro/yudao-ui/yudao-ui-admin-vue3
+command: PATH=/opt/homebrew/opt/node@22/bin:$PATH ./node_modules/.bin/prettier --check src/views/hrm/payroll/review/validation.ts src/views/hrm/payroll/review/index.vue src/views/hrm/payroll/requirement/WorkbenchPanel.vue src/views/hrm/payroll/requirement/issueValidation.ts src/views/hrm/payroll/governance/index.vue

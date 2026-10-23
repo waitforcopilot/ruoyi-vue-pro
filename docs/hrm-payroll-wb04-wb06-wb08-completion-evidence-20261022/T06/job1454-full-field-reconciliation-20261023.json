@@ -1,0 +1,196 @@
+{
+  "run": "independent read-only full-field reconstruction and prior-job equality for T06 job 1454",
+  "expectedSource": "docs/hrm-payroll-wb04-wb06-wb08-fix-evidence-20261021/wb08-release1384-visible-six-tables.json",
+  "workbook": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T06/release1384-job1454-browser-response-captured.xlsx",
+  "workbookBytes": 352138,
+  "workbookSha256": "d32e9c9efb141ae51cd0b1a0eb663d0b603db75f1254e3913e8ca5c3a975a3e5",
+  "identityResponseJson": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T06/job1454-download-identity-response.json",
+  "identityDownloadPath": {
+    "exists": true,
+    "bytes": 352138,
+    "sha256": "d32e9c9efb141ae51cd0b1a0eb663d0b603db75f1254e3913e8ca5c3a975a3e5",
+    "matchesIdentity": true
+  },
+  "identityEvidenceCopyMatches": true,
+  "capturedXlsxResponse200": true,
+  "identity": {
+    "projectId": 105,
+    "releaseId": 1384,
+    "jobId": 1454,
+    "method": "actual visible IAB create and download with response captured"
+  },
+  "comparisonScope": "all business parent objects and fields in all six sheets; only EXPORT-METADATA parent and its task-specific detail rows excluded",
+  "sixSheetNamesInOrder": [
+    "评审版本说明",
+    "功能需求清单",
+    "数据源清单",
+    "字段映射",
+    "问题与待办",
+    "范围与变更"
+  ],
+  "sheets": {
+    "评审版本说明": {
+      "expectedBusinessRecords": 30,
+      "actualBusinessRecords": 30,
+      "missingRecordCount": 0,
+      "extraRecordCount": 0,
+      "mismatchedRecordCount": 0,
+      "exactExpectedEquality": true,
+      "exactJob1429BusinessEquality": true,
+      "metadataRowsPresent": 1
+    },
+    "功能需求清单": {
+      "expectedBusinessRecords": 17,
+      "actualBusinessRecords": 17,
+      "missingRecordCount": 0,
+      "extraRecordCount": 0,
+      "mismatchedRecordCount": 0,
+      "exactExpectedEquality": true,
+      "exactJob1429BusinessEquality": true,
+      "metadataRowsPresent": 0
+    },
+    "数据源清单": {
+      "expectedBusinessRecords": 6,
+      "actualBusinessRecords": 6,
+      "missingRecordCount": 0,
+      "extraRecordCount": 0,
+      "mismatchedRecordCount": 0,
+      "exactExpectedEquality": true,
+      "exactJob1429BusinessEquality": true,
+      "metadataRowsPresent": 0
+    },
+    "字段映射": {
+      "expectedBusinessRecords": 3,
+      "actualBusinessRecords": 3,
+      "missingRecordCount": 0,
+      "extraRecordCount": 0,
+      "mismatchedRecordCount": 0,
+      "exactExpectedEquality": true,
+      "exactJob1429BusinessEquality": true,
+      "metadataRowsPresent": 0
+    },
+    "问题与待办": {
+      "expectedBusinessRecords": 53,
+      "actualBusinessRecords": 53,
+      "missingRecordCount": 0,
+      "extraRecordCount": 0,
+      "mismatchedRecordCount": 0,
+      "exactExpectedEquality": true,
+      "exactJob1429BusinessEquality": true,
+      "metadataRowsPresent": 0
+    },
+    "范围与变更": {
+      "expectedBusinessRecords": 17,
+      "actualBusinessRecords": 17,
+      "missingRecordCount": 0,
+      "extraRecordCount": 0,
+      "mismatchedRecordCount": 0,
+      "exactExpectedEquality": true,
+      "exactJob1429BusinessEquality": true,
+      "metadataRowsPresent": 0
+    }
+  },
+  "comparedBusinessRecords": 126,
+  "comparedFields": 1130,
+  "exactSealedExpectedProjection": true,
+  "exactJob1429BusinessProjection": true,
+  "job1429": {
+    "workbook": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T06/release1384-job1429-browser.xlsx",
+    "bytes": 352138,
+    "sha256": "6cdab6245a67bac6672b6dd837243a6b63d4312593c7d3cb2d924c34ab3f723e"
+  },
+  "layoutChecks": {
+    "job1454": [
+      {
+        "sheet": "评审版本说明",
+        "rowsIncludingHeader": 718,
+        "businessRecords": 31,
+        "columns": 8,
+        "maxRowHeightPt": 102.0
+      },
+      {
+        "sheet": "功能需求清单",
+        "rowsIncludingHeader": 912,
+        "businessRecords": 17,
+        "columns": 8,
+        "maxRowHeightPt": 102.0
+      },
+      {
+        "sheet": "数据源清单",
+        "rowsIncludingHeader": 787,
+        "businessRecords": 6,
+        "columns": 8,
+        "maxRowHeightPt": 102.0
+      },
+      {
+        "sheet": "字段映射",
+        "rowsIncludingHeader": 850,
+        "businessRecords": 3,
+        "columns": 8,
+        "maxRowHeightPt": 102.0
+      },
+      {
+        "sheet": "问题与待办",
+        "rowsIncludingHeader": 276,
+        "businessRecords": 53,
+        "columns": 8,
+        "maxRowHeightPt": 102.0
+      },
+      {
+        "sheet": "范围与变更",
+        "rowsIncludingHeader": 3383,
+        "businessRecords": 17,
+        "columns": 8,
+        "maxRowHeightPt": 102.0
+      }
+    ],
+    "job1429": [
+      {
+        "sheet": "评审版本说明",
+        "rowsIncludingHeader": 718,
+        "businessRecords": 31,
+        "columns": 8,
+        "maxRowHeightPt": 102.0
+      },
+      {
+        "sheet": "功能需求清单",
+        "rowsIncludingHeader": 912,
+        "businessRecords": 17,
+        "columns": 8,
+        "maxRowHeightPt": 102.0
+      },
+      {
+        "sheet": "数据源清单",
+        "rowsIncludingHeader": 787,
+        "businessRecords": 6,
+        "columns": 8,
+        "maxRowHeightPt": 102.0
+      },
+      {
+        "sheet": "字段映射",
+        "rowsIncludingHeader": 850,
+        "businessRecords": 3,
+        "columns": 8,
+        "maxRowHeightPt": 102.0
+      },
+      {
+        "sheet": "问题与待办",
+        "rowsIncludingHeader": 276,
+        "businessRecords": 53,
+        "columns": 8,
+        "maxRowHeightPt": 102.0
+      },
+      {
+        "sheet": "范围与变更",
+        "rowsIncludingHeader": 3383,
+        "businessRecords": 17,
+        "columns": 8,
+        "maxRowHeightPt": 102.0
+      }
+    ],
+    "layoutsEqual": true
+  },
+  "loaderChecks": "existing verify_workbook.py load() only; its main() was not invoked; workbook files were not written",
+  "errors": [],
+  "overall": "PASS_FULL_FIELD_RECONCILIATION"
+}

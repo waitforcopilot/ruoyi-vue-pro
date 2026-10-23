@@ -1,0 +1,170 @@
+[
+  {
+    "level": "warn",
+    "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+    "timestamp": "2026-10-23T06:57:31.099Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+    "timestamp": "2026-10-23T06:57:31.099Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+    "timestamp": "2026-10-23T07:06:05.269Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+    "timestamp": "2026-10-23T07:06:05.649Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+    "timestamp": "2026-10-23T07:06:05.650Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "ElementPlusError: [el-link] [API] The underline option (boolean) is about to be deprecated in version 3.0.0, please use 'always' | 'hover' | 'never' instead.\nFor more detail, please visit: https://element-plus.org/en-US/component/link.html#underline\n\n    at debugWarn (http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075:71:35)\n    at watch.immediate (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:522:12)\n    at callWithErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2085:17)\n    at callWithAsyncErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2092:15)\n    at baseWatchOptions.call (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2538:46)\n    at job (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1251:13)\n    at watch$1 (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1272:25)\n    at doWatch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2560:22)\n    at watch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2512:9)\n    at useDeprecated (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:521:2)",
+    "timestamp": "2026-10-23T07:06:05.746Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "ElementPlusError: [el-link] [API] The underline option (boolean) is about to be deprecated in version 3.0.0, please use 'always' | 'hover' | 'never' instead.\nFor more detail, please visit: https://element-plus.org/en-US/component/link.html#underline\n\n    at debugWarn (http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075:71:35)\n    at watch.immediate (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:522:12)\n    at callWithErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2085:17)\n    at callWithAsyncErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2092:15)\n    at baseWatchOptions.call (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2538:46)\n    at job (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1251:13)\n    at watch$1 (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1272:25)\n    at doWatch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2560:22)\n    at watch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2512:9)\n    at useDeprecated (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:521:2)",
+    "timestamp": "2026-10-23T07:06:05.746Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "ElementPlusError: [el-link] [API] The underline option (boolean) is about to be deprecated in version 3.0.0, please use 'always' | 'hover' | 'never' instead.\nFor more detail, please visit: https://element-plus.org/en-US/component/link.html#underline\n\n    at debugWarn (http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075:71:35)\n    at watch.immediate (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:522:12)\n    at callWithErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2085:17)\n    at callWithAsyncErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2092:15)\n    at baseWatchOptions.call (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2538:46)\n    at job (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1251:13)\n    at watch$1 (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1272:25)\n    at doWatch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2560:22)\n    at watch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2512:9)\n    at useDeprecated (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:521:2)",
+    "timestamp": "2026-10-23T07:06:05.747Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "ElementPlusError: [el-link] [API] The underline option (boolean) is about to be deprecated in version 3.0.0, please use 'always' | 'hover' | 'never' instead.\nFor more detail, please visit: https://element-plus.org/en-US/component/link.html#underline\n\n    at debugWarn (http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075:71:35)\n    at watch.immediate (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:522:12)\n    at callWithErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2085:17)\n    at callWithAsyncErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2092:15)\n    at baseWatchOptions.call (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2538:46)\n    at job (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1251:13)\n    at watch$1 (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1272:25)\n    at doWatch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2560:22)\n    at watch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2512:9)\n    at useDeprecated (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:521:2)",
+    "timestamp": "2026-10-23T07:06:05.747Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "ElementPlusError: [el-link] [API] The underline option (boolean) is about to be deprecated in version 3.0.0, please use 'always' | 'hover' | 'never' instead.\nFor more detail, please visit: https://element-plus.org/en-US/component/link.html#underline\n\n    at debugWarn (http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075:71:35)\n    at watch.immediate (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:522:12)\n    at callWithErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2085:17)\n    at callWithAsyncErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2092:15)\n    at baseWatchOptions.call (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2538:46)\n    at job (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1251:13)\n    at watch$1 (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1272:25)\n    at doWatch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2560:22)\n    at watch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2512:9)\n    at useDeprecated (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:521:2)",
+    "timestamp": "2026-10-23T07:06:05.747Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "ElementPlusError: [el-link] [API] The underline option (boolean) is about to be deprecated in version 3.0.0, please use 'always' | 'hover' | 'never' instead.\nFor more detail, please visit: https://element-plus.org/en-US/component/link.html#underline\n\n    at debugWarn (http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075:71:35)\n    at watch.immediate (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:522:12)\n    at callWithErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2085:17)\n    at callWithAsyncErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2092:15)\n    at baseWatchOptions.call (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2538:46)\n    at job (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1251:13)\n    at watch$1 (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1272:25)\n    at doWatch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2560:22)\n    at watch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2512:9)\n    at useDeprecated (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:521:2)",
+    "timestamp": "2026-10-23T07:06:05.747Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "ElementPlusError: [el-link] [API] The underline option (boolean) is about to be deprecated in version 3.0.0, please use 'always' | 'hover' | 'never' instead.\nFor more detail, please visit: https://element-plus.org/en-US/component/link.html#underline\n\n    at debugWarn (http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075:71:35)\n    at watch.immediate (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:522:12)\n    at callWithErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2085:17)\n    at callWithAsyncErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2092:15)\n    at baseWatchOptions.call (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2538:46)\n    at job (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1251:13)\n    at watch$1 (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1272:25)\n    at doWatch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2560:22)\n    at watch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2512:9)\n    at useDeprecated (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:521:2)",
+    "timestamp": "2026-10-23T07:06:05.747Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "ElementPlusError: [el-link] [API] The underline option (boolean) is about to be deprecated in version 3.0.0, please use 'always' | 'hover' | 'never' instead.\nFor more detail, please visit: https://element-plus.org/en-US/component/link.html#underline\n\n    at debugWarn (http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075:71:35)\n    at watch.immediate (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:522:12)\n    at callWithErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2085:17)\n    at callWithAsyncErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2092:15)\n    at baseWatchOptions.call (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2538:46)\n    at job (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1251:13)\n    at watch$1 (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1272:25)\n    at doWatch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2560:22)\n    at watch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2512:9)\n    at useDeprecated (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:521:2)",
+    "timestamp": "2026-10-23T07:06:05.747Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+    "timestamp": "2026-10-23T07:06:23.355Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+    "timestamp": "2026-10-23T07:06:23.355Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+    "timestamp": "2026-10-23T07:08:38.247Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+    "timestamp": "2026-10-23T07:08:38.648Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+    "timestamp": "2026-10-23T07:08:38.648Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "ElementPlusError: [el-link] [API] The underline option (boolean) is about to be deprecated in version 3.0.0, please use 'always' | 'hover' | 'never' instead.\nFor more detail, please visit: https://element-plus.org/en-US/component/link.html#underline\n\n    at debugWarn (http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075:71:35)\n    at watch.immediate (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:522:12)\n    at callWithErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2085:17)\n    at callWithAsyncErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2092:15)\n    at baseWatchOptions.call (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2538:46)\n    at job (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1251:13)\n    at watch$1 (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1272:25)\n    at doWatch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2560:22)\n    at watch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2512:9)\n    at useDeprecated (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:521:2)",
+    "timestamp": "2026-10-23T07:08:38.702Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "ElementPlusError: [el-link] [API] The underline option (boolean) is about to be deprecated in version 3.0.0, please use 'always' | 'hover' | 'never' instead.\nFor more detail, please visit: https://element-plus.org/en-US/component/link.html#underline\n\n    at debugWarn (http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075:71:35)\n    at watch.immediate (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:522:12)\n    at callWithErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2085:17)\n    at callWithAsyncErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2092:15)\n    at baseWatchOptions.call (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2538:46)\n    at job (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1251:13)\n    at watch$1 (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1272:25)\n    at doWatch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2560:22)\n    at watch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2512:9)\n    at useDeprecated (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:521:2)",
+    "timestamp": "2026-10-23T07:08:38.702Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "ElementPlusError: [el-link] [API] The underline option (boolean) is about to be deprecated in version 3.0.0, please use 'always' | 'hover' | 'never' instead.\nFor more detail, please visit: https://element-plus.org/en-US/component/link.html#underline\n\n    at debugWarn (http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075:71:35)\n    at watch.immediate (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:522:12)\n    at callWithErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2085:17)\n    at callWithAsyncErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2092:15)\n    at baseWatchOptions.call (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2538:46)\n    at job (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1251:13)\n    at watch$1 (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1272:25)\n    at doWatch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2560:22)\n    at watch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2512:9)\n    at useDeprecated (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:521:2)",
+    "timestamp": "2026-10-23T07:08:38.705Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "ElementPlusError: [el-link] [API] The underline option (boolean) is about to be deprecated in version 3.0.0, please use 'always' | 'hover' | 'never' instead.\nFor more detail, please visit: https://element-plus.org/en-US/component/link.html#underline\n\n    at debugWarn (http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075:71:35)\n    at watch.immediate (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:522:12)\n    at callWithErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2085:17)\n    at callWithAsyncErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2092:15)\n    at baseWatchOptions.call (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2538:46)\n    at job (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1251:13)\n    at watch$1 (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1272:25)\n    at doWatch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2560:22)\n    at watch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2512:9)\n    at useDeprecated (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:521:2)",
+    "timestamp": "2026-10-23T07:08:38.705Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "ElementPlusError: [el-link] [API] The underline option (boolean) is about to be deprecated in version 3.0.0, please use 'always' | 'hover' | 'never' instead.\nFor more detail, please visit: https://element-plus.org/en-US/component/link.html#underline\n\n    at debugWarn (http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075:71:35)\n    at watch.immediate (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:522:12)\n    at callWithErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2085:17)\n    at callWithAsyncErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2092:15)\n    at baseWatchOptions.call (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2538:46)\n    at job (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1251:13)\n    at watch$1 (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1272:25)\n    at doWatch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2560:22)\n    at watch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2512:9)\n    at useDeprecated (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:521:2)",
+    "timestamp": "2026-10-23T07:08:38.705Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "ElementPlusError: [el-link] [API] The underline option (boolean) is about to be deprecated in version 3.0.0, please use 'always' | 'hover' | 'never' instead.\nFor more detail, please visit: https://element-plus.org/en-US/component/link.html#underline\n\n    at debugWarn (http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075:71:35)\n    at watch.immediate (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:522:12)\n    at callWithErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2085:17)\n    at callWithAsyncErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2092:15)\n    at baseWatchOptions.call (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2538:46)\n    at job (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1251:13)\n    at watch$1 (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1272:25)\n    at doWatch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2560:22)\n    at watch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2512:9)\n    at useDeprecated (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:521:2)",
+    "timestamp": "2026-10-23T07:08:38.705Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "ElementPlusError: [el-link] [API] The underline option (boolean) is about to be deprecated in version 3.0.0, please use 'always' | 'hover' | 'never' instead.\nFor more detail, please visit: https://element-plus.org/en-US/component/link.html#underline\n\n    at debugWarn (http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075:71:35)\n    at watch.immediate (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:522:12)\n    at callWithErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2085:17)\n    at callWithAsyncErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2092:15)\n    at baseWatchOptions.call (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2538:46)\n    at job (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1251:13)\n    at watch$1 (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1272:25)\n    at doWatch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2560:22)\n    at watch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2512:9)\n    at useDeprecated (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:521:2)",
+    "timestamp": "2026-10-23T07:08:38.705Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "ElementPlusError: [el-link] [API] The underline option (boolean) is about to be deprecated in version 3.0.0, please use 'always' | 'hover' | 'never' instead.\nFor more detail, please visit: https://element-plus.org/en-US/component/link.html#underline\n\n    at debugWarn (http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075:71:35)\n    at watch.immediate (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:522:12)\n    at callWithErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2085:17)\n    at callWithAsyncErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2092:15)\n    at baseWatchOptions.call (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2538:46)\n    at job (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1251:13)\n    at watch$1 (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:1272:25)\n    at doWatch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2560:22)\n    at watch (http://127.0.0.1:5173/node_modules/.vite/deps/runtime-dom.esm-bundler-Bn3HPRgA.js?v=d4fc3075:2512:9)\n    at useDeprecated (http://127.0.0.1:5173/node_modules/.vite/deps/es-CyYRbE07.js?v=d4fc3075:521:2)",
+    "timestamp": "2026-10-23T07:08:38.705Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/error-DIM62Cr7.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+    "timestamp": "2026-10-23T07:08:49.476Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+  },
+  {
+    "level": "warn",
+    "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+    "timestamp": "2026-10-23T07:08:49.477Z",
+    "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+  }
+]

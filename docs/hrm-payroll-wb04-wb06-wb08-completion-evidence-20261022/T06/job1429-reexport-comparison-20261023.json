@@ -1,0 +1,141 @@
+{
+  "result": "PASS_BUSINESS_REEXPORT_EQUALITY",
+  "current": "release1384-job1429-browser.xlsx",
+  "historical": "wb08-release-1384-job-1386.xlsx",
+  "currentSha256": "6cdab6245a67bac6672b6dd837243a6b63d4312593c7d3cb2d924c34ab3f723e",
+  "historicalSha256": "16f011dd412981c9ed813a8b591d672a559805b82f2ed03cac47314d9dfff738",
+  "excludedParent": "EXPORT-METADATA (job-specific export metadata including generation timestamp)",
+  "comparisons": {
+    "评审版本说明": {
+      "currentBusinessRecords": 30,
+      "historicalBusinessRecords": 30,
+      "exactObjectEquality": true,
+      "currentOnlyIds": [],
+      "historicalOnlyIds": []
+    },
+    "功能需求清单": {
+      "currentBusinessRecords": 17,
+      "historicalBusinessRecords": 17,
+      "exactObjectEquality": true,
+      "currentOnlyIds": [],
+      "historicalOnlyIds": []
+    },
+    "数据源清单": {
+      "currentBusinessRecords": 6,
+      "historicalBusinessRecords": 6,
+      "exactObjectEquality": true,
+      "currentOnlyIds": [],
+      "historicalOnlyIds": []
+    },
+    "字段映射": {
+      "currentBusinessRecords": 3,
+      "historicalBusinessRecords": 3,
+      "exactObjectEquality": true,
+      "currentOnlyIds": [],
+      "historicalOnlyIds": []
+    },
+    "问题与待办": {
+      "currentBusinessRecords": 53,
+      "historicalBusinessRecords": 53,
+      "exactObjectEquality": true,
+      "currentOnlyIds": [],
+      "historicalOnlyIds": []
+    },
+    "范围与变更": {
+      "currentBusinessRecords": 17,
+      "historicalBusinessRecords": 17,
+      "exactObjectEquality": true,
+      "currentOnlyIds": [],
+      "historicalOnlyIds": []
+    }
+  },
+  "reconstruction": "existing verify_workbook.py load() only for both files; no main() invoked; both workbooks left unchanged",
+  "currentLayout": [
+    {
+      "sheet": "评审版本说明",
+      "rowsIncludingHeader": 718,
+      "businessRecords": 31,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "功能需求清单",
+      "rowsIncludingHeader": 912,
+      "businessRecords": 17,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "数据源清单",
+      "rowsIncludingHeader": 787,
+      "businessRecords": 6,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "字段映射",
+      "rowsIncludingHeader": 850,
+      "businessRecords": 3,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "问题与待办",
+      "rowsIncludingHeader": 276,
+      "businessRecords": 53,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "范围与变更",
+      "rowsIncludingHeader": 3383,
+      "businessRecords": 17,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    }
+  ],
+  "historicalLayout": [
+    {
+      "sheet": "评审版本说明",
+      "rowsIncludingHeader": 718,
+      "businessRecords": 31,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "功能需求清单",
+      "rowsIncludingHeader": 912,
+      "businessRecords": 17,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "数据源清单",
+      "rowsIncludingHeader": 787,
+      "businessRecords": 6,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "字段映射",
+      "rowsIncludingHeader": 850,
+      "businessRecords": 3,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "问题与待办",
+      "rowsIncludingHeader": 276,
+      "businessRecords": 53,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    },
+    {
+      "sheet": "范围与变更",
+      "rowsIncludingHeader": 3383,
+      "businessRecords": 17,
+      "columns": 8,
+      "maxRowHeightPt": 102.0
+    }
+  ]
+}

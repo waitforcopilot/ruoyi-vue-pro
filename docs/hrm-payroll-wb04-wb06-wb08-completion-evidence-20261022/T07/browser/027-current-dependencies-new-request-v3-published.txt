@@ -1,0 +1,427 @@
+Browser tab: 1, Title: "芋道管理系统 - 业务决议与基线发布", URL: "http://127.0.0.1:5173/hrm-payroll/governance?projectId=153".
+1 AXWebArea 芋道管理系统 - 业务决议与基线发布, URL: 127.0.0.1:5173/hrm-payroll/governance?projectId=153
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			15 container
+				16 container v-tool-header
+					17 container 面包屑
+					18 container
+						19 container
+							20 combo box (collapsed, settable) ID: el-id-2227-61, Secondary Actions: Expand
+							21 text 请输入菜单内容
+					22 pop up button (collapsed) ID: el-id-2227-4, Secondary Actions: Expand
+					23 pop up button (collapsed) ID: el-id-2227-9, Secondary Actions: Expand
+					24 pop up button (collapsed) TEST S5 editor NEW DISPLAY, ID: el-id-2227-14, Secondary Actions: Expand
+				25 container v-tags-view
+					26 container
+						27 pop up button (collapsed) 首页, ID: el-id-2227-20, Secondary Actions: Expand
+							28 container
+								29 text 首页
+						30 pop up button (collapsed) 业务决议与基线发布, ID: el-id-2227-28, Secondary Actions: Expand
+							31 text 业务决议与基线发布
+					32 pop up button (collapsed) ID: el-id-2227-36, Secondary Actions: Expand
+			33 container
+				34 heading 业务决议、发布与快照导出, Value: 1
+					35 text 业务决议、发布与快照导出
+				36 text TEST材料及合成签署仅验证系统实现，不构成真实业务批准。正式授权根必须有实际有权业务人员提供的受控签署材料。
+				37 container
+					38 combo box (collapsed, settable) Description: 治理项目, ID: el-id-2227-62, Secondary Actions: Expand
+					39 text 153 · TEST WB completion 20261022 A · 非正式批准
+					40 image
+				41 button 刷新决议与发布
+				42 button 返回十视图评审
+				43 button 需求、成员及实际来源
+				44 text TEST WB completion 20261022 A · 非正式批准 · 范围版本 5 固定快照ID：1452。相同请求重试仍须当前资格有效。
+				45 container 独立业务授权根
+					46 heading 独立业务授权根, Value: 2
+						47 text 独立业务授权根
+					48 text 登记与签署分开。授权依据读权独立，旧测试授权不会自动升级为正式授权。
+					49 button 登记授权根材料
+					50 container 授权根表，可横向滚动
+						51 container
+							52 table
+								53 row
+									54 cell
+										55 text 授权根ID
+									56 cell
+										57 text 记录版本
+									58 cell
+										59 text 材料版本
+									60 cell
+										61 text 材料性质
+									62 cell
+										63 text 签署状态
+									64 cell
+										65 text 被授权人ID
+									66 cell
+										67 text 操作
+							68 table
+								69 container
+									588 row
+										589 cell
+											590 text 1392
+										591 cell
+											592 text 2
+										593 cell
+											594 text TEST-WBC-20261022-EDITOR-V1
+										595 cell
+											596 text TEST
+										597 cell
+											598 text ACTIVE
+										599 cell
+											600 text 266
+										601 cell
+											602 button 查看受控材料
+									603 row
+										604 cell
+											605 text 1394
+										606 cell
+											607 text 3
+										608 cell
+											609 text TEST-WBC-20261022-REVIEWER-V1
+										610 cell
+											611 text TEST
+										612 cell
+											613 text REVOKED
+										614 cell
+											615 text 267
+										616 cell
+											617 button 查看受控材料
+									618 row
+										619 cell
+											620 text 1412
+										621 cell
+											622 text 2
+										623 cell
+											624 text TEST-WBC-T02-SUCCESSOR269-V1
+										625 cell
+											626 text TEST
+										627 cell
+											628 text ACTIVE
+										629 cell
+											630 text 269
+										631 cell
+											632 button 查看受控材料
+									633 row
+										634 cell
+											635 text 1416
+										636 cell
+											637 text 2
+										638 cell
+											639 text TEST-WBC-T02-SUCCESSOR279-V1
+										640 cell
+											641 text TEST
+										642 cell
+											643 text ACTIVE
+										644 cell
+											645 text 279
+										646 cell
+											647 button 查看受控材料
+									648 row
+										649 cell
+											650 text 1419
+										651 cell
+											652 text 2
+										653 cell
+											654 text TEST-WBC-T03-ISSUE-REVIEW279-V1
+										655 cell
+											656 text TEST
+										657 cell
+											658 text ACTIVE
+										659 cell
+											660 text 279
+										661 cell
+											662 button 查看受控材料
+									663 row
+										664 cell
+											665 text 1421
+										666 cell
+											667 text 3
+										668 cell
+											669 text TEST-WBC-T03-ISSUE-HANDLER269-V1
+										670 cell
+											671 text TEST
+										672 cell
+											673 text REVOKED
+										674 cell
+											675 text 269
+										676 cell
+											677 button 查看受控材料
+									678 row
+										679 cell
+											680 text 1430
+										681 cell
+											682 text 2
+										683 cell
+											684 text TEST-WBC-T04T07-REVIEW267-V1
+										685 cell
+											686 text TEST
+										687 cell
+											688 text ACTIVE
+										689 cell
+											690 text 267
+										691 cell
+											692 button 查看受控材料
+									693 row
+										694 cell
+											695 text 1442
+										696 cell
+											697 text 3
+										698 cell
+											699 text TEST-WBC-T08-DOWNLOAD268-20261023-V1
+										700 cell
+											701 text TEST
+										702 cell
+											703 text REVOKED
+										704 cell
+											705 text 268
+										706 cell
+											707 button 查看受控材料
+				190 container 业务决议版本
+					191 heading 业务决议版本与独立批准, Value: 2
+						192 text 业务决议版本与独立批准
+					193 text 必须覆盖Q-01/02/04/05/07/10。Q-03/06/08/09另行决议或明确分类；正文修订建立新版本，批准和撤销保留原事实。
+					708 button 起草决议版本
+					195 container 决议表，可横向滚动
+						196 container
+							197 table
+								198 row
+									199 cell
+										200 text 版本记录ID
+									201 cell
+										202 text 决议标题
+									203 cell
+										204 text 决议版本
+									205 cell
+										206 text 覆盖问题
+									207 cell
+										208 text 当前生命周期
+									209 cell
+										210 text 指定批准人ID
+									211 cell
+										212 text 操作
+							213 table
+								214 container
+									709 row
+										710 cell
+											711 text 1398
+										712 cell
+											713 text TEST-WBC-T01确认条件合成决议
+										714 cell
+											715 text 1
+										716 cell
+											717 text Q-02,Q-04,Q-05
+										718 cell
+											719 text REPLACED
+										720 cell
+											721 text 267
+										722 cell
+											723 container
+												724 button 查看版本正文
+												725 button 决议事件历史
+												726 button 基于此版本修订
+									727 row
+										728 cell
+											729 text 1402
+										730 cell
+											731 text TEST-WBC-T01确认条件合成决议
+										732 cell
+											733 text 2
+										734 cell
+											735 text Q-02,Q-04,Q-05
+										736 cell
+											737 text REPLACED
+										738 cell
+											739 text 267
+										740 cell
+											741 container
+												742 button 查看版本正文
+												743 button 决议事件历史
+												744 button 基于此版本修订
+									745 row
+										746 cell
+											747 text 1407
+										748 cell
+											749 text TEST-WBC-T01确认条件合成决议
+										750 cell
+											751 text 3
+										752 cell
+											753 text Q-02,Q-04,Q-05
+										754 cell
+											755 text EFFECTIVE
+										756 cell
+											757 text 267
+										758 cell
+											759 container
+												760 button 查看版本正文
+												761 button 决议事件历史
+												762 button 基于此版本修订
+									763 row
+										764 cell
+											765 text 1426
+										766 cell
+											767 text TEST_WBC_T07_ALL_Q_20261023_仅工程
+										768 cell
+											769 text 1
+										770 cell
+											771 text Q-01,Q-02,Q-03,Q-04,Q-05,Q-06,Q-07,Q-08,Q-09,Q-10
+										772 cell
+											773 text PENDING_APPROVAL
+										774 cell
+											775 text 267
+										776 cell
+											777 container
+												778 button 查看版本正文
+												779 button 决议事件历史
+												780 button 基于此版本修订
+									781 row
+										782 cell
+											783 text 1433
+										784 cell
+											785 text TEST_WBC_T07_COMPLEMENT_Q_20261023_仅工程
+										786 cell
+											787 text 2
+										788 cell
+											789 text Q-01,Q-03,Q-06,Q-07,Q-08,Q-09,Q-10
+										790 cell
+											791 text EFFECTIVE
+										792 cell
+											793 text 267
+										794 cell
+											795 container
+												796 button 查看版本正文
+												797 button 决议事件历史
+												798 button 基于此版本修订
+									799 row
+										800 cell
+											801 text 1450
+										802 cell
+											803 text TEST_WBC_T07_COMPLEMENT_Q_20261023_仅工程
+										804 cell
+											805 text 3
+										806 cell
+											807 text Q-01,Q-03,Q-06,Q-07,Q-08,Q-09,Q-10
+										808 cell
+											809 text DRAFT
+										810 cell
+											811 text 267
+										812 cell
+											813 container
+												814 button 查看版本正文
+												815 button 决议事件历史
+												816 button 基于此版本修订
+												817 button 提交批准
+				305 container 发布检查与固定快照
+					306 heading 发布检查与固定快照, Value: 2
+						307 text 发布检查与固定快照
+					308 text 规格基线与数据可投产分开；供数待提供不会自动阻止规格明确的需求基线。正式发布须完整闭包可见及当前有效决议。
+					309 button 执行发布预检查
+					311 container
+						312 text 发布依据或草稿说明
+						313 text entry area (settable) Description: 发布依据或草稿说明, ID: el-id-2227-63, Value: TEST T07 V3纠正：旧V2请求因新增1450草稿依赖变化被拒；本人重新读取当前依赖并使用新请求号。1450尚未批准，1407/1433仍为有效依据；1845当前本人确认不因未批准草稿失效。仅本机工程验收。
+						314 text 幂等请求号
+						315 text field (settable) Description: 幂等请求号, Value: TEST-WBC-T07-153-V3-20261023-C, ID: el-id-2227-64
+					316 button (disabled) 发布本期完整需求基线
+					317 button (disabled) 保存固定草稿快照
+					586 button 重试相同发布请求
+					318 container 发布快照表，可横向滚动
+						319 container
+							320 table
+								321 row
+									322 cell
+										323 text 固定快照ID
+									324 cell
+										325 text 发布版本
+									326 cell
+										327 text 合成与正式
+									328 cell
+										329 text 类型
+									330 cell
+										331 text 创建时间
+									332 cell
+										333 text 操作
+							334 table
+								587 container
+									818 row
+										819 cell
+											820 text 1437
+										821 cell
+											822 text 1
+										823 cell
+											824 text TEST合成验证，非正式业务批准
+										825 cell
+											826 text 需求基线
+										827 cell
+											828 text 2026-10-23T08:15:29.110
+										829 cell
+											830 container
+												831 button 查看冻结六表
+												832 button 生成六表下载
+									833 row
+										834 cell
+											835 text 1448
+										836 cell
+											837 text 2
+										838 cell
+											839 text TEST合成验证，非正式业务批准
+										840 cell
+											841 text 需求基线
+										842 cell
+											843 text 2026-10-23T14:31:33.117
+										844 cell
+											845 container
+												846 button 查看冻结六表
+												847 button 生成六表下载
+									848 row
+										849 cell
+											850 text 1452
+										851 cell
+											852 text 3
+										853 cell
+											854 text TEST合成验证，非正式业务批准
+										855 cell
+											856 text 需求基线
+										857 cell
+											858 text 2026-10-23T14:34:33.723
+										859 cell
+											860 container
+												861 button 查看冻结六表
+												862 button 生成六表下载
+					350 container
+						351 text 导出筛选需求ID（留空为全量可见）
+						352 text field (settable) Description: 导出筛选需求ID, ID: el-id-2227-65
+					353 heading 本轮下载任务, Value: 3
+						354 text 本轮下载任务
+					355 text 任务创建、生成、结果交付及领取均按当前权限检查；旧地址不能替代重新鉴权。
+					356 container
+						357 table
+							358 row
+								359 cell
+									360 text 任务ID
+								361 cell
+									362 text 快照ID
+								363 cell
+									364 text 状态
+								365 cell
+									366 text 文件范围
+								367 cell
+									368 text 提示
+								369 cell
+									370 text 操作
+						371 container
+							372 table
+							373 text 暂无数据
+			374 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 1 AXWebArea 芋道管理系统 - 业务决议与基线发布, URL: 127.0.0.1:5173/hrm-payroll/governance?projectId=153

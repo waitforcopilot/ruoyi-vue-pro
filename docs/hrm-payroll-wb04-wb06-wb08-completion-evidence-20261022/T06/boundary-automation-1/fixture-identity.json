@@ -1,0 +1,35 @@
+{
+  "candidateHead": "fdc503dca517b4dad4ea136f73bd9fbe92e11c59",
+  "testClassSha256": "7626861eff2c8f8d43d6bbe0d081d48eb2eb227be054d4dcdfd36486b35b964a",
+  "executionExitCode": 0,
+  "surefire": {
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "source": "surefire-report.xml"
+  },
+  "fixtureKind": "synthetic TEST projection passed through production HrmPayrollGovernanceExportService.workbook(); not browser download, DB snapshot, or formal approval",
+  "artifactDirectory": "/Users/waitforpro/.hrm-payroll-local/t06-native-fixtures-20261023/TEST-T06-real-exporter-6005179490128899063",
+  "artifacts": [
+    {
+      "name": "TEST-FIXTURE-PROVENANCE.txt",
+      "absolutePath": "/Users/waitforpro/.hrm-payroll-local/t06-native-fixtures-20261023/TEST-T06-real-exporter-6005179490128899063/TEST-FIXTURE-PROVENANCE.txt",
+      "bytes": 696,
+      "sha256": "92a349f17c33f522ef4c30ebed4dc46d49f21d8e7d2142790a80c6705fb1dc90"
+    },
+    {
+      "name": "TEST-empty-six-business-tables-real-exporter.xlsx",
+      "absolutePath": "/Users/waitforpro/.hrm-payroll-local/t06-native-fixtures-20261023/TEST-T06-real-exporter-6005179490128899063/TEST-empty-six-business-tables-real-exporter.xlsx",
+      "bytes": 8231,
+      "sha256": "632eb7f02e5f34271b30e55e21a107b4a0584832c259fa21f49f7b1bea06fe16"
+    },
+    {
+      "name": "TEST-long-text-real-exporter.xlsx",
+      "absolutePath": "/Users/waitforpro/.hrm-payroll-local/t06-native-fixtures-20261023/TEST-T06-real-exporter-6005179490128899063/TEST-long-text-real-exporter.xlsx",
+      "bytes": 307804,
+      "sha256": "6e3c5ead092909eeb20ad750b07d1207d62dbdbb19d34c98f0763da8adecbaad"
+    }
+  ],
+  "nativeExcelReview": "pending; open both XLSX files at artifactDirectory and save separate screenshots/AX evidence; do not edit or save the workbooks"
+}

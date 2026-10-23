@@ -1,0 +1,2 @@
+cwd: /Users/waitforpro/source/github-yudao/ruoyi-vue-pro/yudao-ui/yudao-ui-admin-vue3
+command: PATH=/opt/homebrew/opt/node@22/bin:$PATH ./node_modules/.bin/stylelint src/views/hrm/payroll/governance/index.vue

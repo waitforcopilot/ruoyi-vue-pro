@@ -1,0 +1,71 @@
+Browser tab: 1, Title: "芋道管理系统 - 薪酬需求评审工作台", URL: "http://127.0.0.1:5173/hrm-payroll/review?projectId=153&module=COL".
+1 AXWebArea 芋道管理系统 - 薪酬需求评审工作台, URL: 127.0.0.1:5173/hrm-payroll/review?projectId=153&module=COL
+	2 container 页面意见与业务场景
+		3 container
+			56 heading 页面意见与业务场景, Value: 2
+				57 text 页面意见与业务场景
+			58 button 关闭此对话框
+			8 container el-id-7399-66
+				9 text 项目 153 · COL · MODULE · module。草稿可逐步补齐；评审中须场景/期望，确认还须角色/目标、正常异常、规则/单位/精度/有效期/例外、验收依据。
+				70 text 请补齐以下字段：异议责任人ID、异议下一步。输入已保留。
+				10 container
+					11 text 功能说明
+					12 text entry area (settable) Description: 功能说明, ID: el-id-7399-191, Value: TEST_WBC_T04_T07_规格确认与供数待提供分离
+中文换行验收：本需求仅验证本机工程规格基线，不处理真实工资。
+					13 text 业务角色
+					14 text entry area (settable) Description: 业务角色, Value: TEST需求编辑266、独立确认279、来源核验267, ID: el-id-7399-192
+					15 text 触发场景
+					16 text entry area (settable) Description: 触发场景, Value: 2026年10月TEST规格评审，来源已定义而供给待提供。, ID: el-id-7399-193
+					17 text 业务目标
+					18 text entry area (settable) Description: 业务目标, Value: 将规格确认与数据可用分别判断并保留责任和证据。, ID: el-id-7399-194
+					19 text 期望行为
+					20 text entry area (settable) Description: 期望行为, Value: 本人确认完整规格后可发布基线，未交付数据持续标为未就绪。, ID: el-id-7399-195
+					21 text 正常样例
+					22 text entry area (settable) Description: 正常样例, Value: TEST-EMP-001于2026-10的合成字段employee_key有规格映射，数据尚未提供。, ID: el-id-7399-196
+					23 text 异常样例
+					24 text entry area (settable) Description: 异常样例, Value: 没有语义核验不得确认；数据待提供不可标为可投产。, ID: el-id-7399-197
+					25 text 计算或业务规则（不适用须说明）
+					26 text entry area (settable) Description: 计算或业务规则（不适用须说明）, Value: 仅规格字段employee_key原样映射，不进行工资计算；工资金额计算不适用。, ID: el-id-7399-198
+					27 text 单位（不适用须说明）
+					28 text entry area (settable) Description: 单位（不适用须说明）, Value: employee_key为字符串标识，无金额单位。, ID: el-id-7399-199
+					29 text 精度与舍入（不适用须说明）
+					30 text entry area (settable) Description: 精度与舍入（不适用须说明）, Value: 字符串原值匹配，不舍入；金额精度不适用。, ID: el-id-7399-200
+					31 text 有效期或适用依据
+					32 text entry area (settable) Description: 有效期或适用依据, Value: 范围版本5，主体101/组织201/TEST，2026-10-01至2026-10-31。, ID: el-id-7399-201
+					33 text 规则例外与处理
+					34 text entry area (settable) Description: 规则例外与处理, Value: 缺交付产生DATA_READINESS问题，不篡改语义核验；发现规格问题重新评审。, ID: el-id-7399-202
+					35 text 范围方式
+					36 container
+						37 combo box (collapsed, settable) Description: 范围方式, ID: el-id-7399-203, Secondary Actions: Expand
+						38 text 继承项目范围
+						39 image
+					40 text 来源适用性
+					41 container
+						42 combo box (collapsed, settable) Description: 来源适用性, ID: el-id-7399-204, Secondary Actions: Expand
+						43 text 适用
+						44 image
+					45 text 规则引用版本
+					46 text field (settable) Description: 规则引用版本, Value: TEST-WBC-SPEC-COL-20261023-V1, ID: el-id-7399-205
+					47 text 验收条件
+					48 text entry area (settable) Description: 验收条件, Value: 仅主体101、组织201、TEST人员和场景、2026年10月；独立评审人按当前范围本人确认；数据未就绪明确披露，规格基线允许发布；不等同于数据投产。, ID: el-id-7399-206
+					49 text 依据或异议说明
+					50 text entry area (settable) Description: 依据或异议说明, Value: TEST T09联合验收异议（提出者266）：不能将数据问题已关闭等同于供给或质量已通过；请在验收说明中再次明确规格确认与数据可投产分开。保留既有快照1437/1448/1452与旧签字历史。, ID: el-id-7399-207
+					51 text 功能评审状态
+					52 container
+						53 combo box (collapsed, settable) Description: 功能评审状态, ID: el-id-7399-208, Secondary Actions: Expand
+						59 text 有异议
+						55 image
+					60 text 异议责任人ID
+					61 container
+						62 button 减少数值
+						63 button 增加数值
+						64 stepper (settable, integer) Description: 异议责任人ID, Value: 1, ID: el-id-7399-211
+					71 text 请填写异议责任人ID
+					65 text 异议下一步
+					66 text field (settable) Description: 异议下一步, ID: el-id-7399-212
+					72 text 请填写异议下一步
+			67 button 取消
+			68 button 读取最新版本（保留当前输入）
+			69 button 保存意见
+
+The focused UI element is 64 stepper (settable, integer) Description: 异议责任人ID, Value: 1, ID: el-id-7399-211

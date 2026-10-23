@@ -1,0 +1,32 @@
+{
+  "responses": [
+    {
+      "sequence": 183,
+      "url": "http://127.0.0.1:48080/admin-api/system/notify-message/get-unread-count",
+      "status": 200,
+      "mimeType": ""
+    },
+    {
+      "sequence": 187,
+      "url": "http://127.0.0.1:48080/admin-api/system/notify-message/get-unread-count",
+      "status": 200,
+      "mimeType": "application/json"
+    },
+    {
+      "sequence": 195,
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/governance/export/download?projectId=153&id=1447",
+      "status": 200,
+      "mimeType": ""
+    },
+    {
+      "sequence": 199,
+      "url": "http://127.0.0.1:48080/admin-api/hrm/payroll/governance/export/download?projectId=153&id=1447",
+      "status": 200,
+      "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    }
+  ],
+  "bytes": 17686,
+  "sha256": "fa876d9b9c1c17ccd3fd73312bfb62af117fac3cec9fa5995ae9cebafecca32c",
+  "downloadPath": "/Users/waitforpro/Downloads/薪酬评审-快照1437-任务1447 (1).xlsx",
+  "meaning": "actual valid independent member binary download; not a JSON business success inference"
+}

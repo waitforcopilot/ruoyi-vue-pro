@@ -1,0 +1,99 @@
+{
+  "suite": "final-automation-2 combined HRM payroll suite",
+  "classes": [
+    {
+      "file": "TEST-cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRequirementServiceImplTest.xml",
+      "tests": 36,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "9aac635578a8f1461496c675a842877079c7423333c6ad1923e12dc47f9f7689"
+    },
+    {
+      "file": "TEST-cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollRequirementProjectServiceTest.xml",
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "07e408bedeb4b483c563369d7ad780f6d636277b0cd97b7314ba43c6b282dfc5"
+    },
+    {
+      "file": "TEST-cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollWorkbenchServiceTest.xml",
+      "tests": 31,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "17d4feace59cfa7add4dc6692be37311fad4bdfbc81563bc76867b5cf1ac664f"
+    },
+    {
+      "file": "TEST-cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollReviewServiceTest.xml",
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "003a090567bb30d0c9463b876cc93273ba1ed14a54208acf0fd2dfbc57bbf64f"
+    },
+    {
+      "file": "TEST-cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollGovernanceServiceTest.xml",
+      "tests": 27,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "64d1f1b371eefa5b6a000516c1af16e19fdcb3a3a26db2add290fd44932ccbfa"
+    },
+    {
+      "file": "TEST-cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollT02ConfirmationContractTest.xml",
+      "tests": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "9cb8ca3c9d30bc08bf54de306e77c76420de45bffeaaa2427d2572446615c853"
+    },
+    {
+      "file": "TEST-cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollT03IssueContractTest.xml",
+      "tests": 39,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "52ce626b692a96ec38ee0a43388d3f3ba78538357dd230bc0216adb56300c09d"
+    },
+    {
+      "file": "TEST-cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollT04IssueConsistencyTest.xml",
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "3cdfce750a3d084bf19667e065f91cf050cb40a22ad9a345f8014c6224ab4dda"
+    },
+    {
+      "file": "TEST-cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollT06ExportFixtureTest.xml",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "206a2f50f8afd4ce8877770e9e17de8e7140826345458f74a8f017fdfca546d1"
+    },
+    {
+      "file": "TEST-cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollT07GovernanceConsistencyTest.xml",
+      "tests": 31,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "96a5d918c486fe9e5307f8e283a931ba35a3da39df45c0b1592e20eec76a3681"
+    },
+    {
+      "file": "TEST-cn.iocoder.yudao.module.hrm.service.payroll.HrmPayrollT08FrozenExportContractTest.xml",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "943511d83226154a3c8fc877fbb6730fe7e73e900f18cfeec4f69dcb20e54be8"
+    }
+  ],
+  "totals": {
+    "tests": 271,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

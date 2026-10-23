@@ -1,0 +1,3 @@
+The following is a diff from the previous accessibility tree for Window: "wb08-release-1384-job-1386" with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 159-164
+The focused UI element is 25 布局区域 内容区域, Description: 工作簿区域, 评审版本说明, 工作表 1，共 6 个工作表, 使用区域: A1 至 H718, Help: 窗口的内容区域

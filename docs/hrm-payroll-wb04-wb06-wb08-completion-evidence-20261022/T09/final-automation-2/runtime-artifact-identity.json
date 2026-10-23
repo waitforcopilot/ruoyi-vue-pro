@@ -1,0 +1,59 @@
+{
+  "capturedAtLocal": "2026-10-23T15:08:37+0800",
+  "backend": {
+    "jarBytes": 179126379,
+    "jarSha256": "044a0625b5410cb8be5b086625ba60554b49f789402b5ff5423f46567cd850e5",
+    "jarMtimeLocal": "2026-10-22T19:36:00+0800",
+    "embeddedHrmJar": "BOOT-INF/lib/yudao-module-hrm-2026.09-jdk8-SNAPSHOT.jar",
+    "embeddedHrmJarSha256": "4b81a046fe410e04f63603f7b95948b1ce1c5c5a44bfd66a1d32f0a8f3fd6c04",
+    "sourcePath": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceExportService.java",
+    "sourceSha256": "d244b492cd3e90ff1c03f8e255edcda9985abfccbad4991433492db259e8e4e0",
+    "targetClassPath": "yudao-module-hrm/target/classes/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceExportService.class",
+    "targetClassSha256": "66af4a3fb34ca91ac852110e8bb9e905557234e4564f91313b46adb2cf2c116f",
+    "embeddedClassSha256": "66af4a3fb34ca91ac852110e8bb9e905557234e4564f91313b46adb2cf2c116f",
+    "embeddedClassByteEqualTargetClass": true,
+    "pid": 55351,
+    "processStart": "2026-10-22 19:36:46 +0800",
+    "launchesExactJarPath": true,
+    "jarPath": "yudao-server/target/yudao-server.jar",
+    "processPid": 55351,
+    "processStartLocal": "2026-10-22T19:36:46+0800",
+    "listener": "127.0.0.1:48080",
+    "currentArtifactMatchesRunningProcessPath": true,
+    "candidateClassByteComparison": "The embedded HRM ExportService .class SHA256 equals yudao-module-hrm/target/classes for the current source candidate; current server process command targets this exact jar path and jar mtime predates its start.",
+    "packageRunObservation": "The final package command succeeded; Maven reported no classes to compile, and the jar mtime remained 2026-10-22 19:36:00 +0800. This is the same on-disk jar the active process started from, rather than a newly replaced runtime file."
+  },
+  "frontendViteResponse": {
+    "url": "http://127.0.0.1:5173/src/views/hrm/payroll/governance/index.vue",
+    "status": 200,
+    "contentType": "text/javascript",
+    "bytes": 121003,
+    "sha256": "e0ac7667cb0d3fc481cdf57d421b0ece781a6ed03f2bf9514714c80b06d68279",
+    "currentGovernanceSfcSourceSha256": "663519c7dd73e8d001e2c2a911eebbf7e81d3c16b942c1bdca6850c7b016cdde",
+    "markerChecks": {
+      "EXCLUSION_BASIS_INCOMPLETE": true,
+      "ISSUE_REVIEW": true,
+      "刷新下载任务": true,
+      "当前权限或版本已变化，无法交付旧任务": true,
+      "当前范围的强制决议覆盖不完整或冲突": true
+    },
+    "responseFile": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T09/final-automation-2/vite-runtime/governance-index.vue.response.js",
+    "sourceSha256": "663519c7dd73e8d001e2c2a911eebbf7e81d3c16b942c1bdca6850c7b016cdde",
+    "responseSha256": "e0ac7667cb0d3fc481cdf57d421b0ece781a6ed03f2bf9514714c80b06d68279",
+    "responseIsCurrentTransformedModule": true
+  },
+  "frontendDist": {
+    "indexHtmlSha256": "67ef457243a41ae5ca634ddc37bb0a82d9ad25eda8c46ef36bce367afa382357",
+    "builtAtLocal": "2026-10-23T15:01:01+0800"
+  },
+  "frontendViteProcess": {
+    "pid": 86218,
+    "startLocal": "2026-10-17T19:32:50+0800",
+    "mode": "development",
+    "host": "127.0.0.1",
+    "port": 5173,
+    "cwd": "yudao-ui/yudao-ui-admin-vue3",
+    "servesBuiltDist": false,
+    "note": "The captured module response is served by this existing Vite dev process; the separately built dist is not the source of this process."
+  }
+}

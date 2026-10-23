@@ -1,0 +1,535 @@
+Browser tab: 1, Title: "芋道管理系统 - 业务决议与基线发布", URL: "http://127.0.0.1:5173/hrm-payroll/governance?projectId=153".
+1 AXWebArea 芋道管理系统 - 业务决议与基线发布, URL: 127.0.0.1:5173/hrm-payroll/governance?projectId=153
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			15 container
+				16 container v-tool-header
+					17 container 面包屑
+					18 container
+						19 container
+							20 combo box (collapsed, settable) ID: el-id-5357-61, Secondary Actions: Expand
+							21 text 请输入菜单内容
+					22 pop up button (collapsed) ID: el-id-5357-4, Secondary Actions: Expand
+					23 pop up button (collapsed) ID: el-id-5357-9, Secondary Actions: Expand
+					24 pop up button (collapsed) TEST S5 editor NEW DISPLAY, ID: el-id-5357-14, Secondary Actions: Expand
+				25 container v-tags-view
+					26 container
+						27 pop up button (collapsed) 首页, ID: el-id-5357-20, Secondary Actions: Expand
+							28 container
+								29 text 首页
+						30 pop up button (collapsed) 业务决议与基线发布, ID: el-id-5357-28, Secondary Actions: Expand
+							31 text 业务决议与基线发布
+					32 pop up button (collapsed) ID: el-id-5357-36, Secondary Actions: Expand
+			33 container
+				34 heading 业务决议、发布与快照导出, Value: 1
+					35 text 业务决议、发布与快照导出
+				36 text TEST材料及合成签署仅验证系统实现，不构成真实业务批准。正式授权根必须有实际有权业务人员提供的受控签署材料。
+				37 container
+					38 combo box (collapsed, settable) Description: 治理项目, ID: el-id-5357-62, Secondary Actions: Expand
+					39 text 153 · TEST WB completion 20261022 A · 非正式批准
+					40 image
+				41 button 刷新决议与发布
+				42 button 返回十视图评审
+				43 button 需求、成员及实际来源
+				44 text TEST WB completion 20261022 A · 非正式批准 · 范围版本 5
+				45 container 独立业务授权根
+					46 heading 独立业务授权根, Value: 2
+						47 text 独立业务授权根
+					48 text 登记与签署分开。授权依据读权独立，旧测试授权不会自动升级为正式授权。
+					49 button 登记授权根材料
+					50 container 授权根表，可横向滚动
+						51 container
+							52 table
+								53 row
+									54 cell
+										55 text 授权根ID
+									56 cell
+										57 text 记录版本
+									58 cell
+										59 text 材料版本
+									60 cell
+										61 text 材料性质
+									62 cell
+										63 text 签署状态
+									64 cell
+										65 text 被授权人ID
+									66 cell
+										67 text 操作
+							68 table
+								69 container
+									430 row
+										431 cell
+											432 text 1392
+										433 cell
+											434 text 2
+										435 cell
+											436 text TEST-WBC-20261022-EDITOR-V1
+										437 cell
+											438 text TEST
+										439 cell
+											440 text ACTIVE
+										441 cell
+											442 text 266
+										443 cell
+											444 button 查看受控材料
+									445 row
+										446 cell
+											447 text 1394
+										448 cell
+											449 text 3
+										450 cell
+											451 text TEST-WBC-20261022-REVIEWER-V1
+										452 cell
+											453 text TEST
+										454 cell
+											455 text REVOKED
+										456 cell
+											457 text 267
+										458 cell
+											459 button 查看受控材料
+									460 row
+										461 cell
+											462 text 1412
+										463 cell
+											464 text 2
+										465 cell
+											466 text TEST-WBC-T02-SUCCESSOR269-V1
+										467 cell
+											468 text TEST
+										469 cell
+											470 text ACTIVE
+										471 cell
+											472 text 269
+										473 cell
+											474 button 查看受控材料
+									475 row
+										476 cell
+											477 text 1416
+										478 cell
+											479 text 2
+										480 cell
+											481 text TEST-WBC-T02-SUCCESSOR279-V1
+										482 cell
+											483 text TEST
+										484 cell
+											485 text ACTIVE
+										486 cell
+											487 text 279
+										488 cell
+											489 button 查看受控材料
+									490 row
+										491 cell
+											492 text 1419
+										493 cell
+											494 text 2
+										495 cell
+											496 text TEST-WBC-T03-ISSUE-REVIEW279-V1
+										497 cell
+											498 text TEST
+										499 cell
+											500 text ACTIVE
+										501 cell
+											502 text 279
+										503 cell
+											504 button 查看受控材料
+									505 row
+										506 cell
+											507 text 1421
+										508 cell
+											509 text 3
+										510 cell
+											511 text TEST-WBC-T03-ISSUE-HANDLER269-V1
+										512 cell
+											513 text TEST
+										514 cell
+											515 text REVOKED
+										516 cell
+											517 text 269
+										518 cell
+											519 button 查看受控材料
+									520 row
+										521 cell
+											522 text 1430
+										523 cell
+											524 text 2
+										525 cell
+											526 text TEST-WBC-T04T07-REVIEW267-V1
+										527 cell
+											528 text TEST
+										529 cell
+											530 text ACTIVE
+										531 cell
+											532 text 267
+										533 cell
+											534 button 查看受控材料
+									535 row
+										536 cell
+											537 text 1442
+										538 cell
+											539 text 3
+										540 cell
+											541 text TEST-WBC-T08-DOWNLOAD268-20261023-V1
+										542 cell
+											543 text TEST
+										544 cell
+											545 text REVOKED
+										546 cell
+											547 text 268
+										548 cell
+											549 button 查看受控材料
+				190 container 业务决议版本
+					191 heading 业务决议版本与独立批准, Value: 2
+						192 text 业务决议版本与独立批准
+					193 text 必须覆盖Q-01/02/04/05/07/10。Q-03/06/08/09另行决议或明确分类；正文修订建立新版本，批准和撤销保留原事实。
+					550 button 起草决议版本
+					195 container 决议表，可横向滚动
+						196 container
+							197 table
+								198 row
+									199 cell
+										200 text 版本记录ID
+									201 cell
+										202 text 决议标题
+									203 cell
+										204 text 决议版本
+									205 cell
+										206 text 覆盖问题
+									207 cell
+										208 text 当前生命周期
+									209 cell
+										210 text 指定批准人ID
+									211 cell
+										212 text 操作
+							213 table
+								214 container
+									551 row
+										552 cell
+											553 text 1398
+										554 cell
+											555 text TEST-WBC-T01确认条件合成决议
+										556 cell
+											557 text 1
+										558 cell
+											559 text Q-02,Q-04,Q-05
+										560 cell
+											561 text REPLACED
+										562 cell
+											563 text 267
+										564 cell
+											565 container
+												566 button 查看版本正文
+												567 button 决议事件历史
+												568 button 基于此版本修订
+									569 row
+										570 cell
+											571 text 1402
+										572 cell
+											573 text TEST-WBC-T01确认条件合成决议
+										574 cell
+											575 text 2
+										576 cell
+											577 text Q-02,Q-04,Q-05
+										578 cell
+											579 text REPLACED
+										580 cell
+											581 text 267
+										582 cell
+											583 container
+												584 button 查看版本正文
+												585 button 决议事件历史
+												586 button 基于此版本修订
+									587 row
+										588 cell
+											589 text 1407
+										590 cell
+											591 text TEST-WBC-T01确认条件合成决议
+										592 cell
+											593 text 3
+										594 cell
+											595 text Q-02,Q-04,Q-05
+										596 cell
+											597 text EFFECTIVE
+										598 cell
+											599 text 267
+										600 cell
+											601 container
+												602 button 查看版本正文
+												603 button 决议事件历史
+												604 button 基于此版本修订
+									605 row
+										606 cell
+											607 text 1426
+										608 cell
+											609 text TEST_WBC_T07_ALL_Q_20261023_仅工程
+										610 cell
+											611 text 1
+										612 cell
+											613 text Q-01,Q-02,Q-03,Q-04,Q-05,Q-06,Q-07,Q-08,Q-09,Q-10
+										614 cell
+											615 text PENDING_APPROVAL
+										616 cell
+											617 text 267
+										618 cell
+											619 container
+												620 button 查看版本正文
+												621 button 决议事件历史
+												622 button 基于此版本修订
+									623 row
+										624 cell
+											625 text 1433
+										626 cell
+											627 text TEST_WBC_T07_COMPLEMENT_Q_20261023_仅工程
+										628 cell
+											629 text 2
+										630 cell
+											631 text Q-01,Q-03,Q-06,Q-07,Q-08,Q-09,Q-10
+										632 cell
+											633 text EFFECTIVE
+										634 cell
+											635 text 267
+										636 cell
+											637 container
+												638 button 查看版本正文
+												639 button 决议事件历史
+												640 button 基于此版本修订
+									641 row
+										642 cell
+											643 text 1450
+										644 cell
+											645 text TEST_WBC_T07_COMPLEMENT_Q_20261023_仅工程
+										646 cell
+											647 text 3
+										648 cell
+											649 text Q-01,Q-03,Q-06,Q-07,Q-08,Q-09,Q-10
+										650 cell
+											651 text DRAFT
+										652 cell
+											653 text 267
+										654 cell
+											655 container
+												656 button 查看版本正文
+												657 button 决议事件历史
+												658 button 基于此版本修订
+												659 button 提交批准
+				324 container 发布检查与固定快照
+					325 heading 发布检查与固定快照, Value: 2
+						326 text 发布检查与固定快照
+					327 text 规格基线与数据可投产分开；供数待提供不会自动阻止规格明确的需求基线。正式发布须完整闭包可见及当前有效决议。
+					328 button 执行发布预检查
+					329 container
+						330 text 发布依据或草稿说明
+						331 text entry area (settable) Description: 发布依据或草稿说明, Value: TEST T09本机工程联合验收：1845异议v10→回应v11→279本人确认v12；映射3、范围5、有效TEST决议1407/1433；供数仍待提供，不作为正式业务批准或发薪依据。, ID: el-id-5357-63
+						332 text 幂等请求号
+						333 text field (settable) Description: 幂等请求号, Value: TEST-WBC-T09-FINAL-20261023-REQ1845V12, ID: el-id-5357-64
+					334 button (disabled) 发布本期完整需求基线
+					336 button (disabled) 保存固定草稿快照
+					429 button 重试相同发布请求
+					338 container 发布快照表，可横向滚动
+						339 container
+							340 table
+								341 row
+									342 cell
+										343 text 固定快照ID
+									344 cell
+										345 text 发布版本
+									346 cell
+										347 text 合成与正式
+									348 cell
+										349 text 类型
+									350 cell
+										351 text 创建时间
+									352 cell
+										353 text 操作
+							733 table
+								734 container
+									735 row
+										736 cell
+											737 text 1437
+										738 cell
+											739 text 1
+										740 cell
+											741 text TEST合成验证，非正式业务批准
+										742 cell
+											743 text 需求基线
+										744 cell
+											745 text 2026-10-23T08:15:29.110
+										746 cell
+											747 container
+												748 button 查看冻结六表
+												749 button 生成六表下载
+									750 row
+										751 cell
+											752 text 1448
+										753 cell
+											754 text 2
+										755 cell
+											756 text TEST合成验证，非正式业务批准
+										757 cell
+											758 text 需求基线
+										759 cell
+											760 text 2026-10-23T14:31:33.117
+										761 cell
+											762 container
+												763 button 查看冻结六表
+												764 button 生成六表下载
+									765 row
+										766 cell
+											767 text 1452
+										768 cell
+											769 text 3
+										770 cell
+											771 text TEST合成验证，非正式业务批准
+										772 cell
+											773 text 需求基线
+										774 cell
+											775 text 2026-10-23T14:34:33.723
+										776 cell
+											777 container
+												778 button 查看冻结六表
+												779 button 生成六表下载
+									780 row
+										781 cell
+											782 text 1455
+										783 cell
+											784 text 4
+										785 cell
+											786 text TEST合成验证，非正式业务批准
+										787 cell
+											788 text 需求基线
+										789 cell
+											790 text 2026-10-23T15:09:59.399
+										791 cell
+											792 container
+												793 button 查看冻结六表
+												794 button 生成六表下载
+					401 container
+						402 text 导出筛选需求ID（留空为全量可见）
+						403 text field (settable) Description: 导出筛选需求ID, ID: el-id-5357-65
+					404 heading 本轮下载任务, Value: 3
+						405 text 本轮下载任务
+					406 text 任务创建、生成、结果交付及领取均按当前权限检查；旧地址不能替代重新鉴权。
+					407 container
+						408 table
+							409 row
+								410 cell
+									411 text 任务ID
+								412 cell
+									413 text 快照ID
+								414 cell
+									415 text 状态
+								416 cell
+									417 text 文件范围
+								418 cell
+									419 text 提示
+								420 cell
+									421 text 操作
+						422 container
+							423 table
+							424 text 暂无数据
+				723 container 冻结六表内容
+					724 heading 快照1455 · 本期完整确认需求基线, Value: 2
+						725 text 快照1455 · 本期完整确认需求基线
+					726 tab group
+						727 tab (selectable, settable, boolean) 评审版本说明, Value: 0, ID: tab-评审版本说明
+						728 tab (selected, settable, boolean) 功能需求清单, Value: 1, ID: tab-功能需求清单
+						729 tab (selectable, settable, boolean) 数据源清单, Value: 0, ID: tab-数据源清单
+						730 tab (selectable, settable, boolean) 字段映射, Value: 0, ID: tab-字段映射
+						731 tab (selectable, settable, boolean) 问题与待办, Value: 0, ID: tab-问题与待办
+						732 tab (selectable, settable, boolean) 范围与变更, Value: 0, ID: tab-范围与变更
+					795 container Description: 功能需求清单, ID: pane-功能需求清单
+						796 container
+							797 table
+								798 row
+									799 cell
+										800 text 记录类型
+									801 cell
+										802 text 快照关联号
+									803 cell
+										804 text 内容
+							805 table
+								806 container
+									807 row
+										808 cell
+											809 text REQUIREMENT
+										810 cell
+											811 text REQ-1844
+										812 cell
+											813 container
+												814 button 展开冻结记录
+												815 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+									816 row
+										817 cell
+											818 text REQUIREMENT
+										819 cell
+											820 text REQ-1845
+										821 cell
+											822 container
+												823 button 展开冻结记录
+												824 text TEST_WBC_T04_T07_规格确认与供数待提供分离 中文换行验收：本需求仅验证本机工程规格基线，不处理真实工资。
+				825 container 冻结记录与受控正文
+					826 container { "记录类型": "REQUIREMENT", "记录号": "REQ-1845", "需求ID": "1845", "编号": "CUSTOM-0002", "模块": "COL", "功能": "TEST_WBC_T04_T07_规格确认与供数待提供分离\n中文换行验收：本需求仅验证本机工程规格基线，不处理真实工资。", "业务场景与字段": { "page": "/hrm-payroll/review", "contextModule": "COL", "targetType": "MODULE", "anchor": "module", "role": "TEST需求编辑266、独立确认279、来源核验267", "scenario": "2026年10月TEST规格评审，来源已定义而供给待提供。", "goal": "将规格确认与数据可用分别判断并保留责任和证据。", "expected": "本人确认完整规格后可发布基线，未交付数据持续标为未就绪。", "normalCase": "TEST-EMP-001于2026-10的合成字段employee_key有规格映射，数据尚未提供。", "exceptionCase": "没有语义核验不得确认；数据待提供不可标为可投产。", "calculation": "仅规格字段employee_key原样映射，不进行工资计算；工资金额计算不适用。", "unit": "employee_key为字符串标识，无金额单位。", "precision": "字符串原值匹配，不舍入；金额精度不适用。", "validity": "范围版本5，主体101/组织201/TEST，2026-10-01至2026-10-31。", "ruleException": "缺交付产生DATA_READINESS问题，不篡改语义核验；发现规格问题重新评审。", "disputeOwnerId": 266, "nextStep": "TEST：由266回应映射第三版说明，再交279本人重新确认。" }, "功能评审": "CONFIRMED", "当前签字有效（发布时）": true, "范围决策": "INCLUDED", "版本": 12, "语义版本": 8, "来源适用性": "APPLICABLE", "不适用理由": "", "评审人ID": "279", "评审人当时姓名": "TEST S6 reassign", "确认时间": 1792739239000, "验收条件": "仅主体101、组织201、TEST人员和场景、2026年10月；独立评审人按当前范围本人确认；数据未就绪明确披露，规格基线允许发布；不等同于数据投产。", "规则版本": "TEST-WBC-SPEC-COL-20261023-V1", "依据": "TEST T09回应：映射第三版明确TEST前缀检查；语义核验与当前范围一致，交付仍PENDING，保持DATA_READINESS未决且不冒充投产。请279本人复核确认。", "确认引用元组": "{\"tenantId\":1,\"projectId\":153,\"projectScopeVersion\":5,\"resolvedScopeDigest\":\"579dfbeb3216684338221546e8bb6c805e0a7b1061e32038a56b934ba90490e1\",\"requirementId\":1845,\"semanticVersion\":8,\"applicability\":\"APPLICABLE\",\"applicabilityReason\":\"\",\"sources\":[{\"sourceId\":3578,\"semanticVersion\":1,\"relationId\":3583,\"mappingVersion\":3}],\"ruleVersion\":\"TEST-WBC-SPEC-COL-20261023-V1\",\"confirmedBy\":279,\"confirmedAt\":\"2026-10-23T15:07:19.087\",\"authority\":[{\"grantId\":525,\"grantVersion\":1,\"parentGrantId\":null,\"actions\":\"READ,CONFIRM\",\"ceiling\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\",\"requirementIds\":null,\"sourceIds\":null,\"validFrom\":[2026,10,1],\"validTo\":[2026,10,31],\"basis\":\"CONTROLLED_ROOT:1416:TEST-WBC-T02-SUCCESSOR279-V1:9a247b127bf6aaee32eccf0d82898b956d63e4cc5b4c9f682b7ad7c5e8c42ff2\"},{\"grantId\":526,\"grantVersion\":1,\"parentGrantId\":null,\"actions\":\"READ,ISSUE_REVIEW\",\"ceiling\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\",\"requirementIds\":null,\"sourceIds\":null,\"validFrom\":[2026,10,1],\"validTo\":[2026,10,31],\"basis\":\"CONTROLLED_ROOT:1419:TEST-WBC-T03-ISSUE-REVIEW279-V1:dc9d9cdf193127e4e91dcde7589fa089ccb37e85fddc8bf9d9d9a01327260fda\"}],\"governance\":{\"decisions\":[{\"recordId\":1407,\"recordVersion\":3,\"lifecycleAtAction\":\"EFFECTIVE\",\"decision\":{\"projectId\":153,\"projectScopeVersion\":5,\"previousId\":1402,\"title\":\"TEST-WBC-T01确认条件合成决议\",\"questions\":[\"Q-02\",\"Q-04\",\"Q-05\"],\"clauses\":\"TEST Q-02角色分离，Q-04范围绑定，Q-05确认依据\",\"clauseVersion\":\"TEST-WBC-T01-V3-SCOPE5\",\"body\":\"TEST工程夹具，仅验证本项目153的当前范围、独立确认和不适用理由；无真实业务批准效力。\",\"scopeJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\",\"validFrom\":\"2026-10-01\",\"validTo\":\"2026-10-31\",\"approverId\":267,\"approvalConditions\":\"TEST 限合成项目153，不用于正式工资或生产发布\",\"semanticChange\":false,\"otherQuestions\":{},\"reason\":\"TEST 可见范围提示补验完成，绑定恢复后的范围5；非正式业务批准\",\"decisionId\":\"8909366b-d392-42e1-804b-fb6dbab8e242\",\"decisionVersion\":3,\"state\":\"APPROVED\",\"createdBy\":266,\"createdAt\":\"2026-10-22T19:47:14.682\",\"digest\":\"d534432adb5fa4ce50f16b742a143f5120ee1ff2598cd3db3c41feff7cc3d968\",\"draftAuthority\":[{\"grant\":{\"createTime\":1792639848000,\"updateTime\":1792639848000,\"creator\":\"267\",\"updater\":\"267\",\"deleted\":false,\"id\":522,\"rootRecordId\":1392,\"authorityFactsJson\":\"{\\\"grantorAtGrant\\\":{\\\"id\\\":267,\\\"nickname\\\":\\\"TEST S5 approver NEW DISPLAY\\\",\\\"status\\\":0},\\\"recipientAtGrant\\\":{\\\"id\\\":266,\\\"nickname\\\":\\\"TEST S5 editor NEW DISPLAY\\\",\\\"status\\\":0},\\\"rootId\\\":1392,\\\"rootVersion\\\":2,\\\"rootBodyDigest\\\":\\\"9dc64807b2419df8cf7dc2f21c840868f3ebb232aa5f6077792c381f58329ddd\\\",\\\"grantedAt\\\":\\\"2026-10-22T11:30:48.090\\\"}\",\"parentGrantId\":null,\"grantorId\":267,\"grantVersion\":1,\"delegableActions\":\"\",\"modulesJson\":null,\"requirementIdsJson\":null,\"sourceIdsJson\":null,\"fullProject\":true,\"revokedAt\":null,\"revokeReason\":null,\"projectId\":153,\"userId\":266,\"actions\":\"META,ISSUE_HANDLE,SCOPE,SCOPE_DECIDE,EXPORT,EDIT,SOURCE_EDIT,ASSIGN,GRANT_READ,MEMBER,DECISION_EDIT,READ,DECISION_READ,BASELINE_PUBLISH,PERSON_READ,SOURCE_VERIFY,ISSUE_MANAGE\",\"ceilingJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST WB completion synthetic scope; no real payroll or approval\\\"}\",\"evidence\":\"CONTROLLED_ROOT:1392:TEST-WBC-20261022-EDITOR-V1:9dc64807b2419df8cf7dc2f21c840868f3ebb232aa5f6077792c381f58329ddd\",\"validFrom\":[2026,10,1],\"validTo\":[2026,12,31]},\"account\":{\"id\":266,\"nickname\":\"TEST S5 editor NEW DISPLAY\",\"status\":0},\"accountActive\":true,\"effectiveAt\":\"2026-10-22T19:47:14.675\"},{\"rootId\":1392,\"rootVersion\":2,\"root\":{\"projectId\":153,\"anchorId\":4,\"userId\":266,\"actions\":[\"READ\",\"META\",\"EDIT\",\"ASSIGN\",\"EXPORT\",\"MEMBER\",\"SCOPE\",\"SCOPE_DECIDE\",\"SOURCE_EDIT\",\"SOURCE_VERIFY\",\"ISSUE_MANAGE\",\"ISSUE_HANDLE\",\"DECISION_READ\",\"GRANT_READ\",\"PERSON_READ\",\"DECISION_EDIT\",\"BASELINE_PUBLISH\"],\"delegableActions\":[],\"scopeJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST WB completion synthetic scope; no real payroll or approval\\\"}\",\"validFrom\":\"2026-10-01\",\"validTo\":\"2026-12-31\",\"materialVersion\":\"TEST-WBC-20261022-EDITOR-V1\",\"body\":\"TEST synthetic authorization for project153 only, editor266; workflow regression, not formal business authorization.\",\"reason\":\"TEST WBC task plan synthetic fixture; independent signature required\",\"state\":\"ACTIVE\",\"registeredBy\":266,\"registeredByFact\":{\"id\":266,\"nickname\":\"TEST S5 editor NEW DISPLAY\",\"status\":0},\"registeredAt\":\"2026-10-22T11:28:56.282\",\"digest\":\"9dc64807b2419df8cf7dc2f21c840868f3ebb232aa5f6077792c381f58329ddd\",\"mode\":\"TEST\",\"anchorVersion\":\"TEST-S5-ANCHOR-V1\",\"designatedSignerId\":267,\"signedBy\":267,\"signedByFact\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"signedAt\":\"2026-10-22T11:30:48.077\",\"signatureReason\":\"TEST independent signature by267 for project153 editor266 fixture, synthetic not formal approval\",\"anchorFact\":{\"state\":\"REGISTERED\",\"mode\":\"TEST\",\"custodianId\":266,\"signerId\":267,\"actions\":[\"ASSIGN\",\"BASELINE_PUBLISH\",\"CONFIRM\",\"DECISION_APPROVE\",\"DECISION_EDIT\",\"DECISION_READ\",\"EDIT\",\"EXPORT\",\"GRANT_READ\",\"ISSUE_HANDLE\",\"ISSUE_MANAGE\",\"ISSUE_REVIEW\",\"MEMBER\",\"META\",\"PERSON_READ\",\"PROJECT_CREATE\",\"READ\",\"SCOPE\",\"SCOPE_DECIDE\",\"SOURCE_EDIT\",\"SOURCE_VERIFY\"],\"scopeJson\":\"{\\\"entities\\\": [101, 102], \\\"organizations\\\": [201], \\\"workerTypes\\\": [\\\"TEST\\\"], \\\"scenarios\\\": [\\\"TEST\\\"], \\\"from\\\": \\\"2026-10-01\\\", \\\"to\\\": \\\"2026-12-31\\\", \\\"explanation\\\": \\\"TEST S5 independent synthetic project scope, not actual approval\\\"}\",\"validFrom\":\"2026-01-01\",\"validTo\":\"2027-12-31\",\"body\":\"TEST S5 independent synthetic authority material V1. This is an externally registered TEST fixture, not a formal business authorization. Custodian and signer are two independent TEST accounts. Only synthetic TEST projects, subjects 101/102, organization 201, TEST workforce/scenarios and the registered 2026-10 through 2026-12 scope are authorized. It cannot grant formal business approval.\",\"digest\":\"8496a1b848b511bc2d861ef361314fa4c75918e0bdd97b5c91b9426b98174109\",\"materialVersion\":\"TEST-S5-ANCHOR-V1\",\"registeredAt\":\"2026-10-19T17:02:34.410401+08:00\",\"registrationSource\":\"TEST independently registered synthetic trust material; no current decision grants its own approval authority\"}}}],\"approvedBy\":267,\"approvedAt\":\"2026-10-22T19:48:25.600\",\"approvalReason\":\"TEST 267独立测试批准1407，限项目153范围5；不构成正式业务批准\",\"approvalAuthority\":[{\"grant\":{\"createTime\":1792639860000,\"updateTime\":1792639860000,\"creator\":\"267\",\"updater\":\"267\",\"deleted\":false,\"id\":523,\"rootRecordId\":1394,\"authorityFactsJson\":\"{\\\"grantorAtGrant\\\":{\\\"id\\\":267,\\\"nickname\\\":\\\"TEST S5 approver NEW DISPLAY\\\",\\\"status\\\":0},\\\"recipientAtGrant\\\":{\\\"id\\\":267,\\\"nickname\\\":\\\"TEST S5 approver NEW DISPLAY\\\",\\\"status\\\":0},\\\"rootId\\\":1394,\\\"rootVersion\\\":2,\\\"rootBodyDigest\\\":\\\"5d0ca5dbde376ad5ee661169cf7f818fb754bfea5f8586d5ee73e2b7a3af1068\\\",\\\"grantedAt\\\":\\\"2026-10-22T11:31:00.119\\\"}\",\"parentGrantId\":null,\"grantorId\":267,\"grantVersion\":1,\"delegableActions\":\"\",\"modulesJson\":null,\"requirementIdsJson\":null,\"sourceIdsJson\":null,\"fullProject\":true,\"revokedAt\":null,\"revokeReason\":null,\"projectId\":153,\"userId\":267,\"actions\":\"READ,DECISION_READ,ISSUE_REVIEW,PERSON_READ,EXPORT,CONFIRM,SOURCE_VERIFY,GRANT_READ,DECISION_APPROVE\",\"ceilingJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST WB completion synthetic scope; no real payroll or approval\\\"}\",\"evidence\":\"CONTROLLED_ROOT:1394:TEST-WBC-20261022-REVIEWER-V1:5d0ca5dbde376ad5ee661169cf7f818fb754bfea5f8586d5ee73e2b7a3af1068\",\"validFrom\":[2026,10,1],\"validTo\":[2026,12,31]},\"account\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"accountActive\":true,\"effectiveAt\":\"2026-10-22T19:48:25.590\"},{\"rootId\":1394,\"rootVersion\":2,\"root\":{\"projectId\":153,\"anchorId\":4,\"userId\":267,\"actions\":[\"READ\",\"CONFIRM\",\"EXPORT\",\"SOURCE_VERIFY\",\"ISSUE_REVIEW\",\"DECISION_READ\",\"GRANT_READ\",\"PERSON_READ\",\"DECISION_APPROVE\"],\"delegableActions\":[],\"scopeJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST WB completion synthetic scope; no real payroll or approval\\\"}\",\"validFrom\":\"2026-10-01\",\"validTo\":\"2026-12-31\",\"materialVersion\":\"TEST-WBC-20261022-REVIEWER-V1\",\"body\":\"TEST synthetic project153 independent review and approval fixture for user267; not formal business authorization.\",\"reason\":\"TEST WBC task plan independent reviewer fixture, synthetic only\",\"state\":\"ACTIVE\",\"registeredBy\":266,\"registeredByFact\":{\"id\":266,\"nickname\":\"TEST S5 editor NEW DISPLAY\",\"status\":0},\"registeredAt\":\"2026-10-22T11:29:24.336\",\"digest\":\"5d0ca5dbde376ad5ee661169cf7f818fb754bfea5f8586d5ee73e2b7a3af1068\",\"mode\":\"TEST\",\"anchorVersion\":\"TEST-S5-ANCHOR-V1\",\"designatedSignerId\":267,\"signedBy\":267,\"signedByFact\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"signedAt\":\"2026-10-22T11:31:00.110\",\"signatureReason\":\"TEST independent signer267; registered by266; reviewer grant project153 only, not actual business approval\",\"anchorFact\":{\"state\":\"REGISTERED\",\"mode\":\"TEST\",\"custodianId\":266,\"signerId\":267,\"actions\":[\"ASSIGN\",\"BASELINE_PUBLISH\",\"CONFIRM\",\"DECISION_APPROVE\",\"DECISION_EDIT\",\"DECISION_READ\",\"EDIT\",\"EXPORT\",\"GRANT_READ\",\"ISSUE_HANDLE\",\"ISSUE_MANAGE\",\"ISSUE_REVIEW\",\"MEMBER\",\"META\",\"PERSON_READ\",\"PROJECT_CREATE\",\"READ\",\"SCOPE\",\"SCOPE_DECIDE\",\"SOURCE_EDIT\",\"SOURCE_VERIFY\"],\"scopeJson\":\"{\\\"entities\\\": [101, 102], \\\"organizations\\\": [201], \\\"workerTypes\\\": [\\\"TEST\\\"], \\\"scenarios\\\": [\\\"TEST\\\"], \\\"from\\\": \\\"2026-10-01\\\", \\\"to\\\": \\\"2026-12-31\\\", \\\"explanation\\\": \\\"TEST S5 independent synthetic project scope, not actual approval\\\"}\",\"validFrom\":\"2026-01-01\",\"validTo\":\"2027-12-31\",\"body\":\"TEST S5 independent synthetic authority material V1. This is an externally registered TEST fixture, not a formal business authorization. Custodian and signer are two independent TEST accounts. Only synthetic TEST projects, subjects 101/102, organization 201, TEST workforce/scenarios and the registered 2026-10 through 2026-12 scope are authorized. It cannot grant formal business approval.\",\"digest\":\"8496a1b848b511bc2d861ef361314fa4c75918e0bdd97b5c91b9426b98174109\",\"materialVersion\":\"TEST-S5-ANCHOR-V1\",\"registeredAt\":\"2026-10-19T17:02:34.410401+08:00\",\"registrationSource\":\"TEST independently registered synthetic trust material; no current decision grants its own approval authority\"}}}]}}],\"authority\":[{\"grant\":{\"createTime\":1792672141000,\"updateTime\":1792672141000,\"creator\":\"267\",\"updater\":\"267\",\"deleted\":false,\"id\":525,\"rootRecordId\":1416,\"authorityFactsJson\":\"{\\\"grantorAtGrant\\\":{\\\"id\\\":267,\\\"nickname\\\":\\\"TEST S5 approver NEW DISPLAY\\\",\\\"status\\\":0},\\\"recipientAtGrant\\\":{\\\"id\\\":279,\\\"nickname\\\":\\\"TEST S6 reassign\\\",\\\"status\\\":0},\\\"rootId\\\":1416,\\\"rootVersion\\\":2,\\\"rootBodyDigest\\\":\\\"9a247b127bf6aaee32eccf0d82898b956d63e4cc5b4c9f682b7ad7c5e8c42ff2\\\",\\\"grantedAt\\\":\\\"2026-10-22T20:29:01.189\\\"}\",\"parentGrantId\":null,\"grantorId\":267,\"grantVersion\":1,\"delegableActions\":\"\",\"modulesJson\":null,\"requirementIdsJson\":null,\"sourceIdsJson\":null,\"fullProject\":true,\"revokedAt\":null,\"revokeReason\":null,\"projectId\":153,\"userId\":279,\"actions\":\"READ,CONFIRM\",\"ceilingJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\",\"evidence\":\"CONTROLLED_ROOT:1416:TEST-WBC-T02-SUCCESSOR279-V1:9a247b127bf6aaee32eccf0d82898b956d63e4cc5b4c9f682b7ad7c5e8c42ff2\",\"validFrom\":[2026,10,1],\"validTo\":[2026,10,31]},\"account\":{\"id\":279,\"nickname\":\"TEST S6 reassign\",\"status\":0},\"accountActive\":true,\"effectiveAt\":\"2026-10-23T15:07:19.092\"},{\"rootId\":1416,\"rootVersion\":2,\"root\":{\"projectId\":153,\"anchorId\":4,\"userId\":279,\"actions\":[\"READ\",\"CONFIRM\"],\"delegableActions\":[],\"scopeJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\",\"validFrom\":\"2026-10-01\",\"validTo\":\"2026-10-31\",\"materialVersion\":\"TEST-WBC-T02-SUCCESSOR279-V1\",\"body\":\"TEST synthetic authorization for successor 279 in project153 only; READ and CONFIRM; not formal business approval.\",\"reason\":\"TEST T02 revoke old reviewer and reassign valid successor, isolated synthetic fixture.\",\"state\":\"ACTIVE\",\"registeredBy\":266,\"registeredByFact\":{\"id\":266,\"nickname\":\"TEST S5 editor NEW DISPLAY\",\"status\":0},\"registeredAt\":\"2026-10-22T20:27:59.296\",\"digest\":\"9a247b127bf6aaee32eccf0d82898b956d63e4cc5b4c9f682b7ad7c5e8c42ff2\",\"mode\":\"TEST\",\"anchorVersion\":\"TEST-S5-ANCHOR-V1\",\"designatedSignerId\":267,\"signedBy\":267,\"signedByFact\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"signedAt\":\"2026-10-22T20:29:01.181\",\"signatureReason\":\"TEST independent signer267 activates project153 successor279 READ and CONFIRM only; synthetic regression, not formal approval.\",\"anchorFact\":{\"state\":\"REGISTERED\",\"mode\":\"TEST\",\"custodianId\":266,\"signerId\":267,\"actions\":[\"ASSIGN\",\"BASELINE_PUBLISH\",\"CONFIRM\",\"DECISION_APPROVE\",\"DECISION_EDIT\",\"DECISION_READ\",\"EDIT\",\"EXPORT\",\"GRANT_READ\",\"ISSUE_HANDLE\",\"ISSUE_MANAGE\",\"ISSUE_REVIEW\",\"MEMBER\",\"META\",\"PERSON_READ\",\"PROJECT_CREATE\",\"READ\",\"SCOPE\",\"SCOPE_DECIDE\",\"SOURCE_EDIT\",\"SOURCE_VERIFY\"],\"scopeJson\":\"{\\\"entities\\\": [101, 102], \\\"organizations\\\": [201], \\\"workerTypes\\\": [\\\"TEST\\\"], \\\"scenarios\\\": [\\\"TEST\\\"], \\\"from\\\": \\\"2026-10-01\\\", \\\"to\\\": \\\"2026-12-31\\\", \\\"explanation\\\": \\\"TEST S5 independent synthetic project scope, not actual approval\\\"}\",\"validFrom\":\"2026-01-01\",\"validTo\":\"2027-12-31\",\"body\":\"TEST S5 independent synthetic authority material V1. This is an externally registered TEST fixture, not a formal business authorization. Custodian and signer are two independent TEST accounts. Only synthetic TEST projects, subjects 101/102, organization 201, TEST workforce/scenarios and the registered 2026-10 through 2026-12 scope are authorized. It cannot grant formal business approval.\",\"digest\":\"8496a1b848b511bc2d861ef361314fa4c75918e0bdd97b5c91b9426b98174109\",\"materialVersion\":\"TEST-S5-ANCHOR-V1\",\"registeredAt\":\"2026-10-19T17:02:34.410401+08:00\",\"registrationSource\":\"TEST independently registered synthetic trust material; no current decision grants its own approval authority\"}}}],\"policySemantic\":\"ae9c820c90b95852138b75ac745339f8575ff688c12dc6137fdf28ef4af2b0b8\",\"checkedAt\":\"2026-10-23T15:07:19.093\"}}", "发布依据关联": "SUMMARY-1", "受限关联": null, "优先级": 2, "实施状态与证据": null, "协作历史": null } 关闭记录
+						827 container
+							828 heading 冻结记录与受控正文, Value: 2
+								829 text 冻结记录与受控正文
+							830 button 关闭此对话框
+						831 text {
+  "记录类型": "REQUIREMENT",
+  "记录号": "REQ-1845",
+  "需求ID": "1845",
+  "编号": "CUSTOM-0002",
+  "模块": "COL",
+  "功能": "TEST_WBC_T04_T07_规格确认与供数待提供分离\n中文换行验收：本需求仅验证本机工程规格基线，不处理真实工资。",
+  "业务场景与字段": {
+    "page": "/hrm-payroll/review",
+    "contextModule": "COL",
+    "targetType": "MODULE",
+    "anchor": "module",
+    "role": "TEST需求编辑266、独立确认279、来源核验267",
+    "scenario": "2026年10月TEST规格评审，来源已定义而供给待提供。",
+    "goal": "将规格确认与数据可用分别判断并保留责任和证据。",
+    "expected": "本人确认完整规格后可发布基线，未交付数据持续标为未就绪。",
+    "normalCase": "TEST-EMP-001于2026-10的合成字段employee_key有规格映射，数据尚未提供。",
+    "exceptionCase": "没有语义核验不得确认；数据待提供不可标为可投产。",
+    "calculation": "仅规格字段employee_key原样映射，不进行工资计算；工资金额计算不适用。",
+    "unit": "employee_key为字符串标识，无金额单位。",
+    "precision": "字符串原值匹配，不舍入；金额精度不适用。",
+    "validity": "范围版本5，主体101/组织201/TEST，2026-10-01至2026-10-31。",
+    "ruleException": "缺交付产生DATA_READINESS问题，不篡改语义核验；发现规格问题重新评审。",
+    "disputeOwnerId": 266,
+    "nextStep": "TEST：由266回应映射第三版说明，再交279本人重新确认。"
+  },
+  "功能评审": "CONFIRMED",
+  "当前签字有效（发布时）": true,
+  "范围决策": "INCLUDED",
+  "版本": 12,
+  "语义版本": 8,
+  "来源适用性": "APPLICABLE",
+  "不适用理由": "",
+  "评审人ID": "279",
+  "评审人当时姓名": "TEST S6 reassign",
+  "确认时间": 1792739239000,
+  "验收条件": "仅主体101、组织201、TEST人员和场景、2026年10月；独立评审人按当前范围本人确认；数据未就绪明确披露，规格基线允许发布；不等同于数据投产。",
+  "规则版本": "TEST-WBC-SPEC-COL-20261023-V1",
+  "依据": "TEST T09回应：映射第三版明确TEST前缀检查；语义核验与当前范围一致，交付仍PENDING，保持DATA_READINESS未决且不冒充投产。请279本人复核确认。",
+  "确认引用元组": "{\"tenantId\":1,\"projectId\":153,\"projectScopeVersion\":5,\"resolvedScopeDigest\":\"579dfbeb3216684338221546e8bb6c805e0a7b1061e32038a56b934ba90490e1\",\"requirementId\":1845,\"semanticVersion\":8,\"applicability\":\"APPLICABLE\",\"applicabilityReason\":\"\",\"sources\":[{\"sourceId\":3578,\"semanticVersion\":1,\"relationId\":3583,\"mappingVersion\":3}],\"ruleVersion\":\"TEST-WBC-SPEC-COL-20261023-V1\",\"confirmedBy\":279,\"confirmedAt\":\"2026-10-23T15:07:19.087\",\"authority\":[{\"grantId\":525,\"grantVersion\":1,\"parentGrantId\":null,\"actions\":\"READ,CONFIRM\",\"ceiling\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\",\"requirementIds\":null,\"sourceIds\":null,\"validFrom\":[2026,10,1],\"validTo\":[2026,10,31],\"basis\":\"CONTROLLED_ROOT:1416:TEST-WBC-T02-SUCCESSOR279-V1:9a247b127bf6aaee32eccf0d82898b956d63e4cc5b4c9f682b7ad7c5e8c42ff2\"},{\"grantId\":526,\"grantVersion\":1,\"parentGrantId\":null,\"actions\":\"READ,ISSUE_REVIEW\",\"ceiling\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\",\"requirementIds\":null,\"sourceIds\":null,\"validFrom\":[2026,10,1],\"validTo\":[2026,10,31],\"basis\":\"CONTROLLED_ROOT:1419:TEST-WBC-T03-ISSUE-REVIEW279-V1:dc9d9cdf193127e4e91dcde7589fa089ccb37e85fddc8bf9d9d9a01327260fda\"}],\"governance\":{\"decisions\":[{\"recordId\":1407,\"recordVersion\":3,\"lifecycleAtAction\":\"EFFECTIVE\",\"decision\":{\"projectId\":153,\"projectScopeVersion\":5,\"previousId\":1402,\"title\":\"TEST-WBC-T01确认条件合成决议\",\"questions\":[\"Q-02\",\"Q-04\",\"Q-05\"],\"clauses\":\"TEST Q-02角色分离，Q-04范围绑定，Q-05确认依据\",\"clauseVersion\":\"TEST-WBC-T01-V3-SCOPE5\",\"body\":\"TEST工程夹具，仅验证本项目153的当前范围、独立确认和不适用理由；无真实业务批准效力。\",\"scopeJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\",\"validFrom\":\"2026-10-01\",\"validTo\":\"2026-10-31\",\"approverId\":267,\"approvalConditions\":\"TEST 限合成项目153，不用于正式工资或生产发布\",\"semanticChange\":false,\"otherQuestions\":{},\"reason\":\"TEST 可见范围提示补验完成，绑定恢复后的范围5；非正式业务批准\",\"decisionId\":\"8909366b-d392-42e1-804b-fb6dbab8e242\",\"decisionVersion\":3,\"state\":\"APPROVED\",\"createdBy\":266,\"createdAt\":\"2026-10-22T19:47:14.682\",\"digest\":\"d534432adb5fa4ce50f16b742a143f5120ee1ff2598cd3db3c41feff7cc3d968\",\"draftAuthority\":[{\"grant\":{\"createTime\":1792639848000,\"updateTime\":1792639848000,\"creator\":\"267\",\"updater\":\"267\",\"deleted\":false,\"id\":522,\"rootRecordId\":1392,\"authorityFactsJson\":\"{\\\"grantorAtGrant\\\":{\\\"id\\\":267,\\\"nickname\\\":\\\"TEST S5 approver NEW DISPLAY\\\",\\\"status\\\":0},\\\"recipientAtGrant\\\":{\\\"id\\\":266,\\\"nickname\\\":\\\"TEST S5 editor NEW DISPLAY\\\",\\\"status\\\":0},\\\"rootId\\\":1392,\\\"rootVersion\\\":2,\\\"rootBodyDigest\\\":\\\"9dc64807b2419df8cf7dc2f21c840868f3ebb232aa5f6077792c381f58329ddd\\\",\\\"grantedAt\\\":\\\"2026-10-22T11:30:48.090\\\"}\",\"parentGrantId\":null,\"grantorId\":267,\"grantVersion\":1,\"delegableActions\":\"\",\"modulesJson\":null,\"requirementIdsJson\":null,\"sourceIdsJson\":null,\"fullProject\":true,\"revokedAt\":null,\"revokeReason\":null,\"projectId\":153,\"userId\":266,\"actions\":\"META,ISSUE_HANDLE,SCOPE,SCOPE_DECIDE,EXPORT,EDIT,SOURCE_EDIT,ASSIGN,GRANT_READ,MEMBER,DECISION_EDIT,READ,DECISION_READ,BASELINE_PUBLISH,PERSON_READ,SOURCE_VERIFY,ISSUE_MANAGE\",\"ceilingJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST WB completion synthetic scope; no real payroll or approval\\\"}\",\"evidence\":\"CONTROLLED_ROOT:1392:TEST-WBC-20261022-EDITOR-V1:9dc64807b2419df8cf7dc2f21c840868f3ebb232aa5f6077792c381f58329ddd\",\"validFrom\":[2026,10,1],\"validTo\":[2026,12,31]},\"account\":{\"id\":266,\"nickname\":\"TEST S5 editor NEW DISPLAY\",\"status\":0},\"accountActive\":true,\"effectiveAt\":\"2026-10-22T19:47:14.675\"},{\"rootId\":1392,\"rootVersion\":2,\"root\":{\"projectId\":153,\"anchorId\":4,\"userId\":266,\"actions\":[\"READ\",\"META\",\"EDIT\",\"ASSIGN\",\"EXPORT\",\"MEMBER\",\"SCOPE\",\"SCOPE_DECIDE\",\"SOURCE_EDIT\",\"SOURCE_VERIFY\",\"ISSUE_MANAGE\",\"ISSUE_HANDLE\",\"DECISION_READ\",\"GRANT_READ\",\"PERSON_READ\",\"DECISION_EDIT\",\"BASELINE_PUBLISH\"],\"delegableActions\":[],\"scopeJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST WB completion synthetic scope; no real payroll or approval\\\"}\",\"validFrom\":\"2026-10-01\",\"validTo\":\"2026-12-31\",\"materialVersion\":\"TEST-WBC-20261022-EDITOR-V1\",\"body\":\"TEST synthetic authorization for project153 only, editor266; workflow regression, not formal business authorization.\",\"reason\":\"TEST WBC task plan synthetic fixture; independent signature required\",\"state\":\"ACTIVE\",\"registeredBy\":266,\"registeredByFact\":{\"id\":266,\"nickname\":\"TEST S5 editor NEW DISPLAY\",\"status\":0},\"registeredAt\":\"2026-10-22T11:28:56.282\",\"digest\":\"9dc64807b2419df8cf7dc2f21c840868f3ebb232aa5f6077792c381f58329ddd\",\"mode\":\"TEST\",\"anchorVersion\":\"TEST-S5-ANCHOR-V1\",\"designatedSignerId\":267,\"signedBy\":267,\"signedByFact\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"signedAt\":\"2026-10-22T11:30:48.077\",\"signatureReason\":\"TEST independent signature by267 for project153 editor266 fixture, synthetic not formal approval\",\"anchorFact\":{\"state\":\"REGISTERED\",\"mode\":\"TEST\",\"custodianId\":266,\"signerId\":267,\"actions\":[\"ASSIGN\",\"BASELINE_PUBLISH\",\"CONFIRM\",\"DECISION_APPROVE\",\"DECISION_EDIT\",\"DECISION_READ\",\"EDIT\",\"EXPORT\",\"GRANT_READ\",\"ISSUE_HANDLE\",\"ISSUE_MANAGE\",\"ISSUE_REVIEW\",\"MEMBER\",\"META\",\"PERSON_READ\",\"PROJECT_CREATE\",\"READ\",\"SCOPE\",\"SCOPE_DECIDE\",\"SOURCE_EDIT\",\"SOURCE_VERIFY\"],\"scopeJson\":\"{\\\"entities\\\": [101, 102], \\\"organizations\\\": [201], \\\"workerTypes\\\": [\\\"TEST\\\"], \\\"scenarios\\\": [\\\"TEST\\\"], \\\"from\\\": \\\"2026-10-01\\\", \\\"to\\\": \\\"2026-12-31\\\", \\\"explanation\\\": \\\"TEST S5 independent synthetic project scope, not actual approval\\\"}\",\"validFrom\":\"2026-01-01\",\"validTo\":\"2027-12-31\",\"body\":\"TEST S5 independent synthetic authority material V1. This is an externally registered TEST fixture, not a formal business authorization. Custodian and signer are two independent TEST accounts. Only synthetic TEST projects, subjects 101/102, organization 201, TEST workforce/scenarios and the registered 2026-10 through 2026-12 scope are authorized. It cannot grant formal business approval.\",\"digest\":\"8496a1b848b511bc2d861ef361314fa4c75918e0bdd97b5c91b9426b98174109\",\"materialVersion\":\"TEST-S5-ANCHOR-V1\",\"registeredAt\":\"2026-10-19T17:02:34.410401+08:00\",\"registrationSource\":\"TEST independently registered synthetic trust material; no current decision grants its own approval authority\"}}}],\"approvedBy\":267,\"approvedAt\":\"2026-10-22T19:48:25.600\",\"approvalReason\":\"TEST 267独立测试批准1407，限项目153范围5；不构成正式业务批准\",\"approvalAuthority\":[{\"grant\":{\"createTime\":1792639860000,\"updateTime\":1792639860000,\"creator\":\"267\",\"updater\":\"267\",\"deleted\":false,\"id\":523,\"rootRecordId\":1394,\"authorityFactsJson\":\"{\\\"grantorAtGrant\\\":{\\\"id\\\":267,\\\"nickname\\\":\\\"TEST S5 approver NEW DISPLAY\\\",\\\"status\\\":0},\\\"recipientAtGrant\\\":{\\\"id\\\":267,\\\"nickname\\\":\\\"TEST S5 approver NEW DISPLAY\\\",\\\"status\\\":0},\\\"rootId\\\":1394,\\\"rootVersion\\\":2,\\\"rootBodyDigest\\\":\\\"5d0ca5dbde376ad5ee661169cf7f818fb754bfea5f8586d5ee73e2b7a3af1068\\\",\\\"grantedAt\\\":\\\"2026-10-22T11:31:00.119\\\"}\",\"parentGrantId\":null,\"grantorId\":267,\"grantVersion\":1,\"delegableActions\":\"\",\"modulesJson\":null,\"requirementIdsJson\":null,\"sourceIdsJson\":null,\"fullProject\":true,\"revokedAt\":null,\"revokeReason\":null,\"projectId\":153,\"userId\":267,\"actions\":\"READ,DECISION_READ,ISSUE_REVIEW,PERSON_READ,EXPORT,CONFIRM,SOURCE_VERIFY,GRANT_READ,DECISION_APPROVE\",\"ceilingJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST WB completion synthetic scope; no real payroll or approval\\\"}\",\"evidence\":\"CONTROLLED_ROOT:1394:TEST-WBC-20261022-REVIEWER-V1:5d0ca5dbde376ad5ee661169cf7f818fb754bfea5f8586d5ee73e2b7a3af1068\",\"validFrom\":[2026,10,1],\"validTo\":[2026,12,31]},\"account\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"accountActive\":true,\"effectiveAt\":\"2026-10-22T19:48:25.590\"},{\"rootId\":1394,\"rootVersion\":2,\"root\":{\"projectId\":153,\"anchorId\":4,\"userId\":267,\"actions\":[\"READ\",\"CONFIRM\",\"EXPORT\",\"SOURCE_VERIFY\",\"ISSUE_REVIEW\",\"DECISION_READ\",\"GRANT_READ\",\"PERSON_READ\",\"DECISION_APPROVE\"],\"delegableActions\":[],\"scopeJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST WB completion synthetic scope; no real payroll or approval\\\"}\",\"validFrom\":\"2026-10-01\",\"validTo\":\"2026-12-31\",\"materialVersion\":\"TEST-WBC-20261022-REVIEWER-V1\",\"body\":\"TEST synthetic project153 independent review and approval fixture for user267; not formal business authorization.\",\"reason\":\"TEST WBC task plan independent reviewer fixture, synthetic only\",\"state\":\"ACTIVE\",\"registeredBy\":266,\"registeredByFact\":{\"id\":266,\"nickname\":\"TEST S5 editor NEW DISPLAY\",\"status\":0},\"registeredAt\":\"2026-10-22T11:29:24.336\",\"digest\":\"5d0ca5dbde376ad5ee661169cf7f818fb754bfea5f8586d5ee73e2b7a3af1068\",\"mode\":\"TEST\",\"anchorVersion\":\"TEST-S5-ANCHOR-V1\",\"designatedSignerId\":267,\"signedBy\":267,\"signedByFact\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"signedAt\":\"2026-10-22T11:31:00.110\",\"signatureReason\":\"TEST independent signer267; registered by266; reviewer grant project153 only, not actual business approval\",\"anchorFact\":{\"state\":\"REGISTERED\",\"mode\":\"TEST\",\"custodianId\":266,\"signerId\":267,\"actions\":[\"ASSIGN\",\"BASELINE_PUBLISH\",\"CONFIRM\",\"DECISION_APPROVE\",\"DECISION_EDIT\",\"DECISION_READ\",\"EDIT\",\"EXPORT\",\"GRANT_READ\",\"ISSUE_HANDLE\",\"ISSUE_MANAGE\",\"ISSUE_REVIEW\",\"MEMBER\",\"META\",\"PERSON_READ\",\"PROJECT_CREATE\",\"READ\",\"SCOPE\",\"SCOPE_DECIDE\",\"SOURCE_EDIT\",\"SOURCE_VERIFY\"],\"scopeJson\":\"{\\\"entities\\\": [101, 102], \\\"organizations\\\": [201], \\\"workerTypes\\\": [\\\"TEST\\\"], \\\"scenarios\\\": [\\\"TEST\\\"], \\\"from\\\": \\\"2026-10-01\\\", \\\"to\\\": \\\"2026-12-31\\\", \\\"explanation\\\": \\\"TEST S5 independent synthetic project scope, not actual approval\\\"}\",\"validFrom\":\"2026-01-01\",\"validTo\":\"2027-12-31\",\"body\":\"TEST S5 independent synthetic authority material V1. This is an externally registered TEST fixture, not a formal business authorization. Custodian and signer are two independent TEST accounts. Only synthetic TEST projects, subjects 101/102, organization 201, TEST workforce/scenarios and the registered 2026-10 through 2026-12 scope are authorized. It cannot grant formal business approval.\",\"digest\":\"8496a1b848b511bc2d861ef361314fa4c75918e0bdd97b5c91b9426b98174109\",\"materialVersion\":\"TEST-S5-ANCHOR-V1\",\"registeredAt\":\"2026-10-19T17:02:34.410401+08:00\",\"registrationSource\":\"TEST independently registered synthetic trust material; no current decision grants its own approval authority\"}}}]}}],\"authority\":[{\"grant\":{\"createTime\":1792672141000,\"updateTime\":1792672141000,\"creator\":\"267\",\"updater\":\"267\",\"deleted\":false,\"id\":525,\"rootRecordId\":1416,\"authorityFactsJson\":\"{\\\"grantorAtGrant\\\":{\\\"id\\\":267,\\\"nickname\\\":\\\"TEST S5 approver NEW DISPLAY\\\",\\\"status\\\":0},\\\"recipientAtGrant\\\":{\\\"id\\\":279,\\\"nickname\\\":\\\"TEST S6 reassign\\\",\\\"status\\\":0},\\\"rootId\\\":1416,\\\"rootVersion\\\":2,\\\"rootBodyDigest\\\":\\\"9a247b127bf6aaee32eccf0d82898b956d63e4cc5b4c9f682b7ad7c5e8c42ff2\\\",\\\"grantedAt\\\":\\\"2026-10-22T20:29:01.189\\\"}\",\"parentGrantId\":null,\"grantorId\":267,\"grantVersion\":1,\"delegableActions\":\"\",\"modulesJson\":null,\"requirementIdsJson\":null,\"sourceIdsJson\":null,\"fullProject\":true,\"revokedAt\":null,\"revokeReason\":null,\"projectId\":153,\"userId\":279,\"actions\":\"READ,CONFIRM\",\"ceilingJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\",\"evidence\":\"CONTROLLED_ROOT:1416:TEST-WBC-T02-SUCCESSOR279-V1:9a247b127bf6aaee32eccf0d82898b956d63e4cc5b4c9f682b7ad7c5e8c42ff2\",\"validFrom\":[2026,10,1],\"validTo\":[2026,10,31]},\"account\":{\"id\":279,\"nickname\":\"TEST S6 reassign\",\"status\":0},\"accountActive\":true,\"effectiveAt\":\"2026-10-23T15:07:19.092\"},{\"rootId\":1416,\"rootVersion\":2,\"root\":{\"projectId\":153,\"anchorId\":4,\"userId\":279,\"actions\":[\"READ\",\"CONFIRM\"],\"delegableActions\":[],\"scopeJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\",\"validFrom\":\"2026-10-01\",\"validTo\":\"2026-10-31\",\"materialVersion\":\"TEST-WBC-T02-SUCCESSOR279-V1\",\"body\":\"TEST synthetic authorization for successor 279 in project153 only; READ and CONFIRM; not formal business approval.\",\"reason\":\"TEST T02 revoke old reviewer and reassign valid successor, isolated synthetic fixture.\",\"state\":\"ACTIVE\",\"registeredBy\":266,\"registeredByFact\":{\"id\":266,\"nickname\":\"TEST S5 editor NEW DISPLAY\",\"status\":0},\"registeredAt\":\"2026-10-22T20:27:59.296\",\"digest\":\"9a247b127bf6aaee32eccf0d82898b956d63e4cc5b4c9f682b7ad7c5e8c42ff2\",\"mode\":\"TEST\",\"anchorVersion\":\"TEST-S5-ANCHOR-V1\",\"designatedSignerId\":267,\"signedBy\":267,\"signedByFact\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"signedAt\":\"2026-10-22T20:29:01.181\",\"signatureReason\":\"TEST independent signer267 activates project153 successor279 READ and CONFIRM only; synthetic regression, not formal approval.\",\"anchorFact\":{\"state\":\"REGISTERED\",\"mode\":\"TEST\",\"custodianId\":266,\"signerId\":267,\"actions\":[\"ASSIGN\",\"BASELINE_PUBLISH\",\"CONFIRM\",\"DECISION_APPROVE\",\"DECISION_EDIT\",\"DECISION_READ\",\"EDIT\",\"EXPORT\",\"GRANT_READ\",\"ISSUE_HANDLE\",\"ISSUE_MANAGE\",\"ISSUE_REVIEW\",\"MEMBER\",\"META\",\"PERSON_READ\",\"PROJECT_CREATE\",\"READ\",\"SCOPE\",\"SCOPE_DECIDE\",\"SOURCE_EDIT\",\"SOURCE_VERIFY\"],\"scopeJson\":\"{\\\"entities\\\": [101, 102], \\\"organizations\\\": [201], \\\"workerTypes\\\": [\\\"TEST\\\"], \\\"scenarios\\\": [\\\"TEST\\\"], \\\"from\\\": \\\"2026-10-01\\\", \\\"to\\\": \\\"2026-12-31\\\", \\\"explanation\\\": \\\"TEST S5 independent synthetic project scope, not actual approval\\\"}\",\"validFrom\":\"2026-01-01\",\"validTo\":\"2027-12-31\",\"body\":\"TEST S5 independent synthetic authority material V1. This is an externally registered TEST fixture, not a formal business authorization. Custodian and signer are two independent TEST accounts. Only synthetic TEST projects, subjects 101/102, organization 201, TEST workforce/scenarios and the registered 2026-10 through 2026-12 scope are authorized. It cannot grant formal business approval.\",\"digest\":\"8496a1b848b511bc2d861ef361314fa4c75918e0bdd97b5c91b9426b98174109\",\"materialVersion\":\"TEST-S5-ANCHOR-V1\",\"registeredAt\":\"2026-10-19T17:02:34.410401+08:00\",\"registrationSource\":\"TEST independently registered synthetic trust material; no current decision grants its own approval authority\"}}}],\"policySemantic\":\"ae9c820c90b95852138b75ac745339f8575ff688c12dc6137fdf28ef4af2b0b8\",\"checkedAt\":\"2026-10-23T15:07:19.093\"}}",
+  "发布依据关联": "SUMMARY-1",
+  "受限关联": null,
+  "优先级": 2,
+  "实施状态与证据": null,
+  "协作历史": null
+}
+						832 button 关闭记录
+			425 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 826 container { "记录类型": "REQUIREMENT", "记录号": "REQ-1845", "需求ID": "1845", "编号": "CUSTOM-0002", "模块": "COL", "功能": "TEST_WBC_T04_T07_规格确认与供数待提供分离\n中文换行验收：本需求仅验证本机工程规格基线，不处理真实工资。", "业务场景与字段": { "page": "/hrm-payroll/review", "contextModule": "COL", "targetType": "MODULE", "anchor": "module", "role": "TEST需求编辑266、独立确认279、来源核验267", "scenario": "2026年10月TEST规格评审，来源已定义而供给待提供。", "goal": "将规格确认与数据可用分别判断并保留责任和证据。", "expected": "本人确认完整规格后可发布基线，未交付数据持续标为未就绪。", "normalCase": "TEST-EMP-001于2026-10的合成字段employee_key有规格映射，数据尚未提供。", "exceptionCase": "没有语义核验不得确认；数据待提供不可标为可投产。", "calculation": "仅规格字段employee_key原样映射，不进行工资计算；工资金额计算不适用。", "unit": "employee_key为字符串标识，无金额单位。", "precision": "字符串原值匹配，不舍入；金额精度不适用。", "validity": "范围版本5，主体101/组织201/TEST，2026-10-01至2026-10-31。", "ruleException": "缺交付产生DATA_READINESS问题，不篡改语义核验；发现规格问题重新评审。", "disputeOwnerId": 266, "nextStep": "TEST：由266回应映射第三版说明，再交279本人重新确认。" }, "功能评审": "CONFIRMED", "当前签字有效（发布时）": true, "范围决策": "INCLUDED", "版本": 12, "语义版本": 8, "来源适用性": "APPLICABLE", "不适用理由": "", "评审人ID": "279", "评审人当时姓名": "TEST S6 reassign", "确认时间": 1792739239000, "验收条件": "仅主体101、组织201、TEST人员和场景、2026年10月；独立评审人按当前范围本人确认；数据未就绪明确披露，规格基线允许发布；不等同于数据投产。", "规则版本": "TEST-WBC-SPEC-COL-20261023-V1", "依据": "TEST T09回应：映射第三版明确TEST前缀检查；语义核验与当前范围一致，交付仍PENDING，保持DATA_READINESS未决且不冒充投产。请279本人复核确认。", "确认引用元组": "{\"tenantId\":1,\"projectId\":153,\"projectScopeVersion\":5,\"resolvedScopeDigest\":\"579dfbeb3216684338221546e8bb6c805e0a7b1061e32038a56b934ba90490e1\",\"requirementId\":1845,\"semanticVersion\":8,\"applicability\":\"APPLICABLE\",\"applicabilityReason\":\"\",\"sources\":[{\"sourceId\":3578,\"semanticVersion\":1,\"relationId\":3583,\"mappingVersion\":3}],\"ruleVersion\":\"TEST-WBC-SPEC-COL-20261023-V1\",\"confirmedBy\":279,\"confirmedAt\":\"2026-10-23T15:07:19.087\",\"authority\":[{\"grantId\":525,\"grantVersion\":1,\"parentGrantId\":null,\"actions\":\"READ,CONFIRM\",\"ceiling\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\",\"requirementIds\":null,\"sourceIds\":null,\"validFrom\":[2026,10,1],\"validTo\":[2026,10,31],\"basis\":\"CONTROLLED_ROOT:1416:TEST-WBC-T02-SUCCESSOR279-V1:9a247b127bf6aaee32eccf0d82898b956d63e4cc5b4c9f682b7ad7c5e8c42ff2\"},{\"grantId\":526,\"grantVersion\":1,\"parentGrantId\":null,\"actions\":\"READ,ISSUE_REVIEW\",\"ceiling\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\",\"requirementIds\":null,\"sourceIds\":null,\"validFrom\":[2026,10,1],\"validTo\":[2026,10,31],\"basis\":\"CONTROLLED_ROOT:1419:TEST-WBC-T03-ISSUE-REVIEW279-V1:dc9d9cdf193127e4e91dcde7589fa089ccb37e85fddc8bf9d9d9a01327260fda\"}],\"governance\":{\"decisions\":[{\"recordId\":1407,\"recordVersion\":3,\"lifecycleAtAction\":\"EFFECTIVE\",\"decision\":{\"projectId\":153,\"projectScopeVersion\":5,\"previousId\":1402,\"title\":\"TEST-WBC-T01确认条件合成决议\",\"questions\":[\"Q-02\",\"Q-04\",\"Q-05\"],\"clauses\":\"TEST Q-02角色分离，Q-04范围绑定，Q-05确认依据\",\"clauseVersion\":\"TEST-WBC-T01-V3-SCOPE5\",\"body\":\"TEST工程夹具，仅验证本项目153的当前范围、独立确认和不适用理由；无真实业务批准效力。\",\"scopeJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\",\"validFrom\":\"2026-10-01\",\"validTo\":\"2026-10-31\",\"approverId\":267,\"approvalConditions\":\"TEST 限合成项目153，不用于正式工资或生产发布\",\"semanticChange\":false,\"otherQuestions\":{},\"reason\":\"TEST 可见范围提示补验完成，绑定恢复后的范围5；非正式业务批准\",\"decisionId\":\"8909366b-d392-42e1-804b-fb6dbab8e242\",\"decisionVersion\":3,\"state\":\"APPROVED\",\"createdBy\":266,\"createdAt\":\"2026-10-22T19:47:14.682\",\"digest\":\"d534432adb5fa4ce50f16b742a143f5120ee1ff2598cd3db3c41feff7cc3d968\",\"draftAuthority\":[{\"grant\":{\"createTime\":1792639848000,\"updateTime\":1792639848000,\"creator\":\"267\",\"updater\":\"267\",\"deleted\":false,\"id\":522,\"rootRecordId\":1392,\"authorityFactsJson\":\"{\\\"grantorAtGrant\\\":{\\\"id\\\":267,\\\"nickname\\\":\\\"TEST S5 approver NEW DISPLAY\\\",\\\"status\\\":0},\\\"recipientAtGrant\\\":{\\\"id\\\":266,\\\"nickname\\\":\\\"TEST S5 editor NEW DISPLAY\\\",\\\"status\\\":0},\\\"rootId\\\":1392,\\\"rootVersion\\\":2,\\\"rootBodyDigest\\\":\\\"9dc64807b2419df8cf7dc2f21c840868f3ebb232aa5f6077792c381f58329ddd\\\",\\\"grantedAt\\\":\\\"2026-10-22T11:30:48.090\\\"}\",\"parentGrantId\":null,\"grantorId\":267,\"grantVersion\":1,\"delegableActions\":\"\",\"modulesJson\":null,\"requirementIdsJson\":null,\"sourceIdsJson\":null,\"fullProject\":true,\"revokedAt\":null,\"revokeReason\":null,\"projectId\":153,\"userId\":266,\"actions\":\"META,ISSUE_HANDLE,SCOPE,SCOPE_DECIDE,EXPORT,EDIT,SOURCE_EDIT,ASSIGN,GRANT_READ,MEMBER,DECISION_EDIT,READ,DECISION_READ,BASELINE_PUBLISH,PERSON_READ,SOURCE_VERIFY,ISSUE_MANAGE\",\"ceilingJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST WB completion synthetic scope; no real payroll or approval\\\"}\",\"evidence\":\"CONTROLLED_ROOT:1392:TEST-WBC-20261022-EDITOR-V1:9dc64807b2419df8cf7dc2f21c840868f3ebb232aa5f6077792c381f58329ddd\",\"validFrom\":[2026,10,1],\"validTo\":[2026,12,31]},\"account\":{\"id\":266,\"nickname\":\"TEST S5 editor NEW DISPLAY\",\"status\":0},\"accountActive\":true,\"effectiveAt\":\"2026-10-22T19:47:14.675\"},{\"rootId\":1392,\"rootVersion\":2,\"root\":{\"projectId\":153,\"anchorId\":4,\"userId\":266,\"actions\":[\"READ\",\"META\",\"EDIT\",\"ASSIGN\",\"EXPORT\",\"MEMBER\",\"SCOPE\",\"SCOPE_DECIDE\",\"SOURCE_EDIT\",\"SOURCE_VERIFY\",\"ISSUE_MANAGE\",\"ISSUE_HANDLE\",\"DECISION_READ\",\"GRANT_READ\",\"PERSON_READ\",\"DECISION_EDIT\",\"BASELINE_PUBLISH\"],\"delegableActions\":[],\"scopeJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST WB completion synthetic scope; no real payroll or approval\\\"}\",\"validFrom\":\"2026-10-01\",\"validTo\":\"2026-12-31\",\"materialVersion\":\"TEST-WBC-20261022-EDITOR-V1\",\"body\":\"TEST synthetic authorization for project153 only, editor266; workflow regression, not formal business authorization.\",\"reason\":\"TEST WBC task plan synthetic fixture; independent signature required\",\"state\":\"ACTIVE\",\"registeredBy\":266,\"registeredByFact\":{\"id\":266,\"nickname\":\"TEST S5 editor NEW DISPLAY\",\"status\":0},\"registeredAt\":\"2026-10-22T11:28:56.282\",\"digest\":\"9dc64807b2419df8cf7dc2f21c840868f3ebb232aa5f6077792c381f58329ddd\",\"mode\":\"TEST\",\"anchorVersion\":\"TEST-S5-ANCHOR-V1\",\"designatedSignerId\":267,\"signedBy\":267,\"signedByFact\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"signedAt\":\"2026-10-22T11:30:48.077\",\"signatureReason\":\"TEST independent signature by267 for project153 editor266 fixture, synthetic not formal approval\",\"anchorFact\":{\"state\":\"REGISTERED\",\"mode\":\"TEST\",\"custodianId\":266,\"signerId\":267,\"actions\":[\"ASSIGN\",\"BASELINE_PUBLISH\",\"CONFIRM\",\"DECISION_APPROVE\",\"DECISION_EDIT\",\"DECISION_READ\",\"EDIT\",\"EXPORT\",\"GRANT_READ\",\"ISSUE_HANDLE\",\"ISSUE_MANAGE\",\"ISSUE_REVIEW\",\"MEMBER\",\"META\",\"PERSON_READ\",\"PROJECT_CREATE\",\"READ\",\"SCOPE\",\"SCOPE_DECIDE\",\"SOURCE_EDIT\",\"SOURCE_VERIFY\"],\"scopeJson\":\"{\\\"entities\\\": [101, 102], \\\"organizations\\\": [201], \\\"workerTypes\\\": [\\\"TEST\\\"], \\\"scenarios\\\": [\\\"TEST\\\"], \\\"from\\\": \\\"2026-10-01\\\", \\\"to\\\": \\\"2026-12-31\\\", \\\"explanation\\\": \\\"TEST S5 independent synthetic project scope, not actual approval\\\"}\",\"validFrom\":\"2026-01-01\",\"validTo\":\"2027-12-31\",\"body\":\"TEST S5 independent synthetic authority material V1. This is an externally registered TEST fixture, not a formal business authorization. Custodian and signer are two independent TEST accounts. Only synthetic TEST projects, subjects 101/102, organization 201, TEST workforce/scenarios and the registered 2026-10 through 2026-12 scope are authorized. It cannot grant formal business approval.\",\"digest\":\"8496a1b848b511bc2d861ef361314fa4c75918e0bdd97b5c91b9426b98174109\",\"materialVersion\":\"TEST-S5-ANCHOR-V1\",\"registeredAt\":\"2026-10-19T17:02:34.410401+08:00\",\"registrationSource\":\"TEST independently registered synthetic trust material; no current decision grants its own approval authority\"}}}],\"approvedBy\":267,\"approvedAt\":\"2026-10-22T19:48:25.600\",\"approvalReason\":\"TEST 267独立测试批准1407，限项目153范围5；不构成正式业务批准\",\"approvalAuthority\":[{\"grant\":{\"createTime\":1792639860000,\"updateTime\":1792639860000,\"creator\":\"267\",\"updater\":\"267\",\"deleted\":false,\"id\":523,\"rootRecordId\":1394,\"authorityFactsJson\":\"{\\\"grantorAtGrant\\\":{\\\"id\\\":267,\\\"nickname\\\":\\\"TEST S5 approver NEW DISPLAY\\\",\\\"status\\\":0},\\\"recipientAtGrant\\\":{\\\"id\\\":267,\\\"nickname\\\":\\\"TEST S5 approver NEW DISPLAY\\\",\\\"status\\\":0},\\\"rootId\\\":1394,\\\"rootVersion\\\":2,\\\"rootBodyDigest\\\":\\\"5d0ca5dbde376ad5ee661169cf7f818fb754bfea5f8586d5ee73e2b7a3af1068\\\",\\\"grantedAt\\\":\\\"2026-10-22T11:31:00.119\\\"}\",\"parentGrantId\":null,\"grantorId\":267,\"grantVersion\":1,\"delegableActions\":\"\",\"modulesJson\":null,\"requirementIdsJson\":null,\"sourceIdsJson\":null,\"fullProject\":true,\"revokedAt\":null,\"revokeReason\":null,\"projectId\":153,\"userId\":267,\"actions\":\"READ,DECISION_READ,ISSUE_REVIEW,PERSON_READ,EXPORT,CONFIRM,SOURCE_VERIFY,GRANT_READ,DECISION_APPROVE\",\"ceilingJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST WB completion synthetic scope; no real payroll or approval\\\"}\",\"evidence\":\"CONTROLLED_ROOT:1394:TEST-WBC-20261022-REVIEWER-V1:5d0ca5dbde376ad5ee661169cf7f818fb754bfea5f8586d5ee73e2b7a3af1068\",\"validFrom\":[2026,10,1],\"validTo\":[2026,12,31]},\"account\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"accountActive\":true,\"effectiveAt\":\"2026-10-22T19:48:25.590\"},{\"rootId\":1394,\"rootVersion\":2,\"root\":{\"projectId\":153,\"anchorId\":4,\"userId\":267,\"actions\":[\"READ\",\"CONFIRM\",\"EXPORT\",\"SOURCE_VERIFY\",\"ISSUE_REVIEW\",\"DECISION_READ\",\"GRANT_READ\",\"PERSON_READ\",\"DECISION_APPROVE\"],\"delegableActions\":[],\"scopeJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST WB completion synthetic scope; no real payroll or approval\\\"}\",\"validFrom\":\"2026-10-01\",\"validTo\":\"2026-12-31\",\"materialVersion\":\"TEST-WBC-20261022-REVIEWER-V1\",\"body\":\"TEST synthetic project153 independent review and approval fixture for user267; not formal business authorization.\",\"reason\":\"TEST WBC task plan independent reviewer fixture, synthetic only\",\"state\":\"ACTIVE\",\"registeredBy\":266,\"registeredByFact\":{\"id\":266,\"nickname\":\"TEST S5 editor NEW DISPLAY\",\"status\":0},\"registeredAt\":\"2026-10-22T11:29:24.336\",\"digest\":\"5d0ca5dbde376ad5ee661169cf7f818fb754bfea5f8586d5ee73e2b7a3af1068\",\"mode\":\"TEST\",\"anchorVersion\":\"TEST-S5-ANCHOR-V1\",\"designatedSignerId\":267,\"signedBy\":267,\"signedByFact\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"signedAt\":\"2026-10-22T11:31:00.110\",\"signatureReason\":\"TEST independent signer267; registered by266; reviewer grant project153 only, not actual business approval\",\"anchorFact\":{\"state\":\"REGISTERED\",\"mode\":\"TEST\",\"custodianId\":266,\"signerId\":267,\"actions\":[\"ASSIGN\",\"BASELINE_PUBLISH\",\"CONFIRM\",\"DECISION_APPROVE\",\"DECISION_EDIT\",\"DECISION_READ\",\"EDIT\",\"EXPORT\",\"GRANT_READ\",\"ISSUE_HANDLE\",\"ISSUE_MANAGE\",\"ISSUE_REVIEW\",\"MEMBER\",\"META\",\"PERSON_READ\",\"PROJECT_CREATE\",\"READ\",\"SCOPE\",\"SCOPE_DECIDE\",\"SOURCE_EDIT\",\"SOURCE_VERIFY\"],\"scopeJson\":\"{\\\"entities\\\": [101, 102], \\\"organizations\\\": [201], \\\"workerTypes\\\": [\\\"TEST\\\"], \\\"scenarios\\\": [\\\"TEST\\\"], \\\"from\\\": \\\"2026-10-01\\\", \\\"to\\\": \\\"2026-12-31\\\", \\\"explanation\\\": \\\"TEST S5 independent synthetic project scope, not actual approval\\\"}\",\"validFrom\":\"2026-01-01\",\"validTo\":\"2027-12-31\",\"body\":\"TEST S5 independent synthetic authority material V1. This is an externally registered TEST fixture, not a formal business authorization. Custodian and signer are two independent TEST accounts. Only synthetic TEST projects, subjects 101/102, organization 201, TEST workforce/scenarios and the registered 2026-10 through 2026-12 scope are authorized. It cannot grant formal business approval.\",\"digest\":\"8496a1b848b511bc2d861ef361314fa4c75918e0bdd97b5c91b9426b98174109\",\"materialVersion\":\"TEST-S5-ANCHOR-V1\",\"registeredAt\":\"2026-10-19T17:02:34.410401+08:00\",\"registrationSource\":\"TEST independently registered synthetic trust material; no current decision grants its own approval authority\"}}}]}}],\"authority\":[{\"grant\":{\"createTime\":1792672141000,\"updateTime\":1792672141000,\"creator\":\"267\",\"updater\":\"267\",\"deleted\":false,\"id\":525,\"rootRecordId\":1416,\"authorityFactsJson\":\"{\\\"grantorAtGrant\\\":{\\\"id\\\":267,\\\"nickname\\\":\\\"TEST S5 approver NEW DISPLAY\\\",\\\"status\\\":0},\\\"recipientAtGrant\\\":{\\\"id\\\":279,\\\"nickname\\\":\\\"TEST S6 reassign\\\",\\\"status\\\":0},\\\"rootId\\\":1416,\\\"rootVersion\\\":2,\\\"rootBodyDigest\\\":\\\"9a247b127bf6aaee32eccf0d82898b956d63e4cc5b4c9f682b7ad7c5e8c42ff2\\\",\\\"grantedAt\\\":\\\"2026-10-22T20:29:01.189\\\"}\",\"parentGrantId\":null,\"grantorId\":267,\"grantVersion\":1,\"delegableActions\":\"\",\"modulesJson\":null,\"requirementIdsJson\":null,\"sourceIdsJson\":null,\"fullProject\":true,\"revokedAt\":null,\"revokeReason\":null,\"projectId\":153,\"userId\":279,\"actions\":\"READ,CONFIRM\",\"ceilingJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\",\"evidence\":\"CONTROLLED_ROOT:1416:TEST-WBC-T02-SUCCESSOR279-V1:9a247b127bf6aaee32eccf0d82898b956d63e4cc5b4c9f682b7ad7c5e8c42ff2\",\"validFrom\":[2026,10,1],\"validTo\":[2026,10,31]},\"account\":{\"id\":279,\"nickname\":\"TEST S6 reassign\",\"status\":0},\"accountActive\":true,\"effectiveAt\":\"2026-10-23T15:07:19.092\"},{\"rootId\":1416,\"rootVersion\":2,\"root\":{\"projectId\":153,\"anchorId\":4,\"userId\":279,\"actions\":[\"READ\",\"CONFIRM\"],\"delegableActions\":[],\"scopeJson\":\"{\\\"entities\\\":[101],\\\"organizations\\\":[201],\\\"workerTypes\\\":[\\\"TEST\\\"],\\\"scenarios\\\":[\\\"TEST\\\"],\\\"from\\\":\\\"2026-10-01\\\",\\\"to\\\":\\\"2026-10-31\\\",\\\"explanation\\\":\\\"TEST isolated synthetic scope for WB completion; not formal approval\\\"}\",\"validFrom\":\"2026-10-01\",\"validTo\":\"2026-10-31\",\"materialVersion\":\"TEST-WBC-T02-SUCCESSOR279-V1\",\"body\":\"TEST synthetic authorization for successor 279 in project153 only; READ and CONFIRM; not formal business approval.\",\"reason\":\"TEST T02 revoke old reviewer and reassign valid successor, isolated synthetic fixture.\",\"state\":\"ACTIVE\",\"registeredBy\":266,\"registeredByFact\":{\"id\":266,\"nickname\":\"TEST S5 editor NEW DISPLAY\",\"status\":0},\"registeredAt\":\"2026-10-22T20:27:59.296\",\"digest\":\"9a247b127bf6aaee32eccf0d82898b956d63e4cc5b4c9f682b7ad7c5e8c42ff2\",\"mode\":\"TEST\",\"anchorVersion\":\"TEST-S5-ANCHOR-V1\",\"designatedSignerId\":267,\"signedBy\":267,\"signedByFact\":{\"id\":267,\"nickname\":\"TEST S5 approver NEW DISPLAY\",\"status\":0},\"signedAt\":\"2026-10-22T20:29:01.181\",\"signatureReason\":\"TEST independent signer267 activates project153 successor279 READ and CONFIRM only; synthetic regression, not formal approval.\",\"anchorFact\":{\"state\":\"REGISTERED\",\"mode\":\"TEST\",\"custodianId\":266,\"signerId\":267,\"actions\":[\"ASSIGN\",\"BASELINE_PUBLISH\",\"CONFIRM\",\"DECISION_APPROVE\",\"DECISION_EDIT\",\"DECISION_READ\",\"EDIT\",\"EXPORT\",\"GRANT_READ\",\"ISSUE_HANDLE\",\"ISSUE_MANAGE\",\"ISSUE_REVIEW\",\"MEMBER\",\"META\",\"PERSON_READ\",\"PROJECT_CREATE\",\"READ\",\"SCOPE\",\"SCOPE_DECIDE\",\"SOURCE_EDIT\",\"SOURCE_VERIFY\"],\"scopeJson\":\"{\\\"entities\\\": [101, 102], \\\"organizations\\\": [201], \\\"workerTypes\\\": [\\\"TEST\\\"], \\\"scenarios\\\": [\\\"TEST\\\"], \\\"from\\\": \\\"2026-10-01\\\", \\\"to\\\": \\\"2026-12-31\\\", \\\"explanation\\\": \\\"TEST S5 independent synthetic project scope, not actual approval\\\"}\",\"validFrom\":\"2026-01-01\",\"validTo\":\"2027-12-31\",\"body\":\"TEST S5 independent synthetic authority material V1. This is an externally registered TEST fixture, not a formal business authorization. Custodian and signer are two independent TEST accounts. Only synthetic TEST projects, subjects 101/102, organization 201, TEST workforce/scenarios and the registered 2026-10 through 2026-12 scope are authorized. It cannot grant formal business approval.\",\"digest\":\"8496a1b848b511bc2d861ef361314fa4c75918e0bdd97b5c91b9426b98174109\",\"materialVersion\":\"TEST-S5-ANCHOR-V1\",\"registeredAt\":\"2026-10-19T17:02:34.410401+08:00\",\"registrationSource\":\"TEST independently registered synthetic trust material; no current decision grants its own approval authority\"}}}],\"policySemantic\":\"ae9c820c90b95852138b75ac745339f8575ff688c12dc6137fdf28ef4af2b0b8\",\"checkedAt\":\"2026-10-23T15:07:19.093\"}}", "发布依据关联": "SUMMARY-1", "受限关联": null, "优先级": 2, "实施状态与证据": null, "协作历史": null } 关闭记录

@@ -1,0 +1,394 @@
+Browser tab: 1, Title: "芋道管理系统 - 业务决议与基线发布", URL: "http://127.0.0.1:5173/hrm-payroll/governance?projectId=105".
+1 AXWebArea 芋道管理系统 - 业务决议与基线发布, URL: 127.0.0.1:5173/hrm-payroll/governance?projectId=105
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			15 container
+				16 container v-tool-header
+					17 container 面包屑
+					18 container
+						19 container
+							20 combo box (collapsed, settable) ID: el-id-7273-61, Secondary Actions: Expand
+							21 text 请输入菜单内容
+					22 pop up button (collapsed) ID: el-id-7273-4, Secondary Actions: Expand
+					23 pop up button (collapsed) ID: el-id-7273-9, Secondary Actions: Expand
+					24 pop up button (collapsed) TEST S5 editor NEW DISPLAY, ID: el-id-7273-14, Secondary Actions: Expand
+				25 container v-tags-view
+					26 container
+						27 pop up button (collapsed) 首页, ID: el-id-7273-20, Secondary Actions: Expand
+							28 container
+								29 text 首页
+						30 pop up button (collapsed) 业务决议与基线发布, ID: el-id-7273-28, Secondary Actions: Expand
+							31 text 业务决议与基线发布
+					32 pop up button (collapsed) ID: el-id-7273-36, Secondary Actions: Expand
+			33 container
+				34 heading 业务决议、发布与快照导出, Value: 1
+					35 text 业务决议、发布与快照导出
+				36 text TEST材料及合成签署仅验证系统实现，不构成真实业务批准。正式授权根必须有实际有权业务人员提供的受控签署材料。
+				37 container
+					38 combo box (collapsed, settable) Description: 治理项目, ID: el-id-7273-62, Secondary Actions: Expand
+					39 text 105 · TEST S6 BROWSER_MAIN · 非正式批准
+					40 image
+				41 button 刷新决议与发布
+				42 button 返回十视图评审
+				43 button 需求、成员及实际来源
+				44 text TEST S6 BROWSER_MAIN · 非正式批准 · 范围版本 1
+				45 container 独立业务授权根
+					46 heading 独立业务授权根, Value: 2
+						47 text 独立业务授权根
+					48 text 登记与签署分开。授权依据读权独立，旧测试授权不会自动升级为正式授权。
+					49 button 登记授权根材料
+					50 container 授权根表，可横向滚动
+						51 container
+							52 table
+								53 row
+									54 cell
+										55 text 授权根ID
+									56 cell
+										57 text 记录版本
+									58 cell
+										59 text 材料版本
+									60 cell
+										61 text 材料性质
+									62 cell
+										63 text 签署状态
+									64 cell
+										65 text 被授权人ID
+									66 cell
+										67 text 操作
+							68 table
+								69 container
+									70 row
+										71 cell
+											72 text 471
+										73 cell
+											74 text 2
+										75 cell
+											76 text TEST-S6-ROOT-V1
+										77 cell
+											78 text TEST
+										79 cell
+											80 text ACTIVE
+										81 cell
+											82 text 266
+										83 cell
+											84 button 查看受控材料
+									85 row
+										86 cell
+											87 text 474
+										88 cell
+											89 text 2
+										90 cell
+											91 text TEST-S6-ROOT-V1
+										92 cell
+											93 text TEST
+										94 cell
+											95 text ACTIVE
+										96 cell
+											97 text 267
+										98 cell
+											99 button 查看受控材料
+									100 row
+										101 cell
+											102 text 1296
+										103 cell
+											104 text 2
+										105 cell
+											106 text TEST-S6-IAB-ROOT-V1
+										107 cell
+											108 text TEST
+										109 cell
+											110 text ACTIVE
+										111 cell
+											112 text 278
+										113 cell
+											114 button 查看受控材料
+									115 row
+										116 cell
+											117 text 1344
+										118 cell
+											119 text 2
+										120 cell
+											121 text TEST-S6-FINAL-DATE-V1
+										122 cell
+											123 text TEST
+										124 cell
+											125 text ACTIVE
+										126 cell
+											127 text 278
+										128 cell
+											129 button 查看受控材料
+									130 row
+										131 cell
+											132 text 1356
+										133 cell
+											134 text 1
+										135 cell
+											136 text TEST-FA01-PENDING
+										137 cell
+											138 text TEST
+										139 cell
+											140 text PENDING_SIGNATURE
+										141 cell
+											142 text 278
+										143 cell
+											144 button 查看受控材料
+				145 container 业务决议版本
+					146 heading 业务决议版本与独立批准, Value: 2
+						147 text 业务决议版本与独立批准
+					148 text 必须覆盖Q-01/02/04/05/07/10。Q-03/06/08/09另行决议或明确分类；正文修订建立新版本，批准和撤销保留原事实。
+					149 button 起草决议版本
+					150 container 决议表，可横向滚动
+						151 container
+							152 table
+								153 row
+									154 cell
+										155 text 版本记录ID
+									156 cell
+										157 text 决议标题
+									158 cell
+										159 text 决议版本
+									160 cell
+										161 text 覆盖问题
+									162 cell
+										163 text 当前生命周期
+									164 cell
+										165 text 指定批准人ID
+									166 cell
+										167 text 操作
+							168 table
+								169 container
+									170 row
+										171 cell
+											172 text 604
+										173 cell
+											174 text TEST S6 浏览器当前范围及授权矩阵合成决议
+										175 cell
+											176 text 1
+										177 cell
+											178 text Q-01,Q-02,Q-03,Q-04,Q-05,Q-06,Q-07,Q-08,Q-09,Q-10
+										179 cell
+											180 text REPLACED
+										181 cell
+											182 text 267
+										183 cell
+											184 container
+												185 button 查看版本正文
+												186 button 决议事件历史
+												187 button 基于此版本修订
+									188 row
+										189 cell
+											190 text 1370
+										191 cell
+											192 text TEST_TIMELINE_20261020 多角色复核决议修订
+										193 cell
+											194 text 2
+										195 cell
+											196 text Q-01,Q-02,Q-03,Q-04,Q-05,Q-06,Q-07,Q-08,Q-09,Q-10
+										197 cell
+											198 text EFFECTIVE
+										199 cell
+											200 text 267
+										201 cell
+											202 container
+												203 button 查看版本正文
+												204 button 决议事件历史
+												205 button 基于此版本修订
+				206 container 发布检查与固定快照
+					207 heading 发布检查与固定快照, Value: 2
+						208 text 发布检查与固定快照
+					209 text 规格基线与数据可投产分开；供数待提供不会自动阻止规格明确的需求基线。正式发布须完整闭包可见及当前有效决议。
+					210 button 执行发布预检查
+					211 container
+						212 text 发布依据或草稿说明
+						213 text entry area (settable) Description: 发布依据或草稿说明, ID: el-id-7273-63
+						214 text 幂等请求号
+						215 text field (settable) Description: 幂等请求号, Value: 5474f575-760e-40e4-a3c1-291fe43fe991, ID: el-id-7273-64
+					216 button (disabled) 发布本期完整需求基线
+					217 button (disabled) 保存固定草稿快照
+					218 container 发布快照表，可横向滚动
+						219 container
+							220 table
+								221 row
+									222 cell
+										223 text 固定快照ID
+									224 cell
+										225 text 发布版本
+									226 cell
+										227 text 合成与正式
+									228 cell
+										229 text 类型
+									230 cell
+										231 text 创建时间
+									232 cell
+										233 text 操作
+							394 table
+								395 container
+									396 row
+										397 cell
+											398 text 900
+										399 cell
+											400 text 1
+										401 cell
+											402 text TEST合成验证，非正式业务批准
+										403 cell
+											404 text 需求基线
+										405 cell
+											406 text 2026-10-19T21:45:01.813
+										407 cell
+											408 container
+												409 button 查看冻结六表
+												410 button 生成六表下载
+									411 row
+										412 cell
+											413 text 1347
+										414 cell
+											415 text 2
+										416 cell
+											417 text TEST合成验证，非正式业务批准
+										418 cell
+											419 text 需求基线
+										420 cell
+											421 text 2026-10-20T08:46:44.979
+										422 cell
+											423 container
+												424 button 查看冻结六表
+												425 button 生成六表下载
+									426 row
+										427 cell
+											428 text 1352
+										429 cell
+											430 text 3
+										431 cell
+											432 text TEST合成验证，非正式业务批准
+										433 cell
+											434 text 需求基线
+										435 cell
+											436 text 2026-10-20T09:26:28.310
+										437 cell
+											438 container
+												439 button 查看冻结六表
+												440 button 生成六表下载
+									441 row
+										442 cell
+											443 text 1365
+										444 cell
+											445 text 4
+										446 cell
+											447 text TEST合成验证，非正式业务批准
+										448 cell
+											449 text 需求基线
+										450 cell
+											451 text 2026-10-20T20:41:48.981
+										452 cell
+											453 container
+												454 button 查看冻结六表
+												455 button 生成六表下载
+									456 row
+										457 cell
+											458 text 1377
+										459 cell
+											460 text 5
+										461 cell
+											462 text TEST合成验证，非正式业务批准
+										463 cell
+											464 text 固定草稿
+										465 cell
+											466 text 2026-10-21T09:18:37.737
+										467 cell
+											468 container
+												469 button 查看冻结六表
+												470 button 生成六表下载
+									471 row
+										472 cell
+											473 text 1380
+										474 cell
+											475 text 6
+										476 cell
+											477 text TEST合成验证，非正式业务批准
+										478 cell
+											479 text 固定草稿
+										480 cell
+											481 text 2026-10-21T19:23:44.603
+										482 cell
+											483 container
+												484 button 查看冻结六表
+												485 button 生成六表下载
+									486 row
+										487 cell
+											488 text 1384
+										489 cell
+											490 text 7
+										491 cell
+											492 text TEST合成验证，非正式业务批准
+										493 cell
+											494 text 需求基线
+										495 cell
+											496 text 2026-10-21T20:52:46.260
+										497 cell
+											498 container
+												499 button 查看冻结六表
+												500 button 生成六表下载
+									501 row
+										502 cell
+											503 text 1388
+										504 cell
+											505 text 8
+										506 cell
+											507 text TEST合成验证，非正式业务批准
+										508 cell
+											509 text 需求基线
+										510 cell
+											511 text 2026-10-22T08:06:22.050
+										512 cell
+											513 container
+												514 button 查看冻结六表
+												515 button 生成六表下载
+					357 container
+						358 text 导出筛选需求ID（留空为全量可见）
+						359 text field (settable) Description: 导出筛选需求ID, ID: el-id-7273-65
+					360 heading 本轮下载任务, Value: 3
+						361 text 本轮下载任务
+					362 text 任务创建、生成、结果交付及领取均按当前权限检查；旧地址不能替代重新鉴权。
+					363 container
+						364 table
+							365 row
+								366 cell
+									367 text 任务ID
+								368 cell
+									369 text 快照ID
+								370 cell
+									371 text 状态
+								372 cell
+									373 text 文件范围
+								374 cell
+									375 text 提示
+								376 cell
+									377 text 操作
+						378 table
+							379 row
+								380 cell
+									381 text 1429
+								382 cell
+									383 text 1384
+								384 cell
+									385 text READY
+								389 cell
+									390 text 本期完整确认需求基线
+								386 cell
+									391 container
+										392 button 刷新下载任务
+										393 button 领取XLSX
+			388 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 393 button 领取XLSX

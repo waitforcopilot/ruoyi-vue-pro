@@ -51,8 +51,21 @@ public class HrmPayrollGovernanceExportService {
     public void failed(Long project,Long id,Long actor){store.lock();HrmPayrollGovernanceRecordDO j=job(project,id,actor);Map<String,Object>d=store.data(j);if("QUEUED".equals(d.get("state"))){d.putAll(map("state","FAILED","error","生成未完成：当前权限或版本已变化，请重新创建导出任务"));store.state(j,d);}}
     public Map<String,Object> status(Long project,Long id,Long actor){store.lock();HrmPayrollGovernanceRecordDO j=job(project,id,actor);Map<String,Object>d=store.data(j);Map<String,Object>p=projected(j,actor);need(Objects.equals(d.get("authorizationStamp"),stamp(j,p)));return map("id",j.getId(),"state",d.get("state"),"error",d.get("error"),"label",p.get("label"),"releaseId",d.get("releaseId"));}
     public byte[] claim(Long project,Long id,Long actor){store.lock();HrmPayrollGovernanceRecordDO j=job(project,id,actor);Map<String,Object>d=store.data(j);Map<String,Object>p=projected(j,actor);need("READY".equals(d.get("state"))&&Objects.equals(d.get("authorizationStamp"),stamp(j,p)));return Base64.getDecoder().decode(String.valueOf(d.get("bytes")));}
-    /** Long text uses continuation columns in the SAME record, preserving row counts and every character. */
-    static List<String> chunks(String text){List<String> out=new ArrayList<>();for(int at=0;at<text.length();){int end=Math.min(at+600,text.length());if(end<text.length()&&Character.isHighSurrogate(text.charAt(end-1)))end--;out.add(text.substring(at,end));at=end;}if(out.isEmpty())out.add("");return out;}
+    /** Bounded detail rows keep all characters and stable parent references within the six sheets. */
+    static List<String> chunks(String text){
+        List<String> out=new ArrayList<>();
+        for(int at=0;at<text.length();){
+            int end=Math.min(at+180,text.length()),newlines=0;
+            for(int n=at;n<end;n++)if(text.charAt(n)=='\n'&&++newlines==5){end=n+1;break;}
+            if(end<text.length()&&Character.isHighSurrogate(text.charAt(end-1)))end--;
+            out.add(text.substring(at,end));at=end;
+        }
+        if(out.isEmpty())out.add("");return out;
+    }
+    private static float detailHeight(String text){
+        int lines=0;for(String line:text.split("\n",-1))lines+=Math.max(1,(int)Math.ceil(line.length()/34.0));
+        return Math.max(30,Math.min(180,lines*15+12));
+    }
     public static byte[] workbook(Map<String,Object> projected,Long exporter) throws IOException {
         try(XSSFWorkbook book=new XSSFWorkbook();ByteArrayOutputStream output=new ByteArrayOutputStream()){
             Font bodyFont=book.createFont();bodyFont.setFontName("Microsoft YaHei");bodyFont.setFontHeightInPoints((short)11);
@@ -61,18 +74,39 @@ public class HrmPayrollGovernanceExportService {
             CellStyle heading=book.createCellStyle();heading.cloneStyleFrom(body);heading.setFont(headingFont);heading.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());heading.setFillPattern(FillPatternType.SOLID_FOREGROUND);
             Map<String,List<Map<String,Object>>> tables=(Map<String,List<Map<String,Object>>>)projected.get("sheets");
             for(String title:HrmPayrollGovernanceProjectionService.SHEETS){
-                List<Map<String,Object>> records=new ArrayList<>(tables.get(title));if(title.equals(HrmPayrollGovernanceProjectionService.SHEETS.get(0)))records.add(map("记录类型","SUMMARY","记录号","EXPORT-METADATA","本次导出人ID",String.valueOf(exporter),"本次生成时间",now(),"文件完整性",projected.get("label"),"长文本说明","长文本在同一记录的续列保存，可横向查看；不截断正文，不增加第七张工作表。"));
-                List<Map<String,Object>> rows=new ArrayList<>();LinkedHashSet<String> columns=new LinkedHashSet<>(Arrays.asList("记录类型","记录号"));
-                for(Map<String,Object> record:records){Map<String,Object> expanded=new LinkedHashMap<>();for(Map.Entry<String,Object> field:record.entrySet()){
-                    Object value=field.getValue();if(value instanceof Number||value instanceof Boolean||value==null)expanded.put(field.getKey(),value);
-                    else{String text=value instanceof String?(String)value:JsonUtils.toJsonString(value);List<String> parts=chunks(text);for(int n=0;n<parts.size();n++)expanded.put(field.getKey()+(n==0?"":"（续"+(n+1)+"）"),parts.get(n));}
-                }rows.add(expanded);columns.addAll(expanded.keySet());}
-                Sheet sheet=book.createSheet(title);sheet.createFreezePane(2,1);sheet.setDefaultRowHeightInPoints(36);Row header=sheet.createRow(0);header.setHeightInPoints(34);int col=0;
-                for(String name:columns){Cell cell=header.createCell(col);cell.setCellValue(name);cell.setCellStyle(heading);sheet.setColumnWidth(col,Math.min(255*256,(name.matches(".*(正文|闭包|字段|规则|场景|条件|事实|统计|范围|依据|处理|历史|供给|说明).*" )?60:24)*256));col++;}
-                int rowNo=1;for(Map<String,Object> record:rows){Row row=sheet.createRow(rowNo++);int height=48;col=0;for(String name:columns){Cell cell=row.createCell(col++);Object value=record.get(name);cell.setCellStyle(body);if(value instanceof Number)cell.setCellValue(((Number)value).doubleValue());else if(value instanceof Boolean)cell.setCellValue((Boolean)value);else if(value!=null){String text=String.valueOf(value);cell.setCellValue(text);height=Math.max(height,(text.length()/25+2)*14);} }row.setHeightInPoints(Math.min(409,height));}
-                if(!rows.isEmpty())sheet.setAutoFilter(new org.apache.poi.ss.util.CellRangeAddress(0,rows.size(),0,columns.size()-1));sheet.setHorizontallyCenter(false);sheet.setFitToPage(false);
+                List<Map<String,Object>> records=new ArrayList<>(tables.get(title));
+                if(title.equals(HrmPayrollGovernanceProjectionService.SHEETS.get(0)))records.add(map("记录类型","SUMMARY","记录号","EXPORT-METADATA","本次导出人ID",String.valueOf(exporter),"本次生成时间",now(),"文件完整性",projected.get("label"),"长文本说明","每个业务记录后列出关联明细行。按所属记录及字段名筛选，按片段序号拼接可还原完整正文；统计中的需求数量不含明细行。"));
+                List<String> columns=Arrays.asList("记录类型","记录号","所属记录","字段名","片段序号","片段总数","值类型","内容");
+                Sheet sheet=book.createSheet(title);sheet.createFreezePane(3,1);sheet.setDefaultRowHeightInPoints(30);
+                Row header=sheet.createRow(0);header.setHeightInPoints(30);
+                int[] widths={14,24,24,28,9,9,10,72};
+                for(int col=0;col<columns.size();col++){Cell cell=header.createCell(col);cell.setCellValue(columns.get(col));cell.setCellStyle(heading);sheet.setColumnWidth(col,widths[col]*256);}
+                int rowNo=1;
+                for(Map<String,Object> record:records){
+                    String ref=String.valueOf(record.get("记录号"));
+                    Row parent=sheet.createRow(rowNo++);parent.setHeightInPoints(30);
+                    Object[] summary={record.get("记录类型"),ref,ref,"",null,null,"RECORD","本记录完整字段见下方明细；按所属记录筛选可单独审阅。"};
+                    writeCells(parent,summary,body);
+                    for(Map.Entry<String,Object> field:record.entrySet()){
+                        Object value=field.getValue();String type=value==null?"NULL":value instanceof String?"TEXT":value instanceof Number?"NUMBER":value instanceof Boolean?"BOOLEAN":"JSON";
+                        String text=value==null?"":value instanceof String?(String)value:JsonUtils.toJsonString(value);
+                        List<String> parts=chunks(text);
+                        for(int n=0;n<parts.size();n++){
+                            if(rowNo>=1048576)throw new IOException("导出明细超过单表容量，请缩小筛选范围后重试");
+                            Row detail=sheet.createRow(rowNo++);
+                            detail.setHeightInPoints(detailHeight(parts.get(n)));
+                            writeCells(detail,new Object[]{"DETAIL",ref+"/"+field.getKey()+"/"+(n+1),ref,field.getKey(),n+1,parts.size(),type,parts.get(n)},body);
+                        }
+                    }
+                }
+                if(rowNo>1)sheet.setAutoFilter(new org.apache.poi.ss.util.CellRangeAddress(0,rowNo-1,0,7));
+                sheet.getPrintSetup().setLandscape(true);sheet.getPrintSetup().setPaperSize(PrintSetup.A3_PAPERSIZE);sheet.setFitToPage(true);sheet.getPrintSetup().setFitWidth((short)1);sheet.getPrintSetup().setFitHeight((short)0);sheet.setRepeatingRows(new org.apache.poi.ss.util.CellRangeAddress(0,0,-1,-1));
             }
             book.write(output);return output.toByteArray();
         }
     }
+    private static void writeCells(Row row,Object[] values,CellStyle style){
+        for(int n=0;n<values.length;n++){Cell cell=row.createCell(n);cell.setCellStyle(style);Object v=values[n];if(v instanceof Number)cell.setCellValue(((Number)v).doubleValue());else if(v!=null)cell.setCellValue(String.valueOf(v));}
+    }
+
 }

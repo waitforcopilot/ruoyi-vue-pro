@@ -1,0 +1,2 @@
+cwd: /Users/waitforpro/source/github-yudao/ruoyi-vue-pro/yudao-ui/yudao-ui-admin-vue3
+command: /opt/homebrew/opt/node@22/bin/node --max_old_space_size=8192 ./node_modules/vite/bin/vite.js build --mode dev
