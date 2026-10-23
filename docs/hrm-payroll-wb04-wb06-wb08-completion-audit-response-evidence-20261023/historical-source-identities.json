@@ -1,0 +1,96 @@
+{
+  "kind": "READ_ONLY_HISTORICAL_IDENTITIES_BEFORE_CORRECTION",
+  "head": "d5ff56dbb5b94fdcf069c90f064f332d31f6a6fb",
+  "files": [
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-fix-report-audit-20261023.md",
+      "bytes": 12549,
+      "sha256": "2d21abbb3d2c9b35fb6e3efc2b0e090b01d35f1211ad0af1e2bd3e4bb1f0b035"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T09/003-dispute-missing-fields-input-preserved.png",
+      "bytes": 106724,
+      "sha256": "35a0008655a830ea6566b5f58c77bc900e883da3d72b6509bfd52ef0260d4942"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T09/003-dispute-missing-fields-input-preserved.txt",
+      "bytes": 19685,
+      "sha256": "8bb7c3241638e89667df0d09d0c01f4af22d27f2c97f2d3157544348dfba098f"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T09/004-dispute-persisted-after-refresh.png",
+      "bytes": 179945,
+      "sha256": "541f5b375934a21007f0689f215afab113981708b1b4504a428dda2c905d7daf"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T09/004-dispute-persisted-after-refresh.txt",
+      "bytes": 14469,
+      "sha256": "160c865ee1edd9fd995b56d86d101062a9eb6d514b978ab544449f36b81ce24d"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T09/005-dispute-response-reviewing-persisted.png",
+      "bytes": 148333,
+      "sha256": "e8eeb677b8534cb6f5c3142774987a816e209a1ef9fd98cd3f8b1f0838514714"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T09/005-dispute-response-reviewing-persisted.txt",
+      "bytes": 14510,
+      "sha256": "9db31d24bbb0da2887cca628e0360f6966be685b8c69bfd2396a3e39f9d07f43"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T09/006-dispute-response-history.png",
+      "bytes": 122060,
+      "sha256": "beae7e40bd3a9450c880529ded89c796e67b438d6ada0fd2ae907beb33cf6180"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T09/006-dispute-response-history.txt",
+      "bytes": 122773,
+      "sha256": "391bd40136239c1de40ce5f3de720f3778233b0b53212cf20f05c60628e226cf"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T09/007-assigned279-reconfirmed-refresh.png",
+      "bytes": 177442,
+      "sha256": "e2294820aa65273be3cf0eac9f4537bd2ba64ee3b70dab544a186b2d4f4c3912"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T09/007-assigned279-reconfirmed-refresh.txt",
+      "bytes": 14583,
+      "sha256": "99717ef86f0d962e81e426a170ad7c5e008ca882b8c3d12e57acb5621d3948c8"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T09/008-confirmed279-history-independent-read.png",
+      "bytes": 115327,
+      "sha256": "00c9f404a0355c91376d431948707f134c09ab2dcbc7ba4ff03da00f26377be7"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T09/008-confirmed279-history-independent-read.txt",
+      "bytes": 136767,
+      "sha256": "a636fda0ec884259f8feb2fd5bd8b18025f345ddfe7b953e28b06e6a8b347858"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T09/final-delivery-manifest-20261023.json",
+      "bytes": 253626,
+      "sha256": "becd585dc9811cee5161d43d4c2b41d83beca6cb90bc285546369fcf6e5b6785"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T09/final-candidate-preparation-manifest-20261023.json",
+      "bytes": 89355,
+      "sha256": "5323ec72d46839456a7e300583fe86da7f3f8adb684033a8643d6e8743478cac"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T09/final-submission-allowlist-20261023.json",
+      "bytes": 59054,
+      "sha256": "0ac50003ec6b173b28a30eed00ebbec341ddaaf4a4199656053afc7ed0e8b0e1"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T09/final-automation-2/final-review-complete.md",
+      "bytes": 8154,
+      "sha256": "dd327c1bf8ef1388fbc6a2ccd73439b81403a89d511db4487909398e34ae6b21"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-evidence-20261022/T09/final-automation-2/final-automation-summary.md",
+      "bytes": 5176,
+      "sha256": "982ddcbf14c14013d1df02c4a7cf404c3e53445696e7d8cf4f8ea7dbd77a7941"
+    }
+  ]
+}

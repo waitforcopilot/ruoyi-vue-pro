@@ -1,0 +1,2 @@
+[warn] src/views/hrm/payroll/review/demo.ts
+[warn] Code style issues found in the above file. Run Prettier with --write to fix.

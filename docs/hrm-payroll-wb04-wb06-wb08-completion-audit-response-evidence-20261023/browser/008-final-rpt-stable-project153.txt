@@ -1,0 +1,237 @@
+Browser tab: 1, Title: "芋道管理系统 - 薪酬需求评审工作台", URL: "http://127.0.0.1:5173/hrm-payroll/review?projectId=153&module=RPT".
+1 AXWebArea 芋道管理系统 - 薪酬需求评审工作台, URL: 127.0.0.1:5173/hrm-payroll/review?projectId=153&module=RPT
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			15 container
+				16 container v-tool-header
+					17 container 面包屑
+					18 container
+						19 container
+							20 combo box (collapsed, settable) ID: el-id-9990-81, Secondary Actions: Expand
+							21 text 请输入菜单内容
+					22 pop up button (collapsed) ID: el-id-9990-4, Secondary Actions: Expand
+					23 pop up button (collapsed) ID: el-id-9990-9, Secondary Actions: Expand
+					24 pop up button (collapsed) TEST S5 editor NEW DISPLAY, ID: el-id-9990-14, Secondary Actions: Expand
+				25 container v-tags-view
+					26 container
+						27 pop up button (collapsed) 首页, ID: el-id-9990-20, Secondary Actions: Expand
+							28 container
+								29 text 首页
+						30 pop up button (collapsed) 薪酬需求评审工作台, ID: el-id-9990-28, Secondary Actions: Expand
+							31 text 薪酬需求评审工作台
+						310 pop up button (collapsed) 薪酬需求评审工作台 (2), ID: el-id-9990-160, Secondary Actions: Expand
+							311 text 薪酬需求评审工作台 (2)
+						312 pop up button (collapsed) 业务决议与基线发布, ID: el-id-9990-277, Secondary Actions: Expand
+							344 text 业务决议与基线发布
+					32 pop up button (collapsed) ID: el-id-9990-36, Secondary Actions: Expand
+			33 container
+				345 heading 薪酬需求评审工作台 · 报表分析, Value: 1, ID: review-heading
+					346 text 薪酬需求评审工作台 · 报表分析
+				347 text 示例数据，仅用于讨论。意见与评审记录真实保存；演示核算、审批及工资条只作用于虚构样例。
+				348 container
+					349 combo box (collapsed, settable) Description: 评审项目, ID: el-id-9990-710, Secondary Actions: Expand
+					541 text 153 · TEST WB completion 20261022 A · 非正式批准
+					351 image
+				352 button 刷新工作台
+				353 button 集中清单
+				354 button 业务决议与发布
+				355 button 实际来源与核验
+				356 button 原有正式业务入口
+				542 text TEST WB completion 20261022 A · 非正式批准 · 项目 153 · 范围版本 5 范围：{"entities":[101],"organizations":[201],"workerTypes":["TEST"],"scenarios":["TEST"],"from":"2026-10-01","to":"2026-10-31","explanation":"TEST isolated synthetic scope for WB completion; not formal approval"}
+				358 container 十视图评审导航
+					359 button 薪酬总览
+					360 button 薪酬方案
+					361 button 工资核算
+					362 button 个税与工资条
+					363 button 考勤
+					364 button 加班
+					365 button 工时
+					366 button 社保公积金
+					367 button 报表分析
+					368 button 需求征集
+				369 button 上一步
+				370 text 第 9/10 视图
+				371 button 下一步
+				372 button 关联：薪酬总览
+				373 button 关联：社保公积金
+				374 button 关联：需求征集
+				375 text 讨论成本分摊、结构、人均、预算与收入分母及导出列。
+				376 container 虚构业务展示
+					377 heading 业务场景与字段, Value: 2
+						378 text 业务场景与字段
+					379 text TEST-EMP-001 · 虚构员工甲 · 虚构研发组 · 2026-10；全为虚构，未绑定员工档案。
+					380 container 示例业务表，左右方向可横向滚动
+						381 table
+							382 row
+								383 cell
+									384 text 维度
+								385 cell
+									386 text 比例
+								387 cell
+									388 text 成本元
+								389 cell
+									390 text 分母/预算
+								391 cell
+									392 text 核对
+							393 row
+								394 cell
+									395 text TEST项目甲
+								396 cell
+									397 text 70%
+								398 cell
+									399 text 9695
+								400 cell
+									401 text 成本总额13850
+								402 cell
+									403 text 与项目乙合计13850
+							404 row
+								405 cell
+									406 text TEST项目乙
+								407 cell
+									408 text 30%
+								409 cell
+									410 text 4155
+								411 cell
+									412 text 成本总额13850
+								413 cell
+									414 text 无重复分摊
+							415 row
+								416 cell
+									417 text TEST预算
+								418 cell
+									419 text 100%
+								420 cell
+									421 text 13850
+								422 cell
+									423 text 14000
+								424 cell
+									425 text 差额-150
+							426 row
+								427 cell
+									428 text TEST人均/营收比
+								429 cell
+									430 text 1人/100000收入
+								431 cell
+									432 text 13850
+								433 cell
+									434 text 13.85%
+								435 cell
+									436 text 分母为空时暂无适用项
+					437 text 总成本13850与总览一致，不用实发10219.50代替成本。
+					438 text 导出预览仅讨论列定义；独立治理页提供TEST决议、受控发布及六表快照导出入口，示例不代表正式验收。
+					439 container field-cost
+						440 text 分摊成本
+						441 button (disabled) 补充字段说明：分摊成本
+						442 button (disabled) 这个字段从哪里来
+					443 container operation-simulate
+						444 button 演示核算
+						445 button 演示复核
+						446 button 预览示例工资条
+						447 button (disabled) 补充操作规则或例外
+					448 text 示例尚未执行；不代表真实薪酬状态
+					449 container flow-approval
+						450 text 示例流程：准备 → 试算 → 复核 → 发放讨论 → 归档讨论 
+						451 button (disabled) 补充流程角色与异常
+				452 container 虚构图表示例
+					453 heading 虚构用工成本结构, Value: 2
+						454 text 虚构用工成本结构
+					455 text 示例图仅讨论口径；10月应发11750、成本13850，与主样例一致。历史趋势不是实际工资数据。
+					456 text 基本工资 · 10000 元
+					457 text 绩效 · 1000 元
+					458 text 加班 · 750 元
+					459 text 单位缴费 · 2100 元
+				460 container 候选功能讨论场景
+					461 heading 逐项功能场景与例外（示例）, Value: 2
+						462 text 逐项功能场景与例外（示例）
+					463 container field-rpt-01
+						464 text RPT-01 · 成本分摊
+						465 text 正常/预期：项目甲70%=9695，乙30%=4155，合计13850
+						466 text 异常/待确认：维度重复或分摊不等100%须拦截
+						467 button (disabled) 围绕RPT-01提意见
+					468 container field-rpt-02
+						469 text RPT-02 · 分母和成本率
+						470 text 正常/预期：虚构1人、人均13850；营收100000，成本率13.85%
+						471 text 异常/待确认：空分母显示暂无适用项，不计算100%
+						472 button (disabled) 围绕RPT-02提意见
+					473 container field-rpt-03
+						474 text RPT-03 · 结构与变动
+						475 text 正常/预期：基本10000、绩效1000、加班750、单位缴费2100
+						476 text 异常/待确认：期间/结构变化先确定可比口径
+						477 button (disabled) 围绕RPT-03提意见
+					478 container field-rpt-04
+						479 text RPT-04 · 预算与实际
+						480 text 正常/预期：预算14000、实际13850，差额-150
+						481 text 异常/待确认：预算版本及增减项须留依据
+						482 button (disabled) 围绕RPT-04提意见
+					483 container Description: RPT-05 · 导出列口径 正常/预期：讨论主体/期间/维度/金额/规则与字段单位 异常/待确认：当前筛选清单与发布时固定的六表快照分别查看 围绕RPT-05提意见, ID: field-rpt-05
+						484 text RPT-05 · 导出列口径
+						485 text 正常/预期：讨论主体/期间/维度/金额/规则与字段单位
+						486 text 异常/待确认：当前筛选清单与发布时固定的六表快照分别查看
+						487 button (disabled) 围绕RPT-05提意见
+				488 text 正在读取真实评审数据，未返回内容不推定为空或通过。
+				489 container Description: 页面内功能需求征集, ID: module
+					490 heading 功能需求与意见征集（真实保存）, Value: 2
+						491 text 功能需求与意见征集（真实保存）
+					492 container
+						493 button (disabled) 补充本模块需求
+						494 button (disabled) 初始化46项候选模板
+						495 button 导出当前筛选评审清单
+						496 button (disabled) 批量分派所选需求
+					497 container
+						498 text field (settable) Description: 查找需求, ID: el-id-9990-711
+						499 container
+							500 combo box (collapsed, settable) Description: 评审状态筛选, ID: el-id-9990-712, Secondary Actions: Expand
+							501 text 全部评审状态
+							502 image
+						503 container
+							504 combo box (collapsed, settable) Description: 范围决策筛选, ID: el-id-9990-713, Secondary Actions: Expand
+							505 text 全部范围决策
+							506 image
+						507 container
+							508 combo box (collapsed, settable) Description: 排序, ID: el-id-9990-714, Secondary Actions: Expand
+							509 text 编号升序
+							510 image
+						511 button 应用筛选
+						512 button 清除筛选
+				513 container 数据来源征集
+					514 heading 依赖数据来源与盘点, Value: 2
+						515 text 依赖数据来源与盘点
+					516 text 候选目录是征集线索，不能冒充实际已提供来源或质量通过。实际来源需按权限另行登记与核验。
+					517 text DS-01 · HR 员工与组织档案
+					518 text 员工唯一编号、主体、部门、入离职日期、计薪资格；候选确认方：HR
+					519 text DS-05 · 薪酬方案与员工薪资档案
+					520 text 方案版本、适用人员、薪资项、金额 / 单价、有效期；候选确认方：HR / 财务
+					521 text DS-06 · 社保公积金政策与缴费台账
+					522 text 地区、项目、有效期、基数上下限、个人 / 单位比例、实际缴费额；候选确认方：HR / 财务
+					523 text DS-10 · 财务预算与成本数据
+					524 text 部门 / 成本中心 / 项目、营收、预算、编制人数、分摊比例；候选确认方：财务
+					525 container
+						526 text 当前可见实际来源 
+						527 container
+							528 combo box (collapsed, settable) Description: 选择实际来源, ID: el-id-9990-715, Secondary Actions: Expand
+							529 text 无来源时保持缺口
+							530 image
+					531 button 维护实际来源、映射和QS/QC
+				532 container 我的站内提醒
+					533 heading 我的站内提醒（无外发）, Value: 2
+						534 text 我的站内提醒（无外发）
+				535 container 真实统计与下钻
+					536 heading 范围、确认及来源统计（服务器集合）, Value: 2
+						537 text 范围、确认及来源统计（服务器集合）
+					538 text U全部需求（含移除）；E未移除；I纳入本期；C当前确认有效；T暂缓；D有异议。暂缓与异议仍计入有效集合，范围决策不代替确认。
+					539 text 当前统计不是发布成功或已实施证明；业务决议、发布检查与六表快照请使用独立入口核实。受限账号只展示可见集合，隐藏对象数量不输出。
+					540 button (disabled) 查看关系与缺口L
+			309 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 483 container Description: RPT-05 · 导出列口径 正常/预期：讨论主体/期间/维度/金额/规则与字段单位 异常/待确认：当前筛选清单与发布时固定的六表快照分别查看 围绕RPT-05提意见, ID: field-rpt-05

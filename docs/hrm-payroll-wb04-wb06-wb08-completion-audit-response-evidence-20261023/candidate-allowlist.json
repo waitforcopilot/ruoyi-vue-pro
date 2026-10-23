@@ -1,0 +1,18 @@
+{
+  "kind": "EXACT_CODER_HANDOFF_PATHS_NOT_COMMIT_AUTHORIZATION",
+  "paths": [
+    "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/candidate-allowlist.json",
+    "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/candidate-identity-coder.json",
+    "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/coder-product-delta.patch",
+    "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/completion-fix-report.before.md",
+    "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/correction-index.md",
+    "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/delivery-commit-allowlist-comparison.json",
+    "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/delivery-remote-check.json",
+    "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/historical-source-identities.json",
+    "docs/hrm-payroll-wb04-wb06-wb08-completion-fix-report-20261022.md",
+    "docs/hrm-payroll-wb04-wb06-wb08-completion-fix-report-audit-20261023.md",
+    "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/demo.ts"
+  ],
+  "pendingFinalReport": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-20261023.md",
+  "futureEvidencePolicy": "add only separately reviewed files for executor and visible browser regression; no unrelated historical untracked paths"
+}

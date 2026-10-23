@@ -1,0 +1,1 @@
+cd '/Users/waitforpro/source/github-yudao/ruoyi-vue-pro/yudao-ui/yudao-ui-admin-vue3' && pnpm exec eslint src/views/hrm/payroll/review/demo.ts

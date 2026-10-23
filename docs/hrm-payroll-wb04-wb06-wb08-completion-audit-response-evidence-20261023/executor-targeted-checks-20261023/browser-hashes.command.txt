@@ -1,0 +1,1 @@
+cd '/Users/waitforpro/source/github-yudao/ruoyi-vue-pro' && sha256sum docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/*.png docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/*.txt docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/console-warnings-errors.json

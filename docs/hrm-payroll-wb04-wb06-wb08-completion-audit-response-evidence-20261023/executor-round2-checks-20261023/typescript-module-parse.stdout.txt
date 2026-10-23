@@ -1,0 +1,4 @@
+syntax_parse=PASS
+module_transpile=PASS
+external_module=true
+typecheck=NOT_RUN

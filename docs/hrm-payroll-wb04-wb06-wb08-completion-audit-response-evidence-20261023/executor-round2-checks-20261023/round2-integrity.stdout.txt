@@ -1,0 +1,6 @@
+round2_source_identity_matches=1
+round1_identity_reconstructed_from_HEAD=1
+round1_round2_whitespace_equivalent=1
+head_matches_round2_record=1
+historical_sources_checked=18
+historical_sources_matching=18

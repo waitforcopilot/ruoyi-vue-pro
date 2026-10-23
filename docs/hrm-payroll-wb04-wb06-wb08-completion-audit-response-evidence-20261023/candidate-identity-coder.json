@@ -1,0 +1,37 @@
+{
+  "kind": "CODER_DELTA_CANDIDATE_NOT_YET_VERIFIED",
+  "head": "d5ff56dbb5b94fdcf069c90f064f332d31f6a6fb",
+  "historicalAcceptanceParentHead": "fdc503dca517b4dad4ea136f73bd9fbe92e11c59",
+  "expectedRequestedRole": "coder gpt-6.1-sol medium",
+  "actualModel": "unverified",
+  "files": [
+    {
+      "path": "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/demo.ts",
+      "bytes": 17896,
+      "sha256": "c55842dda33aca22636b2715626932466fa751e9744979508a0050f87cd365c8"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-fix-report-20261022.md",
+      "bytes": 20040,
+      "sha256": "90bb1e2da119c7e4f0a9129b2af423e549761d20581412c6fbc36406b89c9c38"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/correction-index.md",
+      "bytes": 5445,
+      "sha256": "a75cfdd74b8beacfe26cb6fac54097290fe9c36f6afe470c50dad87bf6f38542"
+    }
+  ],
+  "historicalTests": "271 backend +85 frontend belong to earlier candidate; not rerun here",
+  "impactedPages": [
+    "COL-03 输出与版本",
+    "RPT-05 导出列口径",
+    "existing governance navigation"
+  ],
+  "pending": [
+    "executor targeted format/lint/module checks and source correction review",
+    "main-thread visible IAB COL/RPT text and governance navigation",
+    "executor original browser evidence review",
+    "final response report"
+  ],
+  "selfHashPolicy": "manifest not self-hashed; historical T09 manifests unchanged"
+}

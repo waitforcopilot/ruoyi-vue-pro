@@ -1,0 +1,17 @@
+{
+  "kind": "CODER_ROUND2_FORMAT_ONLY_CANDIDATE_NOT_YET_VERIFIED",
+  "head": "d5ff56dbb5b94fdcf069c90f064f332d31f6a6fb",
+  "expectedRequestedRole": "coder gpt-6.1-sol medium",
+  "actualModel": "unverified",
+  "source": {
+    "path": "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/demo.ts",
+    "bytes": 17920,
+    "sha256": "2d1feed5eda56fcb8e33fc56c694db26285a4a5a22221d0869cc7e1259540c43"
+  },
+  "round1SourceSha256": "c55842dda33aca22636b2715626932466fa751e9744979508a0050f87cd365c8",
+  "onlyWhitespaceChangedFromRound1": true,
+  "assertionMethod": "exact one-item replacement as requested by executor readonly Prettier diff; equality after removing whitespace in full source",
+  "copyTextUnchanged": true,
+  "round1CandidateIdentityPreserved": true,
+  "verification": "not run; executor round2 and final visible IAB evidence pending"
+}

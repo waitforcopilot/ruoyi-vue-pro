@@ -1,0 +1,7 @@
+candidate_identity_files_checked=3
+candidate_identity_files_matching=3
+historical_source_files_checked=18
+historical_source_files_matching=18
+head_matches_candidate=1
+active_report_and_correction_links_checked=34
+broken_local_links=0

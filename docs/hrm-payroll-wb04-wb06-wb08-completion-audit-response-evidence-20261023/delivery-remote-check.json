@@ -1,0 +1,14 @@
+{
+  "observedAt": "2026-10-23T08:04:57.798599+00:00",
+  "command": [
+    "git",
+    "-c",
+    "core.sshCommand=ssh -o BatchMode=yes -o StrictHostKeyChecking=yes",
+    "ls-remote",
+    "git@github.com:waitforcopilot/ruoyi-vue-pro.git",
+    "refs/heads/work"
+  ],
+  "exitCode": 0,
+  "stdout": "d5ff56dbb5b94fdcf069c90f064f332d31f6a6fb\trefs/heads/work\n",
+  "stderr": ""
+}

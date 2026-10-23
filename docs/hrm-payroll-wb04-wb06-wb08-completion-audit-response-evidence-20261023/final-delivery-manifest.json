@@ -1,0 +1,498 @@
+{
+  "kind": "FINAL_AUDIT_RESPONSE_DELIVERY_MANIFEST",
+  "baseHead": "d5ff56dbb5b94fdcf069c90f064f332d31f6a6fb",
+  "historicalAcceptanceParentHead": "fdc503dca517b4dad4ea136f73bd9fbe92e11c59",
+  "status": "audit response and targeted copy regression complete; Git delivery identified by containing commit and main actual outputs",
+  "selfHashPolicy": "manifest and final allowlist both excluded from file hashes to avoid self or mutual cycles; paths listed in final allowlist",
+  "sourceChecks": "executor round2 Prettier/ESLint/TypeScript module exit0; no type checking",
+  "browserChecks": "visible text and project153/scope5 only; navigation round1; no settled RPT data or full RBAC claim",
+  "historicalManifestPolicy": "old T09 and stage identities preserved, never recomputed in place",
+  "files": [
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/001-col-topic-corrected.png",
+      "bytes": 149129,
+      "sha256": "e7301b16fb3b1b0633b2e28c59d1ffe18ad02db5170741c8df163c957ad787d5"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/001-col-topic-corrected.txt",
+      "bytes": 15087,
+      "sha256": "927fc774e01888c7c5e35fd6c2b10476c318e093df912529ddaa3d7059e31a9e"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/002-rpt-topic-corrected.png",
+      "bytes": 151039,
+      "sha256": "75eda283119225cb520a47f1635ef78d14508e49eb54a15b4270cdabad84fee3"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/002-rpt-topic-corrected.txt",
+      "bytes": 11304,
+      "sha256": "e024ceb5cef5251dec69f59effe5f05ca3a24f970c832ca971b472fac9a87f5e"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/003-rpt-stable-project153.png",
+      "bytes": 137135,
+      "sha256": "5caa8471dbef0c49673a9389ade3523de996725e2124d1b59cf3162c45d39682"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/003-rpt-stable-project153.txt",
+      "bytes": 13312,
+      "sha256": "fa20e05b86176ade4c68ca20b836807bca03641f601fb5f6ddce90ca43483f3b"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/004-rpt-to-governance-project153.png",
+      "bytes": 116321,
+      "sha256": "1a55c39ffdfeaf6caffefddcb1e2c03813760ce8cf112c9960b57594f564287c"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/004-rpt-to-governance-project153.txt",
+      "bytes": 14011,
+      "sha256": "bcdbaf7b5f6538d07817e6ceec98ab34be6d7a33471541fe01e32c34dddc1db2"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/005-col-to-governance-project153.png",
+      "bytes": 116295,
+      "sha256": "9232be5434c8f2c0162f10edda87d4bf8b92bbc66619d5f16392959f829ae528"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/005-col-to-governance-project153.txt",
+      "bytes": 14011,
+      "sha256": "e1b5ba2f690481ce0cb83c317e05cc43fd9b65f6d26f778d946f2412e154bbae"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/006-final-col-format-candidate.png",
+      "bytes": 162337,
+      "sha256": "51cee6af9f9f9e0b5d41074bed5689c11710da61762fec9b7a18208649ebe6e0"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/006-final-col-format-candidate.txt",
+      "bytes": 11463,
+      "sha256": "43522063c6e936aed07ca736e5c114a4e187efdefd922d419afb17a3a31db241"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/007-final-col-stable-project153.png",
+      "bytes": 151427,
+      "sha256": "e811dd547786c4a196ec7311cf0b01711a5ce55e6cea3fed4562f7cf264c46e0"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/007-final-col-stable-project153.txt",
+      "bytes": 15477,
+      "sha256": "4d6e0584a4bc545688bc7332ad85b07d5727be715932f401df039e4bc4a4a460"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/008-final-rpt-stable-project153.png",
+      "bytes": 136181,
+      "sha256": "32501466acbc19d909cb47172b7a829fca82632b0c027504cae4b02d52d27a64"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/008-final-rpt-stable-project153.txt",
+      "bytes": 11671,
+      "sha256": "0e5240be980e2fb67db28e883ba07e89f97dbb69b3d69cf49ffe8618c0dbd431"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/browser/console-warnings-errors.json",
+      "bytes": 1832,
+      "sha256": "9324e3b5fb7736d78e6953767e2778fef3d6abc595cff0e3c7e2e5b56e8c37cb"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/candidate-allowlist.json",
+      "bytes": 1455,
+      "sha256": "eedd7ba05a0f8e0f969aa5f778de40eef6c163f85649a73fbd1a9a0f7d8f88af"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/candidate-identity-coder.json",
+      "bytes": 1471,
+      "sha256": "57cb36a9801837ef8e09cd6105d650731e659062e093286501d11689cc6b0c84"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/coder-product-delta.patch",
+      "bytes": 1371,
+      "sha256": "46de87af3a43490297f899adb4b14057c507af810cca7ce464a6764cc07e09e5"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/coder-round2-format/candidate-identity-round2.json",
+      "bytes": 852,
+      "sha256": "4876cbd6a1eb559742a970ab5b27efb78d3b4fc07c741d3a761dcfd26b8a5b6e"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/coder-round2-format/head-to-round2.patch",
+      "bytes": 1400,
+      "sha256": "ae4c78ae951ff7d8caf92bfcb78aa0657b22c9ceaa14ee0a50db32d79a577276"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/coder-round2-format/round1-to-round2.patch",
+      "bytes": 773,
+      "sha256": "b8c1a97aee211aeb616454c9a569a25427238e66ca0c6c16193358064e13127d"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/completion-fix-report.before.md",
+      "bytes": 17732,
+      "sha256": "4c06117e7d645995a5a86029070a7cef736ba5a43464e467ed3cb9da2833168b"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/correction-index.md",
+      "bytes": 5445,
+      "sha256": "a75cfdd74b8beacfe26cb6fac54097290fe9c36f6afe470c50dad87bf6f38542"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/delivery-commit-allowlist-comparison.json",
+      "bytes": 200,
+      "sha256": "a293195fb7143ae2e7990a8c52ef112122ebeea62b44c64f392694030c5a4209"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/delivery-remote-check.json",
+      "bytes": 370,
+      "sha256": "7683ebe60ff64d0c71394ca01b370af78d554c47a7ebb88b36256c8fb405f887"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/browser-evidence-review-round2.md",
+      "bytes": 2659,
+      "sha256": "35dc6b6116e07f927d717aef9857ebf9120a902140214624ace7fb2fcecb463d"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/browser-final-hashes.command.txt",
+      "bytes": 788,
+      "sha256": "2a8e269ff2e255caf508fc8949dc1aad697d071202c169723aba76bab9977ab0"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/browser-final-hashes.exitcode",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/browser-final-hashes.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/browser-final-hashes.stdout.txt",
+      "bytes": 1114,
+      "sha256": "24bf234166a852e189c7a82d47ac5821718b8c3c62270412ccb62bd4c7cdd7df"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/eslint.command.txt",
+      "bytes": 153,
+      "sha256": "ef3f3c29e38168b0622882247511796cf4691aaeee98e56a95da82963a7265de"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/eslint.exitcode",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/eslint.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/eslint.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/executor-round2-results.md",
+      "bytes": 1490,
+      "sha256": "2468a38fba6d4b9d7a05b0e4e496101720dcf50d37eddc948b6e725d196de901"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/prettier.command.txt",
+      "bytes": 163,
+      "sha256": "e332070d75f42f362e738bba4bc5ffa86b7e2d24dae8db4eeca00309128c31eb"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/prettier.exitcode",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/prettier.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/prettier.stdout.txt",
+      "bytes": 66,
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/round2-integrity-check.py",
+      "bytes": 3710,
+      "sha256": "c3350200911a1d054fa29fc92b95560110efcacef462401ecd5c3ed1ebe80c24"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/round2-integrity.command.txt",
+      "bytes": 202,
+      "sha256": "7bbc4f07ca3eab60fb41042e3bbe48f7eb099bfb4ec938f1c39f75c19b26f741"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/round2-integrity.exitcode",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/round2-integrity.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/round2-integrity.stdout.txt",
+      "bytes": 203,
+      "sha256": "66a4428a06851879f11c38b6e95ac83ff4c39ddfa8842150171bef5e793e48ea"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/typescript-module-parse.command.txt",
+      "bytes": 1011,
+      "sha256": "6a0920c029946bf5d04f52fc9e65858f529644f6295bc7769000e260fa0b24de"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/typescript-module-parse.exitcode",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/typescript-module-parse.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/typescript-module-parse.stdout.txt",
+      "bytes": 79,
+      "sha256": "ab44143a69da11a8b9aa3195fc334ad3b418fa83e76ad1cd7a589611e8d5fe8f"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/browser-evidence-review-20261023.md",
+      "bytes": 3351,
+      "sha256": "29ac083ddaabe19bda0a8f93d1f57950316febcbd6eeba3ee5c4cc681f0f5447"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/browser-hashes.command.txt",
+      "bytes": 363,
+      "sha256": "b5693b40741355ab54ec1a0a867ac35146f4f4fd26a61b09a03271b6d2a87b1a"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/browser-hashes.exitcode",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/browser-hashes.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/browser-hashes.stdout.txt",
+      "bytes": 1999,
+      "sha256": "7a88d43bbf733594ecad36a037c2e49420997eaf55daf710aa4b25f4985f1b2f"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/credential-count-scan.command.txt",
+      "bytes": 203,
+      "sha256": "844be42b3614cf94345510c96e7dcb4c836f0afc72510fb30613de49caaeaeca"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/credential-count-scan.exitcode",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/credential-count-scan.py",
+      "bytes": 2547,
+      "sha256": "b94d2460cec23c4f664179a78147133619fa8dd8b0d9d8266469864f517c517d"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/credential-count-scan.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/credential-count-scan.stdout.txt",
+      "bytes": 88,
+      "sha256": "2f885f284434874b0c5e5f1ade39cead172c744a043bae5bc7141f0df08be39a"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/eslint-direct.command.txt",
+      "bytes": 153,
+      "sha256": "ef3f3c29e38168b0622882247511796cf4691aaeee98e56a95da82963a7265de"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/eslint-direct.exitcode",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/eslint-direct.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/eslint-direct.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/eslint.command.txt",
+      "bytes": 143,
+      "sha256": "1239380b009257c16e19cab76b68ac6b2bdc8b2986c3953825de9f3f7dca6214"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/eslint.exitcode",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/eslint.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/eslint.stdout.txt",
+      "bytes": 1618,
+      "sha256": "82b9a8e5aefbb89208394b2287767ee188419979cbdbfc3fabe51296b3031989"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/executor-check-results.md",
+      "bytes": 2434,
+      "sha256": "457b08fd1dff6d5716c585bdc51ff10ef7c8844bef48fe15a71ced0f67f7a93c"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/identity-reference-check.py",
+      "bytes": 3223,
+      "sha256": "4f55e1d0a017bc0ae328bac2b8a100f67beb742f3fdce6fbaf670a64303d7a86"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/identity-reference.command.txt",
+      "bytes": 206,
+      "sha256": "9a1f39cc09b9b6f247b1d0b267644682317ed820039b86c27100081ffb104590"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/identity-reference.exitcode",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/identity-reference.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/identity-reference.stdout.txt",
+      "bytes": 234,
+      "sha256": "23c09b8f98a83400e92938dd2efe9becb7495c0667cc232d4b6b808822af300f"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/prettier-direct.command.txt",
+      "bytes": 163,
+      "sha256": "e332070d75f42f362e738bba4bc5ffa86b7e2d24dae8db4eeca00309128c31eb"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/prettier-direct.exitcode",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/prettier-direct.stderr.txt",
+      "bytes": 128,
+      "sha256": "81a0b89ff225a39c177d4bac706ded857943d5dde9c8943b5a9f26b21e97657e"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/prettier-direct.stdout.txt",
+      "bytes": 23,
+      "sha256": "ebe82dad128d5e5d8936334ceac09492f3c60bd9e0b4a16cc7fd7075513b33de"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/prettier-readonly-diff.command.txt",
+      "bytes": 204,
+      "sha256": "8963f4030ebddc77cceca68eded130f4f34bae8e5348a9240e5cbad233de8afc"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/prettier-readonly-diff.exitcode",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/prettier-readonly-diff.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/prettier-readonly-diff.stdout.txt",
+      "bytes": 706,
+      "sha256": "d9d69628112add62dfabdcb36797cdca6cba1b448ce457c79fbd8925b65e9fcb"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/prettier.command.txt",
+      "bytes": 153,
+      "sha256": "c98a944547fc18637e16ea37e47fa9cc03ff0427b398e70b49d303145748aec2"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/prettier.exitcode",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/prettier.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/prettier.stdout.txt",
+      "bytes": 1618,
+      "sha256": "82b9a8e5aefbb89208394b2287767ee188419979cbdbfc3fabe51296b3031989"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/typescript-module-parse.command.txt",
+      "bytes": 1011,
+      "sha256": "6a0920c029946bf5d04f52fc9e65858f529644f6295bc7769000e260fa0b24de"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/typescript-module-parse.exitcode",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/typescript-module-parse.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-targeted-checks-20261023/typescript-module-parse.stdout.txt",
+      "bytes": 79,
+      "sha256": "ab44143a69da11a8b9aa3195fc334ad3b418fa83e76ad1cd7a589611e8d5fe8f"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/final-document-checks.json",
+      "bytes": 1130,
+      "sha256": "791f0d3403b07cded84fb90d2e5599667b298fabd944c5a4f5f5e1b356d1f129"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/final-product-delta.patch",
+      "bytes": 1400,
+      "sha256": "ae4c78ae951ff7d8caf92bfcb78aa0657b22c9ceaa14ee0a50db32d79a577276"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/historical-source-identities.json",
+      "bytes": 4474,
+      "sha256": "e47f9d3aa8b23bf9f6bacfd51110f6383fd5d683455321a391f5458980be3747"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-fix-audit-response-20261023.md",
+      "bytes": 7144,
+      "sha256": "9721f0badcb465e5ce75541f57a3d212b4f87334ffe53eccf9de2100e8adb496"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-fix-report-20261022.md",
+      "bytes": 21152,
+      "sha256": "43aa0e48e41438c1fa0e42ccf8dc3a78223857152d93120f952a32b69610a2da"
+    },
+    {
+      "path": "docs/hrm-payroll-wb04-wb06-wb08-completion-fix-report-audit-20261023.md",
+      "bytes": 12549,
+      "sha256": "2d21abbb3d2c9b35fb6e3efc2b0e090b01d35f1211ad0af1e2bd3e4bb1f0b035"
+    },
+    {
+      "path": "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/demo.ts",
+      "bytes": 17920,
+      "sha256": "2d1feed5eda56fcb8e33fc56c694db26285a4a5a22221d0869cc7e1259540c43"
+    }
+  ],
+  "ignoredRequiredPaths": []
+}

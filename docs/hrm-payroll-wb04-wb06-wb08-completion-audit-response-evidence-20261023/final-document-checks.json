@@ -1,0 +1,25 @@
+{
+  "kind": "FINAL_DOCUMENT_ONLY_CHECKS",
+  "head": "d5ff56dbb5b94fdcf069c90f064f332d31f6a6fb",
+  "sourceIdentityMatch": true,
+  "historicalIdentityMatches": 18,
+  "historicalIdentityTotal": 18,
+  "localLinksChecked": 48,
+  "missingLocalLinks": [],
+  "plannedLinkedOutputs": [
+    "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/final-delivery-manifest.json",
+    "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/final-document-checks.json",
+    "docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/final-submission-allowlist.json"
+  ],
+  "credentialPatternScan": {
+    "textFilesScanned": 91,
+    "filesWithCandidates": 0,
+    "candidateMatches": 0,
+    "scope": "exact final allowlist text including generated final metadata; no OCR or full-format privacy audit"
+  },
+  "productDelta": "two string replacements plus Prettier-only RPT array line breaks; full patch saved final-product-delta.patch",
+  "reportNoTransientUncommittedClaims": true,
+  "businessChecks": "not rerun at documentation stage",
+  "exitCode": 0,
+  "gitDiffCheckExitCode": 0
+}

@@ -1,0 +1,1 @@
+cd '/Users/waitforpro/source/github-yudao/ruoyi-vue-pro' && python3 docs/hrm-payroll-wb04-wb06-wb08-completion-audit-response-evidence-20261023/executor-round2-checks-20261023/round2-integrity-check.py
