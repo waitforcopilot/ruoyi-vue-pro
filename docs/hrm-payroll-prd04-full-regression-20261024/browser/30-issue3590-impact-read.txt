@@ -1,0 +1,575 @@
+Browser tab: 1, Title: "芋道管理系统 - 需求评审", URL: "http://127.0.0.1:5173/hrm-payroll/requirement?projectId=153&module=COL&from=/hrm-payroll/review?projectId=153%26module=COL".
+1 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?projectId=153&module=COL&from=/hrm-payroll/review?projectId=153%26module=COL
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			366 container
+				367 container v-tool-header
+					368 container 面包屑
+						369 link 薪酬管理
+							370 text 薪酬管理
+						371 text /
+						372 link 需求评审
+							373 text 需求评审
+					374 container
+						375 container
+							376 combo box (collapsed, settable) ID: el-id-8573-81, Secondary Actions: Expand
+							377 text 请输入菜单内容
+					378 pop up button (collapsed) ID: el-id-8573-4, Secondary Actions: Expand
+					379 pop up button (collapsed) ID: el-id-8573-9, Secondary Actions: Expand
+					380 pop up button (collapsed) TEST S5 editor NEW DISPLAY, ID: el-id-8573-14, Secondary Actions: Expand
+				381 container v-tags-view
+					382 container
+						383 pop up button (collapsed) 首页, ID: el-id-8573-20, Secondary Actions: Expand
+							384 container
+								385 text 首页
+						386 pop up button (collapsed) 薪酬需求评审工作台, ID: el-id-8573-28, Secondary Actions: Expand
+							387 text 薪酬需求评审工作台
+						388 pop up button (collapsed) 需求评审, ID: el-id-8573-181, Secondary Actions: Expand
+							389 container
+								390 text 需求评审
+					391 pop up button (collapsed) ID: el-id-8573-36, Secondary Actions: Expand
+			392 container
+				393 button 进入十视图需求评审工作台
+				394 container
+					395 container
+						396 combo box (collapsed, settable) Description: 评审项目, ID: el-id-8573-217, Secondary Actions: Expand
+						397 text TEST WB completion 20261022 A · 非正式批准
+						398 image
+					399 button 新建评审项目
+					400 button 修改项目名称
+					401 button 修订项目范围
+					402 button 模板版本比较
+					403 button 项目变更历史
+					404 button 项目成员与授权
+				405 text TEST WB completion 20261022 A · 非正式批准 · 项目编号 153 · 范围版本 5 功能确认与数据就绪分别核实；确认需当前范围、规则、验收条件和依据，由有权的被分派人本人操作。来源按适用性校验，合法不适用可豁免来源及映射。
+				406 container
+					407 combo box (collapsed, settable) ID: el-id-8573-218, Secondary Actions: Expand
+					408 text 需求征集
+					409 image
+				410 button 刷新
+				411 button 新增需求
+				412 button 初始化 PRD 清单
+				413 button 导出评审清单
+				414 button (collapsed) 需求征集候选数据源与字段, ID: el-collapse-head-210, Secondary Actions: Expand
+					415 text 需求征集候选数据源与字段
+				416 container
+					417 table
+						418 row
+							419 cell
+								420 text 需求ID
+							421 cell
+								422 text 编号
+							423 cell
+								424 text 模块
+							425 cell
+								426 text 功能
+							427 cell
+								428 text 评审状态
+							429 cell
+								430 text 数据就绪
+							431 cell
+								432 text 数据来源
+							433 cell
+								434 text 范围适配
+							435 cell
+								436 text 版本
+							437 cell
+								438 text 操作
+					439 table
+						440 container
+							441 row
+								442 cell
+									443 text 1844
+								444 cell
+									445 text CUSTOM-0001
+								446 cell
+									447 text 需求征集
+								448 cell
+									449 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+								450 cell
+									451 text 评审中
+								452 cell
+									453 text 不适用
+								454 cell
+									455 text 匹配
+								456 cell
+									457 text 40
+								458 cell
+									459 container
+										460 button 编辑
+										461 button 历史
+										462 button 分派
+							463 row
+								464 cell
+									465 text 1845
+								466 cell
+									467 text CUSTOM-0002
+								468 cell
+									469 text 需求征集
+								470 cell
+									471 text TEST_WBC_T04_T07_规格确认与供数待提供分离 中文换行验收：本需求仅验证本机工程规格基线，不处理真实工资。
+								472 cell
+									473 text 已确认
+								474 cell
+									475 text 未就绪
+								476 cell
+									477 text TEST合成数据规格目录
+								478 cell
+									479 text 匹配
+								480 cell
+									481 text 12
+								482 cell
+									483 container
+										484 button 编辑
+										485 button 历史
+										486 button 分派
+							487 row
+								488 cell
+									489 text 1905
+								490 cell
+									491 text CUSTOM-0003
+								492 cell
+									493 text 需求征集
+								494 cell
+									495 text TEST-PRD04-FIFTH-153-多角色规格与协作-20261023
+								496 cell
+									497 text 评审中
+								498 cell
+									499 text 未就绪
+								500 cell
+									501 text 匹配
+								502 cell
+									503 text 12
+								504 cell
+									505 container
+										506 button 编辑
+										507 button 历史
+										508 button 分派
+				509 text 实际来源与候选目录分开；功能确认、语义核验、QS/QC和问题关闭分别操作。只登记规格或虚构样例引用，不填写口令或真实工资明细。
+				510 button 刷新来源工作台
+				511 button 导出当前来源关系
+				512 button 登记实际来源
+				513 button 建立消费关系
+				514 button 登记评审问题
+				515 tab group
+					516 tab (selectable, settable, boolean) 实际来源, Value: 0, ID: tab-sources
+					517 tab (selectable, settable, boolean) 消费关系与映射, Value: 0, ID: tab-relations
+					518 tab (selected, settable, boolean) 问题处理与独立复核, Value: 1, ID: tab-issues
+					519 tab (selectable, settable, boolean) 核验证据, Value: 0, ID: tab-evidence
+					520 tab (selectable, settable, boolean) 站内待办与建议, Value: 0, ID: tab-todos
+				521 container Description: 问题处理与独立复核, ID: pane-issues
+					522 container
+						523 table
+							524 row
+								525 cell
+									526 text issueId
+								527 cell
+									528 text 问题
+								529 cell
+									530 text 状态 / 类别 / 期限
+								531 cell
+									532 text 责任人 / 复核人
+								533 cell
+									534 text 操作
+						535 table
+							536 container
+								537 row
+									538 cell
+										539 text 3531
+									540 cell
+										541 text TEST_WBC_T03_TWO_CYCLES_20261023：驳回、补充、独立关闭与新依据重开
+									542 cell
+										543 text 已关闭 / ADVISORY / 2026-10-31
+									544 cell
+										545 text 266 / 279
+									546 cell
+										547 container
+											548 button 重开问题
+											549 button 问题历史
+								550 row
+									551 cell
+										552 text 3569
+									553 cell
+										554 text TEST_WBC_T04_BASELINE_OVERDUE_20261023：仅本机合成，验证全项目阻断与逾期
+									555 cell
+										556 text 待复核 / ADVISORY / 2026-10-22 已逾期
+									557 cell
+										558 text 266 / 279
+									559 cell
+										560 container
+											561 button 重新分派
+											562 button 问题历史
+								563 row
+									564 cell
+										565 text 3590
+									566 cell
+										567 text TEST-WBC-1845数据待提供：规格已由279本人确认；供给待提供且QS/QC尚未执行，必须保持数据未就绪，问题OPEN不作为规格基线阻断。
+									568 cell
+										569 text 待复核 / DATA_READINESS / 2026-10-31
+									570 cell
+										571 text 266 / 279
+									572 cell
+										573 container
+											574 button 重新分派
+											575 button 问题历史
+								576 row
+									577 cell
+										578 text 3616
+									579 cell
+										580 text TEST-FIFTH-1905-独立复核循环：本机合成流程问题
+									581 cell
+										582 text 已关闭 / DATA_READINESS / 2026-11-02
+									583 cell
+										584 text 266 / 279
+									585 cell
+										586 container
+											587 button 重开问题
+											588 button 问题历史
+				589 container 关闭对象历史
+					590 container
+						591 text 工作台对象历史
+					592 container
+						593 table
+							594 row
+								595 cell
+									596 text 动作
+								597 cell
+									598 text 对象版本
+								599 cell
+									600 text 操作者
+								601 cell
+									602 text 依据
+								603 cell
+									604 text 快照与影响集合
+						605 table
+							606 container
+								607 row
+									608 cell
+										609 text ISSUE_CREATE
+									610 cell
+										611 text 1
+									612 cell
+										613 text 266
+									614 cell
+										615 text TEST工程数据就绪问题，独立保留OPEN；不得取消当前有效规格确认，不声明任何实际工资数据已提供。
+									616 cell
+										617 text {
+  "objectId": 3590,
+  "kind": "ISSUE",
+  "objectVersion": 1,
+  "action": "ISSUE_CREATE",
+  "actor": 266,
+  "time": "2026-10-23T08:14:34.955",
+  "reason": "TEST工程数据就绪问题，独立保留OPEN；不得取消当前有效规格确认，不声明任何实际工资数据已提供。",
+  "snapshot": {
+    "description": "TEST-WBC-1845数据待提供：规格已由279本人确认；供给待提供且QS/QC尚未执行，必须保持数据未就绪，问题OPEN不作为规格基线阻断。",
+    "requirementIds": [
+      1845
+    ],
+    "sourceIds": [
+      3578
+    ],
+    "wholeProject": false,
+    "category": "DATA_READINESS",
+    "handlerId": 266,
+    "reviewerId": 279,
+    "dueDate": "2026-10-31",
+    "relationIds": [
+      3583
+    ],
+    "state": "OPEN",
+    "cycle": 1,
+    "wasOverdue": false,
+    "closedDate": null,
+    "processing": null,
+    "review": null
+  },
+  "affectedRequirementIds": [
+    1845
+  ]
+}
+								618 row
+									619 cell
+										620 text ISSUE_START
+									621 cell
+										622 text 2
+									623 cell
+										624 text 266
+									625 cell
+										626 text TEST处理人266开始核实合成来源供给和映射v2；当前无交付与QS/QC通过，不宣称已解决。
+									627 cell
+										628 text {
+  "objectId": 3590,
+  "kind": "ISSUE",
+  "objectVersion": 2,
+  "action": "ISSUE_START",
+  "actor": 266,
+  "time": "2026-10-23T08:19:04.892",
+  "reason": "TEST处理人266开始核实合成来源供给和映射v2；当前无交付与QS/QC通过，不宣称已解决。",
+  "snapshot": {
+    "description": "TEST-WBC-1845数据待提供：规格已由279本人确认；供给待提供且QS/QC尚未执行，必须保持数据未就绪，问题OPEN不作为规格基线阻断。",
+    "requirementIds": [
+      1845
+    ],
+    "sourceIds": [
+      3578
+    ],
+    "wholeProject": false,
+    "category": "DATA_READINESS",
+    "handlerId": 266,
+    "reviewerId": 279,
+    "dueDate": "2026-10-31",
+    "relationIds": [
+      3583
+    ],
+    "state": "PROCESSING",
+    "cycle": 1,
+    "wasOverdue": false,
+    "closedDate": null,
+    "processing": null,
+    "review": null
+  },
+  "affectedRequirementIds": [
+    1845
+  ]
+}
+								629 row
+									630 cell
+										631 text ISSUE_SUBMIT
+									632 cell
+										633 text 3
+									634 cell
+										635 text 266
+									636 cell
+										637 text TEST处理人266提交当前绑定复核：来源3578待提供、关系3583映射已变v2，尚无QS/QC通过；不得提前认定解决。
+									638 cell
+										639 text {
+  "objectId": 3590,
+  "kind": "ISSUE",
+  "objectVersion": 3,
+  "action": "ISSUE_SUBMIT",
+  "actor": 266,
+  "time": "2026-10-23T14:02:28.841",
+  "reason": "TEST处理人266提交当前绑定复核：来源3578待提供、关系3583映射已变v2，尚无QS/QC通过；不得提前认定解决。",
+  "snapshot": {
+    "description": "TEST-WBC-1845数据待提供：规格已由279本人确认；供给待提供且QS/QC尚未执行，必须保持数据未就绪，问题OPEN不作为规格基线阻断。",
+    "requirementIds": [
+      1845
+    ],
+    "sourceIds": [
+      3578
+    ],
+    "wholeProject": false,
+    "category": "DATA_READINESS",
+    "handlerId": 266,
+    "reviewerId": 279,
+    "dueDate": "2026-10-31",
+    "relationIds": [
+      3583
+    ],
+    "state": "REVIEW",
+    "cycle": 1,
+    "wasOverdue": false,
+    "closedDate": null,
+    "processing": "TEST处理人266提交当前绑定复核：来源3578待提供、关系3583映射已变v2，尚无QS/QC通过；不得提前认定解决。",
+    "review": null
+  },
+  "affectedRequirementIds": [
+    1845
+  ]
+}
+								640 row
+									641 cell
+										642 text ISSUE_CLOSE
+									643 cell
+										644 text 4
+									645 cell
+										646 text 279
+									647 cell
+										648 text TEST独立复核279负向验收：当前供给未提供、映射v2未核验、QS/QC未通过，故预期系统拒绝关闭。该依据不表示数据已解决。
+									649 cell
+										650 text {
+  "objectId": 3590,
+  "kind": "ISSUE",
+  "objectVersion": 4,
+  "action": "ISSUE_CLOSE",
+  "actor": 279,
+  "time": "2026-10-23T14:03:09.225",
+  "reason": "TEST独立复核279负向验收：当前供给未提供、映射v2未核验、QS/QC未通过，故预期系统拒绝关闭。该依据不表示数据已解决。",
+  "snapshot": {
+    "description": "TEST-WBC-1845数据待提供：规格已由279本人确认；供给待提供且QS/QC尚未执行，必须保持数据未就绪，问题OPEN不作为规格基线阻断。",
+    "requirementIds": [
+      1845
+    ],
+    "sourceIds": [
+      3578
+    ],
+    "wholeProject": false,
+    "category": "DATA_READINESS",
+    "handlerId": 266,
+    "reviewerId": 279,
+    "dueDate": "2026-10-31",
+    "relationIds": [
+      3583
+    ],
+    "state": "CLOSED",
+    "cycle": 1,
+    "wasOverdue": false,
+    "closedDate": "2026-10-23",
+    "processing": "TEST处理人266提交当前绑定复核：来源3578待提供、关系3583映射已变v2，尚无QS/QC通过；不得提前认定解决。",
+    "review": "TEST独立复核279负向验收：当前供给未提供、映射v2未核验、QS/QC未通过，故预期系统拒绝关闭。该依据不表示数据已解决。"
+  },
+  "affectedRequirementIds": [
+    1845
+  ]
+}
+								651 row
+									652 cell
+										653 text ISSUE_REOPEN
+									654 cell
+										655 text 5
+									656 cell
+										657 text 266
+									658 cell
+										659 text TEST新依据：独立问题关闭不代表数据可用；本轮新增依赖并发变更与过期关闭请求验收，重新跟踪待提供事实。保留cycle1独立关闭历史。
+									660 cell
+										661 text {
+  "objectId": 3590,
+  "kind": "ISSUE",
+  "objectVersion": 5,
+  "action": "ISSUE_REOPEN",
+  "actor": 266,
+  "time": "2026-10-23T14:07:54.594",
+  "reason": "TEST新依据：独立问题关闭不代表数据可用；本轮新增依赖并发变更与过期关闭请求验收，重新跟踪待提供事实。保留cycle1独立关闭历史。",
+  "snapshot": {
+    "description": "TEST-WBC-1845数据待提供：规格已由279本人确认；供给待提供且QS/QC尚未执行，必须保持数据未就绪，问题OPEN不作为规格基线阻断。",
+    "requirementIds": [
+      1845
+    ],
+    "sourceIds": [
+      3578
+    ],
+    "wholeProject": false,
+    "category": "DATA_READINESS",
+    "handlerId": 266,
+    "reviewerId": 279,
+    "dueDate": "2026-10-31",
+    "relationIds": [
+      3583
+    ],
+    "state": "OPEN",
+    "cycle": 2,
+    "wasOverdue": false,
+    "closedDate": null,
+    "processing": null,
+    "review": null
+  },
+  "affectedRequirementIds": [
+    1845
+  ]
+}
+								662 row
+									663 cell
+										664 text ISSUE_START
+									665 cell
+										666 text 6
+									667 cell
+										668 text 266
+									669 cell
+										670 text TEST cycle2处理：当前source3578语义1/运营2/交付0，relation3583映射2，后续在复核表单打开后再改变绑定。
+									671 cell
+										672 text {
+  "objectId": 3590,
+  "kind": "ISSUE",
+  "objectVersion": 6,
+  "action": "ISSUE_START",
+  "actor": 266,
+  "time": "2026-10-23T14:08:06.534",
+  "reason": "TEST cycle2处理：当前source3578语义1/运营2/交付0，relation3583映射2，后续在复核表单打开后再改变绑定。",
+  "snapshot": {
+    "description": "TEST-WBC-1845数据待提供：规格已由279本人确认；供给待提供且QS/QC尚未执行，必须保持数据未就绪，问题OPEN不作为规格基线阻断。",
+    "requirementIds": [
+      1845
+    ],
+    "sourceIds": [
+      3578
+    ],
+    "wholeProject": false,
+    "category": "DATA_READINESS",
+    "handlerId": 266,
+    "reviewerId": 279,
+    "dueDate": "2026-10-31",
+    "relationIds": [
+      3583
+    ],
+    "state": "PROCESSING",
+    "cycle": 2,
+    "wasOverdue": false,
+    "closedDate": null,
+    "processing": null,
+    "review": null
+  },
+  "affectedRequirementIds": [
+    1845
+  ]
+}
+								673 row
+									674 cell
+										675 text ISSUE_SUBMIT
+									676 cell
+										677 text 7
+									678 cell
+										679 text 266
+									680 cell
+										681 text TEST cycle2提交：映射2与当前来源绑定作为本轮复核基准；下一步用两可见内嵌标签会话验证表单打开后依赖变更。
+									682 cell
+										683 text {
+  "objectId": 3590,
+  "kind": "ISSUE",
+  "objectVersion": 7,
+  "action": "ISSUE_SUBMIT",
+  "actor": 266,
+  "time": "2026-10-23T14:08:20.938",
+  "reason": "TEST cycle2提交：映射2与当前来源绑定作为本轮复核基准；下一步用两可见内嵌标签会话验证表单打开后依赖变更。",
+  "snapshot": {
+    "description": "TEST-WBC-1845数据待提供：规格已由279本人确认；供给待提供且QS/QC尚未执行，必须保持数据未就绪，问题OPEN不作为规格基线阻断。",
+    "requirementIds": [
+      1845
+    ],
+    "sourceIds": [
+      3578
+    ],
+    "wholeProject": false,
+    "category": "DATA_READINESS",
+    "handlerId": 266,
+    "reviewerId": 279,
+    "dueDate": "2026-10-31",
+    "relationIds": [
+      3583
+    ],
+    "state": "REVIEW",
+    "cycle": 2,
+    "wasOverdue": false,
+    "closedDate": null,
+    "processing": "TEST cycle2提交：映射2与当前来源绑定作为本轮复核基准；下一步用两可见内嵌标签会话验证表单打开后依赖变更。",
+    "review": null
+  },
+  "affectedRequirementIds": [
+    1845
+  ]
+}
+					684 button 关闭对象历史
+			365 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 589 container 关闭对象历史

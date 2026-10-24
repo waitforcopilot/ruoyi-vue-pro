@@ -1,0 +1,296 @@
+{
+  "kind": "PRD04_FIFTH_VISIBLE_BROWSER_REVIEW_PREFLIGHT_IDENTITY",
+  "repo": "/Users/waitforpro/source/github-yudao/ruoyi-vue-pro",
+  "head": "925ac220b3b09c973f9b64797bd35cf4a66a2c9b",
+  "report": {
+    "originalPath": "docs/hrm-payroll-prd04-function-completion-audit-20261021.md",
+    "bytes": 75089,
+    "sha256": "1c0ae7f296fb3d019c0254ff7e43875208c0de4d15a8b2a7b399d472e3f601fc",
+    "preservedCopyPath": "docs/hrm-payroll-prd04-browser-fifth-verification-20261023/hrm-payroll-prd04-function-completion-audit-20261021.before.md",
+    "copyBytes": 75089,
+    "copySha256": "1c0ae7f296fb3d019c0254ff7e43875208c0de4d15a8b2a7b399d472e3f601fc",
+    "copyMatchesOriginal": true
+  },
+  "prdV04": {
+    "path": "docs/hrm-payroll-requirements-workbench-prd-20261017.md",
+    "bytes": 77595,
+    "sha256": "7350322dd7d729275d2e424cecc04961f3c672edd86e29043a7502151523e985"
+  },
+  "sourceCandidate": {
+    "commit": "925ac220b3b09c973f9b64797bd35cf4a66a2c9b",
+    "files": [
+      {
+        "path": "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/demo.ts",
+        "bytes": 17920,
+        "sha256": "2d1feed5eda56fcb8e33fc56c694db26285a4a5a22221d0869cc7e1259540c43"
+      },
+      {
+        "path": "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/index.vue",
+        "bytes": 44488,
+        "sha256": "a5817f4eff90fe921238e04b4d6ca8d993b3a51b989e090923fb3cd302479bce"
+      },
+      {
+        "path": "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/validation.ts",
+        "bytes": 2801,
+        "sha256": "e984e49b670ec12a804f8870c65c47e4fab482e798eacfbb554faa5c6169b094"
+      },
+      {
+        "path": "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/WorkbenchPanel.vue",
+        "bytes": 28860,
+        "sha256": "f115485d3201beaa23c84e76c561d994a3ccac8ee030ae6bc57487a099d06650"
+      },
+      {
+        "path": "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/issueValidation.ts",
+        "bytes": 2153,
+        "sha256": "7849171aa44e16816ca3ff0e4cce676133ea9d01dd1195d523da4d4f62f37d69"
+      },
+      {
+        "path": "yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/governance/index.vue",
+        "bytes": 29485,
+        "sha256": "663519c7dd73e8d001e2c2a911eebbf7e81d3c16b942c1bdca6850c7b016cdde"
+      },
+      {
+        "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementProjectService.java",
+        "bytes": 24079,
+        "sha256": "61bf88c8f46e5ef52ee27f09ea95638a4cb409cd6fd7fb73cc3a6781df32cdd5"
+      },
+      {
+        "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementAccessService.java",
+        "bytes": 12451,
+        "sha256": "14e9d18fcac45f1bf1bcb79f6a28db639ce1d6f70ab8bddaa31be76845133086"
+      },
+      {
+        "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementServiceImpl.java",
+        "bytes": 28440,
+        "sha256": "298f1f6e91e45e7cd78e5306c1b50a0911de3bdb022d2f10677ecbab63c628ab"
+      },
+      {
+        "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollWorkbenchService.java",
+        "bytes": 49916,
+        "sha256": "4006b751f6c87d938962852bed7b6a08af757318ec718d870061aba921b9efe6"
+      },
+      {
+        "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollReviewService.java",
+        "bytes": 20179,
+        "sha256": "4fcf4da476055e63a9f31f794ca65d360de6f6ae16dff0c276dc223a6e4d7ee9"
+      },
+      {
+        "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceRootService.java",
+        "bytes": 11806,
+        "sha256": "b7f8b55a1272f4863a94dc77b5b926b69b6a818efea09eede9c156236787ad32"
+      },
+      {
+        "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceDecisionService.java",
+        "bytes": 15341,
+        "sha256": "69987457464d376b6524522d31692ef8ee13a978e010201433b1deaad15b907f"
+      },
+      {
+        "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceReleaseService.java",
+        "bytes": 17441,
+        "sha256": "9bc3562a414b0d22137d1dd79b60104ae16e007380ec85450c729fe745adfabf"
+      },
+      {
+        "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceProjectionService.java",
+        "bytes": 20337,
+        "sha256": "6cc052e92b8aec911aad08738cc16bc76bb61048d4ca9805463601d062aced00"
+      },
+      {
+        "path": "yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceExportService.java",
+        "bytes": 11416,
+        "sha256": "d244b492cd3e90ff1c03f8e255edcda9985abfccbad4991433492db259e8e4e0"
+      }
+    ],
+    "trackedChangesForAnchors": "",
+    "clean": true
+  },
+  "runtime": {
+    "liveBrowserInspected": false,
+    "visibleIabOwner": "main thread",
+    "historicalLocalPortMentionedInReport": "5173 (historical; not verified current)",
+    "vitePortConfigKey": "VITE_PORT (source config only; value not read)",
+    "historicalRuntimeJson": "docs/hrm-live-verification-20261017/requirement-prd04-runtime.json",
+    "historicalRuntimeJsonStructureOnly": [
+      {
+        "path": "actorPermissions",
+        "type": "list",
+        "length": 0
+      },
+      {
+        "path": "editOnlyActorSelfAssignConfirm.code",
+        "type": "int"
+      },
+      {
+        "path": "editOnlyActorSelfAssignConfirm.msg",
+        "type": "str"
+      },
+      {
+        "path": "editOnlyActorSelfAssignConfirm.data",
+        "type": "int"
+      },
+      {
+        "path": "savedRow.createTime",
+        "type": "int"
+      },
+      {
+        "path": "savedRow.updateTime",
+        "type": "int"
+      },
+      {
+        "path": "savedRow.creator",
+        "type": "str"
+      },
+      {
+        "path": "savedRow.updater",
+        "type": "str"
+      },
+      {
+        "path": "savedRow.deleted",
+        "type": "bool"
+      },
+      {
+        "path": "savedRow.id",
+        "type": "int"
+      },
+      {
+        "path": "savedRow.code",
+        "type": "str"
+      },
+      {
+        "path": "savedRow.module",
+        "type": "str"
+      },
+      {
+        "path": "savedRow.description",
+        "type": "str"
+      },
+      {
+        "path": "savedRow.fieldMapping",
+        "type": "str"
+      },
+      {
+        "path": "savedRow.sourceSystem",
+        "type": "str"
+      },
+      {
+        "path": "savedRow.sourceOwnerId",
+        "type": "int"
+      },
+      {
+        "path": "savedRow.reviewerId",
+        "type": "int"
+      },
+      {
+        "path": "savedRow.priority",
+        "type": "int"
+      },
+      {
+        "path": "savedRow.status",
+        "type": "str"
+      },
+      {
+        "path": "savedRow.readiness",
+        "type": "str"
+      },
+      {
+        "path": "savedRow.acceptance",
+        "type": "str"
+      },
+      {
+        "path": "savedRow.evidence",
+        "type": "str"
+      },
+      {
+        "path": "savedRow.version",
+        "type": "int"
+      },
+      {
+        "path": "savedRow.confirmedBy",
+        "type": "int"
+      },
+      {
+        "path": "savedRow.confirmedAt",
+        "type": "int"
+      },
+      {
+        "path": "validNAWithoutSourceOwnerOrSystem.code",
+        "type": "int"
+      },
+      {
+        "path": "validNAWithoutSourceOwnerOrSystem.msg",
+        "type": "str"
+      },
+      {
+        "path": "validNAWithoutSourceOwnerOrSystem.data",
+        "type": "NoneType"
+      },
+      {
+        "path": "seedCandidateCodes",
+        "type": "list",
+        "length": 0
+      },
+      {
+        "path": "assignedMenuPermissions",
+        "type": "list",
+        "length": 2
+      },
+      {
+        "path": "assignedMenuPermissions[].id",
+        "type": "int"
+      },
+      {
+        "path": "assignedMenuPermissions[].permission",
+        "type": "str"
+      },
+      {
+        "path": "actorUserId",
+        "type": "int"
+      },
+      {
+        "path": "confirmActor",
+        "type": "int"
+      },
+      {
+        "path": "afterRestoreWithoutUpdatePermissionCode",
+        "type": "int"
+      }
+    ],
+    "credentialValuesReadOrStored": false
+  },
+  "executorRole": {
+    "requested": "gpt-6-luna / max",
+    "actualRuntimeModel": "unverified"
+  },
+  "commands": [
+    {
+      "command": "git rev-parse HEAD",
+      "exit_code": 0,
+      "stdout": "925ac220b3b09c973f9b64797bd35cf4a66a2c9b\n",
+      "stderr": ""
+    },
+    {
+      "command": "git status --short -- yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/demo.ts yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/index.vue yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/validation.ts yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/WorkbenchPanel.vue yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/issueValidation.ts yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/governance/index.vue yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementProjectService.java yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementAccessService.java yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementServiceImpl.java yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollWorkbenchService.java yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollReviewService.java yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceRootService.java yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceDecisionService.java yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceReleaseService.java yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceProjectionService.java yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceExportService.java",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "shasum -a 256 docs/hrm-payroll-prd04-function-completion-audit-20261021.md docs/hrm-payroll-requirements-workbench-prd-20261017.md yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/demo.ts yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/index.vue yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/validation.ts yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/WorkbenchPanel.vue yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/issueValidation.ts yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/governance/index.vue yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementProjectService.java yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementAccessService.java yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementServiceImpl.java yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollWorkbenchService.java yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollReviewService.java yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceRootService.java yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceDecisionService.java yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceReleaseService.java yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceProjectionService.java yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceExportService.java",
+      "exit_code": 0,
+      "stdout": "1c0ae7f296fb3d019c0254ff7e43875208c0de4d15a8b2a7b399d472e3f601fc  docs/hrm-payroll-prd04-function-completion-audit-20261021.md\n7350322dd7d729275d2e424cecc04961f3c672edd86e29043a7502151523e985  docs/hrm-payroll-requirements-workbench-prd-20261017.md\n2d1feed5eda56fcb8e33fc56c694db26285a4a5a22221d0869cc7e1259540c43  yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/demo.ts\na5817f4eff90fe921238e04b4d6ca8d993b3a51b989e090923fb3cd302479bce  yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/index.vue\ne984e49b670ec12a804f8870c65c47e4fab482e798eacfbb554faa5c6169b094  yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/review/validation.ts\nf115485d3201beaa23c84e76c561d994a3ccac8ee030ae6bc57487a099d06650  yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/WorkbenchPanel.vue\n7849171aa44e16816ca3ff0e4cce676133ea9d01dd1195d523da4d4f62f37d69  yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/requirement/issueValidation.ts\n663519c7dd73e8d001e2c2a911eebbf7e81d3c16b942c1bdca6850c7b016cdde  yudao-ui/yudao-ui-admin-vue3/src/views/hrm/payroll/governance/index.vue\n61bf88c8f46e5ef52ee27f09ea95638a4cb409cd6fd7fb73cc3a6781df32cdd5  yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementProjectService.java\n14e9d18fcac45f1bf1bcb79f6a28db639ce1d6f70ab8bddaa31be76845133086  yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementAccessService.java\n298f1f6e91e45e7cd78e5306c1b50a0911de3bdb022d2f10677ecbab63c628ab  yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollRequirementServiceImpl.java\n4006b751f6c87d938962852bed7b6a08af757318ec718d870061aba921b9efe6  yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollWorkbenchService.java\n4fcf4da476055e63a9f31f794ca65d360de6f6ae16dff0c276dc223a6e4d7ee9  yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollReviewService.java\nb7f8b55a1272f4863a94dc77b5b926b69b6a818efea09eede9c156236787ad32  yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceRootService.java\n69987457464d376b6524522d31692ef8ee13a978e010201433b1deaad15b907f  yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceDecisionService.java\n9bc3562a414b0d22137d1dd79b60104ae16e007380ec85450c729fe745adfabf  yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceReleaseService.java\n6cc052e92b8aec911aad08738cc16bc76bb61048d4ca9805463601d062aced00  yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceProjectionService.java\nd244b492cd3e90ff1c03f8e255edcda9985abfccbad4991433492db259e8e4e0  yudao-module-hrm/src/main/java/cn/iocoder/yudao/module/hrm/service/payroll/HrmPayrollGovernanceExportService.java\n",
+      "stderr": ""
+    },
+    {
+      "command": "wc -l docs/hrm-payroll-prd04-function-completion-audit-20261021.md docs/hrm-payroll-requirements-workbench-prd-20261017.md",
+      "exit_code": 0,
+      "stdout": "     384 docs/hrm-payroll-prd04-function-completion-audit-20261021.md\n     624 docs/hrm-payroll-requirements-workbench-prd-20261017.md\n    1008 total\n",
+      "stderr": ""
+    }
+  ],
+  "scope": {
+    "noBrowserOperation": true,
+    "noDatabaseOperation": true,
+    "noProductSourceChange": true,
+    "noOriginalReportChange": true,
+    "noUserOrGrantCreation": true
+  }
+}

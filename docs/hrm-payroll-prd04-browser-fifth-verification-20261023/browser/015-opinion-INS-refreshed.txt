@@ -1,0 +1,447 @@
+Browser tab: 1, Title: "芋道管理系统 - 薪酬需求评审工作台", URL: "http://127.0.0.1:5173/hrm-payroll/review?projectId=154&module=INS".
+1 AXWebArea 芋道管理系统 - 薪酬需求评审工作台, URL: 127.0.0.1:5173/hrm-payroll/review?projectId=154&module=INS
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			256 container
+				257 container v-tool-header
+					258 container 面包屑
+					259 container
+						260 container
+							261 combo box (collapsed, settable) ID: el-id-901-81, Secondary Actions: Expand
+							262 text 请输入菜单内容
+					263 pop up button (collapsed) ID: el-id-901-4, Secondary Actions: Expand
+					264 pop up button (collapsed) ID: el-id-901-9, Secondary Actions: Expand
+					265 pop up button (collapsed) TEST S5 editor NEW DISPLAY, ID: el-id-901-14, Secondary Actions: Expand
+				266 container v-tags-view
+					278 container
+						279 pop up button (collapsed) 首页, ID: el-id-901-20, Secondary Actions: Expand
+							280 container
+								281 text 首页
+						282 pop up button (collapsed) 薪酬需求评审工作台, ID: el-id-901-28, Secondary Actions: Expand
+							283 text 薪酬需求评审工作台
+						284 pop up button (collapsed) 需求评审, ID: el-id-901-179, Secondary Actions: Expand
+							285 container
+								286 text 需求评审
+						287 pop up button (collapsed) 薪酬需求评审工作台 (2), ID: el-id-901-331, Secondary Actions: Expand
+							288 text 薪酬需求评审工作台 (2)
+						289 pop up button (collapsed) 薪酬需求评审工作台 (3), ID: el-id-901-506, Secondary Actions: Expand
+							290 text 薪酬需求评审工作台 (3)
+						291 pop up button (collapsed) 薪酬需求评审工作台 (4), ID: el-id-901-682, Secondary Actions: Expand
+							292 text 薪酬需求评审工作台 (4)
+						293 pop up button (collapsed) 薪酬需求评审工作台 (5), ID: el-id-901-859, Secondary Actions: Expand
+							294 text 薪酬需求评审工作台 (5)
+						474 pop up button (collapsed) 薪酬需求评审工作台 (6), ID: el-id-901-1036, Secondary Actions: Expand
+							475 text 薪酬需求评审工作台 (6)
+						476 pop up button (collapsed) 薪酬需求评审工作台 (7), ID: el-id-901-1213, Secondary Actions: Expand
+							477 text 薪酬需求评审工作台 (7)
+						478 pop up button (collapsed) 薪酬需求评审工作台 (8), ID: el-id-901-1390, Secondary Actions: Expand
+							479 text 薪酬需求评审工作台 (8)
+						480 pop up button (collapsed) 薪酬需求评审工作台 (9), ID: el-id-901-1567, Secondary Actions: Expand
+							481 text 薪酬需求评审工作台 (9)
+					276 pop up button (collapsed) ID: el-id-901-36, Secondary Actions: Expand
+			277 container
+				482 heading 薪酬需求评审工作台 · 社保公积金, Value: 1, ID: review-heading
+					483 text 薪酬需求评审工作台 · 社保公积金
+				484 text 示例数据，仅用于讨论。意见与评审记录真实保存；演示核算、审批及工资条只作用于虚构样例。
+				485 container
+					486 combo box (collapsed, settable) Description: 评审项目, ID: el-id-901-1608, Secondary Actions: Expand
+					656 text 154 · TEST PRD04 第五轮项目154 · 改名回读 · 非正式批准
+					488 image
+				489 button 刷新工作台
+				490 button 集中清单
+				491 button 业务决议与发布
+				492 button 实际来源与核验
+				493 button 原有正式业务入口
+				657 text TEST PRD04 第五轮项目154 · 改名回读 · 非正式批准 · 项目 154 · 范围版本 尚未定义 范围：尚未定义或当前权限不可见；不据此推定全项目范围
+				495 container 十视图评审导航
+					496 button 薪酬总览
+					497 button 薪酬方案
+					498 button 工资核算
+					499 button 个税与工资条
+					500 button 考勤
+					501 button 加班
+					502 button 工时
+					503 button 社保公积金
+					504 button 报表分析
+					505 button 需求征集
+				506 button 上一步
+				507 text 第 8/10 视图
+				508 button 下一步
+				509 button 关联：工资核算
+				510 button 关联：个税与工资条
+				511 button 关联：报表分析
+				512 text 讨论主体/城市、有效政策、基数比例及应缴/实缴对账。
+				513 container 虚构业务展示
+					514 heading 业务场景与字段, Value: 2
+						515 text 业务场景与字段
+					516 text TEST-EMP-001 · 虚构员工甲 · 虚构研发组 · 2026-10；全为虚构，未绑定员工档案。
+					517 container 示例业务表，左右方向可横向滚动
+						518 table
+							519 row
+								520 cell
+									521 text 城市/项目
+								522 cell
+									523 text 基数元
+								524 cell
+									525 text 个人比例
+								526 cell
+									527 text 个人元
+								528 cell
+									529 text 单位比例
+								530 cell
+									531 text 单位元
+								532 cell
+									533 text 应缴/实缴
+							534 row
+								535 cell
+									536 text TEST城-社保
+								537 cell
+									538 text 10000
+								539 cell
+									540 text 演示8%
+								541 cell
+									542 text 800
+								543 cell
+									544 text 演示15%
+								545 cell
+									546 text 1500
+								547 cell
+									548 text 2300/待对账
+							549 row
+								550 cell
+									551 text TEST城-公积金
+								552 cell
+									553 text 10000
+								554 cell
+									555 text 演示6%
+								556 cell
+									557 text 600
+								558 cell
+									559 text 演示6%
+								560 cell
+									561 text 600
+								562 cell
+									563 text 1200/待对账
+					564 text 个人合计1400进入工资扣款；单位合计2100进入用工成本。
+					565 text 基数上下限示例5000/30000，非真实城市政策；入离职/调基/退款和政策依据待评审。
+					566 container field-deduction
+						567 text 个人缴费扣款
+						568 button 补充字段说明：个人缴费扣款
+						569 button 这个字段从哪里来
+					570 container operation-simulate
+						571 button 演示核算
+						572 button 演示复核
+						573 button 预览示例工资条
+						574 button 补充操作规则或例外
+					575 text 示例尚未执行；不代表真实薪酬状态
+					576 container flow-approval
+						577 text 示例流程：准备 → 试算 → 复核 → 发放讨论 → 归档讨论 
+						578 button 补充流程角色与异常
+				579 container 候选功能讨论场景
+					580 heading 逐项功能场景与例外（示例）, Value: 2
+						581 text 逐项功能场景与例外（示例）
+					582 container field-ins-01
+						583 text INS-01 · 基数调基
+						584 text 正常/预期：TEST城基数10000；上下限示例5000/30000
+						585 text 异常/待确认：真实年度政策、补缴和入离职条件待核定
+						586 button 围绕INS-01提意见
+					587 container field-ins-02
+						588 text INS-02 · 比例及城市
+						589 text 正常/预期：个人社保8%/单位15%、公积金各6%仅演示
+						590 text 异常/待确认：跨城市/主体/有效期变化须绑定政策依据
+						591 button 围绕INS-02提意见
+					592 container Description: INS-03 · 个人扣款 正常/预期：800＋600＝1400，扣入主样例一次 异常/待确认：已扣与实缴不一致必须列差额 围绕INS-03提意见, ID: field-ins-03
+						593 text INS-03 · 个人扣款
+						594 text 正常/预期：800＋600＝1400，扣入主样例一次
+						595 text 异常/待确认：已扣与实缴不一致必须列差额
+						596 button 围绕INS-03提意见
+					597 container field-ins-04
+						598 text INS-04 · 单位成本
+						599 text 正常/预期：1500＋600＝2100；单位成本11750＋2100＝13850
+						600 text 异常/待确认：个人扣款不重复计为单位缴费
+						601 button 围绕INS-04提意见
+					602 container field-ins-05
+						603 text INS-05 · 缴费对账
+						604 text 正常/预期：应缴社保2300、公积金1200；实缴待对账
+						605 text 异常/待确认：实缴未知不能显示已清偿；退款补缴另留依据
+						606 button 围绕INS-05提意见
+				608 container Description: 页面内功能需求征集, ID: module
+					609 heading 功能需求与意见征集（真实保存）, Value: 2
+						610 text 功能需求与意见征集（真实保存）
+					611 container
+						612 button 补充本模块需求
+						613 button 初始化46项候选模板
+						614 button 导出当前筛选评审清单
+						615 button (disabled) 批量分派所选需求
+					616 container
+						617 text field (settable) Description: 查找需求, ID: el-id-901-1609
+						618 container
+							619 combo box (collapsed, settable) Description: 评审状态筛选, ID: el-id-901-1610, Secondary Actions: Expand
+							620 text 全部评审状态
+							621 image
+						622 container
+							623 combo box (collapsed, settable) Description: 范围决策筛选, ID: el-id-901-1611, Secondary Actions: Expand
+							624 text 全部范围决策
+							625 image
+						626 container
+							627 combo box (collapsed, settable) Description: 排序, ID: el-id-901-1612, Secondary Actions: Expand
+							628 text 编号升序
+							629 image
+						630 button 应用筛选
+						631 button 清除筛选
+					661 container 真实需求清单
+						662 container
+							663 table
+								664 row
+									665 cell
+										666 container 选择所有行
+											667 checkbox (settable, integer) Description: 选择所有行, Value: 0, ID: el-id-901-1737
+									668 cell
+										669 text 需求ID
+									670 cell
+										671 text 编号
+									672 cell
+										673 text 功能/意见
+									674 cell
+										675 text 功能评审
+									676 cell
+										677 text 范围决策
+									678 cell
+										679 text 来源
+									680 cell
+										681 text 实施
+									682 cell
+										683 text 版本
+									684 cell
+										685 text 操作
+							686 table
+								687 container
+									688 row
+										689 cell
+											690 container 选择当前行
+												691 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-901-1738
+										692 cell
+											693 text 1899
+										694 cell
+											695 text CUSTOM-0008
+										696 cell
+											697 text TEST-PRD04-FIFTH-INS-意见-20261023
+										698 cell
+											699 text 待确认
+										700 cell
+											701 text 候选
+										702 cell
+											703 text 未就绪
+										704 cell
+											705 text 未排期
+										706 cell
+											707 text 1
+										708 cell
+											709 container
+												710 button 编辑意见
+												711 button 历史/比较
+												712 button 返回原位置
+												713 button (disabled) 范围决策
+												714 button 实施关联
+												715 button 会议与站内提醒
+									716 row
+										717 cell
+											718 container 选择当前行
+												719 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-901-1739
+										720 cell
+											721 text 1887
+										722 cell
+											723 text INS-01
+										724 cell
+											725 text 缴存基数申报与年度调基
+										726 cell
+											727 text 待确认
+										728 cell
+											729 text 候选
+										730 cell
+											731 text 未就绪
+										732 cell
+											733 text 未排期
+										734 cell
+											735 text 1
+										736 cell
+											737 container
+												738 button 编辑意见
+												739 button 历史/比较
+												740 button 返回原位置
+												741 button (disabled) 范围决策
+												742 button 实施关联
+												743 button 会议与站内提醒
+									744 row
+										745 cell
+											746 container 选择当前行
+												747 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-901-1740
+										748 cell
+											749 text 1888
+										750 cell
+											751 text INS-02
+										752 cell
+											753 text 比例与基数按城市/政策配置
+										754 cell
+											755 text 待确认
+										756 cell
+											757 text 候选
+										758 cell
+											759 text 未就绪
+										760 cell
+											761 text 未排期
+										762 cell
+											763 text 1
+										764 cell
+											765 container
+												766 button 编辑意见
+												767 button 历史/比较
+												768 button 返回原位置
+												769 button (disabled) 范围决策
+												770 button 实施关联
+												771 button 会议与站内提醒
+									772 row
+										773 cell
+											774 container 选择当前行
+												775 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-901-1741
+										776 cell
+											777 text 1889
+										778 cell
+											779 text INS-03
+										780 cell
+											781 text 个人扣款自动进入工资核算
+										782 cell
+											783 text 待确认
+										784 cell
+											785 text 候选
+										786 cell
+											787 text 未就绪
+										788 cell
+											789 text 未排期
+										790 cell
+											791 text 1
+										792 cell
+											793 container
+												794 button 编辑意见
+												795 button 历史/比较
+												796 button 返回原位置
+												797 button (disabled) 范围决策
+												798 button 实施关联
+												799 button 会议与站内提醒
+									800 row
+										801 cell
+											802 container 选择当前行
+												803 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-901-1742
+										804 cell
+											805 text 1890
+										806 cell
+											807 text INS-04
+										808 cell
+											809 text 单位缴费计入用工成本报表
+										810 cell
+											811 text 待确认
+										812 cell
+											813 text 候选
+										814 cell
+											815 text 未就绪
+										816 cell
+											817 text 未排期
+										818 cell
+											819 text 1
+										820 cell
+											821 container
+												822 button 编辑意见
+												823 button 历史/比较
+												824 button 返回原位置
+												825 button (disabled) 范围决策
+												826 button 实施关联
+												827 button 会议与站内提醒
+									828 row
+										829 cell
+											830 container 选择当前行
+												831 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-901-1743
+										832 cell
+											833 text 1891
+										834 cell
+											835 text INS-05
+										836 cell
+											837 text 社保公积金月度缴纳台账与对账
+										838 cell
+											839 text 待确认
+										840 cell
+											841 text 候选
+										842 cell
+											843 text 未就绪
+										844 cell
+											845 text 未排期
+										846 cell
+											847 text 1
+										848 cell
+											849 container
+												850 button 编辑意见
+												851 button 历史/比较
+												852 button 返回原位置
+												853 button (disabled) 范围决策
+												854 button 实施关联
+												855 button 会议与站内提醒
+					856 button (disabled) 上一页
+					857 content list
+						858 container 第 1 页
+							859 text 1
+					860 button (disabled) 下一页
+					861 text 共 6 条
+				632 container 数据来源征集
+					633 heading 依赖数据来源与盘点, Value: 2
+						634 text 依赖数据来源与盘点
+					635 text 候选目录是征集线索，不能冒充实际已提供来源或质量通过。实际来源需按权限另行登记与核验。
+					636 text DS-01 · HR 员工与组织档案
+					637 text 员工唯一编号、主体、部门、入离职日期、计薪资格；候选确认方：HR
+					638 text DS-06 · 社保公积金政策与缴费台账
+					639 text 地区、项目、有效期、基数上下限、个人 / 单位比例、实际缴费额；候选确认方：HR / 财务
+					640 container
+						641 text 当前可见实际来源 
+						642 container
+							643 combo box (collapsed, settable) Description: 选择实际来源, ID: el-id-901-1613, Secondary Actions: Expand
+							644 text 无来源时保持缺口
+							645 image
+					646 button 维护实际来源、映射和QS/QC
+				647 container 我的站内提醒
+					648 heading 我的站内提醒（无外发）, Value: 2
+						649 text 我的站内提醒（无外发）
+					862 text 当前有权范围内暂无发给我的站内提醒；会议纪要及全部协作历史可在需求历史中查看。
+				650 container 真实统计与下钻
+					651 heading 范围、确认及来源统计（服务器集合）, Value: 2
+						652 text 范围、确认及来源统计（服务器集合）
+					653 text U全部需求（含移除）；E未移除；I纳入本期；C当前确认有效；T暂缓；D有异议。暂缓与异议仍计入有效集合，范围决策不代替确认。
+					863 text 筛选统计（不改变全项目发布门槛） · 筛选条件 {"module":"INS","status":null,"decision":null,"text":null}
+					864 button U · 6 · 查看集合
+					865 button E · 6 · 查看集合
+					866 button I · 0 · 查看集合
+					867 button C · 0 · 查看集合
+					868 button T · 0 · 查看集合
+					869 button D · 0 · 查看集合
+					870 text 功能确认率：0/6
+					871 text 范围处置率：0/6
+					872 text 本期确认率：暂无适用项（0/0）
+					873 text 来源可用率：0/6
+					874 text 本期来源可用率：暂无适用项（0/0）
+					875 text 去重实际来源 0；有效不适用 0；未决问题 0，逾期 0。关系和需求缺口以独立ID计数。
+					876 text 全项目功能确认 0/54，本期确认 暂无适用项（0/0）；当前筛选不改变全项目门槛。
+					654 text 当前统计不是发布成功或已实施证明；业务决议、发布检查与六表快照请使用独立入口核实。受限账号只展示可见集合，隐藏对象数量不输出。
+					655 button 查看关系与缺口L
+			255 text Copyright ©2026 芋道管理系统
+	659 container message_8
+		660 text 意见已真实保存
+
+The focused UI element is 592 container Description: INS-03 · 个人扣款 正常/预期：800＋600＝1400，扣入主样例一次 异常/待确认：已扣与实缴不一致必须列差额 围绕INS-03提意见, ID: field-ins-03

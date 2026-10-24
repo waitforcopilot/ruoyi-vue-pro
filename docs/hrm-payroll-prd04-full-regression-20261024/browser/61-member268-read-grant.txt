@@ -1,0 +1,422 @@
+Browser tab: 1, Title: "芋道管理系统 - 需求评审", URL: "http://127.0.0.1:5173/hrm-payroll/requirement?projectId=154&module=COL".
+1 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?projectId=154&module=COL
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			15 container
+				16 container v-tool-header
+					17 container 面包屑
+						18 link 薪酬管理
+							19 text 薪酬管理
+						20 text /
+						21 link 需求评审
+							22 text 需求评审
+					23 container
+						24 container
+							25 combo box (collapsed, settable) ID: el-id-1214-76, Secondary Actions: Expand
+							26 text 请输入菜单内容
+					27 pop up button (collapsed) ID: el-id-1214-4, Secondary Actions: Expand
+					28 pop up button (collapsed) ID: el-id-1214-9, Secondary Actions: Expand
+					29 pop up button (collapsed) TEST S5 editor NEW DISPLAY, ID: el-id-1214-14, Secondary Actions: Expand
+				30 container v-tags-view
+					31 container
+						32 pop up button (collapsed) 首页, ID: el-id-1214-20, Secondary Actions: Expand
+							33 container
+								34 text 首页
+						35 pop up button (collapsed) 需求评审, ID: el-id-1214-28, Secondary Actions: Expand
+							36 container
+								37 text 需求评审
+					38 pop up button (collapsed) ID: el-id-1214-36, Secondary Actions: Expand
+			39 container
+				40 button 进入十视图需求评审工作台
+				41 container
+					42 container
+						43 combo box (collapsed, settable) Description: 评审项目, ID: el-id-1214-77, Secondary Actions: Expand
+						44 text TEST PRD04 第五轮项目154 · 改名回读 · 非正式批准
+						45 image
+					46 button 新建评审项目
+					47 button 修改项目名称
+					48 button 修订项目范围
+					49 button 模板版本比较
+					50 button 项目变更历史
+					51 button 项目成员与授权
+				52 container 关闭成员管理 保存成员授权
+					53 container
+						54 text 项目成员与授权
+					55 container
+						56 text 授权受当前委派上限约束；创建人和技术管理员不自动拥有成员管理或业务确认权。撤销上游授权同时使其委派失效，历史签署保留。
+						57 container
+							58 table
+								59 row
+									60 cell
+										61 text 授权编号
+									62 cell
+										63 text 成员
+									64 cell
+										65 text 动作
+									66 cell
+										67 text 当前状态
+									68 cell
+										69 text 范围
+									70 cell
+										71 text 操作
+							72 table
+								73 container
+									74 row
+										75 cell
+											76 button (collapsed) Description: 展开当前行, Secondary Actions: Expand
+										77 cell
+											78 text 533
+										79 cell
+											80 text TEST S5 restricted
+										81 cell
+											82 text READ
+										83 cell
+											84 text 有效
+										85 cell
+											86 text ["COL"] / []
+										406 cell
+											407 button 撤销
+									87 row
+										88 cell
+											89 button (collapsed) Description: 展开当前行, Secondary Actions: Expand
+										90 cell
+											91 text 532
+										92 cell
+											93 text TEST S5 editor NEW DISPLAY
+										94 cell
+											95 text READ,MEMBER
+										96 cell
+											97 text 有效
+										98 cell
+											99 text 全项目模块/对象
+									100 row
+										101 cell
+											102 button (collapsed) Description: 展开当前行, Secondary Actions: Expand
+										103 cell
+											104 text 531
+										105 cell
+											106 text TEST S5 editor NEW DISPLAY
+										107 cell
+											108 text READ,SCOPE,MEMBER
+										109 cell
+											110 text 有效
+										111 cell
+											112 text 全项目模块/对象
+									408 row
+										409 cell
+											410 button (collapsed) Description: 展开当前行, Secondary Actions: Expand
+										411 cell
+											412 text 530
+										413 cell
+											414 text TEST S5 editor NEW DISPLAY
+										415 cell
+											416 text READ,META,EDIT,ASSIGN,EXPORT
+										417 cell
+											418 text 有效
+										419 cell
+											420 text 全项目模块/对象
+										421 cell
+											422 button 撤销
+						115 text 被授权成员
+						116 container
+							117 combo box (collapsed, settable) 被授权成员, ID: el-id-1214-216, Secondary Actions: Expand
+							118 text TEST S5 restricted
+							119 image
+						120 text 许可动作
+						121 container
+							122 container
+								123 text 读取
+								124 button 关闭此标签
+							125 combo box (collapsed, settable) 许可动作, ID: el-id-1214-217, Secondary Actions: Expand
+							126 image
+						127 text 允许继续委派
+						128 container
+							129 combo box (collapsed, settable) 允许继续委派, ID: el-id-1214-218, Secondary Actions: Expand
+							130 text 请选择
+							131 image
+						132 container
+							133 switch (settable, boolean) Description: 全模块及对象, Value: 0, ID: el-id-1214-219
+						134 text 模块集合
+						135 text field (settable) 模块集合, Value: COL, ID: el-id-1214-220
+						136 text 稳定需求ID集合
+						137 text field (settable) 稳定需求ID集合, ID: el-id-1214-221
+						138 text 显式来源ID集合
+						139 text field (settable) 显式来源ID集合, ID: el-id-1214-222
+						140 text 主体ID集合
+						141 text field (settable) 主体ID集合, Value: 101, ID: el-id-1214-223
+						142 text 组织ID集合
+						143 text field (settable) 组织ID集合, Value: 201, ID: el-id-1214-224
+						144 text 人员类型
+						145 text field (settable) 人员类型, Value: TEST, ID: el-id-1214-225
+						146 text 业务场景
+						147 text field (settable) 业务场景, Value: TEST, ID: el-id-1214-226
+						148 text 期间开始
+						149 text field (settable) 期间开始, Value: 2026-10-01, ID: el-id-1214-227
+						150 text 期间结束
+						151 text field (settable) 期间结束, Value: 2026-10-31, ID: el-id-1214-228
+						152 text 范围业务说明
+						153 text entry area (settable) 范围业务说明, Value: TEST项目154独立本机合成范围，不含真实员工, ID: el-id-1214-229
+						154 text 授权开始日期
+						155 text field (settable) 授权开始日期, Value: 2026-10-24, ID: el-id-1214-230
+						156 text 授权结束日期
+						157 text field (settable) 授权结束日期, Value: 2026-10-31, ID: el-id-1214-231
+						158 text 授权依据
+						159 text entry area (settable) 授权依据, Value: TEST154 COL模块只读回归，当前ROOT1464允许READ委派，测试完成后撤销, ID: el-id-1214-232
+					160 container
+						161 button 关闭成员管理
+						162 button 保存成员授权
+				164 text TEST PRD04 第五轮项目154 · 改名回读 · 非正式批准 · 项目编号 154 · 范围版本 1 功能确认与数据就绪分别核实；确认需当前范围、规则、验收条件和依据，由有权的被分派人本人操作。来源按适用性校验，合法不适用可豁免来源及映射。
+				165 container
+					166 combo box (collapsed, settable) ID: el-id-1214-78, Secondary Actions: Expand
+					167 text 需求征集
+					168 image
+				169 button 刷新
+				170 button 新增需求
+				171 button 初始化 PRD 清单
+				172 button 导出评审清单
+				173 button (collapsed) 需求征集候选数据源与字段, ID: el-collapse-head-65, Secondary Actions: Expand
+					174 text 需求征集候选数据源与字段
+				175 container
+					176 table
+						177 row
+							178 cell
+								179 text 需求ID
+							180 cell
+								181 text 编号
+							182 cell
+								183 text 模块
+							184 cell
+								185 text 功能
+							186 cell
+								187 text 评审状态
+							188 cell
+								189 text 数据就绪
+							190 cell
+								191 text 数据来源
+							192 cell
+								193 text 范围适配
+							194 cell
+								195 text 版本
+							196 cell
+								197 text 操作
+					198 table
+						199 container
+							200 row
+								201 cell
+									202 text 1879
+								203 cell
+									204 text COL-01
+								205 cell
+									206 text 需求征集
+								207 cell
+									208 text 按模块汇总功能及数据源，关联附录 A 的编号
+								209 cell
+									210 text 待确认
+								211 cell
+									212 text 未就绪
+								213 cell
+									214 text 匹配
+								215 cell
+									216 text 2
+								217 cell
+									218 container
+										219 button 编辑
+										220 button 历史
+										221 button 分派
+							222 row
+								223 cell
+									224 text 1880
+								225 cell
+									226 text COL-02
+								227 cell
+									228 text 需求征集
+								229 cell
+									230 text 维护确认 / 待确认 / 异议，记录确认人、时间、依据及未决问题
+								231 cell
+									232 text 待确认
+								233 cell
+									234 text 未就绪
+								235 cell
+									236 text 匹配
+								237 cell
+									238 text 2
+								239 cell
+									240 container
+										241 button 编辑
+										242 button 历史
+										243 button 分派
+							244 row
+								245 cell
+									246 text 1869
+								247 cell
+									248 text COL-03
+								249 cell
+									250 text 需求征集
+								251 cell
+									252 text 补充字段映射、负责人、优先级与导出评审清单
+								253 cell
+									254 text 待确认
+								255 cell
+									256 text 未就绪
+								257 cell
+									258 text 匹配
+								259 cell
+									260 text 2
+								261 cell
+									262 container
+										263 button 编辑
+										264 button 历史
+										265 button 分派
+							266 row
+								267 cell
+									268 text 1901
+								269 cell
+									270 text CUSTOM-0010
+								271 cell
+									272 text 需求征集
+								273 cell
+									274 text TEST-PRD04-FIFTH-COL-意见-20261023
+								275 cell
+									276 text 待确认
+								277 cell
+									278 text 未就绪
+								279 cell
+									280 text 匹配
+								281 cell
+									282 text 2
+								283 cell
+									284 container
+										285 button 编辑
+										286 button 历史
+										287 button 分派
+							288 row
+								289 cell
+									290 text 1902
+								291 cell
+									292 text CUSTOM-0011
+								293 cell
+									294 text 需求征集
+								295 cell
+									296 text TEST-PRD04-FIFTH-COL-FLOW-390-意见-20261023
+								297 cell
+									298 text 待确认
+								299 cell
+									300 text 未就绪
+								301 cell
+									302 text 匹配
+								303 cell
+									304 text 2
+								305 cell
+									306 container
+										307 button 编辑
+										308 button 历史
+										309 button 分派
+							310 row
+								311 cell
+									312 text 1903
+								313 cell
+									314 text CUSTOM-0012
+								315 cell
+									316 text 需求征集
+								317 cell
+									318 text TEST-PRD04-FIFTH-COL-FIELD-768-意见-20261023
+								319 cell
+									320 text 待确认
+								321 cell
+									322 text 未就绪
+								323 cell
+									324 text 匹配
+								325 cell
+									326 text 2
+								327 cell
+									328 container
+										329 button 编辑
+										330 button 历史
+										331 button 分派
+							332 row
+								333 cell
+									334 text 1904
+								335 cell
+									336 text CUSTOM-0013
+								337 cell
+									338 text 需求征集
+								339 cell
+									340 text TEST-PRD04-FIFTH-COL-OPERATION-1440-意见-20261023
+								341 cell
+									342 text 待确认
+								343 cell
+									344 text 未就绪
+								345 cell
+									346 text 匹配
+								347 cell
+									348 text 2
+								349 cell
+									350 container
+										351 button 编辑
+										352 button 历史
+										353 button 分派
+							354 row
+								355 cell
+									356 text 1906
+								357 cell
+									358 text CUSTOM-0014
+								359 cell
+									360 text 需求征集
+								361 cell
+									362 text TEST-20261024-空范围修复后意见草稿回归
+								363 cell
+									364 text 待确认
+								365 cell
+									366 text 未就绪
+								367 cell
+									368 text 匹配
+								369 cell
+									370 text 2
+								371 cell
+									372 container
+										373 button 编辑
+										374 button 历史
+										375 button 分派
+				376 text 实际来源与候选目录分开；功能确认、语义核验、QS/QC和问题关闭分别操作。只登记规格或虚构样例引用，不填写口令或真实工资明细。
+				377 button 刷新来源工作台
+				378 button 导出当前来源关系
+				379 button 登记实际来源
+				380 button 建立消费关系
+				381 button 登记评审问题
+				382 tab group
+					383 tab (selected, settable, boolean) 实际来源, Value: 1, ID: tab-sources
+					384 tab (selectable, settable, boolean) 消费关系与映射, Value: 0, ID: tab-relations
+					385 tab (selectable, settable, boolean) 问题处理与独立复核, Value: 0, ID: tab-issues
+					386 tab (selectable, settable, boolean) 核验证据, Value: 0, ID: tab-evidence
+					387 tab (selectable, settable, boolean) 站内待办与建议, Value: 0, ID: tab-todos
+				388 container Description: 实际来源, ID: pane-sources
+					389 container
+						390 table
+							391 row
+								392 cell
+									393 text sourceId
+								394 cell
+									395 text 名称
+								396 cell
+									397 text 语义/运营/交付版本
+								398 cell
+									399 text 供给 / 语义 / QS
+								400 cell
+									401 text 操作
+						402 container
+							403 table
+							404 text 暂无数据
+			405 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 52 container 关闭成员管理 保存成员授权

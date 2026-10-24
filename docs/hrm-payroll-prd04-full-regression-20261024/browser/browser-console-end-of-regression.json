@@ -1,0 +1,161 @@
+{
+  "capturedAt": "2026-10-24T10:20:38.396Z",
+  "entries": [
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T09:45:57.329Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T09:45:57.329Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T09:51:12.848Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T09:51:23.300Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T09:51:51.107Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T09:51:51.107Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T09:52:10.547Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T09:52:25.630Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T09:52:45.549Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T09:52:53.517Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T09:52:53.517Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T09:58:12.499Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T09:58:12.499Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T10:00:04.424Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T10:00:04.424Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T10:00:19.815Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T10:00:26.539Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T10:00:55.931Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T10:04:26.761Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T10:04:26.761Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T10:05:09.906Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T10:05:09.906Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T10:15:32.480Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T10:15:32.480Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T10:19:37.123Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    },
+    {
+      "level": "warn",
+      "message": "[Vue Router warn]: The `next()` callback in navigation guards is deprecated. Return the value instead of calling `next(value)`.",
+      "timestamp": "2026-10-24T10:19:37.123Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=d4fc3075"
+    }
+  ]
+}

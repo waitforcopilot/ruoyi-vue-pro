@@ -28,6 +28,12 @@
       {{ project?.projectScopeVersion ?? '尚未定义' }}</p
     >
     <p>范围：{{ project?.scopeJson || '尚未定义或当前权限不可见；不据此推定全项目范围' }}</p>
+    <el-alert
+      v-if="project && !hasProjectScope"
+      :title="scopeRequiredMessage"
+      type="warning"
+      :closable="false"
+    />
     <nav aria-label="十视图评审导航" class="view-nav">
       <el-button
         v-for="m in order"
@@ -457,7 +463,8 @@
     :close-on-click-modal="false"
   >
     <p>需求 {{ active?.id }} · 当前版本 {{ active?.version }}；操作独立留历史，不代替功能确认。</p
-    ><el-alert v-if="saveError" :title="saveError" type="error" :closable="false" />
+    ><el-alert v-if="!hasProjectScope" :title="scopeRequiredMessage" type="warning" :closable="false" />
+    <el-alert v-if="saveError" :title="saveError" type="error" :closable="false" />
     <el-form label-position="top">
       <template v-if="actionKind === 'decision'">
         <el-form-item label="范围决策"
@@ -531,7 +538,7 @@
     <template #footer
       ><div class="dialog-actions"
         ><el-button @click="actionVisible = false">取消</el-button
-        ><el-button type="primary" :loading="saving" @click="saveAction"
+        ><el-button type="primary" :loading="saving" :disabled="!hasProjectScope" @click="saveAction"
           >保存独立操作</el-button
         ></div
       ></template
@@ -645,6 +652,9 @@ const view = computed(() => reviewViews[module.value]),
   step = computed(() => order.indexOf(module.value))
 const projects = ref<api.PayrollRequirementProject[]>([]),
   project = computed(() => projects.value.find((p) => p.id === projectId.value))
+const hasProjectScope = computed(() => project.value?.projectScopeVersion != null)
+const scopeRequiredMessage =
+  '项目范围尚未定义，暂不能保存范围决策、实施关联、会议纪要或站内提醒。请先由具有项目范围修订权限及完整读取权限的人员，在集中清单中修订项目范围，再刷新工作台。需求意见草稿仍可保存；当前弹窗输入暂留，关闭或切换项目将丢失未保存输入。'
 const rows = ref<any[]>([]),
   sources = ref<WorkbenchRecord[]>([]),
   sourceId = ref<number>(),
@@ -991,6 +1001,10 @@ function context(row: any) {
   }
 }
 async function saveAction() {
+  if (!hasProjectScope.value) {
+    saveError.value = scopeRequiredMessage
+    return
+  }
   saving.value = true
   saveError.value = ''
   try {
@@ -1044,15 +1058,43 @@ const batchVisible = ref(false),
   batchReviewer = ref<number>(),
   batchResult = ref('')
 async function assignBatch() {
+  const request = {
+    projectId: projectId.value,
+    projectScopeVersion: project.value?.projectScopeVersion,
+    reviewerId: batchReviewer.value,
+    items: selected.value.map((row) => ({ ...context(row) }))
+  }
   saving.value = true
   try {
+    const response = await review.batchAssign(request)
     batchResult.value = JSON.stringify(
-      await review.batchAssign({
-        projectId: projectId.value,
-        projectScopeVersion: project.value?.projectScopeVersion,
-        reviewerId: batchReviewer.value,
-        items: selected.value.map((row) => context(row))
-      }),
+      {
+        说明: '请求对象ID及请求版本来自本次已选输入，仅按服务端返回的有效index关联；不代表服务端确认对象存在、可访问或失败原因。',
+        请求上下文: {
+          projectId: request.projectId,
+          projectScopeVersion: request.projectScopeVersion,
+          reviewerId: request.reviewerId
+        },
+        逐项结果: Array.isArray(response)
+          ? response.map((result) => {
+              const index = result?.index
+              const item =
+                typeof index === 'number' &&
+                Number.isInteger(index) &&
+                index >= 0 &&
+                index < request.items.length
+                  ? request.items[index]
+                  : undefined
+              return {
+                本次已选请求输入: item
+                  ? { id: item.id, version: item.version }
+                  : '未返回有效请求index，无法关联请求对象',
+                服务端原响应: result
+              }
+            })
+          : undefined,
+        服务端完整原响应: response
+      },
       null,
       2
     )

@@ -1,0 +1,175 @@
+Browser tab: 1, Title: "芋道管理系统 - 需求评审", URL: "http://127.0.0.1:5173/hrm-payroll/requirement?projectId=155&module=COL".
+1 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?projectId=155&module=COL
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			15 container v-tool-header
+				16 container 面包屑
+					17 link 薪酬管理
+						18 text 薪酬管理
+					19 text /
+					20 link 需求评审
+						21 text 需求评审
+				22 container
+					23 container
+						24 combo box (collapsed, settable) ID: el-id-5672-76, Secondary Actions: Expand
+						25 text 请输入菜单内容
+				26 pop up button (collapsed) ID: el-id-5672-4, Secondary Actions: Expand
+				27 pop up button (collapsed) ID: el-id-5672-9, Secondary Actions: Expand
+				28 pop up button (collapsed) TEST S5 editor NEW DISPLAY, ID: el-id-5672-14, Secondary Actions: Expand
+			29 container v-tags-view
+				30 container
+					31 pop up button (collapsed) 首页, ID: el-id-5672-20, Secondary Actions: Expand
+						32 container
+							33 text 首页
+					34 pop up button (collapsed) 需求评审, ID: el-id-5672-28, Secondary Actions: Expand
+						35 container
+							36 text 需求评审
+				37 pop up button (collapsed) ID: el-id-5672-36, Secondary Actions: Expand
+			38 button 进入十视图需求评审工作台
+			39 container
+				40 container
+					41 combo box (collapsed, settable) Description: 评审项目, ID: el-id-5672-77, Secondary Actions: Expand
+					42 text TEST模板升级隔离项目20261024 非正式验收
+					43 image
+				44 button 新建评审项目
+				45 button 修改项目名称
+				46 button 修订项目范围
+				47 button 模板版本比较
+				48 button 项目变更历史
+				49 container COL-9001 · 模板版本 2 当前：TEST人工内容A，采纳升级后应留在旧历史 建议：TEST isolated TEST_ACCEPT version 2 采纳模板更新 保留当前内容 COL-9002 · 模板版本 2 当前：TEST人工内容B，升级时选择保留不应覆盖 建议：TEST isolated TEST_KEEP version 2 采纳模板更新 保留当前内容 取消比较
+					50 container
+						51 text 模板升级比较
+					52 container
+						53 text 初始化只补缺，不覆盖人工内容。采纳前请比较原文；保留原文也记录决定。模板删除仅提示，不删除项目记录。 COL-9001 · 模板版本 2 当前：TEST人工内容A，采纳升级后应留在旧历史 建议：TEST isolated TEST_ACCEPT version 2
+						54 button 采纳模板更新
+						55 button 保留当前内容
+						56 text COL-9002 · 模板版本 2 当前：TEST人工内容B，升级时选择保留不应覆盖 建议：TEST isolated TEST_KEEP version 2
+						57 button 采纳模板更新
+						58 button 保留当前内容
+					59 button 取消比较
+			60 text TEST模板升级隔离项目20261024 非正式验收 · 项目编号 155 · 范围版本 1
+			61 text 功能确认与数据就绪分别核实；确认需当前范围、规则、验收条件和依据，由有权的被分派人本人操作。来源按适用性校验，合法不适用可豁免来源及映射。
+			62 container
+				63 container
+					64 combo box (collapsed, settable) ID: el-id-5672-78, Secondary Actions: Expand
+					65 text 需求征集
+					66 image
+				67 button 刷新
+				68 button 新增需求
+				69 button 初始化 PRD 清单
+				70 button 导出评审清单
+			71 button (collapsed) 需求征集候选数据源与字段, ID: el-collapse-head-65, Secondary Actions: Expand
+				72 text 需求征集候选数据源与字段
+			73 container
+				74 table
+					75 row
+						76 cell
+							77 text 需求ID
+						78 cell
+							79 text 编号
+						80 cell
+							81 text 模块
+						82 cell
+							83 text 功能
+						84 cell
+							85 text 评审状态
+						86 cell
+							87 text 数据就绪
+						88 cell
+							89 text 数据来源
+						90 cell
+							91 text 范围适配
+						92 cell
+							93 text 版本
+						94 cell
+							95 text 操作
+				96 table
+					97 container
+						98 row
+							99 cell
+								100 text 1908
+							101 cell
+								102 text COL-9001
+							103 cell
+								104 text 需求征集
+							105 cell
+								106 text TEST人工内容A，采纳升级后应留在旧历史
+							107 cell
+								108 text 待确认
+							109 cell
+								110 text 未就绪
+							111 cell
+								112 text 匹配
+							113 cell
+								114 text 2
+							115 cell
+								116 container
+									117 button 编辑
+									118 button 历史
+									119 button 分派
+						120 row
+							121 cell
+								122 text 1909
+							123 cell
+								124 text COL-9002
+							125 cell
+								126 text 需求征集
+							127 cell
+								128 text TEST人工内容B，升级时选择保留不应覆盖
+							129 cell
+								130 text 待确认
+							131 cell
+								132 text 未就绪
+							133 cell
+								134 text 匹配
+							135 cell
+								136 text 2
+							137 cell
+								138 container
+									139 button 编辑
+									140 button 历史
+									141 button 分派
+			142 text 实际来源与候选目录分开；功能确认、语义核验、QS/QC和问题关闭分别操作。只登记规格或虚构样例引用，不填写口令或真实工资明细。
+			143 container
+				144 button 刷新来源工作台
+				145 button 导出当前来源关系
+				146 button 登记实际来源
+				147 button 建立消费关系
+				148 button 登记评审问题
+			149 tab group
+				150 tab (selected, settable, boolean) 实际来源, Value: 1, ID: tab-sources
+				151 tab (selectable, settable, boolean) 消费关系与映射, Value: 0, ID: tab-relations
+				152 tab (selectable, settable, boolean) 问题处理与独立复核, Value: 0, ID: tab-issues
+				153 tab (selectable, settable, boolean) 核验证据, Value: 0, ID: tab-evidence
+				154 tab (selectable, settable, boolean) 站内待办与建议, Value: 0, ID: tab-todos
+			155 container Description: 实际来源, ID: pane-sources
+				156 container
+					157 table
+						158 row
+							159 cell
+								160 text sourceId
+							161 cell
+								162 text 名称
+							163 cell
+								164 text 语义/运营/交付版本
+							165 cell
+								166 text 供给 / 语义 / QS
+							167 cell
+								168 text 操作
+					169 container
+						170 table
+						171 text 暂无数据
+			172 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 49 container COL-9001 · 模板版本 2 当前：TEST人工内容A，采纳升级后应留在旧历史 建议：TEST isolated TEST_ACCEPT version 2 采纳模板更新 保留当前内容 COL-9002 · 模板版本 2 当前：TEST人工内容B，升级时选择保留不应覆盖 建议：TEST isolated TEST_KEEP version 2 采纳模板更新 保留当前内容 取消比较

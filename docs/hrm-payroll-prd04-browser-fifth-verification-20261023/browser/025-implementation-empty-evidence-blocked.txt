@@ -1,0 +1,326 @@
+Browser tab: 1, Title: "芋道管理系统 - 薪酬需求评审工作台", URL: "http://127.0.0.1:5173/hrm-payroll/review?projectId=154&module=COL&anchor=operation-simulate".
+1 AXWebArea 芋道管理系统 - 薪酬需求评审工作台, URL: 127.0.0.1:5173/hrm-payroll/review?projectId=154&module=COL&anchor=operation-simulate
+	2 container
+		3 link 127.0.0.1:5173/
+		734 menu bar
+			735 (collapsed) Secondary Actions: Expand
+		1102 container
+			1103 container v-tool-header
+				1104 container 面包屑
+				1105 container
+					1106 container
+						1107 combo box (collapsed, settable) ID: el-id-901-81, Secondary Actions: Expand
+						1108 text 请输入菜单内容
+				1109 pop up button (collapsed) ID: el-id-901-4, Secondary Actions: Expand
+				1110 pop up button (collapsed) ID: el-id-901-9, Secondary Actions: Expand
+				1111 pop up button (collapsed) TEST S5 editor NEW DISPLAY, ID: el-id-901-14, Secondary Actions: Expand
+			1112 container v-tags-view
+				1113 container
+					1114 pop up button (collapsed) 首页, ID: el-id-901-20, Secondary Actions: Expand
+						1115 container
+							1116 text 首页
+					1117 pop up button (collapsed) 薪酬需求评审工作台, ID: el-id-901-28, Secondary Actions: Expand
+						1118 text 薪酬需求评审工作台
+					1119 pop up button (collapsed) 需求评审, ID: el-id-901-179, Secondary Actions: Expand
+						1120 container
+							1121 text 需求评审
+					1122 pop up button (collapsed) 薪酬需求评审工作台 (2), ID: el-id-901-331, Secondary Actions: Expand
+						1123 text 薪酬需求评审工作台 (2)
+					1124 pop up button (collapsed) 薪酬需求评审工作台 (3), ID: el-id-901-506, Secondary Actions: Expand
+						1125 text 薪酬需求评审工作台 (3)
+					1126 pop up button (collapsed) 薪酬需求评审工作台 (4), ID: el-id-901-682, Secondary Actions: Expand
+						1127 text 薪酬需求评审工作台 (4)
+					1128 pop up button (collapsed) 薪酬需求评审工作台 (5), ID: el-id-901-859, Secondary Actions: Expand
+						1129 text 薪酬需求评审工作台 (5)
+					1130 pop up button (collapsed) 薪酬需求评审工作台 (6), ID: el-id-901-1036, Secondary Actions: Expand
+						1131 text 薪酬需求评审工作台 (6)
+					1132 pop up button (collapsed) 薪酬需求评审工作台 (7), ID: el-id-901-1213, Secondary Actions: Expand
+						1133 text 薪酬需求评审工作台 (7)
+					1134 pop up button (collapsed) 薪酬需求评审工作台 (8), ID: el-id-901-1390, Secondary Actions: Expand
+						1135 text 薪酬需求评审工作台 (8)
+					1136 pop up button (collapsed) 薪酬需求评审工作台 (9), ID: el-id-901-1567, Secondary Actions: Expand
+						1137 text 薪酬需求评审工作台 (9)
+					1138 pop up button (collapsed) 薪酬需求评审工作台 (10), ID: el-id-901-1744, Secondary Actions: Expand
+						1139 text 薪酬需求评审工作台 (10)
+					1140 pop up button (collapsed) 薪酬需求评审工作台 (11), ID: el-id-901-2122, Secondary Actions: Expand
+						1141 text 薪酬需求评审工作台 (11)
+				1142 pop up button (collapsed) ID: el-id-901-36, Secondary Actions: Expand
+			1143 heading 薪酬需求评审工作台 · 需求征集, Value: 1, ID: review-heading
+				1144 text 薪酬需求评审工作台 · 需求征集
+			1145 text 示例数据，仅用于讨论。意见与评审记录真实保存；演示核算、审批及工资条只作用于虚构样例。
+			1146 container
+				1147 container
+					1148 combo box (collapsed, settable) Description: 评审项目, ID: el-id-901-2163, Secondary Actions: Expand
+					1149 text 154 · TEST PRD04 第五轮项目154 · 改名回读 · 非正式批准
+					1150 image
+				1151 button 刷新工作台
+				1152 button 集中清单
+				1153 button 业务决议与发布
+				1154 button 实际来源与核验
+				1155 button 原有正式业务入口
+			1156 text TEST PRD04 第五轮项目154 · 改名回读 · 非正式批准 · 项目 154 · 范围版本 尚未定义
+			1157 text 范围：尚未定义或当前权限不可见；不据此推定全项目范围
+			1158 container 十视图评审导航
+				1159 button 薪酬总览
+				1160 button 薪酬方案
+				1161 button 工资核算
+				1162 button 个税与工资条
+				1163 button 考勤
+				1164 button 加班
+				1165 button 工时
+				1166 button 社保公积金
+				1167 button 报表分析
+				1168 button 需求征集
+			1169 container
+				1170 button 上一步
+				1171 text 第 10/10 视图
+				1172 button (disabled) 下一步
+				1173 button 关联：薪酬总览
+				1174 button 关联：工资核算
+			1175 text 集中评审功能、来源、规则、责任、范围决策、问题、实施和版本，返回原意见位置。
+			1176 container 虚构业务展示
+				1177 heading 业务场景与字段, Value: 2
+					1178 text 业务场景与字段
+				1179 text TEST-EMP-001 · 虚构员工甲 · 虚构研发组 · 2026-10；全为虚构，未绑定员工档案。
+				1180 container 示例业务表，左右方向可横向滚动
+					1181 table
+						1182 row
+							1183 cell
+								1184 text 维度
+							1185 cell
+								1186 text 含义
+							1187 cell
+								1188 text 依据
+						1189 row
+							1190 cell
+								1191 text 功能确认
+							1192 cell
+								1193 text 本人确认当前语义/范围/来源映射版本
+							1194 cell
+								1195 text 真实保存/签字，非示例状态
+						1196 row
+							1197 cell
+								1198 text 来源可用
+							1199 cell
+								1200 text 供给＋语义＋QS/QC＋问题
+							1201 cell
+								1202 text 真实S3元组推导
+						1203 row
+							1204 cell
+								1205 text 实施状态
+							1206 cell
+								1207 text 未排期/开发中/待验收/验收通过
+							1208 cell
+								1209 text 独立人工记录，证据待核实
+						1210 row
+							1211 cell
+								1212 text 发布状态
+							1213 cell
+								1214 text 独立治理页提供TEST决议、受控发布及六表快照入口
+							1215 cell
+								1216 text 示例及预检查不代表正式批准或验收
+				1217 text 候选/纳入/暂缓/移除与待确认/评审中/已确认/异议分开。
+				1218 text 所有意见保留项目、模块及稳定页面锚点；历史可比较，不覆盖原事实。
+				1219 container field-status
+					1220 text 需求评审状态
+					1221 button 补充字段说明：需求评审状态
+					1222 button 这个字段从哪里来
+				1223 container operation-simulate
+					1224 button 演示核算
+					1225 button 演示复核
+					1226 button 预览示例工资条
+					1227 button 补充操作规则或例外
+				1228 text 示例尚未执行；不代表真实薪酬状态
+				1229 container flow-approval
+					1230 text 示例流程：准备 → 试算 → 复核 → 发放讨论 → 归档讨论 
+					1231 button 补充流程角色与异常
+			1232 container 候选功能讨论场景
+				1233 heading 逐项功能场景与例外（示例）, Value: 2
+					1234 text 逐项功能场景与例外（示例）
+				1235 container field-col-01
+					1236 text COL-01 · 范围与清单
+					1237 text 正常/预期：候选/纳入/暂缓/移除独立于功能评审和实施状态
+					1238 text 异常/待确认：重复移除须同项目保留项，恢复要重审
+					1239 button 围绕COL-01提意见
+				1240 container field-col-02
+					1241 text COL-02 · 评审与问题
+					1242 text 正常/预期：本人确认、分派资格、未决/逾期和来源缺口独立
+					1243 text 异常/待确认：意见或会议记录不是正式业务决议
+					1244 button 围绕COL-02提意见
+				1245 container field-col-03
+					1246 text COL-03 · 输出与版本
+					1247 text 正常/预期：当前筛选清单按实时权限导出；原锚点和历史保留
+					1248 text 异常/待确认：独立治理页提供TEST受控发布、固定快照及异步导出，操作成功不等于正式业务批准
+					1249 button 围绕COL-03提意见
+			1250 container Description: 页面内功能需求征集, ID: module
+				1251 heading 功能需求与意见征集（真实保存）, Value: 2
+					1252 text 功能需求与意见征集（真实保存）
+				1253 container
+					1254 button 补充本模块需求
+					1255 button 初始化46项候选模板
+					1256 button 导出当前筛选评审清单
+					1257 button (disabled) 批量分派所选需求
+				1258 container
+					1259 text field (settable) Description: 查找需求, Value: TEST-PRD04-FIFTH-COL-OPERATION-1440-意见-20261023, ID: el-id-901-2164
+					1260 container
+						1261 combo box (collapsed, settable) Description: 评审状态筛选, ID: el-id-901-2165, Secondary Actions: Expand
+						1262 text 全部评审状态
+						1263 image
+					1264 container
+						1265 combo box (collapsed, settable) Description: 范围决策筛选, ID: el-id-901-2166, Secondary Actions: Expand
+						1266 text 全部范围决策
+						1267 image
+					1268 container
+						1269 combo box (collapsed, settable) Description: 排序, ID: el-id-901-2167, Secondary Actions: Expand
+						1270 text 编号升序
+						1271 image
+					1272 button 应用筛选
+					1273 button 清除筛选
+				1274 container 真实需求清单
+					1275 container
+						1276 table
+							1277 row
+								1278 cell
+									1279 container 选择所有行
+										1280 checkbox (settable, integer) Description: 选择所有行, Value: 0, ID: el-id-901-2248
+								1281 cell
+									1282 text 需求ID
+								1283 cell
+									1284 text 编号
+								1285 cell
+									1286 text 功能/意见
+								1287 cell
+									1288 text 功能评审
+								1289 cell
+									1290 text 范围决策
+								1291 cell
+									1292 text 来源
+								1293 cell
+									1294 text 实施
+								1295 cell
+									1296 text 版本
+								1297 cell
+									1298 text 操作
+						1299 table
+							1300 row
+								1301 cell
+									1302 container 选择当前行
+										1303 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-901-2249
+								1304 cell
+									1305 text 1904
+								1306 cell
+									1307 text CUSTOM-0013
+								1308 cell
+									1309 text TEST-PRD04-FIFTH-COL-OPERATION-1440-意见-20261023
+								1310 cell
+									1311 text 待确认
+								1312 cell
+									1313 text 候选
+								1314 cell
+									1315 text 未就绪
+								1316 cell
+									1317 text 未排期
+								1318 cell
+									1319 text 1
+								1320 cell
+									1321 container
+										1322 button 编辑意见
+										1323 button 历史/比较
+										1324 button 返回原位置
+										1325 button (disabled) 范围决策
+										1326 button 实施关联
+										1327 button 会议与站内提醒
+				1328 button (disabled) 上一页
+				1329 content list
+					1330 container 第 1 页
+						1331 text 1
+				1332 button (disabled) 下一页
+				1333 text 共 1 条
+			1334 container 数据来源征集
+				1335 heading 依赖数据来源与盘点, Value: 2
+					1336 text 依赖数据来源与盘点
+				1337 text 候选目录是征集线索，不能冒充实际已提供来源或质量通过。实际来源需按权限另行登记与核验。
+				1338 text DS-01 · HR 员工与组织档案
+				1339 text 员工唯一编号、主体、部门、入离职日期、计薪资格；候选确认方：HR
+				1340 text DS-02 · 考勤系统
+				1341 text 员工编号、周期、班次、应出勤、实出勤、请假、缺勤、异常状态；候选确认方：HR / 考勤管理员
+				1342 text DS-03 · OA 加班 / 请假审批
+				1343 text 单据编号、员工、起止时间、审批状态、认可时长、补休状态；候选确认方：业务主管 / OA 负责人
+				1344 text DS-04 · 工时制度与排班系统
+				1345 text 员工制度类型、适用有效期、结算周期、排班、实际工时、差异；候选确认方：部门主管 / HR / IT
+				1346 text DS-05 · 薪酬方案与员工薪资档案
+				1347 text 方案版本、适用人员、薪资项、金额 / 单价、有效期；候选确认方：HR / 财务
+				1348 text DS-06 · 社保公积金政策与缴费台账
+				1349 text 地区、项目、有效期、基数上下限、个人 / 单位比例、实际缴费额；候选确认方：HR / 财务
+				1350 text DS-07 · 税务及扣除资料
+				1351 text 纳税主体、年度、本年累计应税收入、已扣税额、专项扣除；候选确认方：财务
+				1352 text DS-08 · 业务需求征集
+				1353 text 需求编号、模块、功能、字段、来源、负责人、优先级、状态、备注；候选确认方：需求负责人
+				1354 text DS-09 · 绩效考核与薪级标准
+				1355 text 绩效周期、基数、系数、职级 / 薪档、岗位系数、补贴标准；候选确认方：HR / 业务主管
+				1356 text DS-10 · 财务预算与成本数据
+				1357 text 部门 / 成本中心 / 项目、营收、预算、编制人数、分摊比例；候选确认方：财务
+				1358 text DS-11 · 员工自助与联系方式
+				1359 text 员工编号、接收渠道、邮箱 / 手机、工资条可见字段、投递结果；候选确认方：HR / IT
+				1360 text DS-12 · 银行代发与回盘
+				1361 text 批次、员工、账户、应付金额、文件格式、回盘状态、失败原因；候选确认方：财务 / IT
+				1362 container
+					1363 text 当前可见实际来源 
+					1364 container
+						1365 combo box (collapsed, settable) Description: 选择实际来源, ID: el-id-901-2168, Secondary Actions: Expand
+						1366 text 无来源时保持缺口
+						1367 image
+				1368 button 维护实际来源、映射和QS/QC
+			1369 container 我的站内提醒
+				1370 heading 我的站内提醒（无外发）, Value: 2
+					1371 text 我的站内提醒（无外发）
+				1372 text 当前有权范围内暂无发给我的站内提醒；会议纪要及全部协作历史可在需求历史中查看。
+			1373 container 真实统计与下钻
+				1374 heading 范围、确认及来源统计（服务器集合）, Value: 2
+					1375 text 范围、确认及来源统计（服务器集合）
+				1376 text U全部需求（含移除）；E未移除；I纳入本期；C当前确认有效；T暂缓；D有异议。暂缓与异议仍计入有效集合，范围决策不代替确认。
+				1377 text 筛选统计（不改变全项目发布门槛） · 筛选条件 {"module":null,"status":null,"decision":null,"text":"TEST-PRD04-FIFTH-COL-OPERATION-1440-意见-20261023"}
+				1378 button U · 1 · 查看集合
+				1379 button E · 1 · 查看集合
+				1380 button I · 0 · 查看集合
+				1381 button C · 0 · 查看集合
+				1382 button T · 0 · 查看集合
+				1383 button D · 0 · 查看集合
+				1384 text 功能确认率：0/1
+				1385 text 范围处置率：0/1
+				1386 text 本期确认率：暂无适用项（0/0）
+				1387 text 来源可用率：0/1
+				1388 text 本期来源可用率：暂无适用项（0/0）
+				1389 text 去重实际来源 0；有效不适用 0；未决问题 0，逾期 0。关系和需求缺口以独立ID计数。
+				1390 text 全项目功能确认 0/59，本期确认 暂无适用项（0/0）；当前筛选不改变全项目门槛。
+				1391 text 当前统计不是发布成功或已实施证明；业务决议、发布检查与六表快照请使用独立入口核实。受限账号只展示可见集合，隐藏对象数量不输出。
+				1392 button 查看关系与缺口L
+			1393 container 独立实施关联
+				1394 container
+					1395 heading 独立实施关联, Value: 2
+						1396 text 独立实施关联
+					1397 button 关闭此对话框
+					1398 container el-id-901-2154
+						1399 text 需求 1904 · 当前版本 1；操作独立留历史，不代替功能确认。
+						1400 container
+							1401 text 实施状态
+							1402 container
+								1403 combo box (collapsed, settable) Description: 实施状态, ID: el-id-901-2262, Secondary Actions: Expand
+								1404 text 验收通过（人工记录）
+								1405 image
+							1406 text 实现页面引用
+							1407 text field (settable) Description: 实现页面引用, Value: TEST:/hrm-payroll/review?projectId=154, ID: el-id-901-2263
+							1408 text 接口引用
+							1409 text field (settable) Description: 接口引用, Value: TEST:no-production-api, ID: el-id-901-2264
+							1410 text 开发任务引用
+							1411 text field (settable) Description: 开发任务引用, Value: TEST-FIFTH-WB10-1904, ID: el-id-901-2265
+							1412 text 验收证据引用
+							1413 text field (settable) Description: 验收证据引用, ID: el-id-901-2266
+							1414 text 只记录人工关联和声明，引用存在不证明验收通过；系统不自动核实外部结论。
+							1415 text 本次操作依据
+							1416 text entry area (settable) Description: 本次操作依据, Value: TEST人工实施声明负例：没有验收证据不得保存；不代表真实产品已验收。, ID: el-id-901-2267
+					1417 button 取消
+					1418 button 保存独立操作
+			1419 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 1416 text entry area (settable) Description: 本次操作依据, Value: TEST人工实施声明负例：没有验收证据不得保存；不代表真实产品已验收。, ID: el-id-901-2267

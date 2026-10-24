@@ -1,0 +1,284 @@
+Browser tab: 1, Title: "芋道管理系统 - 薪酬需求评审工作台", URL: "http://127.0.0.1:5173/hrm-payroll/review?projectId=154&module=COL".
+1 AXWebArea 芋道管理系统 - 薪酬需求评审工作台, URL: 127.0.0.1:5173/hrm-payroll/review?projectId=154&module=COL
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			15 container
+				16 container v-tool-header
+					17 container 面包屑
+					18 container
+						19 container
+							20 combo box (collapsed, settable) ID: el-id-7059-81, Secondary Actions: Expand
+							21 text 请输入菜单内容
+					22 pop up button (collapsed) ID: el-id-7059-4, Secondary Actions: Expand
+					23 pop up button (collapsed) ID: el-id-7059-9, Secondary Actions: Expand
+					24 pop up button (collapsed) TEST S5 editor NEW DISPLAY, ID: el-id-7059-14, Secondary Actions: Expand
+				25 container v-tags-view
+					26 container
+						27 pop up button (collapsed) 首页, ID: el-id-7059-20, Secondary Actions: Expand
+							28 container
+								29 text 首页
+						30 pop up button (collapsed) 薪酬需求评审工作台, ID: el-id-7059-28, Secondary Actions: Expand
+							31 text 薪酬需求评审工作台
+					32 pop up button (collapsed) ID: el-id-7059-36, Secondary Actions: Expand
+			33 container
+				34 heading 薪酬需求评审工作台 · 需求征集, Value: 1, ID: review-heading
+					35 text 薪酬需求评审工作台 · 需求征集
+				36 text 示例数据，仅用于讨论。意见与评审记录真实保存；演示核算、审批及工资条只作用于虚构样例。
+				37 container
+					38 combo box (collapsed, settable) Description: 评审项目, ID: el-id-7059-82, Secondary Actions: Expand
+					39 text 154 · TEST PRD04 第五轮项目154 · 改名回读 · 非正式批准
+					40 image
+				41 button 刷新工作台
+				42 button 集中清单
+				43 button 业务决议与发布
+				44 button 实际来源与核验
+				45 button 原有正式业务入口
+				46 text TEST PRD04 第五轮项目154 · 改名回读 · 非正式批准 · 项目 154 · 范围版本 尚未定义 范围：尚未定义或当前权限不可见；不据此推定全项目范围 项目范围尚未定义，暂不能保存范围决策、实施关联、会议纪要或站内提醒。请先由具有项目范围修订权限及完整读取权限的人员，在集中清单中修订项目范围，再刷新工作台。需求意见草稿仍可保存；当前弹窗输入暂留，关闭或切换项目将丢失未保存输入。
+				47 container 十视图评审导航
+					48 button 薪酬总览
+					49 button 薪酬方案
+					50 button 工资核算
+					51 button 个税与工资条
+					52 button 考勤
+					53 button 加班
+					54 button 工时
+					55 button 社保公积金
+					56 button 报表分析
+					57 button 需求征集
+				58 button 上一步
+				59 text 第 10/10 视图
+				60 button (disabled) 下一步
+				61 button 关联：薪酬总览
+				62 button 关联：工资核算
+				63 text 集中评审功能、来源、规则、责任、范围决策、问题、实施和版本，返回原意见位置。
+				64 container 虚构业务展示
+					65 heading 业务场景与字段, Value: 2
+						66 text 业务场景与字段
+					67 text TEST-EMP-001 · 虚构员工甲 · 虚构研发组 · 2026-10；全为虚构，未绑定员工档案。
+					68 container 示例业务表，左右方向可横向滚动
+						69 table
+							70 row
+								71 cell
+									72 text 维度
+								73 cell
+									74 text 含义
+								75 cell
+									76 text 依据
+							77 row
+								78 cell
+									79 text 功能确认
+								80 cell
+									81 text 本人确认当前语义/范围/来源映射版本
+								82 cell
+									83 text 真实保存/签字，非示例状态
+							84 row
+								85 cell
+									86 text 来源可用
+								87 cell
+									88 text 供给＋语义＋QS/QC＋问题
+								89 cell
+									90 text 真实S3元组推导
+							91 row
+								92 cell
+									93 text 实施状态
+								94 cell
+									95 text 未排期/开发中/待验收/验收通过
+								96 cell
+									97 text 独立人工记录，证据待核实
+							98 row
+								99 cell
+									100 text 发布状态
+								101 cell
+									102 text 独立治理页提供TEST决议、受控发布及六表快照入口
+								103 cell
+									104 text 示例及预检查不代表正式批准或验收
+					105 text 候选/纳入/暂缓/移除与待确认/评审中/已确认/异议分开。
+					106 text 所有意见保留项目、模块及稳定页面锚点；历史可比较，不覆盖原事实。
+					107 container field-status
+						108 text 需求评审状态
+						109 button 补充字段说明：需求评审状态
+						110 button 这个字段从哪里来
+					111 container operation-simulate
+						112 button 演示核算
+						113 button 演示复核
+						114 button 预览示例工资条
+						115 button 补充操作规则或例外
+					116 text 示例尚未执行；不代表真实薪酬状态
+					117 container flow-approval
+						118 text 示例流程：准备 → 试算 → 复核 → 发放讨论 → 归档讨论 
+						119 button 补充流程角色与异常
+				120 container 候选功能讨论场景
+					121 heading 逐项功能场景与例外（示例）, Value: 2
+						122 text 逐项功能场景与例外（示例）
+					123 container field-col-01
+						124 text COL-01 · 范围与清单
+						125 text 正常/预期：候选/纳入/暂缓/移除独立于功能评审和实施状态
+						126 text 异常/待确认：重复移除须同项目保留项，恢复要重审
+						127 button 围绕COL-01提意见
+					128 container field-col-02
+						129 text COL-02 · 评审与问题
+						130 text 正常/预期：本人确认、分派资格、未决/逾期和来源缺口独立
+						131 text 异常/待确认：意见或会议记录不是正式业务决议
+						132 button 围绕COL-02提意见
+					133 container field-col-03
+						134 text COL-03 · 输出与版本
+						135 text 正常/预期：当前筛选清单按实时权限导出；原锚点和历史保留
+						136 text 异常/待确认：独立治理页提供TEST受控发布、固定快照及异步导出，操作成功不等于正式业务批准
+						137 button 围绕COL-03提意见
+				139 container Description: 页面内功能需求征集, ID: module
+					140 heading 功能需求与意见征集（真实保存）, Value: 2
+						141 text 功能需求与意见征集（真实保存）
+					142 container
+						143 button 补充本模块需求
+						144 button 初始化46项候选模板
+						145 button 导出当前筛选评审清单
+						146 button (disabled) 批量分派所选需求
+					147 container
+						208 text field (settable) Description: 查找需求, Value: TEST-20261024-空范围修复后意见草稿回归, ID: el-id-7059-83
+						149 container
+							150 combo box (collapsed, settable) Description: 评审状态筛选, ID: el-id-7059-84, Secondary Actions: Expand
+							151 text 全部评审状态
+							152 image
+						153 container
+							154 combo box (collapsed, settable) Description: 范围决策筛选, ID: el-id-7059-85, Secondary Actions: Expand
+							155 text 全部范围决策
+							156 image
+						157 container
+							158 combo box (collapsed, settable) Description: 排序, ID: el-id-7059-86, Secondary Actions: Expand
+							159 text 编号升序
+							160 image
+						161 button 应用筛选
+						162 button 清除筛选
+					209 container 真实需求清单
+						210 container
+							211 table
+								212 row
+									213 cell
+										214 container 选择所有行
+											215 checkbox (settable, integer) Description: 选择所有行, Value: 0, ID: el-id-7059-266
+									216 cell
+										217 text 需求ID
+									218 cell
+										219 text 编号
+									220 cell
+										221 text 功能/意见
+									222 cell
+										223 text 功能评审
+									224 cell
+										225 text 范围决策
+									226 cell
+										227 text 来源
+									228 cell
+										229 text 实施
+									230 cell
+										231 text 版本
+									232 cell
+										233 text 操作
+							234 table
+								235 row
+									236 cell
+										237 container 选择当前行
+											238 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-7059-267
+									239 cell
+										240 text 1906
+									241 cell
+										242 text CUSTOM-0014
+									243 cell
+										244 text TEST-20261024-空范围修复后意见草稿回归
+									245 cell
+										246 text 待确认
+									247 cell
+										248 text 候选
+									249 cell
+										250 text 未就绪
+									251 cell
+										252 text 未排期
+									253 cell
+										254 text 1
+									255 cell
+										256 container
+											257 button 编辑意见
+											258 button 历史/比较
+											259 button 返回原位置
+											260 button (disabled) 范围决策
+											261 button 实施关联
+											262 button 会议与站内提醒
+					263 button (disabled) 上一页
+					264 content list
+						265 container 第 1 页
+							266 text 1
+					267 button (disabled) 下一页
+					268 text 共 1 条
+				163 container 数据来源征集
+					164 heading 依赖数据来源与盘点, Value: 2
+						165 text 依赖数据来源与盘点
+					166 text 候选目录是征集线索，不能冒充实际已提供来源或质量通过。实际来源需按权限另行登记与核验。
+					167 text DS-01 · HR 员工与组织档案
+					168 text 员工唯一编号、主体、部门、入离职日期、计薪资格；候选确认方：HR
+					169 text DS-02 · 考勤系统
+					170 text 员工编号、周期、班次、应出勤、实出勤、请假、缺勤、异常状态；候选确认方：HR / 考勤管理员
+					171 text DS-03 · OA 加班 / 请假审批
+					172 text 单据编号、员工、起止时间、审批状态、认可时长、补休状态；候选确认方：业务主管 / OA 负责人
+					173 text DS-04 · 工时制度与排班系统
+					174 text 员工制度类型、适用有效期、结算周期、排班、实际工时、差异；候选确认方：部门主管 / HR / IT
+					175 text DS-05 · 薪酬方案与员工薪资档案
+					176 text 方案版本、适用人员、薪资项、金额 / 单价、有效期；候选确认方：HR / 财务
+					177 text DS-06 · 社保公积金政策与缴费台账
+					178 text 地区、项目、有效期、基数上下限、个人 / 单位比例、实际缴费额；候选确认方：HR / 财务
+					179 text DS-07 · 税务及扣除资料
+					180 text 纳税主体、年度、本年累计应税收入、已扣税额、专项扣除；候选确认方：财务
+					181 text DS-08 · 业务需求征集
+					182 text 需求编号、模块、功能、字段、来源、负责人、优先级、状态、备注；候选确认方：需求负责人
+					183 text DS-09 · 绩效考核与薪级标准
+					184 text 绩效周期、基数、系数、职级 / 薪档、岗位系数、补贴标准；候选确认方：HR / 业务主管
+					185 text DS-10 · 财务预算与成本数据
+					186 text 部门 / 成本中心 / 项目、营收、预算、编制人数、分摊比例；候选确认方：财务
+					187 text DS-11 · 员工自助与联系方式
+					188 text 员工编号、接收渠道、邮箱 / 手机、工资条可见字段、投递结果；候选确认方：HR / IT
+					189 text DS-12 · 银行代发与回盘
+					190 text 批次、员工、账户、应付金额、文件格式、回盘状态、失败原因；候选确认方：财务 / IT
+					191 container
+						192 text 当前可见实际来源 
+						193 container
+							194 combo box (collapsed, settable) Description: 选择实际来源, ID: el-id-7059-87, Secondary Actions: Expand
+							195 text 无来源时保持缺口
+							196 image
+					197 button 维护实际来源、映射和QS/QC
+				198 container 我的站内提醒
+					199 heading 我的站内提醒（无外发）, Value: 2
+						200 text 我的站内提醒（无外发）
+					269 text 当前有权范围内暂无发给我的站内提醒；会议纪要及全部协作历史可在需求历史中查看。
+				201 container 真实统计与下钻
+					202 heading 范围、确认及来源统计（服务器集合）, Value: 2
+						203 text 范围、确认及来源统计（服务器集合）
+					204 text U全部需求（含移除）；E未移除；I纳入本期；C当前确认有效；T暂缓；D有异议。暂缓与异议仍计入有效集合，范围决策不代替确认。
+					270 text 筛选统计（不改变全项目发布门槛） · 筛选条件 {"module":null,"status":null,"decision":null,"text":"TEST-20261024-空范围修复后意见草稿回归"}
+					271 button U · 1 · 查看集合
+					272 button E · 1 · 查看集合
+					273 button I · 0 · 查看集合
+					274 button C · 0 · 查看集合
+					275 button T · 0 · 查看集合
+					276 button D · 0 · 查看集合
+					277 text 功能确认率：0/1
+					278 text 范围处置率：0/1
+					279 text 本期确认率：暂无适用项（0/0）
+					280 text 来源可用率：0/1
+					281 text 本期来源可用率：暂无适用项（0/0）
+					282 text 去重实际来源 0；有效不适用 0；未决问题 0，逾期 0。关系和需求缺口以独立ID计数。
+					283 text 全项目功能确认 0/60，本期确认 暂无适用项（0/0）；当前筛选不改变全项目门槛。
+					205 text 当前统计不是发布成功或已实施证明；业务决议、发布检查与六表快照请使用独立入口核实。受限账号只展示可见集合，隐藏对象数量不输出。
+					206 button 查看关系与缺口L
+			207 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 161 button 应用筛选

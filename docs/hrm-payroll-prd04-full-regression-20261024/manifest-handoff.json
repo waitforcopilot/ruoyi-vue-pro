@@ -1,0 +1,2544 @@
+{
+  "record_type": "handoff_evidence_manifest",
+  "created_at": "2026-10-24T18:34:03.436677+08:00",
+  "scope": "Evidence organization only; no new business execution, test run, browser validation, or PASS verdict. Filenames do not establish successful execution.",
+  "source_directory": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024",
+  "browser_selection": "01–127 browser text/images, three local console samples, historical check logs, authorized TEST XLSX and original report before current header update.",
+  "precopy_scan": {
+    "scope": "Selected text, console JSON, and copied logs",
+    "credential_pii_patterns": "email, mainland mobile, 18-character identity number, credential assignment, private-key material",
+    "potential_sensitive_pattern_matches": 0,
+    "contextual_keyword_review": "Generic warnings and field labels mentioning passwords or names; no non-TEST personal information or credentials identified. This is not a comprehensive data-loss-prevention certification."
+  },
+  "checks_note": "Logs are copied historical execution outputs, not commands executed during this evidence organization. Original default-heap OOM log is retained alongside subsequent logs without reclassification.",
+  "file_count": 279,
+  "files": [
+    {
+      "path": "artifacts/snapshot1458-job1460.xlsx",
+      "source": "/Users/waitforpro/Downloads/薪酬评审-快照1458-任务1460.xlsx",
+      "bytes": 260585,
+      "sha256": "53586124f316fdd8a992c7a22e56e9003210f9bf68414c10dac4537ba6f258e4",
+      "actual_format": "XLSX (ZIP/OOXML)",
+      "extension": ".xlsx",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/01-scope-guard-implementation.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/01-scope-guard-implementation.jpg",
+      "bytes": 107882,
+      "sha256": "0fab0b38d8dbd8056cdc2bfb8918e97a80d6ed7c6f006b23e888355a1197dd42",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/01-scope-guard-implementation.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/01-scope-guard-implementation.txt",
+      "bytes": 23761,
+      "sha256": "a162cefe40f8140cc239eaa72fbe2c1607daa870cc283a4e170a28a677ff8a55",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/02-scope-guard-meeting.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/02-scope-guard-meeting.jpg",
+      "bytes": 118296,
+      "sha256": "382dd396ada113cea2d909e1750a1be876dffad4ccc8d7ddb92f82978efcf7e0",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/02-scope-guard-meeting.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/02-scope-guard-meeting.txt",
+      "bytes": 23589,
+      "sha256": "943530f134340a9d2f4de24b74dbea8275bd0c6e0355a83db6149e3a1fadc72a",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/03-scope-guard-draft-readback.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/03-scope-guard-draft-readback.jpg",
+      "bytes": 149168,
+      "sha256": "9116a175ce6b2e33880367234e24dbd358058c3b44f251d7b7018da5cfed2946",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/03-scope-guard-draft-readback.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/03-scope-guard-draft-readback.txt",
+      "bytes": 14015,
+      "sha256": "8980d62f22709ed6f00a970961ff39334be647f5d4bf6323f1c12a2d392a1f0e",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/04-defined-scope-meeting-history.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/04-defined-scope-meeting-history.jpg",
+      "bytes": 112682,
+      "sha256": "953ca0188466f160a3fb0838a7c81743f777d34834b3d6abb60520c40e32e1b8",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/04-defined-scope-meeting-history.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/04-defined-scope-meeting-history.txt",
+      "bytes": 94458,
+      "sha256": "f84670ca4aee2be72ca023682aa8b5f4747c6b70a971f72588844b598333da60",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/05-dispute-missing-scenario.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/05-dispute-missing-scenario.jpg",
+      "bytes": 99120,
+      "sha256": "c8ec04f72b6a7e4ef1b108c71fa1942591d9028457b8a5ffe1a1b463f55286fb",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/05-dispute-missing-scenario.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/05-dispute-missing-scenario.txt",
+      "bytes": 19465,
+      "sha256": "9109af90c15758f4adf89c16a7021fc5d6efbdb8e14cd2941dbf75e68a467847",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/06-dispute-missing-nextstep.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/06-dispute-missing-nextstep.jpg",
+      "bytes": 100591,
+      "sha256": "471e8245e1f17ebf73daf917bcc883bab73a961f8f6a09c7ce8980018bb91d05",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/06-dispute-missing-nextstep.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/06-dispute-missing-nextstep.txt",
+      "bytes": 19953,
+      "sha256": "7edffeea9c47cca96a06850f16684861ef85dc9790551178e070928f59529dd5",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/07-dispute-saved.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/07-dispute-saved.jpg",
+      "bytes": 158605,
+      "sha256": "7be62d0902c72430c9ec4318b7ae986ca7cb37706ece6f5305872e1281ff5229",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/07-dispute-saved.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/07-dispute-saved.txt",
+      "bytes": 15469,
+      "sha256": "fe80d6ec772f7757ffd91770db846709c97aa88fa571862a7953ec62259e0f55",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/08-resubmitted-review.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/08-resubmitted-review.jpg",
+      "bytes": 99653,
+      "sha256": "1372a49743afa048def68963f16090348b1a91541c01d283b83928de0057b423",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/08-resubmitted-review.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/08-resubmitted-review.txt",
+      "bytes": 19593,
+      "sha256": "7bee18be2f042f97fcda04f7cb28773984c58d35dd9d2833dded04b845211255",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/09-dispute-history.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/09-dispute-history.jpg",
+      "bytes": 100289,
+      "sha256": "c5d468035a576142287d665e5d68b165154a23ef2cd9d956c130e761b34b65d9",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/09-dispute-history.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/09-dispute-history.txt",
+      "bytes": 19961,
+      "sha256": "a683a846c1b6aba2e873270b5bbf48f955dfdea1e6dd8b5aa62a4c22fb592bc6",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/10-reviewing-v10.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/10-reviewing-v10.jpg",
+      "bytes": 158659,
+      "sha256": "5331cfc928402cf04246e83b94b6df56ab1092aa39883e7fa26facf620bb0583",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/10-reviewing-v10.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/10-reviewing-v10.txt",
+      "bytes": 15470,
+      "sha256": "026d1c9f0ab32e437ca794ecfc98e6ac89506a15e34940a5d0c5befef400b33a",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/100-calc-scope-sheet.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/100-calc-scope-sheet.jpg",
+      "bytes": 465277,
+      "sha256": "d539130fd28e9661d91c8f6815662ec33b01252bbd7cbd513b559249f0181e6a",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/100-calc-scope-sheet.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/100-calc-scope-sheet.txt",
+      "bytes": 16099,
+      "sha256": "53eee1603a537146686ec2ebfb3166a4a3049d71830e96896c4743aa788bba19",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/101-calc-version-sheet-75pct.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/101-calc-version-sheet-75pct.jpg",
+      "bytes": 473511,
+      "sha256": "0b82cf4691d3905fc60aa008e66ce93c84bbb873b08ba3d8ebbae0e112020cb0",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/101-calc-version-sheet-75pct.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/101-calc-version-sheet-75pct.txt",
+      "bytes": 15441,
+      "sha256": "3dd77458d6b20e27b221024802e668ad07d4d104f581279cd3401b630e4cc85e",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/102-only-trigger-missing-field-error.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/102-only-trigger-missing-field-error.jpg",
+      "bytes": 114939,
+      "sha256": "26c6cd0bfd85774f3b2d4dfde502a3eccf2c24e29ab771f8283bdb83f8ff82e8",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/102-only-trigger-missing-field-error.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/102-only-trigger-missing-field-error.txt",
+      "bytes": 22438,
+      "sha256": "7570b1a75546a74b0799e1410bd35537d2a23f3e1a68d635711f7121bfe0b7b9",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/103-only-dispute-next-step-missing-field-error.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/103-only-dispute-next-step-missing-field-error.jpg",
+      "bytes": 98367,
+      "sha256": "af8ba772426fadfb4b5ce54a4b157b4213fb6c78353b865016a4b779f8f8c70c",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/103-only-dispute-next-step-missing-field-error.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/103-only-dispute-next-step-missing-field-error.txt",
+      "bytes": 23447,
+      "sha256": "ee64db387513e040dcad0d7bad1adf9f816ea8752c112359f8125429e14b47d4",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/104-invalid-edits-no-version-change.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/104-invalid-edits-no-version-change.jpg",
+      "bytes": 179857,
+      "sha256": "7b1da9d350c284f857ca50084a0243d9b71834b371d5c431cd5d6d3fa1e8d3d3",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/104-invalid-edits-no-version-change.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/104-invalid-edits-no-version-change.txt",
+      "bytes": 18904,
+      "sha256": "ee393813ad598f13e470a4902c45f98644b843713cb6519f0bb5db5d39e1d130",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/105-return-original-operation-stable.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/105-return-original-operation-stable.jpg",
+      "bytes": 179630,
+      "sha256": "69b8cc8fce3da301919e6152c31a954749653603a14933756758f2b0747f297e",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/105-return-original-operation-stable.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/105-return-original-operation-stable.txt",
+      "bytes": 22195,
+      "sha256": "3a793d635f6804d33de6c68055bae771bbc2f51f6d0538ba3ac4fe0730bf4030",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/106-report-view-current-wording.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/106-report-view-current-wording.jpg",
+      "bytes": 172551,
+      "sha256": "92df40f2de0cc5279458d6e76a690dbcb4082b501c642d9801e6a6abcdb2c51f",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/106-report-view-current-wording.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/106-report-view-current-wording.txt",
+      "bytes": 18192,
+      "sha256": "e5169519a1ab0303104c8a22a961abf4f7cfb7875ddc8cc1876aadcb448439ff",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/107-final-project154-col-workbench.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/107-final-project154-col-workbench.jpg",
+      "bytes": 180048,
+      "sha256": "6485f44562022cdd3804224e5c9cb02f5fbe5b65c1e4f00484b6d3ecda3a2a34",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/107-final-project154-col-workbench.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/107-final-project154-col-workbench.txt",
+      "bytes": 21641,
+      "sha256": "b2f6ba4edd98b0bf40eb67ab4a76aa31dd11c78276d70eff321492d8e9b68899",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/108-batch-two-selected-version1-before-conflict.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/108-batch-two-selected-version1-before-conflict.jpg",
+      "bytes": 110293,
+      "sha256": "65db42166db27c032be05c2acc8362dae851fa3a338afc3e3585b7c46afd1a20",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/108-batch-two-selected-version1-before-conflict.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/108-batch-two-selected-version1-before-conflict.txt",
+      "bytes": 19845,
+      "sha256": "08fba31ff6939f546cba1b9573737c0f2fcc28259d22db24801149234497178f",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/109-second-visible-tab-1912-version2.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/109-second-visible-tab-1912-version2.jpg",
+      "bytes": 93018,
+      "sha256": "4955c8860da6feae1453aeffe1c63017cfbfaa0d098d9cbe1e40c330859d7ba9",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/109-second-visible-tab-1912-version2.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/109-second-visible-tab-1912-version2.txt",
+      "bytes": 18943,
+      "sha256": "b0d59f85b52f3f459dd3cc2e3340844f96dbd5e36c4e5e807156fcc03d5a2266",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/11-dispute-review-history.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/11-dispute-review-history.jpg",
+      "bytes": 128226,
+      "sha256": "f5e0c591588dca4630478bd93348ec205b5abdbfbc7a88bc501eea9a351ba2ac",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/11-dispute-review-history.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/11-dispute-review-history.txt",
+      "bytes": 115966,
+      "sha256": "7c0b48b62f725d05c01d0ff60245f252a08aea1821550c92dd85c4aeadce0097",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/110-fixed-batch-mixed-result-identifiable.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/110-fixed-batch-mixed-result-identifiable.jpg",
+      "bytes": 106969,
+      "sha256": "176f1558f3e8caf5b5e36defac57132c7f5a76b2a84c785b5005f28b9e249fc8",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/110-fixed-batch-mixed-result-identifiable.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/110-fixed-batch-mixed-result-identifiable.txt",
+      "bytes": 20754,
+      "sha256": "f57cd30677d250c87a07a8f0a546d1af0da84bbe44fd3eb7b9b7a8c0996a10ce",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/111-batch-success-1911-history.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/111-batch-success-1911-history.jpg",
+      "bytes": 144406,
+      "sha256": "37be84c3ac83253a5d678667cc4b2975ffc42109969111f022c2bdb2b2224403",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/111-batch-success-1911-history.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/111-batch-success-1911-history.txt",
+      "bytes": 25454,
+      "sha256": "d9ea2bedc884192b2bbe5b9dd9a34ccc866bcdc386a8b02e4afd22e4edb4b709",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/112-batch-stale-1912-history.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/112-batch-stale-1912-history.jpg",
+      "bytes": 119457,
+      "sha256": "2ec094bb7a79ac09044656528249c2f5d7c0f145f0d43aec45213e9dde879bb7",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/112-batch-stale-1912-history.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/112-batch-stale-1912-history.txt",
+      "bytes": 30484,
+      "sha256": "c2c6feb83c71d05554d79ebe43c2b2755de65f5471f878aa25c42c0581da5d01",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/113-final-workbench-after-batch-fix.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/113-final-workbench-after-batch-fix.jpg",
+      "bytes": 160715,
+      "sha256": "0e7932a873647a6c48150118ee12fbf2527fd795701bb731f35c17dc1801ad4e",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/113-final-workbench-after-batch-fix.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/113-final-workbench-after-batch-fix.txt",
+      "bytes": 19172,
+      "sha256": "a80b9edd500ce532260ce55a8f013ebff65f03c9e6ca76447e364c661bf7cecc",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/114-statistics-global-U7.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/114-statistics-global-U7.jpg",
+      "bytes": 160723,
+      "sha256": "9e3772c828278fdde6bb16a0db73051ef690d227ed7e6080b74904efa4240078",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/114-statistics-global-U7.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/114-statistics-global-U7.txt",
+      "bytes": 19172,
+      "sha256": "a80b9edd500ce532260ce55a8f013ebff65f03c9e6ca76447e364c661bf7cecc",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/115-statistics-filtered-one-global-U7.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/115-statistics-filtered-one-global-U7.jpg",
+      "bytes": 148681,
+      "sha256": "4097e452b2f9e94e904af4ada2beb34108f73c7138205381faead4f01afa7b06",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/115-statistics-filtered-one-global-U7.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/115-statistics-filtered-one-global-U7.txt",
+      "bytes": 13764,
+      "sha256": "c74b4bbd1f95006ae0979069834b3b6cf17c904166c273cb273b67d16321e101",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/116-statistics-cleared-global-U7-restored.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/116-statistics-cleared-global-U7-restored.jpg",
+      "bytes": 141734,
+      "sha256": "66249a29fb7fc020221a04eff4a2f7c0f56323bfe8ae29d70c1f2195a2c2756d",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/116-statistics-cleared-global-U7-restored.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/116-statistics-cleared-global-U7-restored.txt",
+      "bytes": 18566,
+      "sha256": "2838fa01081d6765acf3f4ff1908bf22b2d0abc3433ed2924690b0be1c622aa9",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/117-accepted-only-empty-evidence-rejected.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/117-accepted-only-empty-evidence-rejected.jpg",
+      "bytes": 112666,
+      "sha256": "1f8472e72860808ee88e2e25d97f7e40eb5a768b891b9332a82ce2a633a30f49",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/117-accepted-only-empty-evidence-rejected.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/117-accepted-only-empty-evidence-rejected.txt",
+      "bytes": 20634,
+      "sha256": "307d3ae02f4260ab1f6410716790093fd973ba968f9409cb27313f33676c127e",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/118-accepted-only-empty-evidence-final-error.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/118-accepted-only-empty-evidence-final-error.jpg",
+      "bytes": 115429,
+      "sha256": "3b0c0565b8e4146d83decd5d91d6415af958270d3ff97334979cc20a6d18929c",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/118-accepted-only-empty-evidence-final-error.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/118-accepted-only-empty-evidence-final-error.txt",
+      "bytes": 20898,
+      "sha256": "dff5f9a7a0a7ea24e5353b566f526dfbf16918608894eadd3397169219e32b4f",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/119-empty-evidence-no-version-change-1905-v14.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/119-empty-evidence-no-version-change-1905-v14.jpg",
+      "bytes": 179839,
+      "sha256": "48a54c1604a23b627a671b76a17940eb37d841f03c1dd3c8d9c9df07665dedcd",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/119-empty-evidence-no-version-change-1905-v14.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/119-empty-evidence-no-version-change-1905-v14.txt",
+      "bytes": 18975,
+      "sha256": "103b0ff40a1a243a00d3cd8b4eda6ba3555102401c875a5ce63aa314142dad9d",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/12-reconfirmed-v11.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/12-reconfirmed-v11.jpg",
+      "bytes": 123177,
+      "sha256": "de0af459a67fea22234f60eb3ef626b863478d1718b0c3ff55f06239ba003876",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/12-reconfirmed-v11.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/12-reconfirmed-v11.txt",
+      "bytes": 6841,
+      "sha256": "55fef2abfaebc7961e718df01c50d2c8a1eaa2f5d025e3390c58e3e36a8c9468",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/120-complete-evidence-accepted-1905-v15-history.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/120-complete-evidence-accepted-1905-v15-history.jpg",
+      "bytes": 154689,
+      "sha256": "736ff24c21c5fd823f6c8822cfe0a78d0d82b1f121be0d62a45b0dc364100e55",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/120-complete-evidence-accepted-1905-v15-history.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/120-complete-evidence-accepted-1905-v15-history.txt",
+      "bytes": 19192,
+      "sha256": "5bbf931a09bd0eae593f0088e50ddb517bfdb3cb84e3a6d14d316a6f8f2771e9",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/121-member533-restricted268-revoked-stable.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/121-member533-restricted268-revoked-stable.jpg",
+      "bytes": 115114,
+      "sha256": "6fa1d58229f556583b44bfd6f2da86296aa4c74f1b61b1cc06aeeb862e6dfe29",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/121-member533-restricted268-revoked-stable.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/121-member533-restricted268-revoked-stable.txt",
+      "bytes": 14367,
+      "sha256": "efb9fc062dbabd684dcc574e7f774625fef74818b289f25bfa41f04d11211022",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/122-project154-creation-scope-history-stable.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/122-project154-creation-scope-history-stable.jpg",
+      "bytes": 114650,
+      "sha256": "3c0f1e909ac1f4260f6e899caeb6a1812dfb687f11b3404244f5bb6c1c76df4e",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/122-project154-creation-scope-history-stable.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/122-project154-creation-scope-history-stable.txt",
+      "bytes": 14314,
+      "sha256": "aa2315c9d449860abb6faa35afe0e0b08419158d487e88138c339a86e77d6eb3",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/123-actual-project154-creation-and-scope-history.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/123-actual-project154-creation-and-scope-history.jpg",
+      "bytes": 148027,
+      "sha256": "be92b3051c6706a5bb27efe7b77e509723c6ba9cb94dbd6105aa284405d8477d",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/123-actual-project154-creation-and-scope-history.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/123-actual-project154-creation-and-scope-history.txt",
+      "bytes": 14219,
+      "sha256": "9d3b552344855448bd44a919855e82392ff7955fdfd02fcb08dfced41abbf612",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/124-global-statistics-visible-U7.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/124-global-statistics-visible-U7.jpg",
+      "bytes": 147495,
+      "sha256": "08b177fa80eecfdd00b48216b199be823f0adec3c1f45d4f1771bb40c4e22acc",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/124-global-statistics-visible-U7.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/124-global-statistics-visible-U7.txt",
+      "bytes": 19004,
+      "sha256": "ac81c29b9f71e9cc467627113d4d32672c01561587162989aad01b2f317f6fc1",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/125-filtered-statistics-visible-U1.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/125-filtered-statistics-visible-U1.jpg",
+      "bytes": 152819,
+      "sha256": "5efe92d288a19c234c751d5752a27c24c01c2764cf5c39d16f5b12407eb96251",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/125-filtered-statistics-visible-U1.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/125-filtered-statistics-visible-U1.txt",
+      "bytes": 13796,
+      "sha256": "1d76eb74c4f9ea48228b22a7476377b1d4413e2e2e6fbdafa91dc65af5387e24",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/126-global-statistics-visible-restored.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/126-global-statistics-visible-restored.jpg",
+      "bytes": 147490,
+      "sha256": "abbbdb249f35b7563b6b3efd2402065681eff05170a0a7092062b6fba109c37c",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/126-global-statistics-visible-restored.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/126-global-statistics-visible-restored.txt",
+      "bytes": 19004,
+      "sha256": "5f7bcb170dce395e8e4c57682cc39a06ed94c34de8d4fb1973cac2e71246c624",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/127-delivery2-QS3662-QC3664-bound-tuples.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/127-delivery2-QS3662-QC3664-bound-tuples.jpg",
+      "bytes": 96911,
+      "sha256": "d92d0e533ea04be1c151daa83f5182425e4ae57fc1b59a4ef21d956b48185553",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/127-delivery2-QS3662-QC3664-bound-tuples.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/127-delivery2-QS3662-QC3664-bound-tuples.txt",
+      "bytes": 18483,
+      "sha256": "373353f8405260f66805559ef1f993e3743f95a6fb57e7250d2bfc8c8b8ddd96",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/13-issue3616-reopened.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/13-issue3616-reopened.jpg",
+      "bytes": 123539,
+      "sha256": "a1fae39e3abb1497d07aa8bec567b469ae825e22b7bc3f55b8dc0761973f9024",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/13-issue3616-reopened.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/13-issue3616-reopened.txt",
+      "bytes": 7889,
+      "sha256": "c87eedb52054717546d475b17c8d48644562bdf44e2ba788193ec4650171a56b",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/14-cycle2-submitted.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/14-cycle2-submitted.jpg",
+      "bytes": 126215,
+      "sha256": "9955324e03c754bec529ff069ed0205c881d7c6fee89fe1a5419540ec2ea7f99",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/14-cycle2-submitted.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/14-cycle2-submitted.txt",
+      "bytes": 8223,
+      "sha256": "2a1761f5dbab7cc744a3952ccbc35cfcfe1777c021a850d1598ee03bd4d46a8b",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/15-cycle2-rejected.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/15-cycle2-rejected.jpg",
+      "bytes": 123458,
+      "sha256": "629aadfe1ec7f7423f39ef4c4cb20de1a93af60ad2355b7551d5741dbbc33a6b",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/15-cycle2-rejected.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/15-cycle2-rejected.txt",
+      "bytes": 7889,
+      "sha256": "5479f3beccc1c77ccbabe457c0edd3266e2988e16cee012dd20e0466b790f557",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/16-cycle2-resubmitted.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/16-cycle2-resubmitted.jpg",
+      "bytes": 126182,
+      "sha256": "f7a6983538a6eb58c45cb21c0fee822deb3f44814379ab13fd0f720840cc7eae",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/16-cycle2-resubmitted.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/16-cycle2-resubmitted.txt",
+      "bytes": 8214,
+      "sha256": "bbf3b2c83af6934d79bb1343e8d1a89575003bddbd27682f812742d80f69045a",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/17-cycle2-closed.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/17-cycle2-closed.jpg",
+      "bytes": 123132,
+      "sha256": "36424ffd226788b92e8fab2f1a54f7564f2c8c28b56d9d212d73950dee0bb9f1",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/17-cycle2-closed.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/17-cycle2-closed.txt",
+      "bytes": 7880,
+      "sha256": "eaaf97f0b76d229ebcb50fac8e937510de7053cde8ce4043993105888202e9ee",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/18-cycle2-history.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/18-cycle2-history.jpg",
+      "bytes": 93788,
+      "sha256": "04b56bde3d9f6cdbecc68691377a734c44cb9ad5d53558560d5b7a0ca5390bc9",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/18-cycle2-history.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/18-cycle2-history.txt",
+      "bytes": 19544,
+      "sha256": "6c0bf1cdb2159ff33c9efa854b498873a885ff3b2ccdb8e9680545ee28b4cbda",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/19-source3642-created.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/19-source3642-created.jpg",
+      "bytes": 141713,
+      "sha256": "2764753de7ddc8428d990ba166f25800b177555f42f7f97a492b177414633ba2",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/19-source3642-created.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/19-source3642-created.txt",
+      "bytes": 7737,
+      "sha256": "625ba3c3e24b104b1a3fc287923bba35786c855a8e52e41886d96b3b0036e737",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/20-source3642-delivered.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/20-source3642-delivered.jpg",
+      "bytes": 140776,
+      "sha256": "35fd01aa2f4185d542724128c16f85c9a966ac7fd47bda3b52f85cf476a08b5f",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/20-source3642-delivered.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/20-source3642-delivered.txt",
+      "bytes": 7927,
+      "sha256": "3e75b8f1118a56e9c439b62b9b29edf57bb49c4e2596b4807afb9b4a6706a711",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/21-second-relation-created.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/21-second-relation-created.jpg",
+      "bytes": 139148,
+      "sha256": "86d22a65193b141a079547e3794afffdeebccdb6134dcfcbf00bf85ea198d3be",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/21-second-relation-created.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/21-second-relation-created.txt",
+      "bytes": 8167,
+      "sha256": "21a9afe548f56b27855f31ceb31755fd7cc1f73a91194ec78a547904bfe82c42",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/22-source3642-semantic-QS-pass.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/22-source3642-semantic-QS-pass.jpg",
+      "bytes": 132618,
+      "sha256": "167f7fe06338748d58dbf422cceeddaa9df7a26830d2a2769d6015763f4873ce",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/22-source3642-semantic-QS-pass.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/22-source3642-semantic-QS-pass.txt",
+      "bytes": 7596,
+      "sha256": "963f289905788624e8283b81f36370a83401fbe92509dce21ec8337bec233e30",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/23-relation3647-available.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/23-relation3647-available.jpg",
+      "bytes": 132080,
+      "sha256": "ed5835dfd481a152ed51c4f786cc501b75ef9d899e9a2da97b898e5d85b6a09a",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/23-relation3647-available.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/23-relation3647-available.txt",
+      "bytes": 7908,
+      "sha256": "a5dc8687a1ce498fca1262dd5e268acfc2d257bcd3bd8d45d88b69a075a9a12d",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/24-source-QS-QC-evidence.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/24-source-QS-QC-evidence.jpg",
+      "bytes": 121146,
+      "sha256": "56d92c356f4d33e05cbeecc6e9bde53d377c57690dbac15e5eb6b7585aa58271",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/24-source-QS-QC-evidence.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/24-source-QS-QC-evidence.txt",
+      "bytes": 14448,
+      "sha256": "fec21f01b6e0ffc0e52995e19ac702b0f1811bad691e5814d0ef626695caa216",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/25-QS3652-QC3656-bound-evidence.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/25-QS3652-QC3656-bound-evidence.jpg",
+      "bytes": 121176,
+      "sha256": "cc2cb2f63b2fa268045765aca04af4d0c8637d660003637a6554f963a5755ab1",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/25-QS3652-QC3656-bound-evidence.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/25-QS3652-QC3656-bound-evidence.txt",
+      "bytes": 14448,
+      "sha256": "fec21f01b6e0ffc0e52995e19ac702b0f1811bad691e5814d0ef626695caa216",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/26-relation3647-refreshed.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/26-relation3647-refreshed.jpg",
+      "bytes": 132391,
+      "sha256": "762e04bcb4608f13c98cf45ce8398b698bfa8267d5bd67c2e71d1639e5b42c8e",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/26-relation3647-refreshed.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/26-relation3647-refreshed.txt",
+      "bytes": 7881,
+      "sha256": "8d04f75993cb62f5c75602f0ff7d7c825839c3a9105ce205b17d7f1051b45ea1",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/27-relation3647-history.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/27-relation3647-history.jpg",
+      "bytes": 86887,
+      "sha256": "931151425d198da29d61d9d0784335b56d191a943c84a12b2fdd0ad915abd23f",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/27-relation3647-history.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/27-relation3647-history.txt",
+      "bytes": 11569,
+      "sha256": "512620cade7e4cc71fb37435f6579f12cca678e0286e0d40c437374d1d44e1da",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/28-only-evidence-missing-rejected.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/28-only-evidence-missing-rejected.jpg",
+      "bytes": 119459,
+      "sha256": "a38d0fbf251ad1076333aca558f9ab6248b6c42ca0d03d60434acf0a9cc9073b",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/28-only-evidence-missing-rejected.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/28-only-evidence-missing-rejected.txt",
+      "bytes": 17159,
+      "sha256": "3377f6abf1897512991648de4e2ac7f4dfe81561eaa3310fadab1efa70021316",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/29-only-api-missing-rejected.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/29-only-api-missing-rejected.jpg",
+      "bytes": 120656,
+      "sha256": "7289db11d3b81b94fa4b604c7351ee83f3e51fb3c197b4b41f14a3aafd2bdbc7",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/29-only-api-missing-rejected.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/29-only-api-missing-rejected.txt",
+      "bytes": 17193,
+      "sha256": "f8c54b8aba3756a4966fef8b69f170da97a95b2ea6556a6ca413792da715ab2a",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/30-issue3590-impact-read.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/30-issue3590-impact-read.jpg",
+      "bytes": 113378,
+      "sha256": "f0d9e798583b2a7732606a022eed5e4ec0551945dcaeaeb2ff2cd21fbabc54c8",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/30-issue3590-impact-read.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/30-issue3590-impact-read.txt",
+      "bytes": 18704,
+      "sha256": "ea2d1706330f13d40071885721791aed15c63eeee981cc00f27d9d2abc0a3427",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/31-relation3647-after-unlink3613.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/31-relation3647-after-unlink3613.jpg",
+      "bytes": 137553,
+      "sha256": "d9aabddeb387637a5668f60fcd0143a70bf494e448d33cfee363ed49ce086fc6",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/31-relation3647-after-unlink3613.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/31-relation3647-after-unlink3613.txt",
+      "bytes": 8317,
+      "sha256": "a874326c26e7512f6d931e6f1194de3429c2eb9f461e15d06215bab945cfc40c",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/32-release-precheck.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/32-release-precheck.jpg",
+      "bytes": 130697,
+      "sha256": "dcc062c3d2f30f3543ad713919db5105cc40a322a950d4cbe477b096aac89496",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/32-release-precheck.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/32-release-precheck.txt",
+      "bytes": 13833,
+      "sha256": "575d6624f97710ca73a4fdc5cf6665dea3bf223b12be75e0da0e103727f5cadd",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/33-release-precheck-result.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/33-release-precheck-result.jpg",
+      "bytes": 130759,
+      "sha256": "689ba353b7205bc819d1f5796405648d725095de774cc8b4f2e9d0b03fe699b1",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/33-release-precheck-result.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/33-release-precheck-result.txt",
+      "bytes": 13833,
+      "sha256": "575d6624f97710ca73a4fdc5cf6665dea3bf223b12be75e0da0e103727f5cadd",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/34-deferred1905.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/34-deferred1905.jpg",
+      "bytes": 154157,
+      "sha256": "06d6e0b5f59be47a8ced0ca6f5c158494018d5c34cc7d858a7b5e9df9a1dd5e9",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/34-deferred1905.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/34-deferred1905.txt",
+      "bytes": 15696,
+      "sha256": "d86a61173d07fb4a72e592c20f7a0d71a15d68d64c13d8c737931879ffacf1aa",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/35-release-ready-check.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/35-release-ready-check.jpg",
+      "bytes": 134083,
+      "sha256": "558cc7c9acea2344833b3894f2a3e390d4831da3c1ad586f0d228f2a3396e733",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/35-release-ready-check.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/35-release-ready-check.txt",
+      "bytes": 13924,
+      "sha256": "563d8f18f9735e4231a575ff420fe81353ba7c590b9395bb59dfc3361c867a95",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/36-new-TEST-release.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/36-new-TEST-release.jpg",
+      "bytes": 118419,
+      "sha256": "b80de5d2200d94fd6b80c5aa1f91b0020176cd4bd65cefa865b80913052b0c45",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/36-new-TEST-release.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/36-new-TEST-release.txt",
+      "bytes": 6564,
+      "sha256": "de2b2697f4dcba661dc5ef7d28c345ee3e00b2b45fdf484556a8bfa0a6bc68fe",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/37-TEST-snapshot1458-v5.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/37-TEST-snapshot1458-v5.jpg",
+      "bytes": 136367,
+      "sha256": "326d583689c804089255246d3e7a35edfe30acbfcd1ce166150cdf502b8be7c2",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/37-TEST-snapshot1458-v5.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/37-TEST-snapshot1458-v5.txt",
+      "bytes": 14489,
+      "sha256": "0b8cab4aab7d036b3452e613f4063815b6c6b417a40f7cac8699498cd2f65fd0",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/38-export-ready.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/38-export-ready.jpg",
+      "bytes": 135038,
+      "sha256": "8012231518330f95b7896837d395bdfd89ad507d4764f33104bf69c21a2f21ed",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/38-export-ready.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/38-export-ready.txt",
+      "bytes": 14797,
+      "sha256": "a7ebf49f1e325e36bf2828d2b2061413c2b3488aada650a4cc3daa42bb216d6f",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/39-export-downloaded.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/39-export-downloaded.jpg",
+      "bytes": 133819,
+      "sha256": "b7a22d57f92cfa13ad7f6b820ec0371b3408708304f1675a46f0b31bdbf6a482",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/39-export-downloaded.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/39-export-downloaded.txt",
+      "bytes": 14690,
+      "sha256": "cd494cf878cd0df87b6677aba902aa61ae7d95491df6b2d03757f348ea3f2bd8",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/40-role267-project154-denied.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/40-role267-project154-denied.jpg",
+      "bytes": 121456,
+      "sha256": "b72b28610c88cc0e8bbbbfd3edf5161dc36036d623d868799c603d86eb83eb20",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/40-role267-project154-denied.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/40-role267-project154-denied.txt",
+      "bytes": 5887,
+      "sha256": "1d9c7f950500b21dd9259bc1a75a047c772b9580804c5b26eec0137afca34ab6",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/41-role268-project153-denied.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/41-role268-project153-denied.jpg",
+      "bytes": 176271,
+      "sha256": "694d5600ce05bf79bd30dd8f8eba40713f65b377d7824670f229dc5b45717d82",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/41-role268-project153-denied.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/41-role268-project153-denied.txt",
+      "bytes": 11518,
+      "sha256": "dca564597249114c9d413285ad9f3b37ee534f03443836b94f7ded851ff1caf3",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/42-template-page1.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/42-template-page1.jpg",
+      "bytes": 135487,
+      "sha256": "884246dc9f56b6cb96b2b71a636ea54ce85b2e37b7f54e1b2910a3be7473e513",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/42-template-page1.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/42-template-page1.txt",
+      "bytes": 21937,
+      "sha256": "98d93e010d0de22a0c4793c837a6feecffec94bab8453075f9aa647c98039ca7",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/42-template-page2.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/42-template-page2.jpg",
+      "bytes": 172425,
+      "sha256": "4aa5462ddfb0701adf598dbccea6e082484eb4438c35eedd90d4c04466582623",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/42-template-page2.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/42-template-page2.txt",
+      "bytes": 11533,
+      "sha256": "c1d3ed424e62902c59276203b639e9861ba24265185e17d6806478ca3a635b0c",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/43-template-stable-page1.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/43-template-stable-page1.jpg",
+      "bytes": 143965,
+      "sha256": "7bafbc7601c2eab6b8c25b9f89b970fd9417bd2630a431ef54fbb44e24208308",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/43-template-stable-page1.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/43-template-stable-page1.txt",
+      "bytes": 22039,
+      "sha256": "62110d23c5e3e8a92538a739f75c8f69537bec41f8b65355fd3dfec892079cc6",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/43-template-stable-page2.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/43-template-stable-page2.jpg",
+      "bytes": 151880,
+      "sha256": "777c00839d6575945a0feab27b73199172ff06c830413dff31cfd96f51f4179d",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/43-template-stable-page2.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/43-template-stable-page2.txt",
+      "bytes": 22071,
+      "sha256": "9bcc2c161197dcb7adba6206f34a1b9b5de2c15c8d5d182d89867052e8c9193e",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/43-template-stable-page3.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/43-template-stable-page3.jpg",
+      "bytes": 142601,
+      "sha256": "bdbcda07ee5fcc5332ee73521084dc1d334e2095cfacacb7a2db9b5f10b32109",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/43-template-stable-page3.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/43-template-stable-page3.txt",
+      "bytes": 22020,
+      "sha256": "071e3352a8dc8faccf1741ea3befa7577ae37b51fe85788a46ee6c50988f7fb4",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/43-template-stable-page4.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/43-template-stable-page4.jpg",
+      "bytes": 140008,
+      "sha256": "0209c7942922d7578499826f4532bcb5c4069166e933a39101a7b722dd32b1c5",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/43-template-stable-page4.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/43-template-stable-page4.txt",
+      "bytes": 21970,
+      "sha256": "508180934ab29369f899552d0b9fcb7218659b4073ada4039f14553ab51b7a6b",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/43-template-stable-page5.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/43-template-stable-page5.jpg",
+      "bytes": 147396,
+      "sha256": "2f337e928c095e6356d35469b974c1fce5285cd751ee2dd90e61aebc72656c44",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/43-template-stable-page5.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/43-template-stable-page5.txt",
+      "bytes": 22019,
+      "sha256": "f57fe0a100ecf31ea3fa11008ae885bdd076924d945d038fbff9e93fdb3ecdc3",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/43-template-stable-page6.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/43-template-stable-page6.jpg",
+      "bytes": 141483,
+      "sha256": "f46eea202c33fe2ceaa9752ed60b04bc985139b1bf34adf8e22dd6e86a73227a",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/43-template-stable-page6.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/43-template-stable-page6.txt",
+      "bytes": 21962,
+      "sha256": "ab5d366702b1c75407a1b9e1d7255b0d116b77ea0fc089cac58d282bc0b5ae16",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/44-reinitialize60-preserved.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/44-reinitialize60-preserved.jpg",
+      "bytes": 132923,
+      "sha256": "474e949c884e4e32fbd3c8042c2a90e67632cc787e6efbc563c422ddcc6ab5fa",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/44-reinitialize60-preserved.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/44-reinitialize60-preserved.txt",
+      "bytes": 21962,
+      "sha256": "d1b09119c1fac9e69d16dd5dba86df7156a6115ac3402c3d2e30012b9c50bf23",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/45-custom1906-after-init.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/45-custom1906-after-init.jpg",
+      "bytes": 149195,
+      "sha256": "8a8c81a09eecad362479347694e0e0e4219db556cfb8a48b379314f30892e6b0",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/45-custom1906-after-init.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/45-custom1906-after-init.txt",
+      "bytes": 14030,
+      "sha256": "10163b5b3bbc127c673c8cfb9250044d19df4081b6e0ca70d97e79331fbc034b",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/46-delivery2-QS-invalid-semantic-kept.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/46-delivery2-QS-invalid-semantic-kept.jpg",
+      "bytes": 140700,
+      "sha256": "acd44e8c3bf91dcdb0b3ec761b9cc3d614f0648d067ab98be3d793b9ab02a24f",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/46-delivery2-QS-invalid-semantic-kept.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/46-delivery2-QS-invalid-semantic-kept.txt",
+      "bytes": 7927,
+      "sha256": "d9d938c6bb41dac0347572afd756ce81c44d07f113b224b50b446178c15e5258",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/47-delivery2-related-only.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/47-delivery2-related-only.jpg",
+      "bytes": 138763,
+      "sha256": "959dd154480dff3bdfe10861de4284c84f99c493f84176e9b59345a3e33e2e40",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/47-delivery2-related-only.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/47-delivery2-related-only.txt",
+      "bytes": 8135,
+      "sha256": "2dde7a51d25be27600c782652cfc827b082e0aed9522b955296c80be564a9784",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/48-delivery2-quality-restored.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/48-delivery2-quality-restored.jpg",
+      "bytes": 128885,
+      "sha256": "c18e1da97da0cf5396bd70d3d08ab9079abf20ea5114953a1a35a34a5d5588bc",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/48-delivery2-quality-restored.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/48-delivery2-quality-restored.txt",
+      "bytes": 7708,
+      "sha256": "ddebdad4fc01313415ad34c7336e706f7760602daf5954c07e42d534e9599150",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/49-bootstrap-signer-restricted-project.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/49-bootstrap-signer-restricted-project.jpg",
+      "bytes": 122247,
+      "sha256": "24f350d223df9c39dba20ca19ae6d25a83badd540b217ee4362c532158169972",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/49-bootstrap-signer-restricted-project.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/49-bootstrap-signer-restricted-project.txt",
+      "bytes": 5923,
+      "sha256": "53e7c9cfd8d433df7361e4e4106eedfda34255aa05d6c49ff2538f8e4638f7f9",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/50-root-register-input.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/50-root-register-input.jpg",
+      "bytes": 83607,
+      "sha256": "fcbac1b4e5050d4724684ee2279e15bb667622a7e4e5ee4e03910ed2a624fb5c",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/50-root-register-input.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/50-root-register-input.txt",
+      "bytes": 11127,
+      "sha256": "6d704085b1ea0bdf47ffab7ac0e8cd30e39e130ade1ab75955b31f7429b0eacf",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/51-root-register-result.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/51-root-register-result.jpg",
+      "bytes": 84588,
+      "sha256": "b0e4e42cb5b60d05b5b4c63d6ab2ef66bbada35947fd45b463f1eddcd759f7d8",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/51-root-register-result.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/51-root-register-result.txt",
+      "bytes": 11398,
+      "sha256": "6f5ee06e8e5a2c97ac6066b4c85e6c0296d98c0ede89ddba19c11356ebbe3204",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/52-root-register-grantee266.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/52-root-register-grantee266.jpg",
+      "bytes": 81330,
+      "sha256": "f007e667a0254f6889a2818197c7c1fc4cb7ed9a1a45a299ebe301ddec24380a",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/52-root-register-grantee266.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/52-root-register-grantee266.txt",
+      "bytes": 11206,
+      "sha256": "5dcf6c269f81a063830848cc6c1ffd14b65f311cbbe9e64c7496225ae7ae677e",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/53-root-register-explanation.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/53-root-register-explanation.jpg",
+      "bytes": 128120,
+      "sha256": "0594b4d56829982ad7bf34856c77d4d06bb45a897cd03144736af099dba6c6b1",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/53-root-register-explanation.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/53-root-register-explanation.txt",
+      "bytes": 6472,
+      "sha256": "1589f141a6626cdd5b716a7f6792fdf5b2524834874e049aa9285edec18e6a2c",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/54-root1461-independent-signer.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/54-root1461-independent-signer.jpg",
+      "bytes": 88876,
+      "sha256": "3c942af02fea7a48087254e922400df8cb711c8597fea0f7e3a5ce0a833c5b13",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/54-root1461-independent-signer.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/54-root1461-independent-signer.txt",
+      "bytes": 7032,
+      "sha256": "2fa2d850b6307a15493f6d1b72adcf85576be7cabd7cd4e515e61de1bf98986f",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/55-root1461-active.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/55-root1461-active.jpg",
+      "bytes": 125531,
+      "sha256": "ccfb55ff353c9a123ff0c0ce03ecb6895a4f187d4ac430a0b678b385832aab9b",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/55-root1461-active.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/55-root1461-active.txt",
+      "bytes": 6520,
+      "sha256": "f10741e49216f2d221f691d88d14c8966f9ec8f9279c988857c11ba2e52dd9d1",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/56-project154-scope1.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/56-project154-scope1.jpg",
+      "bytes": 94277,
+      "sha256": "d4d344525ed3a31aa4cae7cd76cda92167df9d7a8424bbd744821ef538be91be",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/56-project154-scope1.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/56-project154-scope1.txt",
+      "bytes": 9169,
+      "sha256": "69ddef6d7c88d1036d3e0b4fe32edd49290076f85eea70c73f4b7c844bb650a4",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/57-member-grant-attempt.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/57-member-grant-attempt.jpg",
+      "bytes": 93878,
+      "sha256": "ccfe44ad17c715a71a97f83fe155d648be56b440821f9d1d3b985ec07d690fa6",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/57-member-grant-attempt.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/57-member-grant-attempt.txt",
+      "bytes": 12981,
+      "sha256": "e55906f626d78e6f0786c0ec6b8abc2587ecf3bbf191c4f07837a8b593b6c08c",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/58-member268-grant-readback.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/58-member268-grant-readback.jpg",
+      "bytes": 94100,
+      "sha256": "6141fb2f36e6fb110178f6a6f57eca4b2058ae0488cb18f1fb4f55c8d23ac7bc",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/58-member268-grant-readback.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/58-member268-grant-readback.txt",
+      "bytes": 12954,
+      "sha256": "288b25e7cd25055ace0e6e4201c9b6572e7cff38f6dcff230e49f4975b8dad5b",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/59-delegable-root-pending.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/59-delegable-root-pending.jpg",
+      "bytes": 128697,
+      "sha256": "feb3b57ea3b5bafa21d06cd8963fe6667f231ba193762f0000d57b650d6fa9ed",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/59-delegable-root-pending.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/59-delegable-root-pending.txt",
+      "bytes": 6868,
+      "sha256": "e21b36d84605e6e8f6d3604c600a2dddef5a6ccb7330e6dddfdbe03c2f328024",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/60-root1464-active.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/60-root1464-active.jpg",
+      "bytes": 127983,
+      "sha256": "b4f07fec0db5cdd9cb8b799aac8a5bd2a62a1b8ce7d5e2692239a3132796887d",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/60-root1464-active.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/60-root1464-active.txt",
+      "bytes": 7005,
+      "sha256": "85bea8f18aa27e0753d26900ffa7ef6bf518d170e2dcf78b8d50bdf5aced89c7",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/61-member268-read-grant.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/61-member268-read-grant.jpg",
+      "bytes": 94755,
+      "sha256": "4ce6da8f8d4193e224b4435c1ed2584ed88f034ef5860bafa261060e49f5c70a",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/61-member268-read-grant.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/61-member268-read-grant.txt",
+      "bytes": 13800,
+      "sha256": "7f1e3a9907d231a4f0c18802a3eefe05fe9cc58471b198ba4ba69b41c989143a",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/62-role268-COL-read-only.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/62-role268-COL-read-only.jpg",
+      "bytes": 169391,
+      "sha256": "9d7dfe0c51b8754af64bbcf3fc43e4478ba0918ad4b1d0696bd74e1d93a2682d",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/62-role268-COL-read-only.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/62-role268-COL-read-only.txt",
+      "bytes": 19295,
+      "sha256": "f675327e90632c344587de028901d47e2dd60fea8a88489b56fdec5181ad9dbe",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/63-grant533-revoked.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/63-grant533-revoked.jpg",
+      "bytes": 100100,
+      "sha256": "96efb6cf3bd91d8e9520eb20d4341232b6f41b9aaa426c75921ef96650d9dfde",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/63-grant533-revoked.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/63-grant533-revoked.txt",
+      "bytes": 13920,
+      "sha256": "57abde41d5578cf5e52b4a83c58448f812ffc037f8973c82943e9ba5d932cfeb",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/64-grant533-revoked-confirmed.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/64-grant533-revoked-confirmed.jpg",
+      "bytes": 99340,
+      "sha256": "6c61bec47193b6bbc713b5a4d9f24d9624161949ff214bbd3ccaf6263d33bffd",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/64-grant533-revoked-confirmed.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/64-grant533-revoked-confirmed.txt",
+      "bytes": 13738,
+      "sha256": "06c9ca6127d90796cef8d9376bdce194d03fad843dd7c3ddd4eee121a30ba5ac",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/65-role268-after-revoke-denied.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/65-role268-after-revoke-denied.jpg",
+      "bytes": 166133,
+      "sha256": "32482bc502aee6f4c4b474fd1ac52230b80c6892c19ee54c3edc44e4a5c099e8",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/65-role268-after-revoke-denied.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/65-role268-after-revoke-denied.txt",
+      "bytes": 11531,
+      "sha256": "00f15b1130f388210ca589bbbf00865f08e6d2259bdaec2133cf13cc681cff79",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/66-batch-mixed-version-results.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/66-batch-mixed-version-results.jpg",
+      "bytes": 103582,
+      "sha256": "d4fc678870283a457511f16351d5b184b8f408d9fb177b150433bd16f5b579b2",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/66-batch-mixed-version-results.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/66-batch-mixed-version-results.txt",
+      "bytes": 17210,
+      "sha256": "307e7a8662e28a6c5062acbf52ba028399d2e426ebb3b191f7b705645c910934",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/67-batch-result-stable.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/67-batch-result-stable.jpg",
+      "bytes": 103209,
+      "sha256": "3b8d56486dedb51533659826060a041744bd19e16e18e204d6ce441f2e30e0f3",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/67-batch-result-stable.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/67-batch-result-stable.txt",
+      "bytes": 16875,
+      "sha256": "dd10188f83ef1feee49d64a32682d0485ad98ff7b25754bbac72959a51c6c991",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/68-template-project-created.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/68-template-project-created.jpg",
+      "bytes": 94026,
+      "sha256": "61f48f533fdec9bbc8987f5f8e58d153d4fb3106c50a733e661f8b6ae864be2c",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/68-template-project-created.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/68-template-project-created.txt",
+      "bytes": 4898,
+      "sha256": "2fd9724d2c9dc125268be1517433fe35ae3f1134c0a11971dc2cdd7e19fd7e28",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/69-template-root-pending.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/69-template-root-pending.jpg",
+      "bytes": 127690,
+      "sha256": "d67e8a41accc724968b2665ace4d6db7d1f1b9922dd92f74f618405681095fe8",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/69-template-root-pending.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/69-template-root-pending.txt",
+      "bytes": 6449,
+      "sha256": "626e2e6466459d937ff82b155652c3f17a3c59823b28fb94246bd3d860f61fd2",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/70-template155-v1-initialized.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/70-template155-v1-initialized.jpg",
+      "bytes": 107623,
+      "sha256": "8f618d9bf808ef09b05b758e8de8f68adfa82492a746585bdf13bb6555ce185c",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/70-template155-v1-initialized.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/70-template155-v1-initialized.txt",
+      "bytes": 5670,
+      "sha256": "3378eeaf9cf3d4891884012d29376412b3dcec4ddbb5651d9353776b1a0239ee",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/71-template155-manual-v1.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/71-template155-manual-v1.jpg",
+      "bytes": 171713,
+      "sha256": "8a8100ceb9746afc66ecc74ec02bfd2e3e7845d6e0053ebd499032f924541312",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/71-template155-manual-v1.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/71-template155-manual-v1.txt",
+      "bytes": 14871,
+      "sha256": "f40dc6561efbf832939cc92048d9b55ac4023dfec756a8d8fdc53d02da1df6b6",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/72-template155-v2-comparison.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/72-template155-v2-comparison.jpg",
+      "bytes": 67322,
+      "sha256": "caccf2458d51f37e5bfe44d8e0531ad6ac65f284edb3765d7edae89428a8ff1e",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/72-template155-v2-comparison.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/72-template155-v2-comparison.txt",
+      "bytes": 6983,
+      "sha256": "d4163322b5e815f8af679f357b204db7676042500489b4ed2692037c1be0bbff",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/73-template-decisions-complete.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/73-template-decisions-complete.jpg",
+      "bytes": 52536,
+      "sha256": "fe69bfa3ed4fb26ac6d7cf11638dd2046c6b7af51019aaa4ab4f9c540f5f8c95",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/73-template-decisions-complete.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/73-template-decisions-complete.txt",
+      "bytes": 5991,
+      "sha256": "2e5cc6df7a9a6defd08bf7a726d76ffe6a61faa17f8a3c290fcbd2c511adc4ac",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/74-template-accept-keep-readback.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/74-template-accept-keep-readback.jpg",
+      "bytes": 108476,
+      "sha256": "c0db0147cee8da7bd9ee43fc5c7256ede8bcc252dd0ffbe2076282fcbe194c32",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/74-template-accept-keep-readback.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/74-template-accept-keep-readback.txt",
+      "bytes": 5591,
+      "sha256": "173f1dfc7b02bb2c808a5f3aa1a63b6706b9fad8066ee0cd83bdf6ea6c40c208",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/75-template-reinitialize-preserved.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/75-template-reinitialize-preserved.jpg",
+      "bytes": 108477,
+      "sha256": "667c08256a8a2aa5541fbc5fc383dde6c6cbdfb4e8e7a886071bdc42365e2f3c",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/75-template-reinitialize-preserved.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/75-template-reinitialize-preserved.txt",
+      "bytes": 5690,
+      "sha256": "8ebeab2d610ec942903ee48d96a0e6a4b5a6af45d4e04dd8342be690d6cb989e",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/76-template-decision-history.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/76-template-decision-history.jpg",
+      "bytes": 108468,
+      "sha256": "c23cefe12811f16bdcd630840193ce07b590478f27ec1599d7ea819bacc4295c",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/76-template-decision-history.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/76-template-decision-history.txt",
+      "bytes": 9000,
+      "sha256": "ef10150703dae87967fc03fd814276f9fb233272420c12ddd8c2930197e64815",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/77-removed1907-U4E3.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/77-removed1907-U4E3.jpg",
+      "bytes": 154840,
+      "sha256": "9beed0c50d500ffb8092cdaf03a097da072e730fb1310440226b48e090a6bd45",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/77-removed1907-U4E3.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/77-removed1907-U4E3.txt",
+      "bytes": 16408,
+      "sha256": "19498b7a6582373841537dbd4bdfac30cf23881a1f8dcfb8c31a48b8bb7ef6b3",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/78-restored1907-U4E4.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/78-restored1907-U4E4.jpg",
+      "bytes": 154500,
+      "sha256": "43d0cd80b5841466eb630f97a4f907eb78b8ffc86dcc22996ebac071dc31fa7f",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/78-restored1907-U4E4.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/78-restored1907-U4E4.txt",
+      "bytes": 16402,
+      "sha256": "7848f6f1ada979151f4b9277e7263ede23367a7ff8b731137775cd0a72b3a31b",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/79-responsive390-history-source.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/79-responsive390-history-source.jpg",
+      "bytes": 49433,
+      "sha256": "ed2f9cebdd042be145e4bc95da472a9fb929121c0239d0914c91f4f696fb2535",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/79-responsive390-history-source.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/79-responsive390-history-source.txt",
+      "bytes": 22549,
+      "sha256": "04c5d8146a4b54b992b6044a78777b2a1be3e1cb160bd7c7664b6d070dec57e7",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/80-responsive-768-history.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/80-responsive-768-history.jpg",
+      "bytes": 102520,
+      "sha256": "650062598cbea44b50ed4daa153ea741d5d5c26928a4ee7115b88ee428396751",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/80-responsive-768-history.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/80-responsive-768-history.txt",
+      "bytes": 23490,
+      "sha256": "aa0a7a512eedf03c0a632b722e2a7d21f6117c06e71cb30291901114134274d7",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/81-responsive-1440-history.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/81-responsive-1440-history.jpg",
+      "bytes": 99172,
+      "sha256": "8dc4b982a15ae4f3d7788c00d8c612b2f8ce06f2ea117db4eff0ac022f4f9637",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/81-responsive-1440-history.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/81-responsive-1440-history.txt",
+      "bytes": 24314,
+      "sha256": "95ead970c2509d465ec366f1ebe77129e1b2e3cef4b1a2fe8fc4ffb3e68da4eb",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/82-nonadjacent-version1-14-compare.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/82-nonadjacent-version1-14-compare.jpg",
+      "bytes": 112160,
+      "sha256": "5bee6d7fcdc07fb4d3242b4b1883e765b990ff9bd7f0bb328d29ac64b3f67853",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/82-nonadjacent-version1-14-compare.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/82-nonadjacent-version1-14-compare.txt",
+      "bytes": 73901,
+      "sha256": "4fc597ed704a2295861579843ece07afdb7b89e6dea9049ce67eb3834a99d940",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/83-return-original-module-anchor.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/83-return-original-module-anchor.jpg",
+      "bytes": 165245,
+      "sha256": "e0905459479df7fa300cf7d4f29b126cbe5e58d0c95d3ff26a34efb2bfbc3093",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/83-return-original-module-anchor.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/83-return-original-module-anchor.txt",
+      "bytes": 11411,
+      "sha256": "082f9d10d47bb83fe2afd8f766c8caa845abbbf834ba843321cc6ccdd5fdec21",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/84-return-original-module-stable.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/84-return-original-module-stable.jpg",
+      "bytes": 162147,
+      "sha256": "1ed0f42d8ee24d3915fd8e5d20d423fb286ee3e610a3a015b3b12239ea23dd12",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/84-return-original-module-stable.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/84-return-original-module-stable.txt",
+      "bytes": 19584,
+      "sha256": "a1ef054d5417b7479cbfe1ed957707ae11529c1e282b5baba086289bf1f349cc",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/85-return-original-field-status-anchor.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/85-return-original-field-status-anchor.jpg",
+      "bytes": 189715,
+      "sha256": "6097fc2dcb73d375b996ab2a82fe6f65c15434f8d1d9a1e8ef28e27e54e0d126",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/85-return-original-field-status-anchor.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/85-return-original-field-status-anchor.txt",
+      "bytes": 11816,
+      "sha256": "1506f94c451a78f794bb1403b2bd0df621c80f9f3d324e4fda06f8a727c18fd1",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/86-return-field-stable.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/86-return-field-stable.jpg",
+      "bytes": 186296,
+      "sha256": "6b9231142110cda9df97e00766e73e2331976dfffd68536d2da021d36feeddbd",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/86-return-field-stable.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/86-return-field-stable.txt",
+      "bytes": 22311,
+      "sha256": "509c0a805bf2cc63bb2e728be00ea10e5237c285b914ec8edddd0edab89072ad",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/87-return-original-flow-approval-anchor.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/87-return-original-flow-approval-anchor.jpg",
+      "bytes": 172846,
+      "sha256": "947f79d9a3879b250d52eb96c6832d36f3d16e5dab6252f045f85371f79a2103",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/87-return-original-flow-approval-anchor.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/87-return-original-flow-approval-anchor.txt",
+      "bytes": 22520,
+      "sha256": "569583dbb944c2ce8a33bcb9ef68d7e4a2f2492e4fdb60b9430df210914f5498",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/88-snapshot1458-version-sheet.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/88-snapshot1458-version-sheet.jpg",
+      "bytes": 128011,
+      "sha256": "eff200f550a99fa3c19bf58c3a158ae2baddc1beb240c8635c2052755e04f9fe",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/88-snapshot1458-version-sheet.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/88-snapshot1458-version-sheet.txt",
+      "bytes": 20956,
+      "sha256": "5fe0be885ccf56af614f12aad5d14e4bc94e5ac1406dc94a8c0328f5d88dd3de",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/89-snapshot1458-功能需求清单.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/89-snapshot1458-功能需求清单.jpg",
+      "bytes": 128405,
+      "sha256": "50ebdc395b259429bb9477b41690a5e8c05bc5d9c2fff47e49df9488b0f57bec",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/89-snapshot1458-功能需求清单.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/89-snapshot1458-功能需求清单.txt",
+      "bytes": 16047,
+      "sha256": "bd71f1e20c15149ddc1bbfc65dac18c8271f2258342f150287d1cf35a9a4280e",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/90-snapshot1458-数据源清单.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/90-snapshot1458-数据源清单.jpg",
+      "bytes": 123866,
+      "sha256": "d7a19fbd6f747ee989aad388e13d8ce6ab3e693924e5669a274e669a8c855030",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/90-snapshot1458-数据源清单.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/90-snapshot1458-数据源清单.txt",
+      "bytes": 16047,
+      "sha256": "0f13a4b53db0bb282075ec165281becfe82746bd1ad2a8abb6db3b3d29467821",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/91-snapshot1458-字段映射.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/91-snapshot1458-字段映射.jpg",
+      "bytes": 118439,
+      "sha256": "1e4a2e288e6bfaf330b03c5da47e1009c3432bf733efd6d12b293eb3d01dfe5e",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/91-snapshot1458-字段映射.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/91-snapshot1458-字段映射.txt",
+      "bytes": 15781,
+      "sha256": "46641f23f48aa07803aba60d7ea898e237afdea6ac4dc556b1f0eff4cad1a5c3",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/92-snapshot1458-问题与待办.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/92-snapshot1458-问题与待办.jpg",
+      "bytes": 120373,
+      "sha256": "2c89df257bbb2d9ee93a2dd177ed588862b755b2c6ffc39a7d68acf36ff4bd2e",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/92-snapshot1458-问题与待办.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/92-snapshot1458-问题与待办.txt",
+      "bytes": 25355,
+      "sha256": "9f9f17c192de1e713f8f1c59f0110e08f73b6817b2063eeb95c6670996594d98",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/93-snapshot1458-范围与变更.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/93-snapshot1458-范围与变更.jpg",
+      "bytes": 120348,
+      "sha256": "537446146bbaac58f6fbadfb4ba2014e912cc17f6f4ad3ea5c67d88bc13321b9",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/93-snapshot1458-范围与变更.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/93-snapshot1458-范围与变更.txt",
+      "bytes": 15792,
+      "sha256": "fd1b940f4f62368456a59a199e87984188ef052ad84a521c8c8f4ab1929aca15",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/94-calc-version-sheet-top.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/94-calc-version-sheet-top.jpg",
+      "bytes": 478733,
+      "sha256": "085136f33e8eb9caeec9ca4fe0fcf5453fe7b17c785cb5fd947438a2a3db208d",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/94-calc-version-sheet-top.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/94-calc-version-sheet-top.txt",
+      "bytes": 14455,
+      "sha256": "8c37c81614cc0f05ccda5bd36175c427fc3d649d5056ea3f24b08e8309e7db1a",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/95-calc-requirements-sheet.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/95-calc-requirements-sheet.jpg",
+      "bytes": 405925,
+      "sha256": "689f396463cc48da82d4b7d095db6a071a5fb5660fdc4c1a700a4f2a8f5d3cb9",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/95-calc-requirements-sheet.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/95-calc-requirements-sheet.txt",
+      "bytes": 13329,
+      "sha256": "58e0023380944952d36da837354938f10eaa5d08eff6fdd905845778126ba261",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/96-calc-requirements-75pct.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/96-calc-requirements-75pct.jpg",
+      "bytes": 470059,
+      "sha256": "36a8988e9b642318b983e0f5cf4f914a47c03c94579ea1ff94f330a399469e94",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/96-calc-requirements-75pct.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/96-calc-requirements-75pct.txt",
+      "bytes": 14905,
+      "sha256": "d5bdf669a34305dfaba7d4f141d325373378a9f72cfaca542af912d192430871",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/97-calc-source-sheet.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/97-calc-source-sheet.jpg",
+      "bytes": 477444,
+      "sha256": "6f9e5d53f04bb20b07a9acb71beb53408369405f5600dd67b93f15dff0fb7571",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/97-calc-source-sheet.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/97-calc-source-sheet.txt",
+      "bytes": 17651,
+      "sha256": "9036a8f941d875286600b54a2495242431496b64a5576b64a762fcb7b47610b8",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/98-calc-mapping-sheet.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/98-calc-mapping-sheet.jpg",
+      "bytes": 484015,
+      "sha256": "4eac5cbfca77a574fdcc07056f240077099f44283b12e99f8a02e388b6b0f563",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/98-calc-mapping-sheet.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/98-calc-mapping-sheet.txt",
+      "bytes": 15869,
+      "sha256": "01b3f15757f485e222df009edbc1448094c585b065d424e646d3d975fb4f20da",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/99-calc-issues-sheet.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/99-calc-issues-sheet.jpg",
+      "bytes": 457624,
+      "sha256": "d110687753be888350a6269ac9bbfc948dda51ed1dd2de4b61fc7ab84e0f0e52",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/99-calc-issues-sheet.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/99-calc-issues-sheet.txt",
+      "bytes": 14751,
+      "sha256": "8692de1cad12c5480de11bd8c99baa079d77db3facbedd4fc70216f406a147f9",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/browser-console-after-batch-fix.json",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/browser-console-after-batch-fix.json",
+      "bytes": 7039,
+      "sha256": "9787648b9b51d100bdf7c2d9de2a5ccf0d928d2e94c0be5bc2d8e23fa56b1742",
+      "actual_format": "JSON (UTF-8)",
+      "extension": ".json",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/browser-console-end-of-regression.json",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/browser-console-end-of-regression.json",
+      "bytes": 8307,
+      "sha256": "a189b61d04d86e14bac557eecdef39598cc994791d24b7a67ff146f1454f4778",
+      "actual_format": "JSON (UTF-8)",
+      "extension": ".json",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/browser-console-final-sample.json",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/browser-console-final-sample.json",
+      "bytes": 5454,
+      "sha256": "371b105aa5a5b224b4ee6cbd7ffcc81a14cdc20fe8cabf612e2a1a5c76438cc5",
+      "actual_format": "JSON (UTF-8)",
+      "extension": ".json",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "checks/governance-diff-check-20261024.log",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/governance-diff-check-20261024.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".log",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "checks/governance-vuetsc-20261024-heap8g.log",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/governance-vuetsc-20261024-heap8g.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".log",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "checks/governance-vuetsc-20261024.log",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/governance-vuetsc-20261024.log",
+      "bytes": 9209,
+      "sha256": "b4fa119d5dfc1ec87f7e83fa087147f07c548218885a2e06309f05f5a50d376a",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".log",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "checks/wb11-review-repair-diff-check-20261024.log",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/wb11-review-repair-diff-check-20261024.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".log",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "checks/wb11-review-repair-vue-tsc-20261024.log",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/wb11-review-repair-vue-tsc-20261024.log",
+      "bytes": 180,
+      "sha256": "d31a516a6fd3c2d4343cccfd05ab30cfc59475656577fab15958f677c5245904",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".log",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "report-before-final-update.md",
+      "source": "/Users/waitforpro/source/github-yudao/ruoyi-vue-pro/docs/hrm-payroll-prd04-function-completion-audit-20261021.md",
+      "bytes": 84497,
+      "sha256": "ed4a4d943403b978e6db80fd71df9c3c8de3405e21c9c7812678516e49f385c3",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".md",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "checks/executor-review-final-v2-20261024.json",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/executor-review-final-v2-20261024.json",
+      "bytes": 55597,
+      "sha256": "84987fa3ed716a275766ecb37f4af4b33bdac1efd75cba22621dd6a92bbcc467",
+      "actual_format": "JSON (UTF-8)",
+      "extension": ".json",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/128-project155-TEST-root1467-active.jpg",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/128-project155-TEST-root1467-active.jpg",
+      "bytes": 121488,
+      "sha256": "590d98aee3f7a9acdb130d80ba667c691c984b67f648bbc4f023eff6052a53ae",
+      "actual_format": "JPEG",
+      "extension": ".jpg",
+      "copied_byte_identical": true
+    },
+    {
+      "path": "browser/128-project155-TEST-root1467-active.txt",
+      "source": "/Users/waitforpro/.hrm-payroll-local/remaining-20261024/128-project155-TEST-root1467-active.txt",
+      "bytes": 6162,
+      "sha256": "82c4b6536312f06a5fcd687a6620ca97a9378c5393d34998ec142f346e868141",
+      "actual_format": "plain text (UTF-8)",
+      "extension": ".txt",
+      "copied_byte_identical": true
+    }
+  ],
+  "supersedes_for_inventory_only": {
+    "path": "manifest.json",
+    "sha256": "565e5796aa119b1394fd8650d3788243cb22ef4b6b23649daca4d98e6c9755f0",
+    "preserved_unchanged": true
+  },
+  "append_batch": {
+    "prefix": "128",
+    "purpose": "Stable visible TEST project155 root1467 ACTIVE readback; evidence copied only."
+  },
+  "prior_manifests_preserved": {
+    "manifest-final.json": "b2940f010d468ff44c7c46f2361361096fb69da1f8236fbe8490ea9e5f8eee0f",
+    "manifest-complete.json": "ab3e4484eecb957bef3d526c665cf8006ee4d291ae8019a30dc224a16d1ad756",
+    "manifest-finalized.json": "fc15f1cca5afcedf720bb23568ce098ce882f35851d4a18c64f52b0f8774496f",
+    "manifest.json": "565e5796aa119b1394fd8650d3788243cb22ef4b6b23649daca4d98e6c9755f0",
+    "manifest-delivery.json": "dcc5434270ce4959775ef67e6c4a8522626f70c7636f58d0d0ec653d213984d2"
+  }
+}

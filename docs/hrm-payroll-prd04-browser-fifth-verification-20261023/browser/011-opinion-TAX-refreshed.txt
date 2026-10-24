@@ -1,0 +1,439 @@
+Browser tab: 1, Title: "芋道管理系统 - 薪酬需求评审工作台", URL: "http://127.0.0.1:5173/hrm-payroll/review?projectId=154&module=TAX".
+1 AXWebArea 芋道管理系统 - 薪酬需求评审工作台, URL: 127.0.0.1:5173/hrm-payroll/review?projectId=154&module=TAX
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			256 container
+				257 container v-tool-header
+					258 container 面包屑
+					259 container
+						260 container
+							261 combo box (collapsed, settable) ID: el-id-901-81, Secondary Actions: Expand
+							262 text 请输入菜单内容
+					263 pop up button (collapsed) ID: el-id-901-4, Secondary Actions: Expand
+					264 pop up button (collapsed) ID: el-id-901-9, Secondary Actions: Expand
+					265 pop up button (collapsed) TEST S5 editor NEW DISPLAY, ID: el-id-901-14, Secondary Actions: Expand
+				266 container v-tags-view
+					278 container
+						279 pop up button (collapsed) 首页, ID: el-id-901-20, Secondary Actions: Expand
+							280 container
+								281 text 首页
+						282 pop up button (collapsed) 薪酬需求评审工作台, ID: el-id-901-28, Secondary Actions: Expand
+							283 text 薪酬需求评审工作台
+						284 pop up button (collapsed) 需求评审, ID: el-id-901-179, Secondary Actions: Expand
+							285 container
+								286 text 需求评审
+						287 pop up button (collapsed) 薪酬需求评审工作台 (2), ID: el-id-901-331, Secondary Actions: Expand
+							288 text 薪酬需求评审工作台 (2)
+						289 pop up button (collapsed) 薪酬需求评审工作台 (3), ID: el-id-901-506, Secondary Actions: Expand
+							290 text 薪酬需求评审工作台 (3)
+						291 pop up button (collapsed) 薪酬需求评审工作台 (4), ID: el-id-901-682, Secondary Actions: Expand
+							292 text 薪酬需求评审工作台 (4)
+						293 pop up button (collapsed) 薪酬需求评审工作台 (5), ID: el-id-901-859, Secondary Actions: Expand
+							294 text 薪酬需求评审工作台 (5)
+					276 pop up button (collapsed) ID: el-id-901-36, Secondary Actions: Expand
+			277 container
+				295 heading 薪酬需求评审工作台 · 个税与工资条, Value: 1, ID: review-heading
+					296 text 薪酬需求评审工作台 · 个税与工资条
+				297 text 示例数据，仅用于讨论。意见与评审记录真实保存；演示核算、审批及工资条只作用于虚构样例。
+				298 container
+					299 combo box (collapsed, settable) Description: 评审项目, ID: el-id-901-900, Secondary Actions: Expand
+					469 text 154 · TEST PRD04 第五轮项目154 · 改名回读 · 非正式批准
+					301 image
+				302 button 刷新工作台
+				303 button 集中清单
+				304 button 业务决议与发布
+				305 button 实际来源与核验
+				306 button 原有正式业务入口
+				470 text TEST PRD04 第五轮项目154 · 改名回读 · 非正式批准 · 项目 154 · 范围版本 尚未定义 范围：尚未定义或当前权限不可见；不据此推定全项目范围
+				308 container 十视图评审导航
+					309 button 薪酬总览
+					310 button 薪酬方案
+					311 button 工资核算
+					312 button 个税与工资条
+					313 button 考勤
+					314 button 加班
+					315 button 工时
+					316 button 社保公积金
+					317 button 报表分析
+					318 button 需求征集
+				319 button 上一步
+				320 text 第 4/10 视图
+				321 button 下一步
+				322 button 关联：工资核算
+				323 button 关联：社保公积金
+				324 text 讨论累计口径、扣除来源、工资条可见字段、撤回更正及投递。
+				325 container 虚构业务展示
+					326 heading 业务场景与字段, Value: 2
+						327 text 业务场景与字段
+					328 text TEST-EMP-001 · 虚构员工甲 · 虚构研发组 · 2026-10；全为虚构，未绑定员工档案。
+					329 container 示例业务表，左右方向可横向滚动
+						330 table
+							331 row
+								332 cell
+									333 text 员工
+								334 cell
+									335 text 累计收入
+								336 cell
+									337 text 累计个人缴费
+								338 cell
+									339 text 累计基础扣除
+								340 cell
+									341 text 累计其他扣除
+								342 cell
+									343 text 累计应纳税额
+								344 cell
+									345 text 前期税
+								346 cell
+									347 text 本期税
+								348 cell
+									349 text 工资条实发
+							350 row
+								351 cell
+									352 text TEST-EMP-001 · 虚构员工甲
+								353 cell
+									354 text 101750
+								355 cell
+									356 text 14000
+								357 cell
+									358 text 50000
+								359 cell
+									360 text 10000
+								361 cell
+									362 text 832.5
+								363 cell
+									364 text 702
+								365 cell
+									366 text 130.5
+								367 cell
+									368 text 10219.5
+					369 text 虚构税演算：累计应纳税所得27750×演示税率3%＝832.50；减前期702＝130.50。
+					370 text 演示常量仅用于讨论，不能视为法定税率/已批准规则或真实税务申报。
+					371 text 工资条：应发11750－个人缴费1400－税130.50＝10219.50；渠道仅页面预览，邮件/短信均不发送。
+					372 text 年终奖示例单独分支暂不参与本月金额，计税选择和申报格式在需求中确认。
+					373 container field-tax
+						374 text 本期税额
+						375 button 补充字段说明：本期税额
+						376 button 这个字段从哪里来
+					377 container operation-simulate
+						378 button 演示核算
+						379 button 演示复核
+						380 button 预览示例工资条
+						381 button 补充操作规则或例外
+					382 text 示例尚未执行；不代表真实薪酬状态
+					383 container flow-approval
+						384 text 示例流程：准备 → 试算 → 复核 → 发放讨论 → 归档讨论 
+						385 button 补充流程角色与异常
+				386 container 候选功能讨论场景
+					387 heading 逐项功能场景与例外（示例）, Value: 2
+						388 text 逐项功能场景与例外（示例）
+					389 container field-tax-01
+						390 text TAX-01 · 累计税演算
+						391 text 正常/预期：累计所得27750、演示税率3%、累计税832.50，前期702，本期130.50
+						392 text 异常/待确认：仅虚构规则，不作为真实税务政策或申报
+						393 button 围绕TAX-01提意见
+					394 container field-tax-02
+						395 text TAX-02 · 扣除来源
+						396 text 正常/预期：前期个人缴费12600＋本期1400；基础50000，其他10000
+						397 text 异常/待确认：来源/主体/年度不匹配须重核对
+						398 button 围绕TAX-02提意见
+					399 container Description: TAX-03 · 工资条模板投递 正常/预期：应发、扣款、个税、实发分别展示；仅本页预览 异常/待确认：撤回/更正及可见字段另评审，短信邮件不外发 围绕TAX-03提意见, ID: field-tax-03
+						400 text TAX-03 · 工资条模板投递
+						401 text 正常/预期：应发、扣款、个税、实发分别展示；仅本页预览
+						402 text 异常/待确认：撤回/更正及可见字段另评审，短信邮件不外发
+						403 button 围绕TAX-03提意见
+					404 container field-tax-04
+						405 text TAX-04 · 税务导出
+						406 text 正常/预期：讨论主体、年度、累计列、格式与申报/完税关联
+						407 text 异常/待确认：当前评审导出不是税务申报文件
+						408 button 围绕TAX-04提意见
+					409 container field-tax-05
+						410 text TAX-05 · 年终奖分支
+						411 text 正常/预期：单独讨论奖金金额、计税方式及选择依据，不并入10月主链
+						412 text 异常/待确认：未确认方案不能自动套用演示税率
+						413 button 围绕TAX-05提意见
+				415 container Description: 页面内功能需求征集, ID: module
+					416 heading 功能需求与意见征集（真实保存）, Value: 2
+						417 text 功能需求与意见征集（真实保存）
+					418 container
+						419 button 补充本模块需求
+						420 button 初始化46项候选模板
+						421 button 导出当前筛选评审清单
+						422 button (disabled) 批量分派所选需求
+					423 container
+						424 text field (settable) Description: 查找需求, ID: el-id-901-901
+						425 container
+							426 combo box (collapsed, settable) Description: 评审状态筛选, ID: el-id-901-902, Secondary Actions: Expand
+							427 text 全部评审状态
+							428 image
+						429 container
+							430 combo box (collapsed, settable) Description: 范围决策筛选, ID: el-id-901-903, Secondary Actions: Expand
+							431 text 全部范围决策
+							432 image
+						433 container
+							434 combo box (collapsed, settable) Description: 排序, ID: el-id-901-904, Secondary Actions: Expand
+							435 text 编号升序
+							436 image
+						437 button 应用筛选
+						438 button 清除筛选
+					474 container 真实需求清单
+						475 container
+							476 table
+								477 row
+									478 cell
+										479 container 选择所有行
+											480 checkbox (settable, integer) Description: 选择所有行, Value: 0, ID: el-id-901-1029
+									481 cell
+										482 text 需求ID
+									483 cell
+										484 text 编号
+									485 cell
+										486 text 功能/意见
+									487 cell
+										488 text 功能评审
+									489 cell
+										490 text 范围决策
+									491 cell
+										492 text 来源
+									493 cell
+										494 text 实施
+									495 cell
+										496 text 版本
+									497 cell
+										498 text 操作
+							499 table
+								500 container
+									501 row
+										502 cell
+											503 container 选择当前行
+												504 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-901-1030
+										505 cell
+											506 text 1895
+										507 cell
+											508 text CUSTOM-0004
+										509 cell
+											510 text TEST-PRD04-FIFTH-TAX-意见-20261023
+										511 cell
+											512 text 待确认
+										513 cell
+											514 text 候选
+										515 cell
+											516 text 未就绪
+										517 cell
+											518 text 未排期
+										519 cell
+											520 text 1
+										521 cell
+											522 container
+												523 button 编辑意见
+												524 button 历史/比较
+												525 button 返回原位置
+												526 button (disabled) 范围决策
+												527 button 实施关联
+												528 button 会议与站内提醒
+									529 row
+										530 cell
+											531 container 选择当前行
+												532 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-901-1031
+										533 cell
+											534 text 1864
+										535 cell
+											536 text TAX-01
+										537 cell
+											538 text 个税累计预扣法自动计算
+										539 cell
+											540 text 待确认
+										541 cell
+											542 text 候选
+										543 cell
+											544 text 未就绪
+										545 cell
+											546 text 未排期
+										547 cell
+											548 text 1
+										549 cell
+											550 container
+												551 button 编辑意见
+												552 button 历史/比较
+												553 button 返回原位置
+												554 button (disabled) 范围决策
+												555 button 实施关联
+												556 button 会议与站内提醒
+									557 row
+										558 cell
+											559 container 选择当前行
+												560 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-901-1032
+										561 cell
+											562 text 1865
+										563 cell
+											564 text TAX-02
+										565 cell
+											566 text 专项附加扣除采集与同步
+										567 cell
+											568 text 待确认
+										569 cell
+											570 text 候选
+										571 cell
+											572 text 未就绪
+										573 cell
+											574 text 未排期
+										575 cell
+											576 text 1
+										577 cell
+											578 container
+												579 button 编辑意见
+												580 button 历史/比较
+												581 button 返回原位置
+												582 button (disabled) 范围决策
+												583 button 实施关联
+												584 button 会议与站内提醒
+									585 row
+										586 cell
+											587 container 选择当前行
+												588 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-901-1033
+										589 cell
+											590 text 1866
+										591 cell
+											592 text TAX-03
+										593 cell
+											594 text 工资条模板配置与多渠道推送(自助端/邮件/短信)
+										595 cell
+											596 text 待确认
+										597 cell
+											598 text 候选
+										599 cell
+											600 text 未就绪
+										601 cell
+											602 text 未排期
+										603 cell
+											604 text 1
+										605 cell
+											606 container
+												607 button 编辑意见
+												608 button 历史/比较
+												609 button 返回原位置
+												610 button (disabled) 范围决策
+												611 button 实施关联
+												612 button 会议与站内提醒
+									613 row
+										614 cell
+											615 container 选择当前行
+												616 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-901-1034
+										617 cell
+											618 text 1867
+										619 cell
+											620 text TAX-04
+										621 cell
+											622 text 个税申报表与完税数据导出
+										623 cell
+											624 text 待确认
+										625 cell
+											626 text 候选
+										627 cell
+											628 text 未就绪
+										629 cell
+											630 text 未排期
+										631 cell
+											632 text 1
+										633 cell
+											634 container
+												635 button 编辑意见
+												636 button 历史/比较
+												637 button 返回原位置
+												638 button (disabled) 范围决策
+												639 button 实施关联
+												640 button 会议与站内提醒
+									641 row
+										642 cell
+											643 container 选择当前行
+												644 checkbox (settable, integer) Description: 选择当前行, Value: 0, ID: el-id-901-1035
+										645 cell
+											646 text 1868
+										647 cell
+											648 text TAX-05
+										649 cell
+											650 text 年终奖单独计税处理
+										651 cell
+											652 text 待确认
+										653 cell
+											654 text 候选
+										655 cell
+											656 text 未就绪
+										657 cell
+											658 text 未排期
+										659 cell
+											660 text 1
+										661 cell
+											662 container
+												663 button 编辑意见
+												664 button 历史/比较
+												665 button 返回原位置
+												666 button (disabled) 范围决策
+												667 button 实施关联
+												668 button 会议与站内提醒
+					669 button (disabled) 上一页
+					670 content list
+						671 container 第 1 页
+							672 text 1
+					673 button (disabled) 下一页
+					674 text 共 6 条
+				439 container 数据来源征集
+					440 heading 依赖数据来源与盘点, Value: 2
+						441 text 依赖数据来源与盘点
+					442 text 候选目录是征集线索，不能冒充实际已提供来源或质量通过。实际来源需按权限另行登记与核验。
+					443 text DS-05 · 薪酬方案与员工薪资档案
+					444 text 方案版本、适用人员、薪资项、金额 / 单价、有效期；候选确认方：HR / 财务
+					445 text DS-06 · 社保公积金政策与缴费台账
+					446 text 地区、项目、有效期、基数上下限、个人 / 单位比例、实际缴费额；候选确认方：HR / 财务
+					447 text DS-07 · 税务及扣除资料
+					448 text 纳税主体、年度、本年累计应税收入、已扣税额、专项扣除；候选确认方：财务
+					449 text DS-11 · 员工自助与联系方式
+					450 text 员工编号、接收渠道、邮箱 / 手机、工资条可见字段、投递结果；候选确认方：HR / IT
+					451 text DS-12 · 银行代发与回盘
+					452 text 批次、员工、账户、应付金额、文件格式、回盘状态、失败原因；候选确认方：财务 / IT
+					453 container
+						454 text 当前可见实际来源 
+						455 container
+							456 combo box (collapsed, settable) Description: 选择实际来源, ID: el-id-901-905, Secondary Actions: Expand
+							457 text 无来源时保持缺口
+							458 image
+					459 button 维护实际来源、映射和QS/QC
+				460 container 我的站内提醒
+					461 heading 我的站内提醒（无外发）, Value: 2
+						462 text 我的站内提醒（无外发）
+					675 text 当前有权范围内暂无发给我的站内提醒；会议纪要及全部协作历史可在需求历史中查看。
+				463 container 真实统计与下钻
+					464 heading 范围、确认及来源统计（服务器集合）, Value: 2
+						465 text 范围、确认及来源统计（服务器集合）
+					466 text U全部需求（含移除）；E未移除；I纳入本期；C当前确认有效；T暂缓；D有异议。暂缓与异议仍计入有效集合，范围决策不代替确认。
+					676 text 筛选统计（不改变全项目发布门槛） · 筛选条件 {"module":"TAX","status":null,"decision":null,"text":null}
+					677 button U · 6 · 查看集合
+					678 button E · 6 · 查看集合
+					679 button I · 0 · 查看集合
+					680 button C · 0 · 查看集合
+					681 button T · 0 · 查看集合
+					682 button D · 0 · 查看集合
+					683 text 功能确认率：0/6
+					684 text 范围处置率：0/6
+					685 text 本期确认率：暂无适用项（0/0）
+					686 text 来源可用率：0/6
+					687 text 本期来源可用率：暂无适用项（0/0）
+					688 text 去重实际来源 0；有效不适用 0；未决问题 0，逾期 0。关系和需求缺口以独立ID计数。
+					689 text 全项目功能确认 0/50，本期确认 暂无适用项（0/0）；当前筛选不改变全项目门槛。
+					467 text 当前统计不是发布成功或已实施证明；业务决议、发布检查与六表快照请使用独立入口核实。受限账号只展示可见集合，隐藏对象数量不输出。
+					468 button 查看关系与缺口L
+			255 text Copyright ©2026 芋道管理系统
+	472 container message_4
+		473 text 意见已真实保存
+
+The focused UI element is 399 container Description: TAX-03 · 工资条模板投递 正常/预期：应发、扣款、个税、实发分别展示；仅本页预览 异常/待确认：撤回/更正及可见字段另评审，短信邮件不外发 围绕TAX-03提意见, ID: field-tax-03

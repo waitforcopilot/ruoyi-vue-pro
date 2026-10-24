@@ -56,7 +56,7 @@
           /></el-form-item>
           <el-alert
             v-if="kind === 'create'"
-            title="初始业务边界须在独立创建授权内；创建不代表业务范围获批。草稿访问可撤销，范围修订仍需独立授权。"
+            title="以下范围字段用于校验创建授权边界，不会定义项目业务范围。新项目仅可先征集意见草稿；保存实施关联、会议纪要或站内提醒前，须由具有项目范围修订权限及完整读取权限的人员另行修订项目范围。创建者不会自动获得范围修订权限。"
             :closable="false"
           />
           <ScopeFields v-if="kind === 'create'" v-model="creationScopeJson" />

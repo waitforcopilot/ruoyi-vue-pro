@@ -1,0 +1,227 @@
+Browser tab: 1, Title: "芋道管理系统 - 需求评审", URL: "http://127.0.0.1:5173/hrm-payroll/requirement?projectId=153&module=COL".
+1 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?projectId=153&module=COL
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			15 container
+				16 container v-tool-header
+					17 container 面包屑
+						18 link 薪酬管理
+							19 text 薪酬管理
+						20 text /
+						21 link 需求评审
+							22 text 需求评审
+					23 container
+						24 container
+							25 combo box (collapsed, settable) ID: el-id-5814-76, Secondary Actions: Expand
+							26 text 请输入菜单内容
+					27 pop up button (collapsed) ID: el-id-5814-4, Secondary Actions: Expand
+					28 pop up button (collapsed) ID: el-id-5814-9, Secondary Actions: Expand
+					29 pop up button (collapsed) TEST S6 reassign, ID: el-id-5814-14, Secondary Actions: Expand
+				30 container v-tags-view
+					31 container
+						32 pop up button (collapsed) 首页, ID: el-id-5814-20, Secondary Actions: Expand
+							33 container
+								34 text 首页
+						35 pop up button (collapsed) 需求评审, ID: el-id-5814-28, Secondary Actions: Expand
+							36 container
+								37 text 需求评审
+					38 pop up button (collapsed) ID: el-id-5814-36, Secondary Actions: Expand
+			39 container
+				40 button 进入十视图需求评审工作台
+				41 container
+					42 container
+						43 combo box (collapsed, settable) Description: 评审项目, ID: el-id-5814-77, Secondary Actions: Expand
+						44 text TEST WB completion 20261022 A · 非正式批准
+						45 image
+					46 button 模板版本比较
+					47 button 项目变更历史
+				48 text TEST WB completion 20261022 A · 非正式批准 · 项目编号 153 · 范围版本 5 功能确认与数据就绪分别核实；确认需当前范围、规则、验收条件和依据，由有权的被分派人本人操作。来源按适用性校验，合法不适用可豁免来源及映射。
+				49 container
+					50 combo box (collapsed, settable) ID: el-id-5814-78, Secondary Actions: Expand
+					51 text 需求征集
+					52 image
+				53 button 刷新
+				54 button 导出评审清单
+				55 button (collapsed) 需求征集候选数据源与字段, ID: el-collapse-head-65, Secondary Actions: Expand
+					56 text 需求征集候选数据源与字段
+				57 container
+					58 table
+						59 row
+							60 cell
+								61 text 需求ID
+							62 cell
+								63 text 编号
+							64 cell
+								65 text 模块
+							66 cell
+								67 text 功能
+							68 cell
+								69 text 评审状态
+							70 cell
+								71 text 数据就绪
+							72 cell
+								73 text 数据来源
+							74 cell
+								75 text 范围适配
+							76 cell
+								77 text 版本
+							78 cell
+								79 text 操作
+					80 table
+						81 container
+							82 row
+								83 cell
+									84 text 1844
+								85 cell
+									86 text CUSTOM-0001
+								87 cell
+									88 text 需求征集
+								89 cell
+									90 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+								91 cell
+									92 text 评审中
+								93 cell
+									94 text 不适用
+								95 cell
+									96 text 匹配
+								97 cell
+									98 text 40
+								99 cell
+									100 container
+										101 button 历史
+										102 button 确认版本
+							103 row
+								104 cell
+									105 text 1845
+								106 cell
+									107 text CUSTOM-0002
+								108 cell
+									109 text 需求征集
+								110 cell
+									111 text TEST_WBC_T04_T07_规格确认与供数待提供分离 中文换行验收：本需求仅验证本机工程规格基线，不处理真实工资。
+								112 cell
+									113 text 已确认
+								114 cell
+									115 text 未就绪
+								116 cell
+									117 text TEST合成数据规格目录
+								118 cell
+									119 text 匹配
+								120 cell
+									121 text 12
+								122 cell
+									123 button 历史
+							124 row
+								125 cell
+									126 text 1905
+								127 cell
+									128 text CUSTOM-0003
+								129 cell
+									130 text 需求征集
+								131 cell
+									132 text TEST-PRD04-FIFTH-153-多角色规格与协作-20261023
+								133 cell
+									134 text 已确认
+								135 cell
+									136 text 未就绪
+								137 cell
+									138 text 匹配
+								139 cell
+									140 text 11
+								141 cell
+									142 button 历史
+				143 text 实际来源与候选目录分开；功能确认、语义核验、QS/QC和问题关闭分别操作。只登记规格或虚构样例引用，不填写口令或真实工资明细。
+				144 button 刷新来源工作台
+				145 button 导出当前来源关系
+				146 tab group
+					147 tab (selectable, settable, boolean) 实际来源, Value: 0, ID: tab-sources
+					148 tab (selectable, settable, boolean) 消费关系与映射, Value: 0, ID: tab-relations
+					149 tab (selected, settable, boolean) 问题处理与独立复核, Value: 1, ID: tab-issues
+					150 tab (selectable, settable, boolean) 核验证据, Value: 0, ID: tab-evidence
+					151 tab (selectable, settable, boolean) 站内待办与建议, Value: 0, ID: tab-todos
+				152 container Description: 问题处理与独立复核, ID: pane-issues
+					153 container
+						154 table
+							155 row
+								156 cell
+									157 text issueId
+								158 cell
+									159 text 问题
+								160 cell
+									161 text 状态 / 类别 / 期限
+								162 cell
+									163 text 责任人 / 复核人
+								164 cell
+									165 text 操作
+						166 table
+							167 container
+								168 row
+									169 cell
+										170 text 3531
+									171 cell
+										172 text TEST_WBC_T03_TWO_CYCLES_20261023：驳回、补充、独立关闭与新依据重开
+									173 cell
+										174 text 已关闭 / ADVISORY / 2026-10-31
+									175 cell
+										176 text 266 / 279
+									177 cell
+										178 container
+											179 button 重开问题
+											180 button 问题历史
+								181 row
+									182 cell
+										183 text 3569
+									184 cell
+										185 text TEST_WBC_T04_BASELINE_OVERDUE_20261023：仅本机合成，验证全项目阻断与逾期
+									186 cell
+										187 text 待复核 / ADVISORY / 2026-10-22 已逾期
+									188 cell
+										189 text 266 / 279
+									190 cell
+										191 container
+											192 button 驳回
+											193 button 独立复核关闭
+											194 button 复核分类及影响
+											195 button 问题历史
+								196 row
+									197 cell
+										198 text 3590
+									199 cell
+										200 text TEST-WBC-1845数据待提供：规格已由279本人确认；供给待提供且QS/QC尚未执行，必须保持数据未就绪，问题OPEN不作为规格基线阻断。
+									201 cell
+										202 text 待复核 / DATA_READINESS / 2026-10-31
+									203 cell
+										204 text 266 / 279
+									205 cell
+										206 container
+											207 button 驳回
+											208 button 独立复核关闭
+											209 button 复核分类及影响
+											210 button 问题历史
+								211 row
+									212 cell
+										213 text 3616
+									214 cell
+										215 text TEST-FIFTH-1905-独立复核循环：本机合成流程问题
+									216 cell
+										217 text 待处理 / DATA_READINESS / 2026-11-02
+									218 cell
+										219 text 266 / 279
+									220 cell
+										221 container
+											238 button 复核分类及影响
+											223 button 问题历史
+			237 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 1 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?projectId=153&module=COL

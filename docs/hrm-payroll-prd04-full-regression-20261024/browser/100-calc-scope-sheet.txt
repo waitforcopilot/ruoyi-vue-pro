@@ -1,0 +1,308 @@
+Window: "薪酬评审-快照1458-任务1460.xlsx", App: LibreOffice.
+0 standard window 薪酬评审-快照1458-任务1460.xlsx, Secondary Actions: Raise, URL: file:///Users/waitforpro/Downloads/%E8%96%AA%E9%85%AC%E8%AF%84%E5%AE%A1-%E5%BF%AB%E7%85%A71458-%E4%BB%BB%E5%8A%A11460.xlsx
+	1 container
+		2 scroll bar (settable, integer) Vertical scroll bar, Value: 0, ID: vertical
+		3 scroll bar (settable, integer) Vertical scroll bar, Value: 0, ID: vertical
+		4 scroll bar (settable, integer) Horizontal scroll bar, Value: 0, ID: horizontal
+		5 scroll bar (settable, integer) Horizontal scroll bar, Value: 0, ID: horizontal
+		6 container Click here to select all cells
+		7 container file:///Users/waitforpro/Downloads/%E8%96%AA%E9%85%AC%E8%AF%84%E5%AE%A1-%E5%BF%AB%E7%85%A71458-%E4%BB%BB%E5%8A%A11460.xlsx - LibreOffice Spreadsheets
+			8 table Sheet 范围与变更
+				9 text field (settable) A2, Value: SCOPE
+				10 text field (settable) B2, Value: REQ-1844
+				11 text field (settable) C2, Value: REQ-1844
+				12 text field (settable) A3, Value: DETAIL
+				13 text field (settable) B3, Value: REQ-1844/记录类型/1
+				14 text field (settable) C3, Value: REQ-1844
+				15 text field (settable) A4, Value: DETAIL
+				16 text field (settable) B4, Value: REQ-1844/记录号/1
+				17 text field (settable) C4, Value: REQ-1844
+				18 text field (settable) A5, Value: DETAIL
+				19 text field (settable) B5, Value: REQ-1844/需求ID/1
+				20 text field (settable) C5, Value: REQ-1844
+				21 text field (settable) A6, Value: DETAIL
+				22 text field (settable) B6, Value: REQ-1844/编号/1
+				23 text field (settable) C6, Value: REQ-1844
+				24 text field (settable) A7, Value: DETAIL
+				25 text field (settable) B7, Value: REQ-1844/范围方式/1
+				26 text field (settable) C7, Value: REQ-1844
+				27 text field (settable) A8, Value: DETAIL
+				28 text field (settable) B8, Value: REQ-1844/项目范围版本/1
+				29 text field (settable) C8, Value: REQ-1844
+				30 text field (settable) A9, Value: DETAIL
+				31 text field (settable) B9, Value: REQ-1844/范围状态/1
+				32 text field (settable) C9, Value: REQ-1844
+				33 text field (settable) A10, Value: DETAIL
+				34 text field (settable) B10, Value: REQ-1844/范围正文/1
+				35 text field (settable) C10, Value: REQ-1844
+				36 text field (settable) A11, Value: DETAIL
+				37 text field (settable) B11, Value: REQ-1844/范围正文/2
+				38 text field (settable) C11, Value: REQ-1844
+				39 text field (settable) A12, Value: DETAIL
+				40 text field (settable) B12, Value: REQ-1844/范围决策/1
+				41 text field (settable) C12, Value: REQ-1844
+				42 text field (settable) A13, Value: DETAIL
+				43 text field (settable) B13, Value: REQ-1844/排除及变更依据/1
+				44 text field (settable) C13, Value: REQ-1844
+				45 text field (settable) A14, Value: DETAIL
+				46 text field (settable) B14, Value: REQ-1844/排除及变更依据/2
+				47 text field (settable) C14, Value: REQ-1844
+				48 text field (settable) A15, Value: DETAIL
+				49 text field (settable) B15, Value: REQ-1844/页面上下文/1
+				50 text field (settable) C15, Value: REQ-1844
+		51 split group
+		52 split group
+		53 container
+			54 button (disabled, settable) Move To Home, ID: first
+			55 button (disabled, settable) Move Left, ID: prev
+			56 button (disabled, settable) Move Right, ID: next
+			57 button (disabled, settable) Move To End, ID: last
+			58 button (settable) Add, ID: add
+			59 tab group
+				60 tab 评审版本说明, Value: 0
+				61 tab 功能需求清单, Value: 0
+				62 tab 数据源清单, Value: 0
+				63 tab 字段映射, Value: 0
+				64 tab 问题与待办, Value: 0
+				65 tab (selected) 范围与变更, Value: 0
+		66 container file:///Users/waitforpro/Downloads/%E8%96%AA%E9%85%AC%E8%AF%84%E5%AE%A1-%E5%BF%AB%E7%85%A71458-%E4%BB%BB%E5%8A%A11460.xlsx - LibreOffice Spreadsheets
+			67 table Sheet 范围与变更
+				68 text field (settable) D2
+				69 text field (settable) E2
+				70 text field (settable) F2
+				71 text field (settable) G2, Value: RECORD
+				72 text field (settable) H2, Value: 本记录完整字段见下方明细；按所属记录筛选可单独审阅。
+				73 text field (settable) I2
+				74 text field (settable) D3, Value: 记录类型
+				75 text field (settable) E3, Value: 1
+				76 text field (settable) F3, Value: 1
+				77 text field (settable) G3, Value: TEXT
+				78 text field (settable) H3, Value: SCOPE
+				79 text field (settable) I3
+				80 text field (settable) D4, Value: 记录号
+				81 text field (settable) E4, Value: 1
+				82 text field (settable) F4, Value: 1
+				83 text field (settable) G4, Value: TEXT
+				84 text field (settable) H4, Value: REQ-1844
+				85 text field (settable) I4
+				86 text field (settable) D5, Value: 需求ID
+				87 text field (settable) E5, Value: 1
+				88 text field (settable) F5, Value: 1
+				89 text field (settable) G5, Value: TEXT
+				90 text field (settable) H5, Value: 1844
+				91 text field (settable) I5
+				92 text field (settable) D6, Value: 编号
+				93 text field (settable) E6, Value: 1
+				94 text field (settable) F6, Value: 1
+				95 text field (settable) G6, Value: TEXT
+				96 text field (settable) H6, Value: CUSTOM-0001
+				97 text field (settable) I6
+				98 text field (settable) D7, Value: 范围方式
+				99 text field (settable) E7, Value: 1
+				100 text field (settable) F7, Value: 1
+				101 text field (settable) G7, Value: TEXT
+				102 text field (settable) H7, Value: SUBSET
+				103 text field (settable) I7
+				104 text field (settable) D8, Value: 项目范围版本
+				105 text field (settable) E8, Value: 1
+				106 text field (settable) F8, Value: 1
+				107 text field (settable) G8, Value: NUMBER
+				108 text field (settable) H8, Value: 5
+				109 text field (settable) I8
+				110 text field (settable) D9, Value: 范围状态
+				111 text field (settable) E9, Value: 1
+				112 text field (settable) F9, Value: 1
+				113 text field (settable) G9, Value: TEXT
+				114 text field (settable) H9, Value: MATCH
+				115 text field (settable) I9
+				116 text field (settable) D10, Value: 范围正文
+				117 text field (settable) E10, Value: 1
+				118 text field (settable) F10, Value: 2
+				119 text field (settable) G10, Value: TEXT
+				120 text field (settable) H10, Value: {"entities":[101],"organizations":[201],"workerTypes":["TEST"],"scenarios":["TEST"],"from":"2026-10-01","to":"2026-10-31","explanation":"TEST isolated synthetic scope for WB comple
+				121 text field (settable) I10
+				122 text field (settable) D11, Value: 范围正文
+				123 text field (settable) E11, Value: 2
+				124 text field (settable) F11, Value: 2
+				125 text field (settable) G11, Value: TEXT
+				126 text field (settable) H11, Value: tion; not formal approval"}
+				127 text field (settable) I11
+				128 text field (settable) D12, Value: 范围决策
+				129 text field (settable) E12, Value: 1
+				130 text field (settable) F12, Value: 1
+				131 text field (settable) G12, Value: TEXT
+				132 text field (settable) H12, Value: DEFERRED
+				133 text field (settable) I12
+				134 text field (settable) D13, Value: 排除及变更依据
+				135 text field (settable) E13, Value: 1
+				136 text field (settable) F13, Value: 2
+				137 text field (settable) G13, Value: TEXT
+				138 text field (settable) H13, Value: {"decision":"DEFERRED","actorId":266,"time":"2026-10-22T19:20:06.484","reason":"TEST 验证范围暂缓独立于异议与确认，不构成正式业务决议","responsibleId":266,"reevaluate":"TEST 字段与历史回归完成后由测试编辑者重新评估","removal
+				139 text field (settable) I13
+				140 text field (settable) D14, Value: 排除及变更依据
+				141 text field (settable) E14, Value: 2
+				142 text field (settable) F14, Value: 2
+				143 text field (settable) G14, Value: TEXT
+				144 text field (settable) H14, Value: Kind":"DUPLICATE","replacementId":null,"scopeVersion":1}
+				145 text field (settable) I14
+				146 text field (settable) D15, Value: 页面上下文
+				147 text field (settable) E15, Value: 1
+				148 text field (settable) F15, Value: 4
+				149 text field (settable) G15, Value: TEXT
+				150 text field (settable) H15, Value: {"page":"/hrm-payroll/review","contextModule":"COL","targetType":"MODULE","anchor":"module","scenario":"TEST T01最终确认字段逐项回归","expected":"TEST T02 independent session B input retaine
+				151 text field (settable) I15
+		152 container file:///Users/waitforpro/Downloads/%E8%96%AA%E9%85%AC%E8%AF%84%E5%AE%A1-%E5%BF%AB%E7%85%A71458-%E4%BB%BB%E5%8A%A11460.xlsx - LibreOffice Spreadsheets
+			153 table Sheet 范围与变更
+				154 text field (settable) A1, Value: 记录类型
+				155 text field (settable) B1, Value: 记录号
+				156 text field (settable) C1, Value: 所属记录
+		157 container file:///Users/waitforpro/Downloads/%E8%96%AA%E9%85%AC%E8%AF%84%E5%AE%A1-%E5%BF%AB%E7%85%A71458-%E4%BB%BB%E5%8A%A11460.xlsx - LibreOffice Spreadsheets
+			158 table Sheet 范围与变更
+				159 text field (settable) D1, Value: 字段名
+				160 text field (settable) E1, Value: 片段序号
+				161 text field (settable) F1, Value: 片段总数
+				162 text field (settable) G1, Value: 值类型
+				163 text field (settable) H1, Value: 内容
+				164 text field (settable) I1
+		165 split group
+			166 container Navigator
+				167 container TabBar
+					168 menu button (settable) Description: Sidebar Settings, ID: menubutton
+					169 toolbar Help: Properties, ID: button
+						170 checkbox Properties, Value: 0
+					171 toolbar Help: Styles, ID: button
+						172 checkbox Styles, Value: 0
+					173 toolbar Help: Gallery, ID: button
+						174 checkbox Gallery, Value: 0
+					175 toolbar Help: Navigator, ID: button
+						176 checkbox Navigator, Value: 0
+					177 toolbar Help: Functions, ID: button
+						178 checkbox Functions, Value: 0
+				179 image image
+		180 toolbar Formula Tool Bar
+			181 container (settable, integer) Help: Please press enter to go into child control for more operations, Value: 0
+				182 container Name Box
+					183 combo box (settable) A1, ID: pos_window
+						184 text entry area (settable) A1
+			185 button (settable) Function Wizard
+			186 menu button (settable, integer) Select Function, Value: 0
+			187 button (settable) Formula
+			188 container (settable, integer) Help: Please press enter to go into child control for more operations, Value: 0
+				189 container Input line
+					190 container InputBar
+						191 text entry area (settable) 记录类型
+						192 button (settable) Expand Formula Bar, ID: down
+	193 container
+		194 toolbar Standard
+			195 menu button (settable, integer) New, Value: 0
+			196 menu button (settable, integer) Open, Value: 0
+			197 menu button (settable, integer) Save, Value: 0
+			198 button (settable) Export Directly as PDF
+			199 button (settable) Print
+			200 checkbox Print Preview, Value: 0
+			201 button (settable) Cut
+			202 button (settable) Copy
+			203 menu button (settable, integer) Paste, Value: 0
+			204 checkbox Clone, Value: 0
+			205 button (settable) Clear
+			206 menu button (disabled, settable, integer) Undo, Value: 0
+			207 menu button (disabled, settable, integer) Redo, Value: 0
+			208 checkbox Find and Replace, Value: 0
+			209 button (settable) Spelling
+			210 menu button (settable, integer) Row, Value: 0
+			211 menu button (settable, integer) Column, Value: 0
+			212 button (settable) Sort
+			213 button (settable) Sort Ascending
+			214 button (settable) Sort Descending
+			215 checkbox AutoFilter, Value: 1
+			216 button (settable) Image
+			217 button (settable) Chart
+			218 button (settable) Pivot Table
+			219 menu button (settable, integer) Symbol, Value: 0
+			220 checkbox Hyperlink, Value: 0
+			221 button (settable) Comment
+			222 button (disabled, settable) Headers and Footers
+			223 button (settable) Print Area
+			224 menu button (settable, integer) Freeze Panes, Value: 1
+			225 checkbox Split Window, Value: 0
+			226 button (settable) Draw Functions
+		227 toolbar Formatting
+			228 combo box (settable) Paragraph style, Value: Default, ID: applystyle
+				229 text entry area (settable) Paragraph style, Value: Default
+			230 container (settable, integer) Font Name, Help: Please press enter to go into child control for more operations, Value: 0
+				231 combo box (settable) Font Name, Value: Arial Unicode MS, ID: fontnamecombobox
+					232 text entry area (settable) Font Name, Value: Arial Unicode MS
+			233 container (settable, integer) Font Size, Help: Please press enter to go into child control for more operations, Value: 0
+				234 combo box (settable) Font Size, Value: 11 pt, ID: fontsizecombobox
+					235 text entry area (settable) Font Size, Value: 11 pt
+			236 checkbox Bold, Value: 1
+			237 checkbox Italic, Value: 0
+			238 menu button (settable, integer) Underline, Value: 0
+			239 menu button (settable, integer) Font Color, Value: 0
+			240 menu button (settable, integer) Background Color, Value: 0
+			241 button (settable) Align Left
+			242 button (settable) Align Center
+			243 button (settable) Align Right
+			244 checkbox Align Top, Value: 1
+			245 button (settable) Center Vertically
+			246 button (settable) Align Bottom
+			247 checkbox Wrap Text, Value: 1
+			248 button (disabled, settable) Merge and Center Cells
+			249 button (disabled, settable) Merge Cells
+			250 button (disabled, settable) Unmerge Cells
+			251 menu button (settable, integer) Currency, Value: 0
+			252 checkbox Percent, Value: 0
+			253 checkbox Number, Value: 0
+			254 checkbox Date, Value: 0
+			255 button (settable) Add Decimal Place
+			256 button (settable) Delete Decimal Place
+			257 button (settable) Increase
+			258 button (settable) Decrease
+			259 menu button (settable, integer) Borders (Shift to overwrite), Value: 0
+			260 menu button (disabled, settable, integer) Border Style, Value: 0
+			261 menu button (settable, integer) Border Color, Value: 0
+			262 menu button (settable, integer) Conditional, Value: 0
+			263 checkbox Left-To-Right, Value: 1
+			264 checkbox Right-To-Left, Value: 0
+			265 button (settable) Text direction from left to right
+			266 button (settable) Text direction from top to bottom
+	267 toolbar Find
+		268 button (settable) Close Find Bar
+		269 container (settable, integer) Find Values, Help: Please press enter to go into child control for more operations, Value: 0
+			270 combo box (settable) find
+				271 text entry area (settable)
+		272 button (disabled, settable) Find Previous
+		273 button (disabled, settable) Find Next
+		274 button (disabled, settable) Find All
+		275 container (settable, integer) Search Formatted Display String, Help: Please press enter to go into child control for more operations, Value: 0
+			276 checkbox Formatted Display, Value: 0, ID: checkbutton, Secondary Actions: 
+		277 container (settable, integer) Match Case, Help: Please press enter to go into child control for more operations, Value: 0
+			278 checkbox Match Case, Value: 0, ID: checkbutton, Secondary Actions: 
+		279 container (settable, integer) Match Diacritics, Help: Please press enter to go into child control for more operations, Value: 0
+			280 checkbox Match Diacritics, Value: 0, ID: checkbutton, Secondary Actions: 
+		281 checkbox Find and Replace, Value: 0
+		282 container (settable, integer) Search results message, Help: Please press enter to go into child control for more operations, Value: 0
+	283 container
+		284 text Sheet 6 of 6
+		285 text PageStyle_范围与变更
+		286 text English (USA)
+		287 text Average: ; Sum: 0
+		288 text 75%
+	289 close button
+	290 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	291 minimize button
+	292 image 薪酬评审-快照1458-任务1460.xlsx
+	293 text 薪酬评审-快照1458-任务1460.xlsx
+294 menu bar
+	295 LibreOffice
+	296 File, ID: menuItemTriggered:
+	297 Edit, ID: menuItemTriggered:
+	298 View, ID: menuItemTriggered:
+	299 Insert, ID: menuItemTriggered:
+	300 Format, ID: menuItemTriggered:
+	301 Styles, ID: menuItemTriggered:
+	302 Sheet, ID: menuItemTriggered:
+	303 Data, ID: menuItemTriggered:
+	304 Tools, ID: menuItemTriggered:
+	305 Window, ID: menuItemTriggered:
+	306 Help, ID: menuItemTriggered:

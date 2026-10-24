@@ -1,0 +1,167 @@
+
+<--- Last few GCs --->
+
+[16031:0x86e80c000]    22370 ms: Mark-Compact 4039.6 (4135.5) -> 4024.7 (4137.0) MB, pooled: 0 MB, 746.17 / 0.00 ms  (average mu = 0.108, current mu = 0.034) allocation failure; scavenge might not succeed
+[16031:0x86e80c000]    23032 ms: Mark-Compact 4041.8 (4138.0) -> 4025.1 (4138.0) MB, pooled: 0 MB, 643.71 / 0.00 ms  (average mu = 0.072, current mu = 0.028) allocation failure; scavenge might not succeed
+
+
+<--- JS stacktrace --->
+
+FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
+----- Native stack trace -----
+
+ 1: 0x10602cd54 node::OOMErrorHandler(char const*, v8::OOMDetails const&) [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+ 2: 0x1055a5c9c v8::internal::V8::FatalProcessOutOfMemory(v8::internal::Isolate*, char const*, v8::OOMDetails const&) [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+ 3: 0x10573e784 v8::internal::Heap::StartIncrementalMarkingIfAllocationLimitIsReached(v8::internal::LocalHeap*, v8::base::Flags<v8::internal::GCFlag, unsigned char, unsigned char>, v8::GCCallbackFlags) [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+ 4: 0x105757274 v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags)::$_1::operator()() const [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+ 5: 0x10574d0d0 void heap::base::Stack::SetMarkerAndCallbackImpl<v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags)::$_1>(heap::base::Stack*, void*, void const*) [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+ 6: 0x105c285d4 PushAllRegistersAndIterateStack [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+ 7: 0x10573c3f8 v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags) [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+ 8: 0x105736ce4 v8::internal::HeapAllocator::AllocateRawWithRetryOrFailSlowPath(int, v8::internal::AllocationType, v8::internal::AllocationOrigin, v8::internal::AllocationAlignment) [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+ 9: 0x105729aa8 v8::internal::Factory::NewFillerObject(int, v8::internal::AllocationAlignment, v8::internal::AllocationType, v8::internal::AllocationOrigin) [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+10: 0x1059b7798 v8::internal::Runtime_AllocateInYoungGeneration(int, unsigned long*, v8::internal::Isolate*) [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+11: 0x1051c1df4 Builtins_CEntry_Return1_ArgvOnStack_NoBuiltinExit [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+12: 0x110818934 
+13: 0x1105d39a8 
+14: 0x1104250c0 
+15: 0x10faf4444 
+16: 0x110556d30 
+17: 0x110556b4c 
+18: 0x110556d68 
+19: 0x10faeb62c 
+20: 0x11056a508 
+21: 0x110754178 
+22: 0x1105d8e18 
+23: 0x1105f59e8 
+24: 0x110425894 
+25: 0x11056a550 
+26: 0x110754178 
+27: 0x1105d8e18 
+28: 0x1106564f8 
+29: 0x1107486dc 
+30: 0x110465f6c 
+31: 0x1100736a4 
+32: 0x11045c418 
+33: 0x110670dfc 
+34: 0x110489390 
+35: 0x110814fac 
+36: 0x1105e0c84 
+37: 0x110457108 
+38: 0x110670dfc 
+39: 0x110489390 
+40: 0x110814fac 
+41: 0x110465fe4 
+42: 0x1100736a4 
+43: 0x11045c418 
+44: 0x110670dfc 
+45: 0x110489390 
+46: 0x110814fac 
+47: 0x1105e0c84 
+48: 0x110457108 
+49: 0x110670dfc 
+50: 0x110489390 
+51: 0x110814fac 
+52: 0x110465fe4 
+53: 0x1100736a4 
+54: 0x11045c418 
+55: 0x110670dfc 
+56: 0x110489390 
+57: 0x110814fac 
+58: 0x1108f2cf0 
+59: 0x11067b63c 
+60: 0x11045c25c 
+61: 0x110670dfc 
+62: 0x110489390 
+63: 0x110814fac 
+64: 0x1105df7d8 
+65: 0x110457108 
+66: 0x110670dfc 
+67: 0x110489390 
+68: 0x110814fac 
+69: 0x10faafa04 
+70: 0x1105dfe78 
+71: 0x110457108 
+72: 0x110670dfc 
+73: 0x110489390 
+74: 0x110814fac 
+75: 0x110465fe4 
+76: 0x1100736a4 
+77: 0x11045c418 
+78: 0x110670dfc 
+79: 0x110489390 
+80: 0x110814fac 
+81: 0x10fdf802c 
+82: 0x1105df9fc 
+83: 0x110457108 
+84: 0x110670dfc 
+85: 0x110489390 
+86: 0x110814fac 
+87: 0x110817f94 
+88: 0x1104494d8 
+89: 0x11018fb60 
+90: 0x110048fa0 
+91: 0x1103de9c4 
+92: 0x11044e398 
+93: 0x10ffdcbdc 
+94: 0x1107a4680 
+95: 0x110831f50 
+96: 0x11065b0b0 
+97: 0x1108d0754 
+98: 0x110662348 
+99: 0x1108d048c 
+100: 0x110556708 
+101: 0x11064c350 
+102: 0x1103f3ef8 
+103: 0x1103f87ec 
+104: 0x1103f8ab8 
+105: 0x1108d3d78 
+106: 0x1103f8bfc 
+107: 0x11026b07c 
+108: 0x11026bea0 
+109: 0x11026b748 
+110: 0x11026ba14 
+111: 0x11026bc7c 
+112: 0x11026be18 
+113: 0x110069c10 
+114: 0x10f8a9920 
+115: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+116: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+117: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+118: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+119: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+120: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+121: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+122: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+123: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+124: 0x10f839578 
+125: 0x10f83ac2c 
+126: 0x10f83b180 
+127: 0x10f8365b0 
+128: 0x10f835358 
+129: 0x10f834214 
+130: 0x10f836e3c 
+131: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+132: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+133: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+134: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+135: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+136: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+137: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+138: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+139: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+140: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+141: 0x10512cef0 Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+142: 0x10512ac0c Builtins_JSEntryTrampoline [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+143: 0x10512a8f4 Builtins_JSEntry [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+144: 0x1056bda9c v8::internal::(anonymous namespace)::Invoke(v8::internal::Isolate*, v8::internal::(anonymous namespace)::InvokeParams const&) [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+145: 0x1056bd464 v8::internal::Execution::Call(v8::internal::Isolate*, v8::internal::Handle<v8::internal::Object>, v8::internal::Handle<v8::internal::Object>, int, v8::internal::Handle<v8::internal::Object>*) [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+146: 0x1055ba05c v8::Function::Call(v8::Local<v8::Context>, v8::Local<v8::Value>, int, v8::Local<v8::Value>*) [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+147: 0x10538e630 node::builtins::BuiltinLoader::CompileAndCall(v8::Local<v8::Context>, char const*, node::Realm*) [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+148: 0x10542ece4 node::Realm::ExecuteBootstrapper(char const*) [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+149: 0x10536e6d8 node::StartExecution(node::Environment*, char const*) [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+150: 0x10536e660 node::StartExecution(node::Environment*, std::__1::function<v8::MaybeLocal<v8::Value> (node::StartExecutionCallbackInfo const&)>) [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+151: 0x1052e5ec8 node::LoadEnvironment(node::Environment*, std::__1::function<v8::MaybeLocal<v8::Value> (node::StartExecutionCallbackInfo const&)>, std::__1::function<void (node::Environment*, v8::Local<v8::Value>, v8::Local<v8::Value>)>) [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+152: 0x1053f77c4 node::NodeMainInstance::Run(node::ExitCode*, node::Environment*) [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+153: 0x1053f756c node::NodeMainInstance::Run() [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+154: 0x105371a68 node::Start(int, char**) [/opt/homebrew/Cellar/node@22/22.23.3_2/lib/libnode.127.dylib]
+155: 0x18a06fe00 start [/usr/lib/dyld]

@@ -27,6 +27,7 @@
     >
     <el-alert v-if="error" :title="error" type="error" :closable="false" />
     <el-alert v-if="success" :title="success" type="success" :closable="false" />
+    <el-alert v-if="projectNotice" :title="projectNotice" type="warning" :closable="false" />
     <section aria-label="独立业务授权根">
       <h2>独立业务授权根</h2>
       <p>登记与签署分开。授权依据读权独立，旧测试授权不会自动升级为正式授权。</p>
@@ -396,6 +397,7 @@ const project = computed(() => projects.value.find((p) => p.id === projectId.val
 const loading = ref(false),
   busy = ref(false),
   error = ref(''),
+  projectNotice = ref(''),
   success = ref(''),
   publishReason = ref(''),
   requestKey = ref(crypto.randomUUID()),
@@ -483,29 +485,48 @@ async function load() {
   caps.value = {}
   gate.value = undefined
   frozen.value = undefined
+  projectNotice.value = ''
+  anchors.value = []
+  projects.value = []
   try {
-    const [ps, as] = await Promise.all([listRequirementProjects(), api.get('/anchors')])
+    // Controlled materials have their own anchor authorization, independent of project READ.
+    const [projectResult, anchorResult, rootResult] = await Promise.allSettled([
+      listRequirementProjects(),
+      api.get('/anchors'),
+      id == null ? Promise.resolve([]) : api.get('/roots', { projectId: id })
+    ])
     if (own !== ticket) return
-    projects.value = ps
-    anchors.value = as
-    if (id == null) return
-    const loadedRoots = await api.get('/roots', { projectId: id })
-    if (own !== ticket) return
-    roots.value = loadedRoots
-    if (id) {
+    if (projectResult.status === 'fulfilled') projects.value = projectResult.value
+    if (anchorResult.status === 'fulfilled') anchors.value = anchorResult.value
+    if (rootResult.status === 'fulfilled') roots.value = rootResult.value
+    const failures: string[] = []
+    if (anchorResult.status === 'rejected') failures.push('独立登记材料未加载')
+    if (rootResult.status === 'rejected') failures.push('授权根未加载')
+    error.value = failures.join('；')
+    if (!id) return
+    if (projectResult.status === 'rejected') {
+      projectNotice.value = '项目访问范围未加载，暂不读取项目决议与发布；独立授权根按材料权限展示。'
+      return
+    }
+    if (!projects.value.some((p) => p.id === id)) {
+      projectNotice.value = '当前没有该项目的读取权限，项目决议与发布数据受限；独立授权根按材料权限展示，可由指定人员登记或签署。'
+      return
+    }
+    try {
       const c = await requirementCapabilities(id)
+      if (own !== ticket) return
+      caps.value = c
       const [ds, rs] = await Promise.all([
         c.DECISION_READ ? api.get('/decisions', { projectId: id }) : [],
         api.get('/releases', { projectId: id })
       ])
       if (own !== ticket) return
-      caps.value = c
       decisions.value = ds
       releases.value = rs
+    } catch {
+      if (own === ticket)
+        projectNotice.value = '项目决议或发布数据未加载，可能没有当前读取权限或服务暂不可用；独立授权根按材料权限展示，未返回项目内容不推定为空或通过。'
     }
-  } catch {
-    if (own === ticket)
-      error.value = '真实决议或发布数据未加载：请核对当前权限或重试，未返回内容不推定为空或通过。'
   } finally {
     if (own === ticket) loading.value = false
   }
@@ -579,7 +600,7 @@ async function saveRoot() {
     const id = await api.post('/root/register', { ...rootForm.value, projectId: projectId.value })
     rootOpen.value = false
     await load()
-    success.value = `已登记待签署授权根${id}，尚未生效`
+    success.value = `已登记待签署授权根${id}，尚未生效。请按此ID核验，勿重复登记。`
   } catch {
     error.value = '登记未完成；当前输入已保留，请核对独立材料、人员、动作和范围。'
   } finally {

@@ -1,0 +1,242 @@
+Browser tab: 1, Title: "芋道管理系统 - 需求评审", URL: "http://127.0.0.1:5173/hrm-payroll/requirement?projectId=153&module=COL".
+1 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?projectId=153&module=COL
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			15 container
+				16 container v-tool-header
+					17 container 面包屑
+						18 link 薪酬管理
+							19 text 薪酬管理
+						20 text /
+						21 link 需求评审
+							22 text 需求评审
+					23 container
+						24 container
+							25 combo box (collapsed, settable) ID: el-id-7237-76, Secondary Actions: Expand
+							26 text 请输入菜单内容
+					27 pop up button (collapsed) ID: el-id-7237-4, Secondary Actions: Expand
+					28 pop up button (collapsed) ID: el-id-7237-9, Secondary Actions: Expand
+					29 pop up button (collapsed) TEST S5 approver NEW DISPLAY, ID: el-id-7237-14, Secondary Actions: Expand
+				30 container v-tags-view
+					31 container
+						32 pop up button (collapsed) 首页, ID: el-id-7237-20, Secondary Actions: Expand
+							33 container
+								34 text 首页
+						35 pop up button (collapsed) 需求评审, ID: el-id-7237-28, Secondary Actions: Expand
+							36 container
+								37 text 需求评审
+					38 pop up button (collapsed) ID: el-id-7237-36, Secondary Actions: Expand
+			39 container
+				40 button 进入十视图需求评审工作台
+				41 container
+					42 container
+						43 combo box (collapsed, settable) Description: 评审项目, ID: el-id-7237-77, Secondary Actions: Expand
+						44 text TEST WB completion 20261022 A · 非正式批准
+						45 image
+					46 button 模板版本比较
+					47 button 项目变更历史
+				48 text TEST WB completion 20261022 A · 非正式批准 · 项目编号 153 · 范围版本 5 功能确认与数据就绪分别核实；确认需当前范围、规则、验收条件和依据，由有权的被分派人本人操作。来源按适用性校验，合法不适用可豁免来源及映射。
+				49 container
+					50 combo box (collapsed, settable) ID: el-id-7237-78, Secondary Actions: Expand
+					51 text 需求征集
+					52 image
+				53 button 刷新
+				54 button 导出评审清单
+				55 button (collapsed) 需求征集候选数据源与字段, ID: el-collapse-head-65, Secondary Actions: Expand
+					56 text 需求征集候选数据源与字段
+				57 container
+					58 table
+						59 row
+							60 cell
+								61 text 需求ID
+							62 cell
+								63 text 编号
+							64 cell
+								65 text 模块
+							66 cell
+								67 text 功能
+							68 cell
+								69 text 评审状态
+							70 cell
+								71 text 数据就绪
+							72 cell
+								73 text 数据来源
+							74 cell
+								75 text 范围适配
+							76 cell
+								77 text 版本
+							78 cell
+								79 text 操作
+					80 table
+						81 container
+							82 row
+								83 cell
+									84 text 1844
+								85 cell
+									86 text CUSTOM-0001
+								87 cell
+									88 text 需求征集
+								89 cell
+									90 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+								91 cell
+									92 text 评审中
+								93 cell
+									94 text 不适用
+								95 cell
+									96 text 匹配
+								97 cell
+									98 text 40
+								99 cell
+									100 container
+										101 button 历史
+										102 button (disabled) 确认版本
+							103 row
+								104 cell
+									105 text 1845
+								106 cell
+									107 text CUSTOM-0002
+								108 cell
+									109 text 需求征集
+								110 cell
+									111 text TEST_WBC_T04_T07_规格确认与供数待提供分离 中文换行验收：本需求仅验证本机工程规格基线，不处理真实工资。
+								112 cell
+									113 text 已确认
+								114 cell
+									115 text 未就绪
+								116 cell
+									117 text TEST合成数据规格目录
+								118 cell
+									119 text 匹配
+								120 cell
+									121 text 12
+								122 cell
+									123 button 历史
+							124 row
+								125 cell
+									126 text 1905
+								127 cell
+									128 text CUSTOM-0003
+								129 cell
+									130 text 需求征集
+								131 cell
+									132 text TEST-PRD04-FIFTH-153-多角色规格与协作-20261023
+								133 cell
+									134 text 评审中
+								135 cell
+									136 text 未就绪
+								137 cell
+									138 text 匹配
+								139 cell
+									140 text 12
+								141 cell
+									142 container
+										143 button 历史
+										144 button (disabled) 确认版本
+				145 text 实际来源与候选目录分开；功能确认、语义核验、QS/QC和问题关闭分别操作。只登记规格或虚构样例引用，不填写口令或真实工资明细。
+				146 button 刷新来源工作台
+				147 button 导出当前来源关系
+				148 tab group
+					149 tab (selectable, settable, boolean) 实际来源, Value: 0, ID: tab-sources
+					150 tab (selected, settable, boolean) 消费关系与映射, Value: 1, ID: tab-relations
+					151 tab (selectable, settable, boolean) 问题处理与独立复核, Value: 0, ID: tab-issues
+					152 tab (selectable, settable, boolean) 核验证据, Value: 0, ID: tab-evidence
+					153 tab (selectable, settable, boolean) 站内待办与建议, Value: 0, ID: tab-todos
+				241 container Description: 消费关系与映射, ID: pane-relations
+					242 text 可用仅表示当前关系满足供给、范围、语义、QS/QC及未决问题条件，不表示功能已经确认或系统已实施。
+					243 container
+						244 table
+							245 row
+								246 cell
+									247 text relationId
+								248 cell
+									249 text 需求ID
+								250 cell
+									251 text 来源ID
+								252 cell
+									253 text 映射版本
+								254 cell
+									255 text 状态
+								256 cell
+									257 text 操作
+						258 table
+							259 container
+								260 row
+									261 cell
+										262 text 3518
+									263 cell
+										264 text 1844
+									265 cell
+										266 text 3515
+									267 cell
+										268 text 1
+									269 cell
+										270 text 历史失活
+									271 cell
+										272 container
+											273 button 映射详情
+											274 button 关系历史
+								275 row
+									276 cell
+										277 text 3583
+									278 cell
+										279 text 1845
+									280 cell
+										281 text 3578
+									282 cell
+										283 text 3
+									284 cell
+										285 text 语义通过，质量或供给待核验
+									286 cell
+										287 container
+											288 button 映射详情
+											289 button 映射核验
+											290 button QC检查
+											291 button 关系历史
+								292 row
+									293 cell
+										294 text 3613
+									295 cell
+										296 text 1905
+									297 cell
+										298 text 3578
+									299 cell
+										300 text 1
+									301 cell
+										302 text 语义通过，质量或供给待核验
+									303 cell
+										304 container
+											305 button 映射详情
+											306 button 映射核验
+											307 button QC检查
+											308 button 关系历史
+								309 row
+									310 cell
+										311 text 3647
+									312 cell
+										313 text 1905
+									314 cell
+										315 text 3642
+									316 cell
+										317 text 1
+									318 cell
+										319 text 语义通过，质量或供给待核验
+									320 cell
+										321 container
+											322 button 映射详情
+											323 button 映射核验
+											324 button QC检查
+											325 button 关系历史
+			240 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 150 tab (selected, settable, boolean) 消费关系与映射, Value: 1, ID: tab-relations

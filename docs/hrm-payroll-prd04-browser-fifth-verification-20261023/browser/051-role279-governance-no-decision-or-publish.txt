@@ -1,0 +1,204 @@
+Browser tab: 1, Title: "芋道管理系统 - 业务决议与基线发布", URL: "http://127.0.0.1:5173/hrm-payroll/governance?projectId=153".
+1 AXWebArea 芋道管理系统 - 业务决议与基线发布, URL: 127.0.0.1:5173/hrm-payroll/governance?projectId=153
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			15 container v-tool-header
+				16 container 面包屑
+				17 container
+					18 container
+						19 combo box (collapsed, settable) ID: el-id-7925-61, Secondary Actions: Expand
+						20 text 请输入菜单内容
+				21 pop up button (collapsed) ID: el-id-7925-4, Secondary Actions: Expand
+				22 pop up button (collapsed) ID: el-id-7925-9, Secondary Actions: Expand
+				23 pop up button (collapsed) TEST S6 reassign, ID: el-id-7925-14, Secondary Actions: Expand
+			24 container v-tags-view
+				25 container
+					26 pop up button (collapsed) 首页, ID: el-id-7925-20, Secondary Actions: Expand
+						27 container
+							28 text 首页
+					29 pop up button (collapsed) 业务决议与基线发布, ID: el-id-7925-28, Secondary Actions: Expand
+						30 text 业务决议与基线发布
+				31 pop up button (collapsed) ID: el-id-7925-36, Secondary Actions: Expand
+			32 heading 业务决议、发布与快照导出, Value: 1
+				33 text 业务决议、发布与快照导出
+			34 text TEST材料及合成签署仅验证系统实现，不构成真实业务批准。正式授权根必须有实际有权业务人员提供的受控签署材料。
+			35 container
+				36 combo box (collapsed, settable) Description: 治理项目, ID: el-id-7925-62, Secondary Actions: Expand
+				37 text 153 · TEST WB completion 20261022 A · 非正式批准
+				38 image
+			39 button 刷新决议与发布
+			40 button 返回十视图评审
+			41 button 需求、成员及实际来源
+			42 text TEST WB completion 20261022 A · 非正式批准 · 范围版本 5
+			43 container 独立业务授权根
+				44 heading 独立业务授权根, Value: 2
+					45 text 独立业务授权根
+				46 text 登记与签署分开。授权依据读权独立，旧测试授权不会自动升级为正式授权。
+				47 text 当前没有可见的独立登记材料；技术管理身份不能替代业务签署。
+				48 container 授权根表，可横向滚动
+					49 container
+						50 table
+							51 row
+								52 cell
+									53 text 授权根ID
+								54 cell
+									55 text 记录版本
+								56 cell
+									57 text 材料版本
+								58 cell
+									59 text 材料性质
+								60 cell
+									61 text 签署状态
+								62 cell
+									63 text 被授权人ID
+								64 cell
+									65 text 操作
+						66 container
+							67 table
+							68 text 暂无数据
+			69 container 业务决议版本
+				70 heading 业务决议版本与独立批准, Value: 2
+					71 text 业务决议版本与独立批准
+				72 text 必须覆盖Q-01/02/04/05/07/10。Q-03/06/08/09另行决议或明确分类；正文修订建立新版本，批准和撤销保留原事实。
+				73 text 当前没有独立决议读权，不能依据需求读权查看决议正文。
+				74 container 决议表，可横向滚动
+					75 container
+						76 table
+							77 row
+								78 cell
+									79 text 版本记录ID
+								80 cell
+									81 text 决议标题
+								82 cell
+									83 text 决议版本
+								84 cell
+									85 text 覆盖问题
+								86 cell
+									87 text 当前生命周期
+								88 cell
+									89 text 指定批准人ID
+								90 cell
+									91 text 操作
+						92 container
+							93 table
+							94 text 暂无数据
+			95 container 发布检查与固定快照
+				96 heading 发布检查与固定快照, Value: 2
+					97 text 发布检查与固定快照
+				98 text 规格基线与数据可投产分开；供数待提供不会自动阻止规格明确的需求基线。正式发布须完整闭包可见及当前有效决议。
+				99 button 执行发布预检查
+				100 container
+					101 text 发布依据或草稿说明
+					102 text entry area (settable) Description: 发布依据或草稿说明, ID: el-id-7925-63
+					103 text 幂等请求号
+					104 text field (settable) Description: 幂等请求号, Value: c9a74978-c895-4031-856a-5eb7a86fb44d, ID: el-id-7925-64
+				105 button (disabled) 发布本期完整需求基线
+				106 button (disabled) 保存固定草稿快照
+				107 container 发布快照表，可横向滚动
+					108 container
+						109 table
+							110 row
+								111 cell
+									112 text 固定快照ID
+								113 cell
+									114 text 发布版本
+								115 cell
+									116 text 合成与正式
+								117 cell
+									118 text 类型
+								119 cell
+									120 text 创建时间
+								121 cell
+									122 text 操作
+						123 table
+							124 container
+								125 row
+									126 cell
+										127 text 1437
+									128 cell
+										129 text 1
+									130 cell
+										131 text TEST合成验证，非正式业务批准
+									132 cell
+										133 text 需求基线
+									134 cell
+										135 text 2026-10-23T08:15:29.110
+									136 cell
+										137 button 查看冻结六表
+								138 row
+									139 cell
+										140 text 1448
+									141 cell
+										142 text 2
+									143 cell
+										144 text TEST合成验证，非正式业务批准
+									145 cell
+										146 text 需求基线
+									147 cell
+										148 text 2026-10-23T14:31:33.117
+									149 cell
+										150 button 查看冻结六表
+								151 row
+									152 cell
+										153 text 1452
+									154 cell
+										155 text 3
+									156 cell
+										157 text TEST合成验证，非正式业务批准
+									158 cell
+										159 text 需求基线
+									160 cell
+										161 text 2026-10-23T14:34:33.723
+									162 cell
+										163 button 查看冻结六表
+								164 row
+									165 cell
+										166 text 1455
+									167 cell
+										168 text 4
+									169 cell
+										170 text TEST合成验证，非正式业务批准
+									171 cell
+										172 text 需求基线
+									173 cell
+										174 text 2026-10-23T15:09:59.399
+									175 cell
+										176 button 查看冻结六表
+				177 container
+					178 text 导出筛选需求ID（留空为全量可见）
+					179 text field (settable) Description: 导出筛选需求ID, ID: el-id-7925-65
+				180 heading 本轮下载任务, Value: 3
+					181 text 本轮下载任务
+				182 text 任务创建、生成、结果交付及领取均按当前权限检查；旧地址不能替代重新鉴权。
+				183 container
+					184 table
+						185 row
+							186 cell
+								187 text 任务ID
+							188 cell
+								189 text 快照ID
+							190 cell
+								191 text 状态
+							192 cell
+								193 text 文件范围
+							194 cell
+								195 text 提示
+							196 cell
+								197 text 操作
+					198 container
+						199 table
+						200 text 暂无数据
+			201 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 1 AXWebArea 芋道管理系统 - 业务决议与基线发布, URL: 127.0.0.1:5173/hrm-payroll/governance?projectId=153

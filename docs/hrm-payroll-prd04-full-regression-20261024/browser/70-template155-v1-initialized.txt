@@ -1,0 +1,164 @@
+Browser tab: 1, Title: "芋道管理系统 - 需求评审", URL: "http://127.0.0.1:5173/hrm-payroll/requirement?projectId=155&module=COL".
+1 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?projectId=155&module=COL
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			15 container v-tool-header
+				16 container 面包屑
+					17 link 薪酬管理
+						18 text 薪酬管理
+					19 text /
+					20 link 需求评审
+						21 text 需求评审
+				22 container
+					23 container
+						24 combo box (collapsed, settable) ID: el-id-9570-76, Secondary Actions: Expand
+						25 text 请输入菜单内容
+				26 pop up button (collapsed) ID: el-id-9570-4, Secondary Actions: Expand
+				27 pop up button (collapsed) ID: el-id-9570-9, Secondary Actions: Expand
+				28 pop up button (collapsed) TEST S5 editor NEW DISPLAY, ID: el-id-9570-14, Secondary Actions: Expand
+			29 container v-tags-view
+				30 container
+					31 pop up button (collapsed) 首页, ID: el-id-9570-20, Secondary Actions: Expand
+						32 container
+							33 text 首页
+					34 pop up button (collapsed) 需求评审, ID: el-id-9570-28, Secondary Actions: Expand
+						35 container
+							36 text 需求评审
+				37 pop up button (collapsed) ID: el-id-9570-36, Secondary Actions: Expand
+			38 button 进入十视图需求评审工作台
+			144 container
+				145 container
+					146 combo box (collapsed, settable) Description: 评审项目, ID: el-id-9570-77, Secondary Actions: Expand
+					147 text TEST模板升级隔离项目20261024 非正式验收
+					148 image
+				149 button 新建评审项目
+				150 button 修改项目名称
+				151 button 修订项目范围
+				152 button 模板版本比较
+				153 button 项目变更历史
+			74 text TEST模板升级隔离项目20261024 非正式验收 · 项目编号 155 · 范围版本 1
+			75 text 功能确认与数据就绪分别核实；确认需当前范围、规则、验收条件和依据，由有权的被分派人本人操作。来源按适用性校验，合法不适用可豁免来源及映射。
+			76 container
+				77 container
+					78 combo box (collapsed, settable) ID: el-id-9570-78, Secondary Actions: Expand
+					79 text 需求征集
+					80 image
+				81 button 刷新
+				82 button 新增需求
+				83 button 初始化 PRD 清单
+				84 button 导出评审清单
+			85 button (collapsed) 需求征集候选数据源与字段, ID: el-collapse-head-65, Secondary Actions: Expand
+				86 text 需求征集候选数据源与字段
+			154 container
+				155 table
+					156 row
+						157 cell
+							158 text 需求ID
+						159 cell
+							160 text 编号
+						161 cell
+							162 text 模块
+						163 cell
+							164 text 功能
+						165 cell
+							166 text 评审状态
+						167 cell
+							168 text 数据就绪
+						169 cell
+							170 text 数据来源
+						171 cell
+							172 text 范围适配
+						173 cell
+							174 text 版本
+						175 cell
+							176 text 操作
+				177 table
+					178 container
+						179 row
+							180 cell
+								181 text 1908
+							182 cell
+								183 text COL-9001
+							184 cell
+								185 text 需求征集
+							186 cell
+								187 text TEST isolated TEST_ACCEPT version 1
+							188 cell
+								189 text 待确认
+							190 cell
+								191 text 未就绪
+							192 cell
+								193 text 匹配
+							194 cell
+								195 text 1
+							196 cell
+								197 container
+									198 button 编辑
+									199 button 历史
+									200 button 分派
+						201 row
+							202 cell
+								203 text 1909
+							204 cell
+								205 text COL-9002
+							206 cell
+								207 text 需求征集
+							208 cell
+								209 text TEST isolated TEST_KEEP version 1
+							210 cell
+								211 text 待确认
+							212 cell
+								213 text 未就绪
+							214 cell
+								215 text 匹配
+							216 cell
+								217 text 1
+							218 cell
+								219 container
+									220 button 编辑
+									221 button 历史
+									222 button 分派
+			113 text 实际来源与候选目录分开；功能确认、语义核验、QS/QC和问题关闭分别操作。只登记规格或虚构样例引用，不填写口令或真实工资明细。
+			114 container
+				115 button 刷新来源工作台
+				116 button 导出当前来源关系
+				117 button 登记实际来源
+				118 button 建立消费关系
+				119 button 登记评审问题
+			120 tab group
+				121 tab (selected, settable, boolean) 实际来源, Value: 1, ID: tab-sources
+				122 tab (selectable, settable, boolean) 消费关系与映射, Value: 0, ID: tab-relations
+				123 tab (selectable, settable, boolean) 问题处理与独立复核, Value: 0, ID: tab-issues
+				124 tab (selectable, settable, boolean) 核验证据, Value: 0, ID: tab-evidence
+				125 tab (selectable, settable, boolean) 站内待办与建议, Value: 0, ID: tab-todos
+			126 container Description: 实际来源, ID: pane-sources
+				127 container
+					128 table
+						129 row
+							130 cell
+								131 text sourceId
+							132 cell
+								133 text 名称
+							134 cell
+								135 text 语义/运营/交付版本
+							136 cell
+								137 text 供给 / 语义 / QS
+							138 cell
+								139 text 操作
+					140 container
+						141 table
+						142 text 暂无数据
+			143 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 1 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?projectId=155&module=COL

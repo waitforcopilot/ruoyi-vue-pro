@@ -1,0 +1,616 @@
+Browser tab: 1, Title: "芋道管理系统 - 需求评审", URL: "http://127.0.0.1:5173/hrm-payroll/requirement?projectId=153&module=COL".
+1 AXWebArea 芋道管理系统 - 需求评审, URL: 127.0.0.1:5173/hrm-payroll/requirement?projectId=153&module=COL
+	2 container
+		3 link Description: 芋道管理系统, Value: 127.0.0.1:5173/
+		4 menu bar
+			5 首页
+				6 text 首页
+			7 (expanded) 薪酬管理, Secondary Actions: Collapse
+				8 container
+					9 text 薪酬管理
+					10 image
+				11 menu
+					12 需求评审
+						13 text 需求评审
+		14 container
+			85 container
+				86 container v-tool-header
+					87 container 面包屑
+						88 link 薪酬管理
+							89 text 薪酬管理
+						90 text /
+						91 link 需求评审
+							92 text 需求评审
+					93 container
+						94 container
+							95 combo box (collapsed, settable) ID: el-id-8513-76, Secondary Actions: Expand
+							96 text 请输入菜单内容
+					97 pop up button (collapsed) ID: el-id-8513-4, Secondary Actions: Expand
+					98 pop up button (collapsed) ID: el-id-8513-9, Secondary Actions: Expand
+					99 pop up button (collapsed) TEST S5 editor NEW DISPLAY, ID: el-id-8513-14, Secondary Actions: Expand
+				100 container v-tags-view
+					101 container
+						102 pop up button (collapsed) 首页, ID: el-id-8513-20, Secondary Actions: Expand
+							103 container
+								104 text 首页
+						105 pop up button (collapsed) 需求评审, ID: el-id-8513-28, Secondary Actions: Expand
+							106 container
+								107 text 需求评审
+					108 pop up button (collapsed) ID: el-id-8513-36, Secondary Actions: Expand
+			109 container
+				110 button 进入十视图需求评审工作台
+				111 container
+					112 container
+						113 combo box (collapsed, settable) Description: 评审项目, ID: el-id-8513-77, Secondary Actions: Expand
+						114 text TEST WB completion 20261022 A · 非正式批准
+						115 image
+					116 button 新建评审项目
+					117 button 修改项目名称
+					118 button 修订项目范围
+					119 button 模板版本比较
+					120 button 项目变更历史
+					121 button 项目成员与授权
+				122 text TEST WB completion 20261022 A · 非正式批准 · 项目编号 153 · 范围版本 5 功能确认与数据就绪分别核实；确认需当前范围、规则、验收条件和依据，由有权的被分派人本人操作。来源按适用性校验，合法不适用可豁免来源及映射。
+				123 container
+					124 combo box (collapsed, settable) ID: el-id-8513-78, Secondary Actions: Expand
+					125 text 需求征集
+					126 image
+				127 button 刷新
+				128 button 新增需求
+				129 button 初始化 PRD 清单
+				130 button 导出评审清单
+				131 button (collapsed) 需求征集候选数据源与字段, ID: el-collapse-head-65, Secondary Actions: Expand
+					132 text 需求征集候选数据源与字段
+				133 container
+					134 table
+						135 row
+							136 cell
+								137 text 需求ID
+							138 cell
+								139 text 编号
+							140 cell
+								141 text 模块
+							142 cell
+								143 text 功能
+							144 cell
+								145 text 评审状态
+							146 cell
+								147 text 数据就绪
+							148 cell
+								149 text 数据来源
+							150 cell
+								151 text 范围适配
+							152 cell
+								153 text 版本
+							154 cell
+								155 text 操作
+					156 table
+						157 container
+							158 row
+								159 cell
+									160 text 1844
+								161 cell
+									162 text CUSTOM-0001
+								163 cell
+									164 text 需求征集
+								165 cell
+									166 text TEST_WBC_T01：条件必填与失败恢复，不完整草稿
+								167 cell
+									168 text 评审中
+								169 cell
+									170 text 不适用
+								171 cell
+									172 text 匹配
+								173 cell
+									174 text 40
+								175 cell
+									176 container
+										177 button 编辑
+										178 button 历史
+										179 button 分派
+							180 row
+								181 cell
+									182 text 1845
+								183 cell
+									184 text CUSTOM-0002
+								185 cell
+									186 text 需求征集
+								187 cell
+									188 text TEST_WBC_T04_T07_规格确认与供数待提供分离 中文换行验收：本需求仅验证本机工程规格基线，不处理真实工资。
+								189 cell
+									190 text 已确认
+								191 cell
+									192 text 未就绪
+								193 cell
+									194 text TEST合成数据规格目录
+								195 cell
+									196 text 匹配
+								197 cell
+									198 text 12
+								199 cell
+									200 container
+										201 button 编辑
+										202 button 历史
+										203 button 分派
+							204 row
+								205 cell
+									206 text 1905
+								207 cell
+									208 text CUSTOM-0003
+								209 cell
+									210 text 需求征集
+								211 cell
+									212 text TEST-PRD04-FIFTH-153-多角色规格与协作-20261023
+								213 cell
+									214 text 评审中
+								215 cell
+									216 text 已就绪
+								217 cell
+									218 text 匹配
+								219 cell
+									220 text 15
+								221 cell
+									222 container
+										223 button 编辑
+										224 button 历史
+										225 button 分派
+							226 row
+								227 cell
+									228 text 1907
+								229 cell
+									230 text CUSTOM-0004
+								231 cell
+									232 text 需求征集
+								233 cell
+									234 text TEST-20261024-批量版本冲突独立草稿
+								235 cell
+									236 text 评审中
+								237 cell
+									238 text 未就绪
+								239 cell
+									240 text 匹配
+								241 cell
+									242 text 4
+								243 cell
+									244 container
+										245 button 编辑
+										246 button 历史
+										247 button 分派
+							248 row
+								249 cell
+									250 text 1910
+								251 cell
+									252 text CUSTOM-0005
+								253 cell
+									254 text 需求征集
+								255 cell
+									256 text TEST-20261024-390来源选择与保存回归
+								257 cell
+									258 text 待确认
+								259 cell
+									260 text 未就绪
+								261 cell
+									262 text 匹配
+								263 cell
+									264 text 1
+								265 cell
+									266 container
+										267 button 编辑
+										268 button 历史
+										269 button 分派
+							270 row
+								271 cell
+									272 text 1911
+								273 cell
+									274 text CUSTOM-0006
+								275 cell
+									276 text 需求征集
+								277 cell
+									278 text TEST-20261024-768来源选择与保存回归
+								279 cell
+									280 text 待确认
+								281 cell
+									282 text 未就绪
+								283 cell
+									284 text 匹配
+								285 cell
+									286 text 2
+								287 cell
+									288 container
+										289 button 编辑
+										290 button 历史
+										291 button 分派
+							292 row
+								293 cell
+									294 text 1912
+								295 cell
+									296 text CUSTOM-0007
+								297 cell
+									298 text 需求征集
+								299 cell
+									300 text TEST-20261024-1440来源选择与保存回归
+								301 cell
+									302 text 待确认
+								303 cell
+									304 text 未就绪
+								305 cell
+									306 text 匹配
+								307 cell
+									308 text 2
+								309 cell
+									310 container
+										311 button 编辑
+										312 button 历史
+										313 button 分派
+				314 text 实际来源与候选目录分开；功能确认、语义核验、QS/QC和问题关闭分别操作。只登记规格或虚构样例引用，不填写口令或真实工资明细。
+				315 button 刷新来源工作台
+				316 button 导出当前来源关系
+				317 button 登记实际来源
+				318 button 建立消费关系
+				319 button 登记评审问题
+				320 tab group
+					321 tab (selectable, settable, boolean) 实际来源, Value: 0, ID: tab-sources
+					322 tab (selectable, settable, boolean) 消费关系与映射, Value: 0, ID: tab-relations
+					323 tab (selectable, settable, boolean) 问题处理与独立复核, Value: 0, ID: tab-issues
+					324 tab (selected, settable, boolean) 核验证据, Value: 1, ID: tab-evidence
+					325 tab (selectable, settable, boolean) 站内待办与建议, Value: 0, ID: tab-todos
+				326 container Description: 核验证据, ID: pane-evidence
+					327 container
+						328 table
+							329 row
+								330 cell
+									331 text evidenceId
+								332 cell
+									333 text 层级
+								334 cell
+									335 text 对象ID
+								336 cell
+									337 text 结果
+								338 cell
+									339 text 执行依据
+								340 cell
+									341 text 执行时间
+								342 cell
+									343 text 绑定元组
+						344 container
+							345 table
+								346 container
+									347 row
+										348 cell
+											349 text 3542
+										350 cell
+											351 text ISSUE_CLOSE
+										352 cell
+											353 text 3531
+										354 cell
+											355 text TEST reviewer279 independently verified cycle1 handler269 normal and exception details; closure accepted only for synthetic issue
+										356 cell
+											357 text 2026-10-23T07:07:43.761
+									358 row
+										359 cell
+											360 text 3551
+										361 cell
+											362 text ISSUE_CLOSE
+										363 cell
+											364 text 3531
+										365 cell
+											366 text TEST reviewer279 closes remediation cycle2 without erasing invalid-normalization history; final-candidate REOPEN regression follows
+										367 cell
+											368 text 2026-10-23T07:18:06.951
+									369 row
+										370 cell
+											371 text 3566
+										372 cell
+											373 text ISSUE_CLOSE
+										374 cell
+											375 text 3531
+										376 cell
+											377 text TEST reviewer279 independently verifies successor266 cycle3 processing and retained former-handler269 history; strict raw-date regression completed
+										378 cell
+											379 text 2026-10-23T07:21:42.974
+									380 row
+										381 cell
+											382 text 3586
+										383 cell
+											384 text SOURCE_SEMANTIC
+										385 cell
+											386 text 3578
+										387 cell
+											388 text PASS
+										389 cell
+											390 text TEST核验者267本人比对3578语义版本1，CSV-V1，employee_key字符串必填唯一及范围版本5；仅规格核验。
+										391 cell
+											392 text 2026-10-23T08:12:50.410
+										393 cell
+											394 text {
+  "tenantId": 1,
+  "projectId": 153,
+  "projectScopeVersion": 5,
+  "sourceId": 3578,
+  "semanticVersion": 1,
+  "ownerId": 266,
+  "scope": {
+    "entities": [
+      101
+    ],
+    "organizations": [
+      201
+    ],
+    "workerTypes": [
+      "TEST"
+    ],
+    "scenarios": [
+      "TEST"
+    ],
+    "from": "2026-10-01",
+    "to": "2026-10-31",
+    "explanation": "TEST isolated synthetic scope for WB completion; not formal approval"
+  }
+}
+									395 row
+										396 cell
+											397 text 3588
+										398 cell
+											399 text RELATION_SEMANTIC
+										400 cell
+											401 text 3583
+										402 cell
+											403 text PASS
+										404 cell
+											405 text TEST核验者267本人比对需求1845与关系3583版本1：employee_key原值映射synthetic_worker_key，类型/空值/重复/跨期/异常处理完整。
+										406 cell
+											407 text 2026-10-23T08:13:07.783
+										408 cell
+											409 text {
+  "projectId": 153,
+  "projectScopeVersion": 5,
+  "sourceId": 3578,
+  "sourceSemanticVersion": 1,
+  "sourceOwnerId": 266,
+  "relationId": 3583,
+  "mappingVersion": 1,
+  "resolvedScopeDigest": "579dfbeb3216684338221546e8bb6c805e0a7b1061e32038a56b934ba90490e1"
+}
+									410 row
+										411 cell
+											412 text 3599
+										413 cell
+											414 text ISSUE_CLOSE
+										415 cell
+											416 text 3590
+										417 cell
+											418 text TEST独立复核279负向验收：当前供给未提供、映射v2未核验、QS/QC未通过，故预期系统拒绝关闭。该依据不表示数据已解决。
+										419 cell
+											420 text 2026-10-23T14:03:09.210
+									421 row
+										422 cell
+											423 text 3611
+										424 cell
+											425 text RELATION_SEMANTIC
+										426 cell
+											427 text 3583
+										428 cell
+											429 text PASS
+										430 cell
+											431 text TEST267独立核验3583映射3：employee_key字符串原值映射，拒绝前后空格、必须TEST-前缀；类型/空值/重复/跨期/异常完整，来源语义1不变。
+										432 cell
+											433 text 2026-10-23T14:27:40.976
+										434 cell
+											435 text {
+  "projectId": 153,
+  "projectScopeVersion": 5,
+  "sourceId": 3578,
+  "sourceSemanticVersion": 1,
+  "sourceOwnerId": 266,
+  "relationId": 3583,
+  "mappingVersion": 3,
+  "resolvedScopeDigest": "579dfbeb3216684338221546e8bb6c805e0a7b1061e32038a56b934ba90490e1"
+}
+									436 row
+										437 cell
+											438 text 3623
+										439 cell
+											440 text RELATION_SEMANTIC
+										441 cell
+											442 text 3613
+										443 cell
+											444 text PASS
+										445 cell
+											446 text TEST第五轮：核对3578 employee_key与3613映射字段规格一致，仅语义核验
+										447 cell
+											448 text 2026-10-23T20:02:46.041
+										449 cell
+											450 text {
+  "projectId": 153,
+  "projectScopeVersion": 5,
+  "sourceId": 3578,
+  "sourceSemanticVersion": 1,
+  "sourceOwnerId": 266,
+  "relationId": 3613,
+  "mappingVersion": 1,
+  "resolvedScopeDigest": "579dfbeb3216684338221546e8bb6c805e0a7b1061e32038a56b934ba90490e1"
+}
+									451 row
+										452 cell
+											453 text 3626
+										454 cell
+											455 text ISSUE_CLOSE
+										456 cell
+											457 text 3616
+										458 cell
+											459 text TEST279刷新后独立复核266处理依据；不声明数据就绪
+										460 cell
+											461 text 2026-10-24T12:45:44.180
+									462 row
+										463 cell
+											464 text 3639
+										465 cell
+											466 text ISSUE_CLOSE
+										467 cell
+											468 text 3616
+										469 cell
+											470 text TEST279独立核对266补充异常预期，第二周期驳回已响应；仅关闭合成测试问题，不代表供给质量通过。
+										471 cell
+											472 text 2026-10-24T13:18:12.756
+									473 row
+										474 cell
+											475 text 3650
+										476 cell
+											477 text SOURCE_SEMANTIC
+										478 cell
+											479 text 3642
+										480 cell
+											481 text PASS
+										482 cell
+											483 text TEST核对3642语义v1：employee_key VARCHAR(64)必填字符串，范围101/201/TEST/2026-10
+										484 cell
+											485 text 2026-10-24T13:20:39.103
+										486 cell
+											487 text {
+  "tenantId": 1,
+  "projectId": 153,
+  "projectScopeVersion": 5,
+  "sourceId": 3642,
+  "semanticVersion": 1,
+  "ownerId": 266,
+  "scope": {
+    "entities": [
+      101
+    ],
+    "organizations": [
+      201
+    ],
+    "workerTypes": [
+      "TEST"
+    ],
+    "scenarios": [
+      "TEST"
+    ],
+    "from": "2026-10-01",
+    "to": "2026-10-31",
+    "explanation": "TEST isolated synthetic scope for WB completion; not formal approval"
+  }
+}
+									488 row
+										489 cell
+											490 text 3652
+										491 cell
+											492 text QS
+										493 cell
+											494 text 3642
+										495 cell
+											496 text PASS
+										497 cell
+											498 text TEST来源QS-v1：合成样本一行employee_key=TEST-EMP-001，非空唯一，符合已登记类型及范围
+										499 cell
+											500 text 2026-10-24T13:20:45.400
+										501 cell
+											502 text {
+  "tenantId": 1,
+  "projectId": 153,
+  "projectScopeVersion": 5,
+  "sourceId": 3642,
+  "semanticVersion": 1,
+  "deliveryVersion": 1,
+  "deliveryDigest": "TEST合成CSV v1：employee_keyTEST-EMP-001；1行、键非空且唯一",
+  "checkRule": "TEST-QS-v1 键非空且唯一"
+}
+									503 row
+										504 cell
+											505 text 3654
+										506 cell
+											507 text RELATION_SEMANTIC
+										508 cell
+											509 text 3647
+										510 cell
+											511 text PASS
+										512 cell
+											513 text TEST3647映射v1：testEmployeeKey<-employee_key原值映射，类型及空值重复跨期异常处理齐全
+										514 cell
+											515 text 2026-10-24T13:20:52.754
+										516 cell
+											517 text {
+  "projectId": 153,
+  "projectScopeVersion": 5,
+  "sourceId": 3642,
+  "sourceSemanticVersion": 1,
+  "sourceOwnerId": 266,
+  "relationId": 3647,
+  "mappingVersion": 1,
+  "resolvedScopeDigest": "579dfbeb3216684338221546e8bb6c805e0a7b1061e32038a56b934ba90490e1"
+}
+									518 row
+										519 cell
+											520 text 3656
+										521 cell
+											522 text QC
+										523 cell
+											524 text 3647
+										525 cell
+											526 text PASS
+										527 cell
+											528 text TEST消费QC-v1：采用来源当前交付v1及QS，TEST-EMP-001映射到testEmployeeKey，空值重复跨期异常规则逐项核对
+										529 cell
+											530 text 2026-10-24T13:20:59.383
+										531 cell
+											532 text {
+  "tenantId": 1,
+  "projectId": 153,
+  "QS": 3652,
+  "QSVersion": 1,
+  "relationId": 3647,
+  "mappingVersion": 1,
+  "resolvedScopeDigest": "579dfbeb3216684338221546e8bb6c805e0a7b1061e32038a56b934ba90490e1",
+  "consumptionRule": "TEST-QC-v1"
+}
+									533 row
+										534 cell
+											535 text 3662
+										536 cell
+											537 text QS
+										538 cell
+											539 text 3642
+										540 cell
+											541 text PASS
+										542 cell
+											543 text TEST交付2 employee_key=TEST-EMP-002符合非空唯一字符串规则
+										544 cell
+											545 text 2026-10-24T13:45:06.682
+										546 cell
+											547 text {
+  "tenantId": 1,
+  "projectId": 153,
+  "projectScopeVersion": 5,
+  "sourceId": 3642,
+  "semanticVersion": 1,
+  "deliveryVersion": 2,
+  "deliveryDigest": "TEST交付v2：employee_key=TEST-EMP-002，1行非空唯一",
+  "checkRule": "TEST-QS-v1 键非空且唯一"
+}
+									548 row
+										549 cell
+											550 text 3664
+										551 cell
+											552 text QC
+										553 cell
+											554 text 3647
+										555 cell
+											556 text PASS
+										557 cell
+											558 text TEST消费QC采用当前交付2及新QS，映射1原值输出TEST-EMP-002
+										559 cell
+											560 text 2026-10-24T13:45:14.599
+										561 cell
+											562 text {
+  "tenantId": 1,
+  "projectId": 153,
+  "QS": 3662,
+  "QSVersion": 1,
+  "relationId": 3647,
+  "mappingVersion": 1,
+  "resolvedScopeDigest": "579dfbeb3216684338221546e8bb6c805e0a7b1061e32038a56b934ba90490e1",
+  "consumptionRule": "TEST-QC-v1"
+}
+			84 text Copyright ©2026 芋道管理系统
+
+The focused UI element is 346 container
