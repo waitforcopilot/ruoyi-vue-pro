@@ -13,6 +13,7 @@ export interface WorkbenchRecord {
   sourceSemanticVerified?: boolean
   QSResult?: boolean
   dates?: { unresolved: boolean; overdue: boolean; wasOverdue: boolean }
+  affectedRequirementIds?: number[]
   permittedActions?: string[]
 }
 const root = '/hrm/payroll/workbench'

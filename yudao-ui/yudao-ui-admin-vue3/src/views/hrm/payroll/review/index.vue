@@ -83,16 +83,32 @@
         >
       </div>
       <div id="operation-simulate" tabindex="-1" class="toolbar anchor">
-        <el-button @click="simulate">演示核算</el-button
-        ><el-button @click="demoState = '演示复核完成，仅页面内存状态；未提交正式审批'"
-          >演示复核</el-button
-        >
-        <el-button @click="slipVisible = true">预览示例工资条</el-button>
+        <template v-if="module === 'CALC'">
+          <el-button :disabled="!projectId" @click="simulate('PREPARE')">核对TEST准备</el-button>
+          <el-button :disabled="!projectId" @click="simulate('CALCULATE')">演示核算</el-button>
+          <el-button
+            :disabled="!projectId || calcState.stage !== 'CALCULATED'"
+            @click="simulate('REVIEW')"
+            >演示复核</el-button
+          >
+          <el-button :disabled="calcState.calculatedAdjustment === null" @click="slipVisible = true"
+            >预览示例工资条</el-button
+          >
+        </template>
+        <el-button v-if="module === 'TAX'" @click="slipVisible = true">预览示例工资条</el-button>
         <el-button :disabled="!canCreate" @click="newOpinion('OPERATION', 'operation-simulate')"
           >补充操作规则或例外</el-button
         >
       </div>
-      <p role="status">{{ demoState }}</p>
+      <p v-if="module === 'CALC'" role="status">{{ calcState.notice }}</p>
+      <p v-if="module === 'CALC' && calcState.stage === 'READY'"
+        >请先核对TEST准备再演示核算；缺输入不能试算。顶部按钮与下方完整流程共用当前版本，切换上下文须重新准备。</p
+      >
+      <p v-if="module === 'CALC' && calcState.stage !== 'READY'"
+        >当前TEST试算（{{ calcState.context.scenario }} / {{ calcState.context.period }}）：应发{{
+          slipAmounts.gross
+        }}元，个税{{ slipAmounts.tax }}元，实发{{ slipAmounts.net }}元；固定主链金额见下方对照。</p
+      >
       <div id="flow-approval" tabindex="-1" class="anchor"
         >示例流程：准备 → 试算 → 复核 → 发放讨论 → 归档讨论
         <el-button :disabled="!canCreate" @click="newOpinion('FLOW', 'flow-approval')"
@@ -102,7 +118,9 @@
     </section>
     <section v-if="module === 'OV' || module === 'RPT'" aria-label="虚构图表示例">
       <h2>{{ module === 'OV' ? '虚构应发期间趋势' : '虚构用工成本结构' }}</h2>
-      <p>示例图仅讨论口径；10月应发11750、成本13850，与主样例一致。历史趋势不是实际工资数据。</p>
+      <p
+        >固定主例图仅作参照，不随下方独立样例选择变化；10月应发11750、成本13850，与主样例一致。历史趋势不是实际工资数据。</p
+      >
       <div
         v-for="item in module === 'OV'
           ? demoTrend.map((x) => ({ name: x.period, amount: x.gross }))
@@ -116,31 +134,67 @@
         ></div>
       </div>
     </section>
-    <section
+    <PlanScenario
       v-if="module === 'PLAN'"
-      id="operation-adjustment"
-      tabindex="-1"
-      aria-label="虚构调薪表单"
-    >
-      <h2>虚构薪档与调薪比对</h2
-      ><p>当前V1：TEST-A/TEST-01，基本10000元；V2仅为下期讨论候选，主链仍用V1。</p>
-      <div class="toolbar"
-        ><span>{{ demo.employee }}</span
-        ><el-input-number
-          v-model="demoAdjustment"
-          aria-label="示例调薪金额"
-          :min="0"
-          :precision="2"
-        /><el-button
-          @click="
-            demoState = `示例V2新金额${demoAdjustment}元，2026-11-01拟生效；仅页面预览，不保存正式档案或提交审批，本期仍10000元。`
-          "
-          >预览演示调薪</el-button
-        ><el-button :disabled="!canCreate" @click="newOpinion('OPERATION', 'operation-adjustment')"
-          >补充调薪操作意见</el-button
-        ></div
-      ><p>{{ demoState }}</p>
-    </section>
+      :key="`plan-${projectId ?? 'unselected'}`"
+      :can-create="canCreate"
+      @opinion="newOpinion('OPERATION', 'operation-adjustment')"
+    />
+    <HourScenario
+      v-if="module === 'HOUR'"
+      :key="`hour-${projectId ?? 'unselected'}`"
+      :can-create="canCreate"
+      @opinion="newOpinion('FIELD', 'field-hour-02')"
+    />
+    <AttScenario
+      v-if="module === 'ATT'"
+      :key="`att-${projectId ?? 'unselected'}`"
+      :can-create="canCreate"
+      @opinion="newOpinion('FIELD', 'field-att-04')"
+    />
+    <OtScenario
+      v-if="module === 'OT'"
+      :key="`ot-${projectId ?? 'unselected'}`"
+      :can-create="canCreate"
+      @opinion="newOpinion('FIELD', 'field-ot-04')"
+    />
+    <InsScenario
+      v-if="module === 'INS'"
+      :key="`ins-${projectId ?? 'unselected'}`"
+      :can-create="canCreate"
+      @opinion="newOpinion('FIELD', 'field-ins-05')"
+    />
+    <CalcScenario
+      v-if="module === 'CALC'"
+      :key="`calc-${projectId ?? 'unselected'}`"
+      :state="calcState"
+      :can-create="canCreate"
+      @action="simulate"
+      @period="calcPeriod = $event"
+      @scenario="calcScenario = $event"
+      @slip="slipVisible = true"
+      @opinion="newOpinion('FIELD', 'field-calc-03')"
+    />
+    <TaxScenario
+      v-if="module === 'TAX'"
+      :key="`tax-${projectId ?? 'unselected'}`"
+      :can-create="canCreate"
+      @opinion="newOpinion('FIELD', 'field-tax-03')"
+    />
+    <OvScenario
+      v-if="module === 'OV'"
+      :key="`ov-${projectId ?? 'unselected'}`"
+      :can-create="canCreate"
+      :real-state="{ loading, error, label: stats?.label, visibleRows: rows.length }"
+      @opinion="newOpinion('FIELD', 'field-ov-04')"
+      @locate="go"
+    />
+    <RptScenario
+      v-if="module === 'RPT'"
+      :key="`rpt-${projectId ?? 'unselected'}`"
+      :can-create="canCreate"
+      @opinion="newOpinion('FIELD', 'field-rpt-05')"
+    />
     <section aria-label="候选功能讨论场景">
       <h2>逐项功能场景与例外（示例）</h2>
       <div
@@ -251,6 +305,7 @@
                 >编辑意见</el-button
               >
               <el-button link @click="showHistory(s.row)">历史/比较</el-button>
+              <el-button link @click="showDependencies(s.row)">来源映射、质量与问题</el-button>
               <el-button link @click="returnTo(s.row)">返回原位置</el-button>
               <el-button
                 v-hasPermi="['hrm:payroll:requirement:scope-decide']"
@@ -312,6 +367,9 @@
             :value="source.id" /></el-select
       ></label>
       <p v-if="sourceId">{{ sourceDescription }}</p>
+      <p
+        >逐需求的必需字段、实际映射、质量及问题，请在上方真实需求行点击“来源映射、质量与问题”；摘要仅对该可见需求和当前项目读取，不推测隐藏对象。</p
+      >
       <el-button @click="openSourceWorkbench">维护实际来源、映射和QS/QC</el-button>
     </section>
     <section aria-label="我的站内提醒">
@@ -358,6 +416,93 @@
       <el-button @click="drill('L')" :disabled="!stats">查看关系与缺口L</el-button>
     </section>
   </ContentWrap>
+  <el-dialog
+    v-model="dependencyVisible"
+    title="当前可见需求：来源映射、质量与问题"
+    width="min(880px, 96vw)"
+    class="hrm-review-dialog"
+  >
+    <template v-if="dependencyRow">
+      <p
+        >项目{{ projectId }} · {{ dependencyRow.code }} / ID{{ dependencyRow.id }} · 需求版本{{
+          dependencyRow.version
+        }}
+        · 范围版本{{ project?.projectScopeVersion ?? '未知' }}</p
+      >
+      <p
+        >需求所需来源：{{
+          dependencyRow.sourceApplicability === 'NOT_APPLICABLE'
+            ? `声明不适用：${dependencyRow.applicabilityReason || '理由未返回，不能判有效豁免'}`
+            : '适用；以下列出当前有权关系及字段，未见关系保持缺口/不可见，不能推定全项目无来源。'
+        }}</p
+      >
+      <p v-if="dependencyLoading" role="status">正在读取受控摘要…</p>
+      <el-alert
+        v-else-if="dependencyError"
+        :title="dependencyError"
+        type="error"
+        :closable="false"
+      />
+      <template v-else>
+        <p v-if="!dependencyRelations.length"
+          >该需求没有返回可见消费关系；来源就绪仍以服务器核验为准。</p
+        >
+        <div v-for="link in dependencyRelations" :key="link.id" class="source-card">
+          <strong
+            >关系{{ link.id }} · 映射版本{{ link.data.mappingVersion ?? '未知' }} ·
+            {{ link.data.active ? '当前' : '历史失活' }}</strong
+          >
+          <p
+            >来源{{ link.data.sourceId }} ·
+            {{ dependencySource(link.data.sourceId)?.data.name || '未返回可见来源详情' }} · 供给{{
+              dependencySource(link.data.sourceId)?.data.supply || '未知'
+            }}</p
+          >
+          <p
+            >来源语义：{{
+              qualityLabel(dependencySource(link.data.sourceId)?.sourceSemanticVerified)
+            }}；QS：{{ qualityLabel(dependencySource(link.data.sourceId)?.QSResult) }}；关系语义：{{
+              qualityLabel(link.semanticVerified)
+            }}；组合可用：{{ qualityLabel(link.available) }}。</p
+          >
+          <p
+            >QC单项未在此接口返回；组合可用含QC、供给、范围与问题条件，不能把组合未通过归因于某一项。证据详情在实际来源工作台查看。</p
+          >
+          <p>消费规则：{{ link.data.consumptionRule || '未返回' }}</p>
+          <div v-for="(field, i) in link.data.fields" :key="i">
+            <p
+              >{{ field.pageField }} ← {{ field.sourceField }} ·
+              {{ field.required ? '必需' : '可选' }} · {{ field.meaning }} / {{ field.type }} /
+              {{ field.unit }}</p
+            >
+            <p
+              >变换：{{ field.transform }}；空值：{{ field.nullRule }}；去重：{{
+                field.duplicateRule
+              }}；期间：{{ field.periodRule }}；异常：{{ field.exceptionRule }}</p
+            >
+          </div>
+        </div>
+        <h3>关联的可见问题</h3>
+        <p v-if="!dependencyIssues.length">本次未返回关联可见问题；不证明全项目无问题。</p>
+        <p v-for="issue in dependencyIssues" :key="issue.id"
+          >问题{{ issue.id }} · {{ issue.data.description }} · {{ issue.data.state }} /
+          {{ issue.data.category }} · 责任人{{ issue.data.handlerId ?? '未知' }} · 期限{{
+            issue.data.dueDate || '未知'
+          }}
+          ·
+          {{
+            issue.dates?.overdue === true
+              ? '已逾期'
+              : issue.dates?.overdue === false
+                ? '未逾期'
+                : '期限状态未知'
+          }}</p
+        >
+      </template>
+      <el-button @click="showDependencies(dependencyRow)">重读当前需求摘要</el-button>
+      <el-button @click="openSourceWorkbench">进入实际来源、映射与问题工作台</el-button>
+    </template>
+  </el-dialog>
   <el-dialog
     class="hrm-review-dialog"
     v-model="formVisible"
@@ -463,7 +608,12 @@
     :close-on-click-modal="false"
   >
     <p>需求 {{ active?.id }} · 当前版本 {{ active?.version }}；操作独立留历史，不代替功能确认。</p
-    ><el-alert v-if="!hasProjectScope" :title="scopeRequiredMessage" type="warning" :closable="false" />
+    ><el-alert
+      v-if="!hasProjectScope"
+      :title="scopeRequiredMessage"
+      type="warning"
+      :closable="false"
+    />
     <el-alert v-if="saveError" :title="saveError" type="error" :closable="false" />
     <el-form label-position="top">
       <template v-if="actionKind === 'decision'">
@@ -538,7 +688,11 @@
     <template #footer
       ><div class="dialog-actions"
         ><el-button @click="actionVisible = false">取消</el-button
-        ><el-button type="primary" :loading="saving" :disabled="!hasProjectScope" @click="saveAction"
+        ><el-button
+          type="primary"
+          :loading="saving"
+          :disabled="!hasProjectScope"
+          @click="saveAction"
           >保存独立操作</el-button
         ></div
       ></template
@@ -611,11 +765,17 @@
     v-model="slipVisible"
     title="虚构工资条预览"
     width="min(620px, 96vw)"
-    ><p>示例数据，仅用于讨论 · {{ demo.employee }} · {{ demo.period }}</p
     ><p
-      >应发 {{ result.gross }} 元；个人扣款 {{ result.personal }} 元；税 {{ result.tax }} 元；实发
-      {{ result.net }} 元。</p
-    ><p>单位成本 {{ result.cost }} 元。未产生真实工资条、投递、审批或付款。</p
+      >示例数据，仅用于讨论 · {{ demo.employee }} ·
+      {{ module === 'CALC' ? calcState.context.period : demo.period }}</p
+    ><p v-if="module === 'CALC'"
+      >当前TEST试算版本{{ calcState.revision }} / {{ calcState.context.scenario }}；人工调整{{
+        calcState.calculatedAdjustment
+      }}元，TEST增量税率3%。固定主链仍为11750/10219.50。</p
+    ><p
+      >应发 {{ slipAmounts.gross }} 元；个人扣款 {{ slipAmounts.personal }} 元；税
+      {{ slipAmounts.tax }} 元；实发 {{ slipAmounts.net }} 元。</p
+    ><p>单位成本 {{ slipAmounts.cost }} 元。未产生真实工资条、投递、审批或付款。</p
     ><template #footer
       ><el-button @click="slipVisible = false">关闭工资条预览</el-button></template
     ></el-dialog
@@ -624,6 +784,14 @@
 
 <script setup lang="ts">
 import { nextTick } from 'vue'
+import { qualityLabel } from './demo-state'
+import {
+  createCalcState,
+  inCalcContext,
+  transitionCalc,
+  calcAmounts,
+  type CalcAction
+} from './calc-model'
 import { opinionMissing, failureGuidance } from './validation'
 import { checkPermi } from '@/utils/permission'
 import * as api from '@/api/hrm/payroll/requirement'
@@ -633,7 +801,6 @@ import { payrollModules as modules, sourcesForModules, type PayrollModule } from
 import {
   demo,
   result,
-  calculateDemo,
   reviewOrder as order,
   reviewViews,
   reviewTopics,
@@ -641,6 +808,15 @@ import {
   demoCostStructure
 } from './demo'
 import ScopeFields from '../requirement/ScopeFields.vue'
+import PlanScenario from './PlanScenario.vue'
+import HourScenario from './HourScenario.vue'
+import AttScenario from './AttScenario.vue'
+import OtScenario from './OtScenario.vue'
+import InsScenario from './InsScenario.vue'
+import CalcScenario from './CalcScenario.vue'
+import TaxScenario from './TaxScenario.vue'
+import OvScenario from './OvScenario.vue'
+import RptScenario from './RptScenario.vue'
 const route = useRoute(),
   router = useRouter(),
   message = useMessage()
@@ -855,13 +1031,81 @@ async function download() {
   a.click()
   URL.revokeObjectURL(url)
 }
-const demoAdjustment = ref(10500)
-const demoState = ref('示例尚未执行；不代表真实薪酬状态'),
+const calcPeriod = ref<string>(demo.period),
+  calcScenario = ref('MAIN-V1')
+const demoContext = computed(() => ({
+  projectId: projectId.value,
+  module: module.value,
+  period: calcPeriod.value,
+  scenario: calcScenario.value
+}))
+const calcState = ref(createCalcState(demoContext.value)),
   slipVisible = ref(false)
-function simulate() {
-  const x = calculateDemo()
-  demoState.value = `示例试算：应发${x.gross}元，个税${x.tax}元，实发${x.net}元；仅页面内存，无正式业务写入。`
+watch(
+  () => [projectId.value, module.value],
+  () => {
+    calcPeriod.value = demo.period
+    calcScenario.value = 'MAIN-V1'
+  },
+  { flush: 'sync' }
+)
+const slipAmounts = computed(() =>
+  module.value === 'CALC' ? calcAmounts(calcState.value.calculatedAdjustment ?? 0) : result
+)
+watch(
+  demoContext,
+  (context) => {
+    calcState.value = inCalcContext(calcState.value, context)
+    slipVisible.value = false
+  },
+  { flush: 'sync' }
+)
+function simulate(action: CalcAction, value?: number | boolean | null) {
+  calcState.value = transitionCalc(calcState.value, demoContext.value, action, value)
+  slipVisible.value = false
 }
+// Existing Workbench GET contracts enforce object access; the summary narrows them to one visible row.
+const dependencyVisible = ref(false),
+  dependencyLoading = ref(false),
+  dependencyError = ref('')
+const dependencyRow = ref<any>(),
+  dependencyRelations = ref<WorkbenchRecord[]>([]),
+  dependencyIssues = ref<WorkbenchRecord[]>([])
+const dependencySources = ref<WorkbenchRecord[]>([])
+let dependencyTicket = 0
+async function showDependencies(row: any) {
+  const ticket = ++dependencyTicket,
+    pid = projectId.value
+  if (!pid || !rows.value.some((r) => r.id === row.id)) return
+  dependencyRow.value = row
+  dependencyRelations.value = []
+  dependencyIssues.value = []
+  dependencySources.value = []
+  dependencyError.value = ''
+  dependencyLoading.value = true
+  dependencyVisible.value = true
+  try {
+    const [src, links, issues] = await Promise.all(
+      ['SOURCE', 'RELATION', 'ISSUE'].map((kind) => listWorkbench(pid, kind))
+    )
+    if (ticket !== dependencyTicket) return
+    dependencyRelations.value = links.filter(
+      (r) => r.projectId === pid && r.data.requirementId === row.id
+    )
+    const sourceIds = new Set(dependencyRelations.value.map((r) => r.data.sourceId))
+    dependencySources.value = src.filter((r) => r.projectId === pid && sourceIds.has(r.id))
+    dependencyIssues.value = issues.filter(
+      (r) => r.projectId === pid && r.affectedRequirementIds?.includes(row.id)
+    )
+  } catch {
+    if (ticket === dependencyTicket)
+      dependencyError.value = '来源/关系/问题读取失败或无权；不能推定为空或通过，请重试。'
+  } finally {
+    if (ticket === dependencyTicket) dependencyLoading.value = false
+  }
+}
+const dependencySource = (id: number) => dependencySources.value.find((s) => s.id === id)
+
 const conflictLatest = ref<any>()
 const formVisible = ref(false),
   form = ref<any>({}),
@@ -1127,6 +1371,9 @@ async function confirm(row: any) {
 watch(
   () => route.fullPath,
   () => {
+    ++dependencyTicket
+    dependencyVisible.value = false
+    dependencyLoading.value = false
     formVisible.value = false
     actionVisible.value = false
     historyVisible.value = false

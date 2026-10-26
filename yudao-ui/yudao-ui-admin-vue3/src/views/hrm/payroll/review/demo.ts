@@ -57,6 +57,15 @@ export function calculateDemo() {
   })
 }
 export const result = calculateDemo()
+// All numeric rows, charts and the slip consume this main sample; candidate scenarios stay separate.
+export const demoAllocation = Object.freeze({
+  first: money(result.cost * 0.7),
+  second: money(result.cost - money(result.cost * 0.7))
+})
+export const demoMetrics = Object.freeze({
+  budgetVariance: money(result.cost - demo.budget),
+  costRate: money((result.cost / demo.revenue) * 100)
+})
 export interface ReviewView {
   purpose: string
   field: string
@@ -88,9 +97,15 @@ export const reviewViews: Record<PayrollModule, ReviewView> = {
     fieldLabel: '基本工资',
     columns: ['项目', '规则/单位', '金额', '示例生效', '变更处理'],
     rows: [
-      ['基本工资', '固定元/月', 10000, '2026-10-01', '月中变化待确认'],
-      ['绩效', '演示固定额，系数待评审', 1000, '2026-10-01', '真实规则不得默认'],
-      ['加班费', '62.50元/小时×8小时×1.5', 750, '2026-10', '工资/调休二选一']
+      ['基本工资', '固定元/月', demo.base, '2026-10-01', '月中变化待确认'],
+      ['绩效', '演示固定额，系数待评审', demo.performance, '2026-10-01', '真实规则不得默认'],
+      [
+        '加班费',
+        `${result.hourly}元/小时×${demo.overtimeHours}小时×${demo.multiplier}`,
+        result.overtime,
+        demo.period,
+        '工资/调休二选一'
+      ]
     ],
     notes: [
       '示例方案V1；V2可演示基本工资调整但不保存到正式薪酬方案。',
@@ -103,7 +118,18 @@ export const reviewViews: Record<PayrollModule, ReviewView> = {
     field: 'gross',
     fieldLabel: '应发工资',
     columns: ['员工', '基本', '绩效', '加班', '应发', '个人缴费', '个税', '实发'],
-    rows: [[employee, 10000, 1000, 750, result.gross, result.personal, result.tax, result.net]],
+    rows: [
+      [
+        employee,
+        demo.base,
+        demo.performance,
+        result.overtime,
+        result.gross,
+        result.personal,
+        result.tax,
+        result.net
+      ]
+    ],
     notes: [
       '步骤1准备：考勤152小时＋带薪假8小时＝160小时；无缺勤扣款。',
       '步骤2试算：10000＋1000＋750＝11750；步骤3演示复核只改变本页面示例状态。',
@@ -127,7 +153,17 @@ export const reviewViews: Record<PayrollModule, ReviewView> = {
       '工资条实发'
     ],
     rows: [
-      [employee, 101750, 14000, 50000, 10000, result.cumulativeTax, 702, result.tax, result.net]
+      [
+        employee,
+        demo.priorIncome + result.gross,
+        demo.priorInsurance + result.personal,
+        demo.cumulativeAllowance,
+        demo.cumulativeSpecial,
+        result.cumulativeTax,
+        demo.priorTax,
+        result.tax,
+        result.net
+      ]
     ],
     notes: [
       '虚构税演算：累计应纳税所得27750×演示税率3%＝832.50；减前期702＝130.50。',
@@ -141,9 +177,16 @@ export const reviewViews: Record<PayrollModule, ReviewView> = {
     purpose: '讨论打卡、请假、跨期归集、异常补正及工资影响。',
     field: 'hours',
     fieldLabel: '出勤时长',
-    columns: ['员工', '应计小时', '打卡小时', '已批准带薪假小时', '缺勤小时', '状态'],
+    columns: ['员工', '应计小时', '认可出勤小时', '已批准带薪假小时', '缺勤小时', '状态'],
     rows: [
-      [employee, 160, 152, 8, 0, '正常：152＋8＝160'],
+      [
+        employee,
+        demo.scheduledHours,
+        demo.attendedHours,
+        demo.paidLeaveHours,
+        demo.scheduledHours - demo.attendedHours - demo.paidLeaveHours,
+        `正常：${demo.attendedHours}＋${demo.paidLeaveHours}＝${demo.scheduledHours}`
+      ],
       ['TEST-异常分支', '待核对', '缺卡', '单据待补', '未知', '未归零、未计薪']
     ],
     notes: [
@@ -167,7 +210,16 @@ export const reviewViews: Record<PayrollModule, ReviewView> = {
       '处理'
     ],
     rows: [
-      [employee, 8, 9, 8, 1.5, 62.5, 750, '工资；不重复调休'],
+      [
+        employee,
+        demo.overtimeHours,
+        9,
+        demo.overtimeHours,
+        demo.multiplier,
+        result.hourly,
+        result.overtime,
+        '工资；不重复调休'
+      ],
       ['TEST-跨期例外', 2, '待补', '未确认', '待评审', '待评审', '未知', '先核对，未计入主样例']
     ],
     notes: [
@@ -182,7 +234,14 @@ export const reviewViews: Record<PayrollModule, ReviewView> = {
     fieldLabel: '认可工时',
     columns: ['员工/分支', '制度', '周期应计', '出勤＋带薪假', '认可加班', '规则有效期'],
     rows: [
-      [employee, 'TEST标准示例', 160, '152＋8', 8, '2026-10'],
+      [
+        employee,
+        'TEST标准示例',
+        demo.scheduledHours,
+        `${demo.attendedHours}＋${demo.paidLeaveHours}`,
+        demo.overtimeHours,
+        demo.period
+      ],
       ['TEST综合分支', '周期结算', '待配置', '待汇总', '待核验', '依据待补'],
       ['TEST不定时分支', '适用人员审核', '不套标准分母', '记录实际', '不能自动认定', '批准依据待补']
     ],
@@ -198,8 +257,24 @@ export const reviewViews: Record<PayrollModule, ReviewView> = {
     fieldLabel: '个人缴费扣款',
     columns: ['城市/项目', '基数元', '个人比例', '个人元', '单位比例', '单位元', '应缴/实缴'],
     rows: [
-      ['TEST城-社保', 10000, '演示8%', 800, '演示15%', 1500, '2300/待对账'],
-      ['TEST城-公积金', 10000, '演示6%', 600, '演示6%', 600, '1200/待对账']
+      [
+        'TEST城-社保',
+        demo.base,
+        '演示8%',
+        demo.personalInsurance,
+        '演示15%',
+        demo.employerInsurance,
+        `${demo.personalInsurance + demo.employerInsurance}/待对账`
+      ],
+      [
+        'TEST城-公积金',
+        demo.base,
+        '演示6%',
+        demo.personalFund,
+        '演示6%',
+        demo.employerFund,
+        `${demo.personalFund + demo.employerFund}/待对账`
+      ]
     ],
     notes: [
       '个人合计1400进入工资扣款；单位合计2100进入用工成本。',
@@ -213,10 +288,22 @@ export const reviewViews: Record<PayrollModule, ReviewView> = {
     fieldLabel: '分摊成本',
     columns: ['维度', '比例', '成本元', '分母/预算', '核对'],
     rows: [
-      ['TEST项目甲', '70%', 9695, '成本总额13850', '与项目乙合计13850'],
-      ['TEST项目乙', '30%', 4155, '成本总额13850', '无重复分摊'],
-      ['TEST预算', '100%', 13850, 14000, '差额-150'],
-      ['TEST人均/营收比', '1人/100000收入', 13850, '13.85%', '分母为空时暂无适用项']
+      [
+        'TEST项目甲',
+        '70%',
+        demoAllocation.first,
+        `成本总额${result.cost}`,
+        `与项目乙合计${result.cost}`
+      ],
+      ['TEST项目乙', '30%', demoAllocation.second, `成本总额${result.cost}`, '无重复分摊'],
+      ['TEST预算', '100%', result.cost, demo.budget, `差额${demoMetrics.budgetVariance}`],
+      [
+        'TEST人均/营收比',
+        `1人/${demo.revenue}收入`,
+        result.cost,
+        `${demoMetrics.costRate}%`,
+        '分母为空时暂无适用项'
+      ]
     ],
     notes: [
       '总成本13850与总览一致，不用实发10219.50代替成本。',
